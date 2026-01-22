@@ -8,26 +8,79 @@ const questionsData = [
         question: "Explain the difference between React Native and React.js. How does React Native render components?",
         difficulty: "beginner",
         answer: `
-            <h4>Key Differences</h4>
-            <ul>
-                <li><strong>React.js</strong> renders to the DOM using ReactDOM, creating HTML elements</li>
-                <li><strong>React Native</strong> renders to native platform components through a bridge</li>
-            </ul>
+            <h4>🎯 Why This Question Matters</h4>
+            <p>This is often the first question in RN interviews. Interviewers want to verify you understand the fundamental architecture and aren't just treating RN as "React for mobile."</p>
 
-            <h4>React Native Rendering Process</h4>
+            <h4>Key Differences</h4>
+            <table>
+                <tr><td><strong>Aspect</strong></td><td><strong>React.js</strong></td><td><strong>React Native</strong></td></tr>
+                <tr><td>Render Target</td><td>Browser DOM (HTML elements)</td><td>Native platform views</td></tr>
+                <tr><td>Styling</td><td>CSS files, CSS-in-JS</td><td>JavaScript StyleSheet objects</td></tr>
+                <tr><td>Layout</td><td>CSS (Flexbox, Grid, etc.)</td><td>Yoga (Flexbox only)</td></tr>
+                <tr><td>Components</td><td>&lt;div&gt;, &lt;span&gt;, &lt;input&gt;</td><td>&lt;View&gt;, &lt;Text&gt;, &lt;TextInput&gt;</td></tr>
+                <tr><td>Navigation</td><td>React Router (URL-based)</td><td>React Navigation (stack-based)</td></tr>
+                <tr><td>Execution</td><td>Browser JS engine</td><td>Hermes/JSC + Native runtime</td></tr>
+            </table>
+
+            <h4>React Native Rendering Architecture</h4>
+            <pre><code>┌─────────────────────────────────────────────────────────────┐
+│                     JavaScript Thread                        │
+│  ┌─────────────┐    ┌──────────────┐    ┌───────────────┐  │
+│  │ Your React  │ →  │    React     │ →  │  Virtual DOM  │  │
+│  │    Code     │    │  Reconciler  │    │    (Fiber)    │  │
+│  └─────────────┘    └──────────────┘    └───────┬───────┘  │
+└─────────────────────────────────────────────────┼───────────┘
+                                                  │
+                    ┌─────────────────────────────┼─────────────┐
+                    │         Bridge / JSI        ▼             │
+                    │    (Serialization & Communication)        │
+                    └─────────────────────────────┬─────────────┘
+                                                  │
+┌─────────────────────────────────────────────────┼───────────┐
+│                      Native Thread              ▼           │
+│  ┌─────────────┐    ┌──────────────┐    ┌───────────────┐  │
+│  │   UIView    │ ←  │   Shadow     │ ←  │    Native     │  │
+│  │  Hierarchy  │    │    Tree      │    │   Commands    │  │
+│  └─────────────┘    └──────────────┘    └───────────────┘  │
+└─────────────────────────────────────────────────────────────┘</code></pre>
+
+            <h4>Rendering Process Step by Step</h4>
             <ol>
-                <li>JavaScript code runs in a JS engine (Hermes/JSC)</li>
-                <li>React reconciles the virtual DOM</li>
-                <li>Native commands are sent across the bridge (or via JSI in new architecture)</li>
-                <li>Native UI components are rendered (UIView on iOS, android.view on Android)</li>
+                <li><strong>JS Execution:</strong> Your JavaScript code runs in Hermes (default) or JavaScriptCore engine</li>
+                <li><strong>Reconciliation:</strong> React's Fiber reconciler computes what changed in the virtual DOM</li>
+                <li><strong>Serialization:</strong> UI operations are serialized and sent across the bridge (JSON in old arch, direct calls in new arch)</li>
+                <li><strong>Shadow Tree:</strong> Native side builds a shadow tree for layout calculation using Yoga</li>
+                <li><strong>Layout:</strong> Yoga calculates exact positions and dimensions using Flexbox algorithm</li>
+                <li><strong>Native Rendering:</strong> Platform-specific views are created and displayed</li>
             </ol>
 
             <h4>Component Mapping Examples</h4>
             <pre><code>// React Native → Native Components
-&lt;View&gt; → UIView (iOS) / android.view.View (Android)
-&lt;Text&gt; → UITextView / TextView
-&lt;Image&gt; → UIImageView / ImageView
-&lt;ScrollView&gt; → UIScrollView / ScrollView</code></pre>
+┌──────────────────┬─────────────────────┬────────────────────────┐
+│  React Native    │       iOS           │        Android         │
+├──────────────────┼─────────────────────┼────────────────────────┤
+│  &lt;View&gt;          │  UIView             │  android.view.View     │
+│  &lt;Text&gt;          │  UITextView         │  TextView              │
+│  &lt;Image&gt;         │  UIImageView        │  ImageView             │
+│  &lt;ScrollView&gt;    │  UIScrollView       │  ScrollView            │
+│  &lt;TextInput&gt;     │  UITextField        │  EditText              │
+│  &lt;Switch&gt;        │  UISwitch           │  Switch                │
+│  &lt;FlatList&gt;      │  UITableView        │  RecyclerView          │
+└──────────────────┴─────────────────────┴────────────────────────┘</code></pre>
+
+            <h4>💡 Interview Tips</h4>
+            <ul>
+                <li>Mention the <strong>New Architecture</strong> (Fabric + TurboModules) that replaces the bridge with JSI for synchronous, direct calls</li>
+                <li>Explain why RN is <strong>not a WebView</strong> - it renders actual native components</li>
+                <li>Discuss trade-offs: truly native performance vs. write-once flexibility</li>
+            </ul>
+
+            <h4>🚫 Common Misconceptions</h4>
+            <ul>
+                <li><strong>Wrong:</strong> "React Native is a WebView wrapper like Cordova"</li>
+                <li><strong>Wrong:</strong> "React Native compiles to native code"</li>
+                <li><strong>Correct:</strong> "React Native bridges JavaScript to native platform APIs and renders native views"</li>
+            </ul>
         `
     },
     {
@@ -37,23 +90,117 @@ const questionsData = [
         question: "What is the Virtual DOM and how does React Native's reconciliation work?",
         difficulty: "intermediate",
         answer: `
-            <h4>Virtual DOM Concept</h4>
-            <p>The Virtual DOM is a lightweight JavaScript representation of the actual UI. React maintains this virtual representation and uses it to compute the minimal set of changes needed.</p>
+            <h4>🎯 Why This Question Matters</h4>
+            <p>Understanding reconciliation is crucial for writing performant React Native apps. Interviewers ask this to gauge your depth of knowledge about React's internals and your ability to optimize applications.</p>
 
-            <h4>Reconciliation Process</h4>
+            <h4>Virtual DOM Concept</h4>
+            <p>The Virtual DOM is a lightweight JavaScript object tree that mirrors the structure of the actual UI. Instead of directly manipulating native views (which is expensive), React:</p>
             <ol>
-                <li><strong>Diffing:</strong> React compares the new virtual tree with the previous one</li>
-                <li><strong>Keys:</strong> Uses keys to identify which items have changed in lists</li>
-                <li><strong>Batching:</strong> Groups multiple updates together for efficiency</li>
-                <li><strong>Commit:</strong> Applies the computed changes to native views</li>
+                <li>Maintains an in-memory representation of the UI</li>
+                <li>When state changes, creates a new virtual tree</li>
+                <li>Compares (diffs) the new tree with the previous one</li>
+                <li>Calculates the minimum set of changes needed</li>
+                <li>Applies only those changes to the actual native views</li>
             </ol>
 
-            <h4>Optimization Strategies</h4>
+            <h4>React Fiber Architecture</h4>
+            <p>React 16+ uses "Fiber" - a complete rewrite of the reconciliation algorithm:</p>
+            <pre><code>// Fiber Node Structure (simplified)
+{
+    type: 'View',           // Component type
+    key: 'unique-key',      // For list reconciliation
+    props: { style: {...} },// Component props
+    stateNode: nativeView,  // Reference to native view
+    child: fiberNode,       // First child
+    sibling: fiberNode,     // Next sibling
+    return: fiberNode,      // Parent node
+    effectTag: 'UPDATE',    // What operation to perform
+    alternate: prevFiber,   // Previous version for diffing
+}</code></pre>
+
+            <h4>Reconciliation Process Deep Dive</h4>
+            <pre><code>// Phase 1: Render Phase (can be interrupted)
+┌─────────────────────────────────────────────────────────┐
+│  1. Start from root, traverse tree                      │
+│  2. For each fiber:                                     │
+│     - Call render() or function component               │
+│     - Compare with previous fiber (diffing)             │
+│     - Mark with effect tag (Placement/Update/Deletion)  │
+│  3. Build "work-in-progress" tree                       │
+└─────────────────────────────────────────────────────────┘
+                          ↓
+// Phase 2: Commit Phase (synchronous, can't be interrupted)
+┌─────────────────────────────────────────────────────────┐
+│  1. Apply all DOM/Native mutations                      │
+│  2. Call lifecycle methods (componentDidMount, etc.)    │
+│  3. Call useEffect callbacks                            │
+│  4. Swap current tree with work-in-progress tree        │
+└─────────────────────────────────────────────────────────┘</code></pre>
+
+            <h4>Diffing Algorithm Heuristics</h4>
+            <p>React uses O(n) heuristics instead of O(n³) tree comparison:</p>
             <ul>
-                <li>Use <code>React.memo()</code> for functional components</li>
-                <li>Implement <code>shouldComponentUpdate</code> for class components</li>
-                <li>Always use stable keys for list items (not array index)</li>
-                <li>Avoid creating new objects/functions in render</li>
+                <li><strong>Different types = rebuild:</strong> If element type changes (View → Text), React destroys old tree and builds new</li>
+                <li><strong>Same type = update:</strong> React keeps the instance and updates props</li>
+                <li><strong>Keys for lists:</strong> Keys help React identify which items moved, were added, or removed</li>
+            </ul>
+
+            <h4>Keys: Why They Matter</h4>
+            <pre><code>// ❌ BAD: Using index as key
+{items.map((item, index) => (
+    &lt;Item key={index} data={item} /&gt;  // Problems when list reorders!
+))}
+
+// What happens when you delete item at index 0:
+// Before: [A(key=0), B(key=1), C(key=2)]
+// After:  [B(key=0), C(key=1)]
+// React thinks: A→B (update), B→C (update), delete C
+// Actually: A deleted, B and C should stay!
+
+// ✅ GOOD: Using stable unique ID
+{items.map((item) => (
+    &lt;Item key={item.id} data={item} /&gt;  // Correct behavior
+))}
+
+// What happens when you delete item with id='a':
+// Before: [A(key=a), B(key=b), C(key=c)]
+// After:  [B(key=b), C(key=c)]
+// React correctly: delete A, keep B and C</code></pre>
+
+            <h4>Optimization Strategies</h4>
+            <pre><code>// 1. React.memo - prevent re-render if props unchanged
+const MemoizedItem = React.memo(({ item, onPress }) => {
+    console.log('Rendering item:', item.id);
+    return &lt;TouchableOpacity onPress={onPress}&gt;...&lt;/TouchableOpacity&gt;;
+}, (prevProps, nextProps) => {
+    // Return true if props are equal (skip re-render)
+    return prevProps.item.id === nextProps.item.id &&
+           prevProps.item.updatedAt === nextProps.item.updatedAt;
+});
+
+// 2. useMemo - memoize expensive calculations
+const sortedItems = useMemo(() => {
+    console.log('Sorting items...');  // Only runs when items change
+    return [...items].sort((a, b) => a.name.localeCompare(b.name));
+}, [items]);
+
+// 3. useCallback - stable function references
+const handlePress = useCallback((id) => {
+    setSelectedId(id);
+}, []); // Function reference stays same across renders</code></pre>
+
+            <h4>💡 Interview Tips</h4>
+            <ul>
+                <li>Mention <strong>Fiber</strong> and how it enables concurrent features (Suspense, transitions)</li>
+                <li>Explain the two-phase commit (render phase is interruptible, commit phase is not)</li>
+                <li>Discuss how this differs in the <strong>New Architecture</strong> with synchronous rendering via Fabric</li>
+            </ul>
+
+            <h4>🚫 Common Mistakes</h4>
+            <ul>
+                <li>Using array index as key in dynamic lists</li>
+                <li>Creating new objects/functions inline in render (breaks memoization)</li>
+                <li>Over-using useMemo/useCallback (premature optimization adds complexity)</li>
             </ul>
         `
     },
@@ -64,40 +211,191 @@ const questionsData = [
         question: "Explain the component lifecycle in React Native. How do hooks relate to lifecycle methods?",
         difficulty: "intermediate",
         answer: `
-            <h4>Class Component Lifecycle</h4>
-            <pre><code>// Mounting
-constructor() → getDerivedStateFromProps() → render() → componentDidMount()
+            <h4>🎯 Why This Question Matters</h4>
+            <p>Understanding lifecycle is essential for managing side effects, subscriptions, and cleanup. This question reveals whether you can prevent memory leaks and handle async operations properly.</p>
 
-// Updating
-getDerivedStateFromProps() → shouldComponentUpdate() → render() →
-getSnapshotBeforeUpdate() → componentDidUpdate()
+            <h4>Component Lifecycle Visual</h4>
+            <pre><code>
+┌─────────────────── MOUNTING ───────────────────┐
+│                                                │
+│  constructor(props)                            │
+│       ↓                                        │
+│  static getDerivedStateFromProps(props, state) │
+│       ↓                                        │
+│  render()                                      │
+│       ↓                                        │
+│  componentDidMount() ← API calls, subscriptions│
+│                                                │
+└────────────────────────────────────────────────┘
+                      ↓
+┌─────────────────── UPDATING ───────────────────┐
+│  (triggered by: new props, setState, forceUpdate)
+│                                                │
+│  static getDerivedStateFromProps(props, state) │
+│       ↓                                        │
+│  shouldComponentUpdate(nextProps, nextState)   │
+│       ↓ (return false to skip render)          │
+│  render()                                      │
+│       ↓                                        │
+│  getSnapshotBeforeUpdate(prevProps, prevState) │
+│       ↓                                        │
+│  componentDidUpdate(prevProps, prevState, snap)│
+│                                                │
+└────────────────────────────────────────────────┘
+                      ↓
+┌─────────────────── UNMOUNTING ─────────────────┐
+│                                                │
+│  componentWillUnmount() ← cleanup, unsubscribe │
+│                                                │
+└────────────────────────────────────────────────┘</code></pre>
 
-// Unmounting
-componentWillUnmount()</code></pre>
+            <h4>Hooks Equivalents (Modern Approach)</h4>
+            <pre><code>function MyComponent({ userId }) {
+    // ══════════════════════════════════════════
+    // constructor equivalent: useState initialization
+    // ══════════════════════════════════════════
+    const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
 
-            <h4>Hooks Equivalents</h4>
-            <pre><code>// componentDidMount
+    // ══════════════════════════════════════════
+    // componentDidMount equivalent
+    // Empty dependency array = runs once on mount
+    // ══════════════════════════════════════════
+    useEffect(() => {
+        console.log('Component mounted');
+
+        // Setup subscriptions
+        const subscription = eventEmitter.subscribe(handleEvent);
+
+        // Cleanup function = componentWillUnmount
+        return () => {
+            console.log('Component will unmount');
+            subscription.unsubscribe();
+        };
+    }, []);
+
+    // ══════════════════════════════════════════
+    // componentDidUpdate equivalent
+    // Runs when userId changes
+    // ══════════════════════════════════════════
+    useEffect(() => {
+        console.log('userId changed, fetching user...');
+
+        let isMounted = true;  // Prevent state update after unmount
+        const controller = new AbortController();
+
+        async function fetchUser() {
+            setLoading(true);
+            try {
+                const data = await api.getUser(userId, {
+                    signal: controller.signal
+                });
+                if (isMounted) {
+                    setUser(data);
+                }
+            } catch (error) {
+                if (error.name !== 'AbortError' && isMounted) {
+                    console.error(error);
+                }
+            } finally {
+                if (isMounted) {
+                    setLoading(false);
+                }
+            }
+        }
+
+        fetchUser();
+
+        return () => {
+            isMounted = false;
+            controller.abort();
+        };
+    }, [userId]);  // Dependency array
+
+    // ══════════════════════════════════════════
+    // getDerivedStateFromProps equivalent
+    // useMemo recalculates when props change
+    // ══════════════════════════════════════════
+    const fullName = useMemo(() => {
+        return user ? \`\${user.firstName} \${user.lastName}\` : '';
+    }, [user]);
+
+    // ══════════════════════════════════════════
+    // shouldComponentUpdate equivalent
+    // Use React.memo() at component level
+    // ══════════════════════════════════════════
+
+    return loading ? &lt;ActivityIndicator /&gt; : &lt;Text&gt;{fullName}&lt;/Text&gt;;
+}</code></pre>
+
+            <h4>useEffect Execution Order</h4>
+            <pre><code>function Parent() {
+    useEffect(() => {
+        console.log('1. Parent effect');
+        return () => console.log('4. Parent cleanup');
+    }, []);
+
+    return &lt;Child /&gt;;
+}
+
+function Child() {
+    useEffect(() => {
+        console.log('2. Child effect');
+        return () => console.log('3. Child cleanup');
+    }, []);
+
+    return &lt;Text&gt;Child&lt;/Text&gt;;
+}
+
+// Mount order:  Child effect → Parent effect
+// Unmount order: Child cleanup → Parent cleanup
+// Update order: All cleanups first, then all effects</code></pre>
+
+            <h4>useLayoutEffect vs useEffect</h4>
+            <pre><code>// useEffect: Runs AFTER paint (async, non-blocking)
+// Good for: API calls, subscriptions, logging
 useEffect(() => {
-    // mount logic
+    fetchData();
 }, []);
 
-// componentDidUpdate
-useEffect(() => {
-    // update logic
-}, [dependency]);
+// useLayoutEffect: Runs BEFORE paint (sync, blocking)
+// Good for: DOM measurements, preventing flicker
+useLayoutEffect(() => {
+    // Measure element and update state before user sees
+    const { height } = ref.current.getBoundingClientRect();
+    setHeight(height);
+}, []);</code></pre>
 
-// componentWillUnmount
+            <h4>💡 Interview Tips</h4>
+            <ul>
+                <li>Always mention <strong>cleanup functions</strong> to prevent memory leaks</li>
+                <li>Discuss <strong>dependency arrays</strong> and why incorrect deps cause bugs</li>
+                <li>Know when to use <strong>useLayoutEffect</strong> (DOM measurements, preventing visual flicker)</li>
+                <li>Explain the <strong>closure trap</strong> and how to avoid stale state in effects</li>
+            </ul>
+
+            <h4>🚫 Common Mistakes</h4>
+            <pre><code>// ❌ Missing cleanup - memory leak!
 useEffect(() => {
-    return () => {
-        // cleanup logic
-    };
+    const subscription = eventEmitter.subscribe(handler);
+    // No cleanup function!
 }, []);
 
-// getDerivedStateFromProps
-const [state, setState] = useState();
-useMemo(() => {
-    // derive state from props
-}, [props]);</code></pre>
+// ❌ Missing dependency - stale closure
+useEffect(() => {
+    const interval = setInterval(() => {
+        setCount(count + 1);  // count is stale!
+    }, 1000);
+    return () => clearInterval(interval);
+}, []);  // count missing from deps
+
+// ✅ Correct - use functional update
+useEffect(() => {
+    const interval = setInterval(() => {
+        setCount(c => c + 1);  // Always uses latest value
+    }, 1000);
+    return () => clearInterval(interval);
+}, []);</code></pre>
         `
     },
     {
@@ -107,43 +405,176 @@ useMemo(() => {
         question: "What are the differences between FlatList and ScrollView? When would you use each?",
         difficulty: "intermediate",
         answer: `
-            <h4>ScrollView</h4>
-            <ul>
-                <li>Renders all children at once</li>
-                <li>Good for small, bounded lists</li>
-                <li>Simple API, no required props</li>
-                <li>Can scroll horizontally and vertically</li>
-            </ul>
+            <h4>🎯 Why This Question Matters</h4>
+            <p>List performance is one of the most common pain points in React Native apps. This question tests your understanding of virtualization and your ability to build smooth, performant scrolling experiences.</p>
 
-            <h4>FlatList</h4>
-            <ul>
-                <li>Virtualizes content - only renders visible items</li>
-                <li>Memory efficient for large datasets</li>
-                <li>Built-in pull-to-refresh, infinite scroll</li>
-                <li>Requires <code>data</code> and <code>renderItem</code> props</li>
-            </ul>
+            <h4>Comparison Table</h4>
+            <table>
+                <tr><td><strong>Feature</strong></td><td><strong>ScrollView</strong></td><td><strong>FlatList</strong></td></tr>
+                <tr><td>Rendering</td><td>All children at once</td><td>Only visible items (virtualized)</td></tr>
+                <tr><td>Memory</td><td>High (all items in memory)</td><td>Low (recycles views)</td></tr>
+                <tr><td>Initial render</td><td>Slow for large lists</td><td>Fast (renders few items)</td></tr>
+                <tr><td>Scroll perf</td><td>Good (already rendered)</td><td>Can be janky if not optimized</td></tr>
+                <tr><td>Pull to refresh</td><td>Manual implementation</td><td>Built-in</td></tr>
+                <tr><td>Infinite scroll</td><td>Manual implementation</td><td>Built-in (onEndReached)</td></tr>
+                <tr><td>Item separators</td><td>Manual</td><td>Built-in (ItemSeparatorComponent)</td></tr>
+            </table>
 
-            <h4>FlatList Optimization Props</h4>
-            <pre><code>&lt;FlatList
-    data={items}
-    renderItem={renderItem}
-    keyExtractor={(item) => item.id}
-    getItemLayout={(data, index) => ({
+            <h4>How FlatList Virtualization Works</h4>
+            <pre><code>
+┌──────────────────────────────────────────────────┐
+│                Off-screen (top)                   │
+│  Items recycled and removed from memory           │
+├──────────────────────────────────────────────────┤ ← windowSize start
+│                                                   │
+│  ┌─────────────────────────────────────────────┐ │
+│  │           Rendered but not visible           │ │
+│  └─────────────────────────────────────────────┘ │
+│                                                   │
+│  ╔═════════════════════════════════════════════╗ │ ← Viewport
+│  ║                                             ║ │
+│  ║              VISIBLE ITEMS                  ║ │
+│  ║           (what user sees)                  ║ │
+│  ║                                             ║ │
+│  ╚═════════════════════════════════════════════╝ │
+│                                                   │
+│  ┌─────────────────────────────────────────────┐ │
+│  │           Rendered but not visible           │ │
+│  └─────────────────────────────────────────────┘ │
+│                                                   │
+├──────────────────────────────────────────────────┤ ← windowSize end
+│                Off-screen (bottom)                │
+│  Items recycled and removed from memory           │
+└──────────────────────────────────────────────────┘</code></pre>
+
+            <h4>FlatList Complete Optimization Guide</h4>
+            <pre><code>const ITEM_HEIGHT = 80;
+
+function OptimizedList({ items }) {
+    // 1. Memoize renderItem to prevent recreation
+    const renderItem = useCallback(({ item, index }) => (
+        &lt;MemoizedListItem item={item} onPress={handlePress} /&gt;
+    ), [handlePress]);
+
+    // 2. Stable keyExtractor
+    const keyExtractor = useCallback((item) => item.id, []);
+
+    // 3. getItemLayout for fixed-height items (HUGE perf win)
+    const getItemLayout = useCallback((data, index) => ({
         length: ITEM_HEIGHT,
         offset: ITEM_HEIGHT * index,
-        index
-    })}
-    windowSize={5}
-    maxToRenderPerBatch={10}
-    initialNumToRender={10}
-    removeClippedSubviews={true}
-/&gt;</code></pre>
+        index,
+    }), []);
 
-            <h4>When to Use</h4>
+    return (
+        &lt;FlatList
+            data={items}
+            renderItem={renderItem}
+            keyExtractor={keyExtractor}
+
+            // ═══════════════════════════════════
+            // CRITICAL: Layout optimization
+            // ═══════════════════════════════════
+            getItemLayout={getItemLayout}  // Skip measurement
+
+            // ═══════════════════════════════════
+            // Virtualization tuning
+            // ═══════════════════════════════════
+            windowSize={5}           // 5 viewport heights (2 above, 2 below)
+            initialNumToRender={10}  // Initial items to render
+            maxToRenderPerBatch={5}  // Items per scroll batch
+            updateCellsBatchingPeriod={50}  // Batch update interval
+
+            // ═══════════════════════════════════
+            // Memory optimization
+            // ═══════════════════════════════════
+            removeClippedSubviews={Platform.OS === 'android'}  // Android only!
+
+            // ═══════════════════════════════════
+            // Features
+            // ═══════════════════════════════════
+            onEndReached={loadMore}
+            onEndReachedThreshold={0.5}  // Trigger at 50% from bottom
+            refreshControl={&lt;RefreshControl refreshing={refreshing} onRefresh={onRefresh} /&gt;}
+
+            // ═══════════════════════════════════
+            // UI Components
+            // ═══════════════════════════════════
+            ListHeaderComponent={Header}
+            ListFooterComponent={loading ? &lt;ActivityIndicator /&gt; : null}
+            ListEmptyComponent={&lt;EmptyState /&gt;}
+            ItemSeparatorComponent={() => &lt;View style={styles.separator} /&gt;}
+        /&gt;
+    );
+}
+
+// 4. Memoized list item component
+const MemoizedListItem = React.memo(({ item, onPress }) => (
+    &lt;TouchableOpacity onPress={() => onPress(item.id)} style={styles.item}&gt;
+        &lt;FastImage source={{ uri: item.avatar }} style={styles.avatar} /&gt;
+        &lt;Text&gt;{item.name}&lt;/Text&gt;
+    &lt;/TouchableOpacity&gt;
+), (prev, next) => prev.item.id === next.item.id);</code></pre>
+
+            <h4>FlashList: The Better Alternative</h4>
+            <pre><code>// Shopify's FlashList - drop-in replacement, much faster
+import { FlashList } from "@shopify/flash-list";
+
+&lt;FlashList
+    data={items}
+    renderItem={renderItem}
+    estimatedItemSize={80}  // Required: helps with scroll position
+    keyExtractor={keyExtractor}
+/&gt;
+
+// FlashList advantages:
+// - Consistent 60fps scrolling
+// - Better memory management
+// - Simpler API (fewer props to tune)
+// - Works great out of the box</code></pre>
+
+            <h4>Decision Guide</h4>
+            <pre><code>
+┌─────────────────────────────────────────────────────────┐
+│                    Which component?                      │
+└─────────────────────────────────────────────────────────┘
+                          │
+              ┌───────────┴───────────┐
+              │   How many items?      │
+              └───────────┬───────────┘
+                          │
+          ┌───────────────┼───────────────┐
+          ▼               ▼               ▼
+      < 20 items    20-100 items     > 100 items
+          │               │               │
+          ▼               ▼               ▼
+     ScrollView       FlatList      FlashList
+          │               │               │
+          │     ┌─────────┴─────────┐     │
+          │     ▼                   ▼     │
+          │  Grouped?          Dynamic    │
+          │     │              height?    │
+          │     ▼                   │     │
+          │  SectionList           │     │
+          │                        ▼     │
+          │               FlatList with   │
+          │               getItemLayout   │
+          └───────────────────────────────┘</code></pre>
+
+            <h4>💡 Interview Tips</h4>
             <ul>
-                <li><strong>ScrollView:</strong> &lt;50 items, mixed content layouts</li>
-                <li><strong>FlatList:</strong> Large lists, homogeneous data</li>
-                <li><strong>SectionList:</strong> Grouped data with headers</li>
+                <li>Always mention <strong>getItemLayout</strong> for fixed-height items - it's the biggest perf win</li>
+                <li>Discuss <strong>FlashList</strong> as the modern alternative to FlatList</li>
+                <li>Explain <strong>removeClippedSubviews</strong> only works reliably on Android</li>
+                <li>Know the difference between <strong>initialNumToRender</strong> and <strong>maxToRenderPerBatch</strong></li>
+            </ul>
+
+            <h4>🚫 Common Mistakes</h4>
+            <ul>
+                <li>Using ScrollView for lists with 100+ items</li>
+                <li>Creating new function in renderItem (breaks memoization)</li>
+                <li>Not implementing getItemLayout for fixed-height lists</li>
+                <li>Using removeClippedSubviews on iOS (can cause rendering bugs)</li>
             </ul>
         `
     },
@@ -389,45 +820,250 @@ export function AuthProvider({ children }) {
         question: "Compare Redux, Context API, Zustand, and Jotai. When would you use each?",
         difficulty: "advanced",
         answer: `
-            <h4>Comparison Table</h4>
-            <ul>
-                <li><strong>Redux:</strong> Predictable, time-travel debugging, large apps, team standards</li>
-                <li><strong>Context API:</strong> Built-in, low-frequency updates, theme/auth state</li>
-                <li><strong>Zustand:</strong> Simple API, no boilerplate, good performance</li>
-                <li><strong>Jotai:</strong> Atomic state, fine-grained updates, React-centric</li>
-            </ul>
+            <h4>🎯 Why This Question Matters</h4>
+            <p>State management choice significantly impacts app architecture, performance, and developer experience. Interviewers want to see that you can make informed decisions based on project needs, not just use whatever you've always used.</p>
 
-            <h4>Redux Toolkit Example</h4>
-            <pre><code>const userSlice = createSlice({
-    name: 'user',
-    initialState: { data: null, loading: false },
-    reducers: {
-        setUser: (state, action) => {
-            state.data = action.payload;
+            <h4>Comprehensive Comparison</h4>
+            <table>
+                <tr>
+                    <td><strong>Aspect</strong></td>
+                    <td><strong>Redux</strong></td>
+                    <td><strong>Context</strong></td>
+                    <td><strong>Zustand</strong></td>
+                    <td><strong>Jotai</strong></td>
+                </tr>
+                <tr>
+                    <td>Bundle size</td>
+                    <td>~12kb</td>
+                    <td>0 (built-in)</td>
+                    <td>~1kb</td>
+                    <td>~2kb</td>
+                </tr>
+                <tr>
+                    <td>Boilerplate</td>
+                    <td>Medium (RTK)</td>
+                    <td>Low</td>
+                    <td>Very Low</td>
+                    <td>Very Low</td>
+                </tr>
+                <tr>
+                    <td>DevTools</td>
+                    <td>Excellent</td>
+                    <td>Basic</td>
+                    <td>Good</td>
+                    <td>Good</td>
+                </tr>
+                <tr>
+                    <td>Re-render control</td>
+                    <td>Selectors</td>
+                    <td>Poor</td>
+                    <td>Selectors</td>
+                    <td>Atomic</td>
+                </tr>
+                <tr>
+                    <td>Learning curve</td>
+                    <td>Steep</td>
+                    <td>Easy</td>
+                    <td>Easy</td>
+                    <td>Medium</td>
+                </tr>
+                <tr>
+                    <td>Middleware</td>
+                    <td>Yes</td>
+                    <td>No</td>
+                    <td>Yes</td>
+                    <td>Limited</td>
+                </tr>
+            </table>
+
+            <h4>When to Use Each</h4>
+            <pre><code>
+┌─────────────────────────────────────────────────────────────┐
+│                   State Management Decision Tree             │
+└─────────────────────────────────────────────────────────────┘
+                              │
+                  ┌───────────┴───────────┐
+                  │ Is it server state?    │
+                  │ (API data, cache)      │
+                  └───────────┬───────────┘
+                              │
+              ┌───────────────┼───────────────┐
+              ▼               ▼               ▼
+             YES             NO              BOTH
+              │               │               │
+              ▼               │               ▼
+        TanStack Query        │         TanStack Query
+        (React Query)         │         + client state lib
+                              │
+                  ┌───────────┴───────────┐
+                  │  App size & complexity │
+                  └───────────┬───────────┘
+                              │
+          ┌───────────────────┼───────────────────┐
+          ▼                   ▼                   ▼
+       Small              Medium               Large
+      (< 10 screens)   (10-30 screens)      (30+ screens)
+          │                   │                   │
+          ▼                   ▼                   ▼
+   Context + useReducer   Zustand            Redux Toolkit
+   or Zustand             or Jotai           or Zustand</code></pre>
+
+            <h4>Redux Toolkit (Modern Redux)</h4>
+            <pre><code>// store/userSlice.ts
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+
+// Async thunk for API calls
+export const fetchUser = createAsyncThunk(
+    'user/fetch',
+    async (userId: string, { rejectWithValue }) => {
+        try {
+            const response = await api.getUser(userId);
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.message);
         }
+    }
+);
+
+const userSlice = createSlice({
+    name: 'user',
+    initialState: {
+        data: null as User | null,
+        loading: false,
+        error: null as string | null,
+    },
+    reducers: {
+        // Immer allows "mutations" - actually creates new state
+        setUser: (state, action: PayloadAction&lt;User&gt;) => {
+            state.data = action.payload;
+        },
+        clearUser: (state) => {
+            state.data = null;
+        },
     },
     extraReducers: (builder) => {
-        builder.addCase(fetchUser.fulfilled, (state, action) => {
-            state.data = action.payload;
-        });
-    }
-});</code></pre>
+        builder
+            .addCase(fetchUser.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(fetchUser.fulfilled, (state, action) => {
+                state.loading = false;
+                state.data = action.payload;
+            })
+            .addCase(fetchUser.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload as string;
+            });
+    },
+});
 
-            <h4>Zustand Example</h4>
-            <pre><code>const useStore = create((set) => ({
-    user: null,
-    setUser: (user) => set({ user }),
-    logout: () => set({ user: null })
-}));
+// Usage with typed hooks
+const user = useAppSelector((state) => state.user.data);
+const dispatch = useAppDispatch();
+dispatch(fetchUser('123'));</code></pre>
+
+            <h4>Zustand (Simple & Powerful)</h4>
+            <pre><code>// store/useStore.ts
+import { create } from 'zustand';
+import { persist, createJSONStorage } from 'zustand/middleware';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+interface UserStore {
+    user: User | null;
+    loading: boolean;
+    setUser: (user: User) => void;
+    fetchUser: (id: string) => Promise&lt;void&gt;;
+    logout: () => void;
+}
+
+export const useUserStore = create&lt;UserStore&gt;()(
+    persist(
+        (set, get) => ({
+            user: null,
+            loading: false,
+
+            setUser: (user) => set({ user }),
+
+            fetchUser: async (id) => {
+                set({ loading: true });
+                try {
+                    const user = await api.getUser(id);
+                    set({ user, loading: false });
+                } catch (error) {
+                    set({ loading: false });
+                    throw error;
+                }
+            },
+
+            logout: () => set({ user: null }),
+        }),
+        {
+            name: 'user-storage',
+            storage: createJSONStorage(() => AsyncStorage),
+            partialize: (state) => ({ user: state.user }),  // Only persist user
+        }
+    )
+);
 
 // Usage - no Provider needed!
-const user = useStore((state) => state.user);</code></pre>
+function Profile() {
+    // Only re-renders when user changes
+    const user = useUserStore((state) => state.user);
+    const fetchUser = useUserStore((state) => state.fetchUser);
 
-            <h4>Recommendations</h4>
+    useEffect(() => {
+        fetchUser('123');
+    }, []);
+
+    return &lt;Text&gt;{user?.name}&lt;/Text&gt;;
+}</code></pre>
+
+            <h4>Context API (Built-in, Use Carefully)</h4>
+            <pre><code>// ⚠️ Context re-renders ALL consumers when value changes
+// Split contexts to minimize re-renders
+
+// ✅ Good: Separate contexts for different concerns
+const UserContext = createContext&lt;User | null&gt;(null);
+const UserDispatchContext = createContext&lt;Dispatch&lt;UserAction&gt;&gt;(null);
+
+function UserProvider({ children }) {
+    const [user, dispatch] = useReducer(userReducer, null);
+
+    return (
+        &lt;UserContext.Provider value={user}&gt;
+            &lt;UserDispatchContext.Provider value={dispatch}&gt;
+                {children}
+            &lt;/UserDispatchContext.Provider&gt;
+        &lt;/UserContext.Provider&gt;
+    );
+}
+
+// Components only subscribe to what they need
+function UserName() {
+    const user = useContext(UserContext);  // Only re-renders on user change
+    return &lt;Text&gt;{user?.name}&lt;/Text&gt;;
+}
+
+function LogoutButton() {
+    const dispatch = useContext(UserDispatchContext);  // Never re-renders!
+    return &lt;Button onPress={() => dispatch({ type: 'LOGOUT' })} /&gt;;
+}</code></pre>
+
+            <h4>💡 Interview Tips</h4>
             <ul>
-                <li><strong>Small app:</strong> Context + useReducer or Zustand</li>
-                <li><strong>Large app:</strong> Redux Toolkit or Zustand</li>
-                <li><strong>Server state:</strong> React Query / TanStack Query</li>
+                <li>Distinguish between <strong>client state</strong> (UI state) and <strong>server state</strong> (API data)</li>
+                <li>Mention <strong>TanStack Query</strong> for server state - it handles caching, refetching, and syncing</li>
+                <li>Explain Context's <strong>re-render problem</strong> and how to mitigate it</li>
+                <li>Know that Zustand doesn't need a Provider wrapper</li>
+            </ul>
+
+            <h4>🚫 Common Mistakes</h4>
+            <ul>
+                <li>Using Redux for everything when simpler solutions work</li>
+                <li>Putting server state in Redux instead of using React Query</li>
+                <li>Creating one giant Context that re-renders the entire app</li>
+                <li>Not using selectors in Redux, causing unnecessary re-renders</li>
             </ul>
         `
     },
@@ -552,39 +1188,160 @@ const useStore = create(
         question: "What are the main causes of performance issues in React Native and how do you diagnose them?",
         difficulty: "advanced",
         answer: `
-            <h4>Common Performance Issues</h4>
+            <h4>🎯 Why This Question Matters</h4>
+            <p>Performance is often the make-or-break factor for React Native apps. This question tests your ability to identify, diagnose, and fix the most common performance bottlenecks in production apps.</p>
+
+            <h4>React Native's Threading Model</h4>
+            <pre><code>
+┌─────────────────────────────────────────────────────────────────┐
+│                    React Native Architecture                     │
+└─────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────┐      ┌──────────────────────┐
+│    JS Thread         │      │    UI/Main Thread    │
+│    (JavaScript)      │      │    (Native)          │
+├──────────────────────┤      ├──────────────────────┤
+│ • React reconciliation│      │ • Native view updates│
+│ • Your business logic │ ←→   │ • Touch handling     │
+│ • Event handlers      │Bridge│ • Animations (native)│
+│ • API calls          │      │ • Platform APIs      │
+│ • State management   │      │ • Rendering          │
+└──────────────────────┘      └──────────────────────┘
+         │                              │
+         │     ┌──────────────────┐     │
+         └────→│  Shadow Thread   │←────┘
+               │  (Yoga Layout)   │
+               └──────────────────┘
+
+⚠️ If JS Thread is blocked → UI events queue up → janky feel
+⚠️ If UI Thread is blocked → Frame drops → visible stuttering</code></pre>
+
+            <h4>Top 10 Performance Issues & Solutions</h4>
+
+            <h5>1. Too Many Re-renders</h5>
+            <pre><code>// ❌ Problem: Function created every render
+&lt;FlatList
+    renderItem={({ item }) => &lt;Item data={item} onPress={() => handlePress(item.id)} /&gt;}
+/&gt;
+
+// ✅ Solution: Memoize callback + component
+const handlePress = useCallback((id) => { ... }, []);
+const renderItem = useCallback(({ item }) => (
+    &lt;MemoizedItem data={item} onPress={handlePress} /&gt;
+), [handlePress]);
+
+const MemoizedItem = React.memo(Item);</code></pre>
+
+            <h5>2. JS Thread Blocking</h5>
+            <pre><code>// ❌ Problem: Heavy computation on JS thread
+function SearchResults({ query }) {
+    // This blocks the JS thread while computing!
+    const results = items.filter(/* complex filter */).sort(/* complex sort */);
+}
+
+// ✅ Solution: Debounce + InteractionManager + Pagination
+const debouncedSearch = useDebouncedCallback((query) => {
+    InteractionManager.runAfterInteractions(() => {
+        const results = search(query).slice(0, 20);  // Paginate
+        setResults(results);
+    });
+}, 300);
+
+// ✅ Better: Move heavy work off JS thread with WorkletJS or Native Module</code></pre>
+
+            <h5>3. Large Images</h5>
+            <pre><code>// ❌ Problem: Loading 4000x3000 image for 100x100 thumbnail
+&lt;Image source={{ uri: largeImageUrl }} style={{ width: 100, height: 100 }} /&gt;
+
+// ✅ Solution: Use appropriately sized images + FastImage
+import FastImage from 'react-native-fast-image';
+
+&lt;FastImage
+    source={{
+        uri: \`\${imageUrl}?w=\${100 * PixelRatio.get()}\`,  // Request right size
+        priority: FastImage.priority.normal,
+        cache: FastImage.cacheControl.immutable,
+    }}
+    style={{ width: 100, height: 100 }}
+/&gt;</code></pre>
+
+            <h5>4. Bridge Congestion</h5>
+            <pre><code>// ❌ Problem: Sending large data across bridge frequently
+onScroll={(event) => {
+    // This fires 60 times/second, flooding the bridge
+    setScrollPosition(event.nativeEvent.contentOffset.y);
+}}
+
+// ✅ Solution: Use native driver or throttle
+// Option 1: Native animated scroll
+&lt;Animated.ScrollView
+    onScroll={Animated.event(
+        [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+        { useNativeDriver: true }  // Stays on native thread
+    )}
+/&gt;
+
+// Option 2: Throttle events
+const handleScroll = useThrottledCallback((y) => {
+    setScrollPosition(y);
+}, 100);</code></pre>
+
+            <h4>Diagnostic Tools Deep Dive</h4>
+            <pre><code>// 1. React DevTools Profiler
+// - Install: React Native Debugger or Flipper
+// - What to look for:
+//   • Components rendering too often (high "Rendered at")
+//   • Long render times (> 16ms = frame drop)
+//   • "Cascading" renders (parent → many children)
+
+// 2. Performance Monitor (Built-in)
+// - Enable: Shake → "Show Perf Monitor"
+// Metrics:
+//   • JS FPS: Should be 60 (dips = JS thread busy)
+//   • UI FPS: Should be 60 (dips = native thread busy)
+//   • Views: Total native views (lower = better)
+//   • RAM: Memory usage
+
+// 3. Flipper Performance Plugin
+// - Tracks: Network, Database, Startup time
+// - Can create custom markers
+
+// 4. Why Did You Render
+import whyDidYouRender from '@welldone-software/why-did-you-render';
+whyDidYouRender(React, {
+    trackAllPureComponents: true,
+    logOnDifferentValues: true,
+});
+
+// Add to component:
+MyComponent.whyDidYouRender = true;</code></pre>
+
+            <h4>Performance Checklist</h4>
+            <pre><code>□ FlatList instead of ScrollView for long lists
+□ React.memo() on list items and expensive components
+□ useCallback/useMemo for callbacks and derived data
+□ getItemLayout for fixed-height FlatList items
+□ FastImage instead of Image for network images
+□ useNativeDriver: true for Animated
+□ Hermes enabled (faster startup, lower memory)
+□ InteractionManager for deferred heavy work
+□ Proper cleanup in useEffect (prevent memory leaks)
+□ Avoid inline styles and objects in render</code></pre>
+
+            <h4>💡 Interview Tips</h4>
             <ul>
-                <li><strong>JS Thread Blocking:</strong> Heavy computations, large state updates</li>
-                <li><strong>Bridge Congestion:</strong> Too much data passing between JS and native</li>
-                <li><strong>Re-renders:</strong> Unnecessary component updates</li>
-                <li><strong>Memory Leaks:</strong> Uncleared timers, listeners, subscriptions</li>
-                <li><strong>Large Lists:</strong> Not using FlatList correctly</li>
+                <li>Explain the <strong>two-thread model</strong> (JS + Native) and how blocking either causes jank</li>
+                <li>Know specific tools: <strong>React DevTools Profiler, Flipper, Performance Monitor</strong></li>
+                <li>Discuss <strong>useNativeDriver</strong> and why it helps animations</li>
+                <li>Mention the <strong>New Architecture</strong> reduces bridge congestion via JSI</li>
             </ul>
 
-            <h4>Diagnostic Tools</h4>
-            <pre><code>// React DevTools Profiler
-// - Identifies slow components
-// - Shows render counts and timing
-
-// Flipper
-// - Native and JS debugging
-// - Network inspector
-// - Performance monitoring
-
-// React Native Performance Monitor
-// - In-app FPS monitor
-// - Shake device → "Show Perf Monitor"
-
-// Systrace (Android)
-npx react-native start --reset-cache
-// Enable systrace in Dev Menu</code></pre>
-
-            <h4>Key Metrics to Monitor</h4>
+            <h4>🚫 Common Mistakes</h4>
             <ul>
-                <li><strong>JS FPS:</strong> Should stay at 60fps</li>
-                <li><strong>UI FPS:</strong> Native thread responsiveness</li>
-                <li><strong>RAM Usage:</strong> Memory consumption trends</li>
-                <li><strong>TTI:</strong> Time to Interactive on app launch</li>
+                <li>Optimizing before measuring (premature optimization)</li>
+                <li>Adding memo/useCallback everywhere (adds overhead for simple cases)</li>
+                <li>Not testing on low-end Android devices</li>
+                <li>Ignoring memory usage until app crashes</li>
             </ul>
         `
     },
@@ -890,47 +1647,174 @@ public:
         question: "Explain the React Native New Architecture: Fabric, TurboModules, and Codegen.",
         difficulty: "advanced",
         answer: `
-            <h4>Three Pillars of New Architecture</h4>
+            <h4>🎯 Why This Question Matters</h4>
+            <p>The New Architecture is the biggest change to React Native since its inception. It's now enabled by default in RN 0.76+. Understanding it demonstrates you're up-to-date with the platform and can build high-performance apps.</p>
 
-            <h4>1. Fabric (New Renderer)</h4>
-            <ul>
-                <li>Replaces the old UI Manager</li>
-                <li>Written in C++ for cross-platform consistency</li>
-                <li>Enables synchronous layout measurements</li>
-                <li>Supports concurrent rendering features</li>
-            </ul>
+            <h4>Old vs New Architecture Overview</h4>
+            <pre><code>
+════════════════════════════════════════════════════════════════
+                    OLD ARCHITECTURE
+════════════════════════════════════════════════════════════════
 
-            <h4>2. TurboModules</h4>
-            <ul>
-                <li>Replacement for Native Modules</li>
-                <li>Lazy loading - modules loaded on first use</li>
-                <li>Direct JSI bindings - no bridge serialization</li>
-                <li>Type-safe interfaces via Codegen</li>
-            </ul>
+┌─────────────┐         ┌─────────────┐         ┌─────────────┐
+│  JavaScript │   JSON  │   Bridge    │  JSON   │   Native    │
+│   Thread    │ ──────→ │ (Async,     │ ──────→ │   Thread    │
+│             │ ←────── │  Batched)   │ ←────── │             │
+└─────────────┘         └─────────────┘         └─────────────┘
 
-            <h4>3. Codegen</h4>
-            <ul>
-                <li>Generates native interface code from TypeScript specs</li>
-                <li>Ensures type safety between JS and native</li>
-                <li>Reduces boilerplate code</li>
-            </ul>
+Problems:
+• All communication is asynchronous
+• JSON serialization overhead
+• Data copying between threads
+• No synchronous measurements possible
+• Bridge is a bottleneck
+
+════════════════════════════════════════════════════════════════
+                    NEW ARCHITECTURE
+════════════════════════════════════════════════════════════════
+
+┌─────────────┐                                 ┌─────────────┐
+│  JavaScript │ ◄──────── JSI ────────────────► │   Native    │
+│   Thread    │   (Direct C++ bindings)         │   Thread    │
+└─────────────┘                                 └─────────────┘
+        │                                               │
+        │           ┌───────────────────┐              │
+        └──────────►│  Shared C++ Core  │◄─────────────┘
+                    │  (Fabric, Yoga)   │
+                    └───────────────────┘
+
+Benefits:
+• Synchronous method calls possible
+• No serialization overhead
+• Direct memory access
+• Shared ownership of objects
+• Concurrent rendering support</code></pre>
+
+            <h4>The Three Pillars Explained</h4>
+
+            <h4>1. JSI (JavaScript Interface)</h4>
+            <p>The foundation - a C++ API that allows JavaScript to hold references to and call C++ objects directly.</p>
+            <pre><code>// Old way: Bridge (async, serialized)
+NativeModules.MyModule.calculate(1, 2, (result) => {
+    console.log(result);  // Callback after bridge round-trip
+});
+
+// New way: JSI (sync possible, no serialization)
+// JavaScript can call C++ directly
+const result = global.MyModule.calculate(1, 2);  // Synchronous!
+console.log(result);</code></pre>
+
+            <h4>2. Fabric (New Rendering System)</h4>
+            <p>Replaces the old UI Manager. Written in C++ for cross-platform consistency.</p>
+            <pre><code>// Key Fabric improvements:
+
+// 1. Synchronous layout measurement
+// Old: Request measurement → wait for bridge → get result
+// New: Measure immediately when needed
+const { width, height } = view.measure();  // Sync!
+
+// 2. Concurrent rendering support
+// Can interrupt rendering to handle high-priority updates
+// Enables React 18 features: Suspense, Transitions
+
+// 3. Multiple render priorities
+// Priority 1: User input (touch, keyboard)
+// Priority 2: Animations
+// Priority 3: Data loading
+
+// 4. C++ Shadow Tree
+// Layout calculated in C++, shared between platforms
+// Same layout behavior on iOS and Android</code></pre>
+
+            <h4>3. TurboModules</h4>
+            <p>Replacement for Native Modules with lazy loading and type safety.</p>
+            <pre><code>// TurboModule Definition (TypeScript spec)
+// NativeCalculator.ts
+import type { TurboModule } from 'react-native';
+import { TurboModuleRegistry } from 'react-native';
+
+export interface Spec extends TurboModule {
+    // Codegen generates native interfaces from this!
+    add(a: number, b: number): number;  // Sync
+    fetchData(url: string): Promise&lt;string&gt;;  // Async
+    readonly PI: number;  // Constants
+}
+
+export default TurboModuleRegistry.getEnforcing&lt;Spec&gt;('Calculator');
+
+// Key improvements over Native Modules:
+// 1. Lazy loading: Module code loaded only when first accessed
+// 2. Type safety: TypeScript spec → native code generation
+// 3. Direct calls: No JSON serialization via JSI
+// 4. Sync methods: Can return values synchronously</code></pre>
+
+            <h4>4. Codegen</h4>
+            <p>Automatically generates native code from TypeScript specifications.</p>
+            <pre><code>// Your TypeScript spec
+interface Spec extends TurboModule {
+    multiply(a: number, b: number): number;
+}
+
+// Codegen generates:
+
+// iOS (Objective-C++ header)
+@protocol NativeCalculatorSpec &lt;RCTBridgeModule, RCTTurboModule&gt;
+- (NSNumber *)multiply:(double)a b:(double)b;
+@end
+
+// Android (Java interface)
+public interface NativeCalculatorSpec extends ReactModule {
+    double multiply(double a, double b);
+}
+
+// Benefits:
+// • Type mismatches caught at build time
+// • No manual native interface writing
+// • Consistent contracts between JS and native</code></pre>
 
             <h4>Enabling New Architecture</h4>
-            <pre><code>// Android - gradle.properties
+            <pre><code>// React Native 0.76+ has it enabled by default!
+
+// For older versions:
+
+// Android - android/gradle.properties
 newArchEnabled=true
 
-// iOS - Podfile
+// iOS - Podfile (before 'use_react_native!')
 ENV['RCT_NEW_ARCH_ENABLED'] = '1'
 
-// Run
-cd ios && RCT_NEW_ARCH_ENABLED=1 pod install</code></pre>
+// Then install pods
+cd ios && RCT_NEW_ARCH_ENABLED=1 bundle exec pod install
 
-            <h4>Benefits</h4>
+// Verify it's working
+// In your app:
+import { Platform } from 'react-native';
+console.log('Fabric enabled:', global._IS_FABRIC);
+console.log('TurboModules:', !!global.__turboModuleProxy);</code></pre>
+
+            <h4>Performance Comparison</h4>
+            <table>
+                <tr><td><strong>Metric</strong></td><td><strong>Old Arch</strong></td><td><strong>New Arch</strong></td></tr>
+                <tr><td>Module initialization</td><td>All at startup</td><td>Lazy (on first use)</td></tr>
+                <tr><td>JS → Native call</td><td>~1-2ms (async)</td><td>~0.01ms (sync possible)</td></tr>
+                <tr><td>Layout sync measurement</td><td>Not possible</td><td>Yes</td></tr>
+                <tr><td>Memory for large data</td><td>Copied (2x)</td><td>Shared</td></tr>
+                <tr><td>Concurrent rendering</td><td>No</td><td>Yes</td></tr>
+            </table>
+
+            <h4>💡 Interview Tips</h4>
             <ul>
-                <li>Improved performance (no bridge bottleneck)</li>
-                <li>Better type safety</li>
-                <li>Concurrent rendering support</li>
-                <li>Consistent behavior across platforms</li>
+                <li>Know the <strong>three pillars</strong>: JSI, Fabric, TurboModules</li>
+                <li>Explain <strong>why it's faster</strong>: no JSON serialization, sync calls, shared memory</li>
+                <li>Mention <strong>Codegen</strong> for type safety</li>
+                <li>Note that <strong>RN 0.76+</strong> has New Architecture enabled by default</li>
+            </ul>
+
+            <h4>🚫 Common Misconceptions</h4>
+            <ul>
+                <li><strong>Wrong:</strong> "New Architecture is optional" - It's now the default</li>
+                <li><strong>Wrong:</strong> "All libraries need updating" - Most popular libraries already support it</li>
+                <li><strong>Correct:</strong> "It enables synchronous communication when needed"</li>
             </ul>
         `
     },
@@ -1726,55 +2610,213 @@ appcenter codepush release-react -a Owner/App -t "1.2.x"</code></pre>
         question: "What are the main security concerns in React Native apps and how do you address them?",
         difficulty: "advanced",
         answer: `
-            <h4>Key Security Concerns</h4>
+            <h4>🎯 Why This Question Matters</h4>
+            <p>Mobile security is critical for protecting user data and meeting compliance requirements (GDPR, HIPAA, PCI-DSS). This question tests your awareness of mobile-specific threats and your ability to implement defense-in-depth.</p>
 
-            <h4>1. Secure Storage</h4>
-            <pre><code>// ❌ Don't use AsyncStorage for sensitive data
-// ✅ Use secure storage
-import * as SecureStore from 'expo-secure-store'; // Expo
-import Keychain from 'react-native-keychain'; // Bare
+            <h4>Mobile Security Threat Model</h4>
+            <pre><code>
+┌─────────────────────────────────────────────────────────────┐
+│                    ATTACK SURFACE                            │
+└─────────────────────────────────────────────────────────────┘
 
-// Store sensitive data
-await Keychain.setGenericPassword('user', token);
-const credentials = await Keychain.getGenericPassword();</code></pre>
+    ┌──────────────┐         ┌──────────────┐
+    │   Device     │         │   Network    │
+    │   Attacks    │         │   Attacks    │
+    ├──────────────┤         ├──────────────┤
+    │ • Rooted/JB  │         │ • MITM       │
+    │ • Malware    │         │ • Sniffing   │
+    │ • Theft      │         │ • Replay     │
+    │ • Keyloggers │         │ • Injection  │
+    └──────────────┘         └──────────────┘
 
-            <h4>2. Network Security</h4>
-            <pre><code>// SSL Pinning
-import { fetch } from 'react-native-ssl-pinning';
+    ┌──────────────┐         ┌──────────────┐
+    │   Binary     │         │   Backend    │
+    │   Attacks    │         │   Attacks    │
+    ├──────────────┤         ├──────────────┤
+    │ • Reverse Eng│         │ • Auth bypass│
+    │ • Tampering  │         │ • API abuse  │
+    │ • Debugging  │         │ • Data leak  │
+    │ • Cloning    │         │ • Injection  │
+    └──────────────┘         └──────────────┘</code></pre>
 
-fetch(url, {
-    sslPinning: {
-        certs: ['cert1', 'cert2'] // Certificate names
-    }
-});
+            <h4>1. Secure Storage (Critical)</h4>
+            <pre><code>// ═══════════════════════════════════════════════════
+// ❌ NEVER store sensitive data in AsyncStorage
+// ═══════════════════════════════════════════════════
+// AsyncStorage is NOT encrypted, easily readable on rooted devices
 
-// Or use TrustKit (iOS) / OkHttp CertificatePinner (Android)</code></pre>
+// ═══════════════════════════════════════════════════
+// ✅ Use Platform Secure Storage
+// ═══════════════════════════════════════════════════
 
-            <h4>3. Code Obfuscation</h4>
-            <ul>
-                <li>Hermes bytecode provides some protection</li>
-                <li>Use ProGuard for Android</li>
-                <li>Consider tools like jscrambler</li>
-            </ul>
+// Option 1: react-native-keychain
+import * as Keychain from 'react-native-keychain';
 
-            <h4>4. Prevent Reverse Engineering</h4>
-            <pre><code>// Detect rooted/jailbroken devices
-import JailMonkey from 'jail-monkey';
-
-if (JailMonkey.isJailBroken()) {
-    // Handle security risk
+// Store credentials with hardware security
+async function storeToken(token: string) {
+    await Keychain.setGenericPassword('auth', token, {
+        // iOS: Store in Secure Enclave when available
+        accessible: Keychain.ACCESSIBLE.WHEN_UNLOCKED_THIS_DEVICE_ONLY,
+        // Android: Use hardware-backed keystore
+        securityLevel: Keychain.SECURITY_LEVEL.SECURE_HARDWARE,
+        // Require biometric to access
+        accessControl: Keychain.ACCESS_CONTROL.BIOMETRY_CURRENT_SET,
+    });
 }
 
-// Detect debugger
-if (__DEV__ === false && JailMonkey.isDebuggedMode()) {
-    // Potential tampering
-}</code></pre>
+// Option 2: expo-secure-store
+import * as SecureStore from 'expo-secure-store';
 
-            <h4>5. Input Validation</h4>
+await SecureStore.setItemAsync('token', value, {
+    keychainAccessible: SecureStore.WHEN_UNLOCKED_THIS_DEVICE_ONLY,
+    requireAuthentication: true,
+});
+
+// ═══════════════════════════════════════════════════
+// What goes where:
+// ═══════════════════════════════════════════════════
+// SecureStore/Keychain: Tokens, passwords, API keys, PII
+// AsyncStorage: Preferences, non-sensitive cache
+// MMKV (encrypted): Large non-sensitive data needing speed</code></pre>
+
+            <h4>2. Network Security</h4>
+            <pre><code>// ═══════════════════════════════════════════════════
+// Certificate Pinning - Prevent MITM attacks
+// ═══════════════════════════════════════════════════
+
+// Using react-native-ssl-pinning
+import { fetch } from 'react-native-ssl-pinning';
+
+const response = await fetch('https://api.myapp.com/data', {
+    method: 'GET',
+    headers: { Authorization: \`Bearer \${token}\` },
+    sslPinning: {
+        certs: ['my_cert'],  // Certificate in app bundle
+    },
+    timeoutInterval: 10000,
+});
+
+// ═══════════════════════════════════════════════════
+// For Axios users: react-native-ssl-public-key-pinning
+// ═══════════════════════════════════════════════════
+import { initializeSslPinning } from 'react-native-ssl-public-key-pinning';
+
+await initializeSslPinning({
+    'api.myapp.com': {
+        includeSubdomains: true,
+        publicKeyHashes: [
+            'sha256/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=',
+            'sha256/BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB=',  // Backup
+        ],
+    },
+});
+
+// ═══════════════════════════════════════════════════
+// Additional Network Security
+// ═══════════════════════════════════════════════════
+// 1. Always use HTTPS
+// 2. Validate server certificates
+// 3. Don't trust user-installed CAs in production
+// 4. Implement request signing for sensitive APIs</code></pre>
+
+            <h4>3. Runtime Security</h4>
+            <pre><code>// ═══════════════════════════════════════════════════
+// Detect compromised devices
+// ═══════════════════════════════════════════════════
+import JailMonkey from 'jail-monkey';
+import DeviceInfo from 'react-native-device-info';
+
+async function checkSecurityStatus() {
+    const checks = {
+        isRooted: JailMonkey.isJailBroken(),
+        isDebugged: JailMonkey.isDebuggedMode(),
+        isEmulator: await DeviceInfo.isEmulator(),
+        hasHooks: JailMonkey.hookDetected(),  // Frida, Xposed
+        canMockLocation: JailMonkey.canMockLocation(),
+    };
+
+    // Risk scoring
+    const riskLevel = Object.values(checks).filter(Boolean).length;
+
+    if (riskLevel >= 2) {
+        // High risk: Block sensitive features
+        return { safe: false, reason: 'Device security compromised' };
+    }
+
+    if (checks.isRooted && !__DEV__) {
+        // Rooted in production: Warn user
+        Alert.alert(
+            'Security Warning',
+            'This device may be compromised. Some features are disabled.'
+        );
+    }
+
+    return { safe: true };
+}
+
+// ═══════════════════════════════════════════════════
+// Detect tampering (app integrity)
+// ═══════════════════════════════════════════════════
+// iOS: App Attest API
+// Android: Play Integrity API
+// Consider: freerasp library for comprehensive checks</code></pre>
+
+            <h4>4. Code Protection</h4>
+            <pre><code>// ═══════════════════════════════════════════════════
+// Hermes provides baseline protection
+// ═══════════════════════════════════════════════════
+// JS is compiled to bytecode (not plain text)
+// But can still be decompiled!
+
+// ═══════════════════════════════════════════════════
+// Android: Enable ProGuard/R8
+// ═══════════════════════════════════════════════════
+// android/app/build.gradle
+android {
+    buildTypes {
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'),
+                          'proguard-rules.pro'
+        }
+    }
+}
+
+// ═══════════════════════════════════════════════════
+// What NOT to put in your code
+// ═══════════════════════════════════════════════════
+// ❌ API keys (use server-side proxy)
+// ❌ Encryption keys (derive at runtime or use secure storage)
+// ❌ Backend URLs for admin endpoints
+// ❌ Feature flags that reveal unreleased features</code></pre>
+
+            <h4>Security Checklist</h4>
+            <pre><code>□ Sensitive data in Keychain/Keystore, NOT AsyncStorage
+□ Certificate pinning enabled for API calls
+□ No hardcoded secrets in JavaScript
+□ Root/jailbreak detection with appropriate response
+□ Biometric auth for sensitive operations
+□ Input validation on all user inputs
+□ Auto-logout on app background (for sensitive apps)
+□ Secure WebView configuration (if used)
+□ Hermes enabled (bytecode vs plaintext JS)
+□ ProGuard/R8 enabled for Android release builds</code></pre>
+
+            <h4>💡 Interview Tips</h4>
             <ul>
-                <li>Validate all user inputs</li>
-                <li>Sanitize data before rendering (XSS prevention)</li>
-                <li>Use parameterized queries for databases</li>
+                <li>Emphasize <strong>defense in depth</strong> - multiple layers of security</li>
+                <li>Know the difference between <strong>AsyncStorage and secure storage</strong></li>
+                <li>Explain <strong>certificate pinning</strong> and why it prevents MITM</li>
+                <li>Discuss <strong>compliance requirements</strong> (OWASP MASVS, GDPR)</li>
+            </ul>
+
+            <h4>🚫 Common Mistakes</h4>
+            <ul>
+                <li>Storing tokens in AsyncStorage</li>
+                <li>Hardcoding API keys in JavaScript</li>
+                <li>Not validating input from deep links</li>
+                <li>Trusting client-side validation alone</li>
             </ul>
         `
     },
