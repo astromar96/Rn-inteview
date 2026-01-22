@@ -2733,6 +2733,2962 @@ const focusOnButton = () => {
                 <li>Use Accessibility Inspector in Xcode</li>
             </ul>
         `
+    },
+
+    // ==================== ADDITIONAL CORE REACT NATIVE ====================
+    {
+        id: 51,
+        category: "Core React Native",
+        icon: "⚛️",
+        question: "Explain the difference between Controlled and Uncontrolled components in React Native. When would you use each?",
+        difficulty: "intermediate",
+        answer: `
+            <h4>Controlled Components</h4>
+            <p>Form data is handled by React state. The component receives its value from props and notifies changes through callbacks.</p>
+            <pre><code>function ControlledInput() {
+    const [value, setValue] = useState('');
+
+    return (
+        &lt;TextInput
+            value={value}
+            onChangeText={setValue}
+            placeholder="Controlled input"
+        /&gt;
+    );
+}
+
+// Benefits:
+// - Single source of truth
+// - Easy to validate/transform input
+// - Form state is predictable</code></pre>
+
+            <h4>Uncontrolled Components</h4>
+            <p>Form data is handled by the DOM/native component itself. Use refs to access values when needed.</p>
+            <pre><code>function UncontrolledInput() {
+    const inputRef = useRef&lt;TextInput&gt;(null);
+
+    const handleSubmit = () => {
+        // Access value imperatively
+        // Note: Not recommended in RN
+        console.log(inputRef.current);
+    };
+
+    return (
+        &lt;TextInput
+            ref={inputRef}
+            defaultValue="Initial"
+            placeholder="Uncontrolled input"
+        /&gt;
+    );
+}</code></pre>
+
+            <h4>When to Use Each</h4>
+            <table>
+                <tr><td><strong>Controlled</strong></td><td><strong>Uncontrolled</strong></td></tr>
+                <tr><td>Form validation needed</td><td>Simple forms without validation</td></tr>
+                <tr><td>Conditional input disabling</td><td>Integration with non-React code</td></tr>
+                <tr><td>Enforcing input format</td><td>Performance-critical scenarios</td></tr>
+                <tr><td>Dynamic input values</td><td>File inputs (always uncontrolled)</td></tr>
+            </table>
+
+            <h4>Recommendation</h4>
+            <p>In React Native, <strong>always prefer controlled components</strong>. They provide better debugging, testing, and predictability.</p>
+        `
+    },
+    {
+        id: 52,
+        category: "Core React Native",
+        icon: "⚛️",
+        question: "What is the difference between useRef and useState? When should you use useRef?",
+        difficulty: "intermediate",
+        answer: `
+            <h4>Key Differences</h4>
+            <table>
+                <tr><td><strong>useState</strong></td><td><strong>useRef</strong></td></tr>
+                <tr><td>Triggers re-render on change</td><td>Does NOT trigger re-render</td></tr>
+                <tr><td>Returns [value, setter]</td><td>Returns { current: value }</td></tr>
+                <tr><td>Value is immutable between renders</td><td>Value persists across renders</td></tr>
+                <tr><td>For UI-related state</td><td>For mutable values, DOM refs</td></tr>
+            </table>
+
+            <h4>When to Use useRef</h4>
+            <pre><code>// 1. Storing component references
+const inputRef = useRef&lt;TextInput&gt;(null);
+inputRef.current?.focus();
+
+// 2. Storing previous values
+const prevValueRef = useRef(value);
+useEffect(() => {
+    prevValueRef.current = value;
+}, [value]);
+
+// 3. Storing mutable values without re-render
+const timerIdRef = useRef&lt;NodeJS.Timeout&gt;();
+timerIdRef.current = setTimeout(() => {}, 1000);
+// Cleanup: clearTimeout(timerIdRef.current)
+
+// 4. Storing instance variables (like class this.x)
+const renderCount = useRef(0);
+renderCount.current += 1; // Won't cause re-render
+
+// 5. Tracking mounted state
+const isMounted = useRef(true);
+useEffect(() => {
+    return () => { isMounted.current = false; };
+}, []);
+
+// In async callback:
+if (isMounted.current) {
+    setState(data);
+}</code></pre>
+
+            <h4>Common Mistake</h4>
+            <pre><code>// ❌ Wrong: Using ref for UI state
+const [_, forceUpdate] = useState(0);
+const countRef = useRef(0);
+countRef.current += 1;
+// UI won't update!
+
+// ✅ Correct: Use state for UI
+const [count, setCount] = useState(0);
+setCount(c => c + 1);
+// UI updates properly</code></pre>
+        `
+    },
+    {
+        id: 53,
+        category: "Core React Native",
+        icon: "⚛️",
+        question: "Explain the useReducer hook. When would you choose it over useState?",
+        difficulty: "intermediate",
+        answer: `
+            <h4>useReducer Basics</h4>
+            <p>useReducer is an alternative to useState for managing complex state logic.</p>
+            <pre><code>// Reducer function
+function reducer(state, action) {
+    switch (action.type) {
+        case 'INCREMENT':
+            return { count: state.count + 1 };
+        case 'DECREMENT':
+            return { count: state.count - 1 };
+        case 'RESET':
+            return { count: action.payload };
+        default:
+            throw new Error(\`Unknown action: \${action.type}\`);
+    }
+}
+
+// Usage in component
+function Counter() {
+    const [state, dispatch] = useReducer(reducer, { count: 0 });
+
+    return (
+        &lt;View&gt;
+            &lt;Text&gt;Count: {state.count}&lt;/Text&gt;
+            &lt;Button title="+" onPress={() => dispatch({ type: 'INCREMENT' })} /&gt;
+            &lt;Button title="-" onPress={() => dispatch({ type: 'DECREMENT' })} /&gt;
+            &lt;Button title="Reset" onPress={() => dispatch({ type: 'RESET', payload: 0 })} /&gt;
+        &lt;/View&gt;
+    );
+}</code></pre>
+
+            <h4>When to Use useReducer</h4>
+            <ul>
+                <li><strong>Complex state logic:</strong> Multiple sub-values or complex update logic</li>
+                <li><strong>Next state depends on previous:</strong> state + action → new state</li>
+                <li><strong>Multiple related updates:</strong> One action updates multiple fields</li>
+                <li><strong>Testing:</strong> Reducer functions are easy to test in isolation</li>
+            </ul>
+
+            <h4>Practical Example: Form State</h4>
+            <pre><code>const formReducer = (state, action) => {
+    switch (action.type) {
+        case 'FIELD_CHANGE':
+            return {
+                ...state,
+                values: { ...state.values, [action.field]: action.value },
+                errors: { ...state.errors, [action.field]: null },
+            };
+        case 'SET_ERRORS':
+            return { ...state, errors: action.errors };
+        case 'SET_SUBMITTING':
+            return { ...state, isSubmitting: action.value };
+        case 'RESET':
+            return initialState;
+        default:
+            return state;
+    }
+};
+
+const initialState = {
+    values: { email: '', password: '' },
+    errors: {},
+    isSubmitting: false,
+};
+
+function LoginForm() {
+    const [state, dispatch] = useReducer(formReducer, initialState);
+    // ... form implementation
+}</code></pre>
+
+            <h4>useState vs useReducer</h4>
+            <table>
+                <tr><td><strong>useState</strong></td><td>Simple, independent state values</td></tr>
+                <tr><td><strong>useReducer</strong></td><td>Complex state objects, state machines</td></tr>
+            </table>
+        `
+    },
+    {
+        id: 54,
+        category: "Core React Native",
+        icon: "⚛️",
+        question: "What are Portals in React and how do they work in React Native?",
+        difficulty: "advanced",
+        answer: `
+            <h4>Portals in React</h4>
+            <p>Portals provide a way to render children into a DOM node that exists outside the parent component's hierarchy.</p>
+
+            <h4>React Native Equivalent</h4>
+            <p>React Native doesn't have built-in portals like React DOM, but we can achieve similar results using:</p>
+
+            <h4>1. Using Modal Component</h4>
+            <pre><code>import { Modal, View, Text } from 'react-native';
+
+function MyComponent() {
+    const [visible, setVisible] = useState(false);
+
+    return (
+        &lt;View&gt;
+            &lt;Button title="Open" onPress={() => setVisible(true)} /&gt;
+
+            {/* Modal renders outside the component tree */}
+            &lt;Modal
+                visible={visible}
+                transparent
+                animationType="fade"
+            &gt;
+                &lt;View style={styles.overlay}&gt;
+                    &lt;View style={styles.content}&gt;
+                        &lt;Text&gt;I'm rendered at root level!&lt;/Text&gt;
+                    &lt;/View&gt;
+                &lt;/View&gt;
+            &lt;/Modal&gt;
+        &lt;/View&gt;
+    );
+}</code></pre>
+
+            <h4>2. Custom Portal Implementation</h4>
+            <pre><code>// PortalContext.tsx
+const PortalContext = createContext&lt;{
+    mount: (key: string, element: ReactNode) => void;
+    unmount: (key: string) => void;
+}&gt;(null);
+
+export function PortalProvider({ children }) {
+    const [portals, setPortals] = useState&lt;Map&lt;string, ReactNode&gt;&gt;(new Map());
+
+    const mount = useCallback((key: string, element: ReactNode) => {
+        setPortals(prev => new Map(prev).set(key, element));
+    }, []);
+
+    const unmount = useCallback((key: string) => {
+        setPortals(prev => {
+            const next = new Map(prev);
+            next.delete(key);
+            return next;
+        });
+    }, []);
+
+    return (
+        &lt;PortalContext.Provider value={{ mount, unmount }}&gt;
+            {children}
+            {/* Portal host - renders at root */}
+            {Array.from(portals.entries()).map(([key, element]) => (
+                &lt;View key={key}&gt;{element}&lt;/View&gt;
+            ))}
+        &lt;/PortalContext.Provider&gt;
+    );
+}
+
+// Portal component
+export function Portal({ children }) {
+    const { mount, unmount } = useContext(PortalContext);
+    const key = useId();
+
+    useEffect(() => {
+        mount(key, children);
+        return () => unmount(key);
+    }, [children, key, mount, unmount]);
+
+    return null;
+}</code></pre>
+
+            <h4>Use Cases</h4>
+            <ul>
+                <li>Modals and dialogs</li>
+                <li>Tooltips and popovers</li>
+                <li>Toast notifications</li>
+                <li>Dropdown menus that need to overflow parents</li>
+            </ul>
+        `
+    },
+    {
+        id: 55,
+        category: "Core React Native",
+        icon: "⚛️",
+        question: "Explain the concept of Render Props pattern and how it compares to Hooks in React Native.",
+        difficulty: "advanced",
+        answer: `
+            <h4>Render Props Pattern</h4>
+            <p>A technique for sharing code between components using a prop whose value is a function.</p>
+            <pre><code>// Render Props component
+class MouseTracker extends Component {
+    state = { x: 0, y: 0 };
+
+    handleMouseMove = (event) => {
+        this.setState({ x: event.pageX, y: event.pageY });
+    };
+
+    render() {
+        return (
+            &lt;View onTouchMove={this.handleMouseMove}&gt;
+                {this.props.render(this.state)}
+            &lt;/View&gt;
+        );
+    }
+}
+
+// Usage
+&lt;MouseTracker
+    render={({ x, y }) => (
+        &lt;Text&gt;Position: {x}, {y}&lt;/Text&gt;
+    )}
+/&gt;</code></pre>
+
+            <h4>Modern Equivalent with Hooks</h4>
+            <pre><code>// Custom Hook (preferred)
+function useMousePosition() {
+    const [position, setPosition] = useState({ x: 0, y: 0 });
+
+    useEffect(() => {
+        const handler = (event) => {
+            setPosition({ x: event.pageX, y: event.pageY });
+        };
+        // Add listener...
+        return () => {/* Remove listener */};
+    }, []);
+
+    return position;
+}
+
+// Usage - much cleaner!
+function MyComponent() {
+    const { x, y } = useMousePosition();
+    return &lt;Text&gt;Position: {x}, {y}&lt;/Text&gt;;
+}</code></pre>
+
+            <h4>Comparison</h4>
+            <table>
+                <tr><td><strong>Render Props</strong></td><td><strong>Hooks</strong></td></tr>
+                <tr><td>Works with class components</td><td>Only functional components</td></tr>
+                <tr><td>Can cause "wrapper hell"</td><td>Flat component structure</td></tr>
+                <tr><td>Explicit data flow</td><td>Implicit but cleaner</td></tr>
+                <tr><td>Runtime composition</td><td>Static composition</td></tr>
+            </table>
+
+            <h4>When Render Props Still Useful</h4>
+            <pre><code>// Dynamic children based on state
+&lt;FlatList
+    data={items}
+    renderItem={({ item, index }) => (
+        &lt;ItemComponent item={item} index={index} /&gt;
+    )}
+/&gt;
+
+// Animation libraries
+&lt;Animated.View&gt;
+    {(animatedValue) => (
+        &lt;View style={{ opacity: animatedValue }} /&gt;
+    )}
+&lt;/Animated.View&gt;</code></pre>
+
+            <h4>Recommendation</h4>
+            <p><strong>Use Hooks for most cases.</strong> Render Props are still valid for component libraries needing dynamic rendering flexibility.</p>
+        `
+    },
+
+    // ==================== ADDITIONAL NAVIGATION ====================
+    {
+        id: 56,
+        category: "Navigation",
+        icon: "🧭",
+        question: "How do you handle nested navigators and what are the common patterns?",
+        difficulty: "advanced",
+        answer: `
+            <h4>Nested Navigator Structure</h4>
+            <pre><code>function App() {
+    return (
+        &lt;NavigationContainer&gt;
+            &lt;RootStack.Navigator&gt;
+                {/* Tab Navigator nested in Stack */}
+                &lt;RootStack.Screen
+                    name="Main"
+                    component={MainTabs}
+                    options={{ headerShown: false }}
+                /&gt;
+                {/* Full-screen modals */}
+                &lt;RootStack.Screen
+                    name="Modal"
+                    component={ModalScreen}
+                    options={{ presentation: 'modal' }}
+                /&gt;
+            &lt;/RootStack.Navigator&gt;
+        &lt;/NavigationContainer&gt;
+    );
+}
+
+function MainTabs() {
+    return (
+        &lt;Tab.Navigator&gt;
+            &lt;Tab.Screen name="Home" component={HomeStack} /&gt;
+            &lt;Tab.Screen name="Profile" component={ProfileStack} /&gt;
+        &lt;/Tab.Navigator&gt;
+    );
+}
+
+function HomeStack() {
+    return (
+        &lt;Stack.Navigator&gt;
+            &lt;Stack.Screen name="HomeScreen" component={HomeScreen} /&gt;
+            &lt;Stack.Screen name="Details" component={DetailsScreen} /&gt;
+        &lt;/Stack.Navigator&gt;
+    );
+}</code></pre>
+
+            <h4>Navigating Across Nested Navigators</h4>
+            <pre><code>// Navigate to screen in different stack
+navigation.navigate('Profile', {
+    screen: 'Settings',
+    params: { userId: 123 },
+});
+
+// Navigate to deeply nested screen
+navigation.navigate('Main', {
+    screen: 'Home',
+    params: {
+        screen: 'Details',
+        params: { itemId: 456 },
+    },
+});
+
+// Reset navigation state
+navigation.reset({
+    index: 0,
+    routes: [{ name: 'Main' }],
+});</code></pre>
+
+            <h4>Common Patterns</h4>
+            <ul>
+                <li><strong>Auth Flow:</strong> Stack with conditional screens based on auth state</li>
+                <li><strong>Tab + Stack:</strong> Each tab has its own stack navigator</li>
+                <li><strong>Drawer + Tabs:</strong> Drawer containing tab navigator</li>
+                <li><strong>Modal Stack:</strong> Root stack with modal screens for overlays</li>
+            </ul>
+
+            <h4>Best Practices</h4>
+            <ul>
+                <li>Keep nesting to 2-3 levels max</li>
+                <li>Use <code>headerShown: false</code> when child handles header</li>
+                <li>Define types for all param lists</li>
+                <li>Use <code>getParent()</code> to access parent navigator</li>
+            </ul>
+        `
+    },
+    {
+        id: 57,
+        category: "Navigation",
+        icon: "🧭",
+        question: "How do you implement custom transitions and animations in React Navigation?",
+        difficulty: "advanced",
+        answer: `
+            <h4>Built-in Animation Options</h4>
+            <pre><code>&lt;Stack.Navigator
+    screenOptions={{
+        animation: 'slide_from_right', // iOS-like
+        // Other options:
+        // 'slide_from_bottom', 'fade', 'none',
+        // 'flip', 'simple_push', 'slide_from_left'
+    }}
+&gt;</code></pre>
+
+            <h4>Custom Transition Config</h4>
+            <pre><code>import { TransitionPresets } from '@react-navigation/stack';
+
+const customTransition = {
+    gestureDirection: 'horizontal',
+    transitionSpec: {
+        open: {
+            animation: 'spring',
+            config: {
+                stiffness: 1000,
+                damping: 500,
+                mass: 3,
+                overshootClamping: true,
+                restDisplacementThreshold: 0.01,
+                restSpeedThreshold: 0.01,
+            },
+        },
+        close: {
+            animation: 'timing',
+            config: {
+                duration: 200,
+                easing: Easing.linear,
+            },
+        },
+    },
+    cardStyleInterpolator: ({ current, layouts }) => ({
+        cardStyle: {
+            transform: [
+                {
+                    translateX: current.progress.interpolate({
+                        inputRange: [0, 1],
+                        outputRange: [layouts.screen.width, 0],
+                    }),
+                },
+                {
+                    scale: current.progress.interpolate({
+                        inputRange: [0, 1],
+                        outputRange: [0.9, 1],
+                    }),
+                },
+            ],
+            opacity: current.progress,
+        },
+    }),
+};</code></pre>
+
+            <h4>Shared Element Transitions</h4>
+            <pre><code>// Using react-native-shared-element
+import { SharedElement } from 'react-navigation-shared-element';
+
+// Source screen
+&lt;SharedElement id={\`item.\${item.id}.photo\`}&gt;
+    &lt;Image source={item.image} style={styles.image} /&gt;
+&lt;/SharedElement&gt;
+
+// Detail screen
+&lt;SharedElement id={\`item.\${item.id}.photo\`}&gt;
+    &lt;Image source={item.image} style={styles.largeImage} /&gt;
+&lt;/SharedElement&gt;
+
+// Navigator config
+&lt;Stack.Navigator
+    screenOptions={{
+        ...TransitionPresets.DefaultTransition,
+    }}
+&gt;
+    &lt;Stack.Screen
+        name="Detail"
+        component={DetailScreen}
+        sharedElements={(route) => {
+            const { item } = route.params;
+            return [\`item.\${item.id}.photo\`];
+        }}
+    /&gt;
+&lt;/Stack.Navigator&gt;</code></pre>
+
+            <h4>Per-Screen Transitions</h4>
+            <pre><code>&lt;Stack.Screen
+    name="Modal"
+    component={ModalScreen}
+    options={{
+        presentation: 'transparentModal',
+        cardOverlayEnabled: true,
+        cardStyleInterpolator: ({ current: { progress } }) => ({
+            cardStyle: {
+                opacity: progress,
+            },
+            overlayStyle: {
+                opacity: progress.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: [0, 0.5],
+                }),
+            },
+        }),
+    }}
+/&gt;</code></pre>
+        `
+    },
+
+    // ==================== ADDITIONAL STATE MANAGEMENT ====================
+    {
+        id: 58,
+        category: "State Management",
+        icon: "🗃️",
+        question: "How do you implement optimistic updates and handle rollbacks in React Native?",
+        difficulty: "advanced",
+        answer: `
+            <h4>What is Optimistic Update?</h4>
+            <p>Updating the UI immediately before the server confirms the change, then rolling back if the request fails.</p>
+
+            <h4>With TanStack Query</h4>
+            <pre><code>const queryClient = useQueryClient();
+
+const updateTodoMutation = useMutation({
+    mutationFn: updateTodo,
+
+    // When mutation starts
+    onMutate: async (newTodo) => {
+        // Cancel outgoing refetches
+        await queryClient.cancelQueries({ queryKey: ['todos'] });
+
+        // Snapshot previous value
+        const previousTodos = queryClient.getQueryData(['todos']);
+
+        // Optimistically update
+        queryClient.setQueryData(['todos'], (old) =>
+            old.map(todo =>
+                todo.id === newTodo.id ? newTodo : todo
+            )
+        );
+
+        // Return context for rollback
+        return { previousTodos };
+    },
+
+    // On error, roll back
+    onError: (err, newTodo, context) => {
+        queryClient.setQueryData(['todos'], context.previousTodos);
+        Toast.show({ type: 'error', text1: 'Update failed' });
+    },
+
+    // Always refetch after error or success
+    onSettled: () => {
+        queryClient.invalidateQueries({ queryKey: ['todos'] });
+    },
+});</code></pre>
+
+            <h4>With Redux Toolkit</h4>
+            <pre><code>// Slice with optimistic update
+const todosSlice = createSlice({
+    name: 'todos',
+    initialState: { items: [], pendingUpdates: {} },
+    reducers: {
+        optimisticUpdate: (state, action) => {
+            const { id, changes } = action.payload;
+            // Store original for rollback
+            const original = state.items.find(t => t.id === id);
+            state.pendingUpdates[id] = original;
+            // Apply optimistic change
+            const index = state.items.findIndex(t => t.id === id);
+            state.items[index] = { ...original, ...changes };
+        },
+        confirmUpdate: (state, action) => {
+            delete state.pendingUpdates[action.payload.id];
+        },
+        rollbackUpdate: (state, action) => {
+            const { id } = action.payload;
+            const original = state.pendingUpdates[id];
+            if (original) {
+                const index = state.items.findIndex(t => t.id === id);
+                state.items[index] = original;
+                delete state.pendingUpdates[id];
+            }
+        },
+    },
+});
+
+// Thunk with rollback
+export const updateTodoAsync = (id, changes) => async (dispatch) => {
+    dispatch(optimisticUpdate({ id, changes }));
+    try {
+        await api.updateTodo(id, changes);
+        dispatch(confirmUpdate({ id }));
+    } catch (error) {
+        dispatch(rollbackUpdate({ id }));
+        throw error;
+    }
+};</code></pre>
+
+            <h4>Best Practices</h4>
+            <ul>
+                <li>Always store original data for rollback</li>
+                <li>Show loading indicator for critical actions</li>
+                <li>Provide user feedback on failure</li>
+                <li>Consider retry logic for transient failures</li>
+            </ul>
+        `
+    },
+    {
+        id: 59,
+        category: "State Management",
+        icon: "🗃️",
+        question: "Explain the concept of Atomic State Management (Jotai/Recoil). How does it differ from Redux?",
+        difficulty: "advanced",
+        answer: `
+            <h4>What is Atomic State?</h4>
+            <p>State is split into independent atoms. Components subscribe only to atoms they use, enabling fine-grained re-renders.</p>
+
+            <h4>Jotai Example</h4>
+            <pre><code>import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai';
+
+// Define atoms
+const userAtom = atom(null);
+const todosAtom = atom([]);
+
+// Derived atom (computed value)
+const completedTodosAtom = atom(
+    (get) => get(todosAtom).filter(t => t.completed)
+);
+
+// Async atom
+const userDataAtom = atom(async (get) => {
+    const user = get(userAtom);
+    if (!user) return null;
+    const response = await fetch(\`/api/users/\${user.id}\`);
+    return response.json();
+});
+
+// Write-only atom (action)
+const addTodoAtom = atom(
+    null, // read value (not used)
+    (get, set, newTodo) => {
+        const todos = get(todosAtom);
+        set(todosAtom, [...todos, newTodo]);
+    }
+);
+
+// Usage in components
+function TodoList() {
+    const todos = useAtomValue(todosAtom);
+    const addTodo = useSetAtom(addTodoAtom);
+
+    return (
+        &lt;View&gt;
+            {todos.map(todo => &lt;TodoItem key={todo.id} todo={todo} /&gt;)}
+            &lt;Button onPress={() => addTodo({ id: Date.now(), text: 'New' })} /&gt;
+        &lt;/View&gt;
+    );
+}</code></pre>
+
+            <h4>Comparison: Redux vs Atomic</h4>
+            <table>
+                <tr><td><strong>Redux</strong></td><td><strong>Jotai/Recoil</strong></td></tr>
+                <tr><td>Single store</td><td>Multiple atoms</td></tr>
+                <tr><td>Top-down data flow</td><td>Bottom-up composition</td></tr>
+                <tr><td>Reducers + actions</td><td>Atoms + derived atoms</td></tr>
+                <tr><td>Requires selectors for perf</td><td>Fine-grained by default</td></tr>
+                <tr><td>More boilerplate</td><td>Minimal boilerplate</td></tr>
+                <tr><td>Great DevTools</td><td>Limited debugging tools</td></tr>
+            </table>
+
+            <h4>When to Use Atomic State</h4>
+            <ul>
+                <li>Many independent pieces of state</li>
+                <li>Frequent updates to small state portions</li>
+                <li>Need fine-grained re-render control</li>
+                <li>Prefer minimal boilerplate</li>
+            </ul>
+
+            <h4>Atom with Storage (Persistence)</h4>
+            <pre><code>import { atomWithStorage } from 'jotai/utils';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+const storage = {
+    getItem: async (key) => {
+        const value = await AsyncStorage.getItem(key);
+        return value ? JSON.parse(value) : null;
+    },
+    setItem: async (key, value) => {
+        await AsyncStorage.setItem(key, JSON.stringify(value));
+    },
+    removeItem: async (key) => {
+        await AsyncStorage.removeItem(key);
+    },
+};
+
+const themeAtom = atomWithStorage('theme', 'light', storage);</code></pre>
+        `
+    },
+
+    // ==================== ADDITIONAL PERFORMANCE ====================
+    {
+        id: 60,
+        category: "Performance",
+        icon: "⚡",
+        question: "What is the InteractionManager and when should you use it?",
+        difficulty: "intermediate",
+        answer: `
+            <h4>What is InteractionManager?</h4>
+            <p>InteractionManager allows scheduling long-running work after interactions/animations have completed, keeping the UI responsive.</p>
+
+            <h4>Basic Usage</h4>
+            <pre><code>import { InteractionManager } from 'react-native';
+
+function DetailScreen() {
+    const [data, setData] = useState(null);
+
+    useEffect(() => {
+        // Wait for navigation animation to complete
+        const interaction = InteractionManager.runAfterInteractions(() => {
+            // Now safe to do heavy work
+            loadHeavyData().then(setData);
+        });
+
+        return () => interaction.cancel();
+    }, []);
+
+    return data ? &lt;HeavyContent data={data} /&gt; : &lt;Placeholder /&gt;;
+}</code></pre>
+
+            <h4>Creating Custom Interactions</h4>
+            <pre><code>// Create a handle when starting animation
+const handle = InteractionManager.createInteractionHandle();
+
+// Start your animation
+Animated.timing(opacity, {
+    toValue: 1,
+    duration: 300,
+    useNativeDriver: true,
+}).start(() => {
+    // Clear handle when animation completes
+    InteractionManager.clearInteractionHandle(handle);
+});</code></pre>
+
+            <h4>Use Cases</h4>
+            <ul>
+                <li><strong>Screen transitions:</strong> Defer data loading until animation completes</li>
+                <li><strong>Heavy computations:</strong> Process large datasets after UI settles</li>
+                <li><strong>Analytics:</strong> Track events without blocking UI</li>
+                <li><strong>Image processing:</strong> Resize/compress after interaction</li>
+            </ul>
+
+            <h4>With Promises</h4>
+            <pre><code>async function initializeScreen() {
+    // Wait for all interactions
+    await InteractionManager.runAfterInteractions();
+
+    // Now perform heavy operations
+    const data = await fetchData();
+    const processed = await processData(data);
+
+    return processed;
+}</code></pre>
+
+            <h4>Debugging Tip</h4>
+            <pre><code>// Log all interactions
+InteractionManager.setDeadline(100); // Warning if > 100ms
+
+// In development
+if (__DEV__) {
+    const start = Date.now();
+    InteractionManager.runAfterInteractions(() => {
+        console.log(\`Interactions took: \${Date.now() - start}ms\`);
+    });
+}</code></pre>
+        `
+    },
+    {
+        id: 61,
+        category: "Performance",
+        icon: "⚡",
+        question: "How do you optimize images in React Native for better performance?",
+        difficulty: "intermediate",
+        answer: `
+            <h4>Image Optimization Strategies</h4>
+
+            <h4>1. Use Correct Dimensions</h4>
+            <pre><code>// ❌ Bad: Large image, small display
+&lt;Image
+    source={{ uri: 'https://example.com/photo-4000x3000.jpg' }}
+    style={{ width: 100, height: 100 }}
+/&gt;
+
+// ✅ Good: Request appropriately sized image
+&lt;Image
+    source={{
+        uri: \`https://example.com/photo.jpg?w=\${width * PixelRatio.get()}\`
+    }}
+    style={{ width: 100, height: 100 }}
+/&gt;</code></pre>
+
+            <h4>2. Use FastImage Library</h4>
+            <pre><code>import FastImage from 'react-native-fast-image';
+
+&lt;FastImage
+    source={{
+        uri: 'https://example.com/photo.jpg',
+        priority: FastImage.priority.high,
+        cache: FastImage.cacheControl.immutable,
+    }}
+    style={{ width: 200, height: 200 }}
+    resizeMode={FastImage.resizeMode.cover}
+/&gt;
+
+// Preload images
+FastImage.preload([
+    { uri: 'https://example.com/image1.jpg' },
+    { uri: 'https://example.com/image2.jpg' },
+]);</code></pre>
+
+            <h4>3. Progressive Loading</h4>
+            <pre><code>function ProgressiveImage({ thumbnailUri, uri, style }) {
+    const [loaded, setLoaded] = useState(false);
+    const opacity = useRef(new Animated.Value(0)).current;
+
+    const onLoad = () => {
+        setLoaded(true);
+        Animated.timing(opacity, {
+            toValue: 1,
+            duration: 300,
+            useNativeDriver: true,
+        }).start();
+    };
+
+    return (
+        &lt;View style={style}&gt;
+            {/* Blurred thumbnail */}
+            &lt;Image
+                source={{ uri: thumbnailUri }}
+                style={[StyleSheet.absoluteFill, style]}
+                blurRadius={2}
+            /&gt;
+            {/* Full resolution image */}
+            &lt;Animated.Image
+                source={{ uri }}
+                style={[style, { opacity }]}
+                onLoad={onLoad}
+            /&gt;
+        &lt;/View&gt;
+    );
+}</code></pre>
+
+            <h4>4. Format Optimization</h4>
+            <ul>
+                <li><strong>WebP:</strong> 25-35% smaller than JPEG, supports transparency</li>
+                <li><strong>AVIF:</strong> Even better compression (newer devices)</li>
+                <li><strong>SVG:</strong> For icons and simple graphics</li>
+            </ul>
+
+            <h4>5. Memory Management</h4>
+            <pre><code>// In FlatList, images outside viewport are recycled
+&lt;FlatList
+    removeClippedSubviews={true}
+    windowSize={3} // Smaller window = less memory
+    maxToRenderPerBatch={5}
+/&gt;
+
+// Clear image cache when needed
+FastImage.clearMemoryCache();
+FastImage.clearDiskCache();</code></pre>
+        `
+    },
+    {
+        id: 62,
+        category: "Performance",
+        icon: "⚡",
+        question: "Explain React Native's bridge batching and how it affects performance.",
+        difficulty: "advanced",
+        answer: `
+            <h4>Bridge Batching Concept</h4>
+            <p>React Native batches multiple native calls together and sends them across the bridge in a single message to reduce overhead.</p>
+
+            <h4>How Batching Works</h4>
+            <pre><code>// Without batching (hypothetical):
+// JS → Native: setBackgroundColor(red)
+// JS → Native: setWidth(100)
+// JS → Native: setHeight(200)
+// = 3 bridge crossings
+
+// With batching (actual):
+// JS → Native: [
+//   setBackgroundColor(red),
+//   setWidth(100),
+//   setHeight(200)
+// ]
+// = 1 bridge crossing</code></pre>
+
+            <h4>When Batching Breaks Down</h4>
+            <pre><code>// ❌ Problem: Synchronous native calls force flush
+// Reading dimensions causes immediate bridge flush
+const { width, height } = someNativeModule.getMeasurements();
+// All pending batched calls are flushed
+
+// ❌ Problem: Frequent small updates
+items.forEach(item => {
+    setState(prev => [...prev, item]); // Each triggers batch
+});
+
+// ✅ Solution: Batch updates manually
+setState(prev => [...prev, ...items]); // Single update</code></pre>
+
+            <h4>Avoiding Bridge Congestion</h4>
+            <pre><code>// ❌ Bad: Sending large data across bridge
+const hugeArray = new Array(10000).fill(data);
+NativeModule.processData(hugeArray); // Serialization overhead
+
+// ✅ Good: Process in chunks
+const chunks = chunkArray(hugeArray, 100);
+for (const chunk of chunks) {
+    await NativeModule.processData(chunk);
+    // Allow UI to breathe
+    await new Promise(r => setTimeout(r, 0));
+}
+
+// ✅ Better: Use JSI for large data
+// JSI allows direct memory sharing without serialization</code></pre>
+
+            <h4>Monitoring Bridge Traffic</h4>
+            <pre><code>// Enable bridge spy (development only)
+import MessageQueue from 'react-native/Libraries/BatchedBridge/MessageQueue';
+
+if (__DEV__) {
+    MessageQueue.spy((msg) => {
+        if (msg.type === 0) { // Call from JS to Native
+            console.log('JS→Native:', msg.module, msg.method);
+        }
+    });
+}</code></pre>
+
+            <h4>New Architecture Solution</h4>
+            <p>The New Architecture (Fabric + TurboModules) eliminates many batching issues:</p>
+            <ul>
+                <li>JSI enables synchronous calls without serialization</li>
+                <li>No more JSON encoding/decoding</li>
+                <li>Direct memory sharing possible</li>
+            </ul>
+        `
+    },
+
+    // ==================== ADDITIONAL TESTING ====================
+    {
+        id: 63,
+        category: "Testing",
+        icon: "🧪",
+        question: "How do you test async operations and API calls in React Native?",
+        difficulty: "intermediate",
+        answer: `
+            <h4>Testing Async Components</h4>
+            <pre><code>import { render, waitFor, screen } from '@testing-library/react-native';
+
+// Component that fetches data
+function UserProfile({ userId }) {
+    const [user, setUser] = useState(null);
+
+    useEffect(() => {
+        fetchUser(userId).then(setUser);
+    }, [userId]);
+
+    if (!user) return &lt;Text&gt;Loading...&lt;/Text&gt;;
+    return &lt;Text testID="username"&gt;{user.name}&lt;/Text&gt;;
+}
+
+// Test
+test('loads and displays user', async () => {
+    // Mock the API
+    jest.spyOn(api, 'fetchUser').mockResolvedValue({
+        id: 1,
+        name: 'John Doe'
+    });
+
+    render(&lt;UserProfile userId={1} /&gt;);
+
+    // Initially shows loading
+    expect(screen.getByText('Loading...')).toBeTruthy();
+
+    // Wait for async update
+    await waitFor(() => {
+        expect(screen.getByTestId('username')).toHaveTextContent('John Doe');
+    });
+});</code></pre>
+
+            <h4>Testing with MSW (Mock Service Worker)</h4>
+            <pre><code>import { setupServer } from 'msw/native';
+import { http, HttpResponse } from 'msw';
+
+const server = setupServer(
+    http.get('/api/users/:id', ({ params }) => {
+        return HttpResponse.json({
+            id: params.id,
+            name: 'Test User',
+        });
+    }),
+
+    http.post('/api/login', async ({ request }) => {
+        const body = await request.json();
+        if (body.password === 'correct') {
+            return HttpResponse.json({ token: 'abc123' });
+        }
+        return HttpResponse.json(
+            { error: 'Invalid credentials' },
+            { status: 401 }
+        );
+    })
+);
+
+beforeAll(() => server.listen());
+afterEach(() => server.resetHandlers());
+afterAll(() => server.close());
+
+test('handles login error', async () => {
+    render(&lt;LoginScreen /&gt;);
+
+    fireEvent.changeText(screen.getByTestId('email'), 'user@test.com');
+    fireEvent.changeText(screen.getByTestId('password'), 'wrong');
+    fireEvent.press(screen.getByText('Login'));
+
+    await waitFor(() => {
+        expect(screen.getByText('Invalid credentials')).toBeTruthy();
+    });
+});</code></pre>
+
+            <h4>Testing Custom Hooks</h4>
+            <pre><code>import { renderHook, waitFor } from '@testing-library/react-native';
+
+test('useApi hook fetches data', async () => {
+    const mockData = { items: [1, 2, 3] };
+    jest.spyOn(global, 'fetch').mockResolvedValue({
+        json: () => Promise.resolve(mockData),
+    });
+
+    const { result } = renderHook(() => useApi('/api/items'));
+
+    // Initially loading
+    expect(result.current.loading).toBe(true);
+
+    await waitFor(() => {
+        expect(result.current.loading).toBe(false);
+    });
+
+    expect(result.current.data).toEqual(mockData);
+});</code></pre>
+
+            <h4>Testing Error States</h4>
+            <pre><code>test('displays error message on API failure', async () => {
+    server.use(
+        http.get('/api/users', () => {
+            return HttpResponse.json(
+                { message: 'Server error' },
+                { status: 500 }
+            );
+        })
+    );
+
+    render(&lt;UserList /&gt;);
+
+    await waitFor(() => {
+        expect(screen.getByText(/error/i)).toBeTruthy();
+    });
+});</code></pre>
+        `
+    },
+    {
+        id: 64,
+        category: "Testing",
+        icon: "🧪",
+        question: "How do you implement snapshot testing in React Native and when is it useful?",
+        difficulty: "intermediate",
+        answer: `
+            <h4>What is Snapshot Testing?</h4>
+            <p>Snapshot tests capture the rendered output of a component and compare it against a stored reference file.</p>
+
+            <h4>Basic Snapshot Test</h4>
+            <pre><code>import { render } from '@testing-library/react-native';
+
+test('Button renders correctly', () => {
+    const tree = render(
+        &lt;Button title="Press me" onPress={() => {}} /&gt;
+    );
+
+    expect(tree.toJSON()).toMatchSnapshot();
+});
+
+// First run: Creates __snapshots__/Button.test.tsx.snap
+// Subsequent runs: Compares against snapshot</code></pre>
+
+            <h4>Inline Snapshots</h4>
+            <pre><code>test('renders user card', () => {
+    const tree = render(&lt;UserCard name="John" avatar="url" /&gt;);
+
+    expect(tree.toJSON()).toMatchInlineSnapshot(\`
+        &lt;View style={[Object]}&gt;
+            &lt;Image source={[Object]} /&gt;
+            &lt;Text&gt;John&lt;/Text&gt;
+        &lt;/View&gt;
+    \`);
+});</code></pre>
+
+            <h4>Snapshot with Dynamic Data</h4>
+            <pre><code>test('renders with date', () => {
+    const tree = render(&lt;Post createdAt={new Date('2024-01-01')} /&gt;);
+
+    expect(tree.toJSON()).toMatchSnapshot({
+        // Property matchers for dynamic values
+        children: expect.arrayContaining([
+            expect.objectContaining({
+                type: 'Text',
+                children: [expect.any(String)], // Date string
+            }),
+        ]),
+    });
+});</code></pre>
+
+            <h4>When to Use Snapshots</h4>
+            <ul>
+                <li><strong>Good for:</strong> UI components, styled components, detecting unintended changes</li>
+                <li><strong>Not good for:</strong> Complex logic, frequently changing components</li>
+            </ul>
+
+            <h4>Best Practices</h4>
+            <pre><code>// 1. Keep snapshots small and focused
+test('button label renders', () => {
+    const { getByText } = render(&lt;Button title="Submit" /&gt;);
+    expect(getByText('Submit')).toBeTruthy();
+});
+
+// 2. Use descriptive test names
+test('disabled button has reduced opacity', () => { ... });
+
+// 3. Review snapshot changes carefully
+// Don't just update snapshots blindly!
+// npm test -- -u  // Updates all snapshots
+
+// 4. Commit snapshots to version control
+// They serve as documentation</code></pre>
+
+            <h4>Snapshot Testing Gotchas</h4>
+            <ul>
+                <li>Large snapshots are hard to review</li>
+                <li>Brittle: Small changes trigger failures</li>
+                <li>Can lead to "approval fatigue"</li>
+                <li>Don't test implementation details</li>
+            </ul>
+        `
+    },
+    {
+        id: 65,
+        category: "Testing",
+        icon: "🧪",
+        question: "Explain how to set up and write Detox E2E tests for React Native.",
+        difficulty: "advanced",
+        answer: `
+            <h4>Detox Setup</h4>
+            <pre><code>// Install
+npm install detox --save-dev
+npm install jest-circus --save-dev
+
+// Initialize
+npx detox init
+
+// .detoxrc.js
+module.exports = {
+    testRunner: {
+        args: {
+            $0: 'jest',
+            config: 'e2e/jest.config.js',
+        },
+        jest: {
+            setupTimeout: 120000,
+        },
+    },
+    apps: {
+        'ios.debug': {
+            type: 'ios.app',
+            binaryPath: 'ios/build/MyApp.app',
+            build: 'xcodebuild -workspace ios/MyApp.xcworkspace ...',
+        },
+        'android.debug': {
+            type: 'android.apk',
+            binaryPath: 'android/app/build/outputs/apk/debug/app-debug.apk',
+            build: 'cd android && ./gradlew assembleDebug',
+        },
+    },
+    devices: {
+        simulator: {
+            type: 'ios.simulator',
+            device: { type: 'iPhone 14' },
+        },
+        emulator: {
+            type: 'android.emulator',
+            device: { avdName: 'Pixel_4_API_30' },
+        },
+    },
+    configurations: {
+        'ios.sim.debug': {
+            device: 'simulator',
+            app: 'ios.debug',
+        },
+    },
+};</code></pre>
+
+            <h4>Writing E2E Tests</h4>
+            <pre><code>// e2e/login.test.js
+describe('Login Flow', () => {
+    beforeAll(async () => {
+        await device.launchApp();
+    });
+
+    beforeEach(async () => {
+        await device.reloadReactNative();
+    });
+
+    it('should show login screen', async () => {
+        await expect(element(by.id('login-screen'))).toBeVisible();
+    });
+
+    it('should login with valid credentials', async () => {
+        await element(by.id('email-input')).typeText('user@test.com');
+        await element(by.id('password-input')).typeText('password123');
+        await element(by.id('login-button')).tap();
+
+        // Wait for navigation
+        await waitFor(element(by.id('home-screen')))
+            .toBeVisible()
+            .withTimeout(5000);
+    });
+
+    it('should show error for invalid login', async () => {
+        await element(by.id('email-input')).typeText('user@test.com');
+        await element(by.id('password-input')).typeText('wrong');
+        await element(by.id('login-button')).tap();
+
+        await expect(element(by.text('Invalid credentials'))).toBeVisible();
+    });
+});</code></pre>
+
+            <h4>Advanced Matchers & Actions</h4>
+            <pre><code>// Scrolling
+await element(by.id('scroll-view')).scroll(200, 'down');
+await element(by.id('list')).scrollTo('bottom');
+
+// Swiping
+await element(by.id('card')).swipe('left', 'fast');
+
+// Long press
+await element(by.id('item')).longPress();
+
+// Text matching
+await element(by.text('Submit')).tap();
+await element(by.label('Close button')).tap(); // Accessibility
+
+// Multiple elements
+await element(by.id('item').atIndex(2)).tap();
+
+// Waiting
+await waitFor(element(by.id('loader')))
+    .not.toBeVisible()
+    .withTimeout(10000);</code></pre>
+
+            <h4>Running Tests</h4>
+            <pre><code># Build app for testing
+npx detox build --configuration ios.sim.debug
+
+# Run tests
+npx detox test --configuration ios.sim.debug
+
+# Run specific test file
+npx detox test e2e/login.test.js</code></pre>
+        `
+    },
+
+    // ==================== STYLING & UI ====================
+    {
+        id: 66,
+        category: "Styling & UI",
+        icon: "🎨",
+        question: "Compare different styling approaches in React Native: StyleSheet, Styled Components, and NativeWind.",
+        difficulty: "intermediate",
+        answer: `
+            <h4>1. StyleSheet (Built-in)</h4>
+            <pre><code>import { StyleSheet, View, Text } from 'react-native';
+
+function MyComponent() {
+    return (
+        &lt;View style={styles.container}&gt;
+            &lt;Text style={[styles.text, styles.bold]}&gt;Hello&lt;/Text&gt;
+        &lt;/View&gt;
+    );
+}
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        padding: 16,
+        backgroundColor: '#fff',
+    },
+    text: {
+        fontSize: 16,
+        color: '#333',
+    },
+    bold: {
+        fontWeight: 'bold',
+    },
+});
+
+// Pros: No dependencies, best performance, type safety
+// Cons: Verbose, no dynamic themes without extra setup</code></pre>
+
+            <h4>2. Styled Components</h4>
+            <pre><code>import styled from 'styled-components/native';
+
+const Container = styled.View\`
+    flex: 1;
+    padding: 16px;
+    background-color: \${props => props.theme.background};
+\`;
+
+const Title = styled.Text&lt;{ primary?: boolean }&gt;\`
+    font-size: 24px;
+    color: \${props => props.primary ? '#007AFF' : '#333'};
+    font-weight: \${props => props.primary ? 'bold' : 'normal'};
+\`;
+
+function MyComponent() {
+    return (
+        &lt;Container&gt;
+            &lt;Title primary&gt;Hello World&lt;/Title&gt;
+        &lt;/Container&gt;
+    );
+}
+
+// Pros: Familiar CSS syntax, theming, dynamic styles
+// Cons: Runtime overhead, larger bundle</code></pre>
+
+            <h4>3. NativeWind (Tailwind for RN)</h4>
+            <pre><code>import { View, Text } from 'react-native';
+import { styled } from 'nativewind';
+
+// Enable styling
+const StyledView = styled(View);
+const StyledText = styled(Text);
+
+function MyComponent() {
+    return (
+        &lt;StyledView className="flex-1 p-4 bg-white dark:bg-gray-900"&gt;
+            &lt;StyledText className="text-2xl font-bold text-gray-800 dark:text-white"&gt;
+                Hello World
+            &lt;/StyledText&gt;
+        &lt;/StyledView&gt;
+    );
+}
+
+// Or with v4 (no wrapper needed)
+function MyComponent() {
+    return (
+        &lt;View className="flex-1 p-4 bg-white dark:bg-gray-900"&gt;
+            &lt;Text className="text-2xl font-bold"&gt;Hello&lt;/Text&gt;
+        &lt;/View&gt;
+    );
+}
+
+// Pros: Utility-first, consistent design system, dark mode
+// Cons: Learning curve, className strings</code></pre>
+
+            <h4>Comparison</h4>
+            <table>
+                <tr><td><strong>Approach</strong></td><td><strong>Performance</strong></td><td><strong>DX</strong></td></tr>
+                <tr><td>StyleSheet</td><td>Best</td><td>Verbose</td></tr>
+                <tr><td>Styled Components</td><td>Good</td><td>Excellent</td></tr>
+                <tr><td>NativeWind</td><td>Very Good</td><td>Great (if familiar with Tailwind)</td></tr>
+            </table>
+        `
+    },
+    {
+        id: 67,
+        category: "Styling & UI",
+        icon: "🎨",
+        question: "How do you implement dark mode and dynamic theming in React Native?",
+        difficulty: "intermediate",
+        answer: `
+            <h4>1. Using React Native's useColorScheme</h4>
+            <pre><code>import { useColorScheme, View, Text } from 'react-native';
+
+function App() {
+    const colorScheme = useColorScheme(); // 'light' | 'dark'
+
+    const theme = colorScheme === 'dark' ? darkTheme : lightTheme;
+
+    return (
+        &lt;View style={{ backgroundColor: theme.background }}&gt;
+            &lt;Text style={{ color: theme.text }}&gt;Hello&lt;/Text&gt;
+        &lt;/View&gt;
+    );
+}
+
+const lightTheme = {
+    background: '#FFFFFF',
+    text: '#000000',
+    primary: '#007AFF',
+};
+
+const darkTheme = {
+    background: '#000000',
+    text: '#FFFFFF',
+    primary: '#0A84FF',
+};</code></pre>
+
+            <h4>2. Theme Context with Manual Override</h4>
+            <pre><code>type ThemeMode = 'light' | 'dark' | 'system';
+
+const ThemeContext = createContext&lt;{
+    theme: Theme;
+    mode: ThemeMode;
+    setMode: (mode: ThemeMode) => void;
+}&gt;(null);
+
+export function ThemeProvider({ children }) {
+    const systemScheme = useColorScheme();
+    const [mode, setMode] = useState&lt;ThemeMode&gt;('system');
+
+    const theme = useMemo(() => {
+        const activeScheme = mode === 'system' ? systemScheme : mode;
+        return activeScheme === 'dark' ? darkTheme : lightTheme;
+    }, [mode, systemScheme]);
+
+    // Persist preference
+    useEffect(() => {
+        AsyncStorage.setItem('themeMode', mode);
+    }, [mode]);
+
+    return (
+        &lt;ThemeContext.Provider value={{ theme, mode, setMode }}&gt;
+            {children}
+        &lt;/ThemeContext.Provider&gt;
+    );
+}
+
+export const useTheme = () => useContext(ThemeContext);</code></pre>
+
+            <h4>3. With NativeWind</h4>
+            <pre><code>// tailwind.config.js
+module.exports = {
+    darkMode: 'class', // or 'media' for system preference
+    theme: {
+        extend: {
+            colors: {
+                primary: {
+                    light: '#007AFF',
+                    dark: '#0A84FF',
+                },
+            },
+        },
+    },
+};
+
+// Component
+&lt;View className="bg-white dark:bg-black"&gt;
+    &lt;Text className="text-gray-900 dark:text-white"&gt;
+        Themed Text
+    &lt;/Text&gt;
+&lt;/View&gt;
+
+// Toggle dark mode
+import { useColorScheme } from 'nativewind';
+const { colorScheme, setColorScheme } = useColorScheme();
+setColorScheme('dark'); // 'light' | 'dark' | 'system'</code></pre>
+
+            <h4>4. Navigation Theme Integration</h4>
+            <pre><code>import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
+
+function App() {
+    const scheme = useColorScheme();
+
+    return (
+        &lt;NavigationContainer theme={scheme === 'dark' ? DarkTheme : DefaultTheme}&gt;
+            &lt;RootNavigator /&gt;
+        &lt;/NavigationContainer&gt;
+    );
+}</code></pre>
+        `
+    },
+    {
+        id: 68,
+        category: "Styling & UI",
+        icon: "🎨",
+        question: "How do you handle responsive design and different screen sizes in React Native?",
+        difficulty: "intermediate",
+        answer: `
+            <h4>1. Using Dimensions API</h4>
+            <pre><code>import { Dimensions, useWindowDimensions } from 'react-native';
+
+// Static (doesn't update on rotation)
+const { width, height } = Dimensions.get('window');
+
+// Hook (updates on dimension change)
+function ResponsiveComponent() {
+    const { width, height } = useWindowDimensions();
+
+    const isTablet = width >= 768;
+    const isLandscape = width > height;
+
+    return (
+        &lt;View style={{
+            flexDirection: isLandscape ? 'row' : 'column',
+            padding: isTablet ? 32 : 16,
+        }}&gt;
+            {/* content */}
+        &lt;/View&gt;
+    );
+}</code></pre>
+
+            <h4>2. Responsive Scaling</h4>
+            <pre><code>import { Dimensions, PixelRatio } from 'react-native';
+
+const { width: SCREEN_WIDTH } = Dimensions.get('window');
+const BASE_WIDTH = 375; // iPhone X width
+
+// Scale based on screen width
+export const scale = (size: number) =>
+    (SCREEN_WIDTH / BASE_WIDTH) * size;
+
+// Scale with max limit
+export const moderateScale = (size: number, factor = 0.5) =>
+    size + (scale(size) - size) * factor;
+
+// Usage
+const styles = StyleSheet.create({
+    title: {
+        fontSize: moderateScale(24),
+        padding: scale(16),
+    },
+});</code></pre>
+
+            <h4>3. Flexbox Responsive Layouts</h4>
+            <pre><code>function ResponsiveGrid({ items }) {
+    const { width } = useWindowDimensions();
+    const numColumns = width >= 768 ? 3 : width >= 480 ? 2 : 1;
+    const itemWidth = (width - 32 - (numColumns - 1) * 16) / numColumns;
+
+    return (
+        &lt;FlatList
+            data={items}
+            numColumns={numColumns}
+            key={numColumns} // Force re-render on column change
+            renderItem={({ item }) => (
+                &lt;View style={{ width: itemWidth, margin: 8 }}&gt;
+                    &lt;ItemCard item={item} /&gt;
+                &lt;/View&gt;
+            )}
+        /&gt;
+    );
+}</code></pre>
+
+            <h4>4. Safe Area Handling</h4>
+            <pre><code>import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
+
+function Screen() {
+    const insets = useSafeAreaInsets();
+
+    return (
+        &lt;View style={{
+            paddingTop: insets.top,
+            paddingBottom: insets.bottom,
+            paddingLeft: insets.left,
+            paddingRight: insets.right,
+        }}&gt;
+            {/* Content */}
+        &lt;/View&gt;
+    );
+}
+
+// Or use SafeAreaView
+&lt;SafeAreaView style={{ flex: 1 }} edges={['top', 'bottom']}&gt;
+    {/* Content */}
+&lt;/SafeAreaView&gt;</code></pre>
+
+            <h4>5. Platform-Specific Styling</h4>
+            <pre><code>const styles = StyleSheet.create({
+    container: {
+        ...Platform.select({
+            ios: {
+                shadowColor: '#000',
+                shadowOffset: { width: 0, height: 2 },
+                shadowOpacity: 0.25,
+            },
+            android: {
+                elevation: 4,
+            },
+        }),
+    },
+});</code></pre>
+        `
+    },
+
+    // ==================== SYSTEM DESIGN ====================
+    {
+        id: 69,
+        category: "System Design",
+        icon: "📐",
+        question: "How would you design a real-time chat application in React Native?",
+        difficulty: "advanced",
+        answer: `
+            <h4>Architecture Overview</h4>
+            <pre><code>┌─────────────────────────────────────────┐
+│            React Native App              │
+├─────────────────────────────────────────┤
+│  ┌─────────┐  ┌──────────┐  ┌────────┐ │
+│  │   UI    │  │  State   │  │ Socket │ │
+│  │ Layer   │  │ Manager  │  │ Client │ │
+│  └────┬────┘  └────┬─────┘  └────┬───┘ │
+│       │            │              │      │
+│       └────────────┼──────────────┘      │
+│                    │                     │
+└────────────────────┼─────────────────────┘
+                     │
+          ┌──────────┴──────────┐
+          │   WebSocket Server   │
+          │   (Socket.io/WS)     │
+          └──────────┬───────────┘
+                     │
+          ┌──────────┴──────────┐
+          │    Backend APIs      │
+          │  (REST + GraphQL)    │
+          └──────────┬───────────┘
+                     │
+     ┌───────────────┼───────────────┐
+     │               │               │
+┌────┴────┐   ┌──────┴─────┐  ┌─────┴────┐
+│ Database │   │   Cache    │  │  Storage │
+│(MongoDB) │   │  (Redis)   │  │  (S3)    │
+└──────────┘   └────────────┘  └──────────┘</code></pre>
+
+            <h4>Key Components</h4>
+
+            <h4>1. WebSocket Connection</h4>
+            <pre><code>// hooks/useSocket.ts
+function useSocket() {
+    const socketRef = useRef&lt;Socket&gt;(null);
+    const [connected, setConnected] = useState(false);
+
+    useEffect(() => {
+        const socket = io(SOCKET_URL, {
+            auth: { token: getAuthToken() },
+            reconnection: true,
+            reconnectionDelay: 1000,
+        });
+
+        socket.on('connect', () => setConnected(true));
+        socket.on('disconnect', () => setConnected(false));
+
+        socketRef.current = socket;
+        return () => { socket.disconnect(); };
+    }, []);
+
+    return { socket: socketRef.current, connected };
+}</code></pre>
+
+            <h4>2. Message State Management</h4>
+            <pre><code>// Optimistic updates + local-first
+const sendMessage = async (content: string) => {
+    const tempId = uuid();
+    const message = {
+        id: tempId,
+        content,
+        status: 'sending',
+        createdAt: new Date(),
+    };
+
+    // Optimistic update
+    dispatch(addMessage(message));
+
+    try {
+        const saved = await api.sendMessage(content);
+        dispatch(updateMessage({ tempId, ...saved, status: 'sent' }));
+    } catch (error) {
+        dispatch(updateMessage({ id: tempId, status: 'failed' }));
+    }
+};</code></pre>
+
+            <h4>3. Message List with Virtualization</h4>
+            <pre><code>&lt;FlatList
+    data={messages}
+    inverted // Chat shows newest at bottom
+    keyExtractor={(item) => item.id}
+    renderItem={renderMessage}
+    onEndReached={loadMoreMessages}
+    onEndReachedThreshold={0.5}
+    maintainVisibleContentPosition={{
+        minIndexForVisible: 0,
+    }}
+/&gt;</code></pre>
+
+            <h4>4. Offline Support</h4>
+            <pre><code>// Queue messages when offline
+const messageQueue = [];
+
+NetInfo.addEventListener(state => {
+    if (state.isConnected && messageQueue.length > 0) {
+        messageQueue.forEach(msg => socket.emit('message', msg));
+        messageQueue.length = 0;
+    }
+});</code></pre>
+
+            <h4>Key Considerations</h4>
+            <ul>
+                <li>Message pagination (cursor-based)</li>
+                <li>Read receipts and typing indicators</li>
+                <li>Push notifications for background</li>
+                <li>Media upload with progress</li>
+                <li>End-to-end encryption option</li>
+            </ul>
+        `
+    },
+    {
+        id: 70,
+        category: "System Design",
+        icon: "📐",
+        question: "How would you implement infinite scroll with efficient data loading?",
+        difficulty: "intermediate",
+        answer: `
+            <h4>Cursor-Based Pagination</h4>
+            <pre><code>// API Response structure
+interface PaginatedResponse&lt;T&gt; {
+    data: T[];
+    nextCursor: string | null;
+    hasMore: boolean;
+}
+
+// Custom hook for infinite scroll
+function useInfiniteList&lt;T&gt;(fetchFn: (cursor?: string) => Promise&lt;PaginatedResponse&lt;T&gt;&gt;) {
+    const [data, setData] = useState&lt;T[]&gt;([]);
+    const [cursor, setCursor] = useState&lt;string | null&gt;(null);
+    const [hasMore, setHasMore] = useState(true);
+    const [loading, setLoading] = useState(false);
+    const [refreshing, setRefreshing] = useState(false);
+
+    const loadMore = useCallback(async () => {
+        if (loading || !hasMore) return;
+
+        setLoading(true);
+        try {
+            const response = await fetchFn(cursor);
+            setData(prev => [...prev, ...response.data]);
+            setCursor(response.nextCursor);
+            setHasMore(response.hasMore);
+        } finally {
+            setLoading(false);
+        }
+    }, [cursor, hasMore, loading, fetchFn]);
+
+    const refresh = useCallback(async () => {
+        setRefreshing(true);
+        try {
+            const response = await fetchFn();
+            setData(response.data);
+            setCursor(response.nextCursor);
+            setHasMore(response.hasMore);
+        } finally {
+            setRefreshing(false);
+        }
+    }, [fetchFn]);
+
+    return { data, loading, refreshing, hasMore, loadMore, refresh };
+}</code></pre>
+
+            <h4>Implementation with FlatList</h4>
+            <pre><code>function InfinitePostList() {
+    const { data, loading, refreshing, loadMore, refresh } = useInfiniteList(
+        (cursor) => api.getPosts({ cursor, limit: 20 })
+    );
+
+    const renderFooter = () => {
+        if (!loading) return null;
+        return (
+            &lt;View style={styles.footer}&gt;
+                &lt;ActivityIndicator size="small" /&gt;
+            &lt;/View&gt;
+        );
+    };
+
+    return (
+        &lt;FlatList
+            data={data}
+            renderItem={({ item }) => &lt;PostCard post={item} /&gt;}
+            keyExtractor={(item) => item.id}
+
+            // Infinite scroll
+            onEndReached={loadMore}
+            onEndReachedThreshold={0.5}
+            ListFooterComponent={renderFooter}
+
+            // Pull to refresh
+            refreshControl={
+                &lt;RefreshControl
+                    refreshing={refreshing}
+                    onRefresh={refresh}
+                /&gt;
+            }
+
+            // Performance
+            removeClippedSubviews={true}
+            maxToRenderPerBatch={10}
+            windowSize={5}
+        /&gt;
+    );
+}</code></pre>
+
+            <h4>With TanStack Query</h4>
+            <pre><code>import { useInfiniteQuery } from '@tanstack/react-query';
+
+function PostList() {
+    const {
+        data,
+        fetchNextPage,
+        hasNextPage,
+        isFetchingNextPage,
+        isLoading,
+        refetch,
+        isRefetching,
+    } = useInfiniteQuery({
+        queryKey: ['posts'],
+        queryFn: ({ pageParam }) => api.getPosts({ cursor: pageParam }),
+        getNextPageParam: (lastPage) => lastPage.nextCursor,
+        initialPageParam: undefined,
+    });
+
+    const posts = data?.pages.flatMap(page => page.data) ?? [];
+
+    return (
+        &lt;FlatList
+            data={posts}
+            onEndReached={() => hasNextPage && fetchNextPage()}
+            refreshing={isRefetching}
+            onRefresh={refetch}
+            // ... rest
+        /&gt;
+    );
+}</code></pre>
+        `
+    },
+    {
+        id: 71,
+        category: "System Design",
+        icon: "📐",
+        question: "How would you implement a feature flag system in React Native?",
+        difficulty: "advanced",
+        answer: `
+            <h4>Feature Flag Architecture</h4>
+            <pre><code>// types/featureFlags.ts
+export interface FeatureFlags {
+    newOnboarding: boolean;
+    darkModeEnabled: boolean;
+    experimentalCheckout: boolean;
+    maxUploadSize: number;
+    apiVersion: 'v1' | 'v2';
+}
+
+const defaultFlags: FeatureFlags = {
+    newOnboarding: false,
+    darkModeEnabled: true,
+    experimentalCheckout: false,
+    maxUploadSize: 10,
+    apiVersion: 'v1',
+};</code></pre>
+
+            <h4>Feature Flag Context</h4>
+            <pre><code>const FeatureFlagContext = createContext&lt;{
+    flags: FeatureFlags;
+    isLoading: boolean;
+    refresh: () => Promise&lt;void&gt;;
+}&gt;(null);
+
+export function FeatureFlagProvider({ children }) {
+    const [flags, setFlags] = useState&lt;FeatureFlags&gt;(defaultFlags);
+    const [isLoading, setIsLoading] = useState(true);
+
+    const fetchFlags = useCallback(async () => {
+        try {
+            // Fetch from remote config service
+            const remoteFlags = await api.getFeatureFlags({
+                userId: getCurrentUserId(),
+                appVersion: getAppVersion(),
+                platform: Platform.OS,
+            });
+
+            setFlags({ ...defaultFlags, ...remoteFlags });
+
+            // Cache locally
+            await AsyncStorage.setItem('featureFlags', JSON.stringify(remoteFlags));
+        } catch (error) {
+            // Fall back to cached flags
+            const cached = await AsyncStorage.getItem('featureFlags');
+            if (cached) {
+                setFlags({ ...defaultFlags, ...JSON.parse(cached) });
+            }
+        } finally {
+            setIsLoading(false);
+        }
+    }, []);
+
+    useEffect(() => {
+        fetchFlags();
+    }, [fetchFlags]);
+
+    return (
+        &lt;FeatureFlagContext.Provider value={{ flags, isLoading, refresh: fetchFlags }}&gt;
+            {children}
+        &lt;/FeatureFlagContext.Provider&gt;
+    );
+}
+
+export const useFeatureFlags = () => useContext(FeatureFlagContext);
+export const useFeatureFlag = &lt;K extends keyof FeatureFlags&gt;(key: K) => {
+    const { flags } = useFeatureFlags();
+    return flags[key];
+};</code></pre>
+
+            <h4>Usage in Components</h4>
+            <pre><code>// Simple boolean flag
+function CheckoutButton() {
+    const experimentalCheckout = useFeatureFlag('experimentalCheckout');
+
+    if (experimentalCheckout) {
+        return &lt;NewCheckoutButton /&gt;;
+    }
+    return &lt;LegacyCheckoutButton /&gt;;
+}
+
+// Feature gate component
+function FeatureGate({
+    flag,
+    children,
+    fallback = null,
+}: {
+    flag: keyof FeatureFlags;
+    children: ReactNode;
+    fallback?: ReactNode;
+}) {
+    const enabled = useFeatureFlag(flag);
+    return enabled ? children : fallback;
+}
+
+// Usage
+&lt;FeatureGate flag="newOnboarding" fallback={&lt;OldOnboarding /&gt;}&gt;
+    &lt;NewOnboarding /&gt;
+&lt;/FeatureGate&gt;</code></pre>
+
+            <h4>A/B Testing Integration</h4>
+            <pre><code>// flags include experiment variants
+interface FeatureFlags {
+    checkoutVariant: 'control' | 'variantA' | 'variantB';
+}
+
+function Checkout() {
+    const variant = useFeatureFlag('checkoutVariant');
+
+    // Track exposure for analytics
+    useEffect(() => {
+        analytics.track('experiment_exposure', {
+            experiment: 'checkout_redesign',
+            variant,
+        });
+    }, [variant]);
+
+    switch (variant) {
+        case 'variantA': return &lt;CheckoutA /&gt;;
+        case 'variantB': return &lt;CheckoutB /&gt;;
+        default: return &lt;CheckoutControl /&gt;;
+    }
+}</code></pre>
+
+            <h4>Popular Services</h4>
+            <ul>
+                <li><strong>LaunchDarkly:</strong> Full-featured, expensive</li>
+                <li><strong>Firebase Remote Config:</strong> Free, good for mobile</li>
+                <li><strong>Statsig:</strong> A/B testing focused</li>
+                <li><strong>Unleash:</strong> Open source option</li>
+            </ul>
+        `
+    },
+    {
+        id: 72,
+        category: "System Design",
+        icon: "📐",
+        question: "How would you design an offline-first mobile application architecture?",
+        difficulty: "advanced",
+        answer: `
+            <h4>Offline-First Principles</h4>
+            <ul>
+                <li>Local database is the source of truth</li>
+                <li>Sync with server when connected</li>
+                <li>Resolve conflicts automatically when possible</li>
+                <li>Queue mutations for later sync</li>
+            </ul>
+
+            <h4>Architecture Layers</h4>
+            <pre><code>┌─────────────────────────────────────────┐
+│              UI Components               │
+└─────────────────┬───────────────────────┘
+                  │
+┌─────────────────┴───────────────────────┐
+│           Repository Layer               │
+│  (Abstracts data source from UI)         │
+└─────────────────┬───────────────────────┘
+                  │
+      ┌───────────┴───────────┐
+      │                       │
+┌─────┴─────┐          ┌──────┴──────┐
+│  Local DB  │          │  Remote API  │
+│ (SQLite)   │◄────────►│  (REST/GQL)  │
+└────────────┘   Sync   └─────────────┘</code></pre>
+
+            <h4>Implementation with WatermelonDB</h4>
+            <pre><code>// models/Post.ts
+import { Model } from '@nozbe/watermelondb';
+import { field, date, readonly } from '@nozbe/watermelondb/decorators';
+
+class Post extends Model {
+    static table = 'posts';
+
+    @field('title') title!: string;
+    @field('content') content!: string;
+    @field('is_synced') isSynced!: boolean;
+    @readonly @date('created_at') createdAt!: Date;
+    @date('updated_at') updatedAt!: Date;
+}
+
+// Repository
+class PostRepository {
+    constructor(private database: Database) {}
+
+    async create(data: PostInput): Promise&lt;Post&gt; {
+        return await this.database.write(async () => {
+            return await this.database.get&lt;Post&gt;('posts').create(post => {
+                post.title = data.title;
+                post.content = data.content;
+                post.isSynced = false; // Mark for sync
+            });
+        });
+    }
+
+    async getAll(): Promise&lt;Post[]&gt; {
+        return await this.database.get&lt;Post&gt;('posts').query().fetch();
+    }
+
+    async getUnsyncedPosts(): Promise&lt;Post[]&gt; {
+        return await this.database
+            .get&lt;Post&gt;('posts')
+            .query(Q.where('is_synced', false))
+            .fetch();
+    }
+}</code></pre>
+
+            <h4>Sync Service</h4>
+            <pre><code>class SyncService {
+    async syncPosts() {
+        const unsynced = await postRepo.getUnsyncedPosts();
+
+        for (const post of unsynced) {
+            try {
+                const remote = await api.createPost({
+                    title: post.title,
+                    content: post.content,
+                });
+
+                await database.write(async () => {
+                    await post.update(p => {
+                        p.isSynced = true;
+                        p.remoteId = remote.id;
+                    });
+                });
+            } catch (error) {
+                console.error('Sync failed for post:', post.id);
+            }
+        }
+    }
+
+    async pullRemoteChanges(lastSyncedAt: Date) {
+        const changes = await api.getChanges({ since: lastSyncedAt });
+
+        await database.write(async () => {
+            for (const change of changes) {
+                // Handle create/update/delete
+                await this.applyChange(change);
+            }
+        });
+    }
+}
+
+// Trigger sync on network restore
+NetInfo.addEventListener(state => {
+    if (state.isConnected) {
+        syncService.syncPosts();
+        syncService.pullRemoteChanges(lastSyncedAt);
+    }
+});</code></pre>
+
+            <h4>Conflict Resolution Strategies</h4>
+            <ul>
+                <li><strong>Last-write-wins:</strong> Simple, may lose data</li>
+                <li><strong>Server-wins:</strong> Server is authoritative</li>
+                <li><strong>Client-wins:</strong> Local changes preserved</li>
+                <li><strong>Merge:</strong> Combine changes intelligently</li>
+                <li><strong>User-resolution:</strong> Let user choose</li>
+            </ul>
+        `
+    },
+
+    // ==================== ADDITIONAL ADVANCED CONCEPTS ====================
+    {
+        id: 73,
+        category: "Advanced Concepts",
+        icon: "🎓",
+        question: "How do you implement biometric authentication (Face ID/Touch ID) in React Native?",
+        difficulty: "intermediate",
+        answer: `
+            <h4>Using expo-local-authentication</h4>
+            <pre><code>import * as LocalAuthentication from 'expo-local-authentication';
+
+async function authenticateWithBiometrics(): Promise&lt;boolean&gt; {
+    // Check if hardware supports biometrics
+    const hasHardware = await LocalAuthentication.hasHardwareAsync();
+    if (!hasHardware) {
+        console.log('No biometric hardware available');
+        return false;
+    }
+
+    // Check if biometrics are enrolled
+    const isEnrolled = await LocalAuthentication.isEnrolledAsync();
+    if (!isEnrolled) {
+        console.log('No biometrics enrolled');
+        return false;
+    }
+
+    // Check available types
+    const types = await LocalAuthentication.supportedAuthenticationTypesAsync();
+    // [1] = Fingerprint, [2] = Face Recognition, [3] = Iris
+
+    // Authenticate
+    const result = await LocalAuthentication.authenticateAsync({
+        promptMessage: 'Authenticate to access your account',
+        cancelLabel: 'Cancel',
+        disableDeviceFallback: false, // Allow PIN fallback
+        fallbackLabel: 'Use Passcode',
+    });
+
+    return result.success;
+}</code></pre>
+
+            <h4>Secure Token Storage with Biometrics</h4>
+            <pre><code>import * as SecureStore from 'expo-secure-store';
+
+// Store token with biometric protection
+async function storeSecureToken(token: string) {
+    await SecureStore.setItemAsync('authToken', token, {
+        keychainAccessible: SecureStore.WHEN_UNLOCKED_THIS_DEVICE_ONLY,
+        // Requires biometric auth on iOS
+        requireAuthentication: true,
+        authenticationPrompt: 'Authenticate to save credentials',
+    });
+}
+
+// Retrieve token (will prompt for biometrics)
+async function getSecureToken(): Promise&lt;string | null&gt; {
+    try {
+        return await SecureStore.getItemAsync('authToken', {
+            requireAuthentication: true,
+            authenticationPrompt: 'Authenticate to access your account',
+        });
+    } catch (error) {
+        if (error.code === 'E_USER_CANCELLED') {
+            // User cancelled authentication
+            return null;
+        }
+        throw error;
+    }
+}</code></pre>
+
+            <h4>React Native Keychain (Bare RN)</h4>
+            <pre><code>import * as Keychain from 'react-native-keychain';
+
+// Store with biometric protection
+await Keychain.setGenericPassword('user', token, {
+    accessControl: Keychain.ACCESS_CONTROL.BIOMETRY_ANY,
+    accessible: Keychain.ACCESSIBLE.WHEN_UNLOCKED_THIS_DEVICE_ONLY,
+    securityLevel: Keychain.SECURITY_LEVEL.SECURE_HARDWARE,
+});
+
+// Retrieve (prompts biometrics)
+const credentials = await Keychain.getGenericPassword({
+    authenticationPrompt: {
+        title: 'Authentication Required',
+        subtitle: 'Please authenticate to continue',
+        cancel: 'Cancel',
+    },
+});
+
+if (credentials) {
+    console.log('Token:', credentials.password);
+}</code></pre>
+
+            <h4>Best Practices</h4>
+            <ul>
+                <li>Always provide fallback (PIN/password)</li>
+                <li>Handle cancellation gracefully</li>
+                <li>Don't store sensitive data without encryption</li>
+                <li>Re-authenticate for sensitive operations</li>
+                <li>Check enrollment before prompting</li>
+            </ul>
+        `
+    },
+    {
+        id: 74,
+        category: "Advanced Concepts",
+        icon: "🎓",
+        question: "How do you implement background tasks and scheduled jobs in React Native?",
+        difficulty: "advanced",
+        answer: `
+            <h4>Background Fetch (iOS & Android)</h4>
+            <pre><code>import * as BackgroundFetch from 'expo-background-fetch';
+import * as TaskManager from 'expo-task-manager';
+
+const BACKGROUND_FETCH_TASK = 'background-fetch-task';
+
+// Define the task
+TaskManager.defineTask(BACKGROUND_FETCH_TASK, async () => {
+    try {
+        // Fetch new data
+        const newData = await api.checkForUpdates();
+
+        if (newData.hasUpdates) {
+            // Update local storage
+            await AsyncStorage.setItem('lastData', JSON.stringify(newData));
+
+            // Optionally show notification
+            await Notifications.scheduleNotificationAsync({
+                content: {
+                    title: 'New updates available!',
+                    body: 'Tap to view new content',
+                },
+                trigger: null,
+            });
+        }
+
+        return BackgroundFetch.BackgroundFetchResult.NewData;
+    } catch (error) {
+        return BackgroundFetch.BackgroundFetchResult.Failed;
+    }
+});
+
+// Register the task
+async function registerBackgroundFetch() {
+    await BackgroundFetch.registerTaskAsync(BACKGROUND_FETCH_TASK, {
+        minimumInterval: 15 * 60, // 15 minutes minimum
+        stopOnTerminate: false,
+        startOnBoot: true,
+    });
+}</code></pre>
+
+            <h4>Background Location Tracking</h4>
+            <pre><code>import * as Location from 'expo-location';
+
+const LOCATION_TASK = 'background-location-task';
+
+TaskManager.defineTask(LOCATION_TASK, async ({ data, error }) => {
+    if (error) {
+        console.error(error);
+        return;
+    }
+
+    if (data) {
+        const { locations } = data;
+        // Process location updates
+        await api.sendLocationUpdate(locations[0]);
+    }
+});
+
+async function startLocationTracking() {
+    const { status } = await Location.requestBackgroundPermissionsAsync();
+
+    if (status === 'granted') {
+        await Location.startLocationUpdatesAsync(LOCATION_TASK, {
+            accuracy: Location.Accuracy.Balanced,
+            timeInterval: 60000, // 1 minute
+            distanceInterval: 100, // 100 meters
+            foregroundService: {
+                notificationTitle: 'Tracking location',
+                notificationBody: 'Running in background',
+            },
+        });
+    }
+}</code></pre>
+
+            <h4>Headless JS (Android only)</h4>
+            <pre><code>// index.js
+import { AppRegistry } from 'react-native';
+
+// Register headless task
+AppRegistry.registerHeadlessTask('MyBackgroundTask', () => async (taskData) => {
+    // Runs even when app is killed
+    await performBackgroundWork(taskData);
+});
+
+// Start from native code (Java/Kotlin)
+// Or use react-native-background-actions library</code></pre>
+
+            <h4>react-native-background-actions</h4>
+            <pre><code>import BackgroundService from 'react-native-background-actions';
+
+const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+const backgroundTask = async (taskData) => {
+    const { delay } = taskData;
+
+    while (BackgroundService.isRunning()) {
+        await doWork();
+        await sleep(delay);
+    }
+};
+
+const options = {
+    taskName: 'SyncTask',
+    taskTitle: 'Syncing data...',
+    taskDesc: 'Background sync in progress',
+    taskIcon: {
+        name: 'ic_launcher',
+        type: 'mipmap',
+    },
+    color: '#ff00ff',
+    parameters: { delay: 60000 },
+};
+
+// Start
+await BackgroundService.start(backgroundTask, options);
+
+// Stop
+await BackgroundService.stop();</code></pre>
+        `
+    },
+    {
+        id: 75,
+        category: "Advanced Concepts",
+        icon: "🎓",
+        question: "How do you handle app updates and force update scenarios in React Native?",
+        difficulty: "intermediate",
+        answer: `
+            <h4>Version Check Architecture</h4>
+            <pre><code>interface VersionInfo {
+    currentVersion: string;
+    minimumVersion: string;
+    latestVersion: string;
+    updateUrl: {
+        ios: string;
+        android: string;
+    };
+    forceUpdate: boolean;
+    updateMessage: string;
+}
+
+async function checkForUpdates(): Promise&lt;void&gt; {
+    const currentVersion = getAppVersion(); // From app.json or native
+    const versionInfo = await api.getVersionInfo();
+
+    const needsUpdate = compareVersions(currentVersion, versionInfo.minimumVersion) < 0;
+    const hasOptionalUpdate = compareVersions(currentVersion, versionInfo.latestVersion) < 0;
+
+    if (needsUpdate || versionInfo.forceUpdate) {
+        showForceUpdateModal(versionInfo);
+    } else if (hasOptionalUpdate) {
+        showOptionalUpdateBanner(versionInfo);
+    }
+}</code></pre>
+
+            <h4>Force Update Modal</h4>
+            <pre><code>function ForceUpdateModal({ versionInfo, visible }) {
+    const handleUpdate = () => {
+        const url = Platform.select({
+            ios: versionInfo.updateUrl.ios,
+            android: versionInfo.updateUrl.android,
+        });
+        Linking.openURL(url);
+    };
+
+    return (
+        &lt;Modal visible={visible} animationType="slide"&gt;
+            &lt;View style={styles.container}&gt;
+                &lt;Image source={require('./update-icon.png')} /&gt;
+                &lt;Text style={styles.title}&gt;Update Required&lt;/Text&gt;
+                &lt;Text style={styles.message}&gt;
+                    {versionInfo.updateMessage}
+                &lt;/Text&gt;
+                &lt;Button title="Update Now" onPress={handleUpdate} /&gt;
+                {/* No close button for force update */}
+            &lt;/View&gt;
+        &lt;/Modal&gt;
+    );
+}</code></pre>
+
+            <h4>Version Comparison Utility</h4>
+            <pre><code>function compareVersions(v1: string, v2: string): number {
+    const parts1 = v1.split('.').map(Number);
+    const parts2 = v2.split('.').map(Number);
+
+    for (let i = 0; i < Math.max(parts1.length, parts2.length); i++) {
+        const num1 = parts1[i] || 0;
+        const num2 = parts2[i] || 0;
+
+        if (num1 > num2) return 1;
+        if (num1 < num2) return -1;
+    }
+
+    return 0; // Equal
+}
+
+// Usage
+compareVersions('1.2.3', '1.2.4'); // -1 (needs update)
+compareVersions('2.0.0', '1.9.9'); // 1 (newer)
+compareVersions('1.0.0', '1.0.0'); // 0 (same)</code></pre>
+
+            <h4>Using Libraries</h4>
+            <pre><code>// react-native-version-check
+import VersionCheck from 'react-native-version-check';
+
+const checkVersion = async () => {
+    const updateNeeded = await VersionCheck.needUpdate();
+
+    if (updateNeeded.isNeeded) {
+        Alert.alert(
+            'Update Available',
+            'A new version is available. Please update.',
+            [
+                { text: 'Update', onPress: () => Linking.openURL(updateNeeded.storeUrl) },
+                { text: 'Later', style: 'cancel' },
+            ]
+        );
+    }
+};
+
+// sp-react-native-in-app-updates (Android Play Store)
+import SpInAppUpdates, { IAUUpdateKind } from 'sp-react-native-in-app-updates';
+
+const inAppUpdates = new SpInAppUpdates();
+await inAppUpdates.checkNeedsUpdate().then((result) => {
+    if (result.shouldUpdate) {
+        inAppUpdates.startUpdate({
+            updateType: IAUUpdateKind.IMMEDIATE, // or FLEXIBLE
+        });
+    }
+});</code></pre>
+        `
+    },
+
+    // ==================== ADDITIONAL BEHAVIORAL ====================
+    {
+        id: 76,
+        category: "Behavioral",
+        icon: "💬",
+        question: "How do you handle technical debt in a React Native project?",
+        difficulty: "intermediate",
+        answer: `
+            <h4>Identifying Technical Debt</h4>
+            <ul>
+                <li><strong>Code smells:</strong> Duplicated code, long functions, god components</li>
+                <li><strong>Outdated dependencies:</strong> Security vulnerabilities, missing features</li>
+                <li><strong>Missing tests:</strong> Low coverage, brittle tests</li>
+                <li><strong>Performance issues:</strong> Slow screens, memory leaks</li>
+                <li><strong>Documentation gaps:</strong> Undocumented APIs, missing READMEs</li>
+            </ul>
+
+            <h4>Tracking Technical Debt</h4>
+            <pre><code>// Use TODO/FIXME comments with context
+// TODO(john): Refactor to use new auth API - ticket: PROJ-123
+// FIXME: Memory leak when navigating - priority: high
+// HACK: Workaround for RN bug #12345 - remove when fixed
+
+// Document in code
+/**
+ * @deprecated Use NewComponent instead
+ * @see NewComponent
+ * Technical debt: This component uses class lifecycle,
+ * should be migrated to hooks. Ticket: PROJ-456
+ */
+class OldComponent extends Component { ... }</code></pre>
+
+            <h4>Prioritization Framework</h4>
+            <table>
+                <tr><td><strong>Impact</strong></td><td><strong>Effort</strong></td><td><strong>Priority</strong></td></tr>
+                <tr><td>High (bugs, security)</td><td>Low</td><td>Do immediately</td></tr>
+                <tr><td>High</td><td>High</td><td>Plan for sprint</td></tr>
+                <tr><td>Low</td><td>Low</td><td>Include with related work</td></tr>
+                <tr><td>Low</td><td>High</td><td>Backlog / reconsider</td></tr>
+            </table>
+
+            <h4>Strategies for Managing Debt</h4>
+            <ol>
+                <li><strong>Boy Scout Rule:</strong> Leave code better than you found it</li>
+                <li><strong>Dedicated time:</strong> 20% of sprint for tech debt</li>
+                <li><strong>Refactor alongside features:</strong> Clean up as you work</li>
+                <li><strong>Track metrics:</strong> Monitor test coverage, bundle size, dependencies</li>
+            </ol>
+
+            <h4>Communication with Stakeholders</h4>
+            <ul>
+                <li>Frame debt in business terms (risk, velocity impact)</li>
+                <li>Show concrete benefits of addressing debt</li>
+                <li>Propose incremental improvements</li>
+                <li>Include debt reduction in regular planning</li>
+            </ul>
+
+            <h4>Prevention</h4>
+            <ul>
+                <li>Code reviews with quality focus</li>
+                <li>Automated linting and formatting</li>
+                <li>CI/CD quality gates</li>
+                <li>Architecture decision records (ADRs)</li>
+            </ul>
+        `
+    },
+    {
+        id: 77,
+        category: "Behavioral",
+        icon: "💬",
+        question: "Describe how you would onboard a new developer to an existing React Native codebase.",
+        difficulty: "intermediate",
+        answer: `
+            <h4>Week 1: Environment & Fundamentals</h4>
+            <ul>
+                <li><strong>Day 1-2:</strong> Development environment setup
+                    <ul>
+                        <li>Clone repo, install dependencies</li>
+                        <li>Run app on simulator/device</li>
+                        <li>Access to all tools (Jira, Figma, Slack)</li>
+                    </ul>
+                </li>
+                <li><strong>Day 3-4:</strong> Codebase walkthrough
+                    <ul>
+                        <li>Project structure explanation</li>
+                        <li>Key architectural decisions</li>
+                        <li>Navigation flow overview</li>
+                    </ul>
+                </li>
+                <li><strong>Day 5:</strong> First small task (bug fix or minor UI change)</li>
+            </ul>
+
+            <h4>Documentation to Prepare</h4>
+            <pre><code>README.md
+├── Getting Started
+│   ├── Prerequisites
+│   ├── Installation
+│   └── Running the app
+├── Architecture
+│   ├── Folder structure
+│   ├── State management approach
+│   └── Navigation setup
+├── Development Workflow
+│   ├── Git branching strategy
+│   ├── PR process
+│   └── CI/CD pipeline
+├── Testing
+│   ├── Running tests
+│   └── Writing tests guide
+└── Troubleshooting
+    └── Common issues & solutions</code></pre>
+
+            <h4>Pair Programming Sessions</h4>
+            <ul>
+                <li>Feature implementation walkthrough</li>
+                <li>Debugging session</li>
+                <li>Code review participation</li>
+                <li>Deploy to TestFlight/Play Store</li>
+            </ul>
+
+            <h4>Onboarding Checklist</h4>
+            <pre><code>□ Development environment working
+□ Can run app on both platforms
+□ Understands project structure
+□ Completed first PR
+□ Understands state management
+□ Can write and run tests
+□ Knows deployment process
+□ Has submitted first feature
+□ Participated in code review
+□ Understands monitoring/analytics</code></pre>
+
+            <h4>Resources to Share</h4>
+            <ul>
+                <li>Internal wiki/Notion documentation</li>
+                <li>Design system in Figma</li>
+                <li>API documentation (Swagger/Postman)</li>
+                <li>Past architecture decision records</li>
+                <li>Key Slack channels</li>
+            </ul>
+
+            <h4>Feedback Loop</h4>
+            <ul>
+                <li>Daily check-ins during first week</li>
+                <li>Weekly 1:1s during first month</li>
+                <li>30-day retrospective</li>
+                <li>Document onboarding improvements</li>
+            </ul>
+        `
+    },
+    {
+        id: 78,
+        category: "Behavioral",
+        icon: "💬",
+        question: "How do you balance delivering features quickly vs maintaining code quality?",
+        difficulty: "intermediate",
+        answer: `
+            <h4>The Quality vs Speed Tradeoff</h4>
+            <p>This isn't binary - it's about making informed tradeoffs and understanding consequences.</p>
+
+            <h4>Framework for Decision Making</h4>
+            <pre><code>Questions to ask:
+1. What's the risk if this breaks in production?
+   - User-facing payment flow → High quality required
+   - Internal admin tool → More flexibility
+
+2. How long will this code live?
+   - Prototype/experiment → Speed over perfection
+   - Core feature → Invest in quality
+
+3. What's the blast radius of changes?
+   - Isolated component → Easier to refactor later
+   - Shared utility → Get it right first time
+
+4. Do we have the expertise to fix it later?
+   - Team knows the area well → Can iterate
+   - Complex domain → Document decisions now</code></pre>
+
+            <h4>Strategies That Enable Both</h4>
+            <ol>
+                <li><strong>Automated quality gates:</strong>
+                    <ul>
+                        <li>Linting and formatting (zero effort)</li>
+                        <li>Type checking (catches bugs early)</li>
+                        <li>Basic test coverage requirements</li>
+                    </ul>
+                </li>
+                <li><strong>Progressive enhancement:</strong>
+                    <ul>
+                        <li>MVP first, polish later</li>
+                        <li>Feature flags for gradual rollout</li>
+                        <li>Planned refactoring sprints</li>
+                    </ul>
+                </li>
+                <li><strong>Technical debt tracking:</strong>
+                    <ul>
+                        <li>Document shortcuts taken</li>
+                        <li>Create tickets for follow-up</li>
+                        <li>Allocate time for debt reduction</li>
+                    </ul>
+                </li>
+            </ol>
+
+            <h4>What I Won't Compromise On</h4>
+            <ul>
+                <li><strong>Security:</strong> No shortcuts on authentication, data handling</li>
+                <li><strong>Accessibility:</strong> Basic a11y from the start</li>
+                <li><strong>Core architecture:</strong> Foundation should be solid</li>
+                <li><strong>Tests for critical paths:</strong> Payment, auth, data integrity</li>
+            </ul>
+
+            <h4>Communication</h4>
+            <pre><code>"We can ship this in 2 days with manual testing,
+ or 4 days with proper test coverage.
+
+ Given this is our checkout flow, I recommend
+ taking the extra time. Here's why..."
+
+"For this experimental feature, I suggest we
+ ship a simpler version first to validate the
+ concept, then invest in polish if it works."</code></pre>
+        `
+    },
+
+    // ==================== REAL-WORLD SCENARIOS ====================
+    {
+        id: 79,
+        category: "Real-World Scenarios",
+        icon: "🌍",
+        question: "You notice the app is crashing for some users but you can't reproduce it. How do you debug this?",
+        difficulty: "advanced",
+        answer: `
+            <h4>Step 1: Gather Information</h4>
+            <pre><code>// Check crash reporting dashboard
+- Crashlytics / Sentry / Bugsnag
+- Look for:
+  • Stack trace
+  • Device info (model, OS version)
+  • App version
+  • User actions leading to crash
+  • Frequency and affected user %
+
+// Questions to answer:
+1. Is it device-specific? (old phones, specific OS)
+2. Is it version-specific? (recent release regression)
+3. Is it feature-specific? (certain screen/action)
+4. Is it data-specific? (certain user data triggers it)</code></pre>
+
+            <h4>Step 2: Analyze Crash Reports</h4>
+            <pre><code>// Common patterns to look for:
+
+// 1. Null/undefined access
+TypeError: Cannot read property 'x' of undefined
+→ Check for optional chaining, null checks
+
+// 2. Native module crash
+Fatal Exception: java.lang.NullPointerException
+→ Check native module initialization
+
+// 3. Out of memory
+Termination Reason: MEMORY PRESSURE
+→ Check for memory leaks, large images
+
+// 4. Main thread blocked
+Watchdog timeout
+→ Check for heavy computation on UI thread</code></pre>
+
+            <h4>Step 3: Reproduce the Environment</h4>
+            <pre><code>// Match the crash environment
+1. Same device/OS version (use simulators/real devices)
+2. Same app version
+3. Same user data (if possible, anonymized)
+4. Same network conditions
+
+// Tools:
+- Charles Proxy for network replay
+- User session recordings (FullStory, LogRocket)
+- Debug builds with verbose logging</code></pre>
+
+            <h4>Step 4: Add Targeted Logging</h4>
+            <pre><code>// Add breadcrumbs around suspected area
+function SuspectedComponent() {
+    useEffect(() => {
+        crashlytics().log('SuspectedComponent mounted');
+        crashlytics().setCustomKey('componentState', JSON.stringify(state));
+
+        return () => {
+            crashlytics().log('SuspectedComponent unmounted');
+        };
+    }, [state]);
+
+    // Log at critical points
+    const handleAction = () => {
+        crashlytics().log('handleAction called');
+        crashlytics().setCustomKey('actionData', JSON.stringify(data));
+        // ...
+    };
+}</code></pre>
+
+            <h4>Step 5: Gradual Rollout of Fix</h4>
+            <pre><code>// 1. Deploy fix to beta testers
+// 2. Monitor crash rates
+// 3. Gradual rollout (10% → 50% → 100%)
+// 4. Keep old code path with feature flag
+// 5. Document root cause and prevention</code></pre>
+
+            <h4>Prevention</h4>
+            <ul>
+                <li>Implement comprehensive error boundaries</li>
+                <li>Add breadcrumb logging at key points</li>
+                <li>Test on low-end devices</li>
+                <li>Monitor crash-free sessions rate</li>
+            </ul>
+        `
+    },
+    {
+        id: 80,
+        category: "Real-World Scenarios",
+        icon: "🌍",
+        question: "Users report the app is slow. How do you identify and fix performance issues?",
+        difficulty: "advanced",
+        answer: `
+            <h4>Step 1: Define "Slow"</h4>
+            <pre><code>// Quantify the problem
+- Which screens are slow?
+- What actions are slow? (loading, scrolling, tapping)
+- How slow? (measure baseline)
+- Which devices? (all or specific?)
+- When did it start? (recent regression?)
+
+// Key metrics to measure
+- Time to Interactive (TTI)
+- Frame rate (target: 60fps)
+- JS thread responsiveness
+- Memory usage</code></pre>
+
+            <h4>Step 2: Profile the App</h4>
+            <pre><code>// 1. React DevTools Profiler
+- Enable in dev menu
+- Record interaction
+- Look for:
+  • Components rendering too often
+  • Slow render times (> 16ms)
+  • Cascading re-renders
+
+// 2. Performance Monitor (Dev Menu)
+- Watch JS FPS (should be 60)
+- Watch UI FPS (should be 60)
+- Drops indicate bottlenecks
+
+// 3. Flipper Performance Plugin
+- Network request timing
+- Layout inspector
+- Database queries
+
+// 4. Native Profilers
+- Xcode Instruments (iOS)
+- Android Studio Profiler</code></pre>
+
+            <h4>Step 3: Common Issues & Fixes</h4>
+            <pre><code>// Issue: FlatList janky scroll
+// Fix:
+&lt;FlatList
+    removeClippedSubviews={true}
+    maxToRenderPerBatch={5}
+    windowSize={3}
+    getItemLayout={...} // If fixed height
+/&gt;
+
+// Issue: Slow screen mount
+// Fix: Defer heavy work
+useEffect(() => {
+    InteractionManager.runAfterInteractions(() => {
+        loadHeavyData();
+    });
+}, []);
+
+// Issue: Unnecessary re-renders
+// Fix: Memoization
+const MemoizedItem = React.memo(Item);
+const handlePress = useCallback(() => {...}, []);
+
+// Issue: Large images
+// Fix: Optimize images
+&lt;FastImage
+    source={{ uri, priority: 'high', cache: 'immutable' }}
+    resizeMode="cover"
+/&gt;
+
+// Issue: Bridge congestion
+// Fix: Batch updates
+// Move to new architecture (JSI)</code></pre>
+
+            <h4>Step 4: Measure Improvement</h4>
+            <pre><code>// Before/after comparison
+// Use consistent test conditions:
+- Same device
+- Same data set
+- Cold start vs warm start
+
+// Automate performance testing
+describe('Performance', () => {
+    it('renders list in under 100ms', async () => {
+        const start = performance.now();
+        render(&lt;HeavyList items={1000} /&gt;);
+        const duration = performance.now() - start;
+        expect(duration).toBeLessThan(100);
+    });
+});</code></pre>
+
+            <h4>Monitoring in Production</h4>
+            <ul>
+                <li>Custom performance marks/measures</li>
+                <li>Real User Monitoring (RUM)</li>
+                <li>Alerting on p95 latency regressions</li>
+            </ul>
+        `
     }
 ];
 
