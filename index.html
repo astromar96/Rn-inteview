@@ -1,97 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Senior React Native Interview Prep</title>
-    <link rel="stylesheet" href="styles.css">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>React Native Interview Prep</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-</head>
-<body>
-    <div class="app-container">
-        <header class="header">
-            <div class="header-content">
-                <h1>🚀 Senior React Native Interview Prep</h1>
-                <p class="subtitle">Comprehensive questions to ace your interview</p>
-            </div>
-            <div class="progress-container">
-                <div class="progress-stats">
-                    <span class="progress-text"><span id="completed-count">0</span> / <span id="total-count">0</span> completed</span>
-                    <span class="progress-percentage" id="progress-percentage">0%</span>
-                </div>
-                <div class="progress-bar">
-                    <div class="progress-fill" id="progress-fill"></div>
-                </div>
-                <button class="reset-btn" id="reset-btn" title="Reset all progress">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
-                        <path d="M3 3v5h5"/>
-                    </svg>
-                    Reset
-                </button>
-            </div>
-        </header>
-
-        <nav class="category-nav">
-            <button class="nav-btn active" data-category="all">All Topics</button>
-            <div class="nav-scroll" id="category-buttons"></div>
-        </nav>
-
-        <main class="main-content">
-            <div class="filter-bar">
-                <div class="search-container">
-                    <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="11" cy="11" r="8"/>
-                        <path d="m21 21-4.35-4.35"/>
-                    </svg>
-                    <input type="text" id="search-input" placeholder="Search questions..." class="search-input">
-                </div>
-                <div class="filter-buttons">
-                    <button class="filter-btn active" data-filter="all">All</button>
-                    <button class="filter-btn" data-filter="pending">Pending</button>
-                    <button class="filter-btn" data-filter="completed">Completed</button>
-                </div>
-            </div>
-
-            <div class="seniority-filter" id="seniority-filter">
-                <button class="filter-btn active" data-seniority="all">All Levels</button>
-                <button class="filter-btn" data-seniority="junior">🌱 Junior</button>
-                <button class="filter-btn" data-seniority="mid">🌿 Mid</button>
-                <button class="filter-btn" data-seniority="senior">🌳 Senior</button>
-                <button class="filter-btn" data-seniority="staff">🏔️ Staff+</button>
-            </div>
-
-            <div class="questions-container" id="questions-container">
-                <!-- Questions will be rendered here -->
-            </div>
-        </main>
-
-        <footer class="footer">
-            <p>Good luck with your interview! 💪</p>
-        </footer>
-    </div>
-
-    <div class="modal" id="answer-modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 id="modal-question"></h3>
-                <button class="modal-close" id="modal-close">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div class="modal-badges">
-                    <div class="difficulty-badge" id="modal-difficulty"></div>
-                    <div class="seniority-badge" id="modal-seniority"></div>
-                </div>
-                <div class="answer-content" id="modal-answer"></div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn-secondary" id="modal-close-btn">Close</button>
-                <button class="btn-primary" id="modal-complete-btn">Mark as Completed</button>
-            </div>
-        </div>
-    </div>
-
-    <script src="questions.js?v=3"></script>
-    <script src="app.js?v=3"></script>
-</body>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
 </html>

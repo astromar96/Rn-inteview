@@ -1,0 +1,132 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #61DAFB;
+  --color-primary-dark: #21a1c4;
+  --color-secondary: #282c34;
+  --color-background: #0a0a0f;
+  --color-surface: #13131a;
+  --color-surface-elevated: #1a1a24;
+  --color-border: #2a2a3a;
+  --color-success: #4ade80;
+  --color-warning: #fbbf24;
+  --color-error: #f87171;
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #a0a0b0;
+  --color-text-muted: #6b6b7b;
+  --color-gradient-start: #61DAFB;
+  --color-gradient-end: #a855f7;
+
+  --font-family-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+body {
+  font-family: var(--font-family-sans);
+  background-color: var(--color-background);
+  color: var(--color-text-primary);
+  line-height: 1.6;
+  min-height: 100vh;
+  margin: 0;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-surface);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-muted);
+}
+
+/* Answer content styling */
+.answer-content h4 {
+  color: var(--color-primary);
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 1.5rem 0 0.75rem 0;
+}
+
+.answer-content h4:first-child {
+  margin-top: 0;
+}
+
+.answer-content p {
+  margin-bottom: 1rem;
+  color: var(--color-text-secondary);
+}
+
+.answer-content ul,
+.answer-content ol {
+  margin: 0.75rem 0;
+  padding-left: 1.5rem;
+  color: var(--color-text-secondary);
+}
+
+.answer-content li {
+  margin-bottom: 0.5rem;
+}
+
+.answer-content code {
+  background: var(--color-surface-elevated);
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  font-family: 'Fira Code', 'Consolas', monospace;
+  font-size: 0.9em;
+  color: var(--color-primary);
+}
+
+.answer-content pre {
+  background: var(--color-surface-elevated);
+  padding: 1rem;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin: 1rem 0;
+  border: 1px solid var(--color-border);
+}
+
+.answer-content pre code {
+  background: none;
+  padding: 0;
+  color: var(--color-text-primary);
+}
+
+.answer-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+}
+
+.answer-content th,
+.answer-content td {
+  padding: 0.75rem;
+  text-align: left;
+  border: 1px solid var(--color-border);
+}
+
+.answer-content th {
+  background: var(--color-surface-elevated);
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+.answer-content td {
+  color: var(--color-text-secondary);
+}
+
+.answer-content strong {
+  color: var(--color-text-primary);
+}
