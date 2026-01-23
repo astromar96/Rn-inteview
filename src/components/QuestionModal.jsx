@@ -1,11 +1,14 @@
 import { useEffect, useCallback, useRef, useState } from 'react'
-import { X, Check, Circle } from 'lucide-react'
+import { X, Check, Circle, MessageSquare } from 'lucide-react'
 import { useApp } from '../context/AppContext'
+import { CommentPopup } from './CommentPopup'
+import { CommentsPanel } from './CommentsPanel'
 import clsx from 'clsx'
 
 export function QuestionModal() {
-  const { selectedQuestion, setSelectedQuestion, completedIds, toggleComplete } = useApp()
+  const { selectedQuestion, setSelectedQuestion, completedIds, toggleComplete, addComment, getCommentsForQuestion } = useApp()
   const contentRef = useRef(null)
+  const [selectionPopup, setSelectionPopup] = useState(null) // { x, y, text }
 
   const handleClose = useCallback(() => {
     setSelectedQuestion(null)
@@ -29,6 +32,47 @@ export function QuestionModal() {
     }
     return () => {
       document.body.style.overflow = ''
+    }
+  }, [selectedQuestion])
+
+  // Handle text selection for comments
+  useEffect(() => {
+    if (!contentRef.current || !selectedQuestion) return
+
+    const handleMouseUp = (e) => {
+      // Small delay to ensure selection is complete
+      setTimeout(() => {
+        const selection = window.getSelection()
+        const selectedText = selection?.toString().trim()
+
+        if (selectedText && selectedText.length > 0) {
+          // Check if selection is within the content area
+          const range = selection.getRangeAt(0)
+          if (contentRef.current.contains(range.commonAncestorContainer)) {
+            const rect = range.getBoundingClientRect()
+            setSelectionPopup({
+              x: rect.left + rect.width / 2 - 60,
+              y: rect.bottom,
+              text: selectedText,
+            })
+          }
+        }
+      }, 10)
+    }
+
+    const handleMouseDown = (e) => {
+      // Don't close popup if clicking on the popup itself
+      if (e.target.closest('.comment-popup-container')) return
+      setSelectionPopup(null)
+    }
+
+    const content = contentRef.current
+    content.addEventListener('mouseup', handleMouseUp)
+    document.addEventListener('mousedown', handleMouseDown)
+
+    return () => {
+      content.removeEventListener('mouseup', handleMouseUp)
+      document.removeEventListener('mousedown', handleMouseDown)
     }
   }, [selectedQuestion])
 
@@ -70,9 +114,20 @@ export function QuestionModal() {
     })
   }, [selectedQuestion])
 
+  // Handle comment submission
+  const handleCommentSubmit = useCallback((commentText) => {
+    if (selectionPopup && selectedQuestion) {
+      addComment(selectedQuestion.id, selectionPopup.text, commentText)
+      setSelectionPopup(null)
+      // Clear selection
+      window.getSelection()?.removeAllRanges()
+    }
+  }, [selectionPopup, selectedQuestion, addComment])
+
   if (!selectedQuestion) return null
 
   const isCompleted = completedIds.has(selectedQuestion.id)
+  const commentsCount = getCommentsForQuestion(selectedQuestion.id).length
 
   const difficultyStyles = {
     beginner: 'bg-success/20 text-success',
@@ -138,12 +193,38 @@ export function QuestionModal() {
 
         {/* Content */}
         <div className="flex-1 overflow-y-auto p-6">
+          {/* Hint for commenting */}
+          <div className="mb-4 px-3 py-2 bg-primary/10 border border-primary/20 rounded-lg text-xs text-primary flex items-center gap-2">
+            <MessageSquare className="w-4 h-4" />
+            <span>Select any text to add a personal note or comment</span>
+            {commentsCount > 0 && (
+              <span className="ml-auto bg-primary/20 px-2 py-0.5 rounded-full">
+                {commentsCount} note{commentsCount !== 1 ? 's' : ''}
+              </span>
+            )}
+          </div>
+
           <div
             ref={contentRef}
             className="answer-content"
             dangerouslySetInnerHTML={{ __html: selectedQuestion.answer }}
           />
+
+          {/* Comments Panel */}
+          <CommentsPanel questionId={selectedQuestion.id} />
         </div>
+
+        {/* Comment Popup */}
+        {selectionPopup && (
+          <div className="comment-popup-container">
+            <CommentPopup
+              position={{ x: selectionPopup.x, y: selectionPopup.y }}
+              selectedText={selectionPopup.text}
+              onSubmit={handleCommentSubmit}
+              onClose={() => setSelectionPopup(null)}
+            />
+          </div>
+        )}
 
         {/* Footer */}
         <div className="flex-shrink-0 p-4 border-t border-border bg-surface-elevated flex items-center justify-between">

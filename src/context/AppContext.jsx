@@ -6,6 +6,7 @@ const AppContext = createContext()
 const STORAGE_KEY = 'rn-interview-completed'
 const BOOKMARKS_KEY = 'rn-interview-bookmarks'
 const FILTERS_KEY = 'rn-interview-filters'
+const COMMENTS_KEY = 'rn-interview-comments'
 
 // Extract unique values for filter options
 export const CATEGORIES = [...new Set(questionsData.map(q => q.category))]
@@ -63,6 +64,17 @@ export function AppProvider({ children }) {
   const [quizModeOpen, setQuizModeOpen] = useState(false)
   const [analyticsOpen, setAnalyticsOpen] = useState(false)
 
+  // Load comments from localStorage
+  // Structure: { [questionId]: [{ id, selectedText, comment, createdAt }] }
+  const [comments, setComments] = useState(() => {
+    try {
+      const saved = localStorage.getItem(COMMENTS_KEY)
+      return saved ? JSON.parse(saved) : {}
+    } catch {
+      return {}
+    }
+  })
+
   // Persist completed to localStorage
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify([...completedIds]))
@@ -77,6 +89,38 @@ export function AppProvider({ children }) {
   useEffect(() => {
     localStorage.setItem(FILTERS_KEY, JSON.stringify(filters))
   }, [filters])
+
+  // Persist comments to localStorage
+  useEffect(() => {
+    localStorage.setItem(COMMENTS_KEY, JSON.stringify(comments))
+  }, [comments])
+
+  // Add a comment to a question
+  const addComment = useCallback((questionId, selectedText, commentText) => {
+    const newComment = {
+      id: Date.now().toString(),
+      selectedText,
+      comment: commentText,
+      createdAt: new Date().toISOString(),
+    }
+    setComments(prev => ({
+      ...prev,
+      [questionId]: [...(prev[questionId] || []), newComment],
+    }))
+  }, [])
+
+  // Delete a comment
+  const deleteComment = useCallback((questionId, commentId) => {
+    setComments(prev => ({
+      ...prev,
+      [questionId]: (prev[questionId] || []).filter(c => c.id !== commentId),
+    }))
+  }, [])
+
+  // Get comments for a specific question
+  const getCommentsForQuestion = useCallback((questionId) => {
+    return comments[questionId] || []
+  }, [comments])
 
   // Toggle bookmark
   const toggleBookmark = useCallback((id) => {
@@ -282,6 +326,12 @@ export function AppProvider({ children }) {
     setQuizModeOpen,
     analyticsOpen,
     setAnalyticsOpen,
+
+    // Comments
+    comments,
+    addComment,
+    deleteComment,
+    getCommentsForQuestion,
   }
 
   return (
