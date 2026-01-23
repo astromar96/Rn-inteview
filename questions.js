@@ -7,6 +7,7 @@ const questionsData = [
         icon: "⚛️",
         question: "Explain the difference between React Native and React.js. How does React Native render components?",
         difficulty: "beginner",
+        seniority: "junior",
         answer: `
             <h4>🎯 Why This Question Matters</h4>
             <p>This is often the first question in RN interviews. Interviewers want to verify you understand the fundamental architecture and aren't just treating RN as "React for mobile."</p>
@@ -89,6 +90,7 @@ const questionsData = [
         icon: "⚛️",
         question: "What is the Virtual DOM and how does React Native's reconciliation work?",
         difficulty: "intermediate",
+        seniority: "mid",
         answer: `
             <h4>🎯 Why This Question Matters</h4>
             <p>Understanding reconciliation is crucial for writing performant React Native apps. Interviewers ask this to gauge your depth of knowledge about React's internals and your ability to optimize applications.</p>
@@ -210,6 +212,7 @@ const handlePress = useCallback((id) => {
         icon: "⚛️",
         question: "Explain the component lifecycle in React Native. How do hooks relate to lifecycle methods?",
         difficulty: "intermediate",
+        seniority: "mid",
         answer: `
             <h4>🎯 Why This Question Matters</h4>
             <p>Understanding lifecycle is essential for managing side effects, subscriptions, and cleanup. This question reveals whether you can prevent memory leaks and handle async operations properly.</p>
@@ -404,6 +407,7 @@ useEffect(() => {
         icon: "⚛️",
         question: "What are the differences between FlatList and ScrollView? When would you use each?",
         difficulty: "intermediate",
+        seniority: "mid",
         answer: `
             <h4>🎯 Why This Question Matters</h4>
             <p>List performance is one of the most common pain points in React Native apps. This question tests your understanding of virtualization and your ability to build smooth, performant scrolling experiences.</p>
@@ -584,6 +588,7 @@ import { FlashList } from "@shopify/flash-list";
         icon: "⚛️",
         question: "How do you handle platform-specific code in React Native?",
         difficulty: "beginner",
+        seniority: "junior",
         answer: `
             <h4>1. Platform Module</h4>
             <pre><code>import { Platform } from 'react-native';
@@ -627,6 +632,7 @@ if (parseInt(Platform.Version, 10) >= 14) {
         icon: "⚛️",
         question: "Explain the purpose and usage of useCallback and useMemo hooks in React Native.",
         difficulty: "intermediate",
+        seniority: "mid",
         answer: `
             <h4>useMemo - Memoize Values</h4>
             <p>Caches computed values to avoid expensive recalculations:</p>
@@ -666,6 +672,7 @@ if (parseInt(Platform.Version, 10) >= 14) {
         icon: "🧭",
         question: "Compare different navigation solutions in React Native. Why is React Navigation the most popular?",
         difficulty: "intermediate",
+        seniority: "mid",
         answer: `
             <h4>Navigation Solutions</h4>
             <table>
@@ -706,6 +713,7 @@ if (parseInt(Platform.Version, 10) >= 14) {
         icon: "🧭",
         question: "How do you pass parameters between screens and handle deep linking in React Navigation?",
         difficulty: "intermediate",
+        seniority: "mid",
         answer: `
             <h4>Passing Parameters</h4>
             <pre><code>// Sending params
@@ -759,6 +767,7 @@ type Props = NativeStackScreenProps&lt;RootStackParamList, 'Details'&gt;;</code>
         icon: "🧭",
         question: "How do you implement authentication flow with protected routes in React Navigation?",
         difficulty: "advanced",
+        seniority: "senior",
         answer: `
             <h4>Authentication Flow Pattern</h4>
             <pre><code>function RootNavigator() {
@@ -819,6 +828,7 @@ export function AuthProvider({ children }) {
         icon: "🗃️",
         question: "Compare Redux, Context API, Zustand, and Jotai. When would you use each?",
         difficulty: "advanced",
+        seniority: "senior",
         answer: `
             <h4>🎯 Why This Question Matters</h4>
             <p>State management choice significantly impacts app architecture, performance, and developer experience. Interviewers want to see that you can make informed decisions based on project needs, not just use whatever you've always used.</p>
@@ -1073,6 +1083,7 @@ function LogoutButton() {
         icon: "🗃️",
         question: "What is React Query/TanStack Query and why is it important for React Native apps?",
         difficulty: "intermediate",
+        seniority: "mid",
         answer: `
             <h4>What is TanStack Query?</h4>
             <p>A powerful data-fetching and caching library that handles server state separately from client state.</p>
@@ -1123,6 +1134,7 @@ const mutation = useMutation({
         icon: "🗃️",
         question: "How do you handle global state persistence in React Native?",
         difficulty: "intermediate",
+        seniority: "mid",
         answer: `
             <h4>AsyncStorage Basics</h4>
             <pre><code>import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -1187,6 +1199,7 @@ const useStore = create(
         icon: "⚡",
         question: "What are the main causes of performance issues in React Native and how do you diagnose them?",
         difficulty: "advanced",
+        seniority: "senior",
         answer: `
             <h4>🎯 Why This Question Matters</h4>
             <p>Performance is often the make-or-break factor for React Native apps. This question tests your ability to identify, diagnose, and fix the most common performance bottlenecks in production apps.</p>
@@ -1351,6 +1364,7 @@ MyComponent.whyDidYouRender = true;</code></pre>
         icon: "⚡",
         question: "How do you optimize FlatList for rendering thousands of items?",
         difficulty: "advanced",
+        seniority: "mid",
         answer: `
             <h4>Essential Optimizations</h4>
             <pre><code>&lt;FlatList
@@ -1410,6 +1424,7 @@ import { FlashList } from "@shopify/flash-list";
         icon: "⚡",
         question: "Explain Hermes and its benefits. How does it improve React Native performance?",
         difficulty: "intermediate",
+        seniority: "mid",
         answer: `
             <h4>What is Hermes?</h4>
             <p>Hermes is a JavaScript engine optimized specifically for React Native, developed by Meta.</p>
@@ -1455,6 +1470,7 @@ cd ios && pod install</code></pre>
         icon: "⚡",
         question: "How do you prevent unnecessary re-renders in React Native?",
         difficulty: "intermediate",
+        seniority: "mid",
         answer: `
             <h4>1. React.memo for Functional Components</h4>
             <pre><code>const MyComponent = React.memo(({ data, onPress }) => {
@@ -1504,6 +1520,7 @@ const UserDispatchContext = createContext();</code></pre>
         icon: "🔧",
         question: "Explain the React Native Bridge architecture. What are its limitations?",
         difficulty: "advanced",
+        seniority: "senior",
         answer: `
             <h4>Bridge Architecture (Old Architecture)</h4>
             <p>The bridge is an asynchronous, serialized, batched communication layer between JavaScript and Native.</p>
@@ -1541,6 +1558,7 @@ const UserDispatchContext = createContext();</code></pre>
         icon: "🔧",
         question: "How do you create a Native Module for iOS and Android?",
         difficulty: "advanced",
+        seniority: "senior",
         answer: `
             <h4>iOS Native Module (Objective-C)</h4>
             <pre><code>// CalendarModule.m
@@ -1598,6 +1616,7 @@ const result = await CalendarModule.createEvent(
         icon: "🔧",
         question: "What is JSI and how does it differ from the traditional bridge?",
         difficulty: "advanced",
+        seniority: "senior",
         answer: `
             <h4>JavaScript Interface (JSI)</h4>
             <p>JSI is a lightweight C++ layer that allows JavaScript to directly hold references to C++ objects and invoke methods on them.</p>
@@ -1646,6 +1665,7 @@ public:
         icon: "🏗️",
         question: "Explain the React Native New Architecture: Fabric, TurboModules, and Codegen.",
         difficulty: "advanced",
+        seniority: "senior",
         answer: `
             <h4>🎯 Why This Question Matters</h4>
             <p>The New Architecture is the biggest change to React Native since its inception. It's now enabled by default in RN 0.76+. Understanding it demonstrates you're up-to-date with the platform and can build high-performance apps.</p>
@@ -1824,6 +1844,7 @@ console.log('TurboModules:', !!global.__turboModuleProxy);</code></pre>
         icon: "🏗️",
         question: "How do you migrate an existing app to the New Architecture?",
         difficulty: "advanced",
+        seniority: "senior",
         answer: `
             <h4>Migration Steps</h4>
 
@@ -1884,6 +1905,7 @@ export default codegenNativeComponent&lt;NativeProps&gt;('MyComponent');</code><
         icon: "✨",
         question: "Compare Animated API vs Reanimated. When should you use each?",
         difficulty: "intermediate",
+        seniority: "mid",
         answer: `
             <h4>Animated API (Built-in)</h4>
             <ul>
@@ -1948,6 +1970,7 @@ const handlePress = () => {
         icon: "✨",
         question: "How do you implement gesture-driven animations with Reanimated and Gesture Handler?",
         difficulty: "advanced",
+        seniority: "senior",
         answer: `
             <h4>Setup</h4>
             <pre><code>npm install react-native-reanimated react-native-gesture-handler
@@ -2008,6 +2031,7 @@ function DraggableBox() {
         icon: "✨",
         question: "What is LayoutAnimation and when should you use it?",
         difficulty: "beginner",
+        seniority: "junior",
         answer: `
             <h4>What is LayoutAnimation?</h4>
             <p>LayoutAnimation automatically animates views to their new positions when the next layout change happens.</p>
@@ -2072,6 +2096,7 @@ function MyComponent() {
         icon: "🧪",
         question: "Explain the testing pyramid for React Native apps. What tools would you use at each level?",
         difficulty: "intermediate",
+        seniority: "mid",
         answer: `
             <h4>Testing Pyramid</h4>
             <pre><code>        /\\
@@ -2131,6 +2156,7 @@ test('button calls onPress', () => {
         icon: "🧪",
         question: "How do you mock native modules and platform-specific code in tests?",
         difficulty: "advanced",
+        seniority: "senior",
         answer: `
             <h4>Mocking Native Modules</h4>
             <pre><code>// __mocks__/react-native-camera.js
@@ -2193,6 +2219,7 @@ import Component from './Component'; // Loads Component.ios.js</code></pre>
         icon: "📘",
         question: "How do you properly type navigation props and route params in React Navigation with TypeScript?",
         difficulty: "intermediate",
+        seniority: "mid",
         answer: `
             <h4>Define Route Params</h4>
             <pre><code>// navigation/types.ts
@@ -2245,6 +2272,7 @@ declare global {
         icon: "📘",
         question: "How do you type custom hooks and Context in React Native with TypeScript?",
         difficulty: "intermediate",
+        seniority: "mid",
         answer: `
             <h4>Typed Custom Hook</h4>
             <pre><code>interface UseApiOptions&lt;T&gt; {
@@ -2316,6 +2344,7 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
         icon: "🐛",
         question: "What debugging tools are available for React Native and when would you use each?",
         difficulty: "intermediate",
+        seniority: "mid",
         answer: `
             <h4>Debugging Tools Overview</h4>
 
@@ -2369,6 +2398,7 @@ console.timeEnd('operation'); // Shows duration</code></pre>
         icon: "🐛",
         question: "How do you debug memory leaks in React Native?",
         difficulty: "advanced",
+        seniority: "senior",
         answer: `
             <h4>Common Memory Leak Causes</h4>
             <ul>
@@ -2435,6 +2465,7 @@ if (__DEV__) {
         icon: "📦",
         question: "Explain the differences between Debug and Release builds. How do you optimize Release builds?",
         difficulty: "intermediate",
+        seniority: "mid",
         answer: `
             <h4>Debug vs Release Builds</h4>
             <table>
@@ -2486,6 +2517,7 @@ plugins: [
         icon: "📦",
         question: "How do you set up CI/CD for React Native apps? What tools would you use?",
         difficulty: "advanced",
+        seniority: "senior",
         answer: `
             <h4>Popular CI/CD Tools</h4>
             <ul>
@@ -2556,6 +2588,7 @@ end</code></pre>
         icon: "📦",
         question: "What is CodePush and how does it enable over-the-air updates?",
         difficulty: "intermediate",
+        seniority: "mid",
         answer: `
             <h4>What is CodePush?</h4>
             <p>CodePush allows you to push JavaScript and asset updates directly to users without going through app store review.</p>
@@ -2609,6 +2642,7 @@ appcenter codepush release-react -a Owner/App -t "1.2.x"</code></pre>
         icon: "🔒",
         question: "What are the main security concerns in React Native apps and how do you address them?",
         difficulty: "advanced",
+        seniority: "senior",
         answer: `
             <h4>🎯 Why This Question Matters</h4>
             <p>Mobile security is critical for protecting user data and meeting compliance requirements (GDPR, HIPAA, PCI-DSS). This question tests your awareness of mobile-specific threats and your ability to implement defense-in-depth.</p>
@@ -2826,6 +2860,7 @@ android {
         icon: "🔒",
         question: "How do you securely handle authentication tokens in React Native?",
         difficulty: "advanced",
+        seniority: "senior",
         answer: `
             <h4>Token Storage Best Practices</h4>
             <pre><code>// Use platform-specific secure storage
@@ -2892,6 +2927,7 @@ api.interceptors.response.use(
         icon: "💾",
         question: "Compare different storage solutions in React Native. When would you use each?",
         difficulty: "intermediate",
+        seniority: "mid",
         answer: `
             <h4>Storage Solutions Comparison</h4>
 
@@ -2942,6 +2978,7 @@ storage.set('user', JSON.stringify(user));</code></pre>
         icon: "💾",
         question: "How do you implement offline-first functionality in React Native?",
         difficulty: "advanced",
+        seniority: "senior",
         answer: `
             <h4>Offline-First Architecture</h4>
 
@@ -3016,6 +3053,7 @@ const { data } = useQuery({
         icon: "📱",
         question: "Compare Expo managed workflow vs bare workflow. When would you choose each?",
         difficulty: "intermediate",
+        seniority: "mid",
         answer: `
             <h4>Managed Workflow</h4>
             <ul>
@@ -3065,6 +3103,7 @@ npx expo prebuild
         icon: "📱",
         question: "What is EAS (Expo Application Services) and how does it help with app development?",
         difficulty: "intermediate",
+        seniority: "mid",
         answer: `
             <h4>EAS Services</h4>
 
@@ -3127,6 +3166,7 @@ eas update --branch production --message "Bug fix"</code></pre>
         icon: "🏛️",
         question: "Describe different architectural patterns for React Native apps. What's your preferred approach?",
         difficulty: "advanced",
+        seniority: "senior",
         answer: `
             <h4>Common Architecture Patterns</h4>
 
@@ -3189,6 +3229,7 @@ const UserList = ({ users, onRefresh }) => (
         icon: "🏛️",
         question: "How do you structure and organize a large-scale React Native codebase?",
         difficulty: "advanced",
+        seniority: "senior",
         answer: `
             <h4>Recommended Project Structure</h4>
             <pre><code>src/
@@ -3247,6 +3288,7 @@ formatters.ts</code></pre>
         icon: "🎓",
         question: "Explain Error Boundaries in React Native. How do you implement global error handling?",
         difficulty: "intermediate",
+        seniority: "mid",
         answer: `
             <h4>Error Boundary Component</h4>
             <pre><code>class ErrorBoundary extends Component&lt;Props, State&gt; {
@@ -3314,6 +3356,7 @@ if (!__DEV__) {
         icon: "🎓",
         question: "How do you implement push notifications in React Native?",
         difficulty: "intermediate",
+        seniority: "mid",
         answer: `
             <h4>Setup with Notifee + Firebase</h4>
             <pre><code>// Install dependencies
@@ -3375,6 +3418,7 @@ notifee.onForegroundEvent(({ type, detail }) => {
         icon: "🎓",
         question: "What is Metro bundler and how does it work?",
         difficulty: "intermediate",
+        seniority: "mid",
         answer: `
             <h4>What is Metro?</h4>
             <p>Metro is the JavaScript bundler for React Native. It transforms and bundles your JS code and assets.</p>
@@ -3432,6 +3476,7 @@ npx react-native bundle \\
         icon: "🎓",
         question: "How do you handle app state management (foreground, background, inactive)?",
         difficulty: "intermediate",
+        seniority: "mid",
         answer: `
             <h4>App State Values</h4>
             <ul>
@@ -3509,6 +3554,7 @@ focusManager.setEventListener((handleFocus) => {
         icon: "💬",
         question: "Describe a challenging bug you encountered in React Native and how you solved it.",
         difficulty: "intermediate",
+        seniority: "junior",
         answer: `
             <h4>Framework for Answering</h4>
             <ol>
@@ -3541,6 +3587,7 @@ focusManager.setEventListener((handleFocus) => {
         icon: "💬",
         question: "How do you approach code reviews for React Native projects? What do you look for?",
         difficulty: "intermediate",
+        seniority: "mid",
         answer: `
             <h4>Code Review Checklist</h4>
 
@@ -3598,6 +3645,7 @@ focusManager.setEventListener((handleFocus) => {
         icon: "💬",
         question: "How do you stay updated with React Native ecosystem changes?",
         difficulty: "beginner",
+        seniority: "junior",
         answer: `
             <h4>Official Sources</h4>
             <ul>
@@ -3645,6 +3693,7 @@ focusManager.setEventListener((handleFocus) => {
         icon: "🎓",
         question: "How do you implement internationalization (i18n) in React Native?",
         difficulty: "intermediate",
+        seniority: "mid",
         answer: `
             <h4>Popular i18n Libraries</h4>
             <ul>
@@ -3717,6 +3766,7 @@ I18nManager.forceRTL(isRTL);
         icon: "🎓",
         question: "What accessibility (a11y) features does React Native support and how do you implement them?",
         difficulty: "intermediate",
+        seniority: "mid",
         answer: `
             <h4>Core Accessibility Props</h4>
             <pre><code>&lt;TouchableOpacity
@@ -3784,6 +3834,7 @@ const focusOnButton = () => {
         icon: "⚛️",
         question: "Explain the difference between Controlled and Uncontrolled components in React Native. When would you use each?",
         difficulty: "intermediate",
+        seniority: "mid",
         answer: `
             <h4>Controlled Components</h4>
             <p>Form data is handled by React state. The component receives its value from props and notifies changes through callbacks.</p>
@@ -3843,6 +3894,7 @@ const focusOnButton = () => {
         icon: "⚛️",
         question: "What is the difference between useRef and useState? When should you use useRef?",
         difficulty: "intermediate",
+        seniority: "mid",
         answer: `
             <h4>Key Differences</h4>
             <table>
@@ -3903,6 +3955,7 @@ setCount(c => c + 1);
         icon: "⚛️",
         question: "Explain the useReducer hook. When would you choose it over useState?",
         difficulty: "intermediate",
+        seniority: "mid",
         answer: `
             <h4>useReducer Basics</h4>
             <p>useReducer is an alternative to useState for managing complex state logic.</p>
@@ -3986,6 +4039,7 @@ function LoginForm() {
         icon: "⚛️",
         question: "What are Portals in React and how do they work in React Native?",
         difficulty: "advanced",
+        seniority: "senior",
         answer: `
             <h4>Portals in React</h4>
             <p>Portals provide a way to render children into a DOM node that exists outside the parent component's hierarchy.</p>
@@ -4080,6 +4134,7 @@ export function Portal({ children }) {
         icon: "⚛️",
         question: "Explain the concept of Render Props pattern and how it compares to Hooks in React Native.",
         difficulty: "advanced",
+        seniority: "senior",
         answer: `
             <h4>Render Props Pattern</h4>
             <p>A technique for sharing code between components using a prop whose value is a function.</p>
@@ -4166,6 +4221,7 @@ function MyComponent() {
         icon: "🧭",
         question: "How do you handle nested navigators and what are the common patterns?",
         difficulty: "advanced",
+        seniority: "senior",
         answer: `
             <h4>Nested Navigator Structure</h4>
             <pre><code>function App() {
@@ -4252,6 +4308,7 @@ navigation.reset({
         icon: "🧭",
         question: "How do you implement custom transitions and animations in React Navigation?",
         difficulty: "advanced",
+        seniority: "senior",
         answer: `
             <h4>Built-in Animation Options</h4>
             <pre><code>&lt;Stack.Navigator
@@ -4369,6 +4426,7 @@ import { SharedElement } from 'react-navigation-shared-element';
         icon: "🗃️",
         question: "How do you implement optimistic updates and handle rollbacks in React Native?",
         difficulty: "advanced",
+        seniority: "senior",
         answer: `
             <h4>What is Optimistic Update?</h4>
             <p>Updating the UI immediately before the server confirms the change, then rolling back if the request fails.</p>
@@ -4467,6 +4525,7 @@ export const updateTodoAsync = (id, changes) => async (dispatch) => {
         icon: "🗃️",
         question: "Explain the concept of Atomic State Management (Jotai/Recoil). How does it differ from Redux?",
         difficulty: "advanced",
+        seniority: "senior",
         answer: `
             <h4>What is Atomic State?</h4>
             <p>State is split into independent atoms. Components subscribe only to atoms they use, enabling fine-grained re-renders.</p>
@@ -4560,6 +4619,7 @@ const themeAtom = atomWithStorage('theme', 'light', storage);</code></pre>
         icon: "⚡",
         question: "What is the InteractionManager and when should you use it?",
         difficulty: "intermediate",
+        seniority: "mid",
         answer: `
             <h4>What is InteractionManager?</h4>
             <p>InteractionManager allows scheduling long-running work after interactions/animations have completed, keeping the UI responsive.</p>
@@ -4636,6 +4696,7 @@ if (__DEV__) {
         icon: "⚡",
         question: "How do you optimize images in React Native for better performance?",
         difficulty: "intermediate",
+        seniority: "mid",
         answer: `
             <h4>Image Optimization Strategies</h4>
 
@@ -4731,6 +4792,7 @@ FastImage.clearDiskCache();</code></pre>
         icon: "⚡",
         question: "Explain React Native's bridge batching and how it affects performance.",
         difficulty: "advanced",
+        seniority: "senior",
         answer: `
             <h4>Bridge Batching Concept</h4>
             <p>React Native batches multiple native calls together and sends them across the bridge in a single message to reduce overhead.</p>
@@ -4809,6 +4871,7 @@ if (__DEV__) {
         icon: "🧪",
         question: "How do you test async operations and API calls in React Native?",
         difficulty: "intermediate",
+        seniority: "mid",
         answer: `
             <h4>Testing Async Components</h4>
             <pre><code>import { render, waitFor, screen } from '@testing-library/react-native';
@@ -4930,6 +4993,7 @@ test('useApi hook fetches data', async () => {
         icon: "🧪",
         question: "How do you implement snapshot testing in React Native and when is it useful?",
         difficulty: "intermediate",
+        seniority: "mid",
         answer: `
             <h4>What is Snapshot Testing?</h4>
             <p>Snapshot tests capture the rendered output of a component and compare it against a stored reference file.</p>
@@ -5013,6 +5077,7 @@ test('disabled button has reduced opacity', () => { ... });
         icon: "🧪",
         question: "Explain how to set up and write Detox E2E tests for React Native.",
         difficulty: "advanced",
+        seniority: "senior",
         answer: `
             <h4>Detox Setup</h4>
             <pre><code>// Install
@@ -5140,6 +5205,7 @@ npx detox test e2e/login.test.js</code></pre>
         icon: "🎨",
         question: "Compare different styling approaches in React Native: StyleSheet, Styled Components, and NativeWind.",
         difficulty: "intermediate",
+        seniority: "mid",
         answer: `
             <h4>1. StyleSheet (Built-in)</h4>
             <pre><code>import { StyleSheet, View, Text } from 'react-native';
@@ -5241,6 +5307,7 @@ function MyComponent() {
         icon: "🎨",
         question: "How do you implement dark mode and dynamic theming in React Native?",
         difficulty: "intermediate",
+        seniority: "mid",
         answer: `
             <h4>1. Using React Native's useColorScheme</h4>
             <pre><code>import { useColorScheme, View, Text } from 'react-native';
@@ -5349,6 +5416,7 @@ function App() {
         icon: "🎨",
         question: "How do you handle responsive design and different screen sizes in React Native?",
         difficulty: "intermediate",
+        seniority: "mid",
         answer: `
             <h4>1. Using Dimensions API</h4>
             <pre><code>import { Dimensions, useWindowDimensions } from 'react-native';
@@ -5463,6 +5531,7 @@ function Screen() {
         icon: "📐",
         question: "How would you design a real-time chat application in React Native?",
         difficulty: "advanced",
+        seniority: "senior",
         answer: `
             <h4>Architecture Overview</h4>
             <pre><code>┌─────────────────────────────────────────┐
@@ -5581,6 +5650,7 @@ NetInfo.addEventListener(state => {
         icon: "📐",
         question: "How would you implement infinite scroll with efficient data loading?",
         difficulty: "intermediate",
+        seniority: "mid",
         answer: `
             <h4>Cursor-Based Pagination</h4>
             <pre><code>// API Response structure
@@ -5708,6 +5778,7 @@ function PostList() {
         icon: "📐",
         question: "How would you implement a feature flag system in React Native?",
         difficulty: "advanced",
+        seniority: "senior",
         answer: `
             <h4>Feature Flag Architecture</h4>
             <pre><code>// types/featureFlags.ts
@@ -5848,6 +5919,7 @@ function Checkout() {
         icon: "📐",
         question: "How would you design an offline-first mobile application architecture?",
         difficulty: "advanced",
+        seniority: "staff",
         answer: `
             <h4>Offline-First Principles</h4>
             <ul>
@@ -5977,6 +6049,7 @@ NetInfo.addEventListener(state => {
         icon: "🎓",
         question: "How do you implement biometric authentication (Face ID/Touch ID) in React Native?",
         difficulty: "intermediate",
+        seniority: "mid",
         answer: `
             <h4>Using expo-local-authentication</h4>
             <pre><code>import * as LocalAuthentication from 'expo-local-authentication';
@@ -6079,6 +6152,7 @@ if (credentials) {
         icon: "🎓",
         question: "How do you implement background tasks and scheduled jobs in React Native?",
         difficulty: "advanced",
+        seniority: "senior",
         answer: `
             <h4>Background Fetch (iOS & Android)</h4>
             <pre><code>import * as BackgroundFetch from 'expo-background-fetch';
@@ -6207,6 +6281,7 @@ await BackgroundService.stop();</code></pre>
         icon: "🎓",
         question: "How do you handle app updates and force update scenarios in React Native?",
         difficulty: "intermediate",
+        seniority: "mid",
         answer: `
             <h4>Version Check Architecture</h4>
             <pre><code>interface VersionInfo {
@@ -6321,6 +6396,7 @@ await inAppUpdates.checkNeedsUpdate().then((result) => {
         icon: "💬",
         question: "How do you handle technical debt in a React Native project?",
         difficulty: "intermediate",
+        seniority: "senior",
         answer: `
             <h4>Identifying Technical Debt</h4>
             <ul>
@@ -6386,6 +6462,7 @@ class OldComponent extends Component { ... }</code></pre>
         icon: "💬",
         question: "Describe how you would onboard a new developer to an existing React Native codebase.",
         difficulty: "intermediate",
+        seniority: "senior",
         answer: `
             <h4>Week 1: Environment & Fundamentals</h4>
             <ul>
@@ -6470,6 +6547,7 @@ class OldComponent extends Component { ... }</code></pre>
         icon: "💬",
         question: "How do you balance delivering features quickly vs maintaining code quality?",
         difficulty: "intermediate",
+        seniority: "senior",
         answer: `
             <h4>The Quality vs Speed Tradeoff</h4>
             <p>This isn't binary - it's about making informed tradeoffs and understanding consequences.</p>
@@ -6545,6 +6623,7 @@ class OldComponent extends Component { ... }</code></pre>
         icon: "🌍",
         question: "You notice the app is crashing for some users but you can't reproduce it. How do you debug this?",
         difficulty: "advanced",
+        seniority: "senior",
         answer: `
             <h4>Step 1: Gather Information</h4>
             <pre><code>// Check crash reporting dashboard
@@ -6635,6 +6714,7 @@ function SuspectedComponent() {
         icon: "🌍",
         question: "Users report the app is slow. How do you identify and fix performance issues?",
         difficulty: "advanced",
+        seniority: "senior",
         answer: `
             <h4>Step 1: Define "Slow"</h4>
             <pre><code>// Quantify the problem
@@ -6730,6 +6810,3394 @@ describe('Performance', () => {
                 <li>Real User Monitoring (RUM)</li>
                 <li>Alerting on p95 latency regressions</li>
             </ul>
+        `
+    },
+
+    // ==================== NEW ARCHITECTURE ====================
+    {
+        id: 81,
+        category: "New Architecture",
+        icon: "🏗️",
+        question: "What is Bridgeless Mode in React Native 0.74+ and why is it important?",
+        difficulty: "advanced",
+        seniority: "senior",
+        answer: `
+            <h4>What is Bridgeless Mode?</h4>
+            <p>Bridgeless Mode removes the legacy Bridge entirely, making JSI the only communication layer between JavaScript and Native code.</p>
+
+            <h4>Key Changes</h4>
+            <pre><code>// Old Architecture (with Bridge)
+JS Thread → Bridge (JSON serialization) → Native Thread
+// Async, batched, slow for high-frequency calls
+
+// New Architecture (Bridgeless)
+JS Thread → JSI (C++ bindings) → Native Thread
+// Synchronous, direct memory access, much faster</code></pre>
+
+            <h4>Benefits</h4>
+            <ul>
+                <li><strong>Performance:</strong> No serialization overhead</li>
+                <li><strong>Synchronous calls:</strong> Direct native method invocation</li>
+                <li><strong>Type safety:</strong> Codegen ensures type correctness</li>
+                <li><strong>Smaller bundle:</strong> No bridge code needed</li>
+            </ul>
+
+            <h4>Enabling Bridgeless Mode</h4>
+            <pre><code>// react-native.config.js
+module.exports = {
+    project: {
+        ios: { unstable_reactLegacyComponentNames: [] },
+        android: { unstable_reactLegacyComponentNames: [] },
+    },
+};
+
+// Android - MainApplication.kt
+override fun isNewArchEnabled(): Boolean = true
+override fun isBridgelessEnabled(): Boolean = true
+
+// iOS - AppDelegate.mm
+- (BOOL)bridgelessEnabled { return YES; }</code></pre>
+
+            <h4>Migration Considerations</h4>
+            <ul>
+                <li>All native modules must be TurboModules</li>
+                <li>All native components must use Fabric</li>
+                <li>Third-party libraries must support New Architecture</li>
+            </ul>
+        `
+    },
+    {
+        id: 82,
+        category: "New Architecture",
+        icon: "🏗️",
+        question: "How do you create a TurboModule from scratch?",
+        difficulty: "advanced",
+        seniority: "senior",
+        answer: `
+            <h4>Step 1: Define the Spec (TypeScript)</h4>
+            <pre><code>// src/specs/NativeCalculator.ts
+import { TurboModule, TurboModuleRegistry } from 'react-native';
+
+export interface Spec extends TurboModule {
+    add(a: number, b: number): number;           // Sync
+    multiply(a: number, b: number): Promise<number>; // Async
+    getConstants(): { PI: number };
+}
+
+export default TurboModuleRegistry.getEnforcing<Spec>(
+    'NativeCalculator'
+);</code></pre>
+
+            <h4>Step 2: Run Codegen</h4>
+            <pre><code>// package.json
+"codegenConfig": {
+    "name": "NativeCalculatorSpec",
+    "type": "modules",
+    "jsSrcsDir": "src/specs",
+    "android": {
+        "javaPackageName": "com.myapp.calculator"
+    }
+}
+
+// Generate native code
+npx react-native codegen</code></pre>
+
+            <h4>Step 3: iOS Implementation (Objective-C++)</h4>
+            <pre><code>// NativeCalculator.mm
+#import "NativeCalculatorSpec.h"
+
+@interface NativeCalculator : NSObject <NativeCalculatorSpec>
+@end
+
+@implementation NativeCalculator
+RCT_EXPORT_MODULE()
+
+- (NSNumber *)add:(double)a b:(double)b {
+    return @(a + b);
+}
+
+- (void)multiply:(double)a b:(double)b
+         resolve:(RCTPromiseResolveBlock)resolve
+         reject:(RCTPromiseRejectBlock)reject {
+    resolve(@(a * b));
+}
+
+- (NSDictionary *)getConstants {
+    return @{ @"PI": @3.14159 };
+}
+
+- (std::shared_ptr<facebook::react::TurboModule>)
+    getTurboModule:(const facebook::react::ObjCTurboModule::InitParams &)params {
+    return std::make_shared<facebook::react::NativeCalculatorSpecJSI>(params);
+}
+@end</code></pre>
+
+            <h4>Step 4: Android Implementation (Kotlin)</h4>
+            <pre><code>// NativeCalculatorModule.kt
+class NativeCalculatorModule(context: ReactApplicationContext) :
+    NativeCalculatorSpec(context) {
+
+    override fun getName() = NAME
+
+    override fun add(a: Double, b: Double): Double = a + b
+
+    override fun multiply(a: Double, b: Double, promise: Promise) {
+        promise.resolve(a * b)
+    }
+
+    override fun getTypedExportedConstants(): Map<String, Any> =
+        mapOf("PI" to 3.14159)
+
+    companion object {
+        const val NAME = "NativeCalculator"
+    }
+}</code></pre>
+        `
+    },
+    {
+        id: 83,
+        category: "New Architecture",
+        icon: "🏗️",
+        question: "Explain how Fabric's Shadow Tree works and why it matters.",
+        difficulty: "advanced",
+        seniority: "staff",
+        answer: `
+            <h4>What is the Shadow Tree?</h4>
+            <p>A C++ representation of the UI tree that enables synchronous layout calculations and efficient diffing.</p>
+
+            <h4>Architecture Overview</h4>
+            <pre><code>React Tree (JS)
+     ↓
+Shadow Tree (C++)  ←── Layout calculation (Yoga)
+     ↓
+View Tree (Native iOS/Android)</code></pre>
+
+            <h4>Key Components</h4>
+            <pre><code>// ShadowNode: Immutable node in the tree
+class ShadowNode {
+    ShadowNodeFamily family;      // Identity across updates
+    Props props;                  // Component properties
+    State state;                  // Component state
+    vector<ShadowNode> children;  // Child nodes
+    LayoutMetrics layoutMetrics;  // Calculated layout
+}
+
+// ShadowTree: Complete UI representation
+class ShadowTree {
+    ShadowNode rootShadowNode;
+
+    // Commit a new tree version
+    void commit(ShadowNode newRoot);
+
+    // Calculate diff for mounting
+    MountingTransaction diff(ShadowTree oldTree);
+}</code></pre>
+
+            <h4>Why Immutability Matters</h4>
+            <ul>
+                <li><strong>Thread safety:</strong> Trees can be read from any thread</li>
+                <li><strong>Efficient diffing:</strong> Compare tree references, not content</li>
+                <li><strong>Consistent snapshots:</strong> No partial updates visible</li>
+                <li><strong>Background layout:</strong> Yoga runs off main thread</li>
+            </ul>
+
+            <h4>Mounting Process</h4>
+            <pre><code>// 1. JS updates state
+setState({ items: newItems });
+
+// 2. New Shadow Tree created (background thread)
+newShadowTree = clone(oldShadowTree, changes);
+
+// 3. Layout calculated (Yoga, background thread)
+calculateLayout(newShadowTree);
+
+// 4. Diff computed
+mutations = diff(oldShadowTree, newShadowTree);
+
+// 5. Mutations applied (main thread)
+applyMutations(mutations); // CREATE, DELETE, UPDATE, INSERT</code></pre>
+
+            <h4>Performance Benefits</h4>
+            <ul>
+                <li>Layout happens in parallel with JS execution</li>
+                <li>Only changed nodes are updated</li>
+                <li>Reduced main thread work</li>
+            </ul>
+        `
+    },
+    {
+        id: 84,
+        category: "New Architecture",
+        icon: "🏗️",
+        question: "What is JSI and how does it differ from the Bridge?",
+        difficulty: "advanced",
+        seniority: "senior",
+        answer: `
+            <h4>JSI (JavaScript Interface)</h4>
+            <p>A C++ API that allows JavaScript to hold references to C++ objects and invoke methods on them directly.</p>
+
+            <h4>Bridge vs JSI Comparison</h4>
+            <table>
+                <tr><th>Aspect</th><th>Bridge</th><th>JSI</th></tr>
+                <tr><td>Communication</td><td>Async, JSON messages</td><td>Sync, direct calls</td></tr>
+                <tr><td>Data transfer</td><td>Serialization required</td><td>Shared memory</td></tr>
+                <tr><td>Threading</td><td>Message queue</td><td>Any thread</td></tr>
+                <tr><td>Performance</td><td>~5ms per call</td><td>~0.01ms per call</td></tr>
+                <tr><td>Type safety</td><td>Runtime only</td><td>Compile-time (Codegen)</td></tr>
+            </table>
+
+            <h4>JSI Example</h4>
+            <pre><code>// C++ side - Expose a function to JS
+runtime.global().setProperty(
+    runtime,
+    "nativeAdd",
+    jsi::Function::createFromHostFunction(
+        runtime,
+        jsi::PropNameID::forAscii(runtime, "nativeAdd"),
+        2, // argument count
+        [](jsi::Runtime& rt,
+           const jsi::Value& thisVal,
+           const jsi::Value* args,
+           size_t count) -> jsi::Value {
+            double a = args[0].asNumber();
+            double b = args[1].asNumber();
+            return jsi::Value(a + b);
+        }
+    )
+);
+
+// JS side - Call directly
+const result = global.nativeAdd(5, 3); // Synchronous!</code></pre>
+
+            <h4>Host Objects</h4>
+            <pre><code>// Expose complex objects to JS
+class MyHostObject : public jsi::HostObject {
+    jsi::Value get(jsi::Runtime& rt, const jsi::PropNameID& name) override {
+        if (name.utf8(rt) == "value") {
+            return jsi::Value(42);
+        }
+        return jsi::Value::undefined();
+    }
+};
+
+// JS can access like a regular object
+console.log(myHostObject.value); // 42</code></pre>
+        `
+    },
+    {
+        id: 85,
+        category: "New Architecture",
+        icon: "🏗️",
+        question: "How do you migrate an existing app to the New Architecture?",
+        difficulty: "advanced",
+        seniority: "senior",
+        answer: `
+            <h4>Migration Checklist</h4>
+            <pre><code>□ Update React Native to 0.71+
+□ Update all dependencies to NA-compatible versions
+□ Enable New Architecture in build config
+□ Migrate custom native modules to TurboModules
+□ Migrate custom native components to Fabric
+□ Test thoroughly on both platforms</code></pre>
+
+            <h4>Step 1: Check Library Compatibility</h4>
+            <pre><code># Check which libraries support New Architecture
+npx react-native-new-architecture-app-check
+
+# Common libraries status:
+✅ react-navigation
+✅ react-native-reanimated (3.x)
+✅ react-native-gesture-handler (2.x)
+✅ react-native-screens
+⚠️ Some libraries need updates</code></pre>
+
+            <h4>Step 2: Enable New Architecture</h4>
+            <pre><code>// Android - gradle.properties
+newArchEnabled=true
+
+// iOS - Podfile
+ENV['RCT_NEW_ARCH_ENABLED'] = '1'
+pod install</code></pre>
+
+            <h4>Step 3: Handle Interop Layer</h4>
+            <pre><code>// For libraries not yet migrated, use interop
+// react-native.config.js
+module.exports = {
+    project: {
+        ios: {
+            // Components that need legacy renderer
+            unstable_reactLegacyComponentNames: [
+                'LegacyViewManager',
+            ],
+        },
+        android: {
+            unstable_reactLegacyComponentNames: [
+                'LegacyViewManager',
+            ],
+        },
+    },
+};</code></pre>
+
+            <h4>Step 4: Migrate Custom Modules</h4>
+            <pre><code>// Before: Bridge Native Module
+@ReactMethod
+public void doSomething(String arg, Promise promise) {
+    promise.resolve(result);
+}
+
+// After: TurboModule with Codegen
+// 1. Write TypeScript spec
+// 2. Run codegen
+// 3. Implement generated interface</code></pre>
+
+            <h4>Gradual Migration Strategy</h4>
+            <ol>
+                <li>Enable NA on fresh branch</li>
+                <li>Fix build errors</li>
+                <li>Test core flows</li>
+                <li>Use interop for problematic libraries</li>
+                <li>Migrate custom code incrementally</li>
+            </ol>
+        `
+    },
+    {
+        id: 86,
+        category: "New Architecture",
+        icon: "🏗️",
+        question: "What is Codegen in React Native and how does it ensure type safety?",
+        difficulty: "intermediate",
+        seniority: "mid",
+        answer: `
+            <h4>What is Codegen?</h4>
+            <p>Codegen generates native code (C++, Objective-C, Java/Kotlin) from TypeScript specs, ensuring type safety between JS and Native layers.</p>
+
+            <h4>How It Works</h4>
+            <pre><code>TypeScript Spec
+      ↓
+   Codegen
+      ↓
+┌─────────────────┐
+│ C++ Interfaces  │ ← Shared types
+├─────────────────┤
+│ iOS (ObjC/C++)  │ ← Platform-specific
+├─────────────────┤
+│ Android (Java)  │ ← Platform-specific
+└─────────────────┘</code></pre>
+
+            <h4>Writing a Spec</h4>
+            <pre><code>// NativeUserModule.ts
+import { TurboModule, TurboModuleRegistry } from 'react-native';
+
+export interface Spec extends TurboModule {
+    // Supported types:
+    // Primitives: string, number, boolean
+    // Objects: { key: Type }
+    // Arrays: Array<Type>
+    // Callbacks: (value: Type) => void
+    // Promises: Promise<Type>
+
+    getUser(id: string): Promise<{
+        id: string;
+        name: string;
+        email: string;
+    }>;
+
+    updateUser(user: {
+        id: string;
+        name?: string;
+    }): Promise<boolean>;
+}
+
+export default TurboModuleRegistry.getEnforcing<Spec>('UserModule');</code></pre>
+
+            <h4>Configuration</h4>
+            <pre><code>// package.json
+{
+    "codegenConfig": {
+        "name": "MyAppSpecs",
+        "type": "all",
+        "jsSrcsDir": "src/specs",
+        "android": {
+            "javaPackageName": "com.myapp.specs"
+        }
+    }
+}</code></pre>
+
+            <h4>Type Safety Benefits</h4>
+            <ul>
+                <li><strong>Compile-time errors:</strong> Catch type mismatches before runtime</li>
+                <li><strong>IDE autocomplete:</strong> Native implementation guided by types</li>
+                <li><strong>No serialization bugs:</strong> Types enforced at boundary</li>
+                <li><strong>Documentation:</strong> Spec serves as contract</li>
+            </ul>
+        `
+    },
+    {
+        id: 87,
+        category: "New Architecture",
+        icon: "🏗️",
+        question: "How do you create a Fabric Native Component?",
+        difficulty: "advanced",
+        seniority: "senior",
+        answer: `
+            <h4>Step 1: Define the Component Spec</h4>
+            <pre><code>// src/specs/CustomViewNativeComponent.ts
+import codegenNativeComponent from 'react-native/Libraries/Utilities/codegenNativeComponent';
+import type { ViewProps } from 'react-native';
+import type {
+    Float,
+    Int32,
+    WithDefault
+} from 'react-native/Libraries/Types/CodegenTypes';
+
+interface NativeProps extends ViewProps {
+    color?: string;
+    radius?: WithDefault<Float, 0>;
+    count?: Int32;
+    enabled?: WithDefault<boolean, true>;
+    onValueChange?: (event: { value: number }) => void;
+}
+
+export default codegenNativeComponent<NativeProps>('CustomView');</code></pre>
+
+            <h4>Step 2: iOS Implementation</h4>
+            <pre><code>// CustomView.h
+#import <React/RCTViewComponentView.h>
+
+@interface CustomView : RCTViewComponentView
+@end
+
+// CustomView.mm
+#import "CustomView.h"
+#import <react/renderer/components/MyAppSpecs/ComponentDescriptors.h>
+#import <react/renderer/components/MyAppSpecs/Props.h>
+
+using namespace facebook::react;
+
+@implementation CustomView {
+    UIView *_innerView;
+}
+
++ (ComponentDescriptorProvider)componentDescriptorProvider {
+    return concreteComponentDescriptorProvider<CustomViewComponentDescriptor>();
+}
+
+- (instancetype)initWithFrame:(CGRect)frame {
+    if (self = [super initWithFrame:frame]) {
+        static const auto defaultProps = std::make_shared<const CustomViewProps>();
+        _props = defaultProps;
+        _innerView = [[UIView alloc] init];
+        [self addSubview:_innerView];
+    }
+    return self;
+}
+
+- (void)updateProps:(Props::Shared const &)props
+           oldProps:(Props::Shared const &)oldProps {
+    const auto &newProps = *std::static_pointer_cast<CustomViewProps const>(props);
+
+    if (newProps.color != oldProps.color) {
+        _innerView.backgroundColor = [UIColor colorWithHex:newProps.color];
+    }
+
+    [super updateProps:props oldProps:oldProps];
+}
+@end</code></pre>
+
+            <h4>Step 3: Usage in JS</h4>
+            <pre><code>import CustomView from './specs/CustomViewNativeComponent';
+
+function App() {
+    return (
+        <CustomView
+            color="#FF0000"
+            radius={10}
+            enabled={true}
+            onValueChange={(e) => console.log(e.nativeEvent.value)}
+            style={{ width: 100, height: 100 }}
+        />
+    );
+}</code></pre>
+        `
+    },
+    {
+        id: 88,
+        category: "New Architecture",
+        icon: "🏗️",
+        question: "What are the performance improvements of the New Architecture?",
+        difficulty: "intermediate",
+        seniority: "mid",
+        answer: `
+            <h4>Key Performance Improvements</h4>
+
+            <h4>1. Synchronous Native Calls (JSI)</h4>
+            <pre><code>// Old: Async bridge call (~5-10ms)
+NativeModules.Calculator.add(1, 2).then(result => {});
+
+// New: Sync JSI call (~0.01ms)
+const result = global.nativeCalculator.add(1, 2);</code></pre>
+
+            <h4>2. Reduced Serialization</h4>
+            <pre><code>// Old: JSON serialization for every call
+JS Object → JSON.stringify → Bridge → JSON.parse → Native
+
+// New: Direct memory access
+JS Object → JSI HostObject → Native (shared memory)</code></pre>
+
+            <h4>3. Concurrent Rendering (Fabric)</h4>
+            <pre><code>// Old: All rendering on main thread
+Update → Layout → Paint (blocking)
+
+// New: Background layout calculation
+Update → Layout (background) → Paint (main thread)
+
+// Benefits:
+- Interruptible rendering
+- Better responsiveness during heavy updates
+- Priority-based updates</code></pre>
+
+            <h4>4. Lazy Module Loading</h4>
+            <pre><code>// Old: All modules loaded at startup
+// Increased startup time
+
+// New: TurboModules load on demand
+const module = TurboModuleRegistry.get('HeavyModule');
+// Only loaded when first accessed</code></pre>
+
+            <h4>Benchmark Comparisons</h4>
+            <table>
+                <tr><th>Metric</th><th>Old Arch</th><th>New Arch</th></tr>
+                <tr><td>Native call latency</td><td>~5ms</td><td>~0.01ms</td></tr>
+                <tr><td>Startup time</td><td>Baseline</td><td>10-30% faster</td></tr>
+                <tr><td>List scrolling FPS</td><td>45-55</td><td>58-60</td></tr>
+                <tr><td>Memory overhead</td><td>Higher</td><td>Lower</td></tr>
+            </table>
+
+            <h4>Real-World Impact</h4>
+            <ul>
+                <li>Smoother animations during heavy JS work</li>
+                <li>Faster gesture response</li>
+                <li>Better performance on low-end devices</li>
+                <li>Reduced jank during navigation</li>
+            </ul>
+        `
+    },
+
+    // ==================== MODERN LIBRARIES ====================
+    {
+        id: 89,
+        category: "Modern Libraries",
+        icon: "📚",
+        question: "Compare data fetching with useEffect vs TanStack Query (React Query). When would you use each?",
+        difficulty: "intermediate",
+        seniority: "mid",
+        answer: `
+            <h4>useEffect Approach</h4>
+            <pre><code>function UserProfile({ userId }) {
+    const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        let cancelled = false;
+        setLoading(true);
+
+        fetchUser(userId)
+            .then(data => {
+                if (!cancelled) setUser(data);
+            })
+            .catch(err => {
+                if (!cancelled) setError(err);
+            })
+            .finally(() => {
+                if (!cancelled) setLoading(false);
+            });
+
+        return () => { cancelled = true; };
+    }, [userId]);
+
+    // Must handle: loading, error, caching, refetching, stale data...
+}</code></pre>
+
+            <h4>TanStack Query Approach</h4>
+            <pre><code>import { useQuery } from '@tanstack/react-query';
+
+function UserProfile({ userId }) {
+    const { data: user, isLoading, error, refetch } = useQuery({
+        queryKey: ['user', userId],
+        queryFn: () => fetchUser(userId),
+        staleTime: 5 * 60 * 1000,     // 5 min before refetch
+        cacheTime: 30 * 60 * 1000,    // 30 min in cache
+        retry: 3,
+    });
+
+    // Automatic: caching, deduplication, background refetch,
+    // error retry, window focus refetch, pagination support
+}</code></pre>
+
+            <h4>When to Use Each</h4>
+            <table>
+                <tr><th>Use useEffect</th><th>Use TanStack Query</th></tr>
+                <tr><td>Simple one-time fetches</td><td>Complex data requirements</td></tr>
+                <tr><td>No caching needed</td><td>Caching is important</td></tr>
+                <tr><td>Learning/prototyping</td><td>Production apps</td></tr>
+                <tr><td>Non-server data effects</td><td>Server state management</td></tr>
+            </table>
+
+            <h4>TanStack Query Features</h4>
+            <ul>
+                <li><strong>Automatic caching:</strong> Reduces network requests</li>
+                <li><strong>Background refetching:</strong> Data stays fresh</li>
+                <li><strong>Request deduplication:</strong> Multiple components, one request</li>
+                <li><strong>Optimistic updates:</strong> Instant UI feedback</li>
+                <li><strong>Infinite queries:</strong> Built-in pagination</li>
+            </ul>
+        `
+    },
+    {
+        id: 90,
+        category: "Modern Libraries",
+        icon: "📚",
+        question: "Explain worklets in Reanimated 3 and how they enable smooth animations.",
+        difficulty: "advanced",
+        seniority: "senior",
+        answer: `
+            <h4>What are Worklets?</h4>
+            <p>Worklets are small JavaScript functions that run on the UI thread, enabling 60fps animations without bridge communication.</p>
+
+            <h4>Basic Worklet Example</h4>
+            <pre><code>import Animated, {
+    useSharedValue,
+    useAnimatedStyle,
+    withSpring,
+    runOnUI
+} from 'react-native-reanimated';
+
+function AnimatedBox() {
+    const offset = useSharedValue(0);
+
+    // This runs on UI thread
+    const animatedStyle = useAnimatedStyle(() => {
+        'worklet';  // Marks function as worklet
+        return {
+            transform: [{ translateX: offset.value }],
+        };
+    });
+
+    const handlePress = () => {
+        // Animate on UI thread
+        offset.value = withSpring(offset.value + 50);
+    };
+
+    return <Animated.View style={animatedStyle} />;
+}</code></pre>
+
+            <h4>How Worklets Work</h4>
+            <pre><code>// JS Thread                    UI Thread
+// ─────────────                ─────────────
+// 1. Define worklet
+const myWorklet = () => {
+    'worklet';
+    return sharedValue.value * 2;
+};
+
+// 2. Babel transforms it → serializable form
+// 3. Sent to UI thread via JSI
+// 4. Executed directly on UI thread
+
+// No bridge! No serialization during animation!</code></pre>
+
+            <h4>Shared Values</h4>
+            <pre><code>// Shared between JS and UI threads
+const progress = useSharedValue(0);
+
+// Read/write from JS thread
+progress.value = 100;
+
+// Read/write from UI thread (in worklet)
+const style = useAnimatedStyle(() => {
+    'worklet';
+    return { opacity: progress.value / 100 };
+});</code></pre>
+
+            <h4>Gesture-Driven Animations</h4>
+            <pre><code>import { Gesture, GestureDetector } from 'react-native-gesture-handler';
+
+const gesture = Gesture.Pan()
+    .onUpdate((e) => {
+        // Runs on UI thread as worklet
+        translateX.value = e.translationX;
+        translateY.value = e.translationY;
+    })
+    .onEnd(() => {
+        // Spring back to origin
+        translateX.value = withSpring(0);
+        translateY.value = withSpring(0);
+    });</code></pre>
+
+            <h4>Why Worklets Matter</h4>
+            <ul>
+                <li>No JS-Native bridge during animations</li>
+                <li>Consistent 60fps even with heavy JS work</li>
+                <li>Gesture-driven animations without frame drops</li>
+                <li>Complex physics-based animations</li>
+            </ul>
+        `
+    },
+    {
+        id: 91,
+        category: "Modern Libraries",
+        icon: "📚",
+        question: "Why did Shopify create FlashList and when should you use it over FlatList?",
+        difficulty: "intermediate",
+        seniority: "mid",
+        answer: `
+            <h4>Why FlashList Was Created</h4>
+            <p>Shopify found FlatList performance insufficient for their complex product lists. FlashList uses cell recycling (like native UICollectionView/RecyclerView) for better performance.</p>
+
+            <h4>Key Differences</h4>
+            <table>
+                <tr><th>Aspect</th><th>FlatList</th><th>FlashList</th></tr>
+                <tr><td>Cell handling</td><td>Unmount/remount</td><td>Recycle cells</td></tr>
+                <tr><td>Memory usage</td><td>Higher</td><td>Lower (reuses views)</td></tr>
+                <tr><td>Scroll perf</td><td>Good</td><td>Excellent</td></tr>
+                <tr><td>Blank cells</td><td>Common</td><td>Rare</td></tr>
+                <tr><td>Setup</td><td>Simple</td><td>Needs estimatedItemSize</td></tr>
+            </table>
+
+            <h4>Basic FlashList Usage</h4>
+            <pre><code>import { FlashList } from '@shopify/flash-list';
+
+function ProductList({ products }) {
+    return (
+        <FlashList
+            data={products}
+            renderItem={({ item }) => <ProductCard product={item} />}
+            estimatedItemSize={120}  // Required! Estimate item height
+            keyExtractor={(item) => item.id}
+        />
+    );
+}</code></pre>
+
+            <h4>When to Use FlashList</h4>
+            <ul>
+                <li><strong>Use FlashList:</strong>
+                    <ul>
+                        <li>Lists with 100+ items</li>
+                        <li>Complex item components</li>
+                        <li>Fast scrolling requirements</li>
+                        <li>Memory-constrained apps</li>
+                    </ul>
+                </li>
+                <li><strong>FlatList is fine for:</strong>
+                    <ul>
+                        <li>Small lists (&lt;50 items)</li>
+                        <li>Simple item components</li>
+                        <li>When migration cost isn't worth it</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h4>Performance Tips</h4>
+            <pre><code><FlashList
+    data={data}
+    renderItem={renderItem}
+    estimatedItemSize={100}
+    // Optimize further:
+    overrideItemLayout={(layout, item) => {
+        layout.size = item.type === 'header' ? 50 : 100;
+    }}
+    getItemType={(item) => item.type}  // For heterogeneous lists
+    drawDistance={250}  // Pre-render distance
+/></code></pre>
+        `
+    },
+    {
+        id: 92,
+        category: "Modern Libraries",
+        icon: "📚",
+        question: "Compare Zustand vs Redux for state management in React Native.",
+        difficulty: "intermediate",
+        seniority: "mid",
+        answer: `
+            <h4>Zustand: Minimal Setup</h4>
+            <pre><code>import { create } from 'zustand';
+
+// Define store in one file
+const useStore = create((set, get) => ({
+    count: 0,
+    user: null,
+
+    increment: () => set((state) => ({ count: state.count + 1 })),
+    setUser: (user) => set({ user }),
+    reset: () => set({ count: 0, user: null }),
+}));
+
+// Use in component
+function Counter() {
+    const count = useStore((state) => state.count);
+    const increment = useStore((state) => state.increment);
+
+    return <Button onPress={increment} title={String(count)} />;
+}</code></pre>
+
+            <h4>Redux Toolkit: More Structure</h4>
+            <pre><code>// slice.ts
+const counterSlice = createSlice({
+    name: 'counter',
+    initialState: { count: 0 },
+    reducers: {
+        increment: (state) => { state.count += 1; },
+    },
+});
+
+// store.ts
+const store = configureStore({
+    reducer: { counter: counterSlice.reducer },
+});
+
+// Component
+function Counter() {
+    const count = useSelector((state) => state.counter.count);
+    const dispatch = useDispatch();
+
+    return <Button onPress={() => dispatch(increment())} />;
+}</code></pre>
+
+            <h4>Comparison</h4>
+            <table>
+                <tr><th>Aspect</th><th>Zustand</th><th>Redux Toolkit</th></tr>
+                <tr><td>Boilerplate</td><td>Minimal</td><td>More setup</td></tr>
+                <tr><td>Bundle size</td><td>~2KB</td><td>~15KB</td></tr>
+                <tr><td>DevTools</td><td>Basic</td><td>Excellent</td></tr>
+                <tr><td>Middleware</td><td>Simple</td><td>Powerful</td></tr>
+                <tr><td>Learning curve</td><td>Easy</td><td>Moderate</td></tr>
+                <tr><td>TypeScript</td><td>Excellent</td><td>Good</td></tr>
+            </table>
+
+            <h4>When to Use Each</h4>
+            <ul>
+                <li><strong>Zustand:</strong> Small-medium apps, prototypes, simpler state needs</li>
+                <li><strong>Redux:</strong> Large apps, complex async flows, need time-travel debugging, team familiarity</li>
+            </ul>
+
+            <h4>Zustand with Persistence</h4>
+            <pre><code>import { persist, createJSONStorage } from 'zustand/middleware';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+const useStore = create(
+    persist(
+        (set) => ({ user: null, setUser: (user) => set({ user }) }),
+        {
+            name: 'app-storage',
+            storage: createJSONStorage(() => AsyncStorage),
+        }
+    )
+);</code></pre>
+        `
+    },
+    {
+        id: 93,
+        category: "Modern Libraries",
+        icon: "📚",
+        question: "What is MMKV and why is it faster than AsyncStorage?",
+        difficulty: "intermediate",
+        seniority: "mid",
+        answer: `
+            <h4>What is MMKV?</h4>
+            <p>MMKV is a key-value storage library developed by WeChat, offering 30x faster performance than AsyncStorage through memory mapping.</p>
+
+            <h4>Performance Comparison</h4>
+            <table>
+                <tr><th>Operation</th><th>AsyncStorage</th><th>MMKV</th></tr>
+                <tr><td>Read 1000 items</td><td>~550ms</td><td>~15ms</td></tr>
+                <tr><td>Write 1000 items</td><td>~1200ms</td><td>~25ms</td></tr>
+                <tr><td>API</td><td>Async only</td><td>Sync & Async</td></tr>
+            </table>
+
+            <h4>Basic Usage</h4>
+            <pre><code>import { MMKV } from 'react-native-mmkv';
+
+// Create instance
+const storage = new MMKV();
+
+// Synchronous operations!
+storage.set('username', 'john');
+storage.set('age', 25);
+storage.set('settings', JSON.stringify({ theme: 'dark' }));
+
+const username = storage.getString('username');
+const age = storage.getNumber('age');
+const exists = storage.contains('username');
+
+storage.delete('age');
+storage.clearAll();</code></pre>
+
+            <h4>Why It's Faster</h4>
+            <pre><code>// AsyncStorage
+// 1. JS calls native module (async)
+// 2. Native reads from SQLite
+// 3. Data serialized back to JS
+// Multiple async hops!
+
+// MMKV
+// 1. Memory-mapped file (mmap)
+// 2. Direct memory access via JSI
+// 3. No serialization overhead
+// Synchronous, single operation!</code></pre>
+
+            <h4>With Zustand Persist</h4>
+            <pre><code>import { create } from 'zustand';
+import { persist, createJSONStorage } from 'zustand/middleware';
+import { MMKV } from 'react-native-mmkv';
+
+const storage = new MMKV();
+
+const mmkvStorage = {
+    getItem: (name) => storage.getString(name) ?? null,
+    setItem: (name, value) => storage.set(name, value),
+    removeItem: (name) => storage.delete(name),
+};
+
+const useStore = create(
+    persist(
+        (set) => ({ ... }),
+        { storage: createJSONStorage(() => mmkvStorage) }
+    )
+);</code></pre>
+
+            <h4>When to Use MMKV</h4>
+            <ul>
+                <li>Frequent read/write operations</li>
+                <li>Synchronous access needed</li>
+                <li>Performance-critical storage</li>
+                <li>Replacing AsyncStorage in existing apps</li>
+            </ul>
+        `
+    },
+    {
+        id: 94,
+        category: "Modern Libraries",
+        icon: "📚",
+        question: "How do you implement complex gestures with React Native Gesture Handler 2?",
+        difficulty: "advanced",
+        seniority: "senior",
+        answer: `
+            <h4>New Gesture API (v2)</h4>
+            <pre><code>import { Gesture, GestureDetector } from 'react-native-gesture-handler';
+import Animated, { useSharedValue, useAnimatedStyle } from 'react-native-reanimated';
+
+function DraggableCard() {
+    const translateX = useSharedValue(0);
+    const translateY = useSharedValue(0);
+    const scale = useSharedValue(1);
+
+    const panGesture = Gesture.Pan()
+        .onUpdate((e) => {
+            translateX.value = e.translationX;
+            translateY.value = e.translationY;
+        })
+        .onEnd(() => {
+            translateX.value = withSpring(0);
+            translateY.value = withSpring(0);
+        });
+
+    const pinchGesture = Gesture.Pinch()
+        .onUpdate((e) => {
+            scale.value = e.scale;
+        })
+        .onEnd(() => {
+            scale.value = withSpring(1);
+        });
+
+    // Combine gestures to run simultaneously
+    const composed = Gesture.Simultaneous(panGesture, pinchGesture);
+
+    const animatedStyle = useAnimatedStyle(() => ({
+        transform: [
+            { translateX: translateX.value },
+            { translateY: translateY.value },
+            { scale: scale.value },
+        ],
+    }));
+
+    return (
+        <GestureDetector gesture={composed}>
+            <Animated.View style={[styles.card, animatedStyle]} />
+        </GestureDetector>
+    );
+}</code></pre>
+
+            <h4>Gesture Composition</h4>
+            <pre><code>// Run in sequence
+const sequence = Gesture.Sequence(longPress, pan);
+
+// Run simultaneously
+const simultaneous = Gesture.Simultaneous(pan, pinch, rotate);
+
+// Exclusive (first wins)
+const exclusive = Gesture.Exclusive(doubleTap, singleTap);
+
+// Race (first to activate wins)
+const race = Gesture.Race(swipeLeft, swipeRight);</code></pre>
+
+            <h4>Swipe to Delete Example</h4>
+            <pre><code>function SwipeableRow({ onDelete }) {
+    const translateX = useSharedValue(0);
+    const DELETE_THRESHOLD = -100;
+
+    const panGesture = Gesture.Pan()
+        .activeOffsetX([-10, 10])
+        .onUpdate((e) => {
+            translateX.value = Math.min(0, e.translationX);
+        })
+        .onEnd(() => {
+            if (translateX.value < DELETE_THRESHOLD) {
+                translateX.value = withTiming(-500, {}, () => {
+                    runOnJS(onDelete)();
+                });
+            } else {
+                translateX.value = withSpring(0);
+            }
+        });
+
+    return (
+        <GestureDetector gesture={panGesture}>
+            <Animated.View style={useAnimatedStyle(() => ({
+                transform: [{ translateX: translateX.value }],
+            }))} />
+        </GestureDetector>
+    );
+}</code></pre>
+
+            <h4>Benefits of Gesture Handler 2</h4>
+            <ul>
+                <li>Declarative gesture definition</li>
+                <li>Better TypeScript support</li>
+                <li>Worklet-powered (UI thread)</li>
+                <li>Composable gestures</li>
+            </ul>
+        `
+    },
+    {
+        id: 95,
+        category: "Modern Libraries",
+        icon: "📚",
+        question: "How do you implement type-safe navigation with React Navigation and TypeScript?",
+        difficulty: "intermediate",
+        seniority: "mid",
+        answer: `
+            <h4>Define Navigation Types</h4>
+            <pre><code>// navigation/types.ts
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { CompositeScreenProps } from '@react-navigation/native';
+import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
+
+// Root Stack
+export type RootStackParamList = {
+    Auth: undefined;
+    Main: undefined;
+    ProductDetail: { productId: string; title: string };
+    Settings: { section?: 'profile' | 'notifications' };
+};
+
+// Tab Navigator
+export type MainTabParamList = {
+    Home: undefined;
+    Search: { query?: string };
+    Profile: undefined;
+};
+
+// Screen props helpers
+export type RootStackScreenProps<T extends keyof RootStackParamList> =
+    NativeStackScreenProps<RootStackParamList, T>;
+
+export type MainTabScreenProps<T extends keyof MainTabParamList> =
+    CompositeScreenProps<
+        BottomTabScreenProps<MainTabParamList, T>,
+        RootStackScreenProps<keyof RootStackParamList>
+    >;
+
+// Global type declaration
+declare global {
+    namespace ReactNavigation {
+        interface RootParamList extends RootStackParamList {}
+    }
+}</code></pre>
+
+            <h4>Create Typed Navigators</h4>
+            <pre><code>import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+
+const Stack = createNativeStackNavigator<RootStackParamList>();
+const Tab = createBottomTabNavigator<MainTabParamList>();
+
+function RootNavigator() {
+    return (
+        <Stack.Navigator>
+            <Stack.Screen name="Auth" component={AuthScreen} />
+            <Stack.Screen name="Main" component={MainTabs} />
+            <Stack.Screen name="ProductDetail" component={ProductDetailScreen} />
+        </Stack.Navigator>
+    );
+}</code></pre>
+
+            <h4>Type-Safe Navigation in Screens</h4>
+            <pre><code>// With screen props
+function ProductDetailScreen({ route, navigation }: RootStackScreenProps<'ProductDetail'>) {
+    const { productId, title } = route.params; // Typed!
+
+    return (
+        <Button
+            title="Go to Settings"
+            onPress={() => navigation.navigate('Settings', { section: 'profile' })}
+        />
+    );
+}
+
+// With useNavigation hook
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+
+function ProductCard({ product }) {
+    const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+
+    return (
+        <TouchableOpacity
+            onPress={() => navigation.navigate('ProductDetail', {
+                productId: product.id,
+                title: product.title,  // Required params enforced!
+            })}
+        />
+    );
+}</code></pre>
+
+            <h4>Benefits</h4>
+            <ul>
+                <li>Autocomplete for screen names</li>
+                <li>Required params enforced</li>
+                <li>Refactoring safety</li>
+                <li>Catch errors at compile time</li>
+            </ul>
+        `
+    },
+    {
+        id: 96,
+        category: "Modern Libraries",
+        icon: "📚",
+        question: "What is Legend State and how does it compare to other state management solutions?",
+        difficulty: "advanced",
+        seniority: "senior",
+        answer: `
+            <h4>What is Legend State?</h4>
+            <p>A fast, fine-grained reactive state library that uses Proxy for automatic tracking, enabling minimal re-renders.</p>
+
+            <h4>Basic Usage</h4>
+            <pre><code>import { observable } from '@legendapp/state';
+import { observer } from '@legendapp/state/react';
+
+// Create observable state
+const state$ = observable({
+    user: { name: 'John', email: 'john@example.com' },
+    todos: [],
+    settings: { theme: 'dark' },
+});
+
+// Component auto-subscribes to accessed fields only
+const UserName = observer(function UserName() {
+    // Only re-renders when user.name changes
+    return <Text>{state$.user.name.get()}</Text>;
+});
+
+// Update state
+state$.user.name.set('Jane');
+state$.todos.push({ id: 1, text: 'Learn Legend' });</code></pre>
+
+            <h4>Comparison with Other Libraries</h4>
+            <table>
+                <tr><th>Feature</th><th>Legend</th><th>Zustand</th><th>Redux</th></tr>
+                <tr><td>Fine-grained</td><td>✅ Auto</td><td>❌ Manual</td><td>❌ Manual</td></tr>
+                <tr><td>Boilerplate</td><td>Minimal</td><td>Minimal</td><td>More</td></tr>
+                <tr><td>Persistence</td><td>Built-in</td><td>Middleware</td><td>Middleware</td></tr>
+                <tr><td>Sync</td><td>Built-in</td><td>❌</td><td>❌</td></tr>
+                <tr><td>Bundle size</td><td>~4KB</td><td>~2KB</td><td>~15KB</td></tr>
+            </table>
+
+            <h4>Built-in Persistence</h4>
+            <pre><code>import { configureSynced } from '@legendapp/state/sync';
+import { ObservablePersistMMKV } from '@legendapp/state/persist-plugins/mmkv';
+
+const state$ = observable(
+    synced({
+        initial: { user: null, settings: {} },
+        persist: {
+            name: 'app-state',
+            plugin: ObservablePersistMMKV,
+        },
+    })
+);
+
+// Automatically persists and rehydrates!</code></pre>
+
+            <h4>Fine-Grained Reactivity Example</h4>
+            <pre><code>// With Zustand/Redux: entire list re-renders
+const todos = useSelector(state => state.todos);
+return todos.map(todo => <TodoItem key={todo.id} todo={todo} />);
+
+// With Legend State: only changed item re-renders
+const TodoList = observer(() => {
+    return state$.todos.map((todo$) => (
+        <TodoItem key={todo$.id.peek()} todo$={todo$} />
+    ));
+});
+
+const TodoItem = observer(({ todo$ }) => {
+    // Only this component re-renders when this todo changes
+    return <Text>{todo$.text.get()}</Text>;
+});</code></pre>
+
+            <h4>When to Use Legend State</h4>
+            <ul>
+                <li>Performance-critical apps with complex state</li>
+                <li>Need fine-grained reactivity without manual optimization</li>
+                <li>Built-in persistence and sync requirements</li>
+                <li>Real-time collaborative features</li>
+            </ul>
+        `
+    },
+
+    // ==================== HERMES ====================
+    {
+        id: 97,
+        category: "Hermes",
+        icon: "⚡",
+        question: "What is Hermes and what are its advantages over JavaScriptCore?",
+        difficulty: "intermediate",
+        seniority: "mid",
+        answer: `
+            <h4>What is Hermes?</h4>
+            <p>Hermes is a JavaScript engine optimized for React Native, developed by Meta. It compiles JS to bytecode at build time for faster startup.</p>
+
+            <h4>Key Advantages</h4>
+            <table>
+                <tr><th>Metric</th><th>JavaScriptCore</th><th>Hermes</th></tr>
+                <tr><td>Startup time (TTI)</td><td>Baseline</td><td>40-50% faster</td></tr>
+                <tr><td>Memory usage</td><td>Higher</td><td>30% lower</td></tr>
+                <tr><td>App size</td><td>Larger</td><td>Smaller bundle</td></tr>
+                <tr><td>Bytecode</td><td>Compiled at runtime</td><td>Pre-compiled</td></tr>
+            </table>
+
+            <h4>How Hermes Works</h4>
+            <pre><code>// Traditional JS Engine Flow
+Source Code → Parse → AST → Bytecode → Execute
+(All happens at app startup)
+
+// Hermes Flow
+Build Time: Source Code → Parse → AST → Bytecode (.hbc file)
+Runtime:    Load Bytecode → Execute
+(Parsing already done, faster startup!)</code></pre>
+
+            <h4>Enabling Hermes</h4>
+            <pre><code>// Android - android/gradle.properties
+hermesEnabled=true
+
+// iOS - ios/Podfile
+:hermes_enabled => true
+
+// Verify Hermes is running
+const isHermes = () => !!global.HermesInternal;
+console.log('Hermes enabled:', isHermes());</code></pre>
+
+            <h4>Hermes Features</h4>
+            <ul>
+                <li><strong>Ahead-of-time compilation:</strong> Bytecode bundled with app</li>
+                <li><strong>Optimized garbage collector:</strong> Lower memory pressure</li>
+                <li><strong>ES6+ support:</strong> Most modern JS features</li>
+                <li><strong>Source maps:</strong> Debugging with original source</li>
+            </ul>
+
+            <h4>Limitations</h4>
+            <ul>
+                <li>No JIT compilation (intentional for security)</li>
+                <li>Some ES features may lag behind</li>
+                <li>Proxy support added in newer versions</li>
+            </ul>
+        `
+    },
+    {
+        id: 98,
+        category: "Hermes",
+        icon: "⚡",
+        question: "How do you debug a React Native app running Hermes?",
+        difficulty: "intermediate",
+        seniority: "mid",
+        answer: `
+            <h4>Debugging Options</h4>
+
+            <h4>1. Flipper (Recommended)</h4>
+            <pre><code>// Flipper provides:
+- Hermes Debugger integration
+- Network inspector
+- Layout inspector
+- React DevTools
+- Native logs
+
+// Enable in your app
+// Already enabled by default in RN 0.62+</code></pre>
+
+            <h4>2. Chrome DevTools via Hermes</h4>
+            <pre><code>// 1. Open dev menu (shake or Cmd+D)
+// 2. Select "Open Debugger"
+// 3. Opens Chrome with Hermes target
+
+// Or connect directly:
+// chrome://inspect → Configure → localhost:8081
+
+// Note: Uses Hermes inspector protocol,
+// NOT Chrome Remote Debugging (deprecated)</code></pre>
+
+            <h4>3. Console Logging</h4>
+            <pre><code>// Standard console methods work
+console.log('Debug info');
+console.warn('Warning');
+console.error('Error');
+
+// Performance timing
+console.time('operation');
+// ... code
+console.timeEnd('operation');
+
+// Group logs
+console.group('User Action');
+console.log('Step 1');
+console.log('Step 2');
+console.groupEnd();</code></pre>
+
+            <h4>4. Source Maps</h4>
+            <pre><code>// Ensure source maps are generated
+// metro.config.js
+module.exports = {
+    transformer: {
+        // Enable source maps for release builds
+        minifierConfig: {
+            sourceMap: {
+                includeSources: true,
+            },
+        },
+    },
+};
+
+// Upload to crash reporting service
+// (Sentry, Crashlytics, etc.)</code></pre>
+
+            <h4>Hermes-Specific Debugging</h4>
+            <pre><code>// Check Hermes internals
+if (global.HermesInternal) {
+    // Get runtime stats
+    const stats = global.HermesInternal.getRuntimeProperties();
+    console.log('Hermes version:', stats['OSS Release Version']);
+
+    // Trigger garbage collection (debug only)
+    global.HermesInternal.getInstrumentedStats();
+}</code></pre>
+
+            <h4>Common Issues</h4>
+            <ul>
+                <li><strong>Debugger not connecting:</strong> Check Metro is running</li>
+                <li><strong>Breakpoints not hitting:</strong> Ensure source maps enabled</li>
+                <li><strong>Old Chrome DevTools:</strong> Use Flipper or new inspector</li>
+            </ul>
+        `
+    },
+    {
+        id: 99,
+        category: "Hermes",
+        icon: "⚡",
+        question: "Explain Hermes bytecode compilation and its impact on app performance.",
+        difficulty: "advanced",
+        seniority: "senior",
+        answer: `
+            <h4>Bytecode Compilation Process</h4>
+            <pre><code>// Build Pipeline
+1. Metro bundles JavaScript
+      ↓
+2. Hermes compiler (hermesc) processes bundle
+      ↓
+3. Outputs .hbc (Hermes Bytecode) file
+      ↓
+4. Bytecode included in app binary
+
+// Command line compilation
+hermesc -emit-binary -out bundle.hbc bundle.js</code></pre>
+
+            <h4>Bytecode File Structure</h4>
+            <pre><code>// .hbc file contains:
+┌─────────────────────┐
+│ Header              │ Magic number, version
+├─────────────────────┤
+│ Function Table      │ Function metadata
+├─────────────────────┤
+│ String Table        │ All strings (deduped)
+├─────────────────────┤
+│ Bytecode            │ Compiled instructions
+├─────────────────────┤
+│ Debug Info          │ Source maps (optional)
+└─────────────────────┘</code></pre>
+
+            <h4>Performance Impact</h4>
+            <table>
+                <tr><th>Phase</th><th>Without Hermes</th><th>With Hermes</th></tr>
+                <tr><td>Parse JS</td><td>~200ms</td><td>Skipped</td></tr>
+                <tr><td>Compile to bytecode</td><td>~150ms</td><td>Pre-done</td></tr>
+                <tr><td>Load bytecode</td><td>N/A</td><td>~20ms</td></tr>
+                <tr><td>Total startup</td><td>~350ms</td><td>~20ms</td></tr>
+            </table>
+
+            <h4>Optimization Levels</h4>
+            <pre><code>// Hermes compiler optimization flags
+hermesc -O0  // No optimization (fastest compile)
+hermesc -O   // Standard optimization (default)
+hermesc -Og  // Optimize for debugging
+
+// Production builds use -O by default
+// Optimizations include:
+// - Dead code elimination
+// - Constant folding
+// - Function inlining (limited)</code></pre>
+
+            <h4>Memory Mapping</h4>
+            <pre><code>// Bytecode is memory-mapped (mmap)
+// Benefits:
+1. Pages loaded on-demand
+2. Shared between processes
+3. Can be swapped to disk under memory pressure
+4. Faster initial load (no copy needed)
+
+// This is why Hermes apps use less RAM</code></pre>
+
+            <h4>Verifying Bytecode</h4>
+            <pre><code>// Check if using bytecode in release
+adb shell run-as com.yourapp ls files/
+// Should see: index.android.bundle (bytecode)
+
+// Inspect bytecode
+hermes -dump-bytecode bundle.hbc</code></pre>
+        `
+    },
+    {
+        id: 100,
+        category: "Hermes",
+        icon: "⚡",
+        question: "What JavaScript features are not supported in Hermes and how do you handle them?",
+        difficulty: "intermediate",
+        seniority: "mid",
+        answer: `
+            <h4>Unsupported/Limited Features (as of Hermes 0.12)</h4>
+            <pre><code>// ❌ Not Supported
+- with statement (deprecated anyway)
+- Local mode eval() (only global eval)
+- Reflect.construct with newTarget
+
+// ⚠️ Limited Support
+- Proxy (supported since Hermes 0.7)
+- Symbols (mostly supported)
+- WeakRef (added recently)
+- BigInt (limited support)</code></pre>
+
+            <h4>Handling Unsupported Features</h4>
+
+            <h4>1. Use Polyfills</h4>
+            <pre><code>// Install core-js for missing features
+npm install core-js
+
+// babel.config.js
+module.exports = {
+    presets: [
+        ['module:metro-react-native-babel-preset', {
+            unstable_transformProfile: 'hermes-stable',
+        }],
+    ],
+    plugins: [
+        // Add specific polyfills
+    ],
+};</code></pre>
+
+            <h4>2. Check Feature Availability</h4>
+            <pre><code>// Runtime feature detection
+const supportsProxy = typeof Proxy !== 'undefined';
+const supportsBigInt = typeof BigInt !== 'undefined';
+
+if (!supportsProxy) {
+    // Use alternative implementation
+    console.warn('Proxy not supported, using fallback');
+}
+
+// Check Hermes version
+if (global.HermesInternal) {
+    const version = global.HermesInternal
+        .getRuntimeProperties()['OSS Release Version'];
+    console.log('Hermes version:', version);
+}</code></pre>
+
+            <h4>3. Babel Transforms</h4>
+            <pre><code>// babel.config.js - Transform unsupported syntax
+module.exports = {
+    presets: ['module:metro-react-native-babel-preset'],
+    plugins: [
+        // Transform optional chaining for older Hermes
+        '@babel/plugin-proposal-optional-chaining',
+        // Transform nullish coalescing
+        '@babel/plugin-proposal-nullish-coalescing-operator',
+    ],
+};</code></pre>
+
+            <h4>4. Library Compatibility</h4>
+            <pre><code>// Some libraries may need Hermes-compatible versions
+// Check library requirements:
+
+// ✅ Works with Hermes
+- react-native-reanimated (uses JSI)
+- react-native-mmkv (uses JSI)
+
+// ⚠️ May need configuration
+- Libraries using eval()
+- Libraries relying on Proxy (older Hermes)</code></pre>
+
+            <h4>Best Practices</h4>
+            <ul>
+                <li>Keep Hermes updated for latest feature support</li>
+                <li>Test on both iOS (JSC) and Android (Hermes) if supporting both</li>
+                <li>Use feature detection rather than engine detection</li>
+                <li>Check release notes for newly supported features</li>
+            </ul>
+        `
+    },
+
+    // ==================== CI/CD & DEVOPS ====================
+    {
+        id: 101,
+        category: "CI/CD",
+        icon: "🔄",
+        question: "How do you set up a CI/CD pipeline for a React Native app using GitHub Actions?",
+        difficulty: "advanced",
+        seniority: "senior",
+        answer: `
+            <h4>Basic Workflow Structure</h4>
+            <pre><code># .github/workflows/ci.yml
+name: CI/CD
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Run linter
+        run: yarn lint
+
+      - name: Run type check
+        run: yarn tsc --noEmit
+
+      - name: Run tests
+        run: yarn test --coverage
+
+      - name: Upload coverage
+        uses: codecov/codecov-action@v3</code></pre>
+
+            <h4>Android Build Job</h4>
+            <pre><code>  build-android:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Cache Gradle
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: gradle-\${{ hashFiles('**/*.gradle*') }}
+
+      - name: Build Android
+        run: |
+          cd android
+          ./gradlew assembleRelease
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release.apk
+          path: android/app/build/outputs/apk/release/</code></pre>
+
+            <h4>iOS Build Job</h4>
+            <pre><code>  build-ios:
+    needs: test
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Cache Pods
+        uses: actions/cache@v4
+        with:
+          path: ios/Pods
+          key: pods-\${{ hashFiles('ios/Podfile.lock') }}
+
+      - name: Install Pods
+        run: cd ios && pod install
+
+      - name: Build iOS
+        run: |
+          xcodebuild -workspace ios/App.xcworkspace \\
+            -scheme App \\
+            -configuration Release \\
+            -sdk iphonesimulator \\
+            -derivedDataPath build</code></pre>
+        `
+    },
+    {
+        id: 102,
+        category: "CI/CD",
+        icon: "🔄",
+        question: "Explain how to manage iOS code signing in a CI environment.",
+        difficulty: "advanced",
+        seniority: "senior",
+        answer: `
+            <h4>Code Signing Components</h4>
+            <pre><code>// Required for iOS distribution:
+1. Signing Certificate (.p12)
+   - Development or Distribution certificate
+   - Private key included
+
+2. Provisioning Profile (.mobileprovision)
+   - Links app ID, certificate, and devices
+   - App Store, Ad Hoc, or Development
+
+3. Keychain
+   - Stores certificates securely
+   - CI creates temporary keychain</code></pre>
+
+            <h4>Fastlane Match (Recommended)</h4>
+            <pre><code># Matchfile
+git_url("git@github.com:org/certificates.git")
+storage_mode("git")
+type("appstore")
+app_identifier("com.company.app")
+
+# CI workflow
+- name: Setup certificates
+  run: |
+    bundle exec fastlane match appstore --readonly
+  env:
+    MATCH_PASSWORD: \${{ secrets.MATCH_PASSWORD }}
+    MATCH_GIT_BASIC_AUTHORIZATION: \${{ secrets.GIT_AUTH }}</code></pre>
+
+            <h4>Manual Setup (GitHub Actions)</h4>
+            <pre><code># Store secrets in GitHub:
+# - BUILD_CERTIFICATE_BASE64
+# - P12_PASSWORD
+# - BUILD_PROVISION_PROFILE_BASE64
+# - KEYCHAIN_PASSWORD
+
+- name: Install certificates
+  env:
+    CERTIFICATE: \${{ secrets.BUILD_CERTIFICATE_BASE64 }}
+    P12_PASSWORD: \${{ secrets.P12_PASSWORD }}
+    PROFILE: \${{ secrets.BUILD_PROVISION_PROFILE_BASE64 }}
+    KEYCHAIN_PASSWORD: \${{ secrets.KEYCHAIN_PASSWORD }}
+  run: |
+    # Create keychain
+    security create-keychain -p "\$KEYCHAIN_PASSWORD" build.keychain
+    security default-keychain -s build.keychain
+    security unlock-keychain -p "\$KEYCHAIN_PASSWORD" build.keychain
+
+    # Import certificate
+    echo "\$CERTIFICATE" | base64 --decode > certificate.p12
+    security import certificate.p12 -k build.keychain \\
+      -P "\$P12_PASSWORD" -T /usr/bin/codesign
+
+    # Install provisioning profile
+    echo "\$PROFILE" | base64 --decode > profile.mobileprovision
+    mkdir -p ~/Library/MobileDevice/Provisioning\\ Profiles
+    cp profile.mobileprovision ~/Library/MobileDevice/Provisioning\\ Profiles/
+
+    # Allow codesign access
+    security set-key-partition-list -S apple-tool:,apple: \\
+      -s -k "\$KEYCHAIN_PASSWORD" build.keychain</code></pre>
+
+            <h4>EAS Build Alternative</h4>
+            <pre><code># Expo's EAS handles signing automatically
+eas build --platform ios --profile production
+
+# Credentials stored in Expo's secure cloud
+# Or use local credentials:
+eas credentials</code></pre>
+        `
+    },
+    {
+        id: 103,
+        category: "CI/CD",
+        icon: "🔄",
+        question: "How do you implement automatic version bumping and changelog generation?",
+        difficulty: "intermediate",
+        seniority: "mid",
+        answer: `
+            <h4>Semantic Versioning with standard-version</h4>
+            <pre><code># Install
+npm install --save-dev standard-version
+
+# package.json scripts
+{
+    "scripts": {
+        "release": "standard-version",
+        "release:minor": "standard-version --release-as minor",
+        "release:major": "standard-version --release-as major"
+    }
+}
+
+# Creates:
+# - Version bump in package.json
+# - CHANGELOG.md update
+# - Git tag</code></pre>
+
+            <h4>Conventional Commits</h4>
+            <pre><code>// Commit message format
+type(scope): description
+
+// Examples:
+feat(auth): add biometric login
+fix(payments): resolve card validation bug
+chore(deps): update react-native to 0.73
+docs(readme): add setup instructions
+
+// Types that trigger version bumps:
+feat: → minor version (1.0.0 → 1.1.0)
+fix:  → patch version (1.0.0 → 1.0.1)
+BREAKING CHANGE: → major version (1.0.0 → 2.0.0)</code></pre>
+
+            <h4>React Native Version Sync</h4>
+            <pre><code>// react-native-version package
+npm install react-native-version --save-dev
+
+// package.json
+{
+    "scripts": {
+        "postversion": "react-native-version"
+    }
+}
+
+// Syncs version to:
+// - android/app/build.gradle (versionCode, versionName)
+// - ios/App/Info.plist (CFBundleVersion, CFBundleShortVersionString)</code></pre>
+
+            <h4>CI Automation</h4>
+            <pre><code># .github/workflows/release.yml
+name: Release
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Create release
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          yarn release
+
+      - name: Push changes
+        run: |
+          git push --follow-tags origin main</code></pre>
+
+            <h4>Generated CHANGELOG.md</h4>
+            <pre><code># Changelog
+
+## [1.2.0] - 2024-01-15
+
+### Features
+* **auth:** add biometric login (#123)
+* **profile:** implement avatar upload (#125)
+
+### Bug Fixes
+* **payments:** resolve card validation (#124)
+
+### [1.1.0] - 2024-01-01
+...</code></pre>
+        `
+    },
+    {
+        id: 104,
+        category: "CI/CD",
+        icon: "🔄",
+        question: "What is EAS Build and how does it compare to building locally or with Fastlane?",
+        difficulty: "intermediate",
+        seniority: "mid",
+        answer: `
+            <h4>EAS Build Overview</h4>
+            <p>Expo Application Services (EAS) Build is a cloud build service that compiles React Native apps without local native toolchains.</p>
+
+            <h4>Comparison</h4>
+            <table>
+                <tr><th>Aspect</th><th>Local/Fastlane</th><th>EAS Build</th></tr>
+                <tr><td>Setup time</td><td>Hours</td><td>Minutes</td></tr>
+                <tr><td>Machine requirements</td><td>Mac for iOS</td><td>None</td></tr>
+                <tr><td>Code signing</td><td>Manual setup</td><td>Managed or manual</td></tr>
+                <tr><td>Build speed</td><td>Depends on machine</td><td>Powerful cloud VMs</td></tr>
+                <tr><td>Cost</td><td>Hardware + time</td><td>Free tier + paid</td></tr>
+                <tr><td>Caching</td><td>Local only</td><td>Cloud cache</td></tr>
+            </table>
+
+            <h4>EAS Build Setup</h4>
+            <pre><code># Install EAS CLI
+npm install -g eas-cli
+
+# Login
+eas login
+
+# Initialize (creates eas.json)
+eas build:configure
+
+# eas.json
+{
+    "build": {
+        "development": {
+            "developmentClient": true,
+            "distribution": "internal"
+        },
+        "preview": {
+            "distribution": "internal"
+        },
+        "production": {
+            "autoIncrement": true
+        }
+    }
+}</code></pre>
+
+            <h4>Running Builds</h4>
+            <pre><code># Build for both platforms
+eas build --platform all
+
+# Build specific profile
+eas build --platform ios --profile production
+
+# Local build (uses cloud config, builds locally)
+eas build --platform android --local
+
+# Submit to stores
+eas submit --platform ios
+eas submit --platform android</code></pre>
+
+            <h4>When to Use Each</h4>
+            <ul>
+                <li><strong>EAS Build:</strong>
+                    <ul>
+                        <li>Teams without Mac hardware</li>
+                        <li>Quick setup needed</li>
+                        <li>Managed signing preferred</li>
+                        <li>Expo or bare RN projects</li>
+                    </ul>
+                </li>
+                <li><strong>Local/Fastlane:</strong>
+                    <ul>
+                        <li>Full control needed</li>
+                        <li>Complex custom build steps</li>
+                        <li>Air-gapped environments</li>
+                        <li>Cost optimization at scale</li>
+                    </ul>
+                </li>
+            </ul>
+        `
+    },
+    {
+        id: 105,
+        category: "CI/CD",
+        icon: "🔄",
+        question: "How do you implement over-the-air (OTA) updates in React Native?",
+        difficulty: "intermediate",
+        seniority: "mid",
+        answer: `
+            <h4>OTA Update Options</h4>
+
+            <h4>1. EAS Update (Expo)</h4>
+            <pre><code># Setup
+eas update:configure
+
+# Publish update
+eas update --branch production --message "Bug fixes"
+
+# eas.json
+{
+    "build": {
+        "production": {
+            "channel": "production"
+        }
+    }
+}
+
+// app.json
+{
+    "expo": {
+        "updates": {
+            "url": "https://u.expo.dev/your-project-id"
+        },
+        "runtimeVersion": {
+            "policy": "sdkVersion"
+        }
+    }
+}</code></pre>
+
+            <h4>2. CodePush (Microsoft)</h4>
+            <pre><code>// Install
+npm install react-native-code-push
+
+// Wrap root component
+import codePush from 'react-native-code-push';
+
+const App = () => { ... };
+
+export default codePush({
+    checkFrequency: codePush.CheckFrequency.ON_APP_RESUME,
+    installMode: codePush.InstallMode.ON_NEXT_RESTART,
+})(App);
+
+// Release update
+appcenter codepush release-react -a Owner/App-iOS -d Production
+appcenter codepush release-react -a Owner/App-Android -d Production</code></pre>
+
+            <h4>Update Strategies</h4>
+            <pre><code>// Silent update (next restart)
+codePush.sync({
+    installMode: codePush.InstallMode.ON_NEXT_RESTART,
+});
+
+// Immediate update (critical fix)
+codePush.sync({
+    installMode: codePush.InstallMode.IMMEDIATE,
+    updateDialog: {
+        title: "Update Available",
+        mandatoryUpdateMessage: "A critical update is required.",
+        mandatoryContinueButtonLabel: "Update Now",
+    },
+});
+
+// Background update with progress
+codePush.sync(
+    { installMode: codePush.InstallMode.ON_NEXT_RESUME },
+    (status) => console.log('Status:', status),
+    (progress) => console.log('Progress:', progress)
+);</code></pre>
+
+            <h4>What Can Be Updated OTA</h4>
+            <table>
+                <tr><th>✅ Can Update</th><th>❌ Cannot Update</th></tr>
+                <tr><td>JavaScript code</td><td>Native code (Swift/Kotlin)</td></tr>
+                <tr><td>Images (require())</td><td>New native modules</td></tr>
+                <tr><td>JSON assets</td><td>App icons/splash</td></tr>
+                <tr><td>Fonts</td><td>Permissions changes</td></tr>
+            </table>
+
+            <h4>Best Practices</h4>
+            <ul>
+                <li>Test updates on staging channel first</li>
+                <li>Use rollback capability for critical bugs</li>
+                <li>Monitor update adoption metrics</li>
+                <li>Version runtime to prevent incompatible updates</li>
+            </ul>
+        `
+    },
+    {
+        id: 106,
+        category: "CI/CD",
+        icon: "🔄",
+        question: "How do you set up Fastlane for automating React Native app releases?",
+        difficulty: "advanced",
+        seniority: "senior",
+        answer: `
+            <h4>Fastlane Setup</h4>
+            <pre><code># Install
+brew install fastlane
+
+# Initialize in ios/ and android/ folders
+cd ios && fastlane init
+cd android && fastlane init</code></pre>
+
+            <h4>iOS Fastfile</h4>
+            <pre><code># ios/fastlane/Fastfile
+default_platform(:ios)
+
+platform :ios do
+  desc "Push to TestFlight"
+  lane :beta do
+    setup_ci if ENV['CI']
+
+    match(type: "appstore", readonly: true)
+
+    increment_build_number(
+      xcodeproj: "App.xcodeproj",
+      build_number: ENV['BUILD_NUMBER'] || latest_testflight_build_number + 1
+    )
+
+    build_app(
+      workspace: "App.xcworkspace",
+      scheme: "App",
+      export_method: "app-store"
+    )
+
+    upload_to_testflight(
+      skip_waiting_for_build_processing: true
+    )
+
+    slack(message: "iOS beta deployed! 🚀")
+  end
+
+  desc "Deploy to App Store"
+  lane :release do
+    build_app(scheme: "App")
+    upload_to_app_store(
+      submit_for_review: true,
+      automatic_release: true
+    )
+  end
+end</code></pre>
+
+            <h4>Android Fastfile</h4>
+            <pre><code># android/fastlane/Fastfile
+default_platform(:android)
+
+platform :android do
+  desc "Deploy to Play Store Internal"
+  lane :beta do
+    gradle(
+      task: "bundle",
+      build_type: "Release",
+      properties: {
+        "versionCode" => ENV['BUILD_NUMBER'],
+      }
+    )
+
+    upload_to_play_store(
+      track: "internal",
+      aab: "app/build/outputs/bundle/release/app-release.aab"
+    )
+  end
+
+  desc "Promote to Production"
+  lane :release do
+    upload_to_play_store(
+      track: "internal",
+      track_promote_to: "production",
+      skip_upload_aab: true
+    )
+  end
+end</code></pre>
+
+            <h4>Shared Configuration</h4>
+            <pre><code># fastlane/Appfile (iOS)
+app_identifier("com.company.app")
+apple_id("developer@company.com")
+team_id("TEAM_ID")
+
+# fastlane/Appfile (Android)
+json_key_file("play-store-key.json")
+package_name("com.company.app")</code></pre>
+
+            <h4>CI Integration</h4>
+            <pre><code># GitHub Actions
+- name: Deploy iOS
+  run: |
+    cd ios
+    bundle exec fastlane beta
+  env:
+    MATCH_PASSWORD: \${{ secrets.MATCH_PASSWORD }}
+    FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: \${{ secrets.ASP }}
+
+- name: Deploy Android
+  run: |
+    cd android
+    bundle exec fastlane beta
+  env:
+    PLAY_STORE_JSON_KEY: \${{ secrets.PLAY_STORE_KEY }}</code></pre>
+        `
+    },
+
+    // ==================== EXPO ADVANCED ====================
+    {
+        id: 107,
+        category: "Expo",
+        icon: "📱",
+        question: "What is Expo Router and how does it compare to React Navigation?",
+        difficulty: "intermediate",
+        seniority: "mid",
+        answer: `
+            <h4>What is Expo Router?</h4>
+            <p>A file-based routing system for React Native (like Next.js for mobile), built on top of React Navigation.</p>
+
+            <h4>File-Based Routing</h4>
+            <pre><code>app/
+├── _layout.tsx      // Root layout
+├── index.tsx        // "/" - Home screen
+├── about.tsx        // "/about"
+├── settings/
+│   ├── _layout.tsx  // Nested layout
+│   ├── index.tsx    // "/settings"
+│   └── profile.tsx  // "/settings/profile"
+├── [id].tsx         // "/123" - Dynamic route
+└── [...missing].tsx // Catch-all 404</code></pre>
+
+            <h4>Comparison</h4>
+            <table>
+                <tr><th>Feature</th><th>React Navigation</th><th>Expo Router</th></tr>
+                <tr><td>Route definition</td><td>Config objects</td><td>File system</td></tr>
+                <tr><td>Deep linking</td><td>Manual config</td><td>Automatic</td></tr>
+                <tr><td>Type safety</td><td>Manual setup</td><td>Auto-generated</td></tr>
+                <tr><td>Web support</td><td>Separate config</td><td>Built-in</td></tr>
+                <tr><td>Learning curve</td><td>Moderate</td><td>Lower (if know Next.js)</td></tr>
+            </table>
+
+            <h4>Basic Usage</h4>
+            <pre><code>// app/_layout.tsx
+import { Stack } from 'expo-router';
+
+export default function Layout() {
+    return (
+        <Stack>
+            <Stack.Screen name="index" options={{ title: 'Home' }} />
+            <Stack.Screen name="[id]" options={{ title: 'Details' }} />
+        </Stack>
+    );
+}
+
+// app/index.tsx
+import { Link } from 'expo-router';
+
+export default function Home() {
+    return (
+        <View>
+            <Link href="/about">About</Link>
+            <Link href="/product/123">Product 123</Link>
+            <Link href={{ pathname: '/user/[id]', params: { id: '456' } }}>
+                User Profile
+            </Link>
+        </View>
+    );
+}
+
+// Navigation hooks
+import { useRouter, useLocalSearchParams } from 'expo-router';
+
+function ProductScreen() {
+    const { id } = useLocalSearchParams();
+    const router = useRouter();
+
+    return (
+        <Button onPress={() => router.push('/checkout')} />
+    );
+}</code></pre>
+
+            <h4>When to Use Each</h4>
+            <ul>
+                <li><strong>Expo Router:</strong> New projects, web support needed, prefer convention</li>
+                <li><strong>React Navigation:</strong> Existing apps, complex custom navigators, more control</li>
+            </ul>
+        `
+    },
+    {
+        id: 108,
+        category: "Expo",
+        icon: "📱",
+        question: "What are Expo Config Plugins and when would you create one?",
+        difficulty: "advanced",
+        seniority: "senior",
+        answer: `
+            <h4>What are Config Plugins?</h4>
+            <p>Config Plugins let you customize native iOS/Android configuration without writing native code directly. They modify native files during prebuild.</p>
+
+            <h4>When to Use</h4>
+            <ul>
+                <li>Add native SDK that requires Info.plist/AndroidManifest changes</li>
+                <li>Modify build.gradle or Podfile settings</li>
+                <li>Add custom entitlements or permissions</li>
+                <li>Configure native libraries not yet supported by Expo</li>
+            </ul>
+
+            <h4>Using Existing Plugins</h4>
+            <pre><code>// app.json
+{
+    "expo": {
+        "plugins": [
+            "expo-camera",
+            ["expo-image-picker", { "cameraPermission": "Allow camera" }],
+            ["expo-build-properties", {
+                "android": { "compileSdkVersion": 34 },
+                "ios": { "deploymentTarget": "14.0" }
+            }]
+        ]
+    }
+}</code></pre>
+
+            <h4>Creating Custom Plugin</h4>
+            <pre><code>// plugins/withCustomPermission.js
+const { withInfoPlist, withAndroidManifest } = require('@expo/config-plugins');
+
+function withCustomPermission(config, { permissionText }) {
+    // Modify iOS Info.plist
+    config = withInfoPlist(config, (config) => {
+        config.modResults.NSCustomPermission = permissionText;
+        return config;
+    });
+
+    // Modify Android Manifest
+    config = withAndroidManifest(config, (config) => {
+        const mainApp = config.modResults.manifest.application[0];
+        mainApp.$['android:customAttribute'] = 'value';
+        return config;
+    });
+
+    return config;
+}
+
+module.exports = withCustomPermission;
+
+// Usage in app.json
+{
+    "plugins": [
+        ["./plugins/withCustomPermission", { "permissionText": "We need this" }]
+    ]
+}</code></pre>
+
+            <h4>Modifying Gradle</h4>
+            <pre><code>const { withAppBuildGradle } = require('@expo/config-plugins');
+
+function withCustomGradle(config) {
+    return withAppBuildGradle(config, (config) => {
+        config.modResults.contents = config.modResults.contents.replace(
+            'dependencies {',
+            \`dependencies {
+    implementation 'com.custom:library:1.0.0'\`
+        );
+        return config;
+    });
+}
+
+module.exports = withCustomGradle;</code></pre>
+
+            <h4>Run Prebuild</h4>
+            <pre><code># Generate native projects with plugins applied
+npx expo prebuild
+
+# Clean and regenerate
+npx expo prebuild --clean</code></pre>
+        `
+    },
+    {
+        id: 109,
+        category: "Expo",
+        icon: "📱",
+        question: "Explain the difference between Expo Go, Development Builds, and Production builds.",
+        difficulty: "intermediate",
+        seniority: "mid",
+        answer: `
+            <h4>Build Types Comparison</h4>
+            <table>
+                <tr><th>Aspect</th><th>Expo Go</th><th>Dev Build</th><th>Production</th></tr>
+                <tr><td>Native code</td><td>Pre-bundled</td><td>Custom</td><td>Custom</td></tr>
+                <tr><td>Custom modules</td><td>❌</td><td>✅</td><td>✅</td></tr>
+                <tr><td>Setup time</td><td>Instant</td><td>Build needed</td><td>Build needed</td></tr>
+                <tr><td>App Store</td><td>❌</td><td>❌ (internal)</td><td>✅</td></tr>
+                <tr><td>Debug tools</td><td>Limited</td><td>Full</td><td>None</td></tr>
+            </table>
+
+            <h4>Expo Go</h4>
+            <pre><code>// Quick prototyping, no native code changes
+// Just scan QR code to run
+
+// Limitations:
+- Can't use libraries requiring native code
+- Fixed set of Expo SDK modules
+- Can't customize app icon, splash, etc.
+
+// Usage
+npx expo start
+// Scan QR with Expo Go app</code></pre>
+
+            <h4>Development Build</h4>
+            <pre><code>// Custom native code + dev tools
+// Like Expo Go but with your native modules
+
+// Create development build
+npx expo install expo-dev-client
+eas build --profile development --platform ios
+
+// Or build locally
+npx expo run:ios
+
+// Benefits:
+- Use any native library
+- Custom native code
+- Dev menu and debugging
+- Internal distribution for team</code></pre>
+
+            <h4>Production Build</h4>
+            <pre><code>// Optimized for App Store / Play Store
+
+// Create production build
+eas build --profile production --platform all
+
+// Characteristics:
+- No dev tools
+- Optimized bundle (minified, tree-shaken)
+- Proper code signing
+- Can be submitted to stores
+
+// Submit to stores
+eas submit --platform ios
+eas submit --platform android</code></pre>
+
+            <h4>Workflow Recommendation</h4>
+            <pre><code>Development Flow:
+1. Start with Expo Go for rapid prototyping
+2. Switch to Dev Build when you need:
+   - Custom native modules
+   - Libraries not in Expo Go
+   - Testing production-like behavior
+
+3. Use Production Build for:
+   - Beta testing (TestFlight, Internal Track)
+   - App Store releases</code></pre>
+        `
+    },
+    {
+        id: 110,
+        category: "Expo",
+        icon: "📱",
+        question: "How do you create a custom Expo Module with native code?",
+        difficulty: "advanced",
+        seniority: "senior",
+        answer: `
+            <h4>Expo Modules API</h4>
+            <p>Modern way to write native modules for Expo using Swift and Kotlin (no Objective-C or Java).</p>
+
+            <h4>Create Module</h4>
+            <pre><code># Create new module
+npx create-expo-module my-module
+
+# Structure created:
+my-module/
+├── src/
+│   └── MyModule.ts        # JS interface
+├── ios/
+│   └── MyModule.swift     # iOS implementation
+├── android/
+│   └── MyModule.kt        # Android implementation
+└── expo-module.config.json</code></pre>
+
+            <h4>TypeScript Definition</h4>
+            <pre><code>// src/MyModule.ts
+import { NativeModule, requireNativeModule } from 'expo-modules-core';
+
+interface MyModuleType extends NativeModule {
+    PI: number;
+    hello(): string;
+    addAsync(a: number, b: number): Promise<number>;
+}
+
+export default requireNativeModule<MyModuleType>('MyModule');</code></pre>
+
+            <h4>iOS Implementation (Swift)</h4>
+            <pre><code>// ios/MyModule.swift
+import ExpoModulesCore
+
+public class MyModule: Module {
+    public func definition() -> ModuleDefinition {
+        Name("MyModule")
+
+        // Constants
+        Constants([
+            "PI": Double.pi
+        ])
+
+        // Sync function
+        Function("hello") {
+            return "Hello from Swift!"
+        }
+
+        // Async function
+        AsyncFunction("addAsync") { (a: Double, b: Double) -> Double in
+            return a + b
+        }
+
+        // View component
+        View(MyNativeView.self) {
+            Prop("color") { (view, color: UIColor) in
+                view.backgroundColor = color
+            }
+
+            Events("onPress")
+        }
+    }
+}</code></pre>
+
+            <h4>Android Implementation (Kotlin)</h4>
+            <pre><code>// android/MyModule.kt
+package expo.modules.mymodule
+
+import expo.modules.kotlin.modules.Module
+import expo.modules.kotlin.modules.ModuleDefinition
+
+class MyModule : Module() {
+    override fun definition() = ModuleDefinition {
+        Name("MyModule")
+
+        Constants(
+            "PI" to Math.PI
+        )
+
+        Function("hello") {
+            "Hello from Kotlin!"
+        }
+
+        AsyncFunction("addAsync") { a: Double, b: Double ->
+            a + b
+        }
+    }
+}</code></pre>
+
+            <h4>Using the Module</h4>
+            <pre><code>import MyModule from 'my-module';
+
+console.log(MyModule.PI);         // 3.14159...
+console.log(MyModule.hello());    // "Hello from Swift/Kotlin!"
+
+const sum = await MyModule.addAsync(2, 3);  // 5</code></pre>
+        `
+    },
+    {
+        id: 111,
+        category: "Expo",
+        icon: "📱",
+        question: "What is Expo Prebuild and how does it enable bare workflow features in managed workflow?",
+        difficulty: "intermediate",
+        seniority: "mid",
+        answer: `
+            <h4>What is Prebuild?</h4>
+            <p>Prebuild generates native iOS and Android projects from your app.json/app.config.js configuration, bridging managed and bare workflows.</p>
+
+            <h4>How It Works</h4>
+            <pre><code># Generate native projects
+npx expo prebuild
+
+# Result:
+my-app/
+├── app.json          # Configuration source
+├── ios/              # Generated iOS project
+│   ├── Podfile
+│   └── MyApp.xcworkspace
+├── android/          # Generated Android project
+│   ├── build.gradle
+│   └── app/
+└── node_modules/</code></pre>
+
+            <h4>Continuous Native Generation (CNG)</h4>
+            <pre><code>// .gitignore - Don't commit native folders
+/ios
+/android
+
+// Regenerate when needed
+npx expo prebuild --clean
+
+// Benefits:
+- Native code is derived from config
+- Upgrade RN by regenerating
+- No merge conflicts in native code
+- Consistent builds across team</code></pre>
+
+            <h4>Configuration Flow</h4>
+            <pre><code>// app.config.js → Config Plugins → Native Code
+
+// app.config.js
+export default {
+    name: "My App",
+    ios: {
+        bundleIdentifier: "com.company.app",
+        infoPlist: {
+            NSCameraUsageDescription: "For photos"
+        }
+    },
+    android: {
+        package: "com.company.app",
+        permissions: ["CAMERA"]
+    },
+    plugins: [
+        "expo-camera",
+        ["expo-build-properties", {
+            ios: { deploymentTarget: "14.0" }
+        }]
+    ]
+};
+
+// Prebuild applies all config to native projects</code></pre>
+
+            <h4>When to Use Prebuild</h4>
+            <ul>
+                <li><strong>Use Prebuild (regenerate):</strong>
+                    <ul>
+                        <li>Adding new native modules</li>
+                        <li>Changing app.json config</li>
+                        <li>Upgrading Expo SDK</li>
+                        <li>CI/CD builds</li>
+                    </ul>
+                </li>
+                <li><strong>Commit native folders (eject):</strong>
+                    <ul>
+                        <li>Heavy native customization</li>
+                        <li>Manual native code changes</li>
+                        <li>Legacy projects</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h4>Prebuild vs Eject</h4>
+            <table>
+                <tr><th>Prebuild (CNG)</th><th>Eject (Legacy)</th></tr>
+                <tr><td>Regenerate native code</td><td>One-time generation</td></tr>
+                <tr><td>Config-driven</td><td>Manual maintenance</td></tr>
+                <tr><td>Easy upgrades</td><td>Manual upgrade work</td></tr>
+                <tr><td>Modern approach</td><td>Deprecated pattern</td></tr>
+            </table>
+        `
+    },
+
+    // ==================== SYSTEM DESIGN ====================
+    {
+        id: 112,
+        category: "System Design",
+        icon: "🏛️",
+        question: "Design a push notification system with deep linking for a React Native app.",
+        difficulty: "advanced",
+        seniority: "staff",
+        answer: `
+            <h4>System Architecture</h4>
+            <pre><code>┌─────────────┐    ┌─────────────┐    ┌─────────────┐
+│   Backend   │───→│  FCM/APNs   │───→│   Mobile    │
+│   Server    │    │   Gateway   │    │    App      │
+└─────────────┘    └─────────────┘    └─────────────┘
+       ↓                                     ↓
+┌─────────────┐                      ┌─────────────┐
+│   Message   │                      │ Deep Link   │
+│    Queue    │                      │  Handler    │
+└─────────────┘                      └─────────────┘</code></pre>
+
+            <h4>Token Registration</h4>
+            <pre><code>import messaging from '@react-native-firebase/messaging';
+import { useEffect } from 'react';
+
+function useNotificationSetup() {
+    useEffect(() => {
+        async function setup() {
+            // Request permission
+            const status = await messaging().requestPermission();
+            if (status !== messaging.AuthorizationStatus.AUTHORIZED) return;
+
+            // Get FCM token
+            const token = await messaging().getToken();
+            await registerTokenWithBackend(token);
+
+            // Listen for token refresh
+            return messaging().onTokenRefresh(registerTokenWithBackend);
+        }
+        setup();
+    }, []);
+}</code></pre>
+
+            <h4>Deep Link Handling</h4>
+            <pre><code>import { Linking } from 'react-native';
+import messaging from '@react-native-firebase/messaging';
+
+// Notification payload structure
+{
+    "notification": {
+        "title": "New Message",
+        "body": "John sent you a message"
+    },
+    "data": {
+        "type": "message",
+        "deepLink": "myapp://chat/123",
+        "messageId": "456"
+    }
+}
+
+// Handle notification tap (app in background/quit)
+messaging().onNotificationOpenedApp((message) => {
+    handleDeepLink(message.data.deepLink);
+});
+
+// Handle notification when app was quit
+messaging().getInitialNotification().then((message) => {
+    if (message) handleDeepLink(message.data.deepLink);
+});
+
+// Deep link handler
+function handleDeepLink(url) {
+    const route = parseDeepLink(url);
+    // Navigate using your navigation library
+    navigationRef.navigate(route.screen, route.params);
+}</code></pre>
+
+            <h4>Backend Notification Service</h4>
+            <pre><code>// Node.js example with Firebase Admin
+const admin = require('firebase-admin');
+
+async function sendNotification(userId, payload) {
+    const tokens = await getUserTokens(userId);
+
+    const message = {
+        notification: {
+            title: payload.title,
+            body: payload.body,
+        },
+        data: {
+            deepLink: payload.deepLink,
+            ...payload.data,
+        },
+        tokens: tokens,
+        // Platform-specific config
+        android: {
+            priority: 'high',
+            notification: { channelId: 'default' },
+        },
+        apns: {
+            payload: {
+                aps: { sound: 'default', badge: 1 },
+            },
+        },
+    };
+
+    const response = await admin.messaging().sendEachForMulticast(message);
+    handleFailedTokens(response, tokens);
+}</code></pre>
+
+            <h4>Notification Channels (Android)</h4>
+            <pre><code>import notifee from '@notifee/react-native';
+
+async function createChannels() {
+    await notifee.createChannel({
+        id: 'messages',
+        name: 'Messages',
+        importance: AndroidImportance.HIGH,
+        sound: 'notification',
+    });
+
+    await notifee.createChannel({
+        id: 'promotions',
+        name: 'Promotions',
+        importance: AndroidImportance.LOW,
+    });
+}</code></pre>
+        `
+    },
+    {
+        id: 113,
+        category: "System Design",
+        icon: "🏛️",
+        question: "How would you architect an offline-first React Native application?",
+        difficulty: "advanced",
+        seniority: "staff",
+        answer: `
+            <h4>Offline-First Architecture</h4>
+            <pre><code>┌────────────────────────────────────────┐
+│              UI Layer                  │
+└────────────────────────────────────────┘
+                    ↓
+┌────────────────────────────────────────┐
+│         State Management               │
+│   (Zustand/Redux + Persistence)        │
+└────────────────────────────────────────┘
+                    ↓
+┌────────────────────────────────────────┐
+│          Sync Engine                   │
+│   (Queue + Conflict Resolution)        │
+└────────────────────────────────────────┘
+          ↓                    ↓
+┌─────────────────┐   ┌─────────────────┐
+│  Local Storage  │   │   Remote API    │
+│  (MMKV/SQLite)  │   │                 │
+└─────────────────┘   └─────────────────┘</code></pre>
+
+            <h4>Local Database Setup</h4>
+            <pre><code>// Using WatermelonDB for complex offline data
+import { Database } from '@nozbe/watermelondb';
+import SQLiteAdapter from '@nozbe/watermelondb/adapters/sqlite';
+
+const adapter = new SQLiteAdapter({
+    schema,
+    migrations,
+    jsi: true,  // Use JSI for performance
+});
+
+const database = new Database({
+    adapter,
+    modelClasses: [Task, Project, User],
+});
+
+// Or MMKV for simpler key-value storage
+import { MMKV } from 'react-native-mmkv';
+const storage = new MMKV();</code></pre>
+
+            <h4>Sync Queue Implementation</h4>
+            <pre><code>// Optimistic updates with sync queue
+class SyncQueue {
+    private queue: Operation[] = [];
+
+    async addOperation(op: Operation) {
+        // 1. Apply locally immediately
+        await this.applyLocally(op);
+
+        // 2. Add to sync queue
+        this.queue.push({
+            ...op,
+            id: uuid(),
+            timestamp: Date.now(),
+            retries: 0,
+        });
+        this.persistQueue();
+
+        // 3. Attempt sync if online
+        if (await NetInfo.fetch().then(s => s.isConnected)) {
+            this.processQueue();
+        }
+    }
+
+    async processQueue() {
+        for (const op of this.queue) {
+            try {
+                await this.syncToServer(op);
+                this.removeFromQueue(op.id);
+            } catch (error) {
+                if (op.retries >= MAX_RETRIES) {
+                    this.handleFailedOperation(op);
+                } else {
+                    op.retries++;
+                }
+            }
+        }
+    }
+}</code></pre>
+
+            <h4>Conflict Resolution</h4>
+            <pre><code>// Last-Write-Wins (simple)
+function resolveConflict(local, remote) {
+    return local.updatedAt > remote.updatedAt ? local : remote;
+}
+
+// Field-level merge (complex)
+function mergeChanges(base, local, remote) {
+    const merged = { ...base };
+
+    for (const field of Object.keys(local)) {
+        if (local[field] !== base[field] && remote[field] === base[field]) {
+            merged[field] = local[field];  // Local change wins
+        } else if (remote[field] !== base[field] && local[field] === base[field]) {
+            merged[field] = remote[field]; // Remote change wins
+        } else if (local[field] !== remote[field]) {
+            // Both changed - need strategy
+            merged[field] = resolveFieldConflict(field, local, remote);
+        }
+    }
+
+    return merged;
+}</code></pre>
+
+            <h4>Network Status Handling</h4>
+            <pre><code>import NetInfo from '@react-native-community/netinfo';
+
+function useNetworkStatus() {
+    const [isOnline, setIsOnline] = useState(true);
+
+    useEffect(() => {
+        return NetInfo.addEventListener((state) => {
+            setIsOnline(state.isConnected && state.isInternetReachable);
+
+            if (state.isConnected) {
+                // Trigger sync when coming online
+                syncQueue.processQueue();
+            }
+        });
+    }, []);
+
+    return isOnline;
+}</code></pre>
+        `
+    },
+    {
+        id: 114,
+        category: "System Design",
+        icon: "🏛️",
+        question: "Design an analytics and crash reporting system for a React Native app.",
+        difficulty: "advanced",
+        seniority: "senior",
+        answer: `
+            <h4>Analytics Architecture</h4>
+            <pre><code>┌─────────────────────────────────────────┐
+│              App Events                 │
+│  (User actions, Screen views, etc.)    │
+└─────────────────────────────────────────┘
+                    ↓
+┌─────────────────────────────────────────┐
+│          Analytics Service              │
+│   (Batching, Offline queue, Privacy)   │
+└─────────────────────────────────────────┘
+                    ↓
+┌──────────────┬──────────────┬──────────────┐
+│   Amplitude  │   Firebase   │   Custom     │
+│              │   Analytics  │   Backend    │
+└──────────────┴──────────────┴──────────────┘</code></pre>
+
+            <h4>Analytics Service Implementation</h4>
+            <pre><code>// services/analytics.ts
+class AnalyticsService {
+    private queue: Event[] = [];
+    private providers: AnalyticsProvider[] = [];
+
+    constructor() {
+        this.providers = [
+            new AmplitudeProvider(),
+            new FirebaseProvider(),
+        ];
+
+        // Flush queue periodically
+        setInterval(() => this.flush(), 30000);
+
+        // Flush on app background
+        AppState.addEventListener('change', (state) => {
+            if (state === 'background') this.flush();
+        });
+    }
+
+    track(event: string, properties?: Record<string, any>) {
+        const enrichedEvent = {
+            event,
+            properties: {
+                ...properties,
+                timestamp: Date.now(),
+                sessionId: this.sessionId,
+                userId: this.userId,
+                platform: Platform.OS,
+                appVersion: DeviceInfo.getVersion(),
+            },
+        };
+
+        this.queue.push(enrichedEvent);
+
+        // Immediate flush for critical events
+        if (this.isCriticalEvent(event)) {
+            this.flush();
+        }
+    }
+
+    async flush() {
+        if (this.queue.length === 0) return;
+
+        const events = [...this.queue];
+        this.queue = [];
+
+        await Promise.all(
+            this.providers.map(p => p.sendBatch(events))
+        );
+    }
+}</code></pre>
+
+            <h4>Crash Reporting Setup</h4>
+            <pre><code>// Sentry configuration
+import * as Sentry from '@sentry/react-native';
+
+Sentry.init({
+    dsn: 'YOUR_DSN',
+    environment: __DEV__ ? 'development' : 'production',
+    tracesSampleRate: 0.2,
+    beforeSend(event) {
+        // Scrub sensitive data
+        if (event.user) {
+            delete event.user.email;
+        }
+        return event;
+    },
+});
+
+// Add user context
+Sentry.setUser({ id: userId, segment: userTier });
+
+// Add breadcrumbs
+Sentry.addBreadcrumb({
+    category: 'navigation',
+    message: 'User navigated to Profile',
+    level: 'info',
+});
+
+// Capture errors
+try {
+    await riskyOperation();
+} catch (error) {
+    Sentry.captureException(error, {
+        extra: { orderId, userId },
+        tags: { feature: 'checkout' },
+    });
+}</code></pre>
+
+            <h4>Error Boundary Integration</h4>
+            <pre><code>class ErrorBoundary extends Component {
+    componentDidCatch(error, errorInfo) {
+        Sentry.captureException(error, {
+            extra: {
+                componentStack: errorInfo.componentStack,
+            },
+        });
+
+        analytics.track('app_crash', {
+            error: error.message,
+            stack: error.stack,
+        });
+    }
+
+    render() {
+        if (this.state.hasError) {
+            return <CrashScreen onRetry={this.retry} />;
+        }
+        return this.props.children;
+    }
+}</code></pre>
+
+            <h4>Performance Monitoring</h4>
+            <pre><code>// Track screen render time
+function useScreenPerformance(screenName: string) {
+    useEffect(() => {
+        const startTime = performance.now();
+
+        return () => {
+            const duration = performance.now() - startTime;
+            analytics.track('screen_time', {
+                screen: screenName,
+                duration,
+            });
+        };
+    }, []);
+}
+
+// Track API latency
+async function fetchWithMetrics(url: string) {
+    const start = performance.now();
+    try {
+        const response = await fetch(url);
+        analytics.track('api_call', {
+            url,
+            duration: performance.now() - start,
+            status: response.status,
+        });
+        return response;
+    } catch (error) {
+        analytics.track('api_error', { url, error: error.message });
+        throw error;
+    }
+}</code></pre>
+        `
+    },
+    {
+        id: 115,
+        category: "System Design",
+        icon: "🏛️",
+        question: "How would you design a media upload feature with progress tracking and retry logic?",
+        difficulty: "advanced",
+        seniority: "senior",
+        answer: `
+            <h4>Upload System Architecture</h4>
+            <pre><code>┌─────────────────────────────────────────┐
+│           Upload Manager                │
+│  (Queue, Progress, Retry, Background)  │
+└─────────────────────────────────────────┘
+          ↓              ↓              ↓
+┌────────────┐   ┌────────────┐   ┌────────────┐
+│  Chunked   │   │  Direct    │   │  Presigned │
+│  Upload    │   │  Upload    │   │  URL       │
+└────────────┘   └────────────┘   └────────────┘</code></pre>
+
+            <h4>Upload Manager Implementation</h4>
+            <pre><code>class UploadManager {
+    private queue: Map<string, UploadTask> = new Map();
+    private maxConcurrent = 3;
+    private activeUploads = 0;
+
+    async addUpload(file: File, options: UploadOptions): Promise<string> {
+        const taskId = uuid();
+
+        const task: UploadTask = {
+            id: taskId,
+            file,
+            status: 'pending',
+            progress: 0,
+            retries: 0,
+            options,
+        };
+
+        this.queue.set(taskId, task);
+        this.persistQueue();
+        this.processQueue();
+
+        return taskId;
+    }
+
+    private async processQueue() {
+        const pending = [...this.queue.values()]
+            .filter(t => t.status === 'pending');
+
+        for (const task of pending) {
+            if (this.activeUploads >= this.maxConcurrent) break;
+            this.executeUpload(task);
+        }
+    }
+
+    private async executeUpload(task: UploadTask) {
+        this.activeUploads++;
+        task.status = 'uploading';
+        this.emit('statusChange', task);
+
+        try {
+            await this.uploadWithProgress(task);
+            task.status = 'completed';
+        } catch (error) {
+            if (task.retries < 3) {
+                task.retries++;
+                task.status = 'pending';
+                // Exponential backoff
+                await delay(Math.pow(2, task.retries) * 1000);
+            } else {
+                task.status = 'failed';
+                task.error = error.message;
+            }
+        } finally {
+            this.activeUploads--;
+            this.emit('statusChange', task);
+            this.processQueue();
+        }
+    }
+}</code></pre>
+
+            <h4>Chunked Upload for Large Files</h4>
+            <pre><code>async function uploadInChunks(file: File, taskId: string) {
+    const CHUNK_SIZE = 5 * 1024 * 1024; // 5MB
+    const totalChunks = Math.ceil(file.size / CHUNK_SIZE);
+
+    // Initialize multipart upload
+    const { uploadId } = await api.initMultipartUpload(file.name);
+    const parts: Part[] = [];
+
+    for (let i = 0; i < totalChunks; i++) {
+        const start = i * CHUNK_SIZE;
+        const end = Math.min(start + CHUNK_SIZE, file.size);
+        const chunk = file.slice(start, end);
+
+        // Upload chunk
+        const { etag } = await api.uploadPart({
+            uploadId,
+            partNumber: i + 1,
+            body: chunk,
+        });
+
+        parts.push({ partNumber: i + 1, etag });
+
+        // Update progress
+        const progress = ((i + 1) / totalChunks) * 100;
+        uploadManager.updateProgress(taskId, progress);
+    }
+
+    // Complete upload
+    return await api.completeMultipartUpload({ uploadId, parts });
+}</code></pre>
+
+            <h4>Progress Tracking Hook</h4>
+            <pre><code>function useUpload() {
+    const [uploads, setUploads] = useState<UploadTask[]>([]);
+
+    useEffect(() => {
+        const unsubscribe = uploadManager.subscribe((tasks) => {
+            setUploads([...tasks]);
+        });
+        return unsubscribe;
+    }, []);
+
+    const upload = async (files: File[]) => {
+        const taskIds = await Promise.all(
+            files.map(f => uploadManager.addUpload(f))
+        );
+        return taskIds;
+    };
+
+    const retry = (taskId: string) => uploadManager.retry(taskId);
+    const cancel = (taskId: string) => uploadManager.cancel(taskId);
+
+    return { uploads, upload, retry, cancel };
+}
+
+// Usage
+function UploadScreen() {
+    const { uploads, upload, retry } = useUpload();
+
+    return (
+        <View>
+            {uploads.map(task => (
+                <UploadItem
+                    key={task.id}
+                    progress={task.progress}
+                    status={task.status}
+                    onRetry={() => retry(task.id)}
+                />
+            ))}
+        </View>
+    );
+}</code></pre>
+
+            <h4>Background Upload (iOS)</h4>
+            <pre><code>// react-native-background-upload
+import Upload from 'react-native-background-upload';
+
+const uploadId = await Upload.startUpload({
+    url: 'https://api.example.com/upload',
+    path: file.uri,
+    method: 'POST',
+    type: 'multipart',
+    field: 'file',
+    // Continues even when app is backgrounded
+    notification: {
+        enabled: true,
+        title: 'Uploading...',
+    },
+});
+
+Upload.addListener('progress', uploadId, (data) => {
+    console.log(\`Progress: \${data.progress}%\`);
+});</code></pre>
+        `
+    },
+    {
+        id: 116,
+        category: "System Design",
+        icon: "🏛️",
+        question: "Design a feature flag system for gradual rollout and A/B testing in React Native.",
+        difficulty: "advanced",
+        seniority: "senior",
+        answer: `
+            <h4>Feature Flag Architecture</h4>
+            <pre><code>┌─────────────────────────────────────────┐
+│         Feature Flag Service            │
+│   (LaunchDarkly / Firebase / Custom)    │
+└─────────────────────────────────────────┘
+                    ↓
+┌─────────────────────────────────────────┐
+│         Local Flag Store                │
+│   (Cached flags + Default values)       │
+└─────────────────────────────────────────┘
+                    ↓
+┌─────────────────────────────────────────┐
+│              App Code                   │
+│   (Conditional features/UI)             │
+└─────────────────────────────────────────┘</code></pre>
+
+            <h4>Feature Flag Service</h4>
+            <pre><code>// services/featureFlags.ts
+class FeatureFlagService {
+    private flags: Map<string, FlagValue> = new Map();
+    private defaults: Map<string, FlagValue> = new Map();
+
+    constructor() {
+        this.loadDefaults();
+        this.loadCachedFlags();
+    }
+
+    async initialize(userId: string, userAttributes: UserAttributes) {
+        try {
+            const response = await api.getFlags({
+                userId,
+                platform: Platform.OS,
+                appVersion: DeviceInfo.getVersion(),
+                ...userAttributes,
+            });
+
+            this.flags = new Map(Object.entries(response.flags));
+            this.cacheFlags();
+        } catch (error) {
+            console.warn('Failed to fetch flags, using cached/defaults');
+        }
+    }
+
+    isEnabled(flagKey: string): boolean {
+        return this.flags.get(flagKey) ?? this.defaults.get(flagKey) ?? false;
+    }
+
+    getValue<T>(flagKey: string, defaultValue: T): T {
+        return (this.flags.get(flagKey) as T) ?? defaultValue;
+    }
+}
+
+export const featureFlags = new FeatureFlagService();</code></pre>
+
+            <h4>React Hook</h4>
+            <pre><code>// hooks/useFeatureFlag.ts
+function useFeatureFlag(flagKey: string, defaultValue = false): boolean {
+    const [enabled, setEnabled] = useState(
+        () => featureFlags.isEnabled(flagKey) ?? defaultValue
+    );
+
+    useEffect(() => {
+        return featureFlags.subscribe(flagKey, setEnabled);
+    }, [flagKey]);
+
+    return enabled;
+}
+
+function useFeatureValue<T>(flagKey: string, defaultValue: T): T {
+    const [value, setValue] = useState(
+        () => featureFlags.getValue(flagKey, defaultValue)
+    );
+
+    useEffect(() => {
+        return featureFlags.subscribe(flagKey, setValue);
+    }, [flagKey]);
+
+    return value;
+}
+
+// Usage
+function CheckoutScreen() {
+    const newCheckoutEnabled = useFeatureFlag('new_checkout_flow');
+    const checkoutVariant = useFeatureValue('checkout_variant', 'control');
+
+    if (newCheckoutEnabled) {
+        return <NewCheckout variant={checkoutVariant} />;
+    }
+    return <LegacyCheckout />;
+}</code></pre>
+
+            <h4>Gradual Rollout Configuration</h4>
+            <pre><code>// Server-side flag configuration
+{
+    "new_checkout_flow": {
+        "type": "boolean",
+        "defaultValue": false,
+        "rules": [
+            {
+                "condition": { "userTier": "beta" },
+                "value": true
+            },
+            {
+                "condition": { "percentage": 10 },
+                "value": true
+            }
+        ]
+    },
+    "checkout_variant": {
+        "type": "string",
+        "defaultValue": "control",
+        "rules": [
+            {
+                "condition": { "experiment": "checkout_ab_test" },
+                "distribution": {
+                    "control": 50,
+                    "variant_a": 25,
+                    "variant_b": 25
+                }
+            }
+        ]
+    }
+}</code></pre>
+
+            <h4>A/B Test Tracking</h4>
+            <pre><code>// Track experiment exposure
+function useExperiment(experimentKey: string) {
+    const variant = useFeatureValue(experimentKey, 'control');
+
+    useEffect(() => {
+        analytics.track('experiment_exposure', {
+            experiment: experimentKey,
+            variant,
+        });
+    }, [experimentKey, variant]);
+
+    return variant;
+}
+
+// Track conversion
+function trackConversion(experimentKey: string, eventName: string) {
+    const variant = featureFlags.getValue(experimentKey, 'control');
+    analytics.track(eventName, {
+        experiment: experimentKey,
+        variant,
+    });
+}</code></pre>
+
+            <h4>Kill Switch Pattern</h4>
+            <pre><code>// Emergency disable for problematic features
+function useKillSwitch(featureKey: string): boolean {
+    const killed = useFeatureFlag(\`kill_\${featureKey}\`, false);
+    const enabled = useFeatureFlag(featureKey, true);
+
+    return !killed && enabled;
+}
+
+// Usage
+const paymentEnabled = useKillSwitch('payments');
+if (!paymentEnabled) {
+    return <MaintenanceScreen />;
+}</code></pre>
         `
     }
 ];

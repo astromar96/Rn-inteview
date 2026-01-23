@@ -2,8 +2,21 @@
 let completedQuestions = new Set();
 let currentFilter = 'all';
 let currentCategory = 'all';
+let currentSeniority = 'all';
 let searchQuery = '';
 let currentModalQuestion = null;
+
+// Seniority Level Labels
+const SENIORITY_LABELS = {
+    junior: '🌱 Junior',
+    mid: '🌿 Mid',
+    senior: '🌳 Senior',
+    staff: '🏔️ Staff+'
+};
+
+function getSeniorityLabel(seniority) {
+    return SENIORITY_LABELS[seniority] || seniority;
+}
 
 // DOM Elements
 const questionsContainer = document.getElementById('questions-container');
@@ -21,6 +34,8 @@ const modalAnswer = document.getElementById('modal-answer');
 const modalClose = document.getElementById('modal-close');
 const modalCloseBtn = document.getElementById('modal-close-btn');
 const modalCompleteBtn = document.getElementById('modal-complete-btn');
+const modalSeniority = document.getElementById('modal-seniority');
+const seniorityFilter = document.getElementById('seniority-filter');
 
 // Initialize App
 function init() {
@@ -68,6 +83,11 @@ function getFilteredQuestions() {
         filtered = filtered.filter(q => q.category === currentCategory);
     }
 
+    // Seniority filter
+    if (currentSeniority !== 'all') {
+        filtered = filtered.filter(q => q.seniority === currentSeniority);
+    }
+
     // Completion filter
     if (currentFilter === 'completed') {
         filtered = filtered.filter(q => completedQuestions.has(q.id));
@@ -80,7 +100,8 @@ function getFilteredQuestions() {
         const query = searchQuery.toLowerCase();
         filtered = filtered.filter(q =>
             q.question.toLowerCase().includes(query) ||
-            q.category.toLowerCase().includes(query)
+            q.category.toLowerCase().includes(query) ||
+            (q.seniority && q.seniority.toLowerCase().includes(query))
         );
     }
 
@@ -139,6 +160,9 @@ function renderQuestions() {
 // Render single question card
 function renderQuestionCard(question) {
     const isCompleted = completedQuestions.has(question.id);
+    const seniorityBadge = question.seniority
+        ? `<span class="seniority-badge ${question.seniority}">${getSeniorityLabel(question.seniority)}</span>`
+        : '';
 
     return `
         <div class="question-card ${isCompleted ? 'completed' : ''}" data-id="${question.id}">
@@ -153,6 +177,7 @@ function renderQuestionCard(question) {
                 <p class="question-text">${question.question}</p>
                 <div class="question-meta">
                     <span class="difficulty-badge ${question.difficulty}">${question.difficulty}</span>
+                    ${seniorityBadge}
                     <span class="category-tag">${question.category}</span>
                     <span class="view-answer">Click to view answer →</span>
                 </div>
@@ -192,6 +217,16 @@ function openModal(question) {
     modalQuestion.textContent = question.question;
     modalDifficulty.textContent = question.difficulty;
     modalDifficulty.className = `difficulty-badge ${question.difficulty}`;
+
+    // Update seniority badge in modal
+    if (modalSeniority && question.seniority) {
+        modalSeniority.textContent = getSeniorityLabel(question.seniority);
+        modalSeniority.className = `seniority-badge ${question.seniority}`;
+        modalSeniority.style.display = 'inline-block';
+    } else if (modalSeniority) {
+        modalSeniority.style.display = 'none';
+    }
+
     modalAnswer.innerHTML = question.answer;
     updateModalButton();
     modal.classList.add('active');
@@ -259,11 +294,24 @@ function setupEventListeners() {
         const btn = e.target.closest('.filter-btn');
         if (!btn) return;
 
-        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.filter-buttons .filter-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         currentFilter = btn.dataset.filter;
         renderQuestions();
     });
+
+    // Seniority filter buttons
+    if (seniorityFilter) {
+        seniorityFilter.addEventListener('click', (e) => {
+            const btn = e.target.closest('.filter-btn');
+            if (!btn) return;
+
+            seniorityFilter.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentSeniority = btn.dataset.seniority;
+            renderQuestions();
+        });
+    }
 
     // Search
     searchInput.addEventListener('input', (e) => {

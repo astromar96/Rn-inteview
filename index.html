@@ -53,6 +53,14 @@
                 </div>
             </div>
 
+            <div class="seniority-filter" id="seniority-filter">
+                <button class="filter-btn active" data-seniority="all">All Levels</button>
+                <button class="filter-btn" data-seniority="junior">🌱 Junior</button>
+                <button class="filter-btn" data-seniority="mid">🌿 Mid</button>
+                <button class="filter-btn" data-seniority="senior">🌳 Senior</button>
+                <button class="filter-btn" data-seniority="staff">🏔️ Staff+</button>
+            </div>
+
             <div class="questions-container" id="questions-container">
                 <!-- Questions will be rendered here -->
             </div>
@@ -70,7 +78,10 @@
                 <button class="modal-close" id="modal-close">&times;</button>
             </div>
             <div class="modal-body">
-                <div class="difficulty-badge" id="modal-difficulty"></div>
+                <div class="modal-badges">
+                    <div class="difficulty-badge" id="modal-difficulty"></div>
+                    <div class="seniority-badge" id="modal-seniority"></div>
+                </div>
                 <div class="answer-content" id="modal-answer"></div>
             </div>
             <div class="modal-footer">
@@ -80,7 +91,7 @@
         </div>
     </div>
 
-    <script src="questions.js?v=2"></script>
-    <script src="app.js?v=2"></script>
+    <script src="questions.js?v=3"></script>
+    <script src="app.js?v=3"></script>
 </body>
 </html>
