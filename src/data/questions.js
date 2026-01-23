@@ -3055,46 +3055,164 @@ const { data } = useQuery({
         difficulty: "intermediate",
         seniority: "mid",
         answer: `
-            <h4>Managed Workflow</h4>
-            <ul>
-                <li>No native code access</li>
-                <li>Build with EAS Build cloud service</li>
-                <li>Limited to Expo SDK modules</li>
-                <li>Faster development setup</li>
-                <li>OTA updates with Expo Updates</li>
-            </ul>
+            <h4>🎯 Why This Question Matters</h4>
+            <p>Understanding Expo workflows is crucial for project architecture decisions. This question tests whether you can make informed choices that balance development speed, app capabilities, and long-term maintenance based on project requirements.</p>
 
-            <h4>Bare Workflow</h4>
-            <ul>
-                <li>Full native code access</li>
-                <li>Use any native library</li>
-                <li>Local builds possible</li>
-                <li>More setup complexity</li>
-                <li>Still can use many Expo modules</li>
-            </ul>
+            <h4>Workflow Comparison Table</h4>
+            <table>
+                <tr><td><strong>Aspect</strong></td><td><strong>Managed Workflow</strong></td><td><strong>Bare Workflow</strong></td></tr>
+                <tr><td>Native Code Access</td><td>No direct access</td><td>Full access (ios/, android/)</td></tr>
+                <tr><td>Build Process</td><td>EAS Build (cloud)</td><td>Local or EAS Build</td></tr>
+                <tr><td>Native Libraries</td><td>Expo SDK only</td><td>Any native library</td></tr>
+                <tr><td>Setup Time</td><td>Minutes</td><td>Hours (native tooling)</td></tr>
+                <tr><td>OTA Updates</td><td>Built-in (expo-updates)</td><td>Requires setup</td></tr>
+                <tr><td>App Size</td><td>Larger (includes all Expo)</td><td>Optimized (only what you use)</td></tr>
+                <tr><td>Debugging</td><td>Expo Go app</td><td>Native debuggers (Xcode, Android Studio)</td></tr>
+                <tr><td>Team Skills Needed</td><td>JavaScript/React only</td><td>+ iOS/Android native</td></tr>
+            </table>
 
-            <h4>When to Use Managed</h4>
-            <ul>
-                <li>Rapid prototyping</li>
-                <li>Small team without native expertise</li>
-                <li>Standard features (camera, location, etc.)</li>
-                <li>Don't need custom native code</li>
-            </ul>
+            <h4>Architecture Overview</h4>
+            <pre><code>┌─────────────────────────────────────────────────────────────────┐
+│                     MANAGED WORKFLOW                             │
+│  ┌─────────────┐     ┌─────────────┐     ┌─────────────────┐   │
+│  │  Your JS    │ ──→ │  Expo SDK   │ ──→ │   EAS Build     │   │
+│  │    Code     │     │  (bundled)  │     │   (cloud)       │   │
+│  └─────────────┘     └─────────────┘     └─────────────────┘   │
+│                              ↓                                   │
+│                    Native code is hidden                         │
+└─────────────────────────────────────────────────────────────────┘
 
-            <h4>When to Use Bare (or Eject)</h4>
-            <ul>
-                <li>Custom native modules required</li>
-                <li>Libraries not supported by Expo</li>
-                <li>Need fine-grained native control</li>
-                <li>Specific build configurations</li>
-            </ul>
+┌─────────────────────────────────────────────────────────────────┐
+│                      BARE WORKFLOW                               │
+│  ┌─────────────┐     ┌─────────────┐     ┌─────────────────┐   │
+│  │  Your JS    │ ──→ │  ios/ &     │ ──→ │  Local Build or │   │
+│  │    Code     │     │  android/   │     │    EAS Build    │   │
+│  └─────────────┘     └─────────────┘     └─────────────────┘   │
+│                              ↓                                   │
+│                    Full native access + Expo modules             │
+└─────────────────────────────────────────────────────────────────┘</code></pre>
 
-            <h4>Ejecting</h4>
-            <pre><code># Convert managed to bare
+            <h4>When to Use Managed Workflow</h4>
+            <pre><code>✅ CHOOSE MANAGED WHEN:
+
+1. Rapid Prototyping / MVP
+   - Get to market fast
+   - Test ideas without native overhead
+
+2. Team Composition
+   - No iOS/Android developers on team
+   - JavaScript-focused developers
+
+3. Standard Features Only
+   - Camera, location, notifications
+   - Social auth, payments (Stripe)
+   - Push notifications
+
+4. Simplified DevOps
+   - Don't want to manage certificates
+   - CI/CD through EAS
+
+5. Instant Updates Critical
+   - OTA updates without app store review
+   - A/B testing, quick bug fixes</code></pre>
+
+            <h4>When to Use Bare Workflow</h4>
+            <pre><code>✅ CHOOSE BARE WHEN:
+
+1. Custom Native Code Required
+   - Proprietary SDK integration
+   - Custom native modules
+   - Platform-specific features
+
+2. Performance Critical
+   - Optimize app size (remove unused Expo)
+   - Native-level performance tuning
+
+3. Specific Library Needs
+   - Libraries not supported by Expo
+   - React Native Firebase (advanced features)
+   - Custom video players, ML models
+
+4. Enterprise Requirements
+   - On-premise builds (security)
+   - Custom signing configurations
+   - White-labeling multiple apps
+
+5. Full Control Needed
+   - Specific Gradle/Podfile configurations
+   - Native UI customizations
+   - Background processing</code></pre>
+
+            <h4>Migration: Managed to Bare (Prebuild)</h4>
+            <pre><code># Modern approach: Continuous Native Generation (CNG)
+# Generate native projects from config
+
 npx expo prebuild
 
-# This generates ios/ and android/ folders
-# You can still use Expo modules!</code></pre>
+# Result:
+my-app/
+├── app.json              # Configuration source
+├── ios/                  # Generated iOS project
+│   ├── Podfile
+│   └── MyApp.xcworkspace
+├── android/              # Generated Android project
+│   ├── build.gradle
+│   └── app/
+└── package.json
+
+# Key benefit: You can STILL use Expo modules!
+# Best of both worlds
+
+# Regenerate when needed (clean rebuild)
+npx expo prebuild --clean
+
+# This is NOT the same as old "eject"
+# You can regenerate native folders anytime</code></pre>
+
+            <h4>Decision Flowchart</h4>
+            <pre><code>                    ┌─────────────────────┐
+                    │ Starting new project │
+                    └──────────┬──────────┘
+                               ▼
+                    ┌─────────────────────┐
+                    │ Need custom native  │──── Yes ──→ Bare Workflow
+                    │ code or unsupported │              (or Dev Build)
+                    │ libraries?          │
+                    └──────────┬──────────┘
+                               │ No
+                               ▼
+                    ┌─────────────────────┐
+                    │ Team has native     │──── Yes ──→ Consider Bare
+                    │ iOS/Android skills? │              (more control)
+                    └──────────┬──────────┘
+                               │ No
+                               ▼
+                    ┌─────────────────────┐
+                    │ App size/perf       │──── Yes ──→ Bare Workflow
+                    │ critical concern?   │
+                    └──────────┬──────────┘
+                               │ No
+                               ▼
+                    ┌─────────────────────┐
+                    │   Managed Workflow  │
+                    │   (fastest start)   │
+                    └─────────────────────┘</code></pre>
+
+            <h4>💡 Interview Tips</h4>
+            <ul>
+                <li>Mention <strong>Expo Dev Client</strong> as the middle ground - managed workflow with custom native modules</li>
+                <li>Explain that <strong>prebuild</strong> replaced the old "eject" - it's now reversible and repeatable</li>
+                <li>Discuss <strong>Continuous Native Generation (CNG)</strong> - native folders regenerated from config</li>
+                <li>Note that most Expo modules work in bare workflow too</li>
+            </ul>
+
+            <h4>🚫 Common Misconceptions</h4>
+            <ul>
+                <li><strong>Wrong:</strong> "Ejecting from Expo means you can't use Expo anymore"</li>
+                <li><strong>Wrong:</strong> "Managed workflow is only for simple apps"</li>
+                <li><strong>Correct:</strong> "Bare workflow with Expo modules gives you best of both worlds"</li>
+                <li><strong>Correct:</strong> "EAS Build works for both managed and bare workflows"</li>
+            </ul>
         `
     },
     {
@@ -3105,57 +3223,208 @@ npx expo prebuild
         difficulty: "intermediate",
         seniority: "mid",
         answer: `
-            <h4>EAS Services</h4>
+            <h4>🎯 Why This Question Matters</h4>
+            <p>EAS has become the standard for building, deploying, and updating React Native apps. Understanding EAS demonstrates knowledge of modern mobile DevOps practices and can significantly reduce time-to-production for teams.</p>
 
-            <h4>1. EAS Build</h4>
-            <ul>
-                <li>Cloud-based native builds</li>
-                <li>No local Xcode/Android Studio needed</li>
-                <li>Handles signing and credentials</li>
-            </ul>
-            <pre><code># Build for both platforms
-eas build --platform all
+            <h4>EAS Overview</h4>
+            <pre><code>┌─────────────────────────────────────────────────────────────────┐
+│                  Expo Application Services (EAS)                 │
+├─────────────────┬─────────────────┬─────────────────────────────┤
+│   EAS Build     │   EAS Submit    │       EAS Update            │
+│   (compile)     │   (distribute)  │       (patch)               │
+├─────────────────┼─────────────────┼─────────────────────────────┤
+│ • Cloud builds  │ • App Store     │ • OTA JS updates            │
+│ • Credentials   │ • Play Store    │ • No store review           │
+│ • CI/CD ready   │ • TestFlight    │ • Branch deployments        │
+└─────────────────┴─────────────────┴─────────────────────────────┘
+                              │
+                   ┌──────────▼──────────┐
+                   │    eas.json         │
+                   │  (configuration)    │
+                   └─────────────────────┘</code></pre>
+
+            <h4>1. EAS Build - Cloud Native Compilation</h4>
+            <pre><code># Why EAS Build?
+┌────────────────────────────────────────────────────────────┐
+│  Traditional Build             vs    EAS Build             │
+├────────────────────────────────────────────────────────────┤
+│  • Need Mac for iOS builds     │  • Build iOS from any OS  │
+│  • Install Xcode (50GB+)       │  • No local tools needed  │
+│  • Manage certificates         │  • Auto credentials mgmt  │
+│  • CI server maintenance       │  • Managed infrastructure │
+│  • Codesigning headaches       │  • One command builds     │
+└────────────────────────────────────────────────────────────┘
+
+# Build Commands
+eas build --platform ios           # iOS only
+eas build --platform android       # Android only
+eas build --platform all           # Both platforms
 
 # Build for specific profile
-eas build --platform ios --profile production</code></pre>
+eas build --platform ios --profile production
+eas build --platform android --profile preview
 
-            <h4>2. EAS Submit</h4>
-            <ul>
-                <li>Automated store submissions</li>
-                <li>App Store and Play Store</li>
-            </ul>
-            <pre><code># Submit to stores
+# Local build (if you have native tools)
+eas build --platform android --local
+
+# Check build status
+eas build:list</code></pre>
+
+            <h4>2. EAS Submit - Automated Store Submission</h4>
+            <pre><code># Automate the tedious submission process
+# No more manual uploads through App Store Connect!
+
+# Submit to App Store
 eas submit --platform ios
-eas submit --platform android</code></pre>
 
-            <h4>3. EAS Update (OTA)</h4>
-            <ul>
-                <li>Over-the-air JavaScript updates</li>
-                <li>Instant updates without store review</li>
-                <li>Branch-based deployment</li>
-            </ul>
-            <pre><code># Publish update
-eas update --branch production --message "Bug fix"</code></pre>
+# Submit to Google Play
+eas submit --platform android
 
-            <h4>eas.json Configuration</h4>
+# Submit specific build
+eas submit --platform ios --id BUILD_ID
+
+# What EAS Submit handles:
+┌─────────────────────────────────────────────────┐
+│  iOS                    │  Android              │
+├─────────────────────────┼───────────────────────┤
+│  • App Store Connect    │  • Play Console API   │
+│  • TestFlight upload    │  • Track selection    │
+│  • Apple credentials    │  • Service account    │
+│  • Version management   │  • Release notes      │
+└─────────────────────────┴───────────────────────┘</code></pre>
+
+            <h4>3. EAS Update - Over-The-Air Updates</h4>
+            <pre><code># Push JavaScript/asset updates WITHOUT app store review
+# Users get updates instantly on next app launch
+
+# Publish update to production branch
+eas update --branch production --message "Fix login bug"
+
+# Publish to preview branch
+eas update --branch preview --message "New feature testing"
+
+# How OTA Updates Work:
+┌─────────────────────────────────────────────────────────────────┐
+│                                                                  │
+│   App Launch  ──→  Check for Update  ──→  Download JS Bundle    │
+│                         │                        │               │
+│                         ▼                        ▼               │
+│               ┌─────────────────┐    ┌──────────────────────┐  │
+│               │  No update?     │    │  Apply on next       │  │
+│               │  Use cached     │    │  launch (or instant) │  │
+│               └─────────────────┘    └──────────────────────┘  │
+│                                                                  │
+└─────────────────────────────────────────────────────────────────┘
+
+# Branch-based deployment
+eas update --branch production    # Live users
+eas update --branch staging       # QA testing
+eas update --branch feature-x     # Feature testing
+
+# IMPORTANT: What CAN'T be updated OTA:
+# ❌ Native code changes
+# ❌ New native modules
+# ❌ iOS/Android permissions
+# ❌ App icons, splash screens (baked into binary)
+
+# ✅ What CAN be updated OTA:
+# ✅ JavaScript code
+# ✅ React components
+# ✅ Images/assets in JS bundle
+# ✅ Business logic</code></pre>
+
+            <h4>Complete eas.json Configuration</h4>
             <pre><code>{
-    "build": {
-        "development": {
-            "developmentClient": true,
-            "distribution": "internal"
-        },
-        "preview": {
-            "distribution": "internal"
-        },
-        "production": {}
+  "cli": {
+    "version": ">= 5.0.0"
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "ios": {
+        "simulator": true
+      }
     },
-    "submit": {
-        "production": {
-            "ios": { "appleId": "..." },
-            "android": { "track": "production" }
-        }
+    "preview": {
+      "distribution": "internal",
+      "channel": "preview"
+    },
+    "production": {
+      "channel": "production",
+      "ios": {
+        "resourceClass": "m1-medium"
+      },
+      "android": {
+        "buildType": "apk"  // or "app-bundle" for Play Store
+      }
     }
+  },
+  "submit": {
+    "production": {
+      "ios": {
+        "appleId": "your@email.com",
+        "ascAppId": "1234567890",
+        "appleTeamId": "TEAM_ID"
+      },
+      "android": {
+        "serviceAccountKeyPath": "./google-service-account.json",
+        "track": "production"  // or "internal", "alpha", "beta"
+      }
+    }
+  }
 }</code></pre>
+
+            <h4>EAS Workflow Example</h4>
+            <pre><code># Complete CI/CD workflow
+
+# 1. Development: Build dev client for testing
+eas build --profile development --platform all
+
+# 2. Preview: Internal testing build
+eas build --profile preview --platform all
+
+# 3. Production: App store build
+eas build --profile production --platform all
+
+# 4. Submit to stores
+eas submit --platform all --profile production
+
+# 5. Hot fix? Push OTA update
+eas update --branch production --message "Critical fix v1.2.1"
+
+# Typical Release Flow:
+┌─────────┐    ┌─────────┐    ┌─────────┐    ┌─────────┐
+│ Feature │ ─→ │ Preview │ ─→ │ Submit  │ ─→ │ OTA for │
+│  Build  │    │  Test   │    │ to Store│    │ patches │
+└─────────┘    └─────────┘    └─────────┘    └─────────┘</code></pre>
+
+            <h4>EAS vs Alternatives</h4>
+            <table>
+                <tr><td><strong>Feature</strong></td><td><strong>EAS</strong></td><td><strong>Fastlane</strong></td><td><strong>App Center</strong></td></tr>
+                <tr><td>Cloud Builds</td><td>✅ Native</td><td>❌ Need CI</td><td>✅ Yes</td></tr>
+                <tr><td>iOS from Windows</td><td>✅ Yes</td><td>❌ No</td><td>✅ Yes</td></tr>
+                <tr><td>Credentials Mgmt</td><td>✅ Auto</td><td>✅ Match</td><td>⚠️ Manual</td></tr>
+                <tr><td>OTA Updates</td><td>✅ Native</td><td>❌ No</td><td>✅ Yes</td></tr>
+                <tr><td>Expo Integration</td><td>✅ Perfect</td><td>⚠️ Config</td><td>⚠️ Config</td></tr>
+                <tr><td>Pricing</td><td>Free tier + paid</td><td>Free (self-host)</td><td>Free tier + paid</td></tr>
+            </table>
+
+            <h4>💡 Interview Tips</h4>
+            <ul>
+                <li>Explain the <strong>three pillars</strong>: Build, Submit, Update - each solves a specific pain point</li>
+                <li>Mention <strong>channels and branches</strong> for managing different deployment environments</li>
+                <li>Know the <strong>limitations of OTA updates</strong> - native code changes require new builds</li>
+                <li>Discuss <strong>cost considerations</strong> - free tier is generous but production may need paid</li>
+            </ul>
+
+            <h4>🚫 Common Mistakes</h4>
+            <ul>
+                <li><strong>Mistake:</strong> Trying to push native module changes via OTA update</li>
+                <li><strong>Mistake:</strong> Not setting up proper channels for staging vs production</li>
+                <li><strong>Mistake:</strong> Forgetting to configure credentials before first build</li>
+                <li><strong>Best Practice:</strong> Always test OTA updates on preview channel before production</li>
+            </ul>
         `
     },
 
@@ -3168,58 +3437,350 @@ eas update --branch production --message "Bug fix"</code></pre>
         difficulty: "advanced",
         seniority: "senior",
         answer: `
-            <h4>Common Architecture Patterns</h4>
+            <h4>🎯 Why This Question Matters</h4>
+            <p>Architecture decisions made early in a project have long-lasting effects on scalability, testability, and team productivity. Senior engineers must understand trade-offs between different patterns and choose appropriately based on project needs, team size, and complexity.</p>
 
-            <h4>1. Feature-Based Structure</h4>
-            <pre><code>src/
-├── features/
-│   ├── auth/
+            <h4>Architecture Patterns Overview</h4>
+            <pre><code>┌─────────────────────────────────────────────────────────────────┐
+│                    ARCHITECTURE SPECTRUM                         │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  Simple ◄────────────────────────────────────────────► Complex  │
+│                                                                  │
+│  ┌─────────┐   ┌─────────┐   ┌─────────┐   ┌─────────────────┐ │
+│  │ Flat    │   │ Feature │   │ Clean   │   │ Domain-Driven   │ │
+│  │Structure│   │  Based  │   │ Arch    │   │ Design (DDD)    │ │
+│  └─────────┘   └─────────┘   └─────────┘   └─────────────────┘ │
+│                                                                  │
+│  Small apps    Medium apps   Large apps   Enterprise/Complex    │
+│  MVPs          Most teams    Testability  Microservices-like    │
+│  Prototypes    Recommended   important    Multiple domains      │
+│                                                                  │
+└─────────────────────────────────────────────────────────────────┘</code></pre>
+
+            <h4>1. Feature-Based Architecture (Recommended)</h4>
+            <pre><code>// Best for: Most production apps, growing teams
+
+src/
+├── features/                    # Feature modules
+│   ├── auth/                    # Authentication feature
+│   │   ├── components/          # Feature-specific components
+│   │   │   ├── LoginForm.tsx
+│   │   │   └── SignupForm.tsx
+│   │   ├── hooks/               # Feature-specific hooks
+│   │   │   └── useAuth.ts
+│   │   ├── screens/             # Feature screens
+│   │   │   ├── LoginScreen.tsx
+│   │   │   └── SignupScreen.tsx
+│   │   ├── services/            # API calls
+│   │   │   └── authApi.ts
+│   │   ├── store/               # State management
+│   │   │   └── authSlice.ts
+│   │   ├── types/               # TypeScript types
+│   │   │   └── auth.types.ts
+│   │   ├── utils/               # Feature utilities
+│   │   │   └── validation.ts
+│   │   └── index.ts             # Public API (barrel export)
+│   │
+│   ├── products/
 │   │   ├── components/
 │   │   ├── hooks/
 │   │   ├── screens/
-│   │   ├── services/
-│   │   └── store/
-│   ├── products/
-│   └── orders/
-├── shared/
-│   ├── components/
-│   ├── hooks/
-│   └── utils/
-└── navigation/</code></pre>
+│   │   └── index.ts
+│   │
+│   └── checkout/
+│       └── ...
+│
+├── shared/                      # Cross-feature code
+│   ├── components/              # Reusable UI components
+│   │   ├── Button.tsx
+│   │   ├── Input.tsx
+│   │   └── Card.tsx
+│   ├── hooks/                   # Shared hooks
+│   │   ├── useDebounce.ts
+│   │   └── useNetworkStatus.ts
+│   ├── services/                # Shared services
+│   │   ├── api.ts               # API client
+│   │   └── analytics.ts
+│   ├── utils/                   # Utilities
+│   │   └── formatters.ts
+│   └── constants/
+│       └── config.ts
+│
+├── navigation/                  # App navigation
+│   ├── RootNavigator.tsx
+│   ├── AuthNavigator.tsx
+│   └── MainNavigator.tsx
+│
+└── App.tsx
+
+// KEY RULES:
+// ✅ Features can import from shared/
+// ✅ Features can import public API from other features (via index.ts)
+// ❌ Features CANNOT import internal files from other features
+// ❌ Shared CANNOT import from features</code></pre>
 
             <h4>2. Clean Architecture</h4>
-            <pre><code>src/
-├── domain/           # Business logic, entities
-│   ├── entities/
-│   └── usecases/
-├── data/             # Data sources, repositories
-│   ├── repositories/
-│   └── datasources/
-├── presentation/     # UI layer
-│   ├── screens/
-│   └── components/
-└── infrastructure/   # External services</code></pre>
+            <pre><code>// Best for: Complex apps, high testability requirements, large teams
 
-            <h4>3. Redux + Container Pattern</h4>
-            <pre><code>// Container component (connects to store)
-const UserListContainer = () => {
+// Core principle: Dependencies point INWARD
+// Outer layers depend on inner layers, never the reverse
+
+┌─────────────────────────────────────────────────────────────────┐
+│                    CLEAN ARCHITECTURE LAYERS                     │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│   ┌───────────────────────────────────────────────────────┐    │
+│   │              PRESENTATION (UI Layer)                   │    │
+│   │   Screens, Components, ViewModels                      │    │
+│   │   ┌───────────────────────────────────────────────┐   │    │
+│   │   │              APPLICATION (Use Cases)           │   │    │
+│   │   │   Business logic, orchestration               │   │    │
+│   │   │   ┌───────────────────────────────────────┐   │   │    │
+│   │   │   │            DOMAIN (Entities)           │   │   │    │
+│   │   │   │   Core business objects, interfaces   │   │   │    │
+│   │   │   │   NO FRAMEWORK DEPENDENCIES           │   │   │    │
+│   │   │   └───────────────────────────────────────┘   │   │    │
+│   │   └───────────────────────────────────────────────┘   │    │
+│   └───────────────────────────────────────────────────────┘    │
+│                                                                  │
+│   ┌───────────────────────────────────────────────────────┐    │
+│   │              INFRASTRUCTURE (External)                 │    │
+│   │   API clients, databases, native modules              │    │
+│   └───────────────────────────────────────────────────────┘    │
+│                                                                  │
+└─────────────────────────────────────────────────────────────────┘
+
+src/
+├── domain/                      # Pure business logic (framework-agnostic)
+│   ├── entities/
+│   │   ├── User.ts              # Business objects
+│   │   └── Product.ts
+│   ├── repositories/            # Interfaces (abstractions)
+│   │   ├── IUserRepository.ts
+│   │   └── IProductRepository.ts
+│   └── usecases/                # Business operations
+│       ├── LoginUser.ts
+│       └── GetProducts.ts
+│
+├── data/                        # Data layer (implements domain interfaces)
+│   ├── repositories/            # Concrete implementations
+│   │   ├── UserRepository.ts
+│   │   └── ProductRepository.ts
+│   └── datasources/             # API, database, etc.
+│       ├── ApiDataSource.ts
+│       └── LocalDataSource.ts
+│
+├── presentation/                # UI layer
+│   ├── screens/
+│   ├── components/
+│   └── viewmodels/              # or hooks/
+│
+└── infrastructure/              # Framework-specific code
+    ├── di/                      # Dependency injection
+    │   └── container.ts
+    └── navigation/</code></pre>
+
+            <h4>Clean Architecture Code Example</h4>
+            <pre><code>// ═══════════════════════════════════════════════════
+// DOMAIN LAYER - Pure TypeScript, no React dependencies
+// ═══════════════════════════════════════════════════
+
+// domain/entities/User.ts
+export interface User {
+    id: string;
+    email: string;
+    name: string;
+    isPremium: boolean;
+}
+
+// domain/repositories/IUserRepository.ts
+export interface IUserRepository {
+    getUser(id: string): Promise<User>;
+    updateUser(user: User): Promise<void>;
+}
+
+// domain/usecases/GetUserProfile.ts
+export class GetUserProfile {
+    constructor(private userRepo: IUserRepository) {}
+
+    async execute(userId: string): Promise<User> {
+        const user = await this.userRepo.getUser(userId);
+        if (!user) throw new Error('User not found');
+        return user;
+    }
+}
+
+// ═══════════════════════════════════════════════════
+// DATA LAYER - Implements domain interfaces
+// ═══════════════════════════════════════════════════
+
+// data/repositories/UserRepository.ts
+import { IUserRepository } from '../../domain/repositories/IUserRepository';
+import { User } from '../../domain/entities/User';
+import { ApiClient } from '../datasources/ApiClient';
+
+export class UserRepository implements IUserRepository {
+    constructor(private api: ApiClient) {}
+
+    async getUser(id: string): Promise<User> {
+        const dto = await this.api.get(\`/users/\${id}\`);
+        return this.mapToEntity(dto);
+    }
+
+    private mapToEntity(dto: any): User {
+        return {
+            id: dto.id,
+            email: dto.email,
+            name: \`\${dto.first_name} \${dto.last_name}\`,
+            isPremium: dto.subscription === 'premium',
+        };
+    }
+}
+
+// ═══════════════════════════════════════════════════
+// PRESENTATION LAYER - React components
+// ═══════════════════════════════════════════════════
+
+// presentation/hooks/useUserProfile.ts
+export function useUserProfile(userId: string) {
+    const getUserProfile = useInjection(GetUserProfile);
+    const [state, setState] = useState<{ user?: User; loading: boolean; error?: Error }>();
+
+    useEffect(() => {
+        setState({ loading: true });
+        getUserProfile.execute(userId)
+            .then(user => setState({ user, loading: false }))
+            .catch(error => setState({ error, loading: false }));
+    }, [userId]);
+
+    return state;
+}
+
+// presentation/screens/ProfileScreen.tsx
+function ProfileScreen({ userId }) {
+    const { user, loading, error } = useUserProfile(userId);
+
+    if (loading) return <LoadingSpinner />;
+    if (error) return <ErrorMessage error={error} />;
+
+    return <ProfileCard user={user} />;
+}</code></pre>
+
+            <h4>3. Redux + Container/Presentational Pattern</h4>
+            <pre><code>// Best for: Apps heavily using Redux, clear separation of concerns
+
+// CONTAINER: Connects to Redux, handles logic
+// containers/UserListContainer.tsx
+function UserListContainer() {
     const users = useSelector(selectUsers);
+    const isLoading = useSelector(selectIsLoading);
+    const error = useSelector(selectError);
     const dispatch = useDispatch();
 
-    return &lt;UserList users={users} onRefresh={() => dispatch(fetchUsers())} /&gt;;
-};
+    const handleRefresh = useCallback(() => {
+        dispatch(fetchUsers());
+    }, [dispatch]);
 
-// Presentational component (pure UI)
-const UserList = ({ users, onRefresh }) => (
-    &lt;FlatList data={users} ... /&gt;
-);</code></pre>
+    const handleDelete = useCallback((id: string) => {
+        dispatch(deleteUser(id));
+    }, [dispatch]);
 
-            <h4>Recommended Approach</h4>
+    // Container handles all logic, passes pure props
+    return (
+        <UserList
+            users={users}
+            isLoading={isLoading}
+            error={error}
+            onRefresh={handleRefresh}
+            onDelete={handleDelete}
+        />
+    );
+}
+
+// PRESENTATIONAL: Pure UI, receives everything via props
+// components/UserList.tsx
+interface UserListProps {
+    users: User[];
+    isLoading: boolean;
+    error?: Error;
+    onRefresh: () => void;
+    onDelete: (id: string) => void;
+}
+
+const UserList = memo(({ users, isLoading, error, onRefresh, onDelete }: UserListProps) => {
+    if (isLoading) return <LoadingSpinner />;
+    if (error) return <ErrorMessage message={error.message} />;
+
+    return (
+        <FlatList
+            data={users}
+            renderItem={({ item }) => (
+                <UserCard user={item} onDelete={() => onDelete(item.id)} />
+            )}
+            refreshing={isLoading}
+            onRefresh={onRefresh}
+        />
+    );
+});
+
+// Benefits:
+// ✅ Presentational components are highly reusable
+// ✅ Easy to test UI in isolation
+// ✅ Clear separation of state and presentation
+// ❌ Can lead to prop drilling
+// ❌ More files/boilerplate</code></pre>
+
+            <h4>Architecture Comparison Table</h4>
+            <table>
+                <tr><td><strong>Pattern</strong></td><td><strong>Best For</strong></td><td><strong>Pros</strong></td><td><strong>Cons</strong></td></tr>
+                <tr><td>Feature-Based</td><td>Most apps, teams 3-15</td><td>Scalable, easy to navigate</td><td>Feature boundaries can blur</td></tr>
+                <tr><td>Clean Architecture</td><td>Complex domain, high test needs</td><td>Very testable, decoupled</td><td>More boilerplate, learning curve</td></tr>
+                <tr><td>Container/Presentational</td><td>Redux-heavy apps</td><td>Clear separation, reusable UI</td><td>Prop drilling, more files</td></tr>
+                <tr><td>Flat Structure</td><td>Small apps, MVPs</td><td>Simple, fast to start</td><td>Doesn't scale</td></tr>
+            </table>
+
+            <h4>My Recommended Approach (Hybrid)</h4>
+            <pre><code>// For most production apps: Feature-Based + Clean-ish
+
+src/
+├── features/
+│   └── auth/
+│       ├── api/              # Data fetching (Clean: data layer)
+│       ├── hooks/            # Business logic (Clean: use cases)
+│       ├── components/       # UI components
+│       ├── screens/          # Screen components
+│       ├── types/            # TypeScript types
+│       └── index.ts          # Public API
+├── shared/
+│   ├── components/           # Design system
+│   ├── hooks/                # Shared hooks
+│   ├── services/             # API client, analytics
+│   └── utils/
+└── navigation/
+
+// Key principles:
+1. Colocate related code (feature modules)
+2. Export only public API via index.ts
+3. Business logic in custom hooks (not components)
+4. Keep components focused on rendering
+5. Use TypeScript for contracts between layers</code></pre>
+
+            <h4>💡 Interview Tips</h4>
             <ul>
-                <li>Feature-based for most apps (scalable, maintainable)</li>
-                <li>Separate business logic from UI</li>
-                <li>Use custom hooks for reusable logic</li>
-                <li>Keep components small and focused</li>
+                <li>Don't just describe patterns—explain <strong>when you'd choose each</strong> and trade-offs</li>
+                <li>Mention your <strong>experience</strong> with different architectures and lessons learned</li>
+                <li>Discuss how architecture affects <strong>testing strategy</strong></li>
+                <li>Talk about <strong>migration</strong>—how to evolve architecture as app grows</li>
+            </ul>
+
+            <h4>🚫 Architecture Anti-Patterns</h4>
+            <ul>
+                <li><strong>Over-engineering:</strong> Using Clean Architecture for a simple CRUD app</li>
+                <li><strong>Under-engineering:</strong> Flat structure for a 50-screen app</li>
+                <li><strong>Circular dependencies:</strong> Features importing from each other's internals</li>
+                <li><strong>God components:</strong> 1000-line components mixing UI and business logic</li>
+                <li><strong>Premature abstraction:</strong> Creating abstractions before understanding patterns</li>
             </ul>
         `
     },
@@ -3231,53 +3792,365 @@ const UserList = ({ users, onRefresh }) => (
         difficulty: "advanced",
         seniority: "senior",
         answer: `
-            <h4>Recommended Project Structure</h4>
-            <pre><code>src/
-├── app/                    # App entry, providers, navigation
-│   ├── App.tsx
-│   ├── navigation/
-│   └── providers/
-├── features/               # Feature modules
-│   ├── auth/
-│   │   ├── api/           # API calls
-│   │   ├── components/    # Feature-specific components
-│   │   ├── hooks/         # Feature hooks
-│   │   ├── screens/       # Screen components
-│   │   ├── store/         # Feature state (slice)
-│   │   ├── types/         # TypeScript types
-│   │   └── index.ts       # Public exports
-│   └── ...
-├── shared/                 # Shared/common code
-│   ├── components/        # Reusable UI components
-│   ├── hooks/             # Common hooks
-│   ├── services/          # API client, analytics, etc.
-│   ├── utils/             # Helper functions
-│   └── constants/
-├── assets/                # Images, fonts, etc.
-└── types/                 # Global type definitions</code></pre>
+            <h4>🎯 Why This Question Matters</h4>
+            <p>Large-scale codebases (100+ files, 5+ developers) require thoughtful organization to maintain productivity. Poor structure leads to confusion, merge conflicts, circular dependencies, and slow onboarding. This question tests your experience with real production apps.</p>
 
-            <h4>Key Principles</h4>
-            <ul>
-                <li><strong>Colocation:</strong> Keep related files together</li>
-                <li><strong>Public API:</strong> Export only what's needed via index.ts</li>
-                <li><strong>Dependency direction:</strong> Features can import shared, not vice versa</li>
-                <li><strong>Single responsibility:</strong> One purpose per module</li>
-            </ul>
+            <h4>Complete Production Project Structure</h4>
+            <pre><code>my-app/
+├── .github/                     # CI/CD workflows
+│   └── workflows/
+│       ├── ci.yml
+│       └── release.yml
+├── .husky/                      # Git hooks (lint-staged)
+├── __mocks__/                   # Jest mocks
+├── android/                     # Native Android project
+├── ios/                         # Native iOS project
+├── src/
+│   ├── app/                     # App entry and setup
+│   │   ├── App.tsx              # Root component
+│   │   ├── providers/           # Context providers wrapper
+│   │   │   ├── index.tsx
+│   │   │   ├── QueryProvider.tsx
+│   │   │   └── ThemeProvider.tsx
+│   │   └── navigation/          # Navigation configuration
+│   │       ├── RootNavigator.tsx
+│   │       ├── AuthNavigator.tsx
+│   │       ├── MainNavigator.tsx
+│   │       ├── linking.ts       # Deep linking config
+│   │       └── types.ts         # Navigation types
+│   │
+│   ├── features/                # Feature modules (CORE)
+│   │   ├── auth/
+│   │   │   ├── api/             # Feature API calls
+│   │   │   │   ├── authApi.ts
+│   │   │   │   └── authApi.test.ts
+│   │   │   ├── components/      # Feature-specific components
+│   │   │   │   ├── LoginForm/
+│   │   │   │   │   ├── LoginForm.tsx
+│   │   │   │   │   ├── LoginForm.test.tsx
+│   │   │   │   │   └── index.ts
+│   │   │   │   └── BiometricPrompt.tsx
+│   │   │   ├── hooks/           # Feature hooks
+│   │   │   │   ├── useAuth.ts
+│   │   │   │   └── useAuth.test.ts
+│   │   │   ├── screens/         # Feature screens
+│   │   │   │   ├── LoginScreen.tsx
+│   │   │   │   ├── SignupScreen.tsx
+│   │   │   │   └── ForgotPasswordScreen.tsx
+│   │   │   ├── store/           # Feature state (Redux slice or Zustand)
+│   │   │   │   ├── authSlice.ts
+│   │   │   │   └── authSelectors.ts
+│   │   │   ├── types/           # Feature TypeScript types
+│   │   │   │   └── auth.types.ts
+│   │   │   ├── utils/           # Feature utilities
+│   │   │   │   └── validation.ts
+│   │   │   └── index.ts         # Public API exports
+│   │   │
+│   │   ├── products/
+│   │   │   └── ... (same structure)
+│   │   │
+│   │   ├── checkout/
+│   │   │   └── ...
+│   │   │
+│   │   └── profile/
+│   │       └── ...
+│   │
+│   ├── shared/                  # Cross-feature shared code
+│   │   ├── components/          # Reusable UI components
+│   │   │   ├── Button/
+│   │   │   │   ├── Button.tsx
+│   │   │   │   ├── Button.test.tsx
+│   │   │   │   └── index.ts
+│   │   │   ├── Input/
+│   │   │   ├── Card/
+│   │   │   ├── Modal/
+│   │   │   └── index.ts         # Barrel export
+│   │   │
+│   │   ├── hooks/               # Shared hooks
+│   │   │   ├── useDebounce.ts
+│   │   │   ├── useNetworkStatus.ts
+│   │   │   └── useKeyboard.ts
+│   │   │
+│   │   ├── services/            # External services
+│   │   │   ├── api/
+│   │   │   │   ├── client.ts    # Axios/fetch instance
+│   │   │   │   └── interceptors.ts
+│   │   │   ├── analytics.ts
+│   │   │   ├── crashReporting.ts
+│   │   │   └── storage.ts       # AsyncStorage wrapper
+│   │   │
+│   │   ├── utils/               # Pure utility functions
+│   │   │   ├── formatters.ts
+│   │   │   ├── validators.ts
+│   │   │   └── helpers.ts
+│   │   │
+│   │   └── constants/
+│   │       ├── config.ts
+│   │       └── routes.ts
+│   │
+│   ├── design-system/           # Design tokens & primitives
+│   │   ├── tokens/
+│   │   │   ├── colors.ts
+│   │   │   ├── typography.ts
+│   │   │   └── spacing.ts
+│   │   ├── primitives/
+│   │   │   ├── Box.tsx
+│   │   │   └── Text.tsx
+│   │   └── theme.ts
+│   │
+│   ├── assets/                  # Static assets
+│   │   ├── images/
+│   │   ├── fonts/
+│   │   └── animations/          # Lottie files
+│   │
+│   └── types/                   # Global TypeScript types
+│       ├── global.d.ts
+│       ├── env.d.ts
+│       └── navigation.d.ts
+│
+├── e2e/                         # E2E tests (Detox/Maestro)
+│   ├── auth.test.ts
+│   └── checkout.test.ts
+│
+├── scripts/                     # Build scripts
+│   └── generate-icons.sh
+│
+├── .env.example
+├── .eslintrc.js
+├── .prettierrc
+├── app.json                     # Expo config
+├── babel.config.js
+├── jest.config.js
+├── metro.config.js
+├── package.json
+├── tsconfig.json
+└── README.md</code></pre>
+
+            <h4>Feature Module Pattern (Barrel Exports)</h4>
+            <pre><code>// features/auth/index.ts - PUBLIC API ONLY
+// This is the only file other features can import from
+
+// Screens (for navigation)
+export { LoginScreen } from './screens/LoginScreen';
+export { SignupScreen } from './screens/SignupScreen';
+
+// Hooks (for cross-feature usage)
+export { useAuth } from './hooks/useAuth';
+
+// Types (for type sharing)
+export type { User, AuthState, LoginCredentials } from './types/auth.types';
+
+// Store (for root store setup)
+export { authReducer } from './store/authSlice';
+export { selectUser, selectIsAuthenticated } from './store/authSelectors';
+
+// ❌ DO NOT export internal components
+// export { LoginForm } from './components/LoginForm'; // WRONG!
+
+// ═══════════════════════════════════════════════════
+// USAGE FROM OTHER FEATURES:
+// ═══════════════════════════════════════════════════
+
+// ✅ CORRECT - import from barrel export
+import { useAuth, User } from '@/features/auth';
+
+// ❌ WRONG - importing internal implementation
+import { LoginForm } from '@/features/auth/components/LoginForm'; // NO!
+import { validateEmail } from '@/features/auth/utils/validation'; // NO!</code></pre>
+
+            <h4>Path Aliases Configuration</h4>
+            <pre><code>// tsconfig.json
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      "@features/*": ["src/features/*"],
+      "@shared/*": ["src/shared/*"],
+      "@assets/*": ["src/assets/*"],
+      "@design-system": ["src/design-system"]
+    }
+  }
+}
+
+// babel.config.js
+module.exports = {
+  presets: ['module:@react-native/babel-preset'],
+  plugins: [
+    [
+      'module-resolver',
+      {
+        root: ['./src'],
+        alias: {
+          '@': './src',
+          '@features': './src/features',
+          '@shared': './src/shared',
+          '@assets': './src/assets',
+          '@design-system': './src/design-system',
+        },
+      },
+    ],
+  ],
+};
+
+// Now you can import:
+import { Button } from '@shared/components';
+import { useAuth } from '@features/auth';
+import { colors } from '@design-system/tokens';</code></pre>
 
             <h4>Naming Conventions</h4>
-            <pre><code>// Components: PascalCase
+            <pre><code>// ═══════════════════════════════════════════════════
+// FILE NAMING
+// ═══════════════════════════════════════════════════
+
+// Components: PascalCase
 UserProfile.tsx
 UserProfile.styles.ts
 UserProfile.test.tsx
+UserProfile.stories.tsx      // Storybook
 
 // Hooks: camelCase with 'use' prefix
 useAuth.ts
 useUserProfile.ts
+useDebounce.ts
 
-// Utils/Services: camelCase
+// Services/Utils: camelCase
 api.ts
 analytics.ts
-formatters.ts</code></pre>
+formatters.ts
+validators.ts
+
+// Types: camelCase with .types suffix
+auth.types.ts
+navigation.types.ts
+
+// Constants: camelCase or SCREAMING_SNAKE_CASE
+config.ts
+routes.ts
+API_ENDPOINTS.ts
+
+// ═══════════════════════════════════════════════════
+// COMPONENT NAMING PATTERNS
+// ═══════════════════════════════════════════════════
+
+// Screens: end with "Screen"
+LoginScreen.tsx
+ProductDetailScreen.tsx
+
+// Container/Smart components: end with "Container" (optional)
+UserListContainer.tsx
+
+// List items: end with "Item" or "Card"
+ProductItem.tsx
+UserCard.tsx
+
+// Forms: end with "Form"
+LoginForm.tsx
+CheckoutForm.tsx
+
+// Modals: end with "Modal"
+ConfirmationModal.tsx
+FilterModal.tsx</code></pre>
+
+            <h4>Dependency Rules (Import Boundaries)</h4>
+            <pre><code>// Visual representation of allowed imports
+┌─────────────────────────────────────────────────────────────────┐
+│                         IMPORT RULES                             │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│   features/auth ──────────→ shared/          ✅ ALLOWED         │
+│                                                                  │
+│   features/auth ──────────→ features/products/index.ts           │
+│                              (public API only) ✅ ALLOWED        │
+│                                                                  │
+│   features/auth ──────────→ features/products/components/        │
+│                              (internal files)  ❌ FORBIDDEN      │
+│                                                                  │
+│   shared/ ────────────────→ features/*       ❌ FORBIDDEN        │
+│                                                                  │
+│   design-system ──────────→ nothing          ✅ STANDALONE       │
+│                                                                  │
+│   app/navigation ─────────→ features/*/screens ✅ ALLOWED        │
+│                                                                  │
+└─────────────────────────────────────────────────────────────────┘
+
+// Enforcing with ESLint (eslint-plugin-import)
+// .eslintrc.js
+module.exports = {
+  rules: {
+    'import/no-restricted-paths': ['error', {
+      zones: [
+        // shared cannot import from features
+        {
+          target: './src/shared',
+          from: './src/features',
+          message: 'Shared modules cannot import from features',
+        },
+        // features cannot import other features' internals
+        {
+          target: './src/features/auth',
+          from: './src/features/!(auth)/*/**',
+          message: 'Import from feature index.ts only',
+        },
+      ],
+    }],
+  },
+};</code></pre>
+
+            <h4>Scaling Guidelines</h4>
+            <pre><code>// When to split a feature:
+// ─────────────────────────────────────────────────────
+// ✓ Feature folder has 20+ files
+// ✓ Multiple developers working on same feature
+// ✓ Clear sub-domain boundaries emerge
+// ✓ Screens could logically be separate apps
+
+// Example: Splitting a "shopping" feature
+// BEFORE:
+features/
+└── shopping/
+    ├── screens/
+    │   ├── ProductListScreen.tsx
+    │   ├── ProductDetailScreen.tsx
+    │   ├── CartScreen.tsx
+    │   ├── CheckoutScreen.tsx
+    │   └── OrderConfirmationScreen.tsx
+    └── ... (30+ files)
+
+// AFTER:
+features/
+├── catalog/              # Product browsing
+│   ├── screens/
+│   │   ├── ProductListScreen.tsx
+│   │   └── ProductDetailScreen.tsx
+│   └── ...
+├── cart/                 # Shopping cart
+│   ├── screens/
+│   │   └── CartScreen.tsx
+│   └── ...
+└── checkout/             # Purchase flow
+    ├── screens/
+    │   ├── CheckoutScreen.tsx
+    │   └── OrderConfirmationScreen.tsx
+    └── ...</code></pre>
+
+            <h4>💡 Interview Tips</h4>
+            <ul>
+                <li>Explain <strong>why</strong> you organize this way, not just what the structure is</li>
+                <li>Discuss <strong>barrel exports</strong> (index.ts) and how they enforce boundaries</li>
+                <li>Mention <strong>tooling</strong>: ESLint import rules, path aliases, TypeScript</li>
+                <li>Talk about <strong>when to refactor</strong>: signs a feature needs splitting</li>
+                <li>Address <strong>team dynamics</strong>: how structure affects parallel work</li>
+            </ul>
+
+            <h4>🚫 Common Mistakes</h4>
+            <ul>
+                <li><strong>Too many shared components:</strong> If it's only used in one feature, keep it there</li>
+                <li><strong>Deep nesting:</strong> Avoid more than 3-4 levels of directories</li>
+                <li><strong>Inconsistent naming:</strong> Establish conventions early and enforce with linting</li>
+                <li><strong>No barrel exports:</strong> Without index.ts, imports become messy and uncontrolled</li>
+                <li><strong>Circular dependencies:</strong> Feature A imports from Feature B which imports from Feature A</li>
+            </ul>
         `
     },
 
@@ -3420,53 +4293,320 @@ notifee.onForegroundEvent(({ type, detail }) => {
         difficulty: "intermediate",
         seniority: "mid",
         answer: `
+            <h4>🎯 Why This Question Matters</h4>
+            <p>Metro is the heart of React Native development - every line of JavaScript you write passes through it. Understanding Metro helps you debug build issues, optimize bundle size, configure monorepos, and understand why hot reloading sometimes breaks.</p>
+
             <h4>What is Metro?</h4>
-            <p>Metro is the JavaScript bundler for React Native. It transforms and bundles your JS code and assets.</p>
+            <p>Metro is the JavaScript bundler specifically built for React Native by Meta. Unlike webpack (used in web), Metro is optimized for mobile development with features like fast incremental builds and instant Hot Module Replacement (HMR).</p>
 
-            <h4>How It Works</h4>
-            <ol>
-                <li><strong>Resolution:</strong> Finds all required modules starting from entry point</li>
-                <li><strong>Transformation:</strong> Transforms code (Babel, TypeScript, etc.)</li>
-                <li><strong>Serialization:</strong> Combines modules into a bundle</li>
-            </ol>
+            <h4>Metro Pipeline Architecture</h4>
+            <pre><code>┌─────────────────────────────────────────────────────────────────┐
+│                     METRO BUNDLING PIPELINE                      │
+└─────────────────────────────────────────────────────────────────┘
 
-            <h4>metro.config.js</h4>
-            <pre><code>const { getDefaultConfig } = require('expo/metro-config');
+         index.js (entry point)
+              │
+              ▼
+┌─────────────────────────┐
+│    1. RESOLUTION        │  ← Finds all required modules
+│    ─────────────────    │
+│  • Parse import/require │
+│  • Resolve file paths   │
+│  • Build dependency     │
+│    graph                │
+└───────────┬─────────────┘
+            │
+            ▼
+┌─────────────────────────┐
+│    2. TRANSFORMATION    │  ← Converts code (Babel, TS, etc.)
+│    ─────────────────    │
+│  • Babel transpilation  │
+│  • TypeScript → JS      │
+│  • JSX → React.create   │
+│  • Flow type stripping  │
+│  • Minification (prod)  │
+└───────────┬─────────────┘
+            │
+            ▼
+┌─────────────────────────┐
+│    3. SERIALIZATION     │  ← Combines into final bundle
+│    ─────────────────    │
+│  • Combine all modules  │
+│  • Generate source maps │
+│  • Create bundle file   │
+│  • Asset handling       │
+└───────────┬─────────────┘
+            │
+            ▼
+       bundle.js + assets</code></pre>
 
-const config = getDefaultConfig(__dirname);
+            <h4>Resolution Phase Deep Dive</h4>
+            <pre><code>// When Metro sees this import:
+import { Button } from './components/Button';
 
-// Custom resolver
-config.resolver.sourceExts = ['jsx', 'js', 'ts', 'tsx', 'json'];
+// Resolution steps:
+1. Check ./components/Button.tsx  ← matches sourceExts
+2. Check ./components/Button.ts
+3. Check ./components/Button.jsx
+4. Check ./components/Button.js
+5. Check ./components/Button/index.tsx
+6. Check ./components/Button/index.js
 
-// Asset extensions
-config.resolver.assetExts.push('db', 'mp3', 'ttf');
+// For node_modules:
+import React from 'react';
 
-// Transform options
-config.transformer.babelTransformerPath = require.resolve(
-    'react-native-svg-transformer'
-);
+// Metro looks in:
+1. ./node_modules/react
+2. ../node_modules/react
+3. ../../node_modules/react  ← walks up directory tree
 
-// Watchman settings (file watching)
-config.watchFolders = [path.resolve(__dirname, '../shared')];
+// The dependency graph might look like:
+index.js
+├── App.js
+│   ├── ./screens/HomeScreen.js
+│   │   └── ./components/Button.js
+│   └── ./screens/ProfileScreen.js
+├── react
+│   └── react/index.js
+└── react-native
+    └── react-native/index.js</code></pre>
 
-module.exports = config;</code></pre>
+            <h4>Complete metro.config.js Configuration</h4>
+            <pre><code>const { getDefaultConfig, mergeConfig } = require('@react-native/metro-config');
+const path = require('path');
 
-            <h4>Common Commands</h4>
-            <pre><code># Start with fresh cache
+const defaultConfig = getDefaultConfig(__dirname);
+
+const config = {
+  // ═══════════════════════════════════════════════════
+  // RESOLVER: How Metro finds and resolves modules
+  // ═══════════════════════════════════════════════════
+  resolver: {
+    // File extensions to consider as source code
+    sourceExts: ['jsx', 'js', 'ts', 'tsx', 'json', 'cjs', 'mjs'],
+
+    // File extensions for assets (images, fonts, etc.)
+    assetExts: [...defaultConfig.resolver.assetExts, 'db', 'mp3', 'ttf', 'otf'],
+
+    // Folders to exclude from bundling (regex)
+    blockList: [
+      /node_modules\\/.*\\/node_modules\\/react-native\\/.*/,
+      /\\.git\\/.*/,
+    ],
+
+    // For monorepos: extra folders to look for modules
+    nodeModulesPaths: [
+      path.resolve(__dirname, 'node_modules'),
+      path.resolve(__dirname, '../../node_modules'), // monorepo root
+    ],
+
+    // Resolve platform-specific files
+    // Button.ios.js vs Button.android.js
+    platforms: ['ios', 'android', 'native', 'web'],
+
+    // Custom module resolution
+    resolveRequest: (context, moduleName, platform) => {
+      // Custom resolution logic here
+      return context.resolveRequest(context, moduleName, platform);
+    },
+  },
+
+  // ═══════════════════════════════════════════════════
+  // TRANSFORMER: How Metro transforms/compiles code
+  // ═══════════════════════════════════════════════════
+  transformer: {
+    // Custom transformer for specific file types
+    babelTransformerPath: require.resolve('react-native-svg-transformer'),
+
+    // Babel configuration
+    getTransformOptions: async () => ({
+      transform: {
+        experimentalImportSupport: false,
+        inlineRequires: true, // Improves startup time
+      },
+    }),
+
+    // Minifier options for production
+    minifierPath: 'metro-minify-terser',
+    minifierConfig: {
+      compress: {
+        drop_console: true, // Remove console.log in production
+      },
+    },
+  },
+
+  // ═══════════════════════════════════════════════════
+  // WATCHER: File watching configuration (Watchman)
+  // ═══════════════════════════════════════════════════
+  watchFolders: [
+    path.resolve(__dirname, '../shared'), // Shared packages in monorepo
+    path.resolve(__dirname, '../../packages'), // Other packages
+  ],
+
+  // ═══════════════════════════════════════════════════
+  // SERVER: Development server options
+  // ═══════════════════════════════════════════════════
+  server: {
+    port: 8081, // Default Metro port
+    enhanceMiddleware: (middleware) => {
+      // Add custom middleware
+      return middleware;
+    },
+  },
+
+  // ═══════════════════════════════════════════════════
+  // SERIALIZER: How the final bundle is created
+  // ═══════════════════════════════════════════════════
+  serializer: {
+    // Modules to include regardless of imports
+    getModulesRunBeforeMainModule: () => [
+      require.resolve('./polyfills.js'),
+    ],
+
+    // Custom serializer for bundle output
+    createModuleIdFactory: () => {
+      // Custom module ID generation
+      return (path) => path;
+    },
+  },
+};
+
+module.exports = mergeConfig(defaultConfig, config);</code></pre>
+
+            <h4>SVG Handling Example</h4>
+            <pre><code>// To use SVGs as React components, you need a custom transformer
+
+// metro.config.js
+const { getDefaultConfig, mergeConfig } = require('@react-native/metro-config');
+
+const defaultConfig = getDefaultConfig(__dirname);
+
+const config = {
+  transformer: {
+    babelTransformerPath: require.resolve('react-native-svg-transformer'),
+  },
+  resolver: {
+    assetExts: defaultConfig.resolver.assetExts.filter(ext => ext !== 'svg'),
+    sourceExts: [...defaultConfig.resolver.sourceExts, 'svg'],
+  },
+};
+
+module.exports = mergeConfig(defaultConfig, config);
+
+// Now you can:
+import Logo from './assets/logo.svg';
+
+function Header() {
+  return <Logo width={100} height={100} />;
+}</code></pre>
+
+            <h4>Common Metro Commands</h4>
+            <pre><code># Start development server
+npx react-native start
+
+# Start with clean cache (fixes most weird issues!)
 npx react-native start --reset-cache
 
-# Create bundle manually
+# Create production bundle for iOS
 npx react-native bundle \\
-    --entry-file index.js \\
-    --bundle-output bundle.js \\
-    --platform ios \\
-    --dev false</code></pre>
+  --entry-file index.js \\
+  --platform ios \\
+  --dev false \\
+  --bundle-output ios/main.jsbundle \\
+  --assets-dest ios
 
-            <h4>Performance Tips</h4>
+# Create production bundle for Android
+npx react-native bundle \\
+  --entry-file index.js \\
+  --platform android \\
+  --dev false \\
+  --bundle-output android/app/src/main/assets/index.android.bundle \\
+  --assets-dest android/app/src/main/res
+
+# Generate RAM bundle (for better startup performance)
+npx react-native ram-bundle \\
+  --entry-file index.js \\
+  --platform android \\
+  --dev false \\
+  --bundle-output android/app/src/main/assets/index.android.bundle</code></pre>
+
+            <h4>Hot Module Replacement (HMR)</h4>
+            <pre><code>// Metro enables Fast Refresh (HMR) automatically in dev
+
+// How it works:
+┌─────────────────────────────────────────────────────────┐
+│  1. You edit Button.js                                   │
+│  2. Metro detects change via Watchman                    │
+│  3. Only Button.js is re-transformed (not entire app)   │
+│  4. HMR runtime patches the module in-place             │
+│  5. React re-renders affected components                 │
+│  6. State is preserved! 🎉                               │
+└─────────────────────────────────────────────────────────┘
+
+// HMR breaks when:
+// ❌ Module has side effects at top level
+// ❌ Export is not a component (plain functions)
+// ❌ Anonymous default exports
+// ❌ Class components (sometimes)
+
+// Best practices for HMR:
+// ✅ Named exports
+// ✅ Function components with hooks
+// ✅ Keep side effects in useEffect</code></pre>
+
+            <h4>Monorepo Configuration</h4>
+            <pre><code>// For monorepos (Yarn workspaces, npm workspaces, etc.)
+
+// Project structure:
+monorepo/
+├── packages/
+│   ├── shared/           # Shared code
+│   │   └── package.json
+│   └── mobile/           # React Native app
+│       ├── metro.config.js
+│       └── package.json
+└── package.json
+
+// metro.config.js in packages/mobile/
+const path = require('path');
+
+module.exports = {
+  // Tell Metro to watch the shared package
+  watchFolders: [
+    path.resolve(__dirname, '../../packages/shared'),
+    path.resolve(__dirname, '../../node_modules'),
+  ],
+
+  resolver: {
+    // Help Metro find hoisted modules
+    nodeModulesPaths: [
+      path.resolve(__dirname, 'node_modules'),
+      path.resolve(__dirname, '../../node_modules'),
+    ],
+
+    // Prevent duplicate React
+    extraNodeModules: {
+      'react': path.resolve(__dirname, 'node_modules/react'),
+      'react-native': path.resolve(__dirname, 'node_modules/react-native'),
+    },
+  },
+};</code></pre>
+
+            <h4>💡 Interview Tips</h4>
             <ul>
-                <li>Use <code>--reset-cache</code> when seeing stale code</li>
-                <li>Configure <code>watchFolders</code> for monorepos</li>
-                <li>Exclude large folders with <code>blockList</code></li>
+                <li>Explain the <strong>three phases</strong>: Resolution → Transformation → Serialization</li>
+                <li>Know when to use <strong>--reset-cache</strong> (stale code, weird errors, after config changes)</li>
+                <li>Understand <strong>inlineRequires</strong> and how it improves startup time</li>
+                <li>Be ready to discuss <strong>monorepo setup</strong> with watchFolders and nodeModulesPaths</li>
+            </ul>
+
+            <h4>🚫 Common Issues & Fixes</h4>
+            <ul>
+                <li><strong>Error: "Unable to resolve module"</strong> - Check sourceExts, clear cache, check paths</li>
+                <li><strong>Duplicate module "react"</strong> - Use extraNodeModules in monorepos</li>
+                <li><strong>Slow bundling</strong> - Add large folders to blockList</li>
+                <li><strong>HMR not working</strong> - Avoid side effects, use named exports</li>
+                <li><strong>Old code showing</strong> - Always try --reset-cache first</li>
             </ul>
         `
     },
