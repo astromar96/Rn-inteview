@@ -1169,7 +1169,7 @@ const useStore = create(
 /&gt;
 
 // ✅ Solution: Memoize callback + component
-const handlePress = useCallback((id) => {
+const handlePress = useCallback((id) =&gt; {
     navigation.navigate('Details', { itemId: id });
 }, [navigation]);
 const renderItem = useCallback(({ item }) => (
@@ -1183,8 +1183,8 @@ const MemoizedItem = React.memo(Item);</code></pre>
 function SearchResults({ query }) {
     // This blocks the JS thread while computing!
     const results = items
-        .filter(item => item.name.toLowerCase().includes(query.toLowerCase()))
-        .sort((a, b) => {
+        .filter(item =&gt; item.name.toLowerCase().includes(query.toLowerCase()))
+        .sort((a, b) =&gt; {
             // Complex sorting logic
             const scoreA = calculateRelevanceScore(a, query);
             const scoreB = calculateRelevanceScore(b, query);
@@ -1304,7 +1304,7 @@ MyComponent.whyDidYouRender = true;</code></pre>
     keyExtractor={(item) => item.id}
 
     // Layout optimization - CRITICAL for performance
-    getItemLayout={(data, index) => ({
+    getItemLayout={(data, index) =&gt; ({
         length: ITEM_HEIGHT,
         offset: ITEM_HEIGHT * index,
         index,
@@ -1346,10 +1346,10 @@ function ProductList({ products }) {
     return (
         &lt;FlashList
             data={products}
-            renderItem={({ item }) => (
+            renderItem={({ item }) =&gt; (
                 &lt;View style={styles.item}&gt;
                     &lt;Text&gt;{item.title}&lt;/Text&gt;
-                    &lt;Text&gt;${item.price}&lt;/Text&gt;
+                    &lt;Text&gt;\${item.price}&lt;/Text&gt;
                 &lt;/View&gt;
             )}
             estimatedItemSize={80}  // Required!
@@ -2100,7 +2100,7 @@ function useApi&lt;T&gt;(
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState&lt;Error | null&gt;(null);
 
-    const fetchData = useCallback(async () => {
+    const fetchData = useCallback(async () =&gt; {
         setLoading(true);
         setError(null);
 
@@ -2112,7 +2112,7 @@ function useApi&lt;T&gt;(
             const result = await response.json();
             setData(result);
             options?.onSuccess?.(result);
-        } catch (err) {
+        } catch (err) =&gt; {
             const error = err instanceof Error ? err : new Error('Unknown error');
             setError(error);
             options?.onError?.(error);
@@ -2121,11 +2121,11 @@ function useApi&lt;T&gt;(
         }
     }, [url, options]);
 
-    useEffect(() => {
+    useEffect(() =&gt; {
         fetchData();
     }, [fetchData]);
 
-    const refetch = useCallback(() => fetchData(), [fetchData]);
+    const refetch = useCallback(() =&gt; fetchData(), [fetchData]);
 
     return { data, loading, error, refetch };
 }</code></pre>
@@ -2161,8 +2161,8 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
     const [isLoading, setIsLoading] = useState(true);
 
     // Check for existing session on mount
-    useEffect(() => {
-        const checkAuth = async () => {
+    useEffect(() =&gt; {
+        const checkAuth = async () =&gt; {
             try {
                 const token = await AsyncStorage.getItem('authToken');
                 if (token) {
@@ -2178,7 +2178,7 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
         checkAuth();
     }, []);
 
-    const signIn = async (email: string, password: string) => {
+    const signIn = async (email: string, password: string) =&gt; {
         setIsLoading(true);
         try {
             const { user, token } = await api.login(email, password);
@@ -2189,7 +2189,7 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
         }
     };
 
-    const signOut = async () => {
+    const signOut = async () =&gt; {
         await AsyncStorage.removeItem('authToken');
         setUser(null);
     };
@@ -4787,11 +4787,11 @@ const initialState = {
 function LoginForm() {
     const [state, dispatch] = useReducer(formReducer, initialState);
 
-    const handleEmailChange = (email: string) => {
+    const handleEmailChange = (email: string) =&gt; {
         dispatch({ type: 'SET_FIELD', field: 'email', value: email });
     };
 
-    const handleSubmit = async () => {
+    const handleSubmit = async () =&gt; {
         dispatch({ type: 'SET_SUBMITTING', payload: true });
         try {
             await loginAPI(state.email, state.password);
@@ -4943,8 +4943,8 @@ class MouseTracker extends Component {
 function useMousePosition() {
     const [position, setPosition] = useState({ x: 0, y: 0 });
 
-    useEffect(() => {
-        const handler = (event) => {
+    useEffect(() =&gt; {
+        const handler = (event) =&gt; {
             setPosition({ x: event.pageX, y: event.pageY });
         };
 
@@ -4952,7 +4952,7 @@ function useMousePosition() {
         window.addEventListener('mousemove', handler);
 
         // Cleanup: Remove listener on unmount
-        return () => {
+        return () =&gt; {
             window.removeEventListener('mousemove', handler);
         };
     }, []);
@@ -5746,7 +5746,7 @@ test('button label renders', () => {
 });
 
 // 2. Use descriptive test names
-test('disabled button has reduced opacity', () => {
+test('disabled button has reduced opacity', () =&gt; {
     const { getByRole } = render(&lt;Button title="Submit" disabled /&gt;);
     const button = getByRole('button');
     expect(button).toHaveStyle({ opacity: 0.5 });
@@ -7329,7 +7329,7 @@ const ITEM_HEIGHT = 80;  // Fixed item height
     removeClippedSubviews={true}
     maxToRenderPerBatch={5}
     windowSize={3}
-    getItemLayout={(data, index) => ({
+    getItemLayout={(data, index) =&gt; ({
         length: ITEM_HEIGHT,
         offset: ITEM_HEIGHT * index,
         index,
@@ -7347,10 +7347,10 @@ useEffect(() => {
 
 // Issue: Unnecessary re-renders
 // Fix: Memoization
-const MemoizedItem = React.memo(Item, (prevProps, nextProps) => {
+const MemoizedItem = React.memo(Item, (prevProps, nextProps) =&gt; {
     return prevProps.item.id === nextProps.item.id;
 });
-const handlePress = useCallback((itemId) => {
+const handlePress = useCallback((itemId) =&gt; {
     navigation.navigate('Details', { itemId });
 }, [navigation]);
 
@@ -8218,11 +8218,11 @@ const mmkvStorage = {
 
 const useStore = create(
     persist(
-        (set) => ({
+        (set) =&gt; ({
             user: null,
             token: null,
-            setUser: (user) => set({ user }),
-            setToken: (token) => set({ token }),
+            setUser: (user) =&gt; set({ user }),
+            setToken: (token) =&gt; set({ token }),
         }),
         { storage: createJSONStorage(() => mmkvStorage) }
     )
