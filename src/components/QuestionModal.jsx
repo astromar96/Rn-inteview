@@ -235,7 +235,13 @@ export function QuestionModal() {
             Close
           </button>
           <button
-            onClick={() => toggleComplete(selectedQuestion.id)}
+            onClick={() => {
+              toggleComplete(selectedQuestion.id)
+              // Close modal when marking as complete (not when unmarking)
+              if (!isCompleted) {
+                handleClose()
+              }
+            }}
             className={clsx(
               "flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all",
               isCompleted
