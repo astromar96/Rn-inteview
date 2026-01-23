@@ -5,6 +5,7 @@ const AppContext = createContext()
 
 const STORAGE_KEY = 'rn-interview-completed'
 const BOOKMARKS_KEY = 'rn-interview-bookmarks'
+const FILTERS_KEY = 'rn-interview-filters'
 
 // Extract unique values for filter options
 export const CATEGORIES = [...new Set(questionsData.map(q => q.category))]
@@ -18,6 +19,21 @@ const initialFilters = {
   seniorities: [],
   status: 'all', // 'all' | 'pending' | 'completed' | 'bookmarked'
   sortBy: 'category', // 'category' | 'difficulty' | 'seniority' | 'alphabetical'
+}
+
+// Helper to load filters from localStorage
+const loadFilters = () => {
+  try {
+    const saved = localStorage.getItem(FILTERS_KEY)
+    if (saved) {
+      const parsed = JSON.parse(saved)
+      // Merge with initialFilters to handle any new filter properties added later
+      return { ...initialFilters, ...parsed }
+    }
+  } catch {
+    // If parsing fails, return default filters
+  }
+  return initialFilters
 }
 
 export function AppProvider({ children }) {
@@ -41,7 +57,7 @@ export function AppProvider({ children }) {
     }
   })
 
-  const [filters, setFilters] = useState(initialFilters)
+  const [filters, setFilters] = useState(loadFilters)
   const [selectedQuestion, setSelectedQuestion] = useState(null)
   const [sidebarOpen, setSidebarOpen] = useState(true)
   const [quizModeOpen, setQuizModeOpen] = useState(false)
@@ -56,6 +72,11 @@ export function AppProvider({ children }) {
   useEffect(() => {
     localStorage.setItem(BOOKMARKS_KEY, JSON.stringify([...bookmarkedIds]))
   }, [bookmarkedIds])
+
+  // Persist filters to localStorage
+  useEffect(() => {
+    localStorage.setItem(FILTERS_KEY, JSON.stringify(filters))
+  }, [filters])
 
   // Toggle bookmark
   const toggleBookmark = useCallback((id) => {
