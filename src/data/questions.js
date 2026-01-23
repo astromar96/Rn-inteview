@@ -10199,5 +10199,3250 @@ if (!paymentEnabled) {
     return <MaintenanceScreen />;
 }</code></pre>
         `
+    },
+    // ==================== TYPESCRIPT (EXPANDED) ====================
+    {
+        id: 117,
+        category: "TypeScript",
+        icon: "📘",
+        question: "How do you create type-safe generic components in React Native?",
+        difficulty: "intermediate",
+        seniority: "mid",
+        answer: `
+            <h4>🎯 Why This Question Matters</h4>
+            <p>Generic components enable reusability while maintaining full type safety. Interviewers assess your ability to write flexible, maintainable TypeScript code.</p>
+
+            <h4>Generic List Component</h4>
+            <pre><code>interface ListProps<T> {
+  data: T[];
+  renderItem: (item: T, index: number) => React.ReactNode;
+  keyExtractor: (item: T) => string;
+  onItemPress?: (item: T) => void;
+}
+
+function GenericList<T>({ data, renderItem, keyExtractor, onItemPress }: ListProps<T>) {
+  return (
+    <FlatList
+      data={data}
+      keyExtractor={keyExtractor}
+      renderItem={({ item, index }) => (
+        <TouchableOpacity onPress={() => onItemPress?.(item)}>
+          {renderItem(item, index)}
+        </TouchableOpacity>
+      )}
+    />
+  );
+}
+
+// Usage with full type inference
+interface User { id: string; name: string; }
+<GenericList<User>
+  data={users}
+  keyExtractor={(user) => user.id}
+  renderItem={(user) => <Text>{user.name}</Text>}
+  onItemPress={(user) => console.log(user.name)}
+/></code></pre>
+
+            <h4>Generic Form Hook</h4>
+            <pre><code>function useForm<T extends Record<string, any>>(initialValues: T) {
+  const [values, setValues] = useState<T>(initialValues);
+  const [errors, setErrors] = useState<Partial<Record<keyof T, string>>>({});
+
+  const setValue = <K extends keyof T>(field: K, value: T[K]) => {
+    setValues(prev => ({ ...prev, [field]: value }));
+  };
+
+  return { values, errors, setValue, setErrors };
+}
+
+// Type-safe usage
+const { values, setValue } = useForm({ email: '', password: '' });
+setValue('email', 'test@example.com'); // ✓ Type-safe
+setValue('email', 123); // ✗ Error: number not assignable to string</code></pre>
+
+            <h4>💡 Interview Tips</h4>
+            <ul>
+                <li>Use constraints (<code>extends</code>) to limit generic types</li>
+                <li>Prefer inference over explicit type parameters when possible</li>
+                <li>Generic components reduce code duplication significantly</li>
+            </ul>
+        `
+    },
+    {
+        id: 118,
+        category: "TypeScript",
+        icon: "📘",
+        question: "How do you implement type-safe navigation with React Navigation in TypeScript?",
+        difficulty: "intermediate",
+        seniority: "mid",
+        answer: `
+            <h4>🎯 Why This Question Matters</h4>
+            <p>Type-safe navigation prevents runtime crashes from incorrect params and enables autocomplete. This is essential for large apps with complex navigation.</p>
+
+            <h4>Define Navigation Types</h4>
+            <pre><code>// navigation/types.ts
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { CompositeScreenProps } from '@react-navigation/native';
+import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
+
+// Root stack params
+export type RootStackParamList = {
+  Auth: undefined;
+  Main: undefined;
+  Profile: { userId: string };
+  Settings: { section?: 'account' | 'privacy' };
+};
+
+// Tab params
+export type MainTabParamList = {
+  Home: undefined;
+  Search: { query?: string };
+  Notifications: undefined;
+};
+
+// Screen props helper
+export type RootStackScreenProps<T extends keyof RootStackParamList> =
+  NativeStackScreenProps<RootStackParamList, T>;
+
+// Nested navigation props
+export type MainTabScreenProps<T extends keyof MainTabParamList> =
+  CompositeScreenProps<
+    BottomTabScreenProps<MainTabParamList, T>,
+    RootStackScreenProps<keyof RootStackParamList>
+  >;</code></pre>
+
+            <h4>Type-Safe Screen Components</h4>
+            <pre><code>// screens/ProfileScreen.tsx
+function ProfileScreen({ route, navigation }: RootStackScreenProps<'Profile'>) {
+  const { userId } = route.params; // Type: string
+
+  // Type-safe navigation
+  navigation.navigate('Settings', { section: 'account' }); // ✓
+  navigation.navigate('Settings', { section: 'invalid' }); // ✗ Error
+}
+
+// Typed useNavigation hook
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+
+type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
+
+function MyComponent() {
+  const navigation = useNavigation<NavigationProp>();
+  navigation.navigate('Profile', { userId: '123' }); // ✓ Type-safe
+}</code></pre>
+
+            <h4>💡 Interview Tips</h4>
+            <ul>
+                <li>Always define param lists as types, not interfaces (for compatibility)</li>
+                <li>Use <code>undefined</code> for screens with no params</li>
+                <li>CompositeScreenProps handles nested navigators</li>
+            </ul>
+        `
+    },
+    {
+        id: 119,
+        category: "TypeScript",
+        icon: "📘",
+        question: "How do you type Redux or Zustand stores in React Native applications?",
+        difficulty: "advanced",
+        seniority: "senior",
+        answer: `
+            <h4>🎯 Why This Question Matters</h4>
+            <p>Properly typed state management prevents bugs and enables excellent developer experience with autocomplete and refactoring support.</p>
+
+            <h4>Redux Toolkit Typing</h4>
+            <pre><code>// store/store.ts
+import { configureStore } from '@reduxjs/toolkit';
+import userReducer from './userSlice';
+import cartReducer from './cartSlice';
+
+export const store = configureStore({
+  reducer: {
+    user: userReducer,
+    cart: cartReducer,
+  },
+});
+
+// Infer types from store
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
+
+// Typed hooks
+import { useDispatch, useSelector, TypedUseSelectorHook } from 'react-redux';
+
+export const useAppDispatch = () => useDispatch<AppDispatch>();
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
+
+// Usage
+const user = useAppSelector(state => state.user); // Fully typed
+const dispatch = useAppDispatch();
+dispatch(setUser({ id: '1', name: 'John' })); // Type-checked</code></pre>
+
+            <h4>Zustand Typing</h4>
+            <pre><code>// store/useAuthStore.ts
+import { create } from 'zustand';
+import { persist, createJSONStorage } from 'zustand/middleware';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+interface User {
+  id: string;
+  email: string;
+  name: string;
+}
+
+interface AuthState {
+  user: User | null;
+  token: string | null;
+  isLoading: boolean;
+  login: (email: string, password: string) => Promise<void>;
+  logout: () => void;
+  setUser: (user: User) => void;
+}
+
+export const useAuthStore = create<AuthState>()(
+  persist(
+    (set, get) => ({
+      user: null,
+      token: null,
+      isLoading: false,
+      login: async (email, password) => {
+        set({ isLoading: true });
+        const { user, token } = await authApi.login(email, password);
+        set({ user, token, isLoading: false });
+      },
+      logout: () => set({ user: null, token: null }),
+      setUser: (user) => set({ user }),
+    }),
+    {
+      name: 'auth-storage',
+      storage: createJSONStorage(() => AsyncStorage),
+    }
+  )
+);
+
+// Usage - fully typed
+const { user, login } = useAuthStore();
+await login('email@test.com', 'password');</code></pre>
+
+            <h4>💡 Interview Tips</h4>
+            <ul>
+                <li>Always infer RootState from store, don't manually define it</li>
+                <li>Create typed hooks to avoid repetitive type annotations</li>
+                <li>Zustand's middleware requires the curried <code>create<State>()()</code> syntax</li>
+            </ul>
+        `
+    },
+    {
+        id: 120,
+        category: "TypeScript",
+        icon: "📘",
+        question: "How do you write declaration files for native modules in React Native?",
+        difficulty: "advanced",
+        seniority: "senior",
+        answer: `
+            <h4>🎯 Why This Question Matters</h4>
+            <p>When using native modules without TypeScript support, you need declaration files for type safety. This shows deep TypeScript and RN integration knowledge.</p>
+
+            <h4>Basic Native Module Declaration</h4>
+            <pre><code>// types/react-native-custom-module.d.ts
+declare module 'react-native-custom-module' {
+  export interface CustomModuleOptions {
+    timeout?: number;
+    retryCount?: number;
+  }
+
+  export interface CustomModuleResult {
+    success: boolean;
+    data: string;
+    timestamp: number;
+  }
+
+  export function initialize(apiKey: string): Promise<void>;
+  export function performAction(
+    action: string,
+    options?: CustomModuleOptions
+  ): Promise<CustomModuleResult>;
+  export function cleanup(): void;
+
+  const CustomModule: {
+    initialize: typeof initialize;
+    performAction: typeof performAction;
+    cleanup: typeof cleanup;
+  };
+
+  export default CustomModule;
+}</code></pre>
+
+            <h4>NativeModules Extension</h4>
+            <pre><code>// types/native-modules.d.ts
+import { NativeModule } from 'react-native';
+
+interface BiometricModule extends NativeModule {
+  isSupported(): Promise<boolean>;
+  authenticate(reason: string): Promise<{
+    success: boolean;
+    error?: string;
+  }>;
+  getBiometryType(): Promise<'FaceID' | 'TouchID' | 'Fingerprint' | null>;
+}
+
+declare module 'react-native' {
+  interface NativeModulesStatic {
+    BiometricModule: BiometricModule;
+  }
+}
+
+// Usage
+import { NativeModules } from 'react-native';
+const { BiometricModule } = NativeModules;
+const supported = await BiometricModule.isSupported(); // Typed!</code></pre>
+
+            <h4>TurboModule Codegen Types</h4>
+            <pre><code>// With New Architecture, use codegen spec
+// specs/NativeBiometric.ts
+import type { TurboModule } from 'react-native';
+import { TurboModuleRegistry } from 'react-native';
+
+export interface Spec extends TurboModule {
+  isSupported(): Promise<boolean>;
+  authenticate(reason: string): Promise<{ success: boolean }>;
+}
+
+export default TurboModuleRegistry.getEnforcing<Spec>('Biometric');</code></pre>
+
+            <h4>💡 Interview Tips</h4>
+            <ul>
+                <li>Place .d.ts files in a <code>types/</code> folder included in tsconfig</li>
+                <li>Use module augmentation to extend existing types</li>
+                <li>New Architecture codegen generates types automatically</li>
+            </ul>
+        `
+    },
+    {
+        id: 121,
+        category: "TypeScript",
+        icon: "📘",
+        question: "What are TypeScript strict mode best practices for React Native projects?",
+        difficulty: "intermediate",
+        seniority: "mid",
+        answer: `
+            <h4>🎯 Why This Question Matters</h4>
+            <p>Strict mode catches bugs at compile time. Interviewers want to see you can configure and work with strict TypeScript effectively.</p>
+
+            <h4>Recommended tsconfig.json</h4>
+            <pre><code>{
+  "compilerOptions": {
+    // Strict mode flags
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "strictPropertyInitialization": true,
+    "noImplicitThis": true,
+    "alwaysStrict": true,
+
+    // Additional safety
+    "noUncheckedIndexedAccess": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+
+    // React Native specific
+    "jsx": "react-native",
+    "moduleResolution": "bundler",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true
+  }
+}</code></pre>
+
+            <h4>Handling Strict Null Checks</h4>
+            <pre><code>// Bad: Will error with strictNullChecks
+function getUser(id: string) {
+  const user = users.find(u => u.id === id);
+  return user.name; // Error: user might be undefined
+}
+
+// Good: Handle null case
+function getUser(id: string): string | undefined {
+  const user = users.find(u => u.id === id);
+  return user?.name;
+}
+
+// Or assert non-null when certain
+function getRequiredUser(id: string): string {
+  const user = users.find(u => u.id === id);
+  if (!user) throw new Error(\`User \${id} not found\`);
+  return user.name;
+}</code></pre>
+
+            <h4>Type Guards for Runtime Safety</h4>
+            <pre><code>// API response validation
+interface ApiResponse<T> {
+  data?: T;
+  error?: string;
+}
+
+function isSuccessResponse<T>(
+  response: ApiResponse<T>
+): response is { data: T; error: undefined } {
+  return response.data !== undefined && !response.error;
+}
+
+// Usage
+const response = await fetchUser(id);
+if (isSuccessResponse(response)) {
+  console.log(response.data.name); // data is guaranteed
+} else {
+  console.error(response.error);
+}</code></pre>
+
+            <h4>💡 Interview Tips</h4>
+            <ul>
+                <li>Enable strict mode from project start - retrofitting is painful</li>
+                <li>Use type guards instead of type assertions when possible</li>
+                <li><code>noUncheckedIndexedAccess</code> catches array access bugs</li>
+            </ul>
+        `
+    },
+    {
+        id: 122,
+        category: "TypeScript",
+        icon: "📘",
+        question: "How do you use type guards and discriminated unions effectively in React Native?",
+        difficulty: "advanced",
+        seniority: "senior",
+        answer: `
+            <h4>🎯 Why This Question Matters</h4>
+            <p>Type guards and discriminated unions enable type-safe handling of complex state and API responses, reducing runtime errors significantly.</p>
+
+            <h4>Discriminated Unions for State</h4>
+            <pre><code>// Network request state
+type RequestState<T> =
+  | { status: 'idle' }
+  | { status: 'loading' }
+  | { status: 'success'; data: T }
+  | { status: 'error'; error: Error };
+
+function UserProfile() {
+  const [state, setState] = useState<RequestState<User>>({ status: 'idle' });
+
+  // TypeScript narrows type based on status
+  switch (state.status) {
+    case 'idle':
+      return <Text>Ready to load</Text>;
+    case 'loading':
+      return <ActivityIndicator />;
+    case 'success':
+      return <Text>{state.data.name}</Text>; // data exists here
+    case 'error':
+      return <Text>{state.error.message}</Text>; // error exists here
+  }
+}</code></pre>
+
+            <h4>Custom Type Guards</h4>
+            <pre><code>// Check if value is a specific type
+function isUser(value: unknown): value is User {
+  return (
+    typeof value === 'object' &&
+    value !== null &&
+    'id' in value &&
+    'email' in value &&
+    typeof (value as User).id === 'string'
+  );
+}
+
+// API response validation
+function assertUser(value: unknown): asserts value is User {
+  if (!isUser(value)) {
+    throw new Error('Invalid user data');
+  }
+}
+
+// Usage
+const data = await api.getUser(id);
+assertUser(data); // Throws if invalid
+console.log(data.email); // TypeScript knows it's User</code></pre>
+
+            <h4>Navigation Event Types</h4>
+            <pre><code>type DeepLinkEvent =
+  | { type: 'profile'; userId: string }
+  | { type: 'product'; productId: string; variant?: string }
+  | { type: 'settings'; section: 'account' | 'privacy' }
+  | { type: 'unknown'; url: string };
+
+function handleDeepLink(event: DeepLinkEvent) {
+  switch (event.type) {
+    case 'profile':
+      navigation.navigate('Profile', { userId: event.userId });
+      break;
+    case 'product':
+      navigation.navigate('Product', {
+        id: event.productId,
+        variant: event.variant // Optional, properly typed
+      });
+      break;
+    case 'settings':
+      navigation.navigate('Settings', { section: event.section });
+      break;
+    case 'unknown':
+      console.warn('Unknown deep link:', event.url);
+  }
+}</code></pre>
+
+            <h4>💡 Interview Tips</h4>
+            <ul>
+                <li>Discriminated unions use a common "tag" property (like <code>status</code> or <code>type</code>)</li>
+                <li>Type guards return <code>value is Type</code> for narrowing</li>
+                <li>Assertion functions use <code>asserts value is Type</code></li>
+            </ul>
+        `
+    },
+    // ==================== DEBUGGING (EXPANDED) ====================
+    {
+        id: 123,
+        category: "Debugging",
+        icon: "🐛",
+        question: "How do you use React DevTools Profiler to identify performance issues in React Native?",
+        difficulty: "intermediate",
+        seniority: "mid",
+        answer: `
+            <h4>🎯 Why This Question Matters</h4>
+            <p>The Profiler is essential for finding unnecessary re-renders and slow components. Interviewers want to see practical debugging skills.</p>
+
+            <h4>Setting Up React DevTools</h4>
+            <pre><code>// Install standalone devtools
+npm install -g react-devtools
+
+// Run devtools
+react-devtools
+
+// In your app's index.js (dev only)
+if (__DEV__) {
+  require('react-devtools');
+}</code></pre>
+
+            <h4>Profiler Workflow</h4>
+            <pre><code>1. Open React DevTools → Profiler tab
+2. Click "Record" button
+3. Perform the interaction you want to profile
+4. Click "Stop" button
+5. Analyze the flame graph
+
+Key Metrics to Watch:
+┌─────────────────────────────────────────┐
+│ Commit Duration    │ Total render time  │
+│ Render Count       │ How many re-renders│
+│ Component Time     │ Per-component cost │
+│ "Why did render?"  │ What prop changed  │
+└─────────────────────────────────────────┘</code></pre>
+
+            <h4>Finding Problematic Components</h4>
+            <pre><code>// Enable "Highlight updates" in DevTools settings
+// Components flash when they re-render
+
+// Common issues to look for:
+// 1. Components re-rendering on every parent render
+// 2. Large lists re-rendering entirely
+// 3. Context causing cascading re-renders
+
+// Fix with React.memo
+const ExpensiveComponent = React.memo(({ data }) => {
+  // Only re-renders when data changes
+  return <ComplexVisualization data={data} />;
+});
+
+// Fix with useMemo for computed values
+const sortedList = useMemo(() => {
+  return items.sort((a, b) => a.name.localeCompare(b.name));
+}, [items]);</code></pre>
+
+            <h4>💡 Interview Tips</h4>
+            <ul>
+                <li>Profile in release mode for accurate timings (dev mode is slower)</li>
+                <li>Look for yellow/red components in the flame graph</li>
+                <li>"Why did this render?" feature shows exact prop changes</li>
+            </ul>
+        `
+    },
+    {
+        id: 124,
+        category: "Debugging",
+        icon: "🐛",
+        question: "How do you debug native crashes in React Native on iOS and Android?",
+        difficulty: "advanced",
+        seniority: "senior",
+        answer: `
+            <h4>🎯 Why This Question Matters</h4>
+            <p>Native crashes require different debugging approaches than JS errors. Senior developers must be able to diagnose issues at all levels of the stack.</p>
+
+            <h4>iOS Native Crash Debugging</h4>
+            <pre><code>// 1. Check Xcode console for crash logs
+// Product → Scheme → Edit Scheme → Run → Diagnostics
+// Enable: Address Sanitizer, Thread Sanitizer
+
+// 2. Symbolicate crash logs
+// Window → Devices and Simulators → View Device Logs
+
+// 3. Common iOS crash causes:
+┌─────────────────────────────────────────┐
+│ EXC_BAD_ACCESS   │ Memory access error  │
+│ SIGABRT          │ Assertion failure    │
+│ SIGKILL          │ System killed app    │
+│ EXC_CRASH        │ Unhandled exception  │
+└─────────────────────────────────────────┘
+
+// 4. Enable crash reporting
+// Add to AppDelegate.m:
+- (BOOL)application:(UIApplication *)application didFinishLaunching... {
+  NSSetUncaughtExceptionHandler(&handleException);
+  signal(SIGABRT, handleSignal);
+  signal(SIGSEGV, handleSignal);
+}</code></pre>
+
+            <h4>Android Native Crash Debugging</h4>
+            <pre><code>// 1. Check logcat for crash stack traces
+adb logcat *:E | grep -E "(FATAL|AndroidRuntime|crash)"
+
+// 2. Use Android Studio Profiler
+// View → Tool Windows → Logcat
+// Filter by your app's package name
+
+// 3. Common Android crash causes:
+┌─────────────────────────────────────────┐
+│ NullPointerException  │ Null reference   │
+│ OutOfMemoryError      │ Memory exhausted │
+│ IllegalStateException │ Invalid state    │
+│ SecurityException     │ Permission issue │
+└─────────────────────────────────────────┘
+
+// 4. Enable strict mode for development
+// In MainApplication.java:
+if (BuildConfig.DEBUG) {
+  StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
+    .detectAll()
+    .penaltyLog()
+    .build());
+}</code></pre>
+
+            <h4>Crash Reporting Services</h4>
+            <pre><code>// Sentry setup
+import * as Sentry from '@sentry/react-native';
+
+Sentry.init({
+  dsn: 'YOUR_DSN',
+  enableNativeCrashHandling: true,
+  attachStacktrace: true,
+});
+
+// Firebase Crashlytics
+import crashlytics from '@react-native-firebase/crashlytics';
+crashlytics().recordError(new Error('Test crash'));</code></pre>
+
+            <h4>💡 Interview Tips</h4>
+            <ul>
+                <li>Always check both JS and native logs for crashes</li>
+                <li>Use symbolication to convert addresses to function names</li>
+                <li>Implement crash reporting before production release</li>
+            </ul>
+        `
+    },
+    {
+        id: 125,
+        category: "Debugging",
+        icon: "🐛",
+        question: "How do you detect and fix memory leaks in React Native applications?",
+        difficulty: "advanced",
+        seniority: "senior",
+        answer: `
+            <h4>🎯 Why This Question Matters</h4>
+            <p>Memory leaks cause app slowdowns and crashes. This tests your ability to diagnose complex issues that worsen over time.</p>
+
+            <h4>Common Memory Leak Sources</h4>
+            <pre><code>// 1. Uncleared subscriptions/listeners
+useEffect(() => {
+  const subscription = eventEmitter.addListener('event', handler);
+  // LEAK: No cleanup!
+});
+
+// Fixed:
+useEffect(() => {
+  const subscription = eventEmitter.addListener('event', handler);
+  return () => subscription.remove(); // Cleanup!
+}, []);
+
+// 2. Uncleared timers
+useEffect(() => {
+  setInterval(() => updateData(), 1000);
+  // LEAK: Timer runs forever
+});
+
+// Fixed:
+useEffect(() => {
+  const timer = setInterval(() => updateData(), 1000);
+  return () => clearInterval(timer);
+}, []);
+
+// 3. State updates on unmounted components
+const [data, setData] = useState(null);
+useEffect(() => {
+  fetchData().then(result => setData(result)); // LEAK if unmounted
+});
+
+// Fixed:
+useEffect(() => {
+  let mounted = true;
+  fetchData().then(result => {
+    if (mounted) setData(result);
+  });
+  return () => { mounted = false; };
+}, []);</code></pre>
+
+            <h4>Detection Tools</h4>
+            <pre><code>// Flipper Memory Plugin
+// 1. Open Flipper → Memory tab
+// 2. Take heap snapshot before and after navigation
+// 3. Compare retained objects
+
+// Xcode Memory Graph Debugger
+// Debug → Debug Workflow → View Memory Graph
+// Look for unexpected retained objects
+
+// Android Profiler
+// View → Tool Windows → Profiler → Memory
+// Record allocations during suspected leak
+
+// why-did-you-render library
+import React from 'react';
+if (__DEV__) {
+  const whyDidYouRender = require('@welldone-software/why-did-you-render');
+  whyDidYouRender(React, { trackAllPureComponents: true });
+}</code></pre>
+
+            <h4>Automated Leak Detection</h4>
+            <pre><code>// Custom hook for leak detection in dev
+function useLeakDetection(componentName: string) {
+  useEffect(() => {
+    if (__DEV__) {
+      console.log(\`[Mount] \${componentName}\`);
+      return () => console.log(\`[Unmount] \${componentName}\`);
+    }
+  }, []);
+}</code></pre>
+
+            <h4>💡 Interview Tips</h4>
+            <ul>
+                <li>Always return cleanup functions from useEffect</li>
+                <li>Use AbortController for fetch requests</li>
+                <li>Profile memory before and after navigation flows</li>
+            </ul>
+        `
+    },
+    {
+        id: 126,
+        category: "Debugging",
+        icon: "🐛",
+        question: "What is the difference between remote debugging and Hermes inspector? When should you use each?",
+        difficulty: "intermediate",
+        seniority: "mid",
+        answer: `
+            <h4>🎯 Why This Question Matters</h4>
+            <p>Understanding debugging tools helps you choose the right approach for different issues. This shows practical debugging experience.</p>
+
+            <h4>Comparison Table</h4>
+            <pre><code>┌───────────────────┬─────────────────────┬─────────────────────┐
+│ Feature           │ Remote Debugging    │ Hermes Inspector    │
+├───────────────────┼─────────────────────┼─────────────────────┤
+│ JS Engine         │ Chrome V8           │ Hermes              │
+│ Performance       │ Slower (different   │ Accurate (same      │
+│                   │ engine)             │ engine as prod)     │
+│ Breakpoints       │ ✓ Full support      │ ✓ Full support      │
+│ Network Tab       │ ✗ Not available     │ ✓ Via Flipper       │
+│ Console           │ ✓ Full support      │ ✓ Full support      │
+│ Profiling         │ ✗ Inaccurate        │ ✓ Accurate          │
+│ Setup             │ Shake → Debug       │ Flipper/Chrome      │
+└───────────────────┴─────────────────────┴─────────────────────┘</code></pre>
+
+            <h4>Remote Debugging (Legacy)</h4>
+            <pre><code>// Shake device → "Debug with Chrome"
+// Opens chrome://inspect
+
+// Pros:
+// - Familiar Chrome DevTools interface
+// - Good for quick debugging
+// - Works without Hermes
+
+// Cons:
+// - JS runs in Chrome V8, not Hermes
+// - Timing issues (async bridge communication)
+// - Can hide/cause different bugs
+// - Deprecated for Hermes apps</code></pre>
+
+            <h4>Hermes Inspector (Recommended)</h4>
+            <pre><code>// Option 1: Direct Chrome connection
+// chrome://inspect → Configure → localhost:8081
+
+// Option 2: Flipper (recommended)
+// - Download Flipper from fbflipper.com
+// - Connect device/emulator
+// - Use Hermes Debugger plugin
+
+// Enable Hermes in android/app/build.gradle:
+project.ext.react = [
+    enableHermes: true
+]
+
+// metro.config.js - ensure source maps
+module.exports = {
+  transformer: {
+    minifierConfig: {
+      sourceMap: { includeSources: true }
+    }
+  }
+};</code></pre>
+
+            <h4>When to Use Each</h4>
+            <pre><code>Use Hermes Inspector when:
+✓ Debugging performance issues
+✓ Investigating timing-sensitive bugs
+✓ Profiling JavaScript execution
+✓ Production-like debugging
+
+Use Remote Debugging when:
+✓ Quick inspection of state/props
+✓ Apps without Hermes enabled
+✓ Rapid prototyping/learning</code></pre>
+
+            <h4>💡 Interview Tips</h4>
+            <ul>
+                <li>Hermes is the default and recommended engine since RN 0.70</li>
+                <li>Remote debugging runs code in a different engine - results may differ</li>
+                <li>Flipper provides additional tools like network inspection</li>
+            </ul>
+        `
+    },
+    // ==================== SECURITY (EXPANDED) ====================
+    {
+        id: 127,
+        category: "Security",
+        icon: "🔒",
+        question: "How do you implement secure storage using Keychain (iOS) and Keystore (Android)?",
+        difficulty: "intermediate",
+        seniority: "mid",
+        answer: `
+            <h4>🎯 Why This Question Matters</h4>
+            <p>Storing sensitive data properly is critical for app security. This tests knowledge of platform-specific secure storage mechanisms.</p>
+
+            <h4>react-native-keychain Usage</h4>
+            <pre><code>import * as Keychain from 'react-native-keychain';
+
+// Store credentials securely
+async function saveCredentials(username: string, password: string) {
+  await Keychain.setGenericPassword(username, password, {
+    service: 'com.myapp.auth',
+    accessControl: Keychain.ACCESS_CONTROL.BIOMETRY_ANY,
+    accessible: Keychain.ACCESSIBLE.WHEN_UNLOCKED_THIS_DEVICE_ONLY,
+  });
+}
+
+// Retrieve credentials
+async function getCredentials() {
+  const credentials = await Keychain.getGenericPassword({
+    service: 'com.myapp.auth',
+  });
+  if (credentials) {
+    return { username: credentials.username, password: credentials.password };
+  }
+  return null;
+}
+
+// Delete credentials
+async function clearCredentials() {
+  await Keychain.resetGenericPassword({ service: 'com.myapp.auth' });
+}</code></pre>
+
+            <h4>Security Levels Comparison</h4>
+            <pre><code>┌────────────────────────┬──────────────┬─────────────────────┐
+│ Storage Method         │ Security     │ Use Case            │
+├────────────────────────┼──────────────┼─────────────────────┤
+│ AsyncStorage           │ ❌ None      │ Non-sensitive prefs │
+│ Encrypted AsyncStorage │ ⚠️ Medium   │ Moderate sensitivity│
+│ Keychain/Keystore      │ ✅ High      │ Tokens, passwords   │
+│ Secure Enclave         │ ✅ Highest   │ Cryptographic keys  │
+└────────────────────────┴──────────────┴─────────────────────┘</code></pre>
+
+            <h4>Advanced: Store Encryption Keys</h4>
+            <pre><code>import * as Keychain from 'react-native-keychain';
+import CryptoJS from 'crypto-js';
+
+// Generate and store encryption key
+async function setupEncryption() {
+  let credentials = await Keychain.getGenericPassword({
+    service: 'encryption-key'
+  });
+
+  if (!credentials) {
+    // Generate random key
+    const key = CryptoJS.lib.WordArray.random(256/8).toString();
+    await Keychain.setGenericPassword('key', key, {
+      service: 'encryption-key',
+      accessible: Keychain.ACCESSIBLE.WHEN_UNLOCKED_THIS_DEVICE_ONLY,
+    });
+    return key;
+  }
+  return credentials.password;
+}
+
+// Encrypt sensitive data
+function encryptData(data: string, key: string): string {
+  return CryptoJS.AES.encrypt(data, key).toString();
+}
+
+// Decrypt data
+function decryptData(encrypted: string, key: string): string {
+  return CryptoJS.AES.decrypt(encrypted, key).toString(CryptoJS.enc.Utf8);
+}</code></pre>
+
+            <h4>💡 Interview Tips</h4>
+            <ul>
+                <li>Never store tokens in AsyncStorage - use Keychain/Keystore</li>
+                <li>Use <code>WHEN_UNLOCKED_THIS_DEVICE_ONLY</code> for maximum security</li>
+                <li>Keychain data persists across app reinstalls on iOS</li>
+            </ul>
+        `
+    },
+    {
+        id: 128,
+        category: "Security",
+        icon: "🔒",
+        question: "How do you implement certificate pinning in React Native to prevent MITM attacks?",
+        difficulty: "advanced",
+        seniority: "senior",
+        answer: `
+            <h4>🎯 Why This Question Matters</h4>
+            <p>Certificate pinning prevents man-in-the-middle attacks even when device is compromised. Essential for apps handling sensitive data.</p>
+
+            <h4>Using react-native-ssl-pinning</h4>
+            <pre><code>import { fetch as sslFetch } from 'react-native-ssl-pinning';
+
+// Option 1: Pin to certificate
+const response = await sslFetch('https://api.myapp.com/data', {
+  method: 'GET',
+  sslPinning: {
+    certs: ['cert1', 'cert2'], // Certificate file names (without extension)
+  },
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+
+// Option 2: Pin to public key hash (recommended)
+const response = await sslFetch('https://api.myapp.com/data', {
+  method: 'POST',
+  sslPinning: {
+    certs: ['sha256/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA='],
+  },
+  body: JSON.stringify(data),
+});</code></pre>
+
+            <h4>Getting Certificate Hash</h4>
+            <pre><code># Get SHA256 hash for pinning
+openssl s_client -servername api.myapp.com -connect api.myapp.com:443 | \\
+  openssl x509 -pubkey -noout | \\
+  openssl rsa -pubin -outform der | \\
+  openssl dgst -sha256 -binary | \\
+  openssl enc -base64
+
+# Output: sha256/AAAA...= (use this for pinning)</code></pre>
+
+            <h4>Native Implementation (iOS)</h4>
+            <pre><code>// ios/MyApp/AppDelegate.m
+#import &lt;TrustKit/TrustKit.h&gt;
+
+- (BOOL)application:(UIApplication *)application
+    didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+
+  NSDictionary *trustKitConfig = @{
+    kTSKSwizzleNetworkDelegates: @YES,
+    kTSKPinnedDomains: @{
+      @"api.myapp.com": @{
+        kTSKIncludeSubdomains: @YES,
+        kTSKPublicKeyHashes: @[
+          @"sha256/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+          @"sha256/BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB=", // Backup
+        ],
+      },
+    },
+  };
+  [TrustKit initSharedInstanceWithConfiguration:trustKitConfig];
+}</code></pre>
+
+            <h4>Best Practices</h4>
+            <pre><code>// 1. Always pin backup certificates
+// 2. Handle pinning failures gracefully
+try {
+  const response = await sslFetch(url, options);
+} catch (error) {
+  if (error.message.includes('SSL')) {
+    // Log security event
+    analytics.track('ssl_pinning_failure', { url });
+    // Show user-friendly error
+    Alert.alert('Security Error', 'Unable to establish secure connection');
+  }
+}
+
+// 3. Plan for certificate rotation
+// Pin to multiple certs including upcoming ones</code></pre>
+
+            <h4>💡 Interview Tips</h4>
+            <ul>
+                <li>Public key pinning survives certificate renewal</li>
+                <li>Always have backup pins for certificate rotation</li>
+                <li>Test pinning with proxy tools like Charles/mitmproxy</li>
+            </ul>
+        `
+    },
+    {
+        id: 129,
+        category: "Security",
+        icon: "🔒",
+        question: "How do you implement biometric authentication (Face ID/Touch ID/Fingerprint) in React Native?",
+        difficulty: "intermediate",
+        seniority: "mid",
+        answer: `
+            <h4>🎯 Why This Question Matters</h4>
+            <p>Biometric auth improves UX while maintaining security. This is increasingly expected in modern apps.</p>
+
+            <h4>Using react-native-biometrics</h4>
+            <pre><code>import ReactNativeBiometrics, { BiometryTypes } from 'react-native-biometrics';
+
+const rnBiometrics = new ReactNativeBiometrics();
+
+// Check availability
+async function checkBiometrics() {
+  const { available, biometryType } = await rnBiometrics.isSensorAvailable();
+
+  if (available) {
+    switch (biometryType) {
+      case BiometryTypes.TouchID:
+        return 'Touch ID available';
+      case BiometryTypes.FaceID:
+        return 'Face ID available';
+      case BiometryTypes.Biometrics:
+        return 'Biometrics available (Android)';
+    }
+  }
+  return 'Biometrics not available';
+}
+
+// Simple authentication
+async function authenticate() {
+  const { success, error } = await rnBiometrics.simplePrompt({
+    promptMessage: 'Confirm your identity',
+    cancelButtonText: 'Cancel',
+  });
+
+  if (success) {
+    console.log('Authentication successful');
+    return true;
+  }
+  console.log('Authentication failed:', error);
+  return false;
+}</code></pre>
+
+            <h4>Cryptographic Biometric Auth</h4>
+            <pre><code>// Generate keys protected by biometrics
+async function setupBiometricKeys() {
+  const { publicKey } = await rnBiometrics.createKeys();
+  // Send publicKey to server for registration
+  await api.registerBiometricKey(publicKey);
+}
+
+// Sign data with biometric-protected key
+async function biometricLogin() {
+  const payload = JSON.stringify({
+    userId: 'user123',
+    timestamp: Date.now(),
+  });
+
+  const { success, signature } = await rnBiometrics.createSignature({
+    promptMessage: 'Sign in',
+    payload,
+  });
+
+  if (success) {
+    // Server verifies signature with stored public key
+    const { token } = await api.verifyBiometricSignature({
+      payload,
+      signature,
+    });
+    return token;
+  }
+  throw new Error('Biometric authentication failed');
+}</code></pre>
+
+            <h4>Fallback Strategy</h4>
+            <pre><code>async function authenticateUser() {
+  const { available } = await rnBiometrics.isSensorAvailable();
+
+  if (available) {
+    const biometricResult = await authenticate();
+    if (biometricResult) return true;
+  }
+
+  // Fallback to PIN/password
+  return showPinInput();
+}
+
+// iOS: Add to Info.plist
+// &lt;key&gt;NSFaceIDUsageDescription&lt;/key&gt;
+// &lt;string&gt;Authenticate to access your account&lt;/string&gt;</code></pre>
+
+            <h4>💡 Interview Tips</h4>
+            <ul>
+                <li>Always provide fallback authentication method</li>
+                <li>Use cryptographic biometrics for high-security apps</li>
+                <li>iOS requires NSFaceIDUsageDescription in Info.plist</li>
+            </ul>
+        `
+    },
+    {
+        id: 130,
+        category: "Security",
+        icon: "🔒",
+        question: "How do you prevent sensitive data from appearing in logs and screenshots in React Native?",
+        difficulty: "intermediate",
+        seniority: "mid",
+        answer: `
+            <h4>🎯 Why This Question Matters</h4>
+            <p>Data leakage through logs and screenshots is a common security oversight. This tests awareness of production security practices.</p>
+
+            <h4>Preventing Logging in Production</h4>
+            <pre><code>// babel.config.js - Remove console in production
+module.exports = {
+  presets: ['module:metro-react-native-babel-preset'],
+  env: {
+    production: {
+      plugins: ['transform-remove-console'],
+    },
+  },
+};
+
+// Or selective logging wrapper
+const logger = {
+  log: (...args) => {
+    if (__DEV__) console.log(...args);
+  },
+  error: (...args) => {
+    // Always log errors but sanitize sensitive data
+    const sanitized = args.map(arg => sanitize(arg));
+    console.error(...sanitized);
+  },
+};
+
+function sanitize(data) {
+  if (typeof data === 'object') {
+    const copy = { ...data };
+    const sensitiveKeys = ['password', 'token', 'ssn', 'creditCard'];
+    sensitiveKeys.forEach(key => {
+      if (copy[key]) copy[key] = '[REDACTED]';
+    });
+    return copy;
+  }
+  return data;
+}</code></pre>
+
+            <h4>Preventing Screenshots</h4>
+            <pre><code>// iOS: Blur when app goes to background
+// AppDelegate.m
+- (void)applicationWillResignActive:(UIApplication *)application {
+  UIBlurEffect *blur = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+  UIVisualEffectView *blurView = [[UIVisualEffectView alloc] initWithEffect:blur];
+  blurView.frame = self.window.bounds;
+  blurView.tag = 1234;
+  [self.window addSubview:blurView];
+}
+
+- (void)applicationDidBecomeActive:(UIApplication *)application {
+  [[self.window viewWithTag:1234] removeFromSuperview];
+}
+
+// Android: Prevent screenshots
+// MainActivity.java
+import android.view.WindowManager;
+
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+  super.onCreate(savedInstanceState);
+  getWindow().setFlags(
+    WindowManager.LayoutParams.FLAG_SECURE,
+    WindowManager.LayoutParams.FLAG_SECURE
+  );
+}</code></pre>
+
+            <h4>React Native Implementation</h4>
+            <pre><code>import { useEffect } from 'react';
+import { AppState, Platform, NativeModules } from 'react-native';
+
+function useScreenshotPrevention() {
+  useEffect(() => {
+    if (Platform.OS === 'android') {
+      NativeModules.PreventScreenshot?.enable();
+      return () => NativeModules.PreventScreenshot?.disable();
+    }
+  }, []);
+}
+
+// Mask sensitive fields in app switcher
+function SensitiveScreen() {
+  const [isBackground, setIsBackground] = useState(false);
+
+  useEffect(() => {
+    const sub = AppState.addEventListener('change', state => {
+      setIsBackground(state !== 'active');
+    });
+    return () => sub.remove();
+  }, []);
+
+  if (isBackground) {
+    return <View style={styles.masked}><Text>Content Hidden</Text></View>;
+  }
+  return <SensitiveContent />;
+}</code></pre>
+
+            <h4>💡 Interview Tips</h4>
+            <ul>
+                <li>Remove console.log in production builds</li>
+                <li>Use FLAG_SECURE on Android for sensitive screens</li>
+                <li>Blur/hide content when app enters background</li>
+            </ul>
+        `
+    },
+    // ==================== OFFLINE & STORAGE (EXPANDED) ====================
+    {
+        id: 131,
+        category: "Offline & Storage",
+        icon: "💾",
+        question: "What are the differences between AsyncStorage, MMKV, and SQLite? When would you use each?",
+        difficulty: "intermediate",
+        seniority: "mid",
+        answer: `
+            <h4>🎯 Why This Question Matters</h4>
+            <p>Choosing the right storage solution affects app performance and capabilities. This tests practical decision-making skills.</p>
+
+            <h4>Comparison Table</h4>
+            <pre><code>┌─────────────────┬──────────────┬──────────────┬──────────────┐
+│ Feature         │ AsyncStorage │ MMKV         │ SQLite       │
+├─────────────────┼──────────────┼──────────────┼──────────────┤
+│ Speed           │ Slow         │ Very Fast    │ Fast         │
+│ Data Type       │ String only  │ Multiple     │ Structured   │
+│ Query Support   │ Key-value    │ Key-value    │ Full SQL     │
+│ Size Limit      │ ~6MB Android │ No limit     │ No limit     │
+│ Encryption      │ No           │ Yes          │ With ext     │
+│ Sync API        │ No           │ Yes          │ No           │
+│ Bundle Size     │ Small        │ Medium       │ Large        │
+└─────────────────┴──────────────┴──────────────┴──────────────┘</code></pre>
+
+            <h4>AsyncStorage (Simple Key-Value)</h4>
+            <pre><code>import AsyncStorage from '@react-native-async-storage/async-storage';
+
+// Store and retrieve
+await AsyncStorage.setItem('user', JSON.stringify(user));
+const user = JSON.parse(await AsyncStorage.getItem('user'));
+
+// Best for:
+// - Small amounts of data
+// - Simple settings/preferences
+// - When you need minimal dependencies</code></pre>
+
+            <h4>MMKV (High Performance)</h4>
+            <pre><code>import { MMKV } from 'react-native-mmkv';
+
+const storage = new MMKV({ id: 'app-storage', encryptionKey: 'secret' });
+
+// Synchronous API - much faster
+storage.set('user', JSON.stringify(user));
+const user = JSON.parse(storage.getString('user'));
+storage.set('count', 42); // Supports numbers directly
+storage.set('enabled', true); // Supports booleans
+
+// Best for:
+// - High-frequency reads/writes
+// - Performance-critical apps
+// - When you need encryption</code></pre>
+
+            <h4>SQLite (Relational Data)</h4>
+            <pre><code>import SQLite from 'react-native-sqlite-storage';
+
+const db = await SQLite.openDatabase({ name: 'app.db' });
+
+// Create tables and query
+await db.executeSql(\`
+  CREATE TABLE IF NOT EXISTS users (
+    id INTEGER PRIMARY KEY,
+    name TEXT,
+    email TEXT UNIQUE
+  )
+\`);
+
+const [results] = await db.executeSql(
+  'SELECT * FROM users WHERE name LIKE ?',
+  ['%john%']
+);
+
+// Best for:
+// - Complex data relationships
+// - Large datasets with querying needs
+// - Offline-first apps with sync requirements</code></pre>
+
+            <h4>💡 Interview Tips</h4>
+            <ul>
+                <li>MMKV is 30x faster than AsyncStorage</li>
+                <li>Use SQLite when you need JOINs or complex queries</li>
+                <li>Consider WatermelonDB for reactive SQLite with sync</li>
+            </ul>
+        `
+    },
+    {
+        id: 132,
+        category: "Offline & Storage",
+        icon: "💾",
+        question: "How do you design an offline-first architecture in React Native?",
+        difficulty: "advanced",
+        seniority: "senior",
+        answer: `
+            <h4>🎯 Why This Question Matters</h4>
+            <p>Offline-first apps provide better UX in unreliable network conditions. This tests system design and data management skills.</p>
+
+            <h4>Architecture Overview</h4>
+            <pre><code>┌─────────────────────────────────────────────────────┐
+│                    React Native App                  │
+├─────────────────────────────────────────────────────┤
+│  UI Layer                                           │
+│  ├── Optimistic Updates                             │
+│  └── Loading/Sync States                            │
+├─────────────────────────────────────────────────────┤
+│  Data Layer                                         │
+│  ├── Local Database (SQLite/WatermelonDB)           │
+│  ├── Sync Queue (Pending Changes)                   │
+│  └── Conflict Resolution Logic                      │
+├─────────────────────────────────────────────────────┤
+│  Network Layer                                      │
+│  ├── Online/Offline Detection                       │
+│  ├── Background Sync                                │
+│  └── Retry Logic                                    │
+└─────────────────────────────────────────────────────┘</code></pre>
+
+            <h4>Sync Queue Implementation</h4>
+            <pre><code>interface SyncOperation {
+  id: string;
+  type: 'CREATE' | 'UPDATE' | 'DELETE';
+  entity: string;
+  data: any;
+  timestamp: number;
+  retries: number;
+}
+
+class SyncQueue {
+  private queue: SyncOperation[] = [];
+  private isOnline = true;
+
+  async addOperation(op: Omit<SyncOperation, 'id' | 'timestamp' | 'retries'>) {
+    const operation = {
+      ...op,
+      id: uuid(),
+      timestamp: Date.now(),
+      retries: 0,
+    };
+    this.queue.push(operation);
+    await this.persistQueue();
+
+    if (this.isOnline) {
+      this.processQueue();
+    }
+  }
+
+  async processQueue() {
+    for (const op of this.queue) {
+      try {
+        await this.syncOperation(op);
+        this.queue = this.queue.filter(o => o.id !== op.id);
+      } catch (error) {
+        op.retries++;
+        if (op.retries > 3) {
+          // Move to dead letter queue
+          await this.handleFailedOperation(op);
+        }
+      }
+    }
+    await this.persistQueue();
+  }
+}</code></pre>
+
+            <h4>Network State Management</h4>
+            <pre><code>import NetInfo from '@react-native-community/netinfo';
+
+function useOfflineFirst() {
+  const [isOnline, setIsOnline] = useState(true);
+  const [pendingSync, setPendingSync] = useState(0);
+
+  useEffect(() => {
+    const unsubscribe = NetInfo.addEventListener(state => {
+      const wasOffline = !isOnline;
+      setIsOnline(state.isConnected);
+
+      // Trigger sync when coming back online
+      if (wasOffline && state.isConnected) {
+        syncQueue.processQueue();
+      }
+    });
+    return unsubscribe;
+  }, [isOnline]);
+
+  return { isOnline, pendingSync };
+}</code></pre>
+
+            <h4>💡 Interview Tips</h4>
+            <ul>
+                <li>Always write to local DB first, then sync</li>
+                <li>Use timestamps for conflict resolution</li>
+                <li>Show sync status to users (pending changes count)</li>
+            </ul>
+        `
+    },
+    {
+        id: 133,
+        category: "Offline & Storage",
+        icon: "💾",
+        question: "How do you handle data synchronization conflicts in React Native apps?",
+        difficulty: "advanced",
+        seniority: "senior",
+        answer: `
+            <h4>🎯 Why This Question Matters</h4>
+            <p>Sync conflicts are inevitable in offline-first apps. This tests your ability to design robust data consistency strategies.</p>
+
+            <h4>Conflict Resolution Strategies</h4>
+            <pre><code>┌─────────────────────────────────────────────────────┐
+│ Strategy          │ Use Case                        │
+├───────────────────┼─────────────────────────────────┤
+│ Last Write Wins   │ Simple data, low conflict risk  │
+│ First Write Wins  │ Reservation systems             │
+│ Manual Merge      │ Collaborative editing           │
+│ Field-Level Merge │ Complex objects                 │
+│ CRDT              │ Real-time collaboration         │
+└─────────────────────────────────────────────────────┘</code></pre>
+
+            <h4>Last Write Wins Implementation</h4>
+            <pre><code>interface SyncableEntity {
+  id: string;
+  updatedAt: number;
+  version: number;
+  data: any;
+}
+
+async function syncEntity(local: SyncableEntity, remote: SyncableEntity) {
+  if (local.updatedAt > remote.updatedAt) {
+    // Local is newer, push to server
+    await api.update(local);
+    return local;
+  } else if (remote.updatedAt > local.updatedAt) {
+    // Remote is newer, update local
+    await db.update(remote);
+    return remote;
+  }
+  // Same timestamp - use version number
+  return local.version > remote.version ? local : remote;
+}</code></pre>
+
+            <h4>Field-Level Merge</h4>
+            <pre><code>function mergeDocuments(local: Doc, remote: Doc, base: Doc): Doc {
+  const merged = { ...base };
+
+  for (const key of Object.keys(local)) {
+    const localChanged = local[key] !== base[key];
+    const remoteChanged = remote[key] !== base[key];
+
+    if (localChanged && !remoteChanged) {
+      merged[key] = local[key];
+    } else if (!localChanged && remoteChanged) {
+      merged[key] = remote[key];
+    } else if (localChanged && remoteChanged) {
+      // Both changed - need conflict resolution
+      if (local[key] === remote[key]) {
+        merged[key] = local[key]; // Same change
+      } else {
+        // Actual conflict - use timestamp or prompt user
+        merged[key] = resolveConflict(key, local, remote);
+      }
+    }
+  }
+  return merged;
+}</code></pre>
+
+            <h4>User-Facing Conflict Resolution</h4>
+            <pre><code>function ConflictResolver({ local, remote, onResolve }) {
+  return (
+    <View style={styles.conflictModal}>
+      <Text>This item was modified on another device</Text>
+
+      <TouchableOpacity onPress={() => onResolve(local)}>
+        <Text>Keep my version</Text>
+        <Text style={styles.preview}>{local.title}</Text>
+        <Text>Modified: {formatDate(local.updatedAt)}</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity onPress={() => onResolve(remote)}>
+        <Text>Use server version</Text>
+        <Text style={styles.preview}>{remote.title}</Text>
+        <Text>Modified: {formatDate(remote.updatedAt)}</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity onPress={() => onResolve(merge(local, remote))}>
+        <Text>Merge both versions</Text>
+      </TouchableOpacity>
+    </View>
+  );
+}</code></pre>
+
+            <h4>💡 Interview Tips</h4>
+            <ul>
+                <li>Track base version for three-way merge</li>
+                <li>Use vector clocks for distributed conflict detection</li>
+                <li>Always preserve conflicting data - never silently lose changes</li>
+            </ul>
+        `
+    },
+    {
+        id: 134,
+        category: "Offline & Storage",
+        icon: "💾",
+        question: "How do you implement background data synchronization in React Native?",
+        difficulty: "advanced",
+        seniority: "senior",
+        answer: `
+            <h4>🎯 Why This Question Matters</h4>
+            <p>Background sync keeps data fresh without user intervention. This tests knowledge of platform-specific background task APIs.</p>
+
+            <h4>iOS Background Fetch</h4>
+            <pre><code>// ios/AppDelegate.m
+- (BOOL)application:(UIApplication *)application
+    didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+  // Enable background fetch
+  [application setMinimumBackgroundFetchInterval:
+    UIApplicationBackgroundFetchIntervalMinimum];
+  return YES;
+}
+
+- (void)application:(UIApplication *)application
+    performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))handler {
+  // Trigger JS sync
+  [RNBackgroundSync performSyncWithCompletion:^(BOOL success) {
+    handler(success ? UIBackgroundFetchResultNewData
+                   : UIBackgroundFetchResultNoData);
+  }];
+}</code></pre>
+
+            <h4>React Native Background Task</h4>
+            <pre><code>import BackgroundFetch from 'react-native-background-fetch';
+
+async function initBackgroundSync() {
+  await BackgroundFetch.configure({
+    minimumFetchInterval: 15, // minutes
+    stopOnTerminate: false,
+    startOnBoot: true,
+    enableHeadless: true,
+  }, async (taskId) => {
+    console.log('[BackgroundFetch] Task:', taskId);
+
+    try {
+      // Perform sync operations
+      await syncPendingChanges();
+      await fetchNewData();
+
+      BackgroundFetch.finish(taskId);
+    } catch (error) {
+      console.error('Background sync failed:', error);
+      BackgroundFetch.finish(taskId);
+    }
+  }, (taskId) => {
+    // Task timeout
+    BackgroundFetch.finish(taskId);
+  });
+}
+
+// Headless task for Android
+BackgroundFetch.registerHeadlessTask(async ({ taskId }) => {
+  await syncPendingChanges();
+  BackgroundFetch.finish(taskId);
+});</code></pre>
+
+            <h4>WorkManager for Android</h4>
+            <pre><code>// Using react-native-workmanager
+import WorkManager from 'react-native-workmanager';
+
+// Register periodic sync
+await WorkManager.enqueuePeriodicWork(
+  'data-sync',
+  WorkManager.ExistingPeriodicWorkPolicy.KEEP,
+  {
+    repeatInterval: 15, // minutes
+    constraints: {
+      networkType: WorkManager.NetworkType.CONNECTED,
+      requiresBatteryNotLow: true,
+    },
+  }
+);
+
+// Worker implementation
+WorkManager.setWorker('data-sync', async () => {
+  const pending = await db.getPendingChanges();
+  for (const change of pending) {
+    await api.sync(change);
+    await db.markSynced(change.id);
+  }
+  return WorkManager.Result.SUCCESS;
+});</code></pre>
+
+            <h4>💡 Interview Tips</h4>
+            <ul>
+                <li>iOS limits background fetch to ~30 seconds</li>
+                <li>Android WorkManager survives app restarts</li>
+                <li>Use constraints to sync only on WiFi/charging</li>
+            </ul>
+        `
+    },
+    // ==================== ARCHITECTURE (EXPANDED) ====================
+    {
+        id: 135,
+        category: "Architecture",
+        icon: "🏛️",
+        question: "How do you set up a monorepo for React Native with shared code across platforms?",
+        difficulty: "advanced",
+        seniority: "senior",
+        answer: `
+            <h4>🎯 Why This Question Matters</h4>
+            <p>Monorepos enable code sharing across mobile, web, and backend. This tests your ability to architect scalable project structures.</p>
+
+            <h4>Monorepo Structure with Turborepo</h4>
+            <pre><code>my-monorepo/
+├── apps/
+│   ├── mobile/              # React Native app
+│   │   ├── src/
+│   │   ├── ios/
+│   │   ├── android/
+│   │   └── package.json
+│   ├── web/                 # Next.js/React web app
+│   │   └── package.json
+│   └── admin/               # Admin dashboard
+│       └── package.json
+├── packages/
+│   ├── ui/                  # Shared UI components
+│   │   ├── src/
+│   │   │   ├── Button.tsx
+│   │   │   └── index.ts
+│   │   └── package.json
+│   ├── utils/               # Shared utilities
+│   ├── api-client/          # API client
+│   ├── types/               # Shared TypeScript types
+│   └── config/              # Shared configs (eslint, tsconfig)
+├── turbo.json
+├── package.json
+└── pnpm-workspace.yaml</code></pre>
+
+            <h4>Workspace Configuration</h4>
+            <pre><code>// pnpm-workspace.yaml
+packages:
+  - 'apps/*'
+  - 'packages/*'
+
+// turbo.json
+{
+  "pipeline": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**", ".next/**"]
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "lint": {},
+    "test": {}
+  }
+}
+
+// Root package.json
+{
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "mobile": "turbo run dev --filter=mobile",
+    "web": "turbo run dev --filter=web"
+  }
+}</code></pre>
+
+            <h4>Cross-Platform UI Package</h4>
+            <pre><code>// packages/ui/src/Button.tsx
+import { Platform } from 'react-native';
+
+interface ButtonProps {
+  title: string;
+  onPress: () => void;
+  variant?: 'primary' | 'secondary';
+}
+
+export function Button({ title, onPress, variant = 'primary' }: ButtonProps) {
+  // Works on both web and native
+  return (
+    <Pressable
+      onPress={onPress}
+      style={[styles.button, styles[variant]]}
+    >
+      <Text style={styles.text}>{title}</Text>
+    </Pressable>
+  );
+}
+
+// packages/ui/package.json
+{
+  "name": "@myapp/ui",
+  "main": "src/index.ts",
+  "react-native": "src/index.ts"
+}</code></pre>
+
+            <h4>Metro Config for Monorepo</h4>
+            <pre><code>// apps/mobile/metro.config.js
+const path = require('path');
+const { getDefaultConfig } = require('@react-native/metro-config');
+
+const projectRoot = __dirname;
+const workspaceRoot = path.resolve(projectRoot, '../..');
+
+const config = getDefaultConfig(projectRoot);
+
+config.watchFolders = [workspaceRoot];
+config.resolver.nodeModulesPaths = [
+  path.resolve(projectRoot, 'node_modules'),
+  path.resolve(workspaceRoot, 'node_modules'),
+];
+
+module.exports = config;</code></pre>
+
+            <h4>💡 Interview Tips</h4>
+            <ul>
+                <li>Use pnpm for better monorepo performance</li>
+                <li>Turborepo caches builds for faster CI</li>
+                <li>Keep platform-specific code in apps/, shared in packages/</li>
+            </ul>
+        `
+    },
+    {
+        id: 136,
+        category: "Architecture",
+        icon: "🏛️",
+        question: "How do you implement Clean Architecture in a React Native application?",
+        difficulty: "advanced",
+        seniority: "senior",
+        answer: `
+            <h4>🎯 Why This Question Matters</h4>
+            <p>Clean Architecture separates concerns and makes code testable and maintainable. This tests advanced architectural thinking.</p>
+
+            <h4>Layer Structure</h4>
+            <pre><code>src/
+├── domain/                    # Business logic (innermost)
+│   ├── entities/
+│   │   └── User.ts
+│   ├── repositories/          # Interfaces only
+│   │   └── UserRepository.ts
+│   └── usecases/
+│       └── GetUserUseCase.ts
+├── data/                      # Data layer
+│   ├── repositories/          # Implementations
+│   │   └── UserRepositoryImpl.ts
+│   ├── datasources/
+│   │   ├── remote/
+│   │   └── local/
+│   └── models/
+│       └── UserDTO.ts
+├── presentation/              # UI layer (outermost)
+│   ├── screens/
+│   ├── components/
+│   ├── viewmodels/
+│   └── navigation/
+└── di/                        # Dependency injection
+    └── container.ts</code></pre>
+
+            <h4>Domain Layer (Pure Business Logic)</h4>
+            <pre><code>// domain/entities/User.ts
+export interface User {
+  id: string;
+  email: string;
+  name: string;
+  isPremium: boolean;
+}
+
+// domain/repositories/UserRepository.ts
+export interface UserRepository {
+  getUser(id: string): Promise<User>;
+  updateUser(user: User): Promise<void>;
+}
+
+// domain/usecases/GetUserUseCase.ts
+export class GetUserUseCase {
+  constructor(private userRepo: UserRepository) {}
+
+  async execute(userId: string): Promise<User> {
+    const user = await this.userRepo.getUser(userId);
+    // Business logic here
+    return user;
+  }
+}</code></pre>
+
+            <h4>Data Layer (External Dependencies)</h4>
+            <pre><code>// data/repositories/UserRepositoryImpl.ts
+export class UserRepositoryImpl implements UserRepository {
+  constructor(
+    private api: ApiClient,
+    private cache: CacheService
+  ) {}
+
+  async getUser(id: string): Promise<User> {
+    // Check cache first
+    const cached = await this.cache.get(\`user:\${id}\`);
+    if (cached) return this.mapToEntity(cached);
+
+    // Fetch from API
+    const dto = await this.api.get<UserDTO>(\`/users/\${id}\`);
+    await this.cache.set(\`user:\${id}\`, dto);
+    return this.mapToEntity(dto);
+  }
+
+  private mapToEntity(dto: UserDTO): User {
+    return {
+      id: dto.id,
+      email: dto.email,
+      name: \`\${dto.firstName} \${dto.lastName}\`,
+      isPremium: dto.subscription === 'premium',
+    };
+  }
+}</code></pre>
+
+            <h4>Presentation Layer (UI + ViewModel)</h4>
+            <pre><code>// presentation/viewmodels/useUserViewModel.ts
+export function useUserViewModel(userId: string) {
+  const getUserUseCase = useInjection(GetUserUseCase);
+  const [state, setState] = useState<ViewState>({ status: 'idle' });
+
+  const loadUser = useCallback(async () => {
+    setState({ status: 'loading' });
+    try {
+      const user = await getUserUseCase.execute(userId);
+      setState({ status: 'success', data: user });
+    } catch (error) {
+      setState({ status: 'error', error });
+    }
+  }, [userId]);
+
+  return { state, loadUser };
+}
+
+// presentation/screens/ProfileScreen.tsx
+function ProfileScreen({ userId }) {
+  const { state, loadUser } = useUserViewModel(userId);
+  // UI only cares about state, not implementation
+}</code></pre>
+
+            <h4>💡 Interview Tips</h4>
+            <ul>
+                <li>Domain layer has zero dependencies on frameworks</li>
+                <li>Use dependency injection for testability</li>
+                <li>Data flows inward; dependencies point inward</li>
+            </ul>
+        `
+    },
+    {
+        id: 137,
+        category: "Architecture",
+        icon: "🏛️",
+        question: "How do you structure a feature-based folder architecture in React Native?",
+        difficulty: "intermediate",
+        seniority: "mid",
+        answer: `
+            <h4>🎯 Why This Question Matters</h4>
+            <p>Feature-based structure scales better than type-based organization. This shows practical experience with large codebases.</p>
+
+            <h4>Feature-Based Structure</h4>
+            <pre><code>src/
+├── features/
+│   ├── auth/
+│   │   ├── components/
+│   │   │   ├── LoginForm.tsx
+│   │   │   └── SignupForm.tsx
+│   │   ├── screens/
+│   │   │   ├── LoginScreen.tsx
+│   │   │   └── SignupScreen.tsx
+│   │   ├── hooks/
+│   │   │   └── useAuth.ts
+│   │   ├── services/
+│   │   │   └── authService.ts
+│   │   ├── store/
+│   │   │   └── authSlice.ts
+│   │   ├── types/
+│   │   │   └── auth.types.ts
+│   │   └── index.ts            # Public exports
+│   ├── profile/
+│   │   ├── components/
+│   │   ├── screens/
+│   │   └── index.ts
+│   └── checkout/
+│       └── ...
+├── shared/                     # Cross-feature code
+│   ├── components/
+│   │   ├── Button.tsx
+│   │   └── Input.tsx
+│   ├── hooks/
+│   ├── utils/
+│   └── services/
+├── navigation/
+│   └── RootNavigator.tsx
+└── App.tsx</code></pre>
+
+            <h4>Feature Module Pattern</h4>
+            <pre><code>// features/auth/index.ts
+// Only export public API of the feature
+export { LoginScreen } from './screens/LoginScreen';
+export { SignupScreen } from './screens/SignupScreen';
+export { useAuth } from './hooks/useAuth';
+export { authReducer } from './store/authSlice';
+export type { User, AuthState } from './types/auth.types';
+
+// Internal components stay private
+// Don't export: LoginForm, validation utils, etc.
+
+// Usage from another feature
+import { useAuth, User } from '@/features/auth';
+// NOT: import { LoginForm } from '@/features/auth/components/LoginForm';</code></pre>
+
+            <h4>Path Aliases Configuration</h4>
+            <pre><code>// tsconfig.json
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      "@features/*": ["src/features/*"],
+      "@shared/*": ["src/shared/*"]
+    }
+  }
+}
+
+// babel.config.js
+module.exports = {
+  plugins: [
+    ['module-resolver', {
+      root: ['./src'],
+      alias: {
+        '@': './src',
+        '@features': './src/features',
+        '@shared': './src/shared',
+      },
+    }],
+  ],
+};</code></pre>
+
+            <h4>Feature Boundaries</h4>
+            <pre><code>// Rules for feature boundaries:
+
+// ✓ Feature can import from shared/
+import { Button } from '@shared/components';
+
+// ✓ Feature can import public exports from other features
+import { useAuth } from '@features/auth';
+
+// ✗ Never import internal files from other features
+import { LoginForm } from '@features/auth/components/LoginForm';
+
+// ✗ Never create circular dependencies between features
+// If two features need to share, move to shared/</code></pre>
+
+            <h4>💡 Interview Tips</h4>
+            <ul>
+                <li>Each feature should be deletable without breaking others</li>
+                <li>Use barrel exports (index.ts) to define public API</li>
+                <li>Shared folder contains truly generic, reusable code</li>
+            </ul>
+        `
+    },
+    {
+        id: 138,
+        category: "Architecture",
+        icon: "🏛️",
+        question: "How do you build a design system architecture for React Native apps?",
+        difficulty: "advanced",
+        seniority: "senior",
+        answer: `
+            <h4>🎯 Why This Question Matters</h4>
+            <p>Design systems ensure UI consistency and speed up development. This tests your ability to create scalable, maintainable component libraries.</p>
+
+            <h4>Design System Structure</h4>
+            <pre><code>design-system/
+├── tokens/
+│   ├── colors.ts
+│   ├── typography.ts
+│   ├── spacing.ts
+│   └── index.ts
+├── primitives/
+│   ├── Box.tsx
+│   ├── Text.tsx
+│   └── Pressable.tsx
+├── components/
+│   ├── Button/
+│   │   ├── Button.tsx
+│   │   ├── Button.test.tsx
+│   │   └── index.ts
+│   ├── Input/
+│   └── Card/
+├── patterns/
+│   ├── FormField/
+│   └── ListItem/
+└── theme/
+    ├── ThemeProvider.tsx
+    └── useTheme.ts</code></pre>
+
+            <h4>Design Tokens</h4>
+            <pre><code>// tokens/colors.ts
+export const colors = {
+  primary: {
+    50: '#E3F2FD',
+    100: '#BBDEFB',
+    500: '#2196F3',
+    900: '#0D47A1',
+  },
+  neutral: {
+    0: '#FFFFFF',
+    100: '#F5F5F5',
+    900: '#212121',
+  },
+  semantic: {
+    success: '#4CAF50',
+    error: '#F44336',
+    warning: '#FF9800',
+  },
+} as const;
+
+// tokens/spacing.ts
+export const spacing = {
+  xs: 4,
+  sm: 8,
+  md: 16,
+  lg: 24,
+  xl: 32,
+} as const;
+
+// tokens/typography.ts
+export const typography = {
+  h1: { fontSize: 32, fontWeight: '700', lineHeight: 40 },
+  h2: { fontSize: 24, fontWeight: '600', lineHeight: 32 },
+  body: { fontSize: 16, fontWeight: '400', lineHeight: 24 },
+  caption: { fontSize: 12, fontWeight: '400', lineHeight: 16 },
+} as const;</code></pre>
+
+            <h4>Primitive Components</h4>
+            <pre><code>// primitives/Box.tsx
+interface BoxProps extends ViewProps {
+  p?: keyof typeof spacing;
+  m?: keyof typeof spacing;
+  bg?: string;
+  flex?: number;
+  row?: boolean;
+}
+
+export function Box({ p, m, bg, flex, row, style, ...props }: BoxProps) {
+  const theme = useTheme();
+
+  return (
+    <View
+      style={[
+        p && { padding: spacing[p] },
+        m && { margin: spacing[m] },
+        bg && { backgroundColor: bg },
+        flex && { flex },
+        row && { flexDirection: 'row' },
+        style,
+      ]}
+      {...props}
+    />
+  );
+}
+
+// Usage
+<Box p="md" bg={colors.neutral[100]} row>
+  <Text variant="body">Hello</Text>
+</Box></code></pre>
+
+            <h4>Component Variants</h4>
+            <pre><code>// components/Button/Button.tsx
+type ButtonVariant = 'primary' | 'secondary' | 'ghost';
+type ButtonSize = 'sm' | 'md' | 'lg';
+
+interface ButtonProps {
+  variant?: ButtonVariant;
+  size?: ButtonSize;
+  disabled?: boolean;
+  loading?: boolean;
+  children: React.ReactNode;
+  onPress: () => void;
+}
+
+const variantStyles: Record<ButtonVariant, ViewStyle> = {
+  primary: { backgroundColor: colors.primary[500] },
+  secondary: { backgroundColor: colors.neutral[100] },
+  ghost: { backgroundColor: 'transparent' },
+};
+
+const sizeStyles: Record<ButtonSize, ViewStyle> = {
+  sm: { paddingVertical: spacing.xs, paddingHorizontal: spacing.sm },
+  md: { paddingVertical: spacing.sm, paddingHorizontal: spacing.md },
+  lg: { paddingVertical: spacing.md, paddingHorizontal: spacing.lg },
+};
+
+export function Button({
+  variant = 'primary',
+  size = 'md',
+  disabled,
+  loading,
+  children,
+  onPress,
+}: ButtonProps) {
+  return (
+    <Pressable
+      onPress={onPress}
+      disabled={disabled || loading}
+      style={[variantStyles[variant], sizeStyles[size]]}
+    >
+      {loading ? <ActivityIndicator /> : children}
+    </Pressable>
+  );
+}</code></pre>
+
+            <h4>💡 Interview Tips</h4>
+            <ul>
+                <li>Tokens are the foundation - components use tokens, never raw values</li>
+                <li>Primitives handle layout; components handle specific UI patterns</li>
+                <li>Use TypeScript for variant autocomplete and validation</li>
+            </ul>
+        `
+    },
+    // ==================== REAL-WORLD SCENARIOS (EXPANDED) ====================
+    {
+        id: 139,
+        category: "Real-World Scenarios",
+        icon: "🌍",
+        question: "How would you migrate a large Expo app to bare React Native workflow?",
+        difficulty: "advanced",
+        seniority: "senior",
+        answer: `
+            <h4>🎯 Why This Question Matters</h4>
+            <p>Migration decisions impact development velocity and capabilities. This tests strategic thinking and practical experience.</p>
+
+            <h4>Migration Decision Framework</h4>
+            <pre><code>Consider migrating when:
+✓ Need custom native modules not supported by Expo
+✓ Require specific native SDK integrations
+✓ App size optimization is critical
+✓ Need full control over native build process
+
+Stay with Expo when:
+✓ Rapid iteration is priority
+✓ Team lacks native development experience
+✓ Using Expo's managed services (EAS, updates)
+✓ Features are available in Expo SDK</code></pre>
+
+            <h4>Step-by-Step Migration</h4>
+            <pre><code>// Step 1: Eject from Expo
+npx expo prebuild
+
+// This generates:
+// - ios/ folder with Xcode project
+// - android/ folder with Gradle project
+// - Updates package.json with native dependencies
+
+// Step 2: Audit Expo dependencies
+// Replace expo-* packages with community alternatives:
+expo-camera → react-native-camera / vision-camera
+expo-location → react-native-geolocation-service
+expo-notifications → react-native-push-notification
+expo-file-system → react-native-fs
+
+// Step 3: Update imports
+// Before:
+import * as Location from 'expo-location';
+
+// After:
+import Geolocation from 'react-native-geolocation-service';</code></pre>
+
+            <h4>Handling Expo-Specific Features</h4>
+            <pre><code>// OTA Updates: expo-updates → CodePush
+// Before (Expo):
+import * as Updates from 'expo-updates';
+await Updates.checkForUpdateAsync();
+
+// After (CodePush):
+import codePush from 'react-native-code-push';
+codePush.sync({ updateDialog: true });
+
+// Auth Session replacement
+// expo-auth-session → react-native-app-auth
+import { authorize } from 'react-native-app-auth';
+
+const config = {
+  issuer: 'https://accounts.google.com',
+  clientId: 'YOUR_CLIENT_ID',
+  redirectUrl: 'com.myapp:/oauth2redirect',
+  scopes: ['openid', 'profile'],
+};
+
+const result = await authorize(config);</code></pre>
+
+            <h4>Migration Checklist</h4>
+            <pre><code>□ Run 'expo prebuild' to generate native projects
+□ Audit all expo-* dependencies
+□ Replace with community alternatives
+□ Update native project configurations
+□ Set up native build pipeline (Fastlane/CI)
+□ Configure code signing (iOS) and signing keys (Android)
+□ Test all features on physical devices
+□ Update deployment process
+□ Document new native development setup</code></pre>
+
+            <h4>💡 Interview Tips</h4>
+            <ul>
+                <li>Consider Expo Dev Client as middle ground</li>
+                <li>Migrate incrementally - one module at a time</li>
+                <li>Plan for increased maintenance burden</li>
+            </ul>
+        `
+    },
+    {
+        id: 140,
+        category: "Real-World Scenarios",
+        icon: "🌍",
+        question: "How do you handle app store rejections in React Native apps?",
+        difficulty: "intermediate",
+        seniority: "mid",
+        answer: `
+            <h4>🎯 Why This Question Matters</h4>
+            <p>App store rejections delay releases and frustrate stakeholders. This tests your knowledge of platform guidelines and debugging skills.</p>
+
+            <h4>Common iOS Rejection Reasons</h4>
+            <pre><code>┌─────────────────────────────────────────────────────┐
+│ Rejection Type          │ Solution                  │
+├─────────────────────────┼───────────────────────────┤
+│ Guideline 2.1 - Crashes │ Test all flows, fix bugs  │
+│ Guideline 2.3 - Metadata│ Accurate screenshots/desc │
+│ Guideline 4.2 - Spam    │ Unique value proposition  │
+│ Guideline 5.1 - Privacy │ Add privacy policy, IDFA  │
+│ Guideline 3.1 - Payments│ Use StoreKit for digital  │
+└─────────────────────────┴───────────────────────────┘</code></pre>
+
+            <h4>Privacy & Permissions</h4>
+            <pre><code>// ios/MyApp/Info.plist - Required usage descriptions
+&lt;key&gt;NSCameraUsageDescription&lt;/key&gt;
+&lt;string&gt;Take photos for your profile&lt;/string&gt;
+
+&lt;key&gt;NSPhotoLibraryUsageDescription&lt;/key&gt;
+&lt;string&gt;Select photos from your library&lt;/string&gt;
+
+&lt;key&gt;NSLocationWhenInUseUsageDescription&lt;/key&gt;
+&lt;string&gt;Find nearby stores&lt;/string&gt;
+
+// App Tracking Transparency (iOS 14.5+)
+import { requestTrackingPermissionsAsync } from 'expo-tracking-transparency';
+
+async function requestTracking() {
+  const { status } = await requestTrackingPermissionsAsync();
+  if (status === 'granted') {
+    // Enable analytics with IDFA
+  }
+}</code></pre>
+
+            <h4>Android Rejection Handling</h4>
+            <pre><code>// Common Google Play rejections:
+
+// 1. Policy violation: Permissions
+// Only request permissions you actually need
+// Explain why in store listing
+
+// 2. Target API level
+// android/app/build.gradle
+android {
+  defaultConfig {
+    targetSdkVersion 34  // Must meet current requirement
+  }
+}
+
+// 3. Data Safety form
+// Declare all data collection in Play Console
+// Be specific: what data, why, shared with whom
+
+// 4. App content rating
+// Complete the content rating questionnaire accurately</code></pre>
+
+            <h4>Rejection Response Strategy</h4>
+            <pre><code>// 1. Read rejection carefully - understand specific issue
+
+// 2. Check Resolution Center for details
+// Apple often provides specific feedback
+
+// 3. If unclear, reply requesting clarification:
+"Thank you for your feedback. Could you please provide
+more details about which specific feature or screen
+triggered this rejection? We want to ensure we address
+the correct issue."
+
+// 4. Document changes made:
+"We have addressed the issue by:
+1. Removing X feature
+2. Adding privacy disclosure for Y
+3. Updating screenshots to reflect Z"
+
+// 5. Keep records for future submissions</code></pre>
+
+            <h4>💡 Interview Tips</h4>
+            <ul>
+                <li>Test on physical devices before submission</li>
+                <li>Read App Store Review Guidelines thoroughly</li>
+                <li>Use TestFlight/Internal Testing before production</li>
+            </ul>
+        `
+    },
+    {
+        id: 141,
+        category: "Real-World Scenarios",
+        icon: "🌍",
+        question: "How do you achieve a crash-free release in React Native?",
+        difficulty: "advanced",
+        seniority: "senior",
+        answer: `
+            <h4>🎯 Why This Question Matters</h4>
+            <p>Crash-free rates directly impact user retention and app store ranking. This tests quality assurance and release management skills.</p>
+
+            <h4>Pre-Release Checklist</h4>
+            <pre><code>┌─────────────────────────────────────────────────────┐
+│ Phase             │ Actions                         │
+├───────────────────┼─────────────────────────────────┤
+│ Development       │ TypeScript strict mode          │
+│                   │ ESLint with strict rules        │
+│                   │ Unit tests for business logic   │
+├───────────────────┼─────────────────────────────────┤
+│ Testing           │ Integration tests               │
+│                   │ E2E tests (Detox)               │
+│                   │ Manual QA on devices            │
+├───────────────────┼─────────────────────────────────┤
+│ Pre-Release       │ Beta testing (TestFlight)       │
+│                   │ Staged rollout (1% → 100%)      │
+│                   │ Crash monitoring active         │
+├───────────────────┼─────────────────────────────────┤
+│ Post-Release      │ Monitor crash-free rate         │
+│                   │ Quick hotfix process ready      │
+│                   │ Rollback plan prepared          │
+└───────────────────┴─────────────────────────────────┘</code></pre>
+
+            <h4>Error Boundaries for JS Crashes</h4>
+            <pre><code>class ErrorBoundary extends React.Component {
+  state = { hasError: false, error: null };
+
+  static getDerivedStateFromError(error) {
+    return { hasError: true, error };
+  }
+
+  componentDidCatch(error, errorInfo) {
+    // Report to crash service
+    Sentry.captureException(error, { extra: errorInfo });
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <View style={styles.errorContainer}>
+          <Text>Something went wrong</Text>
+          <Button
+            title="Try Again"
+            onPress={() => this.setState({ hasError: false })}
+          />
+        </View>
+      );
+    }
+    return this.props.children;
+  }
+}
+
+// Wrap critical sections
+<ErrorBoundary>
+  <PaymentFlow />
+</ErrorBoundary></code></pre>
+
+            <h4>Staged Rollout Strategy</h4>
+            <pre><code>// Google Play staged rollout
+Day 1: 1% of users
+Day 2: 5% if crash-free > 99%
+Day 3: 20% if crash-free > 99%
+Day 5: 50% if crash-free > 99%
+Day 7: 100% if stable
+
+// iOS: Use phased release
+// App Store Connect → Phased Release
+// Automatically rolls out over 7 days
+
+// CodePush for JS-only fixes
+codePush.sync({
+  deploymentKey: PRODUCTION_KEY,
+  installMode: codePush.InstallMode.ON_NEXT_RESTART,
+  rollbackRetryOptions: {
+    delayInHours: 24,
+    maxRetryAttempts: 3,
+  },
+});</code></pre>
+
+            <h4>Crash Monitoring Setup</h4>
+            <pre><code>// Sentry configuration
+import * as Sentry from '@sentry/react-native';
+
+Sentry.init({
+  dsn: 'YOUR_DSN',
+  enableAutoSessionTracking: true,
+  sessionTrackingIntervalMillis: 30000,
+  tracesSampleRate: 0.2,
+  beforeSend(event) {
+    // Sanitize sensitive data
+    if (event.user) {
+      delete event.user.email;
+    }
+    return event;
+  },
+});
+
+// Set user context for better debugging
+Sentry.setUser({ id: userId });
+Sentry.setTag('app_version', appVersion);</code></pre>
+
+            <h4>💡 Interview Tips</h4>
+            <ul>
+                <li>Target 99.5%+ crash-free rate</li>
+                <li>Have rollback/hotfix process ready before release</li>
+                <li>Use feature flags to disable problematic features</li>
+            </ul>
+        `
+    },
+    {
+        id: 142,
+        category: "Real-World Scenarios",
+        icon: "🌍",
+        question: "Describe how you would debug a production performance regression.",
+        difficulty: "advanced",
+        seniority: "senior",
+        answer: `
+            <h4>🎯 Why This Question Matters</h4>
+            <p>Production issues require systematic debugging without access to user devices. This tests real-world problem-solving skills.</p>
+
+            <h4>Investigation Workflow</h4>
+            <pre><code>┌─────────────────────────────────────────────────────┐
+│ Step 1: Identify Scope                              │
+├─────────────────────────────────────────────────────┤
+│ - Which version introduced the regression?          │
+│ - Which screens/features are affected?              │
+│ - Which devices/OS versions?                        │
+│ - What % of users are impacted?                     │
+└─────────────────────────────────────────────────────┘
+                          ↓
+┌─────────────────────────────────────────────────────┐
+│ Step 2: Gather Data                                 │
+├─────────────────────────────────────────────────────┤
+│ - Performance monitoring (Firebase/Sentry)          │
+│ - User feedback/support tickets                     │
+│ - App store reviews mentioning slowness             │
+│ - Compare metrics: before vs after release          │
+└─────────────────────────────────────────────────────┘</code></pre>
+
+            <h4>Remote Performance Monitoring</h4>
+            <pre><code>// Track custom performance metrics
+import perf from '@react-native-firebase/perf';
+
+async function measureScreenLoad(screenName: string) {
+  const trace = await perf().newTrace(\`screen_\${screenName}\`);
+  await trace.start();
+
+  // Screen renders...
+
+  await trace.stop();
+}
+
+// Track specific operations
+const httpMetric = await perf().newHttpMetric(url, 'GET');
+await httpMetric.start();
+const response = await fetch(url);
+httpMetric.setHttpResponseCode(response.status);
+httpMetric.setResponseContentType(response.headers.get('Content-Type'));
+await httpMetric.stop();</code></pre>
+
+            <h4>Reproduce Locally</h4>
+            <pre><code>// 1. Match production environment
+// - Use release build, not debug
+cd android && ./gradlew assembleRelease
+cd ios && xcodebuild -configuration Release
+
+// 2. Test on same device models reported
+// Use Firebase Test Lab or BrowserStack
+
+// 3. Profile with production-like data
+// Import anonymized production data
+
+// 4. Use Flipper/Profiler in release
+// Add to metro.config.js for release profiling
+module.exports = {
+  transformer: {
+    minifierConfig: {
+      keep_fnames: true, // Keep function names for profiling
+    },
+  },
+};</code></pre>
+
+            <h4>Common Regression Causes</h4>
+            <pre><code>// 1. New dependency with performance issues
+// Check: package-lock.json diff between versions
+
+// 2. Accidental debug code in production
+if (__DEV__) { // Make sure this is correct
+  enableScreens(); // Not: enableScreens(false)
+}
+
+// 3. Missing memoization after refactor
+// Before (fast):
+const MemoizedList = React.memo(ExpensiveList);
+
+// After refactor (slow - memo removed accidentally):
+const List = ExpensiveList;
+
+// 4. Increased re-renders from context changes
+// Use React DevTools Profiler "Highlight updates"</code></pre>
+
+            <h4>💡 Interview Tips</h4>
+            <ul>
+                <li>Always compare git diffs between working and broken versions</li>
+                <li>Use feature flags to isolate suspect code</li>
+                <li>Binary search through commits if cause unclear</li>
+            </ul>
+        `
+    },
+    {
+        id: 143,
+        category: "Real-World Scenarios",
+        icon: "🌍",
+        question: "How do you handle breaking changes when upgrading React Native versions?",
+        difficulty: "advanced",
+        seniority: "senior",
+        answer: `
+            <h4>🎯 Why This Question Matters</h4>
+            <p>RN upgrades are notoriously challenging. This tests your experience with complex migration projects and risk management.</p>
+
+            <h4>Upgrade Strategy</h4>
+            <pre><code>┌─────────────────────────────────────────────────────┐
+│ Phase 1: Assessment                                 │
+├─────────────────────────────────────────────────────┤
+│ 1. Read release notes and changelog                 │
+│ 2. Check react-native-community/upgrade-helper      │
+│ 3. Audit third-party dependencies compatibility     │
+│ 4. Estimate effort and create upgrade branch        │
+└─────────────────────────────────────────────────────┘
+
+// Use upgrade helper
+npx react-native upgrade-helper 0.72.0 0.73.0
+// Shows exact file diffs needed</code></pre>
+
+            <h4>Dependency Audit</h4>
+            <pre><code>// Check compatibility before upgrading
+npx npm-check-updates --target minor
+
+// Common breaking changes to check:
+// - react-native-reanimated (often needs updates)
+// - react-navigation (major version changes)
+// - native-base, react-native-paper (UI libs)
+
+// Create compatibility matrix
+┌─────────────────────────┬───────────┬───────────┐
+│ Package                 │ Current   │ RN 0.73   │
+├─────────────────────────┼───────────┼───────────┤
+│ react-native-reanimated │ 3.3.0     │ 3.6.0 ✓   │
+│ react-navigation        │ 6.x       │ 6.x ✓     │
+│ react-native-maps       │ 1.7.1     │ 1.8.0 ✓   │
+│ some-old-lib            │ 2.0.0     │ ✗ No      │
+└─────────────────────────┴───────────┴───────────┘</code></pre>
+
+            <h4>Incremental Migration</h4>
+            <pre><code>// Step 1: Upgrade React Native core
+npm install react-native@0.73.0 react@18.2.0
+
+// Step 2: Update native files
+// Follow upgrade-helper diff for:
+// - android/app/build.gradle
+// - ios/Podfile
+// - android/gradle.properties
+// - ios/MyApp/AppDelegate.mm
+
+// Step 3: Update dependencies one by one
+npm install react-native-reanimated@latest
+cd ios && pod install
+
+// Step 4: Fix breaking changes
+// New Architecture migration if needed
+// Update deprecated APIs</code></pre>
+
+            <h4>Common Breaking Changes</h4>
+            <pre><code>// RN 0.73: Remove Flipper by default
+// android/app/build.gradle - remove flipper deps
+
+// RN 0.72: Kotlin required for Android
+// android/build.gradle
+buildscript {
+  ext {
+    kotlinVersion = "1.8.0"
+  }
+}
+
+// RN 0.71: TypeScript by default
+// Rename .js files to .tsx
+
+// RN 0.70: Hermes default engine
+// Remove JavaScriptCore references
+
+// After upgrade, test thoroughly:
+npx react-native run-android --variant=release
+npx react-native run-ios --configuration Release</code></pre>
+
+            <h4>💡 Interview Tips</h4>
+            <ul>
+                <li>Never upgrade more than 2 minor versions at once</li>
+                <li>Create a dedicated branch, don't upgrade in main</li>
+                <li>Run full regression test suite after upgrade</li>
+            </ul>
+        `
+    },
+    {
+        id: 144,
+        category: "Real-World Scenarios",
+        icon: "🌍",
+        question: "How would you implement a feature flag system for gradual feature rollout?",
+        difficulty: "intermediate",
+        seniority: "mid",
+        answer: `
+            <h4>🎯 Why This Question Matters</h4>
+            <p>Feature flags enable safe releases and A/B testing. This tests your understanding of release strategies and risk mitigation.</p>
+
+            <h4>Feature Flag Architecture</h4>
+            <pre><code>// Simple local implementation
+interface FeatureFlags {
+  newCheckout: boolean;
+  darkMode: boolean;
+  experimentalSearch: boolean;
+}
+
+const defaultFlags: FeatureFlags = {
+  newCheckout: false,
+  darkMode: true,
+  experimentalSearch: false,
+};
+
+// Context provider
+const FeatureFlagContext = createContext<FeatureFlags>(defaultFlags);
+
+function FeatureFlagProvider({ children }) {
+  const [flags, setFlags] = useState(defaultFlags);
+
+  useEffect(() => {
+    // Fetch from remote config
+    fetchFeatureFlags().then(setFlags);
+  }, []);
+
+  return (
+    <FeatureFlagContext.Provider value={flags}>
+      {children}
+    </FeatureFlagContext.Provider>
+  );
+}
+
+// Hook for components
+function useFeatureFlag(flag: keyof FeatureFlags): boolean {
+  const flags = useContext(FeatureFlagContext);
+  return flags[flag];
+}</code></pre>
+
+            <h4>Firebase Remote Config</h4>
+            <pre><code>import remoteConfig from '@react-native-firebase/remote-config';
+
+async function initializeFeatureFlags() {
+  await remoteConfig().setDefaults({
+    new_checkout: false,
+    checkout_variant: 'control',
+    feature_rollout_percentage: 0,
+  });
+
+  await remoteConfig().setConfigSettings({
+    minimumFetchIntervalMillis: 3600000, // 1 hour
+  });
+
+  await remoteConfig().fetchAndActivate();
+}
+
+function useRemoteFeature(key: string, defaultValue: boolean) {
+  const [enabled, setEnabled] = useState(defaultValue);
+
+  useEffect(() => {
+    const value = remoteConfig().getValue(key);
+    setEnabled(value.asBoolean());
+
+    // Listen for updates
+    const unsubscribe = remoteConfig().onConfigUpdated(() => {
+      remoteConfig().activate().then(() => {
+        setEnabled(remoteConfig().getValue(key).asBoolean());
+      });
+    });
+
+    return unsubscribe;
+  }, [key]);
+
+  return enabled;
+}</code></pre>
+
+            <h4>Percentage-Based Rollout</h4>
+            <pre><code>function isFeatureEnabledForUser(
+  userId: string,
+  rolloutPercentage: number
+): boolean {
+  // Deterministic hash based on userId
+  // Same user always gets same result
+  const hash = hashCode(userId);
+  const bucket = Math.abs(hash) % 100;
+  return bucket < rolloutPercentage;
+}
+
+// Usage
+const rolloutPercentage = remoteConfig()
+  .getValue('new_checkout_percentage')
+  .asNumber();
+
+const showNewCheckout = isFeatureEnabledForUser(userId, rolloutPercentage);
+
+// Gradually increase: 1% → 5% → 20% → 50% → 100%</code></pre>
+
+            <h4>Component Usage</h4>
+            <pre><code>function CheckoutScreen() {
+  const newCheckoutEnabled = useFeatureFlag('newCheckout');
+
+  if (newCheckoutEnabled) {
+    return <NewCheckoutFlow />;
+  }
+  return <LegacyCheckoutFlow />;
+}
+
+// Or with a Feature component
+function Feature({ flag, children, fallback = null }) {
+  const enabled = useFeatureFlag(flag);
+  return enabled ? children : fallback;
+}
+
+<Feature flag="experimentalSearch" fallback={<OldSearch />}>
+  <NewSearch />
+</Feature></code></pre>
+
+            <h4>💡 Interview Tips</h4>
+            <ul>
+                <li>Use deterministic hashing for consistent user experience</li>
+                <li>Always have a kill switch for quick rollback</li>
+                <li>Clean up old flags after full rollout</li>
+            </ul>
+        `
+    },
+    // ==================== ACCESSIBILITY (NEW CATEGORY) ====================
+    {
+        id: 145,
+        category: "Accessibility",
+        icon: "♿",
+        question: "How do you implement VoiceOver (iOS) and TalkBack (Android) support in React Native?",
+        difficulty: "intermediate",
+        seniority: "mid",
+        answer: `
+            <h4>🎯 Why This Question Matters</h4>
+            <p>Accessibility is both a legal requirement and ethical responsibility. Apps must be usable by people with visual impairments.</p>
+
+            <h4>Core Accessibility Props</h4>
+            <pre><code>// Basic accessible component
+<TouchableOpacity
+  accessible={true}
+  accessibilityLabel="Add item to cart"
+  accessibilityHint="Double tap to add this product to your shopping cart"
+  accessibilityRole="button"
+  accessibilityState={{ disabled: isLoading }}
+  onPress={addToCart}
+>
+  <Text>Add to Cart</Text>
+</TouchableOpacity>
+
+// Image with description
+<Image
+  source={productImage}
+  accessible={true}
+  accessibilityLabel="Red Nike running shoes, size 10"
+/>
+
+// Group related elements
+<View
+  accessible={true}
+  accessibilityLabel="Product: Nike Shoes. Price: $99.99. Rating: 4.5 stars"
+>
+  <Text>Nike Shoes</Text>
+  <Text>$99.99</Text>
+  <StarRating value={4.5} />
+</View></code></pre>
+
+            <h4>Accessibility Roles</h4>
+            <pre><code>// Common roles
+accessibilityRole="button"      // Clickable element
+accessibilityRole="link"        // Navigation link
+accessibilityRole="header"      // Section header
+accessibilityRole="image"       // Decorative or informative image
+accessibilityRole="text"        // Static text
+accessibilityRole="search"      // Search field
+accessibilityRole="adjustable"  // Slider or stepper
+accessibilityRole="alert"       // Important message
+accessibilityRole="checkbox"    // Toggle with checked state
+accessibilityRole="switch"      // On/off toggle
+
+// State announcements
+<Switch
+  accessibilityRole="switch"
+  accessibilityState={{
+    checked: isEnabled,
+  }}
+  accessibilityLabel="Enable notifications"
+/></code></pre>
+
+            <h4>Dynamic Announcements</h4>
+            <pre><code>import { AccessibilityInfo } from 'react-native';
+
+// Announce changes to screen reader
+function announceCartUpdate(itemCount: number) {
+  AccessibilityInfo.announceForAccessibility(
+    \`Cart updated. You now have \${itemCount} items in your cart.\`
+  );
+}
+
+// After form submission
+async function submitForm() {
+  try {
+    await api.submit(formData);
+    AccessibilityInfo.announceForAccessibility(
+      'Form submitted successfully'
+    );
+  } catch (error) {
+    AccessibilityInfo.announceForAccessibility(
+      'Error submitting form. Please try again.'
+    );
+  }
+}</code></pre>
+
+            <h4>Testing Accessibility</h4>
+            <pre><code>// iOS: Settings → Accessibility → VoiceOver
+// Android: Settings → Accessibility → TalkBack
+
+// Keyboard shortcuts for testing:
+// iOS Simulator: Cmd + Ctrl + Z (toggle VoiceOver)
+// Android: Hold volume keys
+
+// Check if screen reader is active
+const [screenReaderEnabled, setScreenReaderEnabled] = useState(false);
+
+useEffect(() => {
+  AccessibilityInfo.isScreenReaderEnabled().then(setScreenReaderEnabled);
+  const subscription = AccessibilityInfo.addEventListener(
+    'screenReaderChanged',
+    setScreenReaderEnabled
+  );
+  return () => subscription.remove();
+}, []);</code></pre>
+
+            <h4>💡 Interview Tips</h4>
+            <ul>
+                <li>Test with actual VoiceOver/TalkBack, not just visual inspection</li>
+                <li>accessibilityLabel describes what element is</li>
+                <li>accessibilityHint describes what happens when activated</li>
+            </ul>
+        `
+    },
+    {
+        id: 146,
+        category: "Accessibility",
+        icon: "♿",
+        question: "How do you implement focus management and keyboard navigation in React Native?",
+        difficulty: "intermediate",
+        seniority: "mid",
+        answer: `
+            <h4>🎯 Why This Question Matters</h4>
+            <p>Proper focus management is crucial for screen reader users and keyboard navigation. Poor focus handling creates confusing experiences.</p>
+
+            <h4>Managing Focus Order</h4>
+            <pre><code>// Control focus order with refs
+function LoginForm() {
+  const emailRef = useRef(null);
+  const passwordRef = useRef(null);
+  const submitRef = useRef(null);
+
+  return (
+    <View>
+      <TextInput
+        ref={emailRef}
+        accessibilityLabel="Email address"
+        returnKeyType="next"
+        onSubmitEditing={() => passwordRef.current?.focus()}
+      />
+      <TextInput
+        ref={passwordRef}
+        accessibilityLabel="Password"
+        secureTextEntry
+        returnKeyType="done"
+        onSubmitEditing={() => submitRef.current?.focus()}
+      />
+      <TouchableOpacity
+        ref={submitRef}
+        accessible={true}
+        accessibilityRole="button"
+        accessibilityLabel="Sign in"
+      >
+        <Text>Sign In</Text>
+      </TouchableOpacity>
+    </View>
+  );
+}</code></pre>
+
+            <h4>Focus on Screen Change</h4>
+            <pre><code>import { findNodeHandle, AccessibilityInfo } from 'react-native';
+
+function ProductScreen({ productId }) {
+  const headerRef = useRef(null);
+
+  useEffect(() => {
+    // Move focus to header when screen loads
+    const node = findNodeHandle(headerRef.current);
+    if (node) {
+      AccessibilityInfo.setAccessibilityFocus(node);
+    }
+  }, [productId]);
+
+  return (
+    <View>
+      <Text
+        ref={headerRef}
+        accessibilityRole="header"
+        accessible={true}
+      >
+        Product Details
+      </Text>
+      {/* Rest of screen */}
+    </View>
+  );
+}</code></pre>
+
+            <h4>Modal Focus Trapping</h4>
+            <pre><code>function AccessibleModal({ visible, onClose, children }) {
+  const modalRef = useRef(null);
+  const closeButtonRef = useRef(null);
+
+  useEffect(() => {
+    if (visible) {
+      // Focus first element when modal opens
+      setTimeout(() => {
+        const node = findNodeHandle(closeButtonRef.current);
+        if (node) {
+          AccessibilityInfo.setAccessibilityFocus(node);
+        }
+      }, 100);
+    }
+  }, [visible]);
+
+  return (
+    <Modal
+      visible={visible}
+      onRequestClose={onClose}
+      accessibilityViewIsModal={true} // iOS: trap focus in modal
+    >
+      <View
+        ref={modalRef}
+        accessible={false}
+        importantForAccessibility="yes"
+      >
+        <TouchableOpacity
+          ref={closeButtonRef}
+          onPress={onClose}
+          accessibilityLabel="Close modal"
+          accessibilityRole="button"
+        >
+          <Text>×</Text>
+        </TouchableOpacity>
+        {children}
+      </View>
+    </Modal>
+  );
+}</code></pre>
+
+            <h4>Hide Decorative Elements</h4>
+            <pre><code>// Hide from screen readers
+<View
+  accessible={false}
+  importantForAccessibility="no-hide-descendants"
+>
+  <Image source={decorativePattern} />
+</View>
+
+// Or for individual elements
+<Image
+  source={icon}
+  accessibilityElementsHidden={true}  // iOS
+  importantForAccessibility="no"       // Android
+/></code></pre>
+
+            <h4>💡 Interview Tips</h4>
+            <ul>
+                <li>accessibilityViewIsModal traps focus in modals (iOS)</li>
+                <li>Set focus to meaningful content after navigation</li>
+                <li>Hide purely decorative elements from screen readers</li>
+            </ul>
+        `
+    },
+    {
+        id: 147,
+        category: "Accessibility",
+        icon: "♿",
+        question: "How do you support Dynamic Type and system font scaling in React Native?",
+        difficulty: "intermediate",
+        seniority: "mid",
+        answer: `
+            <h4>🎯 Why This Question Matters</h4>
+            <p>Users with low vision rely on system font scaling. Apps that don't respect this setting are difficult or impossible to use.</p>
+
+            <h4>Respecting System Font Size</h4>
+            <pre><code>import { Text, PixelRatio, useWindowDimensions } from 'react-native';
+
+// By default, RN Text respects system font scaling
+// This is already accessible:
+<Text style={{ fontSize: 16 }}>Hello World</Text>
+// Will scale based on system accessibility settings
+
+// Get current font scale
+const fontScale = PixelRatio.getFontScale();
+// 1.0 = default, 1.35 = larger, etc.
+
+// Hook for responsive font
+function useAccessibleFontSize(baseSize: number) {
+  const { fontScale } = useWindowDimensions();
+  return baseSize * fontScale;
+}</code></pre>
+
+            <h4>Preventing Text Scaling (When Necessary)</h4>
+            <pre><code>// Sometimes scaling breaks layout (use sparingly!)
+<Text
+  style={{ fontSize: 16 }}
+  allowFontScaling={false}  // Disables system scaling
+  maxFontSizeMultiplier={1.5}  // Better: cap at 1.5x
+>
+  Tab Label
+</Text>
+
+// For entire app, set in Text defaultProps
+// (Not recommended - breaks accessibility)
+Text.defaultProps = {
+  ...Text.defaultProps,
+  maxFontSizeMultiplier: 2.0,  // Cap at 2x instead of disabling
+};</code></pre>
+
+            <h4>Adaptive Layouts for Large Text</h4>
+            <pre><code>function AdaptiveHeader() {
+  const { fontScale } = useWindowDimensions();
+  const isLargeText = fontScale > 1.2;
+
+  return (
+    <View style={[
+      styles.header,
+      // Stack vertically when text is large
+      isLargeText && styles.headerStacked
+    ]}>
+      <Text style={styles.title}>Welcome</Text>
+      <TouchableOpacity>
+        <Text>Settings</Text>
+      </TouchableOpacity>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  headerStacked: {
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+  },
+});</code></pre>
+
+            <h4>Testing Font Scaling</h4>
+            <pre><code>// iOS Simulator:
+// Settings → Accessibility → Display & Text Size → Larger Text
+
+// Android Emulator:
+// Settings → Accessibility → Font size
+
+// Test at these levels:
+// - Default (1.0x)
+// - Large (1.35x)
+// - Extra Large (1.5x+)
+
+// Common issues to check:
+// ✓ Text not truncated unexpectedly
+// ✓ Buttons still tappable (44pt minimum)
+// ✓ Layout doesn't break
+// ✓ Scrolling works when content overflows</code></pre>
+
+            <h4>💡 Interview Tips</h4>
+            <ul>
+                <li>Never disable font scaling entirely - use maxFontSizeMultiplier</li>
+                <li>Test UI at 200% font scale</li>
+                <li>Use flexible layouts that adapt to text size changes</li>
+            </ul>
+        `
+    },
+    {
+        id: 148,
+        category: "Accessibility",
+        icon: "♿",
+        question: "How do you test and audit accessibility in React Native applications?",
+        difficulty: "intermediate",
+        seniority: "mid",
+        answer: `
+            <h4>🎯 Why This Question Matters</h4>
+            <p>Accessibility must be tested systematically, not assumed. This shows you understand how to verify accessibility compliance.</p>
+
+            <h4>Manual Testing Checklist</h4>
+            <pre><code>┌─────────────────────────────────────────────────────┐
+│ Test                        │ How to Verify         │
+├─────────────────────────────┼───────────────────────┤
+│ Screen reader navigation    │ Use VoiceOver/TalkBack│
+│ Focus order logical         │ Tab through elements  │
+│ All interactive elements    │ Can be activated      │
+│   labeled                   │                       │
+│ Images have alt text        │ Check announcements   │
+│ Color contrast sufficient   │ Use contrast checker  │
+│ Font scaling works          │ Test at 200% scale    │
+│ Touch targets ≥44pt         │ Measure tap areas     │
+│ Error messages announced    │ Test form validation  │
+└─────────────────────────────┴───────────────────────┘</code></pre>
+
+            <h4>Automated Testing with Detox</h4>
+            <pre><code>// e2e/accessibility.test.js
+describe('Accessibility', () => {
+  it('login button should be accessible', async () => {
+    await expect(element(by.id('login-button'))).toHaveLabel('Sign in');
+    await expect(element(by.id('login-button'))).toHaveValue('button');
+  });
+
+  it('form inputs should have labels', async () => {
+    await expect(element(by.id('email-input')))
+      .toHaveLabel('Email address');
+    await expect(element(by.id('password-input')))
+      .toHaveLabel('Password');
+  });
+
+  it('error state should be announced', async () => {
+    await element(by.id('submit-button')).tap();
+    await expect(element(by.id('error-message')))
+      .toHaveLabel(/Please enter a valid email/);
+  });
+});</code></pre>
+
+            <h4>React Native Testing Library</h4>
+            <pre><code>import { render, screen } from '@testing-library/react-native';
+
+describe('Button Accessibility', () => {
+  it('should have correct accessibility props', () => {
+    render(<AddToCartButton disabled={false} />);
+
+    const button = screen.getByRole('button', { name: 'Add to cart' });
+    expect(button).toBeTruthy();
+    expect(button).not.toBeDisabled();
+  });
+
+  it('should announce loading state', () => {
+    render(<AddToCartButton loading={true} />);
+
+    const button = screen.getByRole('button');
+    expect(button).toHaveAccessibilityState({ busy: true });
+  });
+
+  it('should be focusable', () => {
+    render(<AddToCartButton />);
+    const button = screen.getByRole('button');
+    expect(button.props.accessible).toBe(true);
+  });
+});</code></pre>
+
+            <h4>Accessibility Audit Tools</h4>
+            <pre><code>// iOS: Accessibility Inspector
+// Xcode → Open Developer Tool → Accessibility Inspector
+
+// Android: Accessibility Scanner app
+// Download from Play Store, run on your app
+
+// Flipper Plugin
+// Install flipper-plugin-accessibility
+// Shows accessibility tree and issues
+
+// ESLint plugin for React Native
+// .eslintrc.js
+module.exports = {
+  plugins: ['react-native-a11y'],
+  rules: {
+    'react-native-a11y/has-accessibility-props': 'error',
+    'react-native-a11y/has-valid-accessibility-role': 'error',
+    'react-native-a11y/no-nested-touchables': 'error',
+  },
+};</code></pre>
+
+            <h4>WCAG Compliance Levels</h4>
+            <pre><code>// Target WCAG 2.1 Level AA minimum
+
+// Level A (minimum):
+// - All images have alt text
+// - Form inputs have labels
+// - Content is navigable with keyboard
+
+// Level AA (recommended):
+// - Color contrast 4.5:1 for normal text
+// - Text resizable to 200%
+// - Focus visible on all elements
+// - Error suggestions provided
+
+// Level AAA (enhanced):
+// - Color contrast 7:1
+// - Sign language for video
+// - Extended audio descriptions</code></pre>
+
+            <h4>💡 Interview Tips</h4>
+            <ul>
+                <li>Test with real screen readers, not just automated tools</li>
+                <li>Include users with disabilities in testing when possible</li>
+                <li>Accessibility should be tested throughout development, not at the end</li>
+            </ul>
+        `
     }
 ];

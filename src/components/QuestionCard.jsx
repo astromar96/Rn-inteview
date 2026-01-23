@@ -1,20 +1,26 @@
-import { Check, ChevronRight } from 'lucide-react'
+import { Check, ChevronRight, Star } from 'lucide-react'
 import { useApp } from '../context/AppContext'
 import clsx from 'clsx'
 
 export function QuestionCard({ question }) {
-  const { completedIds, toggleComplete, setSelectedQuestion } = useApp()
+  const { completedIds, toggleComplete, bookmarkedIds, toggleBookmark, setSelectedQuestion } = useApp()
   const isCompleted = completedIds.has(question.id)
+  const isBookmarked = bookmarkedIds.has(question.id)
 
   const handleCardClick = (e) => {
-    // Don't open modal if clicking checkbox
-    if (e.target.closest('.checkbox-area')) return
+    // Don't open modal if clicking checkbox or bookmark
+    if (e.target.closest('.checkbox-area') || e.target.closest('.bookmark-area')) return
     setSelectedQuestion(question)
   }
 
   const handleCheckboxClick = (e) => {
     e.stopPropagation()
     toggleComplete(question.id)
+  }
+
+  const handleBookmarkClick = (e) => {
+    e.stopPropagation()
+    toggleBookmark(question.id)
   }
 
   const difficultyStyles = {
@@ -94,8 +100,23 @@ export function QuestionCard({ question }) {
           </div>
         </div>
 
-        {/* Arrow */}
-        <ChevronRight className="flex-shrink-0 w-5 h-5 text-text-muted opacity-0 group-hover:opacity-100 transition-opacity" />
+        {/* Bookmark & Arrow */}
+        <div className="flex items-center gap-1">
+          <div
+            className="bookmark-area p-1 rounded-md hover:bg-surface transition-colors"
+            onClick={handleBookmarkClick}
+          >
+            <Star
+              className={clsx(
+                "w-4 h-4 transition-all",
+                isBookmarked
+                  ? "fill-warning text-warning"
+                  : "text-text-muted hover:text-warning"
+              )}
+            />
+          </div>
+          <ChevronRight className="flex-shrink-0 w-5 h-5 text-text-muted opacity-0 group-hover:opacity-100 transition-opacity" />
+        </div>
       </div>
     </div>
   )

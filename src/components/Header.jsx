@@ -1,8 +1,8 @@
-import { RotateCcw, Menu } from 'lucide-react'
+import { RotateCcw, Menu, Play, BarChart3 } from 'lucide-react'
 import { useApp } from '../context/AppContext'
 
 export function Header() {
-  const { stats, resetProgress, sidebarOpen, setSidebarOpen } = useApp()
+  const { stats, resetProgress, sidebarOpen, setSidebarOpen, setQuizModeOpen, setAnalyticsOpen } = useApp()
 
   const handleReset = () => {
     if (window.confirm('Are you sure you want to reset all progress? This cannot be undone.')) {
@@ -63,6 +63,26 @@ export function Header() {
                 />
               </div>
             </div>
+
+            {/* Quiz button */}
+            <button
+              onClick={() => setQuizModeOpen(true)}
+              className="hidden sm:flex items-center gap-2 px-3 py-2 rounded-lg bg-primary/10 text-primary hover:bg-primary/20 transition-colors"
+              title="Start Quiz"
+            >
+              <Play className="w-4 h-4" />
+              <span className="text-sm font-medium">Quiz</span>
+            </button>
+
+            {/* Analytics button */}
+            <button
+              onClick={() => setAnalyticsOpen(true)}
+              className="hidden sm:flex items-center gap-2 px-3 py-2 rounded-lg bg-gradient-end/10 text-gradient-end hover:bg-gradient-end/20 transition-colors"
+              title="View Analytics"
+            >
+              <BarChart3 className="w-4 h-4" />
+              <span className="text-sm font-medium">Analytics</span>
+            </button>
 
             {/* Reset button */}
             <button

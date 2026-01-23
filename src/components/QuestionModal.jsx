@@ -1,10 +1,11 @@
-import { useEffect, useCallback } from 'react'
+import { useEffect, useCallback, useRef, useState } from 'react'
 import { X, Check, Circle } from 'lucide-react'
 import { useApp } from '../context/AppContext'
 import clsx from 'clsx'
 
 export function QuestionModal() {
   const { selectedQuestion, setSelectedQuestion, completedIds, toggleComplete } = useApp()
+  const contentRef = useRef(null)
 
   const handleClose = useCallback(() => {
     setSelectedQuestion(null)
@@ -29,6 +30,44 @@ export function QuestionModal() {
     return () => {
       document.body.style.overflow = ''
     }
+  }, [selectedQuestion])
+
+  // Add copy buttons to code blocks
+  useEffect(() => {
+    if (!contentRef.current || !selectedQuestion) return
+
+    const preElements = contentRef.current.querySelectorAll('pre')
+
+    preElements.forEach((pre) => {
+      // Skip if already has copy button
+      if (pre.querySelector('.copy-btn')) return
+
+      // Make pre relative for absolute positioning
+      pre.style.position = 'relative'
+
+      // Create copy button
+      const btn = document.createElement('button')
+      btn.className = 'copy-btn'
+      btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>`
+      btn.title = 'Copy code'
+
+      btn.onclick = async () => {
+        const code = pre.querySelector('code')?.textContent || pre.textContent || ''
+        try {
+          await navigator.clipboard.writeText(code)
+          btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>`
+          btn.classList.add('copied')
+          setTimeout(() => {
+            btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>`
+            btn.classList.remove('copied')
+          }, 2000)
+        } catch (err) {
+          console.error('Failed to copy:', err)
+        }
+      }
+
+      pre.appendChild(btn)
+    })
   }, [selectedQuestion])
 
   if (!selectedQuestion) return null
@@ -100,6 +139,7 @@ export function QuestionModal() {
         {/* Content */}
         <div className="flex-1 overflow-y-auto p-6">
           <div
+            ref={contentRef}
             className="answer-content"
             dangerouslySetInnerHTML={{ __html: selectedQuestion.answer }}
           />

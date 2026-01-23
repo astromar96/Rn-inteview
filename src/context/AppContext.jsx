@@ -4,6 +4,7 @@ import { questionsData } from '../data/questions'
 const AppContext = createContext()
 
 const STORAGE_KEY = 'rn-interview-completed'
+const BOOKMARKS_KEY = 'rn-interview-bookmarks'
 
 // Extract unique values for filter options
 export const CATEGORIES = [...new Set(questionsData.map(q => q.category))]
@@ -15,7 +16,7 @@ const initialFilters = {
   categories: [],
   difficulties: [],
   seniorities: [],
-  status: 'all', // 'all' | 'pending' | 'completed'
+  status: 'all', // 'all' | 'pending' | 'completed' | 'bookmarked'
   sortBy: 'category', // 'category' | 'difficulty' | 'seniority' | 'alphabetical'
 }
 
@@ -30,14 +31,44 @@ export function AppProvider({ children }) {
     }
   })
 
+  // Load bookmarks from localStorage
+  const [bookmarkedIds, setBookmarkedIds] = useState(() => {
+    try {
+      const saved = localStorage.getItem(BOOKMARKS_KEY)
+      return saved ? new Set(JSON.parse(saved)) : new Set()
+    } catch {
+      return new Set()
+    }
+  })
+
   const [filters, setFilters] = useState(initialFilters)
   const [selectedQuestion, setSelectedQuestion] = useState(null)
   const [sidebarOpen, setSidebarOpen] = useState(true)
+  const [quizModeOpen, setQuizModeOpen] = useState(false)
+  const [analyticsOpen, setAnalyticsOpen] = useState(false)
 
   // Persist completed to localStorage
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify([...completedIds]))
   }, [completedIds])
+
+  // Persist bookmarks to localStorage
+  useEffect(() => {
+    localStorage.setItem(BOOKMARKS_KEY, JSON.stringify([...bookmarkedIds]))
+  }, [bookmarkedIds])
+
+  // Toggle bookmark
+  const toggleBookmark = useCallback((id) => {
+    setBookmarkedIds(prev => {
+      const next = new Set(prev)
+      if (next.has(id)) {
+        next.delete(id)
+      } else {
+        next.add(id)
+      }
+      return next
+    })
+  }, [])
 
   // Toggle question completion
   const toggleComplete = useCallback((id) => {
@@ -120,6 +151,8 @@ export function AppProvider({ children }) {
       result = result.filter(q => completedIds.has(q.id))
     } else if (filters.status === 'pending') {
       result = result.filter(q => !completedIds.has(q.id))
+    } else if (filters.status === 'bookmarked') {
+      result = result.filter(q => bookmarkedIds.has(q.id))
     }
 
     // Sort
@@ -142,7 +175,7 @@ export function AppProvider({ children }) {
     })
 
     return result
-  }, [filters, completedIds])
+  }, [filters, completedIds, bookmarkedIds])
 
   // Group by category for display
   const groupedQuestions = useMemo(() => {
@@ -201,6 +234,10 @@ export function AppProvider({ children }) {
     toggleComplete,
     resetProgress,
 
+    // Bookmarks
+    bookmarkedIds,
+    toggleBookmark,
+
     // Filters
     filters,
     updateFilter,
@@ -220,6 +257,10 @@ export function AppProvider({ children }) {
     // UI
     sidebarOpen,
     setSidebarOpen,
+    quizModeOpen,
+    setQuizModeOpen,
+    analyticsOpen,
+    setAnalyticsOpen,
   }
 
   return (

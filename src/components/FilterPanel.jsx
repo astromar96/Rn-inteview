@@ -208,6 +208,12 @@ export function FilterPanel() {
             onChange={(v) => updateFilter('status', v)}
           />
           <FilterRadio
+            label="⭐ Bookmarked"
+            value="bookmarked"
+            currentValue={filters.status}
+            onChange={(v) => updateFilter('status', v)}
+          />
+          <FilterRadio
             label="Pending"
             value="pending"
             currentValue={filters.status}
