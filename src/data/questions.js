@@ -193,16 +193,63 @@ const handlePress = useCallback((id) => {
 
             <h4>💡 Interview Tips</h4>
             <ul>
-                <li>Mention <strong>Fiber</strong> and how it enables concurrent features (Suspense, transitions)</li>
-                <li>Explain the two-phase commit (render phase is interruptible, commit phase is not)</li>
-                <li>Discuss how this differs in the <strong>New Architecture</strong> with synchronous rendering via Fabric</li>
+                <li><strong>Fiber Architecture:</strong> Explain that Fiber is React's reimplementation of the reconciler (React 16+). It breaks rendering into units of work called "fibers" that can be paused, resumed, or aborted. This enables:
+                    <ul>
+                        <li><strong>Concurrent Mode:</strong> Multiple versions of UI can be prepared in memory simultaneously</li>
+                        <li><strong>Suspense:</strong> Components can "suspend" rendering while waiting for async data</li>
+                        <li><strong>Transitions:</strong> Mark updates as non-urgent so they don't block user input (useTransition, startTransition)</li>
+                        <li><strong>Time Slicing:</strong> Long renders are split across multiple frames to keep UI responsive</li>
+                    </ul>
+                </li>
+                <li><strong>Two-Phase Commit - Be prepared to explain in detail:</strong>
+                    <ul>
+                        <li><strong>Render Phase (interruptible):</strong> React traverses the component tree, calls render functions, and calculates changes. No side effects should happen here. Can be paused/restarted. This is where diffing occurs.</li>
+                        <li><strong>Commit Phase (synchronous):</strong> React applies all changes to the DOM/native views in one go. Runs lifecycle methods (componentDidMount, useLayoutEffect, then useEffect). Cannot be interrupted to ensure UI consistency.</li>
+                    </ul>
+                </li>
+                <li><strong>New Architecture (Fabric) - Key differences to highlight:</strong>
+                    <ul>
+                        <li><strong>Synchronous rendering:</strong> Fabric can render synchronously when needed (e.g., for gestures, keyboard input) via JSI direct calls</li>
+                        <li><strong>No more bridge serialization:</strong> Direct C++ communication between JS and native eliminates JSON serialization overhead</li>
+                        <li><strong>Concurrent renderer:</strong> Fabric supports React 18's concurrent features natively out of the box</li>
+                        <li><strong>Multiple render priorities:</strong> Different updates can have different priorities (user input > background updates)</li>
+                    </ul>
+                </li>
+                <li><strong>Practical Examples to Mention:</strong>
+                    <ul>
+                        <li>Why typing in a search box stays smooth even while filtering a large list (concurrent features prioritize input)</li>
+                        <li>How Suspense boundaries work with React.lazy() for code splitting</li>
+                        <li>Why keys are critical for list performance (helps reconciler identify moved items vs recreated)</li>
+                    </ul>
+                </li>
+                <li><strong>Performance Questions Follow-up - Be ready to discuss:</strong>
+                    <ul>
+                        <li>When to use React.memo (components that receive same props often) vs useMemo (expensive calculations) vs useCallback (function props to memoized children)</li>
+                        <li>How to profile renders with React DevTools Profiler - identify unnecessary re-renders</li>
+                        <li>The cost of reconciliation and how to minimize unnecessary re-renders (component splitting, memoization)</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h4>🔑 Key Vocabulary to Use</h4>
+            <p>Using these terms correctly shows deep understanding:</p>
+            <ul>
+                <li><strong>Reconciliation:</strong> The algorithm React uses to diff two trees and determine the minimal set of operations to transform one into the other</li>
+                <li><strong>Fiber:</strong> A JavaScript object representing a unit of work; also the name of the reconciler architecture itself</li>
+                <li><strong>Work-in-progress tree:</strong> The new fiber tree being built during the render phase</li>
+                <li><strong>Current tree:</strong> The fiber tree that corresponds to what's currently rendered on screen</li>
+                <li><strong>Double buffering:</strong> React maintains two trees (current and work-in-progress) and swaps them on commit</li>
+                <li><strong>Effect list:</strong> A linked list of fibers that have side effects (DOM updates, lifecycle calls) to process in commit phase</li>
+                <li><strong>Lanes:</strong> React 18's priority system for scheduling updates (replaced the older "expiration times" model)</li>
             </ul>
 
             <h4>🚫 Common Mistakes</h4>
             <ul>
-                <li>Using array index as key in dynamic lists</li>
-                <li>Creating new objects/functions inline in render (breaks memoization)</li>
-                <li>Over-using useMemo/useCallback (premature optimization adds complexity)</li>
+                <li><strong>Using array index as key in dynamic lists:</strong> Causes incorrect component reuse when items are reordered, added, or removed. State gets attached to wrong items. Always use stable unique IDs.</li>
+                <li><strong>Creating new objects/functions inline in render:</strong> Breaks memoization because new references are created every render. Bad: <code>&lt;Child style={{color: 'red'}} /&gt;</code> or <code>&lt;Button onPress={() => doSomething()} /&gt;</code>. Good: Define outside or use useMemo/useCallback.</li>
+                <li><strong>Over-using useMemo/useCallback:</strong> These have memory overhead and add complexity. Only use when: passing callbacks to memoized children, expensive calculations (O(n²) or more), or referential equality matters (useEffect dependencies).</li>
+                <li><strong>Mutating state directly:</strong> React relies on reference comparison for change detection. <code>state.items.push(newItem)</code> won't trigger re-render because the array reference didn't change. Always create new references.</li>
+                <li><strong>Not understanding batching:</strong> In React 18+, all updates are automatically batched. But knowing this history shows depth: pre-React 18, only event handlers were batched, not setTimeout/promises.</li>
             </ul>
         `
     },
