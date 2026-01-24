@@ -9282,24 +9282,24 @@ const Tab = createBottomTabNavigator<MainTabParamList>();
 
 function RootNavigator() {
     return (
-        <Stack.Navigator>
-            <Stack.Screen name="Auth" component={AuthScreen} />
-            <Stack.Screen name="Main" component={MainTabs} />
-            <Stack.Screen name="ProductDetail" component={ProductDetailScreen} />
-        </Stack.Navigator>
+        &lt;Stack.Navigator&gt;
+            &lt;Stack.Screen name="Auth" component={AuthScreen} /&gt;
+            &lt;Stack.Screen name="Main" component={MainTabs} /&gt;
+            &lt;Stack.Screen name="ProductDetail" component={ProductDetailScreen} /&gt;
+        &lt;/Stack.Navigator&gt;
     );
 }</code></pre>
 
             <h4>Type-Safe Navigation in Screens</h4>
             <pre><code>// With screen props
-function ProductDetailScreen({ route, navigation }: RootStackScreenProps<'ProductDetail'>) {
+function ProductDetailScreen({ route, navigation }: RootStackScreenProps&lt;'ProductDetail'&gt;) {
     const { productId, title } = route.params; // Typed!
 
     return (
-        <Button
+        &lt;Button
             title="Go to Settings"
-            onPress={() => navigation.navigate('Settings', { section: 'profile' })}
-        />
+            onPress={() =&gt; navigation.navigate('Settings', { section: 'profile' })}
+        /&gt;
     );
 }
 
@@ -9308,15 +9308,15 @@ import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 function ProductCard({ product }) {
-    const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+    const navigation = useNavigation&lt;NativeStackNavigationProp&lt;RootStackParamList&gt;&gt;();
 
     return (
-        <TouchableOpacity
-            onPress={() => navigation.navigate('ProductDetail', {
+        &lt;TouchableOpacity
+            onPress={() =&gt; navigation.navigate('ProductDetail', {
                 productId: product.id,
                 title: product.title,  // Required params enforced!
             })}
-        />
+        /&gt;
     );
 }</code></pre>
 
