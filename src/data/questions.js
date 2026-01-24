@@ -9170,9 +9170,9 @@ function DraggableCard() {
     }));
 
     return (
-        <GestureDetector gesture={composed}>
-            <Animated.View style={[styles.card, animatedStyle]} />
-        </GestureDetector>
+        &lt;GestureDetector gesture={composed}&gt;
+            &lt;Animated.View style={[styles.card, animatedStyle]} /&gt;
+        &lt;/GestureDetector&gt;
     );
 }</code></pre>
 
@@ -9210,11 +9210,11 @@ const race = Gesture.Race(swipeLeft, swipeRight);</code></pre>
         });
 
     return (
-        <GestureDetector gesture={panGesture}>
-            <Animated.View style={useAnimatedStyle(() => ({
+        &lt;GestureDetector gesture={panGesture}&gt;
+            &lt;Animated.View style={useAnimatedStyle(() =&gt; ({
                 transform: [{ translateX: translateX.value }],
-            }))} />
-        </GestureDetector>
+            }))} /&gt;
+        &lt;/GestureDetector&gt;
     );
 }</code></pre>
 
