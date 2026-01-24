@@ -13069,29 +13069,29 @@ function LoginForm() {
   const submitRef = useRef(null);
 
   return (
-    <View>
-      <TextInput
+    &lt;View&gt;
+      &lt;TextInput
         ref={emailRef}
         accessibilityLabel="Email address"
         returnKeyType="next"
-        onSubmitEditing={() => passwordRef.current?.focus()}
-      />
-      <TextInput
+        onSubmitEditing={() =&gt; passwordRef.current?.focus()}
+      /&gt;
+      &lt;TextInput
         ref={passwordRef}
         accessibilityLabel="Password"
         secureTextEntry
         returnKeyType="done"
-        onSubmitEditing={() => submitRef.current?.focus()}
-      />
-      <TouchableOpacity
+        onSubmitEditing={() =&gt; submitRef.current?.focus()}
+      /&gt;
+      &lt;TouchableOpacity
         ref={submitRef}
         accessible={true}
         accessibilityRole="button"
         accessibilityLabel="Sign in"
-      >
-        <Text>Sign In</Text>
-      </TouchableOpacity>
-    </View>
+      &gt;
+        &lt;Text&gt;Sign In&lt;/Text&gt;
+      &lt;/TouchableOpacity&gt;
+    &lt;/View&gt;
   );
 }</code></pre>
 
@@ -13101,7 +13101,7 @@ function LoginForm() {
 function ProductScreen({ productId }) {
   const headerRef = useRef(null);
 
-  useEffect(() => {
+  useEffect(() =&gt; {
     // Move focus to header when screen loads
     const node = findNodeHandle(headerRef.current);
     if (node) {
@@ -13110,16 +13110,16 @@ function ProductScreen({ productId }) {
   }, [productId]);
 
   return (
-    <View>
-      <Text
+    &lt;View&gt;
+      &lt;Text
         ref={headerRef}
         accessibilityRole="header"
         accessible={true}
-      >
+      &gt;
         Product Details
-      </Text>
+      &lt;/Text&gt;
       {/* Rest of screen */}
-    </View>
+    &lt;/View&gt;
   );
 }</code></pre>
 
@@ -13128,10 +13128,10 @@ function ProductScreen({ productId }) {
   const modalRef = useRef(null);
   const closeButtonRef = useRef(null);
 
-  useEffect(() => {
+  useEffect(() =&gt; {
     if (visible) {
       // Focus first element when modal opens
-      setTimeout(() => {
+      setTimeout(() =&gt; {
         const node = findNodeHandle(closeButtonRef.current);
         if (node) {
           AccessibilityInfo.setAccessibilityFocus(node);
@@ -13141,45 +13141,45 @@ function ProductScreen({ productId }) {
   }, [visible]);
 
   return (
-    <Modal
+    &lt;Modal
       visible={visible}
       onRequestClose={onClose}
       accessibilityViewIsModal={true} // iOS: trap focus in modal
-    >
-      <View
+    &gt;
+      &lt;View
         ref={modalRef}
         accessible={false}
         importantForAccessibility="yes"
-      >
-        <TouchableOpacity
+      &gt;
+        &lt;TouchableOpacity
           ref={closeButtonRef}
           onPress={onClose}
           accessibilityLabel="Close modal"
           accessibilityRole="button"
-        >
-          <Text>×</Text>
-        </TouchableOpacity>
+        &gt;
+          &lt;Text&gt;×&lt;/Text&gt;
+        &lt;/TouchableOpacity&gt;
         {children}
-      </View>
-    </Modal>
+      &lt;/View&gt;
+    &lt;/Modal&gt;
   );
 }</code></pre>
 
             <h4>Hide Decorative Elements</h4>
             <pre><code>// Hide from screen readers
-<View
+&lt;View
   accessible={false}
   importantForAccessibility="no-hide-descendants"
->
-  <Image source={decorativePattern} />
-</View>
+&gt;
+  &lt;Image source={decorativePattern} /&gt;
+&lt;/View&gt;
 
 // Or for individual elements
-<Image
+&lt;Image
   source={icon}
   accessibilityElementsHidden={true}  // iOS
   importantForAccessibility="no"       // Android
-/></code></pre>
+/&gt;</code></pre>
 
             <h4>💡 Interview Tips</h4>
             <ul>
