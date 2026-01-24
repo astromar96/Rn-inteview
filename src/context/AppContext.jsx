@@ -5,6 +5,7 @@ const AppContext = createContext()
 
 const STORAGE_KEY = 'rn-interview-completed'
 const BOOKMARKS_KEY = 'rn-interview-bookmarks'
+const SKIPPED_KEY = 'rn-interview-skipped'
 const FILTERS_KEY = 'rn-interview-filters'
 const COMMENTS_KEY = 'rn-interview-comments'
 
@@ -18,7 +19,7 @@ const initialFilters = {
   categories: [],
   difficulties: [],
   seniorities: [],
-  status: 'all', // 'all' | 'pending' | 'completed' | 'bookmarked'
+  status: 'all', // 'all' | 'pending' | 'completed' | 'bookmarked' | 'skipped'
   sortBy: 'category', // 'category' | 'difficulty' | 'seniority' | 'alphabetical'
 }
 
@@ -58,6 +59,16 @@ export function AppProvider({ children }) {
     }
   })
 
+  // Load skipped from localStorage
+  const [skippedIds, setSkippedIds] = useState(() => {
+    try {
+      const saved = localStorage.getItem(SKIPPED_KEY)
+      return saved ? new Set(JSON.parse(saved)) : new Set()
+    } catch {
+      return new Set()
+    }
+  })
+
   const [filters, setFilters] = useState(loadFilters)
   const [selectedQuestion, setSelectedQuestion] = useState(null)
   const [sidebarOpen, setSidebarOpen] = useState(true)
@@ -84,6 +95,11 @@ export function AppProvider({ children }) {
   useEffect(() => {
     localStorage.setItem(BOOKMARKS_KEY, JSON.stringify([...bookmarkedIds]))
   }, [bookmarkedIds])
+
+  // Persist skipped to localStorage
+  useEffect(() => {
+    localStorage.setItem(SKIPPED_KEY, JSON.stringify([...skippedIds]))
+  }, [skippedIds])
 
   // Persist filters to localStorage
   useEffect(() => {
@@ -125,6 +141,19 @@ export function AppProvider({ children }) {
   // Toggle bookmark
   const toggleBookmark = useCallback((id) => {
     setBookmarkedIds(prev => {
+      const next = new Set(prev)
+      if (next.has(id)) {
+        next.delete(id)
+      } else {
+        next.add(id)
+      }
+      return next
+    })
+  }, [])
+
+  // Toggle skip
+  const toggleSkip = useCallback((id) => {
+    setSkippedIds(prev => {
       const next = new Set(prev)
       if (next.has(id)) {
         next.delete(id)
@@ -218,6 +247,8 @@ export function AppProvider({ children }) {
       result = result.filter(q => !completedIds.has(q.id))
     } else if (filters.status === 'bookmarked') {
       result = result.filter(q => bookmarkedIds.has(q.id))
+    } else if (filters.status === 'skipped') {
+      result = result.filter(q => skippedIds.has(q.id))
     }
 
     // Sort
@@ -240,7 +271,7 @@ export function AppProvider({ children }) {
     })
 
     return result
-  }, [filters, completedIds, bookmarkedIds])
+  }, [filters, completedIds, bookmarkedIds, skippedIds])
 
   // Group by category for display
   const groupedQuestions = useMemo(() => {
@@ -302,6 +333,10 @@ export function AppProvider({ children }) {
     // Bookmarks
     bookmarkedIds,
     toggleBookmark,
+
+    // Skipped
+    skippedIds,
+    toggleSkip,
 
     // Filters
     filters,

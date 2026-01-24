@@ -1,12 +1,12 @@
 import { useEffect, useCallback, useRef, useState } from 'react'
-import { X, Check, Circle, MessageSquare } from 'lucide-react'
+import { X, Check, Circle, MessageSquare, Star, XCircle } from 'lucide-react'
 import { useApp } from '../context/AppContext'
 import { CommentPopup } from './CommentPopup'
 import { CommentsPanel } from './CommentsPanel'
 import clsx from 'clsx'
 
 export function QuestionModal() {
-  const { selectedQuestion, setSelectedQuestion, completedIds, toggleComplete, addComment, getCommentsForQuestion } = useApp()
+  const { selectedQuestion, setSelectedQuestion, completedIds, toggleComplete, bookmarkedIds, toggleBookmark, skippedIds, toggleSkip, addComment, getCommentsForQuestion } = useApp()
   const contentRef = useRef(null)
   const [selectionPopup, setSelectionPopup] = useState(null) // { x, y, text }
 
@@ -127,6 +127,8 @@ export function QuestionModal() {
   if (!selectedQuestion) return null
 
   const isCompleted = completedIds.has(selectedQuestion.id)
+  const isBookmarked = bookmarkedIds.has(selectedQuestion.id)
+  const isSkipped = skippedIds.has(selectedQuestion.id)
   const commentsCount = getCommentsForQuestion(selectedQuestion.id).length
 
   const difficultyStyles = {
@@ -228,39 +230,69 @@ export function QuestionModal() {
 
         {/* Footer */}
         <div className="flex-shrink-0 p-4 border-t border-border bg-surface-elevated flex items-center justify-between">
-          <button
-            onClick={handleClose}
-            className="px-4 py-2 rounded-lg text-text-secondary hover:text-text-primary hover:bg-surface transition-colors"
-          >
-            Close
-          </button>
-          <button
-            onClick={() => {
-              toggleComplete(selectedQuestion.id)
-              // Close modal when marking as complete (not when unmarking)
-              if (!isCompleted) {
-                handleClose()
-              }
-            }}
-            className={clsx(
-              "flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all",
-              isCompleted
-                ? "bg-success/20 text-success hover:bg-success/30"
-                : "bg-primary text-background hover:bg-primary-dark"
-            )}
-          >
-            {isCompleted ? (
-              <>
-                <Check className="w-4 h-4" />
-                Completed
-              </>
-            ) : (
-              <>
-                <Circle className="w-4 h-4" />
-                Mark as Complete
-              </>
-            )}
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={handleClose}
+              className="px-4 py-2 rounded-lg text-text-secondary hover:text-text-primary hover:bg-surface transition-colors"
+            >
+              Close
+            </button>
+          </div>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => toggleBookmark(selectedQuestion.id)}
+              className={clsx(
+                "flex items-center gap-2 px-3 py-2 rounded-lg font-medium transition-all",
+                isBookmarked
+                  ? "bg-warning/20 text-warning hover:bg-warning/30"
+                  : "bg-surface text-text-secondary hover:bg-surface-elevated hover:text-warning"
+              )}
+              title={isBookmarked ? "Remove bookmark" : "Bookmark question"}
+            >
+              <Star className={clsx("w-4 h-4", isBookmarked && "fill-warning")} />
+              {isBookmarked ? "Bookmarked" : "Bookmark"}
+            </button>
+            <button
+              onClick={() => toggleSkip(selectedQuestion.id)}
+              className={clsx(
+                "flex items-center gap-2 px-3 py-2 rounded-lg font-medium transition-all",
+                isSkipped
+                  ? "bg-text-muted/20 text-text-muted hover:bg-text-muted/30"
+                  : "bg-surface text-text-secondary hover:bg-surface-elevated hover:text-error"
+              )}
+              title={isSkipped ? "Unskip question" : "Skip question"}
+            >
+              <XCircle className={clsx("w-4 h-4", isSkipped && "fill-text-muted")} />
+              {isSkipped ? "Skipped" : "Skip"}
+            </button>
+            <button
+              onClick={() => {
+                toggleComplete(selectedQuestion.id)
+                // Close modal when marking as complete (not when unmarking)
+                if (!isCompleted) {
+                  handleClose()
+                }
+              }}
+              className={clsx(
+                "flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all",
+                isCompleted
+                  ? "bg-success/20 text-success hover:bg-success/30"
+                  : "bg-primary text-background hover:bg-primary-dark"
+              )}
+            >
+              {isCompleted ? (
+                <>
+                  <Check className="w-4 h-4" />
+                  Completed
+                </>
+              ) : (
+                <>
+                  <Circle className="w-4 h-4" />
+                  Mark as Complete
+                </>
+              )}
+            </button>
+          </div>
         </div>
       </div>
     </div>

@@ -1,15 +1,16 @@
-import { Check, ChevronRight, Star } from 'lucide-react'
+import { Check, ChevronRight, Star, XCircle } from 'lucide-react'
 import { useApp } from '../context/AppContext'
 import clsx from 'clsx'
 
 export function QuestionCard({ question }) {
-  const { completedIds, toggleComplete, bookmarkedIds, toggleBookmark, setSelectedQuestion } = useApp()
+  const { completedIds, toggleComplete, bookmarkedIds, toggleBookmark, skippedIds, toggleSkip, setSelectedQuestion } = useApp()
   const isCompleted = completedIds.has(question.id)
   const isBookmarked = bookmarkedIds.has(question.id)
+  const isSkipped = skippedIds.has(question.id)
 
   const handleCardClick = (e) => {
-    // Don't open modal if clicking checkbox or bookmark
-    if (e.target.closest('.checkbox-area') || e.target.closest('.bookmark-area')) return
+    // Don't open modal if clicking checkbox, bookmark, or skip
+    if (e.target.closest('.checkbox-area') || e.target.closest('.bookmark-area') || e.target.closest('.skip-area')) return
     setSelectedQuestion(question)
   }
 
@@ -21,6 +22,11 @@ export function QuestionCard({ question }) {
   const handleBookmarkClick = (e) => {
     e.stopPropagation()
     toggleBookmark(question.id)
+  }
+
+  const handleSkipClick = (e) => {
+    e.stopPropagation()
+    toggleSkip(question.id)
   }
 
   const difficultyStyles = {
@@ -45,6 +51,8 @@ export function QuestionCard({ question }) {
         "hover:border-primary hover:-translate-y-0.5 hover:shadow-lg hover:shadow-primary/5",
         isCompleted
           ? "border-success/50 bg-gradient-to-r from-surface-elevated to-success/5"
+          : isSkipped
+          ? "border-text-muted/30 bg-surface-elevated/50 opacity-60"
           : "border-border"
       )}
     >
@@ -100,7 +108,7 @@ export function QuestionCard({ question }) {
           </div>
         </div>
 
-        {/* Bookmark & Arrow */}
+        {/* Bookmark, Skip & Arrow */}
         <div className="flex items-center gap-1">
           <div
             className="bookmark-area p-1 rounded-md hover:bg-surface transition-colors"
@@ -112,6 +120,19 @@ export function QuestionCard({ question }) {
                 isBookmarked
                   ? "fill-warning text-warning"
                   : "text-text-muted hover:text-warning"
+              )}
+            />
+          </div>
+          <div
+            className="skip-area p-1 rounded-md hover:bg-surface transition-colors"
+            onClick={handleSkipClick}
+          >
+            <XCircle
+              className={clsx(
+                "w-4 h-4 transition-all",
+                isSkipped
+                  ? "fill-text-muted text-text-muted"
+                  : "text-text-muted hover:text-error"
               )}
             />
           </div>
