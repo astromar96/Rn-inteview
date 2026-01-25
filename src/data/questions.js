@@ -8960,7 +8960,7 @@ class AuctionService {
 
             &lt;View style={styles.bidInfo}&gt;
                 &lt;Text style={styles.currentBid}&gt;
-                    Current Bid: ${auction?.currentBid.toLocaleString()}
+                    Current Bid: \${auction?.currentBid.toLocaleString()}
                 &lt;/Text&gt;
 
                 &lt;CountdownTimer
