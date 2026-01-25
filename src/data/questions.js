@@ -6836,523 +6836,4482 @@ function Screen() {
     {
         id: 69,
         category: "System Design",
-        icon: "📐",
-        question: "How would you design a real-time chat application in React Native?",
+        icon: "🏛️",
+        question: "Design the architecture for a large-scale e-commerce app with offline support",
         difficulty: "advanced",
-        seniority: "senior",
+        seniority: "staff",
         answer: `
-            <h4>Architecture Overview</h4>
-            <pre><code>┌─────────────────────────────────────────┐
-│            React Native App              │
-├─────────────────────────────────────────┤
-│  ┌─────────┐  ┌──────────┐  ┌────────┐ │
-│  │   UI    │  │  State   │  │ Socket │ │
-│  │ Layer   │  │ Manager  │  │ Client │ │
-│  └────┬────┘  └────┬─────┘  └────┬───┘ │
-│       │            │              │      │
-│       └────────────┼──────────────┘      │
-│                    │                     │
-└────────────────────┼─────────────────────┘
-                     │
-          ┌──────────┴──────────┐
-          │   WebSocket Server   │
-          │   (Socket.io/WS)     │
-          └──────────┬───────────┘
-                     │
-          ┌──────────┴──────────┐
-          │    Backend APIs      │
-          │  (REST + GraphQL)    │
-          └──────────┬───────────┘
-                     │
-     ┌───────────────┼───────────────┐
-     │               │               │
-┌────┴────┐   ┌──────┴─────┐  ┌─────┴────┐
-│ Database │   │   Cache    │  │  Storage │
-│(MongoDB) │   │  (Redis)   │  │  (S3)    │
-└──────────┘   └────────────┘  └──────────┘</code></pre>
+            &lt;h4&gt;Architecture Overview&lt;/h4&gt;
+            &lt;pre&gt;&lt;code&gt;┌─────────────────────────────────────────────────────────┐
+│                    PRESENTATION LAYER                    │
+│  ┌─────────────┐ ┌─────────────┐ ┌─────────────────────┐│
+│  │   Screens   │ │  Components │ │  Navigation Stack   ││
+│  └──────┬──────┘ └──────┬──────┘ └──────────┬──────────┘│
+└─────────┼───────────────┼───────────────────┼───────────┘
+          │               │                   │
+┌─────────┴───────────────┴───────────────────┴───────────┐
+│                     DOMAIN LAYER                         │
+│  ┌─────────────┐ ┌─────────────┐ ┌─────────────────────┐│
+│  │  Use Cases  │ │   Entities  │ │  Repository Intf    ││
+│  └──────┬──────┘ └─────────────┘ └──────────┬──────────┘│
+└─────────┼───────────────────────────────────┼───────────┘
+          │                                   │
+┌─────────┴───────────────────────────────────┴───────────┐
+│                      DATA LAYER                          │
+│  ┌─────────────┐ ┌─────────────┐ ┌─────────────────────┐│
+│  │ Repositories│ │  Data Src   │ │   Sync Engine       ││
+│  └──────┬──────┘ └──────┬──────┘ └──────────┬──────────┘│
+└─────────┼───────────────┼───────────────────┼───────────┘
+          │               │                   │
+┌─────────┴───────────────┴───────────────────┴───────────┐
+│                  INFRASTRUCTURE LAYER                    │
+│  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌─────────────┐ │
+│  │ Database │ │   API    │ │  Cache   │ │  Storage    │ │
+│  │(Watermelon)│ │ (Axios)  │ │ (MMKV)   │ │ (FS)       │ │
+│  └──────────┘ └──────────┘ └──────────┘ └─────────────┘ │
+└─────────────────────────────────────────────────────────┘&lt;/code&gt;&lt;/pre&gt;
 
-            <h4>Key Components</h4>
+            &lt;h4&gt;Feature Module Structure&lt;/h4&gt;
+            &lt;pre&gt;&lt;code&gt;src/
+├── features/
+│   ├── catalog/
+│   │   ├── screens/
+│   │   ├── components/
+│   │   ├── hooks/
+│   │   ├── services/
+│   │   └── index.ts
+│   ├── cart/
+│   ├── checkout/
+│   └── profile/
+├── core/
+│   ├── database/
+│   ├── network/
+│   ├── sync/
+│   └── storage/
+└── shared/
+    ├── components/
+    ├── hooks/
+    └── utils/&lt;/code&gt;&lt;/pre&gt;
 
-            <h4>1. WebSocket Connection</h4>
-            <pre><code>// hooks/useSocket.ts
-function useSocket() {
-    const socketRef = useRef&lt;Socket&gt;(null);
-    const [connected, setConnected] = useState(false);
+            &lt;h4&gt;Offline Sync Queue&lt;/h4&gt;
+            &lt;pre&gt;&lt;code&gt;// core/sync/SyncQueue.ts
+interface SyncOperation {
+    id: string;
+    type: 'CREATE' | 'UPDATE' | 'DELETE';
+    entity: string;
+    payload: unknown;
+    timestamp: number;
+    retryCount: number;
+}
 
-    useEffect(() => {
-        const socket = io(SOCKET_URL, {
-            auth: { token: getAuthToken() },
-            reconnection: true,
-            reconnectionDelay: 1000,
+class SyncQueue {
+    private queue: SyncOperation[] = [];
+
+    async enqueue(operation: Omit&amp;lt;SyncOperation, 'id' | 'timestamp' | 'retryCount'&amp;gt;) {
+        const op: SyncOperation = {
+            ...operation,
+            id: uuid(),
+            timestamp: Date.now(),
+            retryCount: 0,
+        };
+        this.queue.push(op);
+        await this.persistQueue();
+    }
+
+    async processQueue() {
+        const pending = [...this.queue];
+
+        for (const operation of pending) {
+            try {
+                await this.executeOperation(operation);
+                this.queue = this.queue.filter(op =&amp;gt; op.id !== operation.id);
+            } catch (error) {
+                operation.retryCount++;
+                if (operation.retryCount &amp;gt;= MAX_RETRIES) {
+                    await this.handleFailedOperation(operation);
+                }
+            }
+        }
+        await this.persistQueue();
+    }
+}&lt;/code&gt;&lt;/pre&gt;
+
+            &lt;h4&gt;Repository Pattern&lt;/h4&gt;
+            &lt;pre&gt;&lt;code&gt;// features/catalog/services/ProductRepository.ts
+class ProductRepository {
+    constructor(
+        private localDB: Database,
+        private api: ProductAPI,
+        private syncQueue: SyncQueue
+    ) {}
+
+    async getProducts(categoryId: string): Promise&amp;lt;Product[]&amp;gt; {
+        // Always read from local first
+        const local = await this.localDB.products
+            .query(Q.where('category_id', categoryId))
+            .fetch();
+
+        // Trigger background sync if online
+        if (NetInfo.isConnected) {
+            this.syncFromRemote(categoryId);
+        }
+
+        return local;
+    }
+
+    async addToCart(productId: string, quantity: number) {
+        // Update local immediately
+        await this.localDB.write(async () =&amp;gt; {
+            await this.localDB.get('cart_items').create(item =&amp;gt; {
+                item.productId = productId;
+                item.quantity = quantity;
+                item.syncStatus = 'pending';
+            });
         });
 
-        socket.on('connect', () => setConnected(true));
-        socket.on('disconnect', () => setConnected(false));
-
-        socketRef.current = socket;
-        return () => { socket.disconnect(); };
-    }, []);
-
-    return { socket: socketRef.current, connected };
-}</code></pre>
-
-            <h4>2. Message State Management</h4>
-            <pre><code>// Optimistic updates + local-first
-const sendMessage = async (content: string) => {
-    const tempId = uuid();
-    const message = {
-        id: tempId,
-        content,
-        status: 'sending',
-        createdAt: new Date(),
-    };
-
-    // Optimistic update
-    dispatch(addMessage(message));
-
-    try {
-        const saved = await api.sendMessage(content);
-        dispatch(updateMessage({ tempId, ...saved, status: 'sent' }));
-    } catch (error) {
-        dispatch(updateMessage({ id: tempId, status: 'failed' }));
+        // Queue for sync
+        await this.syncQueue.enqueue({
+            type: 'CREATE',
+            entity: 'cart_item',
+            payload: { productId, quantity }
+        });
     }
-};</code></pre>
+}&lt;/code&gt;&lt;/pre&gt;
 
-            <h4>3. Message List with Virtualization</h4>
-            <pre><code>&lt;FlatList
-    data={messages}
-    inverted // Chat shows newest at bottom
-    keyExtractor={(item) => item.id}
-    renderItem={renderMessage}
-    onEndReached={loadMoreMessages}
-    onEndReachedThreshold={0.5}
-    maintainVisibleContentPosition={{
-        minIndexForVisible: 0,
-    }}
-/&gt;</code></pre>
-
-            <h4>4. Offline Support</h4>
-            <pre><code>// Queue messages when offline
-const messageQueue = [];
-
-NetInfo.addEventListener(state => {
-    if (state.isConnected && messageQueue.length > 0) {
-        messageQueue.forEach(msg => socket.emit('message', msg));
-        messageQueue.length = 0;
-    }
-});</code></pre>
-
-            <h4>Key Considerations</h4>
-            <ul>
-                <li>Message pagination (cursor-based)</li>
-                <li>Read receipts and typing indicators</li>
-                <li>Push notifications for background</li>
-                <li>Media upload with progress</li>
-                <li>End-to-end encryption option</li>
-            </ul>
+            &lt;h4&gt;Key Considerations&lt;/h4&gt;
+            &lt;ul&gt;
+                &lt;li&gt;&lt;strong&gt;Optimistic UI:&lt;/strong&gt; Update UI immediately, sync in background&lt;/li&gt;
+                &lt;li&gt;&lt;strong&gt;Conflict Resolution:&lt;/strong&gt; Server timestamp wins for inventory, merge for cart&lt;/li&gt;
+                &lt;li&gt;&lt;strong&gt;Data Freshness:&lt;/strong&gt; Show stale indicators, pull-to-refresh&lt;/li&gt;
+                &lt;li&gt;&lt;strong&gt;Storage Limits:&lt;/strong&gt; Implement LRU cache for product images&lt;/li&gt;
+            &lt;/ul&gt;
         `
     },
     {
         id: 70,
         category: "System Design",
-        icon: "📐",
-        question: "How would you implement infinite scroll with efficient data loading?",
-        difficulty: "intermediate",
-        seniority: "mid",
+        icon: "🏛️",
+        question: "How would you structure state management for an app with complex data flows across 50+ screens?",
+        difficulty: "advanced",
+        seniority: "senior",
         answer: `
-            <h4>Cursor-Based Pagination</h4>
-            <pre><code>// API Response structure
-interface PaginatedResponse&lt;T&gt; {
-    data: T[];
-    nextCursor: string | null;
-    hasMore: boolean;
+            &lt;h4&gt;State Categories&lt;/h4&gt;
+            &lt;pre&gt;&lt;code&gt;┌─────────────────────────────────────────────────────────┐
+│                    STATE ARCHITECTURE                    │
+├─────────────────────────────────────────────────────────┤
+│                                                          │
+│  ┌─────────────┐   Global, persisted, rare updates      │
+│  │GLOBAL STATE │   Examples: user, settings, theme      │
+│  │  (Zustand)  │   Access: useAuthStore(), useSettings()│
+│  └─────────────┘                                        │
+│         │                                                │
+│  ┌──────┴──────┐   Cached API data, auto-refresh        │
+│  │SERVER STATE │   Examples: products, orders, posts    │
+│  │(TanStack Q) │   Access: useQuery(), useMutation()    │
+│  └─────────────┘                                        │
+│         │                                                │
+│  ┌──────┴──────┐   Screen-specific, ephemeral           │
+│  │ LOCAL STATE │   Examples: form inputs, modals        │
+│  │ (useState)  │   Access: useState(), useReducer()     │
+│  └─────────────┘                                        │
+│         │                                                │
+│  ┌──────┴──────┐   Complex flows, explicit transitions  │
+│  │ UI MACHINES │   Examples: checkout, onboarding       │
+│  │  (XState)   │   Access: useMachine()                 │
+│  └─────────────┘                                        │
+└─────────────────────────────────────────────────────────┘&lt;/code&gt;&lt;/pre&gt;
+
+            &lt;h4&gt;Zustand Store Slicing&lt;/h4&gt;
+            &lt;pre&gt;&lt;code&gt;// stores/index.ts
+import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
+import { immer } from 'zustand/middleware/immer';
+
+// Auth slice
+interface AuthSlice {
+    user: User | null;
+    token: string | null;
+    login: (credentials: Credentials) =&amp;gt; Promise&amp;lt;void&amp;gt;;
+    logout: () =&amp;gt; void;
 }
 
-// Custom hook for infinite scroll
-function useInfiniteList&lt;T&gt;(fetchFn: (cursor?: string) => Promise&lt;PaginatedResponse&lt;T&gt;&gt;) {
-    const [data, setData] = useState&lt;T[]&gt;([]);
-    const [cursor, setCursor] = useState&lt;string | null&gt;(null);
-    const [hasMore, setHasMore] = useState(true);
-    const [loading, setLoading] = useState(false);
-    const [refreshing, setRefreshing] = useState(false);
+// Cart slice
+interface CartSlice {
+    items: CartItem[];
+    addItem: (product: Product) =&amp;gt; void;
+    removeItem: (id: string) =&amp;gt; void;
+    total: number;
+}
 
-    const loadMore = useCallback(async () => {
-        if (loading || !hasMore) return;
+// Combined store with slices
+type AppStore = AuthSlice &amp;amp; CartSlice;
 
-        setLoading(true);
-        try {
-            const response = await fetchFn(cursor);
-            setData(prev => [...prev, ...response.data]);
-            setCursor(response.nextCursor);
-            setHasMore(response.hasMore);
-        } finally {
-            setLoading(false);
-        }
-    }, [cursor, hasMore, loading, fetchFn]);
+export const useStore = create&amp;lt;AppStore&amp;gt;()(
+    persist(
+        immer((set, get) =&amp;gt; ({
+            // Auth slice
+            user: null,
+            token: null,
+            login: async (credentials) =&amp;gt; {
+                const response = await authAPI.login(credentials);
+                set(state =&amp;gt; {
+                    state.user = response.user;
+                    state.token = response.token;
+                });
+            },
+            logout: () =&amp;gt; set({ user: null, token: null }),
 
-    const refresh = useCallback(async () => {
-        setRefreshing(true);
-        try {
-            const response = await fetchFn();
-            setData(response.data);
-            setCursor(response.nextCursor);
-            setHasMore(response.hasMore);
-        } finally {
-            setRefreshing(false);
-        }
-    }, [fetchFn]);
+            // Cart slice
+            items: [],
+            addItem: (product) =&amp;gt; set(state =&amp;gt; {
+                state.items.push({ product, quantity: 1 });
+            }),
+            removeItem: (id) =&amp;gt; set(state =&amp;gt; {
+                state.items = state.items.filter(i =&amp;gt; i.product.id !== id);
+            }),
+            get total() {
+                return get().items.reduce((sum, i) =&amp;gt; sum + i.product.price * i.quantity, 0);
+            },
+        })),
+        { name: 'app-store' }
+    )
+);&lt;/code&gt;&lt;/pre&gt;
 
-    return { data, loading, refreshing, hasMore, loadMore, refresh };
-}</code></pre>
-
-            <h4>Implementation with FlatList</h4>
-            <pre><code>function InfinitePostList() {
-    const { data, loading, refreshing, loadMore, refresh } = useInfiniteList(
-        (cursor) => api.getPosts({ cursor, limit: 20 })
-    );
-
-    const renderFooter = () => {
-        if (!loading) return null;
-        return (
-            &lt;View style={styles.footer}&gt;
-                &lt;ActivityIndicator size="small" /&gt;
-            &lt;/View&gt;
-        );
-    };
-
-    return (
-        &lt;FlatList
-            data={data}
-            renderItem={({ item }) => &lt;PostCard post={item} /&gt;}
-            keyExtractor={(item) => item.id}
-
-            // Infinite scroll
-            onEndReached={loadMore}
-            onEndReachedThreshold={0.5}
-            ListFooterComponent={renderFooter}
-
-            // Pull to refresh
-            refreshControl={
-                &lt;RefreshControl
-                    refreshing={refreshing}
-                    onRefresh={refresh}
-                /&gt;
-            }
-
-            // Performance
-            removeClippedSubviews={true}
-            maxToRenderPerBatch={10}
-            windowSize={5}
-        /&gt;
-    );
-}</code></pre>
-
-            <h4>With TanStack Query</h4>
-            <pre><code>import { useInfiniteQuery } from '@tanstack/react-query';
-
-function PostList() {
-    const {
-        data,
-        fetchNextPage,
-        hasNextPage,
-        isFetchingNextPage,
-        isLoading,
-        refetch,
-        isRefetching,
-    } = useInfiniteQuery({
-        queryKey: ['posts'],
-        queryFn: ({ pageParam }) => api.getPosts({ cursor: pageParam }),
-        getNextPageParam: (lastPage) => lastPage.nextCursor,
-        initialPageParam: undefined,
+            &lt;h4&gt;Server State with TanStack Query&lt;/h4&gt;
+            &lt;pre&gt;&lt;code&gt;// hooks/useProducts.ts
+export function useProducts(categoryId: string) {
+    return useQuery({
+        queryKey: ['products', categoryId],
+        queryFn: () =&amp;gt; productAPI.getByCategory(categoryId),
+        staleTime: 5 * 60 * 1000, // 5 minutes
+        cacheTime: 30 * 60 * 1000, // 30 minutes
     });
+}
 
-    const posts = data?.pages.flatMap(page => page.data) ?? [];
+// Optimistic updates
+export function useAddToCart() {
+    const queryClient = useQueryClient();
 
-    return (
-        &lt;FlatList
-            data={posts}
-            onEndReached={() => hasNextPage && fetchNextPage()}
-            refreshing={isRefetching}
-            onRefresh={refetch}
-            // ... rest
-        /&gt;
-    );
-}</code></pre>
+    return useMutation({
+        mutationFn: cartAPI.addItem,
+        onMutate: async (newItem) =&amp;gt; {
+            await queryClient.cancelQueries(['cart']);
+            const previous = queryClient.getQueryData(['cart']);
+
+            queryClient.setQueryData(['cart'], (old) =&amp;gt; ({
+                ...old,
+                items: [...old.items, newItem],
+            }));
+
+            return { previous };
+        },
+        onError: (err, newItem, context) =&amp;gt; {
+            queryClient.setQueryData(['cart'], context.previous);
+        },
+        onSettled: () =&amp;gt; {
+            queryClient.invalidateQueries(['cart']);
+        },
+    });
+}&lt;/code&gt;&lt;/pre&gt;
+
+            &lt;h4&gt;State Machine for Complex Flows&lt;/h4&gt;
+            &lt;pre&gt;&lt;code&gt;// machines/checkoutMachine.ts
+import { createMachine, assign } from 'xstate';
+
+const checkoutMachine = createMachine({
+    id: 'checkout',
+    initial: 'cart',
+    context: {
+        items: [],
+        shipping: null,
+        payment: null,
+        error: null,
+    },
+    states: {
+        cart: {
+            on: { PROCEED: 'shipping' }
+        },
+        shipping: {
+            on: {
+                BACK: 'cart',
+                SUBMIT_SHIPPING: {
+                    target: 'payment',
+                    actions: assign({ shipping: (_, e) =&amp;gt; e.data })
+                }
+            }
+        },
+        payment: {
+            on: {
+                BACK: 'shipping',
+                SUBMIT_PAYMENT: 'processing'
+            }
+        },
+        processing: {
+            invoke: {
+                src: 'processOrder',
+                onDone: 'success',
+                onError: {
+                    target: 'payment',
+                    actions: assign({ error: (_, e) =&amp;gt; e.data })
+                }
+            }
+        },
+        success: { type: 'final' }
+    }
+});&lt;/code&gt;&lt;/pre&gt;
+
+            &lt;h4&gt;Key Guidelines&lt;/h4&gt;
+            &lt;ul&gt;
+                &lt;li&gt;Keep global state minimal - only truly global data&lt;/li&gt;
+                &lt;li&gt;Use TanStack Query for all API data - handles caching, refetching&lt;/li&gt;
+                &lt;li&gt;Use XState for complex multi-step flows&lt;/li&gt;
+                &lt;li&gt;Colocate state as close to usage as possible&lt;/li&gt;
+            &lt;/ul&gt;
         `
     },
     {
         id: 71,
         category: "System Design",
-        icon: "📐",
-        question: "How would you implement a feature flag system in React Native?",
+        icon: "🏛️",
+        question: "Design a modular architecture that supports feature teams working independently",
         difficulty: "advanced",
-        seniority: "senior",
+        seniority: "staff",
         answer: `
-            <h4>Feature Flag Architecture</h4>
-            <pre><code>// types/featureFlags.ts
-export interface FeatureFlags {
-    newOnboarding: boolean;
-    darkModeEnabled: boolean;
-    experimentalCheckout: boolean;
-    maxUploadSize: number;
-    apiVersion: 'v1' | 'v2';
+            &lt;h4&gt;Monorepo Structure&lt;/h4&gt;
+            &lt;pre&gt;&lt;code&gt;my-app/
+├── apps/
+│   ├── mobile/              # Main RN app shell
+│   │   ├── src/
+│   │   │   ├── App.tsx
+│   │   │   └── navigation/
+│   │   └── package.json
+│   └── storybook/           # Component documentation
+├── packages/
+│   ├── ui/                  # Shared UI components
+│   │   ├── src/
+│   │   │   ├── Button/
+│   │   │   ├── Input/
+│   │   │   └── index.ts
+│   │   └── package.json
+│   ├── core/                # Shared utilities
+│   │   ├── src/
+│   │   │   ├── api/
+│   │   │   ├── storage/
+│   │   │   └── hooks/
+│   │   └── package.json
+│   └── config/              # Shared configs (TS, ESLint)
+├── features/
+│   ├── auth/                # Auth team owns this
+│   │   ├── src/
+│   │   │   ├── screens/
+│   │   │   ├── components/
+│   │   │   ├── hooks/
+│   │   │   ├── api/
+│   │   │   └── index.ts     # Public API
+│   │   ├── package.json
+│   │   └── README.md
+│   ├── checkout/            # Payments team owns this
+│   ├── catalog/             # Discovery team owns this
+│   └── profile/             # Growth team owns this
+├── nx.json                  # Nx workspace config
+├── package.json
+└── turbo.json               # Or Turborepo config&lt;/code&gt;&lt;/pre&gt;
+
+            &lt;h4&gt;Module Interface Contract&lt;/h4&gt;
+            &lt;pre&gt;&lt;code&gt;// features/auth/src/index.ts - Public API
+// Only export what other modules can use
+
+// Screens (for navigation registration)
+export { LoginScreen } from './screens/LoginScreen';
+export { SignupScreen } from './screens/SignupScreen';
+
+// Hooks (for consuming auth state)
+export { useAuth, useCurrentUser } from './hooks/useAuth';
+
+// Types
+export type { User, AuthState } from './types';
+
+// Navigation params
+export type { AuthStackParamList } from './navigation/types';
+
+// DO NOT export internal components, utilities, or API calls
+// They are implementation details&lt;/code&gt;&lt;/pre&gt;
+
+            &lt;h4&gt;Dependency Injection&lt;/h4&gt;
+            &lt;pre&gt;&lt;code&gt;// packages/core/src/di/container.ts
+import { createContext, useContext } from 'react';
+
+interface AppServices {
+    api: APIClient;
+    analytics: AnalyticsService;
+    storage: StorageService;
+    featureFlags: FeatureFlagService;
 }
 
-const defaultFlags: FeatureFlags = {
-    newOnboarding: false,
-    darkModeEnabled: true,
-    experimentalCheckout: false,
-    maxUploadSize: 10,
-    apiVersion: 'v1',
-};</code></pre>
+const ServiceContext = createContext&amp;lt;AppServices | null&amp;gt;(null);
 
-            <h4>Feature Flag Context</h4>
-            <pre><code>const FeatureFlagContext = createContext&lt;{
-    flags: FeatureFlags;
-    isLoading: boolean;
-    refresh: () => Promise&lt;void&gt;;
-}&gt;(null);
-
-export function FeatureFlagProvider({ children }) {
-    const [flags, setFlags] = useState&lt;FeatureFlags&gt;(defaultFlags);
-    const [isLoading, setIsLoading] = useState(true);
-
-    const fetchFlags = useCallback(async () => {
-        try {
-            // Fetch from remote config service
-            const remoteFlags = await api.getFeatureFlags({
-                userId: getCurrentUserId(),
-                appVersion: getAppVersion(),
-                platform: Platform.OS,
-            });
-
-            setFlags({ ...defaultFlags, ...remoteFlags });
-
-            // Cache locally
-            await AsyncStorage.setItem('featureFlags', JSON.stringify(remoteFlags));
-        } catch (error) {
-            // Fall back to cached flags
-            const cached = await AsyncStorage.getItem('featureFlags');
-            if (cached) {
-                setFlags({ ...defaultFlags, ...JSON.parse(cached) });
-            }
-        } finally {
-            setIsLoading(false);
-        }
-    }, []);
-
-    useEffect(() => {
-        fetchFlags();
-    }, [fetchFlags]);
-
+export function ServiceProvider({
+    children,
+    services
+}: {
+    children: ReactNode;
+    services: AppServices;
+}) {
     return (
-        &lt;FeatureFlagContext.Provider value={{ flags, isLoading, refresh: fetchFlags }}&gt;
+        &amp;lt;ServiceContext.Provider value={services}&amp;gt;
             {children}
-        &lt;/FeatureFlagContext.Provider&gt;
+        &amp;lt;/ServiceContext.Provider&amp;gt;
     );
 }
 
-export const useFeatureFlags = () => useContext(FeatureFlagContext);
-export const useFeatureFlag = &lt;K extends keyof FeatureFlags&gt;(key: K) => {
-    const { flags } = useFeatureFlags();
-    return flags[key];
-};</code></pre>
+export function useServices(): AppServices {
+    const services = useContext(ServiceContext);
+    if (!services) throw new Error('ServiceProvider not found');
+    return services;
+}
 
-            <h4>Usage in Components</h4>
-            <pre><code>// Simple boolean flag
-function CheckoutButton() {
-    const experimentalCheckout = useFeatureFlag('experimentalCheckout');
+// Usage in feature module
+function CheckoutScreen() {
+    const { api, analytics } = useServices();
+    // Feature doesn't know concrete implementations
+}&lt;/code&gt;&lt;/pre&gt;
 
-    if (experimentalCheckout) {
-        return &lt;NewCheckoutButton /&gt;;
+            &lt;h4&gt;Feature Flag Per Module&lt;/h4&gt;
+            &lt;pre&gt;&lt;code&gt;// features/checkout/src/hooks/useCheckoutFlags.ts
+export function useCheckoutFlags() {
+    const { featureFlags } = useServices();
+
+    return {
+        newPaymentFlow: featureFlags.isEnabled('checkout_new_payment_flow'),
+        applePay: featureFlags.isEnabled('checkout_apple_pay'),
+        expressCheckout: featureFlags.isEnabled('checkout_express'),
+    };
+}
+
+// Gradual rollout of new feature
+function PaymentScreen() {
+    const { newPaymentFlow } = useCheckoutFlags();
+
+    if (newPaymentFlow) {
+        return &amp;lt;NewPaymentFlow /&amp;gt;;
     }
-    return &lt;LegacyCheckoutButton /&gt;;
-}
+    return &amp;lt;LegacyPaymentFlow /&amp;gt;;
+}&lt;/code&gt;&lt;/pre&gt;
 
-// Feature gate component
-function FeatureGate({
-    flag,
-    children,
-    fallback = null,
-}: {
-    flag: keyof FeatureFlags;
-    children: ReactNode;
-    fallback?: ReactNode;
-}) {
-    const enabled = useFeatureFlag(flag);
-    return enabled ? children : fallback;
-}
-
-// Usage
-&lt;FeatureGate flag="newOnboarding" fallback={&lt;OldOnboarding /&gt;}&gt;
-    &lt;NewOnboarding /&gt;
-&lt;/FeatureGate&gt;</code></pre>
-
-            <h4>A/B Testing Integration</h4>
-            <pre><code>// flags include experiment variants
-interface FeatureFlags {
-    checkoutVariant: 'control' | 'variantA' | 'variantB';
-}
-
-function Checkout() {
-    const variant = useFeatureFlag('checkoutVariant');
-
-    // Track exposure for analytics
-    useEffect(() => {
-        analytics.track('experiment_exposure', {
-            experiment: 'checkout_redesign',
-            variant,
-        });
-    }, [variant]);
-
-    switch (variant) {
-        case 'variantA': return &lt;CheckoutA /&gt;;
-        case 'variantB': return &lt;CheckoutB /&gt;;
-        default: return &lt;CheckoutControl /&gt;;
+            &lt;h4&gt;Build Optimization&lt;/h4&gt;
+            &lt;pre&gt;&lt;code&gt;// nx.json
+{
+  "targetDefaults": {
+    "build": {
+      "dependsOn": ["^build"],
+      "inputs": ["production", "^production"],
+      "cache": true
+    },
+    "test": {
+      "inputs": ["default", "^production"],
+      "cache": true
     }
-}</code></pre>
+  },
+  "namedInputs": {
+    "production": [
+      "default",
+      "!{projectRoot}/**/*.spec.tsx",
+      "!{projectRoot}/test/**/*"
+    ]
+  }
+}
 
-            <h4>Popular Services</h4>
-            <ul>
-                <li><strong>LaunchDarkly:</strong> Full-featured, expensive</li>
-                <li><strong>Firebase Remote Config:</strong> Free, good for mobile</li>
-                <li><strong>Statsig:</strong> A/B testing focused</li>
-                <li><strong>Unleash:</strong> Open source option</li>
-            </ul>
+// Only rebuild what changed
+// nx affected:build --base=main&lt;/code&gt;&lt;/pre&gt;
+
+            &lt;h4&gt;Team Workflow&lt;/h4&gt;
+            &lt;ul&gt;
+                &lt;li&gt;&lt;strong&gt;Code Ownership:&lt;/strong&gt; CODEOWNERS file per feature directory&lt;/li&gt;
+                &lt;li&gt;&lt;strong&gt;API Contracts:&lt;/strong&gt; Breaking changes require RFC&lt;/li&gt;
+                &lt;li&gt;&lt;strong&gt;Testing:&lt;/strong&gt; Each feature has own test suite&lt;/li&gt;
+                &lt;li&gt;&lt;strong&gt;Releases:&lt;/strong&gt; Feature flags allow independent deployment&lt;/li&gt;
+            &lt;/ul&gt;
         `
     },
     {
         id: 72,
         category: "System Design",
-        icon: "📐",
-        question: "How would you design an offline-first mobile application architecture?",
+        icon: "🏛️",
+        question: "Design a social media feed (like Instagram/Twitter) that handles infinite scroll with smooth 60fps performance",
+        difficulty: "advanced",
+        seniority: "senior",
+        answer: `
+            &lt;h4&gt;Architecture Overview&lt;/h4&gt;
+            &lt;pre&gt;&lt;code&gt;┌─────────────────────────────────────────────────────────┐
+│                      FEED SCREEN                         │
+├─────────────────────────────────────────────────────────┤
+│  ┌─────────────────────────────────────────────────────┐│
+│  │              FlashList / RecyclerView               ││
+│  │  ┌─────────────────────────────────────────────┐   ││
+│  │  │            Virtualized Window               │   ││
+│  │  │  ┌───────────────────────────────────────┐ │   ││
+│  │  │  │  Cell 1: Image Post                   │ │   ││
+│  │  │  │  - Cached Image (expo-image)          │ │   ││
+│  │  │  │  - Interaction buttons                │ │   ││
+│  │  │  └───────────────────────────────────────┘ │   ││
+│  │  │  ┌───────────────────────────────────────┐ │   ││
+│  │  │  │  Cell 2: Video Post                   │ │   ││
+│  │  │  │  - Auto-play when visible             │ │   ││
+│  │  │  │  - Paused when off-screen             │ │   ││
+│  │  │  └───────────────────────────────────────┘ │   ││
+│  │  │  ┌───────────────────────────────────────┐ │   ││
+│  │  │  │  Cell 3: Text Post                    │ │   ││
+│  │  │  └───────────────────────────────────────┘ │   ││
+│  │  └─────────────────────────────────────────────┘   ││
+│  └─────────────────────────────────────────────────────┘│
+└─────────────────────────────────────────────────────────┘&lt;/code&gt;&lt;/pre&gt;
+
+            &lt;h4&gt;FlashList Implementation&lt;/h4&gt;
+            &lt;pre&gt;&lt;code&gt;import { FlashList } from '@shopify/flash-list';
+import { useInfiniteQuery } from '@tanstack/react-query';
+
+function FeedScreen() {
+    const {
+        data,
+        fetchNextPage,
+        hasNextPage,
+        isFetchingNextPage,
+    } = useInfiniteQuery({
+        queryKey: ['feed'],
+        queryFn: ({ pageParam = null }) =&amp;gt; feedAPI.getPosts(pageParam),
+        getNextPageParam: (lastPage) =&amp;gt; lastPage.nextCursor,
+    });
+
+    const posts = data?.pages.flatMap(page =&amp;gt; page.posts) ?? [];
+
+    return (
+        &amp;lt;FlashList
+            data={posts}
+            renderItem={({ item }) =&amp;gt; &amp;lt;FeedItem post={item} /&amp;gt;}
+            estimatedItemSize={400}
+            keyExtractor={(item) =&amp;gt; item.id}
+            onEndReached={() =&amp;gt; hasNextPage &amp;amp;&amp;amp; fetchNextPage()}
+            onEndReachedThreshold={0.5}
+            getItemType={(item) =&amp;gt; item.type} // 'image' | 'video' | 'text'
+            ListFooterComponent={isFetchingNextPage ? &amp;lt;Spinner /&amp;gt; : null}
+            drawDistance={250}
+        /&amp;gt;
+    );
+}&lt;/code&gt;&lt;/pre&gt;
+
+            &lt;h4&gt;Optimized Feed Item&lt;/h4&gt;
+            &lt;pre&gt;&lt;code&gt;import { Image } from 'expo-image';
+import { memo, useCallback } from 'react';
+
+const FeedItem = memo(function FeedItem({ post }: { post: Post }) {
+    // Memoize callbacks to prevent re-renders
+    const handleLike = useCallback(() =&amp;gt; {
+        likePost(post.id);
+    }, [post.id]);
+
+    return (
+        &amp;lt;View style={styles.container}&amp;gt;
+            &amp;lt;UserHeader user={post.author} /&amp;gt;
+
+            {post.type === 'image' &amp;amp;&amp;amp; (
+                &amp;lt;Image
+                    source={{ uri: post.imageUrl }}
+                    style={styles.image}
+                    contentFit="cover"
+                    placeholder={post.blurhash}
+                    transition={200}
+                    cachePolicy="memory-disk"
+                /&amp;gt;
+            )}
+
+            {post.type === 'video' &amp;amp;&amp;amp; (
+                &amp;lt;VideoCell videoUrl={post.videoUrl} /&amp;gt;
+            )}
+
+            &amp;lt;InteractionBar
+                likes={post.likes}
+                comments={post.comments}
+                onLike={handleLike}
+            /&amp;gt;
+        &amp;lt;/View&amp;gt;
+    );
+});
+
+// Flatten the view hierarchy for performance
+const styles = StyleSheet.create({
+    container: {
+        // Avoid nested Views when possible
+    },
+    image: {
+        width: '100%',
+        aspectRatio: 1,
+    },
+});&lt;/code&gt;&lt;/pre&gt;
+
+            &lt;h4&gt;Video Auto-play Management&lt;/h4&gt;
+            &lt;pre&gt;&lt;code&gt;import { useCallback, useState } from 'react';
+import { ViewToken } from 'react-native';
+
+function FeedScreen() {
+    const [visibleVideoId, setVisibleVideoId] = useState&amp;lt;string | null&amp;gt;(null);
+
+    const onViewableItemsChanged = useCallback(
+        ({ viewableItems }: { viewableItems: ViewToken[] }) =&amp;gt; {
+            // Find the first visible video
+            const visibleVideo = viewableItems.find(
+                item =&amp;gt; item.isViewable &amp;amp;&amp;amp; item.item.type === 'video'
+            );
+            setVisibleVideoId(visibleVideo?.item.id ?? null);
+        },
+        []
+    );
+
+    return (
+        &amp;lt;FlashList
+            data={posts}
+            renderItem={({ item }) =&amp;gt; (
+                &amp;lt;FeedItem
+                    post={item}
+                    shouldPlayVideo={item.id === visibleVideoId}
+                /&amp;gt;
+            )}
+            onViewableItemsChanged={onViewableItemsChanged}
+            viewabilityConfig={{
+                itemVisiblePercentThreshold: 60,
+                minimumViewTime: 300,
+            }}
+        /&amp;gt;
+    );
+}&lt;/code&gt;&lt;/pre&gt;
+
+            &lt;h4&gt;Performance Checklist&lt;/h4&gt;
+            &lt;ul&gt;
+                &lt;li&gt;&lt;strong&gt;Use FlashList:&lt;/strong&gt; 10x faster than FlatList for large lists&lt;/li&gt;
+                &lt;li&gt;&lt;strong&gt;Memoize items:&lt;/strong&gt; memo() with stable keys&lt;/li&gt;
+                &lt;li&gt;&lt;strong&gt;Image caching:&lt;/strong&gt; expo-image with blurhash placeholders&lt;/li&gt;
+                &lt;li&gt;&lt;strong&gt;Flatten views:&lt;/strong&gt; Reduce nesting depth&lt;/li&gt;
+                &lt;li&gt;&lt;strong&gt;getItemType:&lt;/strong&gt; Enable cell recycling by type&lt;/li&gt;
+                &lt;li&gt;&lt;strong&gt;estimatedItemSize:&lt;/strong&gt; Provide accurate estimate&lt;/li&gt;
+            &lt;/ul&gt;
+        `
+    },
+    {
+        id: 73,
+        category: "System Design",
+        icon: "🏛️",
+        question: "How would you architect an app to minimize startup time to under 2 seconds?",
+        difficulty: "advanced",
+        seniority: "senior",
+        answer: `
+            <h4>Startup Timeline Breakdown</h4>
+            <pre><code>┌─────────────────────────────────────────────────────────┐
+│                  APP STARTUP PHASES                      │
+├─────────────────────────────────────────────────────────┤
+│                                                          │
+│  0ms ─────────── Native Init ─────────── 200ms          │
+│  │  • Load native libraries                             │
+│  │  • Initialize React Native bridge                    │
+│  └─────────────────────────────────────────────────────  │
+│                                                          │
+│  200ms ────────── JS Bundle Load ────────── 600ms       │
+│  │  • Download/load JS bundle                           │
+│  │  • Parse JavaScript                                  │
+│  │  • Hermes bytecode execution                         │
+│  └─────────────────────────────────────────────────────  │
+│                                                          │
+│  600ms ────────── React Init ────────── 1000ms          │
+│  │  • Component tree creation                           │
+│  │  • Initial render                                    │
+│  └─────────────────────────────────────────────────────  │
+│                                                          │
+│  1000ms ────────── Data Fetch ────────── 1500ms         │
+│  │  • API calls                                         │
+│  │  • Cache hydration                                   │
+│  └─────────────────────────────────────────────────────  │
+│                                                          │
+│  1500ms ────────── Interactive ────────── 2000ms        │
+│  │  • Full render complete                              │
+│  │  • Ready for interaction                             │
+│  └─────────────────────────────────────────────────────  │
+└─────────────────────────────────────────────────────────┘</code></pre>
+
+            <h4>Hermes Optimization</h4>
+            <pre><code>// android/app/build.gradle
+android {
+    defaultConfig {
+        // Enable Hermes
+        buildConfigField "boolean", "IS_HERMES_ENABLED", "true"
+    }
+}
+
+// metro.config.js - Enable bytecode compilation
+module.exports = {
+    transformer: {
+        getTransformOptions: async () => ({
+            transform: {
+                experimentalImportSupport: false,
+                inlineRequires: true, // Defer requires until needed
+            },
+        }),
+    },
+};</code></pre>
+
+            <h4>Deferred Initialization</h4>
+            <pre><code>// App.tsx - Lazy load non-critical features
+import { lazy, Suspense } from 'react';
+
+// Eagerly load critical path
+import { SplashScreen } from './screens/SplashScreen';
+import { HomeScreen } from './screens/HomeScreen';
+
+// Defer analytics, monitoring until after interactive
+const Analytics = lazy(() => import('./services/analytics'));
+const Monitoring = lazy(() => import('./services/monitoring'));
+
+function App() {
+    const [isReady, setIsReady] = useState(false);
+
+    useEffect(() => {
+        async function prepare() {
+            // Only load critical data
+            await Promise.all([
+                loadUserSession(),
+                prefetchHomeData(),
+            ]);
+            setIsReady(true);
+
+            // Initialize non-critical after render
+            requestIdleCallback(() => {
+                initAnalytics();
+                initPushNotifications();
+                preloadSecondaryScreens();
+            });
+        }
+        prepare();
+    }, []);
+
+    if (!isReady) return &lt;SplashScreen /&gt;;
+
+    return (
+        &lt;Suspense fallback={null}&gt;
+            &lt;Analytics /&gt;
+            &lt;Monitoring /&gt;
+            &lt;Navigation /&gt;
+        &lt;/Suspense&gt;
+    );
+}</code></pre>
+
+            <h4>Bundle Analysis &amp; Splitting</h4>
+            <pre><code># Analyze bundle size
+npx react-native-bundle-visualizer
+
+# metro.config.js - Tree shaking
+module.exports = {
+    transformer: {
+        minifierConfig: {
+            keep_classnames: false,
+            keep_fnames: false,
+            mangle: true,
+            toplevel: true,
+        },
+    },
+};
+
+// Use specific imports instead of barrel imports
+// Bad: import { Button, Input, Card } from '@ui';
+// Good: import Button from '@ui/Button';
+// Good: import Input from '@ui/Input';</code></pre>
+
+            <h4>Native Splash Screen</h4>
+            <pre><code>// Prevent white flash with native splash
+// ios/AppDelegate.mm
+- (BOOL)application:(UIApplication *)application
+    didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+
+    // Keep splash visible until JS ready
+    RNSplashScreen.show();
+    return YES;
+}
+
+// App.tsx
+import SplashScreen from 'react-native-splash-screen';
+
+useEffect(() => {
+    async function init() {
+        await initializeApp();
+        SplashScreen.hide(); // Hide only when ready
+    }
+    init();
+}, []);</code></pre>
+
+            <h4>Key Metrics to Track</h4>
+            <ul>
+                <li><strong>TTFB:</strong> Time to first byte of JS bundle</li>
+                <li><strong>TTI:</strong> Time to interactive</li>
+                <li><strong>FCP:</strong> First contentful paint</li>
+                <li><strong>Bundle Size:</strong> Keep under 2MB compressed</li>
+            </ul>
+        `
+    },
+    {
+        id: 74,
+        category: "System Design",
+        icon: "🏛️",
+        question: "Design a system to handle large lists with complex cells containing images, videos, and interactive elements",
+        difficulty: "advanced",
+        seniority: "senior",
+        answer: `
+            <h4>Cell Architecture</h4>
+            <pre><code>┌─────────────────────────────────────────────────────────┐
+│                   COMPLEX CELL LAYOUT                    │
+├─────────────────────────────────────────────────────────┤
+│  ┌─────────────────────────────────────────────────────┐│
+│  │  Header Row                                         ││
+│  │  ┌────────┐ ┌────────────────────────────┐         ││
+│  │  │ Avatar │ │ Username + Timestamp       │  •••    ││
+│  │  └────────┘ └────────────────────────────┘         ││
+│  └─────────────────────────────────────────────────────┘│
+│  ┌─────────────────────────────────────────────────────┐│
+│  │  Media Container (Image OR Video)                   ││
+│  │  ┌─────────────────────────────────────────────┐   ││
+│  │  │                                             │   ││
+│  │  │         Image with Blurhash                 │   ││
+│  │  │              OR                             │   ││
+│  │  │     Video with Play/Pause overlay           │   ││
+│  │  │                                             │   ││
+│  │  └─────────────────────────────────────────────┘   ││
+│  └─────────────────────────────────────────────────────┘│
+│  ┌─────────────────────────────────────────────────────┐│
+│  │  Interaction Row                                    ││
+│  │  [♡ Like]  [💬 Comment]  [↗ Share]  [⋯ More]      ││
+│  └─────────────────────────────────────────────────────┘│
+│  ┌─────────────────────────────────────────────────────┐│
+│  │  Caption &amp; Comments Preview                        ││
+│  │  "Caption text with @mentions and #hashtags..."    ││
+│  │  View all 42 comments                              ││
+│  └─────────────────────────────────────────────────────┘│
+└─────────────────────────────────────────────────────────┘</code></pre>
+
+            <h4>Cell Type Recycling</h4>
+            <pre><code>import { FlashList } from '@shopify/flash-list';
+
+type CellType = 'image' | 'video' | 'carousel' | 'text';
+
+interface Post {
+    id: string;
+    type: CellType;
+    // ... other fields
+}
+
+function Feed({ posts }: { posts: Post[] }) {
+    return (
+        &lt;FlashList
+            data={posts}
+            renderItem={({ item }) =&gt; {
+                switch (item.type) {
+                    case 'image': return &lt;ImageCell post={item} /&gt;;
+                    case 'video': return &lt;VideoCell post={item} /&gt;;
+                    case 'carousel': return &lt;CarouselCell post={item} /&gt;;
+                    case 'text': return &lt;TextCell post={item} /&gt;;
+                }
+            }}
+            // Critical: Enable cell recycling by type
+            getItemType={(item) =&gt; item.type}
+            // Provide accurate size estimates per type
+            overrideItemLayout={(layout, item) =&gt; {
+                switch (item.type) {
+                    case 'image':
+                        layout.size = 500;
+                        break;
+                    case 'video':
+                        layout.size = 600;
+                        break;
+                    case 'carousel':
+                        layout.size = 550;
+                        break;
+                    case 'text':
+                        layout.size = 200;
+                        break;
+                }
+            }}
+            estimatedItemSize={450}
+        /&gt;
+    );
+}</code></pre>
+
+            <h4>Optimized Image Cell</h4>
+            <pre><code>import { Image } from 'expo-image';
+import { memo, useCallback, useMemo } from 'react';
+
+const ImageCell = memo(function ImageCell({ post }: { post: Post }) {
+    // Memoize style calculations
+    const imageStyle = useMemo(() => ({
+        width: SCREEN_WIDTH,
+        height: SCREEN_WIDTH * post.aspectRatio,
+    }), [post.aspectRatio]);
+
+    // Stable callback references
+    const onLike = useCallback(() => likePost(post.id), [post.id]);
+    const onComment = useCallback(() => navigate('Comments', { postId: post.id }), [post.id]);
+
+    return (
+        &lt;View style={styles.cell}&gt;
+            &lt;PostHeader author={post.author} timestamp={post.createdAt} /&gt;
+
+            &lt;Image
+                source={{ uri: post.imageUrl }}
+                style={imageStyle}
+                placeholder={{ blurhash: post.blurhash }}
+                contentFit="cover"
+                transition={150}
+                recyclingKey={post.id}
+                cachePolicy="memory-disk"
+            /&gt;
+
+            &lt;PostActions
+                postId={post.id}
+                likes={post.likeCount}
+                comments={post.commentCount}
+                onLike={onLike}
+                onComment={onComment}
+            /&gt;
+
+            &lt;PostCaption text={post.caption} /&gt;
+        &lt;/View&gt;
+    );
+});</code></pre>
+
+            <h4>Video Cell with Visibility</h4>
+            <pre><code>import Video from 'react-native-video';
+
+const VideoCell = memo(function VideoCell({
+    post,
+    isVisible
+}: {
+    post: Post;
+    isVisible: boolean;
+}) {
+    const [isMuted, setIsMuted] = useState(true);
+
+    return (
+        &lt;View style={styles.cell}&gt;
+            &lt;PostHeader author={post.author} /&gt;
+
+            &lt;Pressable onPress={() =&gt; setIsMuted(!isMuted)}&gt;
+                &lt;Video
+                    source={{ uri: post.videoUrl }}
+                    style={styles.video}
+                    paused={!isVisible}
+                    muted={isMuted}
+                    repeat
+                    resizeMode="cover"
+                    posterResizeMode="cover"
+                    poster={post.thumbnailUrl}
+                /&gt;
+                {isMuted &amp;&amp; &lt;MuteIndicator /&gt;}
+            &lt;/Pressable&gt;
+
+            &lt;PostActions postId={post.id} /&gt;
+        &lt;/View&gt;
+    );
+});</code></pre>
+
+            <h4>Performance Guidelines</h4>
+            <ul>
+                <li><strong>Avoid inline styles:</strong> Use StyleSheet.create()</li>
+                <li><strong>Memoize components:</strong> memo() for all cell types</li>
+                <li><strong>Stable keys:</strong> Use unique IDs, never array index</li>
+                <li><strong>Minimize re-renders:</strong> useCallback for event handlers</li>
+                <li><strong>Profile regularly:</strong> Use Flipper performance tools</li>
+            </ul>
+        `
+    },
+    {
+        id: 75,
+        category: "System Design",
+        icon: "🏛️",
+        question: "Design a note-taking app (like Notion) that works fully offline and syncs when online",
         difficulty: "advanced",
         seniority: "staff",
         answer: `
-            <h4>Offline-First Principles</h4>
-            <ul>
-                <li>Local database is the source of truth</li>
-                <li>Sync with server when connected</li>
-                <li>Resolve conflicts automatically when possible</li>
-                <li>Queue mutations for later sync</li>
-            </ul>
+            <h4>Data Model</h4>
+            <pre><code>┌─────────────────────────────────────────────────────────┐
+│                  BLOCK-BASED STRUCTURE                   │
+├─────────────────────────────────────────────────────────┤
+│                                                          │
+│  Page                                                    │
+│  ├── Block (type: heading)                              │
+│  │   └── content: "Project Overview"                    │
+│  ├── Block (type: paragraph)                            │
+│  │   └── content: "Description text..."                 │
+│  ├── Block (type: todo)                                 │
+│  │   ├── content: "Task item"                           │
+│  │   └── checked: false                                 │
+│  ├── Block (type: image)                                │
+│  │   └── imageUrl: "local://..."                        │
+│  └── Block (type: nested)                               │
+│      └── children: [Block, Block, ...]                  │
+│                                                          │
+└─────────────────────────────────────────────────────────┘</code></pre>
 
-            <h4>Architecture Layers</h4>
-            <pre><code>┌─────────────────────────────────────────┐
-│              UI Components               │
-└─────────────────┬───────────────────────┘
-                  │
-┌─────────────────┴───────────────────────┐
-│           Repository Layer               │
-│  (Abstracts data source from UI)         │
-└─────────────────┬───────────────────────┘
-                  │
-      ┌───────────┴───────────┐
-      │                       │
-┌─────┴─────┐          ┌──────┴──────┐
-│  Local DB  │          │  Remote API  │
-│ (SQLite)   │◄────────►│  (REST/GQL)  │
-└────────────┘   Sync   └─────────────┘</code></pre>
-
-            <h4>Implementation with WatermelonDB</h4>
-            <pre><code>// models/Post.ts
+            <h4>Database Schema (WatermelonDB)</h4>
+            <pre><code>// models/Page.ts
 import { Model } from '@nozbe/watermelondb';
-import { field, date, readonly } from '@nozbe/watermelondb/decorators';
+import { field, children, date, readonly } from '@nozbe/watermelondb/decorators';
 
-class Post extends Model {
-    static table = 'posts';
+class Page extends Model {
+    static table = 'pages';
+    static associations = {
+        blocks: { type: 'has_many', foreignKey: 'page_id' },
+    };
 
     @field('title') title!: string;
-    @field('content') content!: string;
-    @field('is_synced') isSynced!: boolean;
+    @field('icon') icon!: string;
+    @field('parent_id') parentId!: string | null;
+    @field('sync_status') syncStatus!: 'synced' | 'pending' | 'conflict';
+    @field('version') version!: number;
     @readonly @date('created_at') createdAt!: Date;
     @date('updated_at') updatedAt!: Date;
+    @children('blocks') blocks!: Query&lt;Block&gt;;
 }
 
-// Repository
-class PostRepository {
-    constructor(private database: Database) {}
+// models/Block.ts
+class Block extends Model {
+    static table = 'blocks';
 
-    async create(data: PostInput): Promise&lt;Post&gt; {
-        return await this.database.write(async () => {
-            return await this.database.get&lt;Post&gt;('posts').create(post => {
-                post.title = data.title;
-                post.content = data.content;
-                post.isSynced = false; // Mark for sync
-            });
+    @field('page_id') pageId!: string;
+    @field('type') type!: BlockType;
+    @field('content') content!: string;
+    @field('properties') properties!: string; // JSON
+    @field('order') order!: number;
+    @field('parent_block_id') parentBlockId!: string | null;
+}</code></pre>
+
+            <h4>Sync Engine Architecture</h4>
+            <pre><code>// services/SyncEngine.ts
+class SyncEngine {
+    private operationLog: Operation[] = [];
+    private lastSyncTimestamp: number = 0;
+
+    // Track all local changes
+    async trackChange(operation: Operation) {
+        this.operationLog.push({
+            ...operation,
+            timestamp: Date.now(),
+            clientId: this.clientId,
         });
+        await this.persistLog();
     }
 
-    async getAll(): Promise&lt;Post[]&gt; {
-        return await this.database.get&lt;Post&gt;('posts').query().fetch();
+    // Push local changes to server
+    async pushChanges(): Promise&lt;void&gt; {
+        const pending = this.operationLog.filter(
+            op =&gt; op.timestamp &gt; this.lastSyncTimestamp
+        );
+
+        if (pending.length === 0) return;
+
+        const response = await api.sync({
+            operations: pending,
+            lastSync: this.lastSyncTimestamp,
+        });
+
+        // Handle conflicts
+        for (const conflict of response.conflicts) {
+            await this.resolveConflict(conflict);
+        }
+
+        this.lastSyncTimestamp = response.serverTimestamp;
+        this.operationLog = this.operationLog.filter(
+            op =&gt; op.timestamp &gt; this.lastSyncTimestamp
+        );
     }
 
-    async getUnsyncedPosts(): Promise&lt;Post[]&gt; {
-        return await this.database
-            .get&lt;Post&gt;('posts')
-            .query(Q.where('is_synced', false))
-            .fetch();
+    // Pull remote changes
+    async pullChanges(): Promise&lt;void&gt; {
+        const changes = await api.getChanges({
+            since: this.lastSyncTimestamp,
+            clientId: this.clientId,
+        });
+
+        await database.write(async () =&gt; {
+            for (const change of changes.operations) {
+                await this.applyRemoteChange(change);
+            }
+        });
+
+        this.lastSyncTimestamp = changes.serverTimestamp;
     }
 }</code></pre>
 
-            <h4>Sync Service</h4>
-            <pre><code>class SyncService {
-    async syncPosts() {
-        const unsynced = await postRepo.getUnsyncedPosts();
+            <h4>Conflict Resolution</h4>
+            <pre><code>// services/ConflictResolver.ts
+class ConflictResolver {
+    async resolve(conflict: Conflict): Promise&lt;Resolution&gt; {
+        const { local, remote, base } = conflict;
 
-        for (const post of unsynced) {
+        // For text content, attempt three-way merge
+        if (conflict.type === 'text') {
+            const merged = threeWayMerge(base.content, local.content, remote.content);
+
+            if (!merged.hasConflicts) {
+                return { action: 'merge', content: merged.result };
+            }
+
+            // Show conflict UI to user
+            return {
+                action: 'manual',
+                options: [
+                    { label: 'Keep mine', value: local },
+                    { label: 'Use theirs', value: remote },
+                    { label: 'Keep both', value: [...local, ...remote] },
+                ],
+            };
+        }
+
+        // For structural changes (block order), use timestamps
+        if (conflict.type === 'structural') {
+            return local.timestamp &gt; remote.timestamp
+                ? { action: 'use_local' }
+                : { action: 'use_remote' };
+        }
+    }
+}</code></pre>
+
+            <h4>Offline Queue</h4>
+            <pre><code>// hooks/useOfflineSync.ts
+function useOfflineSync() {
+    const netInfo = useNetInfo();
+
+    useEffect(() =&gt; {
+        if (netInfo.isConnected) {
+            // Online: sync immediately
+            syncEngine.pushChanges();
+            syncEngine.pullChanges();
+        }
+    }, [netInfo.isConnected]);
+
+    // Queue operations when offline
+    const updateBlock = useCallback(async (blockId: string, content: string) =&gt; {
+        // Update local immediately
+        await database.write(async () =&gt; {
+            const block = await database.get&lt;Block&gt;('blocks').find(blockId);
+            await block.update(b =&gt; {
+                b.content = content;
+                b.syncStatus = 'pending';
+            });
+        });
+
+        // Track for sync
+        await syncEngine.trackChange({
+            type: 'UPDATE',
+            entity: 'block',
+            id: blockId,
+            changes: { content },
+        });
+    }, []);
+
+    return { updateBlock };
+}</code></pre>
+
+            <h4>Key Considerations</h4>
+            <ul>
+                <li><strong>Optimistic updates:</strong> UI updates immediately, syncs in background</li>
+                <li><strong>Version vectors:</strong> Track changes per client to detect conflicts</li>
+                <li><strong>Operational transforms:</strong> For collaborative real-time editing</li>
+                <li><strong>Periodic sync:</strong> Background sync every 30s when online</li>
+            </ul>
+        `
+    },
+    {
+        id: 76,
+        category: "System Design",
+        icon: "🏛️",
+        question: "How would you handle conflict resolution in a collaborative editing feature?",
+        difficulty: "advanced",
+        seniority: "staff",
+        answer: `
+            <h4>Conflict Resolution Strategies</h4>
+            <pre><code>┌─────────────────────────────────────────────────────────┐
+│              CONFLICT RESOLUTION APPROACHES              │
+├─────────────────────────────────────────────────────────┤
+│                                                          │
+│  1. LAST-WRITE-WINS (LWW)                               │
+│     • Simplest approach                                 │
+│     • Uses timestamps to pick winner                    │
+│     • May lose data                                     │
+│                                                          │
+│  2. OPERATIONAL TRANSFORM (OT)                          │
+│     • Transforms operations against each other          │
+│     • Used by Google Docs                               │
+│     • Complex to implement                              │
+│                                                          │
+│  3. CRDT (Conflict-free Replicated Data Types)          │
+│     • Mathematically guaranteed to converge             │
+│     • No central server needed                          │
+│     • Used by Figma, Linear                             │
+│                                                          │
+│  4. THREE-WAY MERGE                                     │
+│     • Compares local, remote, and common ancestor       │
+│     • Used by Git                                       │
+│     • Manual resolution for conflicts                   │
+│                                                          │
+└─────────────────────────────────────────────────────────┘</code></pre>
+
+            <h4>CRDT Implementation</h4>
+            <pre><code>// Simple LWW-Register CRDT
+interface LWWRegister&lt;T&gt; {
+    value: T;
+    timestamp: number;
+    nodeId: string;
+}
+
+class LWWRegisterCRDT&lt;T&gt; {
+    private state: LWWRegister&lt;T&gt;;
+
+    update(value: T, timestamp: number, nodeId: string): void {
+        // Higher timestamp wins; tie-break on nodeId
+        if (timestamp &gt; this.state.timestamp ||
+            (timestamp === this.state.timestamp &amp;&amp;
+             nodeId &gt; this.state.nodeId)) {
+            this.state = { value, timestamp, nodeId };
+        }
+    }
+
+    merge(other: LWWRegister&lt;T&gt;): void {
+        this.update(other.value, other.timestamp, other.nodeId);
+    }
+
+    getValue(): T {
+        return this.state.value;
+    }
+}
+
+// G-Counter CRDT for likes/counts
+class GCounter {
+    private counts: Map&lt;string, number&gt; = new Map();
+
+    increment(nodeId: string): void {
+        const current = this.counts.get(nodeId) || 0;
+        this.counts.set(nodeId, current + 1);
+    }
+
+    merge(other: GCounter): void {
+        for (const [nodeId, count] of other.counts) {
+            const current = this.counts.get(nodeId) || 0;
+            this.counts.set(nodeId, Math.max(current, count));
+        }
+    }
+
+    getValue(): number {
+        let total = 0;
+        for (const count of this.counts.values()) {
+            total += count;
+        }
+        return total;
+    }
+}</code></pre>
+
+            <h4>Vector Clock for Causality</h4>
+            <pre><code>// Track causal relationships between events
+class VectorClock {
+    private clock: Map&lt;string, number&gt; = new Map();
+
+    constructor(private nodeId: string) {
+        this.clock.set(nodeId, 0);
+    }
+
+    increment(): VectorClock {
+        const current = this.clock.get(this.nodeId) || 0;
+        this.clock.set(this.nodeId, current + 1);
+        return this;
+    }
+
+    merge(other: VectorClock): VectorClock {
+        for (const [nodeId, time] of other.clock) {
+            const current = this.clock.get(nodeId) || 0;
+            this.clock.set(nodeId, Math.max(current, time));
+        }
+        return this;
+    }
+
+    // Check if this clock happened before another
+    happenedBefore(other: VectorClock): boolean {
+        let atLeastOneLess = false;
+
+        for (const [nodeId, time] of this.clock) {
+            const otherTime = other.clock.get(nodeId) || 0;
+            if (time &gt; otherTime) return false;
+            if (time &lt; otherTime) atLeastOneLess = true;
+        }
+
+        return atLeastOneLess;
+    }
+
+    // Check if concurrent (neither happened before the other)
+    isConcurrent(other: VectorClock): boolean {
+        return !this.happenedBefore(other) &amp;&amp; !other.happenedBefore(this);
+    }
+}</code></pre>
+
+            <h4>Three-Way Merge</h4>
+            <pre><code>// For text content conflicts
+function threeWayMerge(
+    base: string,
+    local: string,
+    remote: string
+): { result: string; hasConflicts: boolean } {
+    const baseLines = base.split('\n');
+    const localLines = local.split('\n');
+    const remoteLines = remote.split('\n');
+
+    const result: string[] = [];
+    let hasConflicts = false;
+
+    // Simple line-by-line merge
+    const maxLen = Math.max(baseLines.length, localLines.length, remoteLines.length);
+
+    for (let i = 0; i &lt; maxLen; i++) {
+        const baseLine = baseLines[i] || '';
+        const localLine = localLines[i] || '';
+        const remoteLine = remoteLines[i] || '';
+
+        if (localLine === remoteLine) {
+            // Both made same change or no change
+            result.push(localLine);
+        } else if (localLine === baseLine) {
+            // Only remote changed
+            result.push(remoteLine);
+        } else if (remoteLine === baseLine) {
+            // Only local changed
+            result.push(localLine);
+        } else {
+            // Both changed differently - conflict!
+            hasConflicts = true;
+            result.push(\`&lt;&lt;&lt;&lt;&lt;&lt;&lt; LOCAL\`);
+            result.push(localLine);
+            result.push(\`=======\`);
+            result.push(remoteLine);
+            result.push(\`&gt;&gt;&gt;&gt;&gt;&gt;&gt; REMOTE\`);
+        }
+    }
+
+    return { result: result.join('\n'), hasConflicts };
+}</code></pre>
+
+            <h4>User-Facing Conflict UI</h4>
+            <pre><code>function ConflictModal({ conflict, onResolve }) {
+    return (
+        &lt;Modal visible={true}&gt;
+            &lt;Text&gt;Sync Conflict Detected&lt;/Text&gt;
+
+            &lt;View style={styles.comparison}&gt;
+                &lt;View style={styles.version}&gt;
+                    &lt;Text&gt;Your Version&lt;/Text&gt;
+                    &lt;Text&gt;{conflict.local.content}&lt;/Text&gt;
+                    &lt;Text&gt;Modified: {conflict.local.timestamp}&lt;/Text&gt;
+                &lt;/View&gt;
+
+                &lt;View style={styles.version}&gt;
+                    &lt;Text&gt;Server Version&lt;/Text&gt;
+                    &lt;Text&gt;{conflict.remote.content}&lt;/Text&gt;
+                    &lt;Text&gt;Modified: {conflict.remote.timestamp}&lt;/Text&gt;
+                &lt;/View&gt;
+            &lt;/View&gt;
+
+            &lt;Button title="Keep Mine" onPress={() =&gt; onResolve('local')} /&gt;
+            &lt;Button title="Use Theirs" onPress={() =&gt; onResolve('remote')} /&gt;
+            &lt;Button title="Keep Both" onPress={() =&gt; onResolve('both')} /&gt;
+        &lt;/Modal&gt;
+    );
+}</code></pre>
+
+            <h4>When to Use Each Approach</h4>
+            <ul>
+                <li><strong>LWW:</strong> Simple counters, last-edit-wins scenarios</li>
+                <li><strong>CRDT:</strong> Real-time collaboration, offline-first apps</li>
+                <li><strong>OT:</strong> Text editing with cursor positions</li>
+                <li><strong>Three-way merge:</strong> Document versioning, Git-like workflows</li>
+            </ul>
+        `
+    },
+    {
+        id: 77,
+        category: "System Design",
+        icon: "🏛️",
+        question: "Architect a messaging app that queues messages offline and syncs reliably",
+        difficulty: "advanced",
+        seniority: "senior",
+        answer: `
+            <h4>Message Queue Architecture</h4>
+            <pre><code>┌─────────────────────────────────────────────────────────┐
+│                   MESSAGE LIFECYCLE                      │
+├─────────────────────────────────────────────────────────┤
+│                                                          │
+│  [Compose] → [Queue] → [Send] → [Delivered] → [Read]    │
+│      │          │         │          │           │       │
+│   pending    queued    sending   delivered     read      │
+│                                                          │
+│  Local States:                                          │
+│  • pending: User typed, not yet queued                  │
+│  • queued: In offline queue, waiting for network        │
+│  • sending: Actively being sent                         │
+│  • sent: Server acknowledged receipt                    │
+│  • delivered: Recipient device received                 │
+│  • read: Recipient opened message                       │
+│  • failed: Send failed, needs retry                     │
+│                                                          │
+└─────────────────────────────────────────────────────────┘</code></pre>
+
+            <h4>Offline Message Queue</h4>
+            <pre><code>// services/MessageQueue.ts
+import { MMKV } from 'react-native-mmkv';
+
+const storage = new MMKV({ id: 'message-queue' });
+
+interface QueuedMessage {
+    localId: string;
+    conversationId: string;
+    content: string;
+    timestamp: number;
+    status: 'queued' | 'sending' | 'failed';
+    retryCount: number;
+    attachments?: Attachment[];
+}
+
+class MessageQueue {
+    private queue: QueuedMessage[] = [];
+    private isProcessing = false;
+
+    constructor() {
+        this.loadQueue();
+    }
+
+    private loadQueue() {
+        const saved = storage.getString('queue');
+        this.queue = saved ? JSON.parse(saved) : [];
+    }
+
+    private saveQueue() {
+        storage.set('queue', JSON.stringify(this.queue));
+    }
+
+    async enqueue(message: Omit&lt;QueuedMessage, 'localId' | 'status' | 'retryCount'&gt;) {
+        const queued: QueuedMessage = {
+            ...message,
+            localId: generateUUID(),
+            status: 'queued',
+            retryCount: 0,
+        };
+
+        this.queue.push(queued);
+        this.saveQueue();
+
+        // Trigger immediate send if online
+        this.processQueue();
+
+        return queued.localId;
+    }
+
+    async processQueue() {
+        if (this.isProcessing) return;
+        this.isProcessing = true;
+
+        const pending = this.queue.filter(m =&gt; m.status === 'queued');
+
+        for (const message of pending) {
             try {
-                const remote = await api.createPost({
-                    title: post.title,
-                    content: post.content,
+                message.status = 'sending';
+                this.saveQueue();
+
+                const response = await api.sendMessage({
+                    conversationId: message.conversationId,
+                    content: message.content,
+                    localId: message.localId,
+                    attachments: message.attachments,
                 });
 
-                await database.write(async () => {
-                    await post.update(p => {
-                        p.isSynced = true;
-                        p.remoteId = remote.id;
-                    });
+                // Remove from queue on success
+                this.queue = this.queue.filter(m =&gt; m.localId !== message.localId);
+                this.saveQueue();
+
+                // Update local message with server ID
+                await database.updateMessage(message.localId, {
+                    serverId: response.id,
+                    status: 'sent',
                 });
             } catch (error) {
-                console.error('Sync failed for post:', post.id);
+                message.status = 'failed';
+                message.retryCount++;
+                this.saveQueue();
+
+                if (message.retryCount &gt;= 3) {
+                    // Notify user of permanent failure
+                    notifyMessageFailed(message);
+                }
+            }
+        }
+
+        this.isProcessing = false;
+    }
+}</code></pre>
+
+            <h4>Retry with Exponential Backoff</h4>
+            <pre><code>// services/RetryService.ts
+class RetryService {
+    private retryTimeouts: Map&lt;string, NodeJS.Timeout&gt; = new Map();
+
+    scheduleRetry(messageId: string, retryCount: number) {
+        // Clear existing retry if any
+        const existing = this.retryTimeouts.get(messageId);
+        if (existing) clearTimeout(existing);
+
+        // Exponential backoff: 1s, 2s, 4s, 8s, 16s
+        const delay = Math.min(1000 * Math.pow(2, retryCount), 16000);
+
+        const timeout = setTimeout(() =&gt; {
+            messageQueue.retryMessage(messageId);
+            this.retryTimeouts.delete(messageId);
+        }, delay);
+
+        this.retryTimeouts.set(messageId, timeout);
+    }
+
+    cancelRetry(messageId: string) {
+        const timeout = this.retryTimeouts.get(messageId);
+        if (timeout) {
+            clearTimeout(timeout);
+            this.retryTimeouts.delete(messageId);
+        }
+    }
+}
+
+// Listen for network changes
+NetInfo.addEventListener(state =&gt; {
+    if (state.isConnected) {
+        messageQueue.processQueue();
+    }
+});</code></pre>
+
+            <h4>Message Deduplication</h4>
+            <pre><code>// Server-side deduplication using localId
+// But also handle on client for robustness
+
+class MessageDeduplicator {
+    private recentIds: Set&lt;string&gt; = new Set();
+    private readonly MAX_CACHE_SIZE = 1000;
+
+    isDuplicate(messageId: string): boolean {
+        return this.recentIds.has(messageId);
+    }
+
+    markSeen(messageId: string) {
+        this.recentIds.add(messageId);
+
+        // Prevent unbounded growth
+        if (this.recentIds.size &gt; this.MAX_CACHE_SIZE) {
+            const first = this.recentIds.values().next().value;
+            this.recentIds.delete(first);
+        }
+    }
+}
+
+// Usage in message handler
+function handleIncomingMessage(message: Message) {
+    if (deduplicator.isDuplicate(message.id)) {
+        return; // Already processed
+    }
+
+    deduplicator.markSeen(message.id);
+    processMessage(message);
+}</code></pre>
+
+            <h4>UI Integration</h4>
+            <pre><code>function MessageBubble({ message }: { message: Message }) {
+    return (
+        &lt;View style={styles.bubble}&gt;
+            &lt;Text&gt;{message.content}&lt;/Text&gt;
+
+            &lt;View style={styles.status}&gt;
+                {message.status === 'queued' &amp;&amp; &lt;ClockIcon /&gt;}
+                {message.status === 'sending' &amp;&amp; &lt;SpinnerIcon /&gt;}
+                {message.status === 'sent' &amp;&amp; &lt;CheckIcon /&gt;}
+                {message.status === 'delivered' &amp;&amp; &lt;DoubleCheckIcon /&gt;}
+                {message.status === 'read' &amp;&amp; &lt;DoubleCheckIcon color="blue" /&gt;}
+                {message.status === 'failed' &amp;&amp; (
+                    &lt;Pressable onPress={() =&gt; retryMessage(message.localId)}&gt;
+                        &lt;ErrorIcon /&gt;
+                        &lt;Text&gt;Tap to retry&lt;/Text&gt;
+                    &lt;/Pressable&gt;
+                )}
+            &lt;/View&gt;
+        &lt;/View&gt;
+    );
+}</code></pre>
+
+            <h4>Key Considerations</h4>
+            <ul>
+                <li><strong>Idempotency:</strong> Use localId to prevent duplicate sends</li>
+                <li><strong>Order preservation:</strong> Process queue in FIFO order</li>
+                <li><strong>Background sync:</strong> Use background fetch on iOS/Android</li>
+                <li><strong>Conflict handling:</strong> Server timestamp for ordering</li>
+            </ul>
+        `
+    },
+    {
+        id: 78,
+        category: "System Design",
+        icon: "🏛️",
+        question: "Design a real-time chat system with typing indicators, read receipts, and presence",
+        difficulty: "advanced",
+        seniority: "senior",
+        answer: `
+            <h4>Real-Time Features Overview</h4>
+            <pre><code>┌─────────────────────────────────────────────────────────┐
+│              REAL-TIME CHAT FEATURES                     │
+├─────────────────────────────────────────────────────────┤
+│                                                          │
+│  PRESENCE                                               │
+│  ├── Online/Offline status                              │
+│  ├── Last seen timestamp                                │
+│  └── "Active now" indicator                             │
+│                                                          │
+│  TYPING INDICATORS                                      │
+│  ├── "User is typing..."                                │
+│  ├── Debounced updates                                  │
+│  └── Timeout after 3 seconds                            │
+│                                                          │
+│  READ RECEIPTS                                          │
+│  ├── Message delivered to device                        │
+│  ├── Message seen by user                               │
+│  └── Batch updates for efficiency                       │
+│                                                          │
+└─────────────────────────────────────────────────────────┘</code></pre>
+
+            <h4>WebSocket Connection Manager</h4>
+            <pre><code>// services/SocketManager.ts
+import { io, Socket } from 'socket.io-client';
+
+class SocketManager {
+    private socket: Socket | null = null;
+    private reconnectAttempts = 0;
+    private listeners: Map&lt;string, Set&lt;Function&gt;&gt; = new Map();
+
+    connect(token: string) {
+        this.socket = io(SOCKET_URL, {
+            auth: { token },
+            transports: ['websocket'],
+            reconnection: true,
+            reconnectionDelay: 1000,
+            reconnectionDelayMax: 5000,
+        });
+
+        this.socket.on('connect', () =&gt; {
+            this.reconnectAttempts = 0;
+            this.emit('connected');
+        });
+
+        this.socket.on('disconnect', (reason) =&gt; {
+            this.emit('disconnected', reason);
+        });
+
+        // Forward all events to subscribers
+        this.socket.onAny((event, data) =&gt; {
+            this.emit(event, data);
+        });
+    }
+
+    subscribe(event: string, callback: Function) {
+        if (!this.listeners.has(event)) {
+            this.listeners.set(event, new Set());
+        }
+        this.listeners.get(event)!.add(callback);
+
+        return () =&gt; this.listeners.get(event)?.delete(callback);
+    }
+
+    send(event: string, data: any) {
+        this.socket?.emit(event, data);
+    }
+
+    private emit(event: string, data?: any) {
+        this.listeners.get(event)?.forEach(cb =&gt; cb(data));
+    }
+}</code></pre>
+
+            <h4>Typing Indicators</h4>
+            <pre><code>// hooks/useTypingIndicator.ts
+function useTypingIndicator(conversationId: string) {
+    const [typingUsers, setTypingUsers] = useState&lt;string[]&gt;([]);
+    const typingTimeouts = useRef&lt;Map&lt;string, NodeJS.Timeout&gt;&gt;(new Map());
+
+    useEffect(() =&gt; {
+        const unsubscribe = socketManager.subscribe(
+            'typing',
+            ({ conversationId: cid, userId, isTyping }) =&gt; {
+                if (cid !== conversationId) return;
+
+                // Clear existing timeout
+                const existing = typingTimeouts.current.get(userId);
+                if (existing) clearTimeout(existing);
+
+                if (isTyping) {
+                    setTypingUsers(prev =&gt;
+                        prev.includes(userId) ? prev : [...prev, userId]
+                    );
+
+                    // Auto-remove after 3 seconds of no updates
+                    const timeout = setTimeout(() =&gt; {
+                        setTypingUsers(prev =&gt; prev.filter(id =&gt; id !== userId));
+                    }, 3000);
+
+                    typingTimeouts.current.set(userId, timeout);
+                } else {
+                    setTypingUsers(prev =&gt; prev.filter(id =&gt; id !== userId));
+                }
+            }
+        );
+
+        return unsubscribe;
+    }, [conversationId]);
+
+    return typingUsers;
+}
+
+// Debounced typing emission
+function useSendTypingIndicator(conversationId: string) {
+    const lastSent = useRef(0);
+    const isTyping = useRef(false);
+
+    const sendTyping = useCallback(() =&gt; {
+        const now = Date.now();
+        // Only send every 2 seconds while typing
+        if (now - lastSent.current &gt; 2000) {
+            socketManager.send('typing', { conversationId, isTyping: true });
+            lastSent.current = now;
+            isTyping.current = true;
+        }
+    }, [conversationId]);
+
+    const stopTyping = useCallback(() =&gt; {
+        if (isTyping.current) {
+            socketManager.send('typing', { conversationId, isTyping: false });
+            isTyping.current = false;
+        }
+    }, [conversationId]);
+
+    return { sendTyping, stopTyping };
+}</code></pre>
+
+            <h4>Presence System</h4>
+            <pre><code>// services/PresenceService.ts
+class PresenceService {
+    private presenceCache: Map&lt;string, PresenceState&gt; = new Map();
+    private heartbeatInterval: NodeJS.Timer | null = null;
+
+    start() {
+        // Send heartbeat every 30 seconds
+        this.heartbeatInterval = setInterval(() =&gt; {
+            socketManager.send('heartbeat', { timestamp: Date.now() });
+        }, 30000);
+
+        // Listen for presence updates
+        socketManager.subscribe('presence', ({ userId, status, lastSeen }) =&gt; {
+            this.presenceCache.set(userId, { status, lastSeen });
+            this.notifySubscribers(userId);
+        });
+    }
+
+    getPresence(userId: string): PresenceState {
+        return this.presenceCache.get(userId) || {
+            status: 'offline',
+            lastSeen: null
+        };
+    }
+
+    // Handle app state changes
+    handleAppStateChange(state: AppStateStatus) {
+        if (state === 'active') {
+            socketManager.send('presence', { status: 'online' });
+        } else if (state === 'background') {
+            socketManager.send('presence', { status: 'away' });
+        }
+    }
+}</code></pre>
+
+            <h4>Read Receipts</h4>
+            <pre><code>// hooks/useReadReceipts.ts
+function useReadReceipts(conversationId: string) {
+    const pendingReceipts = useRef&lt;string[]&gt;([]);
+    const flushTimeout = useRef&lt;NodeJS.Timeout&gt;();
+
+    // Batch read receipts for efficiency
+    const markAsRead = useCallback((messageId: string) =&gt; {
+        pendingReceipts.current.push(messageId);
+
+        // Debounce: flush after 500ms of no new receipts
+        if (flushTimeout.current) clearTimeout(flushTimeout.current);
+
+        flushTimeout.current = setTimeout(() =&gt; {
+            if (pendingReceipts.current.length &gt; 0) {
+                socketManager.send('read_receipts', {
+                    conversationId,
+                    messageIds: [...pendingReceipts.current],
+                });
+                pendingReceipts.current = [];
+            }
+        }, 500);
+    }, [conversationId]);
+
+    // Mark visible messages as read
+    const onViewableItemsChanged = useCallback(
+        ({ viewableItems }: { viewableItems: ViewToken[] }) =&gt; {
+            viewableItems.forEach(item =&gt; {
+                if (item.item.status !== 'read' &amp;&amp; item.item.senderId !== currentUserId) {
+                    markAsRead(item.item.id);
+                }
+            });
+        },
+        [markAsRead]
+    );
+
+    return { markAsRead, onViewableItemsChanged };
+}</code></pre>
+
+            <h4>Chat Screen Integration</h4>
+            <pre><code>function ChatScreen({ conversationId }) {
+    const typingUsers = useTypingIndicator(conversationId);
+    const { sendTyping, stopTyping } = useSendTypingIndicator(conversationId);
+    const { onViewableItemsChanged } = useReadReceipts(conversationId);
+
+    return (
+        &lt;View style={styles.container}&gt;
+            &lt;FlashList
+                data={messages}
+                renderItem={({ item }) =&gt; &lt;MessageBubble message={item} /&gt;}
+                onViewableItemsChanged={onViewableItemsChanged}
+                inverted
+            /&gt;
+
+            {typingUsers.length &gt; 0 &amp;&amp; (
+                &lt;TypingIndicator users={typingUsers} /&gt;
+            )}
+
+            &lt;MessageInput
+                onChangeText={sendTyping}
+                onBlur={stopTyping}
+                onSend={stopTyping}
+            /&gt;
+        &lt;/View&gt;
+    );
+}</code></pre>
+
+            <h4>Key Considerations</h4>
+            <ul>
+                <li><strong>Debounce typing:</strong> Don't flood server with every keystroke</li>
+                <li><strong>Batch receipts:</strong> Combine multiple read receipts</li>
+                <li><strong>Handle reconnection:</strong> Resync state after disconnect</li>
+                <li><strong>Privacy:</strong> Allow users to disable read receipts</li>
+            </ul>
+        `
+    },
+    {
+        id: 79,
+        category: "System Design",
+        icon: "🏛️",
+        question: "How would you build a live auction or bidding feature?",
+        difficulty: "advanced",
+        seniority: "senior",
+        answer: `
+            <h4>Auction System Architecture</h4>
+            <pre><code>┌─────────────────────────────────────────────────────────┐
+│                   AUCTION ARCHITECTURE                   │
+├─────────────────────────────────────────────────────────┤
+│                                                          │
+│  ┌─────────────┐    ┌─────────────┐    ┌─────────────┐ │
+│  │   Mobile    │    │   Server    │    │  Database   │ │
+│  │   Client    │◄──►│  (Node.js)  │◄──►│ (Postgres)  │ │
+│  └─────────────┘    └──────┬──────┘    └─────────────┘ │
+│         │                  │                            │
+│         │           ┌──────┴──────┐                     │
+│         │           │    Redis    │                     │
+│         │           │  (Pub/Sub)  │                     │
+│         │           └──────┬──────┘                     │
+│         │                  │                            │
+│         └──────────────────┘                            │
+│              WebSocket                                  │
+│                                                          │
+└─────────────────────────────────────────────────────────┘</code></pre>
+
+            <h4>Auction State Machine</h4>
+            <pre><code>// machines/auctionMachine.ts
+import { createMachine, assign } from 'xstate';
+
+interface AuctionContext {
+    itemId: string;
+    currentBid: number;
+    highestBidderId: string | null;
+    endTime: number;
+    bidHistory: Bid[];
+}
+
+const auctionMachine = createMachine({
+    id: 'auction',
+    initial: 'idle',
+    context: {
+        itemId: '',
+        currentBid: 0,
+        highestBidderId: null,
+        endTime: 0,
+        bidHistory: [],
+    },
+    states: {
+        idle: {
+            on: { START: 'active' }
+        },
+        active: {
+            on: {
+                BID: {
+                    actions: assign({
+                        currentBid: (_, event) =&gt; event.amount,
+                        highestBidderId: (_, event) =&gt; event.userId,
+                        bidHistory: (context, event) =&gt; [
+                            ...context.bidHistory,
+                            { amount: event.amount, userId: event.userId, timestamp: Date.now() }
+                        ],
+                    }),
+                    cond: (context, event) =&gt; event.amount &gt; context.currentBid,
+                },
+                EXTEND: {
+                    actions: assign({
+                        endTime: (context) =&gt; context.endTime + 30000, // +30 seconds
+                    }),
+                },
+                END: 'ended',
+            },
+            invoke: {
+                src: 'countdownTimer',
+                onDone: 'ended',
+            },
+        },
+        ended: {
+            type: 'final',
+            entry: 'notifyWinner',
+        },
+    },
+});</code></pre>
+
+            <h4>Real-Time Bid Updates</h4>
+            <pre><code>// hooks/useAuction.ts
+function useAuction(auctionId: string) {
+    const [auction, setAuction] = useState&lt;AuctionState | null&gt;(null);
+    const [timeRemaining, setTimeRemaining] = useState(0);
+
+    useEffect(() =&gt; {
+        // Subscribe to auction updates
+        const unsubscribe = socketManager.subscribe(
+            \`auction:\${auctionId}\`,
+            (update: AuctionUpdate) =&gt; {
+                setAuction(prev =&gt; ({
+                    ...prev,
+                    ...update,
+                }));
+
+                // Haptic feedback on new bid
+                if (update.type === 'NEW_BID') {
+                    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+                }
+            }
+        );
+
+        // Fetch initial state
+        fetchAuctionState(auctionId).then(setAuction);
+
+        return unsubscribe;
+    }, [auctionId]);
+
+    // Synchronized countdown
+    useEffect(() =&gt; {
+        if (!auction) return;
+
+        const interval = setInterval(() =&gt; {
+            const remaining = auction.endTime - Date.now();
+            setTimeRemaining(Math.max(0, remaining));
+
+            if (remaining &lt;= 0) {
+                clearInterval(interval);
+            }
+        }, 100); // Update every 100ms for smooth countdown
+
+        return () =&gt; clearInterval(interval);
+    }, [auction?.endTime]);
+
+    return { auction, timeRemaining };
+}</code></pre>
+
+            <h4>Optimistic Bid Placement</h4>
+            <pre><code>// hooks/usePlaceBid.ts
+function usePlaceBid(auctionId: string) {
+    const [isPending, setIsPending] = useState(false);
+    const [error, setError] = useState&lt;string | null&gt;(null);
+
+    const placeBid = async (amount: number) =&gt; {
+        setIsPending(true);
+        setError(null);
+
+        // Optimistic update
+        const optimisticBid = {
+            amount,
+            userId: currentUser.id,
+            timestamp: Date.now(),
+            status: 'pending',
+        };
+
+        // Show optimistic UI immediately
+        updateLocalAuctionState(auctionId, optimisticBid);
+
+        try {
+            const result = await api.placeBid({
+                auctionId,
+                amount,
+                // Include client timestamp for server validation
+                clientTimestamp: Date.now(),
+            });
+
+            if (result.accepted) {
+                // Bid was accepted - real update will come via WebSocket
+                Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+            } else {
+                // Bid was outbid before it reached server
+                setError(result.reason);
+                revertOptimisticUpdate(auctionId);
+                Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
+            }
+        } catch (err) {
+            setError('Failed to place bid. Please try again.');
+            revertOptimisticUpdate(auctionId);
+        } finally {
+            setIsPending(false);
+        }
+    };
+
+    return { placeBid, isPending, error };
+}</code></pre>
+
+            <h4>Server-Side Bid Validation</h4>
+            <pre><code>// server/auctionService.ts
+class AuctionService {
+    async placeBid(auctionId: string, userId: string, amount: number): Promise&lt;BidResult&gt; {
+        // Use Redis transaction for atomic bid placement
+        const result = await redis.watch(\`auction:\${auctionId}\`);
+
+        const auction = await this.getAuction(auctionId);
+
+        // Validate bid
+        if (auction.status !== 'active') {
+            return { accepted: false, reason: 'Auction has ended' };
+        }
+
+        if (amount &lt;= auction.currentBid) {
+            return { accepted: false, reason: 'Bid must be higher than current bid' };
+        }
+
+        const minIncrement = this.getMinIncrement(auction.currentBid);
+        if (amount &lt; auction.currentBid + minIncrement) {
+            return { accepted: false, reason: \`Minimum increment is \${minIncrement}\` };
+        }
+
+        // Atomic update
+        await redis.multi()
+            .hset(\`auction:\${auctionId}\`, {
+                currentBid: amount,
+                highestBidderId: userId,
+            })
+            .exec();
+
+        // Extend auction if bid in last 30 seconds
+        if (auction.endTime - Date.now() &lt; 30000) {
+            await this.extendAuction(auctionId, 30000);
+        }
+
+        // Broadcast to all participants
+        await this.broadcastUpdate(auctionId, {
+            type: 'NEW_BID',
+            amount,
+            userId,
+            timestamp: Date.now(),
+        });
+
+        return { accepted: true };
+    }
+}</code></pre>
+
+            <h4>Auction UI</h4>
+            <pre><code>function AuctionScreen({ auctionId }) {
+    const { auction, timeRemaining } = useAuction(auctionId);
+    const { placeBid, isPending, error } = usePlaceBid(auctionId);
+    const [bidAmount, setBidAmount] = useState('');
+
+    const minBid = auction ? auction.currentBid + getMinIncrement(auction.currentBid) : 0;
+
+    return (
+        &lt;View style={styles.container}&gt;
+            &lt;Image source={{ uri: auction?.imageUrl }} style={styles.image} /&gt;
+
+            &lt;View style={styles.bidInfo}&gt;
+                &lt;Text style={styles.currentBid}&gt;
+                    Current Bid: ${auction?.currentBid.toLocaleString()}
+                &lt;/Text&gt;
+
+                &lt;CountdownTimer
+                    timeRemaining={timeRemaining}
+                    style={timeRemaining &lt; 30000 ? styles.urgentTimer : styles.timer}
+                /&gt;
+            &lt;/View&gt;
+
+            &lt;BidHistory bids={auction?.bidHistory || []} /&gt;
+
+            &lt;View style={styles.bidSection}&gt;
+                &lt;TextInput
+                    value={bidAmount}
+                    onChangeText={setBidAmount}
+                    keyboardType="numeric"
+                    placeholder={\`Min: $\${minBid}\`}
+                /&gt;
+
+                &lt;Button
+                    title={isPending ? 'Placing...' : 'Place Bid'}
+                    onPress={() =&gt; placeBid(Number(bidAmount))}
+                    disabled={isPending || Number(bidAmount) &lt; minBid}
+                /&gt;
+            &lt;/View&gt;
+
+            {error &amp;&amp; &lt;Text style={styles.error}&gt;{error}&lt;/Text&gt;}
+        &lt;/View&gt;
+    );
+}</code></pre>
+
+            <h4>Key Considerations</h4>
+            <ul>
+                <li><strong>Race conditions:</strong> Use Redis transactions for atomic updates</li>
+                <li><strong>Clock sync:</strong> Use server time, not client time</li>
+                <li><strong>Snipe protection:</strong> Extend auction on last-second bids</li>
+                <li><strong>Feedback:</strong> Haptics and animations for engagement</li>
+            </ul>
+        `
+    },
+    {
+        id: 80,
+        category: "System Design",
+        icon: "🏛️",
+        question: "Design a collaborative whiteboard with multiple concurrent users",
+        difficulty: "advanced",
+        seniority: "staff",
+        answer: `
+            <h4>Whiteboard Architecture</h4>
+            <pre><code>┌─────────────────────────────────────────────────────────┐
+│              COLLABORATIVE WHITEBOARD                    │
+├─────────────────────────────────────────────────────────┤
+│                                                          │
+│  ┌─────────────────────────────────────────────────────┐│
+│  │                 Canvas Layer                        ││
+│  │  ┌─────────────────────────────────────────────┐   ││
+│  │  │         react-native-skia                   │   ││
+│  │  │    (GPU-accelerated 2D graphics)            │   ││
+│  │  └─────────────────────────────────────────────┘   ││
+│  └─────────────────────────────────────────────────────┘│
+│                                                          │
+│  ┌─────────────────────────────────────────────────────┐│
+│  │               Sync Layer (CRDT)                     ││
+│  │  ┌─────────┐ ┌─────────┐ ┌─────────────────────┐   ││
+│  │  │  Yjs    │ │WebSocket│ │  Operation Queue    │   ││
+│  │  └─────────┘ └─────────┘ └─────────────────────┘   ││
+│  └─────────────────────────────────────────────────────┘│
+│                                                          │
+│  ┌─────────────────────────────────────────────────────┐│
+│  │              Presence Layer                         ││
+│  │  • User cursors                                     ││
+│  │  • Selection highlights                             ││
+│  │  • Active tool indicators                           ││
+│  └─────────────────────────────────────────────────────┘│
+│                                                          │
+└─────────────────────────────────────────────────────────┘</code></pre>
+
+            <h4>Canvas Implementation with Skia</h4>
+            <pre><code>import { Canvas, Path, useCanvasRef, Skia } from '@shopify/react-native-skia';
+import { Gesture, GestureDetector } from 'react-native-gesture-handler';
+
+function WhiteboardCanvas({ elements, onDraw }) {
+    const canvasRef = useCanvasRef();
+    const [currentPath, setCurrentPath] = useState&lt;SkPath | null&gt;(null);
+
+    const panGesture = Gesture.Pan()
+        .onStart((e) =&gt; {
+            const path = Skia.Path.Make();
+            path.moveTo(e.x, e.y);
+            setCurrentPath(path);
+        })
+        .onUpdate((e) =&gt; {
+            if (currentPath) {
+                currentPath.lineTo(e.x, e.y);
+                // Force re-render
+                setCurrentPath(Skia.Path.MakeFromSVGString(currentPath.toSVGString()));
+            }
+        })
+        .onEnd(() =&gt; {
+            if (currentPath) {
+                onDraw({
+                    type: 'path',
+                    data: currentPath.toSVGString(),
+                    color: selectedColor,
+                    strokeWidth: selectedWidth,
+                });
+                setCurrentPath(null);
+            }
+        });
+
+    return (
+        &lt;GestureDetector gesture={panGesture}&gt;
+            &lt;Canvas ref={canvasRef} style={styles.canvas}&gt;
+                {/* Render existing elements */}
+                {elements.map((element) =&gt; (
+                    &lt;WhiteboardElement key={element.id} element={element} /&gt;
+                ))}
+
+                {/* Render current drawing */}
+                {currentPath &amp;&amp; (
+                    &lt;Path
+                        path={currentPath}
+                        color={selectedColor}
+                        style="stroke"
+                        strokeWidth={selectedWidth}
+                    /&gt;
+                )}
+
+                {/* Render other users' cursors */}
+                {remoteCursors.map((cursor) =&gt; (
+                    &lt;RemoteCursor key={cursor.userId} cursor={cursor} /&gt;
+                ))}
+            &lt;/Canvas&gt;
+        &lt;/GestureDetector&gt;
+    );
+}</code></pre>
+
+            <h4>CRDT-Based Sync with Yjs</h4>
+            <pre><code>import * as Y from 'yjs';
+import { WebsocketProvider } from 'y-websocket';
+
+// Initialize Yjs document
+const ydoc = new Y.Doc();
+const yElements = ydoc.getArray&lt;WhiteboardElement&gt;('elements');
+
+// Connect to sync server
+const provider = new WebsocketProvider(
+    'wss://sync.example.com',
+    'whiteboard-room-123',
+    ydoc
+);
+
+// Hook for React integration
+function useWhiteboardSync(roomId: string) {
+    const [elements, setElements] = useState&lt;WhiteboardElement[]&gt;([]);
+
+    useEffect(() =&gt; {
+        // Observe changes from all clients
+        const observer = () =&gt; {
+            setElements(yElements.toArray());
+        };
+
+        yElements.observe(observer);
+
+        // Initial load
+        setElements(yElements.toArray());
+
+        return () =&gt; yElements.unobserve(observer);
+    }, [roomId]);
+
+    const addElement = useCallback((element: Omit&lt;WhiteboardElement, 'id'&gt;) =&gt; {
+        const newElement = {
+            ...element,
+            id: generateId(),
+            createdBy: currentUser.id,
+            createdAt: Date.now(),
+        };
+
+        ydoc.transact(() =&gt; {
+            yElements.push([newElement]);
+        });
+    }, []);
+
+    const updateElement = useCallback((id: string, updates: Partial&lt;WhiteboardElement&gt;) =&gt; {
+        ydoc.transact(() =&gt; {
+            const index = yElements.toArray().findIndex(el =&gt; el.id === id);
+            if (index !== -1) {
+                const element = yElements.get(index);
+                yElements.delete(index, 1);
+                yElements.insert(index, [{ ...element, ...updates }]);
+            }
+        });
+    }, []);
+
+    const deleteElement = useCallback((id: string) =&gt; {
+        ydoc.transact(() =&gt; {
+            const index = yElements.toArray().findIndex(el =&gt; el.id === id);
+            if (index !== -1) {
+                yElements.delete(index, 1);
+            }
+        });
+    }, []);
+
+    return { elements, addElement, updateElement, deleteElement };
+}</code></pre>
+
+            <h4>User Presence &amp; Cursors</h4>
+            <pre><code>// Awareness for user presence
+const awareness = provider.awareness;
+
+function usePresence() {
+    const [remoteCursors, setRemoteCursors] = useState&lt;CursorState[]&gt;([]);
+
+    useEffect(() =&gt; {
+        const onChange = () =&gt; {
+            const states: CursorState[] = [];
+
+            awareness.getStates().forEach((state, clientId) =&gt; {
+                if (clientId !== ydoc.clientID &amp;&amp; state.cursor) {
+                    states.push({
+                        ...state.cursor,
+                        clientId,
+                        user: state.user,
+                    });
+                }
+            });
+
+            setRemoteCursors(states);
+        };
+
+        awareness.on('change', onChange);
+        return () =&gt; awareness.off('change', onChange);
+    }, []);
+
+    // Broadcast local cursor position
+    const updateCursor = useCallback((x: number, y: number) =&gt; {
+        awareness.setLocalStateField('cursor', {
+            x,
+            y,
+            timestamp: Date.now(),
+        });
+    }, []);
+
+    return { remoteCursors, updateCursor };
+}
+
+// Remote cursor component
+function RemoteCursor({ cursor }: { cursor: CursorState }) {
+    return (
+        &lt;Group transform={[{ translateX: cursor.x }, { translateY: cursor.y }]}&gt;
+            {/* Cursor arrow */}
+            &lt;Path
+                path="M0,0 L0,20 L5,15 L10,25 L15,23 L10,13 L18,10 Z"
+                color={cursor.user.color}
+            /&gt;
+
+            {/* User name label */}
+            &lt;RoundedRect x={20} y={5} width={80} height={20} r={4} color={cursor.user.color} /&gt;
+            &lt;Text x={25} y={18} text={cursor.user.name} color="white" font={font} /&gt;
+        &lt;/Group&gt;
+    );
+}</code></pre>
+
+            <h4>Undo/Redo Stack</h4>
+            <pre><code>import { UndoManager } from 'yjs';
+
+const undoManager = new UndoManager(yElements, {
+    trackedOrigins: new Set([ydoc.clientID]),
+    captureTimeout: 500, // Group changes within 500ms
+});
+
+function useUndoRedo() {
+    const [canUndo, setCanUndo] = useState(false);
+    const [canRedo, setCanRedo] = useState(false);
+
+    useEffect(() =&gt; {
+        const updateState = () =&gt; {
+            setCanUndo(undoManager.canUndo());
+            setCanRedo(undoManager.canRedo());
+        };
+
+        undoManager.on('stack-item-added', updateState);
+        undoManager.on('stack-item-popped', updateState);
+
+        return () =&gt; {
+            undoManager.off('stack-item-added', updateState);
+            undoManager.off('stack-item-popped', updateState);
+        };
+    }, []);
+
+    return {
+        canUndo,
+        canRedo,
+        undo: () =&gt; undoManager.undo(),
+        redo: () =&gt; undoManager.redo(),
+    };
+}</code></pre>
+
+            <h4>Key Considerations</h4>
+            <ul>
+                <li><strong>Conflict-free:</strong> CRDT ensures eventual consistency</li>
+                <li><strong>Low latency:</strong> Optimistic local updates</li>
+                <li><strong>Offline support:</strong> Changes sync when reconnected</li>
+                <li><strong>Performance:</strong> Use Skia for 60fps rendering</li>
+            </ul>
+        `
+    },
+    {
+        id: 81,
+        category: "System Design",
+        icon: "🏛️",
+        question: "Design a content blocker app requiring deep iOS/Android native integration",
+        difficulty: "advanced",
+        seniority: "staff",
+        answer: `
+            <h4>Content Blocker Architecture</h4>
+            <pre><code>┌─────────────────────────────────────────────────────────┐
+│              CONTENT BLOCKER ARCHITECTURE                │
+├─────────────────────────────────────────────────────────┤
+│                                                          │
+│  ┌─────────────────────────────────────────────────────┐│
+│  │              React Native App                       ││
+│  │  • Rule management UI                               ││
+│  │  • Filter list subscriptions                        ││
+│  │  • Statistics dashboard                             ││
+│  └──────────────────────┬──────────────────────────────┘│
+│                         │                                │
+│  ┌──────────────────────┴──────────────────────────────┐│
+│  │              Native Bridge                          ││
+│  └──────────┬───────────────────────────┬──────────────┘│
+│             │                           │                │
+│  ┌──────────┴──────────┐    ┌──────────┴──────────────┐ │
+│  │   iOS Extension     │    │   Android Service       │ │
+│  │ (Content Blocker)   │    │ (VPN/Accessibility)     │ │
+│  └─────────────────────┘    └─────────────────────────┘ │
+│                                                          │
+└─────────────────────────────────────────────────────────┘</code></pre>
+
+            <h4>iOS Safari Content Blocker</h4>
+            <pre><code>// ios/ContentBlockerExtension/ContentBlockerRequestHandler.swift
+import Foundation
+
+class ContentBlockerRequestHandler: NSObject, NSExtensionRequestHandling {
+    func beginRequest(with context: NSExtensionContext) {
+        // Load rules from shared container
+        let sharedDefaults = UserDefaults(suiteName: "group.com.app.blocker")
+        let rulesJSON = sharedDefaults?.string(forKey: "blockingRules") ?? "[]"
+
+        let attachment = NSItemProvider(
+            item: rulesJSON as NSSecureCoding,
+            typeIdentifier: "public.json"
+        )
+
+        let item = NSExtensionItem()
+        item.attachments = [attachment]
+        context.completeRequest(returningItems: [item])
+    }
+}
+
+// Rule format for Safari Content Blocker
+/*
+[
+    {
+        "trigger": {
+            "url-filter": ".*\\.doubleclick\\.net.*",
+            "resource-type": ["script", "image"]
+        },
+        "action": {
+            "type": "block"
+        }
+    }
+]
+*/</code></pre>
+
+            <h4>Native Module for Rule Management</h4>
+            <pre><code>// ios/ContentBlockerModule.swift
+import SafariServices
+
+@objc(ContentBlockerModule)
+class ContentBlockerModule: NSObject {
+    @objc
+    func updateRules(_ rules: String, resolver: @escaping RCTPromiseResolveBlock, rejecter: @escaping RCTPromiseRejectBlock) {
+        // Save rules to shared container
+        let sharedDefaults = UserDefaults(suiteName: "group.com.app.blocker")
+        sharedDefaults?.set(rules, forKey: "blockingRules")
+
+        // Notify Safari to reload rules
+        SFContentBlockerManager.reloadContentBlocker(
+            withIdentifier: "com.app.blocker.extension"
+        ) { error in
+            if let error = error {
+                rejecter("RELOAD_FAILED", error.localizedDescription, error)
+            } else {
+                resolver(true)
             }
         }
     }
 
-    async pullRemoteChanges(lastSyncedAt: Date) {
-        const changes = await api.getChanges({ since: lastSyncedAt });
-
-        await database.write(async () => {
-            for (const change of changes) {
-                // Handle create/update/delete
-                await this.applyChange(change);
+    @objc
+    func getBlockerState(_ resolver: @escaping RCTPromiseResolveBlock, rejecter: @escaping RCTPromiseRejectBlock) {
+        SFContentBlockerManager.getStateOfContentBlocker(
+            withIdentifier: "com.app.blocker.extension"
+        ) { state, error in
+            if let state = state {
+                resolver(["enabled": state.isEnabled])
+            } else {
+                rejecter("STATE_ERROR", error?.localizedDescription, error)
             }
-        });
+        }
+    }
+}</code></pre>
+
+            <h4>Android DNS-Based Blocking</h4>
+            <pre><code>// android/app/src/main/java/com/app/DnsVpnService.kt
+class DnsVpnService : VpnService() {
+    private var vpnInterface: ParcelFileDescriptor? = null
+    private val blockedDomains = mutableSetOf&lt;String&gt;()
+
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        // Load blocked domains
+        loadBlockList()
+
+        // Configure VPN
+        val builder = Builder()
+            .setSession("ContentBlocker")
+            .addAddress("10.0.0.1", 32)
+            .addDnsServer("10.0.0.2")
+            .addRoute("0.0.0.0", 0)
+
+        vpnInterface = builder.establish()
+
+        // Start DNS proxy in background
+        startDnsProxy()
+
+        return START_STICKY
+    }
+
+    private fun startDnsProxy() {
+        thread {
+            val socket = DatagramSocket(53, InetAddress.getByName("10.0.0.2"))
+
+            while (true) {
+                val buffer = ByteArray(512)
+                val packet = DatagramPacket(buffer, buffer.size)
+                socket.receive(packet)
+
+                val query = parseDnsQuery(packet.data)
+
+                if (blockedDomains.contains(query.domain)) {
+                    // Return empty response for blocked domains
+                    sendBlockedResponse(socket, packet)
+                } else {
+                    // Forward to real DNS
+                    forwardDnsQuery(socket, packet)
+                }
+            }
+        }
+    }
+}</code></pre>
+
+            <h4>React Native Bridge</h4>
+            <pre><code>// src/native/ContentBlocker.ts
+import { NativeModules, Platform } from 'react-native';
+
+const { ContentBlockerModule } = NativeModules;
+
+interface Rule {
+    trigger: {
+        urlFilter: string;
+        resourceType?: string[];
+    };
+    action: {
+        type: 'block' | 'css-display-none' | 'ignore-previous-rules';
+        selector?: string;
+    };
+}
+
+class ContentBlocker {
+    async updateRules(rules: Rule[]): Promise&lt;void&gt; {
+        const rulesJSON = JSON.stringify(
+            rules.map(rule =&gt; ({
+                trigger: {
+                    'url-filter': rule.trigger.urlFilter,
+                    'resource-type': rule.trigger.resourceType,
+                },
+                action: {
+                    type: rule.action.type,
+                    selector: rule.action.selector,
+                },
+            }))
+        );
+
+        await ContentBlockerModule.updateRules(rulesJSON);
+    }
+
+    async isEnabled(): Promise&lt;boolean&gt; {
+        if (Platform.OS === 'ios') {
+            const state = await ContentBlockerModule.getBlockerState();
+            return state.enabled;
+        }
+        // Android: check VPN service status
+        return ContentBlockerModule.isVpnActive();
+    }
+
+    async enable(): Promise&lt;void&gt; {
+        if (Platform.OS === 'android') {
+            await ContentBlockerModule.startVpnService();
+        }
+        // iOS: direct user to Settings
     }
 }
 
-// Trigger sync on network restore
-NetInfo.addEventListener(state => {
-    if (state.isConnected) {
-        syncService.syncPosts();
-        syncService.pullRemoteChanges(lastSyncedAt);
-    }
-});</code></pre>
+export const contentBlocker = new ContentBlocker();</code></pre>
 
-            <h4>Conflict Resolution Strategies</h4>
+            <h4>Filter List Management</h4>
+            <pre><code>// services/FilterListService.ts
+interface FilterList {
+    id: string;
+    name: string;
+    url: string;
+    enabled: boolean;
+    lastUpdated: number;
+    ruleCount: number;
+}
+
+class FilterListService {
+    private lists: FilterList[] = [];
+
+    async updateLists(): Promise&lt;void&gt; {
+        const enabledLists = this.lists.filter(l =&gt; l.enabled);
+        const allRules: Rule[] = [];
+
+        for (const list of enabledLists) {
+            try {
+                const response = await fetch(list.url);
+                const text = await response.text();
+                const rules = this.parseFilterList(text);
+                allRules.push(...rules);
+
+                list.lastUpdated = Date.now();
+                list.ruleCount = rules.length;
+            } catch (error) {
+                console.error(\`Failed to update \${list.name}:\`, error);
+            }
+        }
+
+        // iOS has 50,000 rule limit per extension
+        const limitedRules = allRules.slice(0, 50000);
+        await contentBlocker.updateRules(limitedRules);
+    }
+
+    private parseFilterList(text: string): Rule[] {
+        return text
+            .split('\n')
+            .filter(line =&gt; line &amp;&amp; !line.startsWith('!'))
+            .map(line =&gt; this.parseRule(line))
+            .filter(Boolean) as Rule[];
+    }
+}</code></pre>
+
+            <h4>Key Considerations</h4>
             <ul>
-                <li><strong>Last-write-wins:</strong> Simple, may lose data</li>
-                <li><strong>Server-wins:</strong> Server is authoritative</li>
-                <li><strong>Client-wins:</strong> Local changes preserved</li>
-                <li><strong>Merge:</strong> Combine changes intelligently</li>
-                <li><strong>User-resolution:</strong> Let user choose</li>
+                <li><strong>iOS limits:</strong> 50,000 rules per content blocker extension</li>
+                <li><strong>Android:</strong> Requires VPN permission for system-wide blocking</li>
+                <li><strong>Battery impact:</strong> Optimize rule matching algorithms</li>
+                <li><strong>Updates:</strong> Background refresh for filter lists</li>
             </ul>
         `
     },
+    {
+        id: 82,
+        category: "System Design",
+        icon: "🏛️",
+        question: "How would you architect a camera app with custom filters and real-time processing?",
+        difficulty: "advanced",
+        seniority: "senior",
+        answer: `
+            <h4>Camera App Architecture</h4>
+            <pre><code>┌─────────────────────────────────────────────────────────┐
+│                 CAMERA APP ARCHITECTURE                  │
+├─────────────────────────────────────────────────────────┤
+│                                                          │
+│  ┌─────────────────────────────────────────────────────┐│
+│  │                Camera Preview                       ││
+│  │  ┌─────────────────────────────────────────────┐   ││
+│  │  │       react-native-vision-camera            │   ││
+│  │  │  • 60fps preview                            │   ││
+│  │  │  • Frame processor support                  │   ││
+│  │  └─────────────────────────────────────────────┘   ││
+│  └─────────────────────────────────────────────────────┘│
+│                         │                                │
+│  ┌──────────────────────┴──────────────────────────────┐│
+│  │              Frame Processor (Worklet)              ││
+│  │  • Runs on separate thread                          ││
+│  │  • GPU shader processing                            ││
+│  │  • ML model inference                               ││
+│  └─────────────────────────────────────────────────────┘│
+│                         │                                │
+│  ┌──────────────────────┴──────────────────────────────┐│
+│  │                Filter Pipeline                      ││
+│  │  [Input] → [Filter 1] → [Filter 2] → [Output]      ││
+│  └─────────────────────────────────────────────────────┘│
+│                                                          │
+└─────────────────────────────────────────────────────────┘</code></pre>
 
+            <h4>Vision Camera Setup</h4>
+            <pre><code>import { Camera, useCameraDevice, useFrameProcessor } from 'react-native-vision-camera';
+import { useSharedValue } from 'react-native-reanimated';
+
+function CameraScreen() {
+    const device = useCameraDevice('back');
+    const [activeFilter, setActiveFilter] = useState&lt;FilterType&gt;('none');
+
+    // Frame processor runs on every frame
+    const frameProcessor = useFrameProcessor((frame) =&gt; {
+        'worklet';
+
+        // Apply filter based on selection
+        switch (activeFilter) {
+            case 'grayscale':
+                applyGrayscaleFilter(frame);
+                break;
+            case 'sepia':
+                applySepiaFilter(frame);
+                break;
+            case 'blur':
+                applyBlurFilter(frame);
+                break;
+            case 'beauty':
+                applyBeautyFilter(frame);
+                break;
+        }
+    }, [activeFilter]);
+
+    if (!device) return &lt;Text&gt;No camera available&lt;/Text&gt;;
+
+    return (
+        &lt;View style={styles.container}&gt;
+            &lt;Camera
+                style={StyleSheet.absoluteFill}
+                device={device}
+                isActive={true}
+                photo={true}
+                video={true}
+                frameProcessor={frameProcessor}
+                frameProcessorFps={30}
+            /&gt;
+
+            &lt;FilterSelector
+                activeFilter={activeFilter}
+                onSelect={setActiveFilter}
+            /&gt;
+
+            &lt;CaptureButton onCapture={handleCapture} /&gt;
+        &lt;/View&gt;
+    );
+}</code></pre>
+
+            <h4>Frame Processor Plugins</h4>
+            <pre><code>// plugins/GrayscaleFilter.ts
+import { VisionCameraProxy, Frame } from 'react-native-vision-camera';
+
+const plugin = VisionCameraProxy.initFrameProcessorPlugin('grayscaleFilter');
+
+export function applyGrayscaleFilter(frame: Frame): void {
+    'worklet';
+    if (plugin) {
+        plugin.call(frame);
+    }
+}
+
+// ios/GrayscaleFilterPlugin.swift
+@objc(GrayscaleFilterPlugin)
+class GrayscaleFilterPlugin: FrameProcessorPlugin {
+    override func callback(_ frame: Frame, withArguments arguments: [AnyHashable: Any]?) -&gt; Any? {
+        guard let pixelBuffer = frame.pixelBuffer else { return nil }
+
+        // Apply Core Image filter
+        let ciImage = CIImage(cvPixelBuffer: pixelBuffer)
+        let filter = CIFilter(name: "CIPhotoEffectMono")!
+        filter.setValue(ciImage, forKey: kCIInputImageKey)
+
+        if let output = filter.outputImage {
+            let context = CIContext()
+            context.render(output, to: pixelBuffer)
+        }
+
+        return nil
+    }
+}</code></pre>
+
+            <h4>GPU Shader Filters</h4>
+            <pre><code>// For complex filters, use Metal/OpenGL shaders
+// ios/BeautyFilterPlugin.swift
+
+class BeautyFilterPlugin: FrameProcessorPlugin {
+    private let metalDevice: MTLDevice
+    private let commandQueue: MTLCommandQueue
+    private let computePipeline: MTLComputePipelineState
+
+    override init() {
+        metalDevice = MTLCreateSystemDefaultDevice()!
+        commandQueue = metalDevice.makeCommandQueue()!
+
+        // Load beauty filter shader
+        let library = metalDevice.makeDefaultLibrary()!
+        let kernelFunction = library.makeFunction(name: "beautyFilter")!
+        computePipeline = try! metalDevice.makeComputePipelineState(function: kernelFunction)
+    }
+
+    override func callback(_ frame: Frame, withArguments arguments: [AnyHashable: Any]?) -&gt; Any? {
+        guard let pixelBuffer = frame.pixelBuffer else { return nil }
+
+        // Create Metal texture from pixel buffer
+        var textureRef: CVMetalTexture?
+        CVMetalTextureCacheCreateTextureFromImage(
+            nil, textureCache, pixelBuffer, nil,
+            .bgra8Unorm, CVPixelBufferGetWidth(pixelBuffer),
+            CVPixelBufferGetHeight(pixelBuffer), 0, &amp;textureRef
+        )
+
+        guard let texture = CVMetalTextureGetTexture(textureRef!) else { return nil }
+
+        // Apply shader
+        let commandBuffer = commandQueue.makeCommandBuffer()!
+        let encoder = commandBuffer.makeComputeCommandEncoder()!
+
+        encoder.setComputePipelineState(computePipeline)
+        encoder.setTexture(texture, index: 0)
+        encoder.dispatchThreadgroups(/* ... */)
+        encoder.endEncoding()
+
+        commandBuffer.commit()
+        commandBuffer.waitUntilCompleted()
+
+        return nil
+    }
+}
+
+// Beauty filter shader (Metal)
+/*
+kernel void beautyFilter(
+    texture2d&lt;float, access::read_write&gt; image [[texture(0)]],
+    uint2 gid [[thread_position_in_grid]]
+) {
+    float4 color = image.read(gid);
+
+    // Skin smoothing with bilateral filter
+    float4 smoothed = bilateralFilter(image, gid, 5.0, 0.1);
+
+    // Preserve edges
+    float edge = detectEdge(image, gid);
+    float4 result = mix(smoothed, color, edge);
+
+    // Slight brightness boost
+    result.rgb = result.rgb * 1.05;
+
+    image.write(result, gid);
+}
+*/</code></pre>
+
+            <h4>Capture with Filter Applied</h4>
+            <pre><code>// Capture photo with current filter
+async function captureWithFilter(camera: Camera, filter: FilterType): Promise&lt;string&gt; {
+    // Take photo without filter
+    const photo = await camera.takePhoto({
+        qualityPrioritization: 'quality',
+    });
+
+    // Apply filter in post-processing
+    const processedUri = await applyFilterToImage(photo.path, filter);
+
+    return processedUri;
+}
+
+// services/ImageProcessor.ts
+async function applyFilterToImage(imagePath: string, filter: FilterType): Promise&lt;string&gt; {
+    // Use expo-image-manipulator or native processing
+    const manipulateResult = await ImageManipulator.manipulateAsync(
+        imagePath,
+        [
+            // Apply filter-specific transformations
+            ...(filter === 'grayscale' ? [{ grayscale: true }] : []),
+        ],
+        { compress: 0.9, format: SaveFormat.JPEG }
+    );
+
+    return manipulateResult.uri;
+}</code></pre>
+
+            <h4>Filter Selector UI</h4>
+            <pre><code>function FilterSelector({ activeFilter, onSelect }) {
+    const filters: FilterType[] = ['none', 'grayscale', 'sepia', 'vivid', 'beauty', 'vintage'];
+
+    return (
+        &lt;ScrollView horizontal style={styles.filterScroll}&gt;
+            {filters.map((filter) =&gt; (
+                &lt;Pressable
+                    key={filter}
+                    onPress={() =&gt; onSelect(filter)}
+                    style={[
+                        styles.filterButton,
+                        activeFilter === filter &amp;&amp; styles.activeFilter,
+                    ]}
+                &gt;
+                    &lt;FilterPreview filter={filter} /&gt;
+                    &lt;Text&gt;{filter}&lt;/Text&gt;
+                &lt;/Pressable&gt;
+            ))}
+        &lt;/ScrollView&gt;
+    );
+}</code></pre>
+
+            <h4>Key Considerations</h4>
+            <ul>
+                <li><strong>Performance:</strong> Use GPU for real-time processing</li>
+                <li><strong>Battery:</strong> Reduce frame processor FPS when possible</li>
+                <li><strong>Memory:</strong> Reuse buffers, avoid allocations in frame processor</li>
+                <li><strong>Worklets:</strong> Frame processors run on separate JS thread</li>
+            </ul>
+        `
+    },
+    {
+        id: 83,
+        category: "System Design",
+        icon: "🏛️",
+        question: "Design a background location tracking system that's battery-efficient",
+        difficulty: "advanced",
+        seniority: "senior",
+        answer: `
+            <h4>Location Tracking Architecture</h4>
+            <pre><code>┌─────────────────────────────────────────────────────────┐
+│           BATTERY-EFFICIENT LOCATION TRACKING            │
+├─────────────────────────────────────────────────────────┤
+│                                                          │
+│  TRACKING MODES                                         │
+│  ┌─────────────────────────────────────────────────────┐│
+│  │ HIGH ACCURACY    │ GPS + Cell + WiFi  │ 5-10m      ││
+│  │ BALANCED         │ Cell + WiFi        │ 50-100m    ││
+│  │ LOW POWER        │ Cell only          │ 500m+      ││
+│  │ SIGNIFICANT      │ Only major moves   │ 500m+      ││
+│  └─────────────────────────────────────────────────────┘│
+│                                                          │
+│  BATTERY OPTIMIZATION STRATEGIES                        │
+│  • Use geofences instead of continuous tracking         │
+│  • Batch location updates                               │
+│  • Adaptive accuracy based on speed/activity            │
+│  • Defer uploads until WiFi/charging                    │
+│                                                          │
+└─────────────────────────────────────────────────────────┘</code></pre>
+
+            <h4>iOS Background Location</h4>
+            <pre><code>// ios/LocationService.swift
+import CoreLocation
+
+class LocationService: NSObject, CLLocationManagerDelegate {
+    private let locationManager = CLLocationManager()
+    private var locationBuffer: [CLLocation] = []
+
+    func startSignificantLocationMonitoring() {
+        locationManager.delegate = self
+        locationManager.requestAlwaysAuthorization()
+
+        // Most battery-efficient option
+        locationManager.startMonitoringSignificantLocationChanges()
+
+        // Also set up geofences for key areas
+        setupGeofences()
+    }
+
+    func startContinuousTracking(accuracy: LocationAccuracy) {
+        locationManager.desiredAccuracy = accuracy.clAccuracy
+        locationManager.distanceFilter = accuracy.distanceFilter
+        locationManager.allowsBackgroundLocationUpdates = true
+        locationManager.pausesLocationUpdatesAutomatically = true
+
+        locationManager.startUpdatingLocation()
+    }
+
+    private func setupGeofences() {
+        // Monitor entry/exit of important regions
+        let regions = [
+            CLCircularRegion(center: homeCoordinate, radius: 100, identifier: "home"),
+            CLCircularRegion(center: workCoordinate, radius: 100, identifier: "work"),
+        ]
+
+        regions.forEach { region in
+            region.notifyOnEntry = true
+            region.notifyOnExit = true
+            locationManager.startMonitoring(for: region)
+        }
+    }
+
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        // Buffer locations for batch upload
+        locationBuffer.append(contentsOf: locations)
+
+        // Upload when buffer is full or significant time passed
+        if locationBuffer.count &gt;= 10 || shouldFlushBuffer() {
+            uploadLocations(locationBuffer)
+            locationBuffer.removeAll()
+        }
+    }
+
+    func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
+        // Handle geofence entry
+        NotificationCenter.default.post(name: .didEnterRegion, object: region)
+    }
+}</code></pre>
+
+            <h4>Android Foreground Service</h4>
+            <pre><code>// android/LocationTrackingService.kt
+class LocationTrackingService : Service() {
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private val locationBuffer = mutableListOf&lt;Location&gt;()
+
+    override fun onCreate() {
+        super.onCreate()
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+
+        // Required for Android 8+ background location
+        startForeground(NOTIFICATION_ID, createNotification())
+    }
+
+    fun startTracking(accuracy: LocationAccuracy) {
+        val request = LocationRequest.Builder(
+            accuracy.priority,
+            accuracy.intervalMillis
+        ).apply {
+            setMinUpdateDistanceMeters(accuracy.minDistance)
+            setWaitForAccurateLocation(false)
+        }.build()
+
+        fusedLocationClient.requestLocationUpdates(
+            request,
+            locationCallback,
+            Looper.getMainLooper()
+        )
+    }
+
+    private val locationCallback = object : LocationCallback() {
+        override fun onLocationResult(result: LocationResult) {
+            result.locations.forEach { location -&gt;
+                locationBuffer.add(location)
+
+                // Batch upload
+                if (locationBuffer.size &gt;= 10) {
+                    uploadLocations(locationBuffer.toList())
+                    locationBuffer.clear()
+                }
+            }
+        }
+    }
+
+    // Use WorkManager for deferred uploads
+    private fun scheduleUpload() {
+        val constraints = Constraints.Builder()
+            .setRequiredNetworkType(NetworkType.UNMETERED) // WiFi only
+            .setRequiresCharging(true) // While charging
+            .build()
+
+        val uploadWork = OneTimeWorkRequestBuilder&lt;LocationUploadWorker&gt;()
+            .setConstraints(constraints)
+            .build()
+
+        WorkManager.getInstance(this).enqueue(uploadWork)
+    }
+}</code></pre>
+
+            <h4>React Native Integration</h4>
+            <pre><code>// hooks/useLocationTracking.ts
+import { useEffect, useCallback } from 'react';
+import * as Location from 'expo-location';
+import * as TaskManager from 'expo-task-manager';
+
+const LOCATION_TASK = 'background-location-task';
+
+// Define background task
+TaskManager.defineTask(LOCATION_TASK, ({ data, error }) =&gt; {
+    if (error) {
+        console.error(error);
+        return;
+    }
+
+    const { locations } = data as { locations: Location.LocationObject[] };
+
+    // Process locations in background
+    locations.forEach(location =&gt; {
+        saveLocationLocally(location);
+    });
+});
+
+function useLocationTracking() {
+    const [isTracking, setIsTracking] = useState(false);
+
+    const startTracking = useCallback(async (mode: TrackingMode) =&gt; {
+        const { status } = await Location.requestBackgroundPermissionsAsync();
+
+        if (status !== 'granted') {
+            throw new Error('Background location permission required');
+        }
+
+        await Location.startLocationUpdatesAsync(LOCATION_TASK, {
+            accuracy: mode === 'high'
+                ? Location.Accuracy.High
+                : Location.Accuracy.Balanced,
+            distanceInterval: mode === 'high' ? 10 : 100,
+            timeInterval: mode === 'high' ? 5000 : 30000,
+            // iOS specific
+            activityType: Location.ActivityType.AutomotiveNavigation,
+            showsBackgroundLocationIndicator: true,
+            // Android specific
+            foregroundService: {
+                notificationTitle: 'Location Tracking',
+                notificationBody: 'Tracking your location in background',
+            },
+        });
+
+        setIsTracking(true);
+    }, []);
+
+    const stopTracking = useCallback(async () =&gt; {
+        await Location.stopLocationUpdatesAsync(LOCATION_TASK);
+        setIsTracking(false);
+    }, []);
+
+    return { isTracking, startTracking, stopTracking };
+}</code></pre>
+
+            <h4>Adaptive Accuracy</h4>
+            <pre><code>// services/AdaptiveLocationService.ts
+class AdaptiveLocationService {
+    private currentMode: TrackingMode = 'balanced';
+
+    async adjustAccuracyBasedOnActivity() {
+        // Check device motion/activity
+        const activity = await getDeviceActivity();
+
+        switch (activity) {
+            case 'driving':
+                // High frequency updates while moving fast
+                this.setMode('high');
+                break;
+
+            case 'walking':
+                // Medium frequency
+                this.setMode('balanced');
+                break;
+
+            case 'stationary':
+                // Switch to geofence-only mode
+                this.setMode('geofence');
+                break;
+        }
+    }
+
+    async adjustBasedOnBattery() {
+        const batteryLevel = await Battery.getBatteryLevelAsync();
+
+        if (batteryLevel &lt; 0.2) {
+            // Low battery - minimal tracking
+            this.setMode('significant');
+        } else if (batteryLevel &lt; 0.5) {
+            // Medium battery - reduce accuracy
+            this.setMode('balanced');
+        }
+    }
+
+    private setMode(mode: TrackingMode) {
+        if (this.currentMode === mode) return;
+
+        this.currentMode = mode;
+        // Restart tracking with new settings
+        locationTracking.stopTracking();
+        locationTracking.startTracking(mode);
+    }
+}</code></pre>
+
+            <h4>Battery Impact Monitoring</h4>
+            <pre><code>// Monitor battery drain from location tracking
+async function measureBatteryImpact() {
+    const startLevel = await Battery.getBatteryLevelAsync();
+    const startTime = Date.now();
+
+    // After tracking period
+    const endLevel = await Battery.getBatteryLevelAsync();
+    const duration = (Date.now() - startTime) / 3600000; // hours
+
+    const drainPerHour = (startLevel - endLevel) / duration;
+
+    // Log for analytics
+    analytics.track('location_battery_impact', {
+        drainPerHour,
+        trackingMode: currentMode,
+        locationCount: locationsCollected,
+    });
+
+    // Warn user if drain is excessive
+    if (drainPerHour &gt; 0.1) { // &gt;10% per hour
+        showBatteryWarning();
+    }
+}</code></pre>
+
+            <h4>Key Considerations</h4>
+            <ul>
+                <li><strong>Permissions:</strong> Request "Always" permission only when needed</li>
+                <li><strong>User control:</strong> Easy toggle for tracking modes</li>
+                <li><strong>Transparency:</strong> Show battery impact in app</li>
+                <li><strong>Deferred uploads:</strong> Batch and upload on WiFi/charging</li>
+            </ul>
+        `
+    },
+    {
+        id: 84,
+        category: "System Design",
+        icon: "🏛️",
+        question: "Design a universal deep linking system that handles authentication states and deferred deep links",
+        difficulty: "advanced",
+        seniority: "staff",
+        answer: `
+            <h4>Deep Linking Architecture</h4>
+            <pre><code>┌─────────────────────────────────────────────────────────┐
+│                DEEP LINKING ARCHITECTURE                 │
+├─────────────────────────────────────────────────────────┤
+│                                                          │
+│  LINK TYPES                                             │
+│  ┌─────────────────────────────────────────────────────┐│
+│  │ Custom Scheme    │ myapp://product/123              ││
+│  │ Universal Links  │ example.com/product/123 (iOS)   ││
+│  │ App Links        │ example.com/product/123 (Android)││
+│  │ Deferred         │ Stored for post-install          ││
+│  └─────────────────────────────────────────────────────┘│
+│                                                          │
+│  HANDLING FLOW                                          │
+│  ┌─────────────────────────────────────────────────────┐│
+│  │ Link Received → Parse → Auth Check → Navigate       ││
+│  │      │             │          │           │          ││
+│  │      ▼             ▼          ▼           ▼          ││
+│  │   Store if    Extract    If needed,   Navigate      ││
+│  │   deferred    params     defer link   to screen     ││
+│  └─────────────────────────────────────────────────────┘│
+│                                                          │
+└─────────────────────────────────────────────────────────┘</code></pre>
+
+            <h4>Deep Link Handler</h4>
+            <pre><code>// services/DeepLinkService.ts
+import { Linking } from 'react-native';
+import { parse } from 'url';
+
+interface DeepLink {
+    path: string;
+    params: Record&lt;string, string&gt;;
+    requiresAuth: boolean;
+}
+
+class DeepLinkService {
+    private pendingLink: DeepLink | null = null;
+    private isAuthenticated = false;
+
+    constructor() {
+        // Handle links when app is already open
+        Linking.addEventListener('url', this.handleUrl);
+
+        // Handle initial link (app opened via link)
+        this.checkInitialLink();
+    }
+
+    private async checkInitialLink() {
+        const url = await Linking.getInitialURL();
+        if (url) {
+            this.handleUrl({ url });
+        }
+    }
+
+    private handleUrl = ({ url }: { url: string }) =&gt; {
+        const deepLink = this.parseDeepLink(url);
+
+        if (deepLink.requiresAuth &amp;&amp; !this.isAuthenticated) {
+            // Store for after authentication
+            this.pendingLink = deepLink;
+            // Navigate to login
+            navigate('Login', { returnTo: deepLink.path });
+        } else {
+            this.navigateToLink(deepLink);
+        }
+    };
+
+    parseDeepLink(url: string): DeepLink {
+        const parsed = parse(url, true);
+        const path = parsed.pathname || '/';
+        const params = parsed.query as Record&lt;string, string&gt;;
+
+        // Define which routes require auth
+        const authRequiredPaths = ['/profile', '/orders', '/settings'];
+        const requiresAuth = authRequiredPaths.some(p =&gt; path.startsWith(p));
+
+        return { path, params, requiresAuth };
+    }
+
+    navigateToLink(link: DeepLink) {
+        const { path, params } = link;
+
+        // Route mapping
+        const routes: Record&lt;string, () =&gt; void&gt; = {
+            '/product/:id': () =&gt; navigate('Product', { id: params.id }),
+            '/category/:slug': () =&gt; navigate('Category', { slug: params.slug }),
+            '/order/:id': () =&gt; navigate('OrderDetail', { orderId: params.id }),
+            '/profile': () =&gt; navigate('Profile'),
+            '/settings': () =&gt; navigate('Settings'),
+        };
+
+        // Match route pattern
+        for (const [pattern, handler] of Object.entries(routes)) {
+            if (matchPath(path, pattern, params)) {
+                handler();
+                return;
+            }
+        }
+
+        // Fallback to home
+        navigate('Home');
+    }
+
+    // Called after successful authentication
+    onAuthenticated() {
+        this.isAuthenticated = true;
+
+        if (this.pendingLink) {
+            this.navigateToLink(this.pendingLink);
+            this.pendingLink = null;
+        }
+    }
+}</code></pre>
+
+            <h4>iOS Universal Links Setup</h4>
+            <pre><code>// apple-app-site-association (hosted at example.com/.well-known/)
+{
+    "applinks": {
+        "apps": [],
+        "details": [
+            {
+                "appID": "TEAMID.com.example.app",
+                "paths": [
+                    "/product/*",
+                    "/category/*",
+                    "/order/*",
+                    "/invite/*"
+                ]
+            }
+        ]
+    }
+}
+
+// ios/Info.plist
+&lt;key&gt;com.apple.developer.associated-domains&lt;/key&gt;
+&lt;array&gt;
+    &lt;string&gt;applinks:example.com&lt;/string&gt;
+    &lt;string&gt;applinks:www.example.com&lt;/string&gt;
+&lt;/array&gt;</code></pre>
+
+            <h4>Android App Links Setup</h4>
+            <pre><code>// assetlinks.json (hosted at example.com/.well-known/)
+[
+    {
+        "relation": ["delegate_permission/common.handle_all_urls"],
+        "target": {
+            "namespace": "android_app",
+            "package_name": "com.example.app",
+            "sha256_cert_fingerprints": [
+                "SHA256:..."
+            ]
+        }
+    }
+]
+
+// android/app/src/main/AndroidManifest.xml
+&lt;activity&gt;
+    &lt;intent-filter android:autoVerify="true"&gt;
+        &lt;action android:name="android.intent.action.VIEW" /&gt;
+        &lt;category android:name="android.intent.category.DEFAULT" /&gt;
+        &lt;category android:name="android.intent.category.BROWSABLE" /&gt;
+        &lt;data android:scheme="https" android:host="example.com" /&gt;
+    &lt;/intent-filter&gt;
+&lt;/activity&gt;</code></pre>
+
+            <h4>Deferred Deep Links</h4>
+            <pre><code>// services/DeferredDeepLinkService.ts
+import { MMKV } from 'react-native-mmkv';
+
+const storage = new MMKV({ id: 'deferred-links' });
+
+class DeferredDeepLinkService {
+    // Store link when user doesn't have app installed
+    // (Called from website before redirect to app store)
+    static async storeOnServer(link: string, fingerprint: string) {
+        await api.post('/deferred-link', {
+            link,
+            fingerprint,
+            timestamp: Date.now(),
+        });
+    }
+
+    // Check for deferred link on first app launch
+    async checkDeferredLink(): Promise&lt;string | null&gt; {
+        // Skip if not first launch
+        if (storage.getBoolean('deferred_checked')) {
+            return null;
+        }
+
+        try {
+            // Get device fingerprint
+            const fingerprint = await this.getDeviceFingerprint();
+
+            // Check server for matching deferred link
+            const response = await api.get('/deferred-link', {
+                params: { fingerprint },
+            });
+
+            storage.set('deferred_checked', true);
+
+            if (response.data?.link) {
+                return response.data.link;
+            }
+        } catch (error) {
+            console.error('Deferred link check failed:', error);
+        }
+
+        return null;
+    }
+
+    private async getDeviceFingerprint(): Promise&lt;string&gt; {
+        // Combine device identifiers for matching
+        const deviceId = await Application.getIosIdForVendorAsync();
+        const installTime = await Application.getInstallationTimeAsync();
+
+        return \`\${deviceId}-\${installTime.getTime()}\`;
+    }
+}
+
+// Usage in App initialization
+async function initializeApp() {
+    // Check for deferred deep link
+    const deferredLink = await deferredDeepLinkService.checkDeferredLink();
+
+    if (deferredLink) {
+        deepLinkService.handleUrl({ url: deferredLink });
+    }
+}</code></pre>
+
+            <h4>React Navigation Integration</h4>
+            <pre><code>// navigation/linking.ts
+import { LinkingOptions } from '@react-navigation/native';
+
+export const linking: LinkingOptions&lt;RootStackParamList&gt; = {
+    prefixes: [
+        'myapp://',
+        'https://example.com',
+        'https://www.example.com',
+    ],
+    config: {
+        screens: {
+            Home: '',
+            Product: 'product/:id',
+            Category: 'category/:slug',
+            OrderDetail: 'order/:id',
+            Profile: 'profile',
+            Settings: 'settings',
+            // Nested navigators
+            MainTabs: {
+                screens: {
+                    Shop: 'shop',
+                    Cart: 'cart',
+                    Account: 'account',
+                },
+            },
+        },
+    },
+    // Custom link handling
+    getStateFromPath: (path, config) =&gt; {
+        // Check if link requires authentication
+        const requiresAuth = authRequiredPaths.some(p =&gt; path.startsWith(p));
+
+        if (requiresAuth &amp;&amp; !isAuthenticated()) {
+            // Return login state with return path
+            return {
+                routes: [
+                    { name: 'Login', params: { returnTo: path } },
+                ],
+            };
+        }
+
+        // Default behavior
+        return getStateFromPath(path, config);
+    },
+};</code></pre>
+
+            <h4>Key Considerations</h4>
+            <ul>
+                <li><strong>Auth handling:</strong> Defer links requiring authentication</li>
+                <li><strong>Deep link validation:</strong> Validate params before navigation</li>
+                <li><strong>Analytics:</strong> Track deep link attribution</li>
+                <li><strong>Testing:</strong> Test all link scenarios thoroughly</li>
+            </ul>
+        `
+    },
+    {
+        id: 85,
+        category: "System Design",
+        icon: "🏛️",
+        question: "How would you architect navigation for an app with conditional flows based on user state?",
+        difficulty: "advanced",
+        seniority: "senior",
+        answer: `
+            &lt;h4&gt;Conditional Navigation Architecture&lt;/h4&gt;
+            &lt;pre&gt;&lt;code&gt;┌─────────────────────────────────────────────────────────┐
+│            CONDITIONAL NAVIGATION FLOW                   │
+├─────────────────────────────────────────────────────────┤
+│                                                          │
+│  App Launch                                             │
+│      │                                                   │
+│      ▼                                                   │
+│  ┌──────────┐  No   ┌──────────────────────────────┐   │
+│  │Has Token?├──────►│     Unauthenticated Stack     │   │
+│  └────┬─────┘       │  • Login                      │   │
+│       │ Yes         │  • Register                   │   │
+│       ▼             │  • ForgotPassword             │   │
+│  ┌──────────┐       └──────────────────────────────┘   │
+│  │Onboarded?│ No   ┌──────────────────────────────┐    │
+│  └────┬─────┼─────►│      Onboarding Stack         │   │
+│       │ Yes        │  • Welcome                    │   │
+│       ▼            │  • Permissions                │   │
+│  ┌──────────┐      │  • Preferences                │   │
+│  │Verified? │      └──────────────────────────────┘   │
+│  └────┬─────┘ No   ┌──────────────────────────────┐    │
+│       │     └─────►│     Verification Stack        │   │
+│       │ Yes        │  • VerifyEmail                │   │
+│       ▼            │  • VerifyPhone                │   │
+│  ┌──────────────┐  └──────────────────────────────┘   │
+│  │ Main App     │                                      │
+│  │ TabNavigator │                                      │
+│  └──────────────┘                                      │
+│                                                          │
+└─────────────────────────────────────────────────────────┘&lt;/code&gt;&lt;/pre&gt;
+
+            &lt;h4&gt;Navigation Container with State&lt;/h4&gt;
+            &lt;pre&gt;&lt;code&gt;// navigation/RootNavigator.tsx
+function RootNavigator() {
+    const { isAuthenticated, isOnboarded, isVerified, isLoading } = useAuth();
+
+    if (isLoading) {
+        return &amp;lt;SplashScreen /&amp;gt;;
+    }
+
+    return (
+        &amp;lt;NavigationContainer&amp;gt;
+            &amp;lt;Stack.Navigator screenOptions={{ headerShown: false }}&amp;gt;
+                {!isAuthenticated ? (
+                    &amp;lt;Stack.Screen name="Auth" component={AuthStack} /&amp;gt;
+                ) : !isOnboarded ? (
+                    &amp;lt;Stack.Screen name="Onboarding" component={OnboardingStack} /&amp;gt;
+                ) : !isVerified ? (
+                    &amp;lt;Stack.Screen name="Verification" component={VerificationStack} /&amp;gt;
+                ) : (
+                    &amp;lt;Stack.Screen name="Main" component={MainTabNavigator} /&amp;gt;
+                )}
+            &amp;lt;/Stack.Navigator&amp;gt;
+        &amp;lt;/NavigationContainer&amp;gt;
+    );
+}&lt;/code&gt;&lt;/pre&gt;
+
+            &lt;h4&gt;Auth Context with Persistence&lt;/h4&gt;
+            &lt;pre&gt;&lt;code&gt;// context/AuthContext.tsx
+export function AuthProvider({ children }) {
+    const [state, setState] = useState({
+        isAuthenticated: false,
+        isOnboarded: false,
+        isVerified: false,
+        user: null,
+        isLoading: true,
+    });
+
+    useEffect(() =&amp;gt; {
+        async function restoreAuth() {
+            try {
+                const token = await SecureStore.getItemAsync('auth_token');
+                const userJSON = await SecureStore.getItemAsync('user');
+
+                if (token &amp;amp;&amp;amp; userJSON) {
+                    const user = JSON.parse(userJSON);
+                    const isValid = await api.validateToken(token);
+
+                    if (isValid) {
+                        setState({
+                            isAuthenticated: true,
+                            isOnboarded: user.onboardedAt !== null,
+                            isVerified: user.emailVerifiedAt !== null,
+                            user,
+                            isLoading: false,
+                        });
+                        return;
+                    }
+                }
+            } catch (error) {
+                console.error('Auth restore failed:', error);
+            }
+            setState(prev =&amp;gt; ({ ...prev, isLoading: false }));
+        }
+        restoreAuth();
+    }, []);
+
+    const login = async (credentials) =&amp;gt; {
+        const { token, user } = await api.login(credentials);
+        await SecureStore.setItemAsync('auth_token', token);
+        await SecureStore.setItemAsync('user', JSON.stringify(user));
+        setState({
+            isAuthenticated: true,
+            isOnboarded: user.onboardedAt !== null,
+            isVerified: user.emailVerifiedAt !== null,
+            user,
+            isLoading: false,
+        });
+    };
+
+    return (
+        &amp;lt;AuthContext.Provider value={{ ...state, login }}&amp;gt;
+            {children}
+        &amp;lt;/AuthContext.Provider&amp;gt;
+    );
+}&lt;/code&gt;&lt;/pre&gt;
+
+            &lt;h4&gt;Protected Route Hook&lt;/h4&gt;
+            &lt;pre&gt;&lt;code&gt;function useProtectedRoute(requiredState) {
+    const navigation = useNavigation();
+    const { isAuthenticated, isOnboarded, isVerified } = useAuth();
+
+    useEffect(() =&amp;gt; {
+        if (requiredState.authenticated &amp;amp;&amp;amp; !isAuthenticated) {
+            navigation.reset({ index: 0, routes: [{ name: 'Auth' }] });
+            return;
+        }
+        if (requiredState.onboarded &amp;amp;&amp;amp; !isOnboarded) {
+            navigation.reset({ index: 0, routes: [{ name: 'Onboarding' }] });
+            return;
+        }
+        if (requiredState.verified &amp;amp;&amp;amp; !isVerified) {
+            navigation.reset({ index: 0, routes: [{ name: 'Verification' }] });
+        }
+    }, [isAuthenticated, isOnboarded, isVerified]);
+}
+
+// Usage in protected screens
+function ProfileScreen() {
+    useProtectedRoute({ authenticated: true, verified: true });
+    return &amp;lt;View&amp;gt;{/* Profile content */}&amp;lt;/View&amp;gt;;
+}&lt;/code&gt;&lt;/pre&gt;
+
+            &lt;h4&gt;Key Considerations&lt;/h4&gt;
+            &lt;ul&gt;
+                &lt;li&gt;&lt;strong&gt;Persistence:&lt;/strong&gt; Save and restore navigation state&lt;/li&gt;
+                &lt;li&gt;&lt;strong&gt;Deep links:&lt;/strong&gt; Handle auth requirements gracefully&lt;/li&gt;
+                &lt;li&gt;&lt;strong&gt;Transitions:&lt;/strong&gt; Smooth animations between states&lt;/li&gt;
+                &lt;li&gt;&lt;strong&gt;Testing:&lt;/strong&gt; Test all conditional paths&lt;/li&gt;
+            &lt;/ul&gt;
+        `
+    },
+    {
+        id: 86,
+        category: "System Design",
+        icon: "🏛️",
+        question: "Design an image/video upload system with progress, retry logic, and background uploads",
+        difficulty: "advanced",
+        seniority: "senior",
+        answer: `
+            &lt;h4&gt;Upload System Architecture&lt;/h4&gt;
+            &lt;pre&gt;&lt;code&gt;┌─────────────────────────────────────────────────────────┐
+│                 UPLOAD SYSTEM ARCHITECTURE               │
+├─────────────────────────────────────────────────────────┤
+│                                                          │
+│  ┌─────────────────────────────────────────────────────┐│
+│  │                   Upload Queue                      ││
+│  │  ┌─────────┐ ┌─────────┐ ┌─────────┐ ┌─────────┐  ││
+│  │  │ File 1  │ │ File 2  │ │ File 3  │ │ File 4  │  ││
+│  │  │ 75%     │ │ Queued  │ │ Queued  │ │ Failed  │  ││
+│  │  └─────────┘ └─────────┘ └─────────┘ └─────────┘  ││
+│  └─────────────────────────────────────────────────────┘│
+│                         │                                │
+│  ┌──────────────────────┴──────────────────────────────┐│
+│  │              Upload Manager                          ││
+│  │  • Concurrent upload limit (3)                       ││
+│  │  • Retry with exponential backoff                    ││
+│  │  • Resume interrupted uploads                        ││
+│  │  • Background upload support                         ││
+│  └─────────────────────────────────────────────────────┘│
+│                                                          │
+└─────────────────────────────────────────────────────────┘&lt;/code&gt;&lt;/pre&gt;
+
+            &lt;h4&gt;Upload Queue Manager&lt;/h4&gt;
+            &lt;pre&gt;&lt;code&gt;class UploadManager extends EventEmitter {
+    private queue = [];
+    private activeUploads = new Map();
+    private maxConcurrent = 3;
+
+    async addToQueue(files) {
+        const tasks = files.map(file =&amp;gt; ({
+            id: generateUUID(),
+            uri: file.uri,
+            fileName: file.fileName,
+            status: 'queued',
+            progress: 0,
+            retryCount: 0,
+        }));
+        this.queue.push(...tasks);
+        this.persistQueue();
+        this.processQueue();
+        return tasks.map(t =&amp;gt; t.id);
+    }
+
+    private async processQueue() {
+        const activeCount = this.activeUploads.size;
+        const available = this.maxConcurrent - activeCount;
+        if (available &amp;lt;= 0) return;
+
+        const pending = this.queue
+            .filter(t =&amp;gt; t.status === 'queued')
+            .slice(0, available);
+
+        for (const task of pending) {
+            this.uploadFile(task);
+        }
+    }
+
+    private async uploadFile(task) {
+        const controller = new AbortController();
+        this.activeUploads.set(task.id, controller);
+        task.status = 'uploading';
+
+        try {
+            const { uploadUrl } = await api.getUploadUrl(task);
+            await this.uploadWithProgress(task, uploadUrl, controller.signal);
+            task.status = 'completed';
+            this.emit('completed', task);
+        } catch (error) {
+            task.status = 'failed';
+            task.retryCount++;
+            if (task.retryCount &amp;lt; 3) {
+                const delay = Math.pow(2, task.retryCount) * 1000;
+                setTimeout(() =&amp;gt; {
+                    task.status = 'queued';
+                    this.processQueue();
+                }, delay);
+            }
+        } finally {
+            this.activeUploads.delete(task.id);
+            this.processQueue();
+        }
+    }
+}&lt;/code&gt;&lt;/pre&gt;
+
+            &lt;h4&gt;Upload Progress UI&lt;/h4&gt;
+            &lt;pre&gt;&lt;code&gt;function UploadProgress({ taskId }) {
+    const [task, setTask] = useState(null);
+
+    useEffect(() =&amp;gt; {
+        const unsub = uploadManager.on('progress', (t) =&amp;gt; {
+            if (t.id === taskId) setTask({ ...t });
+        });
+        return unsub;
+    }, [taskId]);
+
+    if (!task) return null;
+
+    return (
+        &amp;lt;View style={styles.container}&amp;gt;
+            &amp;lt;Text&amp;gt;{task.fileName}&amp;lt;/Text&amp;gt;
+            &amp;lt;View style={styles.progressBar}&amp;gt;
+                &amp;lt;View style={[styles.progress, { width: task.progress + '%' }]} /&amp;gt;
+            &amp;lt;/View&amp;gt;
+            &amp;lt;Text&amp;gt;{task.progress}%&amp;lt;/Text&amp;gt;
+            {task.status === 'failed' &amp;amp;&amp;amp; (
+                &amp;lt;Pressable onPress={() =&amp;gt; uploadManager.retryUpload(taskId)}&amp;gt;
+                    &amp;lt;Text&amp;gt;Retry&amp;lt;/Text&amp;gt;
+                &amp;lt;/Pressable&amp;gt;
+            )}
+        &amp;lt;/View&amp;gt;
+    );
+}&lt;/code&gt;&lt;/pre&gt;
+
+            &lt;h4&gt;Key Considerations&lt;/h4&gt;
+            &lt;ul&gt;
+                &lt;li&gt;&lt;strong&gt;Chunked upload:&lt;/strong&gt; Use multipart for files &gt;5MB&lt;/li&gt;
+                &lt;li&gt;&lt;strong&gt;Resume:&lt;/strong&gt; Track uploaded chunks for resumable uploads&lt;/li&gt;
+                &lt;li&gt;&lt;strong&gt;Compression:&lt;/strong&gt; Compress images/videos before upload&lt;/li&gt;
+                &lt;li&gt;&lt;strong&gt;Background:&lt;/strong&gt; Use native background upload APIs&lt;/li&gt;
+            &lt;/ul&gt;
+        `
+    },
+    {
+        id: 87,
+        category: "System Design",
+        icon: "🏛️",
+        question: "How would you architect a video streaming feature with adaptive quality?",
+        difficulty: "advanced",
+        seniority: "senior",
+        answer: `
+            &lt;h4&gt;Video Streaming Architecture&lt;/h4&gt;
+            &lt;pre&gt;&lt;code&gt;┌─────────────────────────────────────────────────────────┐
+│               VIDEO STREAMING ARCHITECTURE               │
+├─────────────────────────────────────────────────────────┤
+│                                                          │
+│  ┌─────────────────────────────────────────────────────┐│
+│  │                Video Player                         ││
+│  │  • HLS/DASH playback                                ││
+│  │  • Adaptive bitrate                                 ││
+│  │  • DRM support                                      ││
+│  └─────────────────────────────────────────────────────┘│
+│                         │                                │
+│  ┌──────────────────────┴──────────────────────────────┐│
+│  │           Adaptive Bitrate Controller               ││
+│  │  • Monitor network bandwidth                        ││
+│  │  • Buffer health tracking                           ││
+│  │  • Quality switching logic                          ││
+│  └─────────────────────────────────────────────────────┘│
+│                                                          │
+└─────────────────────────────────────────────────────────┘&lt;/code&gt;&lt;/pre&gt;
+
+            &lt;h4&gt;Video Player Setup&lt;/h4&gt;
+            &lt;pre&gt;&lt;code&gt;import Video from 'react-native-video';
+
+function AdaptiveVideoPlayer({ source, poster }) {
+    const videoRef = useRef(null);
+    const [quality, setQuality] = useState('auto');
+    const [isBuffering, setIsBuffering] = useState(false);
+
+    return (
+        &amp;lt;View style={styles.container}&amp;gt;
+            &amp;lt;Video
+                ref={videoRef}
+                source={{ uri: source.uri, type: 'm3u8' }}
+                style={styles.video}
+                poster={poster}
+                resizeMode="contain"
+                onBuffer={({ isBuffering }) =&amp;gt; setIsBuffering(isBuffering)}
+                automaticallyWaitsToMinimizeStalling={true}
+                preferredForwardBufferDuration={30}
+                bufferConfig={{
+                    minBufferMs: 15000,
+                    maxBufferMs: 50000,
+                    bufferForPlaybackMs: 2500,
+                }}
+                selectedVideoTrack={
+                    quality === 'auto'
+                        ? { type: 'auto' }
+                        : { type: 'resolution', value: parseInt(quality) }
+                }
+            /&amp;gt;
+            {isBuffering &amp;amp;&amp;amp; &amp;lt;ActivityIndicator style={styles.loader} /&amp;gt;}
+            &amp;lt;QualitySelector quality={quality} onSelect={setQuality} /&amp;gt;
+        &amp;lt;/View&amp;gt;
+    );
+}&lt;/code&gt;&lt;/pre&gt;
+
+            &lt;h4&gt;Quality Selector&lt;/h4&gt;
+            &lt;pre&gt;&lt;code&gt;const QUALITIES = ['auto', '1080', '720', '480', '360'];
+
+function QualitySelector({ quality, onSelect }) {
+    return (
+        &amp;lt;View style={styles.selector}&amp;gt;
+            {QUALITIES.map(q =&amp;gt; (
+                &amp;lt;Pressable
+                    key={q}
+                    onPress={() =&amp;gt; onSelect(q)}
+                    style={[styles.option, quality === q &amp;amp;&amp;amp; styles.active]}
+                &amp;gt;
+                    &amp;lt;Text&amp;gt;{q === 'auto' ? 'Auto' : q + 'p'}&amp;lt;/Text&amp;gt;
+                &amp;lt;/Pressable&amp;gt;
+            ))}
+        &amp;lt;/View&amp;gt;
+    );
+}&lt;/code&gt;&lt;/pre&gt;
+
+            &lt;h4&gt;Key Considerations&lt;/h4&gt;
+            &lt;ul&gt;
+                &lt;li&gt;&lt;strong&gt;Adaptive:&lt;/strong&gt; Let player auto-select quality based on bandwidth&lt;/li&gt;
+                &lt;li&gt;&lt;strong&gt;Buffering:&lt;/strong&gt; Configure buffer sizes for smooth playback&lt;/li&gt;
+                &lt;li&gt;&lt;strong&gt;Offline:&lt;/strong&gt; Download specific quality for offline viewing&lt;/li&gt;
+                &lt;li&gt;&lt;strong&gt;DRM:&lt;/strong&gt; FairPlay (iOS) / Widevine (Android) for protected content&lt;/li&gt;
+            &lt;/ul&gt;
+        `
+    },
+    {
+        id: 88,
+        category: "System Design",
+        icon: "🏛️",
+        question: "Design a secure authentication flow with biometrics, token refresh, and session management",
+        difficulty: "advanced",
+        seniority: "staff",
+        answer: `
+            &lt;h4&gt;Authentication Architecture&lt;/h4&gt;
+            &lt;pre&gt;&lt;code&gt;┌─────────────────────────────────────────────────────────┐
+│              SECURE AUTHENTICATION FLOW                  │
+├─────────────────────────────────────────────────────────┤
+│                                                          │
+│  LOGIN FLOW                                             │
+│  Email/Password → Server Auth → Access + Refresh Tokens │
+│                                                          │
+│  BIOMETRIC UNLOCK                                       │
+│  Biometric Auth → Unlock Keychain → Access Token        │
+│                                                          │
+│  TOKEN REFRESH                                          │
+│  Access Expired → Use Refresh Token → New Access        │
+│                                                          │
+└─────────────────────────────────────────────────────────┘&lt;/code&gt;&lt;/pre&gt;
+
+            &lt;h4&gt;Secure Token Storage&lt;/h4&gt;
+            &lt;pre&gt;&lt;code&gt;import * as Keychain from 'react-native-keychain';
+
+class SecureStorage {
+    async storeTokens(accessToken, refreshToken) {
+        await Keychain.setGenericPassword(
+            'auth_tokens',
+            JSON.stringify({ accessToken, refreshToken }),
+            {
+                accessControl: Keychain.ACCESS_CONTROL.BIOMETRY_ANY_OR_DEVICE_PASSCODE,
+                accessible: Keychain.ACCESSIBLE.WHEN_UNLOCKED_THIS_DEVICE_ONLY,
+                securityLevel: Keychain.SECURITY_LEVEL.SECURE_HARDWARE,
+            }
+        );
+    }
+
+    async getTokens() {
+        try {
+            const credentials = await Keychain.getGenericPassword({
+                authenticationPrompt: {
+                    title: 'Authenticate',
+                    subtitle: 'Unlock to access your account',
+                },
+            });
+            if (credentials) {
+                return JSON.parse(credentials.password);
+            }
+        } catch (error) {
+            console.error('Failed to get tokens:', error);
+        }
+        return null;
+    }
+
+    async clearTokens() {
+        await Keychain.resetGenericPassword();
+    }
+}&lt;/code&gt;&lt;/pre&gt;
+
+            &lt;h4&gt;Token Refresh Interceptor&lt;/h4&gt;
+            &lt;pre&gt;&lt;code&gt;class ApiClient {
+    private isRefreshing = false;
+    private refreshSubscribers = [];
+
+    setupInterceptors() {
+        this.client.interceptors.response.use(
+            (response) =&amp;gt; response,
+            async (error) =&amp;gt; {
+                const originalRequest = error.config;
+
+                if (error.response?.status === 401 &amp;amp;&amp;amp; !originalRequest._retry) {
+                    if (this.isRefreshing) {
+                        return new Promise((resolve) =&amp;gt; {
+                            this.refreshSubscribers.push((token) =&amp;gt; {
+                                originalRequest.headers.Authorization = 'Bearer ' + token;
+                                resolve(this.client(originalRequest));
+                            });
+                        });
+                    }
+
+                    originalRequest._retry = true;
+                    this.isRefreshing = true;
+
+                    try {
+                        const newToken = await this.refreshToken();
+                        this.refreshSubscribers.forEach((cb) =&amp;gt; cb(newToken));
+                        this.refreshSubscribers = [];
+                        originalRequest.headers.Authorization = 'Bearer ' + newToken;
+                        return this.client(originalRequest);
+                    } catch (refreshError) {
+                        await this.logout();
+                        throw refreshError;
+                    } finally {
+                        this.isRefreshing = false;
+                    }
+                }
+                return Promise.reject(error);
+            }
+        );
+    }
+}&lt;/code&gt;&lt;/pre&gt;
+
+            &lt;h4&gt;Key Considerations&lt;/h4&gt;
+            &lt;ul&gt;
+                &lt;li&gt;&lt;strong&gt;PKCE:&lt;/strong&gt; Use for OAuth to prevent code interception&lt;/li&gt;
+                &lt;li&gt;&lt;strong&gt;Keychain/Keystore:&lt;/strong&gt; Hardware-backed secure storage&lt;/li&gt;
+                &lt;li&gt;&lt;strong&gt;Token rotation:&lt;/strong&gt; Rotate refresh tokens on each use&lt;/li&gt;
+                &lt;li&gt;&lt;strong&gt;Session timeout:&lt;/strong&gt; Re-authenticate after inactivity&lt;/li&gt;
+            &lt;/ul&gt;
+        `
+    },
+    {
+        id: 89,
+        category: "System Design",
+        icon: "🏛️",
+        question: "How would you architect secure storage for sensitive user data?",
+        difficulty: "advanced",
+        seniority: "senior",
+        answer: `
+            &lt;h4&gt;Secure Storage Architecture&lt;/h4&gt;
+            &lt;pre&gt;&lt;code&gt;┌─────────────────────────────────────────────────────────┐
+│               SECURE STORAGE LAYERS                      │
+├─────────────────────────────────────────────────────────┤
+│                                                          │
+│  ┌─────────────────────────────────────────────────────┐│
+│  │  HIGHLY SENSITIVE (Credentials, Tokens)             ││
+│  │  → iOS Keychain / Android Keystore                  ││
+│  │  → Hardware-backed encryption                       ││
+│  │  → Biometric protection optional                    ││
+│  └─────────────────────────────────────────────────────┘│
+│                                                          │
+│  ┌─────────────────────────────────────────────────────┐│
+│  │  SENSITIVE (User PII, Payment Info)                 ││
+│  │  → Encrypted SQLite / Realm                         ││
+│  │  → Key stored in Keychain/Keystore                  ││
+│  └─────────────────────────────────────────────────────┘│
+│                                                          │
+│  ┌─────────────────────────────────────────────────────┐│
+│  │  NON-SENSITIVE (Preferences, Cache)                 ││
+│  │  → AsyncStorage / MMKV                              ││
+│  │  → No encryption required                           ││
+│  └─────────────────────────────────────────────────────┘│
+│                                                          │
+└─────────────────────────────────────────────────────────┘&lt;/code&gt;&lt;/pre&gt;
+
+            &lt;h4&gt;Keychain/Keystore Usage&lt;/h4&gt;
+            &lt;pre&gt;&lt;code&gt;import * as Keychain from 'react-native-keychain';
+
+// Store sensitive credential
+async function storeCredential(key, value) {
+    await Keychain.setInternetCredentials(
+        key,
+        key,
+        value,
+        {
+            accessible: Keychain.ACCESSIBLE.WHEN_UNLOCKED_THIS_DEVICE_ONLY,
+            securityLevel: Keychain.SECURITY_LEVEL.SECURE_HARDWARE,
+        }
+    );
+}
+
+// Retrieve with biometric auth
+async function getCredentialWithBiometrics(key) {
+    const result = await Keychain.getInternetCredentials(key, {
+        authenticationPrompt: {
+            title: 'Authenticate',
+            description: 'Verify your identity',
+        },
+    });
+    return result ? result.password : null;
+}
+
+// Store encryption key for database
+async function storeEncryptionKey(key) {
+    await Keychain.setGenericPassword(
+        'db_encryption_key',
+        key,
+        {
+            service: 'database',
+            accessible: Keychain.ACCESSIBLE.WHEN_UNLOCKED_THIS_DEVICE_ONLY,
+        }
+    );
+}&lt;/code&gt;&lt;/pre&gt;
+
+            &lt;h4&gt;Encrypted Database&lt;/h4&gt;
+            &lt;pre&gt;&lt;code&gt;import SQLite from 'react-native-sqlcipher';
+
+class EncryptedDatabase {
+    private db = null;
+
+    async initialize() {
+        // Get or generate encryption key
+        let key = await this.getEncryptionKey();
+        if (!key) {
+            key = await this.generateKey();
+            await storeEncryptionKey(key);
+        }
+
+        // Open encrypted database
+        this.db = await SQLite.openDatabase({
+            name: 'secure.db',
+            key: key,
+        });
+    }
+
+    private async generateKey() {
+        const randomBytes = await Crypto.getRandomBytesAsync(32);
+        return Buffer.from(randomBytes).toString('hex');
+    }
+
+    async storeUserData(userId, data) {
+        const encrypted = await this.encrypt(JSON.stringify(data));
+        await this.db.executeSql(
+            'INSERT OR REPLACE INTO user_data (id, data) VALUES (?, ?)',
+            [userId, encrypted]
+        );
+    }
+}&lt;/code&gt;&lt;/pre&gt;
+
+            &lt;h4&gt;Data Classification&lt;/h4&gt;
+            &lt;pre&gt;&lt;code&gt;const DataClassification = {
+    CRITICAL: {
+        storage: 'keychain',
+        examples: ['auth_tokens', 'api_keys', 'encryption_keys'],
+        protection: 'biometric',
+    },
+    SENSITIVE: {
+        storage: 'encrypted_db',
+        examples: ['ssn', 'payment_info', 'health_data'],
+        protection: 'encryption',
+    },
+    INTERNAL: {
+        storage: 'mmkv',
+        examples: ['user_preferences', 'app_state'],
+        protection: 'none',
+    },
+    PUBLIC: {
+        storage: 'asyncstorage',
+        examples: ['theme', 'language', 'cache'],
+        protection: 'none',
+    },
+};&lt;/code&gt;&lt;/pre&gt;
+
+            &lt;h4&gt;Key Considerations&lt;/h4&gt;
+            &lt;ul&gt;
+                &lt;li&gt;&lt;strong&gt;Never hardcode:&lt;/strong&gt; No secrets in code or config&lt;/li&gt;
+                &lt;li&gt;&lt;strong&gt;Key rotation:&lt;/strong&gt; Plan for encryption key updates&lt;/li&gt;
+                &lt;li&gt;&lt;strong&gt;Secure delete:&lt;/strong&gt; Properly wipe sensitive data&lt;/li&gt;
+                &lt;li&gt;&lt;strong&gt;Audit logging:&lt;/strong&gt; Track access to sensitive data&lt;/li&gt;
+            &lt;/ul&gt;
+        `
+    },
+    {
+        id: 90,
+        category: "System Design",
+        icon: "🏛️",
+        question: "Design an error tracking and crash reporting system",
+        difficulty: "advanced",
+        seniority: "senior",
+        answer: `
+            &lt;h4&gt;Error Tracking Architecture&lt;/h4&gt;
+            &lt;pre&gt;&lt;code&gt;┌─────────────────────────────────────────────────────────┐
+│              ERROR TRACKING ARCHITECTURE                 │
+├─────────────────────────────────────────────────────────┤
+│                                                          │
+│  ┌─────────────────────────────────────────────────────┐│
+│  │                   App Layer                         ││
+│  │  • Error Boundaries (React)                         ││
+│  │  • Global error handlers (JS)                       ││
+│  │  • Native crash handlers                            ││
+│  └─────────────────────────────────────────────────────┘│
+│                         │                                │
+│  ┌──────────────────────┴──────────────────────────────┐│
+│  │              Error Processing                        ││
+│  │  • Deduplication                                    ││
+│  │  • Symbolication (source maps)                      ││
+│  │  • Context enrichment                               ││
+│  └─────────────────────────────────────────────────────┘│
+│                         │                                │
+│  ┌──────────────────────┴──────────────────────────────┐│
+│  │           Sentry / Crashlytics                      ││
+│  │  • Issue grouping                                   ││
+│  │  • Alerting                                         ││
+│  │  • Release tracking                                 ││
+│  └─────────────────────────────────────────────────────┘│
+│                                                          │
+└─────────────────────────────────────────────────────────┘&lt;/code&gt;&lt;/pre&gt;
+
+            &lt;h4&gt;Sentry Setup&lt;/h4&gt;
+            &lt;pre&gt;&lt;code&gt;import * as Sentry from '@sentry/react-native';
+
+Sentry.init({
+    dsn: 'YOUR_SENTRY_DSN',
+    environment: __DEV__ ? 'development' : 'production',
+    enableAutoSessionTracking: true,
+    sessionTrackingIntervalMillis: 30000,
+    tracesSampleRate: 0.2,
+    attachStacktrace: true,
+    beforeSend(event) {
+        // Filter or modify events
+        if (event.exception?.values?.[0]?.type === 'NetworkError') {
+            return null; // Don't send network errors
+        }
+        return event;
+    },
+});
+
+// Set user context
+Sentry.setUser({
+    id: user.id,
+    email: user.email,
+    username: user.name,
+});
+
+// Add breadcrumbs for debugging
+Sentry.addBreadcrumb({
+    category: 'navigation',
+    message: 'Navigated to ProductScreen',
+    level: 'info',
+});&lt;/code&gt;&lt;/pre&gt;
+
+            &lt;h4&gt;Error Boundary&lt;/h4&gt;
+            &lt;pre&gt;&lt;code&gt;import * as Sentry from '@sentry/react-native';
+
+class ErrorBoundary extends React.Component {
+    state = { hasError: false, error: null };
+
+    static getDerivedStateFromError(error) {
+        return { hasError: true, error };
+    }
+
+    componentDidCatch(error, errorInfo) {
+        Sentry.captureException(error, {
+            extra: {
+                componentStack: errorInfo.componentStack,
+            },
+        });
+    }
+
+    render() {
+        if (this.state.hasError) {
+            return (
+                &amp;lt;View style={styles.container}&amp;gt;
+                    &amp;lt;Text&amp;gt;Something went wrong&amp;lt;/Text&amp;gt;
+                    &amp;lt;Button
+                        title="Try Again"
+                        onPress={() =&amp;gt; this.setState({ hasError: false })}
+                    /&amp;gt;
+                    &amp;lt;Button
+                        title="Report Issue"
+                        onPress={() =&amp;gt; Sentry.showReportDialog()}
+                    /&amp;gt;
+                &amp;lt;/View&amp;gt;
+            );
+        }
+        return this.props.children;
+    }
+}&lt;/code&gt;&lt;/pre&gt;
+
+            &lt;h4&gt;Source Map Upload&lt;/h4&gt;
+            &lt;pre&gt;&lt;code&gt;# Upload source maps during build
+# Add to CI/CD pipeline
+
+# For React Native
+npx sentry-cli releases new app@1.0.0
+npx sentry-cli releases files app@1.0.0 upload-sourcemaps \\
+    --dist 1 \\
+    --rewrite \\
+    ./android/app/build/generated/assets/react/release
+npx sentry-cli releases finalize app@1.0.0
+
+# metro.config.js for source maps
+module.exports = {
+    transformer: {
+        minifierConfig: {
+            sourceMap: {
+                includeSources: true,
+            },
+        },
+    },
+};&lt;/code&gt;&lt;/pre&gt;
+
+            &lt;h4&gt;Key Considerations&lt;/h4&gt;
+            &lt;ul&gt;
+                &lt;li&gt;&lt;strong&gt;Source maps:&lt;/strong&gt; Upload for each release&lt;/li&gt;
+                &lt;li&gt;&lt;strong&gt;Breadcrumbs:&lt;/strong&gt; Add context for debugging&lt;/li&gt;
+                &lt;li&gt;&lt;strong&gt;Alerting:&lt;/strong&gt; Set up alerts for new issues&lt;/li&gt;
+                &lt;li&gt;&lt;strong&gt;Privacy:&lt;/strong&gt; Scrub PII from error reports&lt;/li&gt;
+            &lt;/ul&gt;
+        `
+    },
+    {
+        id: 91,
+        category: "System Design",
+        icon: "🏛️",
+        question: "How would you architect feature flags and A/B testing infrastructure?",
+        difficulty: "advanced",
+        seniority: "senior",
+        answer: `
+            &lt;h4&gt;Feature Flags Architecture&lt;/h4&gt;
+            &lt;pre&gt;&lt;code&gt;┌─────────────────────────────────────────────────────────┐
+│            FEATURE FLAG INFRASTRUCTURE                   │
+├─────────────────────────────────────────────────────────┤
+│                                                          │
+│  ┌─────────────────────────────────────────────────────┐│
+│  │              Feature Flag Service                   ││
+│  │  (LaunchDarkly / Firebase Remote Config)            ││
+│  │  • Flag definitions                                 ││
+│  │  • User targeting rules                             ││
+│  │  • Percentage rollouts                              ││
+│  └─────────────────────────────────────────────────────┘│
+│                         │                                │
+│  ┌──────────────────────┴──────────────────────────────┐│
+│  │              Client SDK                              ││
+│  │  • Fetch flags on app start                         ││
+│  │  • Cache locally                                    ││
+│  │  • Real-time updates (streaming)                    ││
+│  └─────────────────────────────────────────────────────┘│
+│                         │                                │
+│  ┌──────────────────────┴──────────────────────────────┐│
+│  │              App Integration                         ││
+│  │  • useFeatureFlag() hook                            ││
+│  │  • Conditional rendering                            ││
+│  │  • Analytics tracking                               ││
+│  └─────────────────────────────────────────────────────┘│
+│                                                          │
+└─────────────────────────────────────────────────────────┘&lt;/code&gt;&lt;/pre&gt;
+
+            &lt;h4&gt;Feature Flag Service&lt;/h4&gt;
+            &lt;pre&gt;&lt;code&gt;import { MMKV } from 'react-native-mmkv';
+
+class FeatureFlagService {
+    private flags = new Map();
+    private storage = new MMKV({ id: 'feature-flags' });
+
+    async initialize(userId) {
+        // Load cached flags first for instant access
+        this.loadCachedFlags();
+
+        // Fetch fresh flags from server
+        try {
+            const response = await api.get('/feature-flags', {
+                params: { userId },
+            });
+            this.flags = new Map(Object.entries(response.data));
+            this.cacheFlags();
+        } catch (error) {
+            console.warn('Failed to fetch flags, using cached');
+        }
+    }
+
+    isEnabled(flagKey, defaultValue = false) {
+        return this.flags.get(flagKey) ?? defaultValue;
+    }
+
+    getVariant(experimentKey, defaultVariant = 'control') {
+        const flag = this.flags.get(experimentKey);
+        return flag?.variant ?? defaultVariant;
+    }
+
+    private loadCachedFlags() {
+        const cached = this.storage.getString('flags');
+        if (cached) {
+            this.flags = new Map(Object.entries(JSON.parse(cached)));
+        }
+    }
+
+    private cacheFlags() {
+        this.storage.set('flags', JSON.stringify(Object.fromEntries(this.flags)));
+    }
+}&lt;/code&gt;&lt;/pre&gt;
+
+            &lt;h4&gt;React Hook Integration&lt;/h4&gt;
+            &lt;pre&gt;&lt;code&gt;function useFeatureFlag(flagKey, defaultValue = false) {
+    const [isEnabled, setIsEnabled] = useState(
+        featureFlagService.isEnabled(flagKey, defaultValue)
+    );
+
+    useEffect(() =&amp;gt; {
+        const unsubscribe = featureFlagService.subscribe(flagKey, (value) =&amp;gt; {
+            setIsEnabled(value);
+        });
+        return unsubscribe;
+    }, [flagKey]);
+
+    return isEnabled;
+}
+
+function useExperiment(experimentKey) {
+    const variant = featureFlagService.getVariant(experimentKey);
+
+    useEffect(() =&amp;gt; {
+        analytics.track('experiment_exposure', {
+            experiment: experimentKey,
+            variant,
+        });
+    }, [experimentKey, variant]);
+
+    return variant;
+}
+
+// Usage
+function CheckoutScreen() {
+    const newCheckoutEnabled = useFeatureFlag('new_checkout_flow');
+    const checkoutVariant = useExperiment('checkout_redesign');
+
+    if (newCheckoutEnabled) {
+        return checkoutVariant === 'variantA'
+            ? &amp;lt;CheckoutA /&amp;gt;
+            : &amp;lt;CheckoutB /&amp;gt;;
+    }
+    return &amp;lt;LegacyCheckout /&amp;gt;;
+}&lt;/code&gt;&lt;/pre&gt;
+
+            &lt;h4&gt;Gradual Rollout&lt;/h4&gt;
+            &lt;pre&gt;&lt;code&gt;// Server-side flag configuration
+const flagConfig = {
+    new_checkout_flow: {
+        type: 'boolean',
+        defaultValue: false,
+        rules: [
+            // Internal testing
+            { segment: 'internal', value: true },
+            // Beta users
+            { segment: 'beta', value: true },
+            // 10% rollout
+            { percentage: 10, value: true },
+        ],
+    },
+    checkout_redesign: {
+        type: 'experiment',
+        variants: ['control', 'variantA', 'variantB'],
+        weights: [34, 33, 33], // Percentage distribution
+        targeting: {
+            // Only for users who saw new checkout
+            requires: 'new_checkout_flow',
+        },
+    },
+};
+
+// Kill switch - disable feature instantly
+async function disableFeature(flagKey) {
+    await api.patch('/feature-flags/' + flagKey, {
+        defaultValue: false,
+        rules: [], // Clear all rules
+    });
+}&lt;/code&gt;&lt;/pre&gt;
+
+            &lt;h4&gt;Key Considerations&lt;/h4&gt;
+            &lt;ul&gt;
+                &lt;li&gt;&lt;strong&gt;Cache first:&lt;/strong&gt; Load cached flags instantly on startup&lt;/li&gt;
+                &lt;li&gt;&lt;strong&gt;Kill switch:&lt;/strong&gt; Ability to disable features immediately&lt;/li&gt;
+                &lt;li&gt;&lt;strong&gt;Analytics:&lt;/strong&gt; Track flag exposure for A/B analysis&lt;/li&gt;
+                &lt;li&gt;&lt;strong&gt;Cleanup:&lt;/strong&gt; Remove old flags after full rollout&lt;/li&gt;
+            &lt;/ul&gt;
+        `
+    },
     // ==================== ADDITIONAL ADVANCED CONCEPTS ====================
     {
-        id: 73,
+        id: 92,
         category: "Advanced Concepts",
         icon: "🎓",
         question: "How do you implement biometric authentication (Face ID/Touch ID) in React Native?",
@@ -7455,7 +11414,7 @@ if (credentials) {
         `
     },
     {
-        id: 74,
+        id: 93,
         category: "Advanced Concepts",
         icon: "🎓",
         question: "How do you implement background tasks and scheduled jobs in React Native?",
@@ -7584,7 +11543,7 @@ await BackgroundService.stop();</code></pre>
         `
     },
     {
-        id: 75,
+        id: 94,
         category: "Advanced Concepts",
         icon: "🎓",
         question: "How do you handle app updates and force update scenarios in React Native?",
@@ -7699,7 +11658,7 @@ await inAppUpdates.checkNeedsUpdate().then((result) => {
 
     // ==================== ADDITIONAL BEHAVIORAL ====================
     {
-        id: 76,
+        id: 95,
         category: "Behavioral",
         icon: "💬",
         question: "How do you handle technical debt in a React Native project?",
@@ -7787,7 +11746,7 @@ class OldComponent extends Component {
         `
     },
     {
-        id: 77,
+        id: 96,
         category: "Behavioral",
         icon: "💬",
         question: "Describe how you would onboard a new developer to an existing React Native codebase.",
@@ -7872,7 +11831,7 @@ class OldComponent extends Component {
         `
     },
     {
-        id: 78,
+        id: 97,
         category: "Behavioral",
         icon: "💬",
         question: "How do you balance delivering features quickly vs maintaining code quality?",
@@ -7948,7 +11907,7 @@ class OldComponent extends Component {
 
     // ==================== REAL-WORLD SCENARIOS ====================
     {
-        id: 79,
+        id: 98,
         category: "Real-World Scenarios",
         icon: "🌍",
         question: "You notice the app is crashing for some users but you can't reproduce it. How do you debug this?",
@@ -8039,7 +11998,7 @@ function SuspectedComponent() {
         `
     },
     {
-        id: 80,
+        id: 99,
         category: "Real-World Scenarios",
         icon: "🌍",
         question: "Users report the app is slow. How do you identify and fix performance issues?",
@@ -8158,7 +12117,7 @@ describe('Performance', () => {
 
     // ==================== NEW ARCHITECTURE ====================
     {
-        id: 81,
+        id: 100,
         category: "New Architecture",
         icon: "🏗️",
         question: "What is Bridgeless Mode in React Native 0.74+ and why is it important?",
@@ -8210,7 +12169,7 @@ override fun isBridgelessEnabled(): Boolean = true
         `
     },
     {
-        id: 82,
+        id: 101,
         category: "New Architecture",
         icon: "🏗️",
         question: "How do you create a TurboModule from scratch?",
@@ -8298,7 +12257,7 @@ class NativeCalculatorModule(context: ReactApplicationContext) :
         `
     },
     {
-        id: 83,
+        id: 102,
         category: "New Architecture",
         icon: "🏗️",
         question: "Explain how Fabric's Shadow Tree works and why it matters.",
@@ -8369,7 +12328,7 @@ applyMutations(mutations); // CREATE, DELETE, UPDATE, INSERT</code></pre>
         `
     },
     {
-        id: 84,
+        id: 103,
         category: "New Architecture",
         icon: "🏗️",
         question: "What is JSI and how does it differ from the Bridge?",
@@ -8428,7 +12387,7 @@ console.log(myHostObject.value); // 42</code></pre>
         `
     },
     {
-        id: 85,
+        id: 104,
         category: "New Architecture",
         icon: "🏗️",
         question: "How do you migrate an existing app to the New Architecture?",
@@ -8504,7 +12463,7 @@ public void doSomething(String arg, Promise promise) {
         `
     },
     {
-        id: 86,
+        id: 105,
         category: "New Architecture",
         icon: "🏗️",
         question: "What is Codegen in React Native and how does it ensure type safety?",
@@ -8576,7 +12535,7 @@ export default TurboModuleRegistry.getEnforcing<Spec>('UserModule');</code></pre
         `
     },
     {
-        id: 87,
+        id: 106,
         category: "New Architecture",
         icon: "🏗️",
         question: "How do you create a Fabric Native Component?",
@@ -8664,7 +12623,7 @@ function App() {
         `
     },
     {
-        id: 88,
+        id: 107,
         category: "New Architecture",
         icon: "🏗️",
         question: "What are the performance improvements of the New Architecture?",
@@ -8728,7 +12687,7 @@ const module = TurboModuleRegistry.get('HeavyModule');
 
     // ==================== MODERN LIBRARIES ====================
     {
-        id: 89,
+        id: 108,
         category: "Modern Libraries",
         icon: "📚",
         question: "Compare data fetching with useEffect vs TanStack Query (React Query). When would you use each?",
@@ -8798,7 +12757,7 @@ function UserProfile({ userId }) {
         `
     },
     {
-        id: 90,
+        id: 109,
         category: "Modern Libraries",
         icon: "📚",
         question: "Explain worklets in Reanimated 3 and how they enable smooth animations.",
@@ -8888,7 +12847,7 @@ const gesture = Gesture.Pan()
         `
     },
     {
-        id: 91,
+        id: 110,
         category: "Modern Libraries",
         icon: "📚",
         question: "Why did Shopify create FlashList and when should you use it over FlatList?",
@@ -8956,7 +12915,7 @@ function ProductList({ products }) {
         `
     },
     {
-        id: 92,
+        id: 111,
         category: "Modern Libraries",
         icon: "📚",
         question: "Compare Zustand vs Redux for state management in React Native.",
@@ -9040,7 +12999,7 @@ const useStore = create(
         `
     },
     {
-        id: 93,
+        id: 112,
         category: "Modern Libraries",
         icon: "📚",
         question: "What is MMKV and why is it faster than AsyncStorage?",
@@ -9124,7 +13083,7 @@ const useStore = create(
         `
     },
     {
-        id: 94,
+        id: 113,
         category: "Modern Libraries",
         icon: "📚",
         question: "How do you implement complex gestures with React Native Gesture Handler 2?",
@@ -9228,7 +13187,7 @@ const race = Gesture.Race(swipeLeft, swipeRight);</code></pre>
         `
     },
     {
-        id: 95,
+        id: 114,
         category: "Modern Libraries",
         icon: "📚",
         question: "How do you implement type-safe navigation with React Navigation and TypeScript?",
@@ -9330,7 +13289,7 @@ function ProductCard({ product }) {
         `
     },
     {
-        id: 96,
+        id: 115,
         category: "Modern Libraries",
         icon: "📚",
         question: "What is Legend State and how does it compare to other state management solutions?",
@@ -9416,7 +13375,7 @@ const TodoItem = observer(({ todo$ }) => {
 
     // ==================== HERMES ====================
     {
-        id: 97,
+        id: 116,
         category: "Hermes",
         icon: "⚡",
         question: "What is Hermes and what are its advantages over JavaScriptCore?",
@@ -9473,7 +13432,7 @@ console.log('Hermes enabled:', isHermes());</code></pre>
         `
     },
     {
-        id: 98,
+        id: 117,
         category: "Hermes",
         icon: "⚡",
         question: "How do you debug a React Native app running Hermes?",
@@ -9558,7 +13517,7 @@ if (global.HermesInternal) {
         `
     },
     {
-        id: 99,
+        id: 118,
         category: "Hermes",
         icon: "⚡",
         question: "Explain Hermes bytecode compilation and its impact on app performance.",
@@ -9633,7 +13592,7 @@ hermes -dump-bytecode bundle.hbc</code></pre>
         `
     },
     {
-        id: 100,
+        id: 119,
         category: "Hermes",
         icon: "⚡",
         question: "What JavaScript features are not supported in Hermes and how do you handle them?",
@@ -9723,7 +13682,7 @@ module.exports = {
 
     // ==================== CI/CD & DEVOPS ====================
     {
-        id: 101,
+        id: 120,
         category: "CI/CD",
         icon: "🔄",
         question: "How do you set up a CI/CD pipeline for a React Native app using GitHub Actions?",
@@ -9843,7 +13802,7 @@ jobs:
         `
     },
     {
-        id: 102,
+        id: 121,
         category: "CI/CD",
         icon: "🔄",
         question: "Explain how to manage iOS code signing in a CI environment.",
@@ -9922,7 +13881,7 @@ eas credentials</code></pre>
         `
     },
     {
-        id: 103,
+        id: 122,
         category: "CI/CD",
         icon: "🔄",
         question: "How do you implement automatic version bumping and changelog generation?",
@@ -10026,7 +13985,7 @@ jobs:
         `
     },
     {
-        id: 104,
+        id: 123,
         category: "CI/CD",
         icon: "🔄",
         question: "What is EAS Build and how does it compare to building locally or with Fastlane?",
@@ -10109,7 +14068,7 @@ eas submit --platform android</code></pre>
         `
     },
     {
-        id: 105,
+        id: 124,
         category: "CI/CD",
         icon: "🔄",
         question: "How do you implement over-the-air (OTA) updates in React Native?",
@@ -10206,7 +14165,7 @@ codePush.sync(
         `
     },
     {
-        id: 106,
+        id: 125,
         category: "CI/CD",
         icon: "🔄",
         question: "How do you set up Fastlane for automating React Native app releases?",
@@ -10322,7 +14281,7 @@ package_name("com.company.app")</code></pre>
 
     // ==================== EXPO ADVANCED ====================
     {
-        id: 107,
+        id: 126,
         category: "Expo",
         icon: "📱",
         question: "What is Expo Router and how does it compare to React Navigation?",
@@ -10402,7 +14361,7 @@ function ProductScreen() {
         `
     },
     {
-        id: 108,
+        id: 127,
         category: "Expo",
         icon: "📱",
         question: "What are Expo Config Plugins and when would you create one?",
@@ -10490,7 +14449,7 @@ npx expo prebuild --clean</code></pre>
         `
     },
     {
-        id: 109,
+        id: 128,
         category: "Expo",
         icon: "📱",
         question: "Explain the difference between Expo Go, Development Builds, and Production builds.",
@@ -10567,7 +14526,7 @@ eas submit --platform android</code></pre>
         `
     },
     {
-        id: 110,
+        id: 129,
         category: "Expo",
         icon: "📱",
         question: "How do you create a custom Expo Module with native code?",
@@ -10672,7 +14631,7 @@ const sum = await MyModule.addAsync(2, 3);  // 5</code></pre>
         `
     },
     {
-        id: 111,
+        id: 130,
         category: "Expo",
         icon: "📱",
         question: "What is Expo Prebuild and how does it enable bare workflow features in managed workflow?",
@@ -10767,790 +14726,10 @@ export default {
         `
     },
 
-    // ==================== SYSTEM DESIGN ====================
-    {
-        id: 112,
-        category: "System Design",
-        icon: "🏛️",
-        question: "Design a push notification system with deep linking for a React Native app.",
-        difficulty: "advanced",
-        seniority: "staff",
-        answer: `
-            <h4>System Architecture</h4>
-            <pre><code>┌─────────────┐    ┌─────────────┐    ┌─────────────┐
-│   Backend   │───→│  FCM/APNs   │───→│   Mobile    │
-│   Server    │    │   Gateway   │    │    App      │
-└─────────────┘    └─────────────┘    └─────────────┘
-       ↓                                     ↓
-┌─────────────┐                      ┌─────────────┐
-│   Message   │                      │ Deep Link   │
-│    Queue    │                      │  Handler    │
-└─────────────┘                      └─────────────┘</code></pre>
-
-            <h4>Token Registration</h4>
-            <pre><code>import messaging from '@react-native-firebase/messaging';
-import { useEffect } from 'react';
-
-function useNotificationSetup() {
-    useEffect(() => {
-        async function setup() {
-            // Request permission
-            const status = await messaging().requestPermission();
-            if (status !== messaging.AuthorizationStatus.AUTHORIZED) return;
-
-            // Get FCM token
-            const token = await messaging().getToken();
-            await registerTokenWithBackend(token);
-
-            // Listen for token refresh
-            return messaging().onTokenRefresh(registerTokenWithBackend);
-        }
-        setup();
-    }, []);
-}</code></pre>
-
-            <h4>Deep Link Handling</h4>
-            <pre><code>import { Linking } from 'react-native';
-import messaging from '@react-native-firebase/messaging';
-
-// Notification payload structure
-{
-    "notification": {
-        "title": "New Message",
-        "body": "John sent you a message"
-    },
-    "data": {
-        "type": "message",
-        "deepLink": "myapp://chat/123",
-        "messageId": "456"
-    }
-}
-
-// Handle notification tap (app in background/quit)
-messaging().onNotificationOpenedApp((message) => {
-    handleDeepLink(message.data.deepLink);
-});
-
-// Handle notification when app was quit
-messaging().getInitialNotification().then((message) => {
-    if (message) handleDeepLink(message.data.deepLink);
-});
-
-// Deep link handler
-function handleDeepLink(url) {
-    const route = parseDeepLink(url);
-    // Navigate using your navigation library
-    navigationRef.navigate(route.screen, route.params);
-}</code></pre>
-
-            <h4>Backend Notification Service</h4>
-            <pre><code>// Node.js example with Firebase Admin
-const admin = require('firebase-admin');
-
-async function sendNotification(userId, payload) {
-    const tokens = await getUserTokens(userId);
-
-    const message = {
-        notification: {
-            title: payload.title,
-            body: payload.body,
-        },
-        data: {
-            deepLink: payload.deepLink,
-            ...payload.data,
-        },
-        tokens: tokens,
-        // Platform-specific config
-        android: {
-            priority: 'high',
-            notification: { channelId: 'default' },
-        },
-        apns: {
-            payload: {
-                aps: { sound: 'default', badge: 1 },
-            },
-        },
-    };
-
-    const response = await admin.messaging().sendEachForMulticast(message);
-    handleFailedTokens(response, tokens);
-}</code></pre>
-
-            <h4>Notification Channels (Android)</h4>
-            <pre><code>import notifee from '@notifee/react-native';
-
-async function createChannels() {
-    await notifee.createChannel({
-        id: 'messages',
-        name: 'Messages',
-        importance: AndroidImportance.HIGH,
-        sound: 'notification',
-    });
-
-    await notifee.createChannel({
-        id: 'promotions',
-        name: 'Promotions',
-        importance: AndroidImportance.LOW,
-    });
-}</code></pre>
-        `
-    },
-    {
-        id: 113,
-        category: "System Design",
-        icon: "🏛️",
-        question: "How would you architect an offline-first React Native application?",
-        difficulty: "advanced",
-        seniority: "staff",
-        answer: `
-            <h4>Offline-First Architecture</h4>
-            <pre><code>┌────────────────────────────────────────┐
-│              UI Layer                  │
-└────────────────────────────────────────┘
-                    ↓
-┌────────────────────────────────────────┐
-│         State Management               │
-│   (Zustand/Redux + Persistence)        │
-└────────────────────────────────────────┘
-                    ↓
-┌────────────────────────────────────────┐
-│          Sync Engine                   │
-│   (Queue + Conflict Resolution)        │
-└────────────────────────────────────────┘
-          ↓                    ↓
-┌─────────────────┐   ┌─────────────────┐
-│  Local Storage  │   │   Remote API    │
-│  (MMKV/SQLite)  │   │                 │
-└─────────────────┘   └─────────────────┘</code></pre>
-
-            <h4>Local Database Setup</h4>
-            <pre><code>// Using WatermelonDB for complex offline data
-import { Database } from '@nozbe/watermelondb';
-import SQLiteAdapter from '@nozbe/watermelondb/adapters/sqlite';
-
-const adapter = new SQLiteAdapter({
-    schema,
-    migrations,
-    jsi: true,  // Use JSI for performance
-});
-
-const database = new Database({
-    adapter,
-    modelClasses: [Task, Project, User],
-});
-
-// Or MMKV for simpler key-value storage
-import { MMKV } from 'react-native-mmkv';
-const storage = new MMKV();</code></pre>
-
-            <h4>Sync Queue Implementation</h4>
-            <pre><code>// Optimistic updates with sync queue
-class SyncQueue {
-    private queue: Operation[] = [];
-
-    async addOperation(op: Operation) {
-        // 1. Apply locally immediately
-        await this.applyLocally(op);
-
-        // 2. Add to sync queue
-        this.queue.push({
-            ...op,
-            id: uuid(),
-            timestamp: Date.now(),
-            retries: 0,
-        });
-        this.persistQueue();
-
-        // 3. Attempt sync if online
-        if (await NetInfo.fetch().then(s => s.isConnected)) {
-            this.processQueue();
-        }
-    }
-
-    async processQueue() {
-        for (const op of this.queue) {
-            try {
-                await this.syncToServer(op);
-                this.removeFromQueue(op.id);
-            } catch (error) {
-                if (op.retries >= MAX_RETRIES) {
-                    this.handleFailedOperation(op);
-                } else {
-                    op.retries++;
-                }
-            }
-        }
-    }
-}</code></pre>
-
-            <h4>Conflict Resolution</h4>
-            <pre><code>// Last-Write-Wins (simple)
-function resolveConflict(local, remote) {
-    return local.updatedAt > remote.updatedAt ? local : remote;
-}
-
-// Field-level merge (complex)
-function mergeChanges(base, local, remote) {
-    const merged = { ...base };
-
-    for (const field of Object.keys(local)) {
-        if (local[field] !== base[field] && remote[field] === base[field]) {
-            merged[field] = local[field];  // Local change wins
-        } else if (remote[field] !== base[field] && local[field] === base[field]) {
-            merged[field] = remote[field]; // Remote change wins
-        } else if (local[field] !== remote[field]) {
-            // Both changed - need strategy
-            merged[field] = resolveFieldConflict(field, local, remote);
-        }
-    }
-
-    return merged;
-}</code></pre>
-
-            <h4>Network Status Handling</h4>
-            <pre><code>import NetInfo from '@react-native-community/netinfo';
-
-function useNetworkStatus() {
-    const [isOnline, setIsOnline] = useState(true);
-
-    useEffect(() => {
-        return NetInfo.addEventListener((state) => {
-            setIsOnline(state.isConnected && state.isInternetReachable);
-
-            if (state.isConnected) {
-                // Trigger sync when coming online
-                syncQueue.processQueue();
-            }
-        });
-    }, []);
-
-    return isOnline;
-}</code></pre>
-        `
-    },
-    {
-        id: 114,
-        category: "System Design",
-        icon: "🏛️",
-        question: "Design an analytics and crash reporting system for a React Native app.",
-        difficulty: "advanced",
-        seniority: "senior",
-        answer: `
-            <h4>Analytics Architecture</h4>
-            <pre><code>┌─────────────────────────────────────────┐
-│              App Events                 │
-│  (User actions, Screen views, etc.)    │
-└─────────────────────────────────────────┘
-                    ↓
-┌─────────────────────────────────────────┐
-│          Analytics Service              │
-│   (Batching, Offline queue, Privacy)   │
-└─────────────────────────────────────────┘
-                    ↓
-┌──────────────┬──────────────┬──────────────┐
-│   Amplitude  │   Firebase   │   Custom     │
-│              │   Analytics  │   Backend    │
-└──────────────┴──────────────┴──────────────┘</code></pre>
-
-            <h4>Analytics Service Implementation</h4>
-            <pre><code>// services/analytics.ts
-class AnalyticsService {
-    private queue: Event[] = [];
-    private providers: AnalyticsProvider[] = [];
-
-    constructor() {
-        this.providers = [
-            new AmplitudeProvider(),
-            new FirebaseProvider(),
-        ];
-
-        // Flush queue periodically
-        setInterval(() => this.flush(), 30000);
-
-        // Flush on app background
-        AppState.addEventListener('change', (state) => {
-            if (state === 'background') this.flush();
-        });
-    }
-
-    track(event: string, properties?: Record<string, any>) {
-        const enrichedEvent = {
-            event,
-            properties: {
-                ...properties,
-                timestamp: Date.now(),
-                sessionId: this.sessionId,
-                userId: this.userId,
-                platform: Platform.OS,
-                appVersion: DeviceInfo.getVersion(),
-            },
-        };
-
-        this.queue.push(enrichedEvent);
-
-        // Immediate flush for critical events
-        if (this.isCriticalEvent(event)) {
-            this.flush();
-        }
-    }
-
-    async flush() {
-        if (this.queue.length === 0) return;
-
-        const events = [...this.queue];
-        this.queue = [];
-
-        await Promise.all(
-            this.providers.map(p => p.sendBatch(events))
-        );
-    }
-}</code></pre>
-
-            <h4>Crash Reporting Setup</h4>
-            <pre><code>// Sentry configuration
-import * as Sentry from '@sentry/react-native';
-
-Sentry.init({
-    dsn: 'YOUR_DSN',
-    environment: __DEV__ ? 'development' : 'production',
-    tracesSampleRate: 0.2,
-    beforeSend(event) {
-        // Scrub sensitive data
-        if (event.user) {
-            delete event.user.email;
-        }
-        return event;
-    },
-});
-
-// Add user context
-Sentry.setUser({ id: userId, segment: userTier });
-
-// Add breadcrumbs
-Sentry.addBreadcrumb({
-    category: 'navigation',
-    message: 'User navigated to Profile',
-    level: 'info',
-});
-
-// Capture errors
-try {
-    await riskyOperation();
-} catch (error) {
-    Sentry.captureException(error, {
-        extra: { orderId, userId },
-        tags: { feature: 'checkout' },
-    });
-}</code></pre>
-
-            <h4>Error Boundary Integration</h4>
-            <pre><code>class ErrorBoundary extends Component {
-    componentDidCatch(error, errorInfo) {
-        Sentry.captureException(error, {
-            extra: {
-                componentStack: errorInfo.componentStack,
-            },
-        });
-
-        analytics.track('app_crash', {
-            error: error.message,
-            stack: error.stack,
-        });
-    }
-
-    render() {
-        if (this.state.hasError) {
-            return <CrashScreen onRetry={this.retry} />;
-        }
-        return this.props.children;
-    }
-}</code></pre>
-
-            <h4>Performance Monitoring</h4>
-            <pre><code>// Track screen render time
-function useScreenPerformance(screenName: string) {
-    useEffect(() => {
-        const startTime = performance.now();
-
-        return () => {
-            const duration = performance.now() - startTime;
-            analytics.track('screen_time', {
-                screen: screenName,
-                duration,
-            });
-        };
-    }, []);
-}
-
-// Track API latency
-async function fetchWithMetrics(url: string) {
-    const start = performance.now();
-    try {
-        const response = await fetch(url);
-        analytics.track('api_call', {
-            url,
-            duration: performance.now() - start,
-            status: response.status,
-        });
-        return response;
-    } catch (error) {
-        analytics.track('api_error', { url, error: error.message });
-        throw error;
-    }
-}</code></pre>
-        `
-    },
-    {
-        id: 115,
-        category: "System Design",
-        icon: "🏛️",
-        question: "How would you design a media upload feature with progress tracking and retry logic?",
-        difficulty: "advanced",
-        seniority: "senior",
-        answer: `
-            <h4>Upload System Architecture</h4>
-            <pre><code>┌─────────────────────────────────────────┐
-│           Upload Manager                │
-│  (Queue, Progress, Retry, Background)  │
-└─────────────────────────────────────────┘
-          ↓              ↓              ↓
-┌────────────┐   ┌────────────┐   ┌────────────┐
-│  Chunked   │   │  Direct    │   │  Presigned │
-│  Upload    │   │  Upload    │   │  URL       │
-└────────────┘   └────────────┘   └────────────┘</code></pre>
-
-            <h4>Upload Manager Implementation</h4>
-            <pre><code>class UploadManager {
-    private queue: Map<string, UploadTask> = new Map();
-    private maxConcurrent = 3;
-    private activeUploads = 0;
-
-    async addUpload(file: File, options: UploadOptions): Promise<string> {
-        const taskId = uuid();
-
-        const task: UploadTask = {
-            id: taskId,
-            file,
-            status: 'pending',
-            progress: 0,
-            retries: 0,
-            options,
-        };
-
-        this.queue.set(taskId, task);
-        this.persistQueue();
-        this.processQueue();
-
-        return taskId;
-    }
-
-    private async processQueue() {
-        const pending = [...this.queue.values()]
-            .filter(t => t.status === 'pending');
-
-        for (const task of pending) {
-            if (this.activeUploads >= this.maxConcurrent) break;
-            this.executeUpload(task);
-        }
-    }
-
-    private async executeUpload(task: UploadTask) {
-        this.activeUploads++;
-        task.status = 'uploading';
-        this.emit('statusChange', task);
-
-        try {
-            await this.uploadWithProgress(task);
-            task.status = 'completed';
-        } catch (error) {
-            if (task.retries < 3) {
-                task.retries++;
-                task.status = 'pending';
-                // Exponential backoff
-                await delay(Math.pow(2, task.retries) * 1000);
-            } else {
-                task.status = 'failed';
-                task.error = error.message;
-            }
-        } finally {
-            this.activeUploads--;
-            this.emit('statusChange', task);
-            this.processQueue();
-        }
-    }
-}</code></pre>
-
-            <h4>Chunked Upload for Large Files</h4>
-            <pre><code>async function uploadInChunks(file: File, taskId: string) {
-    const CHUNK_SIZE = 5 * 1024 * 1024; // 5MB
-    const totalChunks = Math.ceil(file.size / CHUNK_SIZE);
-
-    // Initialize multipart upload
-    const { uploadId } = await api.initMultipartUpload(file.name);
-    const parts: Part[] = [];
-
-    for (let i = 0; i < totalChunks; i++) {
-        const start = i * CHUNK_SIZE;
-        const end = Math.min(start + CHUNK_SIZE, file.size);
-        const chunk = file.slice(start, end);
-
-        // Upload chunk
-        const { etag } = await api.uploadPart({
-            uploadId,
-            partNumber: i + 1,
-            body: chunk,
-        });
-
-        parts.push({ partNumber: i + 1, etag });
-
-        // Update progress
-        const progress = ((i + 1) / totalChunks) * 100;
-        uploadManager.updateProgress(taskId, progress);
-    }
-
-    // Complete upload
-    return await api.completeMultipartUpload({ uploadId, parts });
-}</code></pre>
-
-            <h4>Progress Tracking Hook</h4>
-            <pre><code>function useUpload() {
-    const [uploads, setUploads] = useState<UploadTask[]>([]);
-
-    useEffect(() => {
-        const unsubscribe = uploadManager.subscribe((tasks) => {
-            setUploads([...tasks]);
-        });
-        return unsubscribe;
-    }, []);
-
-    const upload = async (files: File[]) => {
-        const taskIds = await Promise.all(
-            files.map(f => uploadManager.addUpload(f))
-        );
-        return taskIds;
-    };
-
-    const retry = (taskId: string) => uploadManager.retry(taskId);
-    const cancel = (taskId: string) => uploadManager.cancel(taskId);
-
-    return { uploads, upload, retry, cancel };
-}
-
-// Usage
-function UploadScreen() {
-    const { uploads, upload, retry } = useUpload();
-
-    return (
-        <View>
-            {uploads.map(task => (
-                <UploadItem
-                    key={task.id}
-                    progress={task.progress}
-                    status={task.status}
-                    onRetry={() => retry(task.id)}
-                />
-            ))}
-        </View>
-    );
-}</code></pre>
-
-            <h4>Background Upload (iOS)</h4>
-            <pre><code>// react-native-background-upload
-import Upload from 'react-native-background-upload';
-
-const uploadId = await Upload.startUpload({
-    url: 'https://api.example.com/upload',
-    path: file.uri,
-    method: 'POST',
-    type: 'multipart',
-    field: 'file',
-    // Continues even when app is backgrounded
-    notification: {
-        enabled: true,
-        title: 'Uploading...',
-    },
-});
-
-Upload.addListener('progress', uploadId, (data) => {
-    console.log(\`Progress: \${data.progress}%\`);
-});</code></pre>
-        `
-    },
-    {
-        id: 116,
-        category: "System Design",
-        icon: "🏛️",
-        question: "Design a feature flag system for gradual rollout and A/B testing in React Native.",
-        difficulty: "advanced",
-        seniority: "senior",
-        answer: `
-            <h4>Feature Flag Architecture</h4>
-            <pre><code>┌─────────────────────────────────────────┐
-│         Feature Flag Service            │
-│   (LaunchDarkly / Firebase / Custom)    │
-└─────────────────────────────────────────┘
-                    ↓
-┌─────────────────────────────────────────┐
-│         Local Flag Store                │
-│   (Cached flags + Default values)       │
-└─────────────────────────────────────────┘
-                    ↓
-┌─────────────────────────────────────────┐
-│              App Code                   │
-│   (Conditional features/UI)             │
-└─────────────────────────────────────────┘</code></pre>
-
-            <h4>Feature Flag Service</h4>
-            <pre><code>// services/featureFlags.ts
-class FeatureFlagService {
-    private flags: Map<string, FlagValue> = new Map();
-    private defaults: Map<string, FlagValue> = new Map();
-
-    constructor() {
-        this.loadDefaults();
-        this.loadCachedFlags();
-    }
-
-    async initialize(userId: string, userAttributes: UserAttributes) {
-        try {
-            const response = await api.getFlags({
-                userId,
-                platform: Platform.OS,
-                appVersion: DeviceInfo.getVersion(),
-                ...userAttributes,
-            });
-
-            this.flags = new Map(Object.entries(response.flags));
-            this.cacheFlags();
-        } catch (error) {
-            console.warn('Failed to fetch flags, using cached/defaults');
-        }
-    }
-
-    isEnabled(flagKey: string): boolean {
-        return this.flags.get(flagKey) ?? this.defaults.get(flagKey) ?? false;
-    }
-
-    getValue<T>(flagKey: string, defaultValue: T): T {
-        return (this.flags.get(flagKey) as T) ?? defaultValue;
-    }
-}
-
-export const featureFlags = new FeatureFlagService();</code></pre>
-
-            <h4>React Hook</h4>
-            <pre><code>// hooks/useFeatureFlag.ts
-function useFeatureFlag(flagKey: string, defaultValue = false): boolean {
-    const [enabled, setEnabled] = useState(
-        () => featureFlags.isEnabled(flagKey) ?? defaultValue
-    );
-
-    useEffect(() => {
-        return featureFlags.subscribe(flagKey, setEnabled);
-    }, [flagKey]);
-
-    return enabled;
-}
-
-function useFeatureValue<T>(flagKey: string, defaultValue: T): T {
-    const [value, setValue] = useState(
-        () => featureFlags.getValue(flagKey, defaultValue)
-    );
-
-    useEffect(() => {
-        return featureFlags.subscribe(flagKey, setValue);
-    }, [flagKey]);
-
-    return value;
-}
-
-// Usage
-function CheckoutScreen() {
-    const newCheckoutEnabled = useFeatureFlag('new_checkout_flow');
-    const checkoutVariant = useFeatureValue('checkout_variant', 'control');
-
-    if (newCheckoutEnabled) {
-        return <NewCheckout variant={checkoutVariant} />;
-    }
-    return <LegacyCheckout />;
-}</code></pre>
-
-            <h4>Gradual Rollout Configuration</h4>
-            <pre><code>// Server-side flag configuration
-{
-    "new_checkout_flow": {
-        "type": "boolean",
-        "defaultValue": false,
-        "rules": [
-            {
-                "condition": { "userTier": "beta" },
-                "value": true
-            },
-            {
-                "condition": { "percentage": 10 },
-                "value": true
-            }
-        ]
-    },
-    "checkout_variant": {
-        "type": "string",
-        "defaultValue": "control",
-        "rules": [
-            {
-                "condition": { "experiment": "checkout_ab_test" },
-                "distribution": {
-                    "control": 50,
-                    "variant_a": 25,
-                    "variant_b": 25
-                }
-            }
-        ]
-    }
-}</code></pre>
-
-            <h4>A/B Test Tracking</h4>
-            <pre><code>// Track experiment exposure
-function useExperiment(experimentKey: string) {
-    const variant = useFeatureValue(experimentKey, 'control');
-
-    useEffect(() => {
-        analytics.track('experiment_exposure', {
-            experiment: experimentKey,
-            variant,
-        });
-    }, [experimentKey, variant]);
-
-    return variant;
-}
-
-// Track conversion
-function trackConversion(experimentKey: string, eventName: string) {
-    const variant = featureFlags.getValue(experimentKey, 'control');
-    analytics.track(eventName, {
-        experiment: experimentKey,
-        variant,
-    });
-}</code></pre>
-
-            <h4>Kill Switch Pattern</h4>
-            <pre><code>// Emergency disable for problematic features
-function useKillSwitch(featureKey: string): boolean {
-    const killed = useFeatureFlag(\`kill_\${featureKey}\`, false);
-    const enabled = useFeatureFlag(featureKey, true);
-
-    return !killed && enabled;
-}
-
-// Usage
-const paymentEnabled = useKillSwitch('payments');
-if (!paymentEnabled) {
-    return <MaintenanceScreen />;
-}</code></pre>
-        `
-    },
+    // NOTE: Old System Design section (IDs 112-116) removed - questions now consolidated at IDs 69-91
     // ==================== TYPESCRIPT (EXPANDED) ====================
     {
-        id: 117,
+        id: 131,
         category: "TypeScript",
         icon: "📘",
         question: "How do you create type-safe generic components in React Native?",
@@ -11617,7 +14796,7 @@ setValue('email', 123); // ✗ Error: number not assignable to string</code></pr
         `
     },
     {
-        id: 118,
+        id: 132,
         category: "TypeScript",
         icon: "📘",
         question: "How do you implement type-safe navigation with React Navigation in TypeScript?",
@@ -11689,7 +14868,7 @@ function MyComponent() {
         `
     },
     {
-        id: 119,
+        id: 133,
         category: "TypeScript",
         icon: "📘",
         question: "How do you type Redux or Zustand stores in React Native applications?",
@@ -11782,7 +14961,7 @@ await login('email@test.com', 'password');</code></pre>
         `
     },
     {
-        id: 120,
+        id: 134,
         category: "TypeScript",
         icon: "📘",
         question: "How do you write declaration files for native modules in React Native?",
@@ -11868,7 +15047,7 @@ export default TurboModuleRegistry.getEnforcing<Spec>('Biometric');</code></pre>
         `
     },
     {
-        id: 121,
+        id: 135,
         category: "TypeScript",
         icon: "📘",
         question: "What are TypeScript strict mode best practices for React Native projects?",
@@ -11956,7 +15135,7 @@ if (isSuccessResponse(response)) {
         `
     },
     {
-        id: 122,
+        id: 136,
         category: "TypeScript",
         icon: "📘",
         question: "How do you use type guards and discriminated unions effectively in React Native?",
@@ -12050,7 +15229,7 @@ function handleDeepLink(event: DeepLinkEvent) {
     },
     // ==================== DEBUGGING (EXPANDED) ====================
     {
-        id: 123,
+        id: 137,
         category: "Debugging",
         icon: "🐛",
         question: "How do you use React DevTools Profiler to identify performance issues in React Native?",
@@ -12116,7 +15295,7 @@ const sortedList = useMemo(() => {
         `
     },
     {
-        id: 124,
+        id: 138,
         category: "Debugging",
         icon: "🐛",
         question: "How do you debug native crashes in React Native on iOS and Android?",
@@ -12198,7 +15377,7 @@ crashlytics().recordError(new Error('Test crash'));</code></pre>
         `
     },
     {
-        id: 125,
+        id: 139,
         category: "Debugging",
         icon: "🐛",
         question: "How do you detect and fix memory leaks in React Native applications?",
@@ -12289,7 +15468,7 @@ function useLeakDetection(componentName: string) {
         `
     },
     {
-        id: 126,
+        id: 140,
         category: "Debugging",
         icon: "🐛",
         question: "What is the difference between remote debugging and Hermes inspector? When should you use each?",
@@ -12373,7 +15552,7 @@ Use Remote Debugging when:
     },
     // ==================== SECURITY (EXPANDED) ====================
     {
-        id: 127,
+        id: 141,
         category: "Security",
         icon: "🔒",
         question: "How do you implement secure storage using Keychain (iOS) and Keystore (Android)?",
@@ -12462,7 +15641,7 @@ function decryptData(encrypted: string, key: string): string {
         `
     },
     {
-        id: 128,
+        id: 142,
         category: "Security",
         icon: "🔒",
         question: "How do you implement certificate pinning in React Native to prevent MITM attacks?",
@@ -12553,7 +15732,7 @@ try {
         `
     },
     {
-        id: 129,
+        id: 143,
         category: "Security",
         icon: "🔒",
         question: "How do you implement biometric authentication (Face ID/Touch ID/Fingerprint) in React Native?",
@@ -12657,7 +15836,7 @@ async function biometricLogin() {
         `
     },
     {
-        id: 130,
+        id: 144,
         category: "Security",
         icon: "🔒",
         question: "How do you prevent sensitive data from appearing in logs and screenshots in React Native?",
@@ -12770,7 +15949,7 @@ function SensitiveScreen() {
     },
     // ==================== OFFLINE & STORAGE (EXPANDED) ====================
     {
-        id: 131,
+        id: 145,
         category: "Offline & Storage",
         icon: "💾",
         question: "What are the differences between AsyncStorage, MMKV, and SQLite? When would you use each?",
@@ -12854,7 +16033,7 @@ const [results] = await db.executeSql(
         `
     },
     {
-        id: 132,
+        id: 146,
         category: "Offline & Storage",
         icon: "💾",
         question: "How do you design an offline-first architecture in React Native?",
@@ -12961,7 +16140,7 @@ function useOfflineFirst() {
         `
     },
     {
-        id: 133,
+        id: 147,
         category: "Offline & Storage",
         icon: "💾",
         question: "How do you handle data synchronization conflicts in React Native apps?",
@@ -13063,7 +16242,7 @@ async function syncEntity(local: SyncableEntity, remote: SyncableEntity) {
         `
     },
     {
-        id: 134,
+        id: 148,
         category: "Offline & Storage",
         icon: "💾",
         question: "How do you implement background data synchronization in React Native?",
@@ -13163,7 +16342,7 @@ WorkManager.setWorker('data-sync', async () => {
     },
     // ==================== ARCHITECTURE (EXPANDED) ====================
     {
-        id: 135,
+        id: 149,
         category: "Architecture",
         icon: "🏛️",
         question: "How do you set up a monorepo for React Native with shared code across platforms?",
@@ -13287,7 +16466,7 @@ module.exports = config;</code></pre>
         `
     },
     {
-        id: 136,
+        id: 150,
         category: "Architecture",
         icon: "🏛️",
         question: "How do you implement Clean Architecture in a React Native application?",
@@ -13411,7 +16590,7 @@ function ProfileScreen({ userId }) {
         `
     },
     {
-        id: 137,
+        id: 151,
         category: "Architecture",
         icon: "🏛️",
         question: "How do you structure a feature-based folder architecture in React Native?",
@@ -13524,7 +16703,7 @@ import { LoginForm } from '@features/auth/components/LoginForm';
         `
     },
     {
-        id: 138,
+        id: 152,
         category: "Architecture",
         icon: "🏛️",
         question: "How do you build a design system architecture for React Native apps?",
@@ -13685,7 +16864,7 @@ export function Button({
     },
     // ==================== REAL-WORLD SCENARIOS (EXPANDED) ====================
     {
-        id: 139,
+        id: 153,
         category: "Real-World Scenarios",
         icon: "🌍",
         question: "How would you migrate a large Expo app to bare React Native workflow?",
@@ -13774,7 +16953,7 @@ const result = await authorize(config);</code></pre>
         `
     },
     {
-        id: 140,
+        id: 154,
         category: "Real-World Scenarios",
         icon: "🌍",
         question: "How do you handle app store rejections in React Native apps?",
@@ -13867,7 +17046,7 @@ the correct issue."
         `
     },
     {
-        id: 141,
+        id: 155,
         category: "Real-World Scenarios",
         icon: "🌍",
         question: "How do you achieve a crash-free release in React Native?",
@@ -13985,7 +17164,7 @@ Sentry.setTag('app_version', appVersion);</code></pre>
         `
     },
     {
-        id: 142,
+        id: 156,
         category: "Real-World Scenarios",
         icon: "🌍",
         question: "Describe how you would debug a production performance regression.",
@@ -14085,7 +17264,7 @@ const List = ExpensiveList;
         `
     },
     {
-        id: 143,
+        id: 157,
         category: "Real-World Scenarios",
         icon: "🌍",
         question: "How do you handle breaking changes when upgrading React Native versions?",
@@ -14178,7 +17357,7 @@ npx react-native run-ios --configuration Release</code></pre>
         `
     },
     {
-        id: 144,
+        id: 158,
         category: "Real-World Scenarios",
         icon: "🌍",
         question: "How would you implement a feature flag system for gradual feature rollout?",
@@ -14314,7 +17493,7 @@ function Feature({ flag, children, fallback = null }) {
     },
     // ==================== ACCESSIBILITY (NEW CATEGORY) ====================
     {
-        id: 145,
+        id: 159,
         category: "Accessibility",
         icon: "♿",
         question: "How do you implement VoiceOver (iOS) and TalkBack (Android) support in React Native?",
@@ -14429,7 +17608,7 @@ useEffect(() => {
         `
     },
     {
-        id: 146,
+        id: 160,
         category: "Accessibility",
         icon: "♿",
         question: "How do you implement focus management and keyboard navigation in React Native?",
@@ -14568,7 +17747,7 @@ function ProductScreen({ productId }) {
         `
     },
     {
-        id: 147,
+        id: 161,
         category: "Accessibility",
         icon: "♿",
         question: "How do you support Dynamic Type and system font scaling in React Native?",
@@ -14671,7 +17850,7 @@ const styles = StyleSheet.create({
         `
     },
     {
-        id: 148,
+        id: 162,
         category: "Accessibility",
         icon: "♿",
         question: "How do you test and audit accessibility in React Native applications?",
