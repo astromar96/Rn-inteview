@@ -112,7 +112,7 @@ useEffect(() => {
                 <li>accessibilityLabel describes what element is</li>
                 <li>accessibilityHint describes what happens when activated</li>
             </ul>
-        `},,{id:160,category:"Accessibility",icon:"♿",question:"How do you implement focus management and keyboard navigation in React Native?",difficulty:"intermediate",seniority:"mid",answer:`
+        `},{id:160,category:"Accessibility",icon:"♿",question:"How do you implement focus management and keyboard navigation in React Native?",difficulty:"intermediate",seniority:"mid",answer:`
             <h4>🎯 Why This Question Matters</h4>
             <p>Proper focus management is crucial for screen reader users and keyboard navigation. Poor focus handling creates confusing experiences.</p>
 
@@ -242,7 +242,7 @@ function ProductScreen({ productId }) {
                 <li>Set focus to meaningful content after navigation</li>
                 <li>Hide purely decorative elements from screen readers</li>
             </ul>
-        `},,{id:161,category:"Accessibility",icon:"♿",question:"How do you support Dynamic Type and system font scaling in React Native?",difficulty:"intermediate",seniority:"mid",answer:`
+        `},{id:161,category:"Accessibility",icon:"♿",question:"How do you support Dynamic Type and system font scaling in React Native?",difficulty:"intermediate",seniority:"mid",answer:`
             <h4>🎯 Why This Question Matters</h4>
             <p>Users with low vision rely on system font scaling. Apps that don't respect this setting are difficult or impossible to use.</p>
 
@@ -336,7 +336,7 @@ const styles = StyleSheet.create({
                 <li>Test UI at 200% font scale</li>
                 <li>Use flexible layouts that adapt to text size changes</li>
             </ul>
-        `},,{id:162,category:"Accessibility",icon:"♿",question:"How do you test and audit accessibility in React Native applications?",difficulty:"intermediate",seniority:"mid",answer:`
+        `},{id:162,category:"Accessibility",icon:"♿",question:"How do you test and audit accessibility in React Native applications?",difficulty:"intermediate",seniority:"mid",answer:`
             <h4>🎯 Why This Question Matters</h4>
             <p>Accessibility must be tested systematically, not assumed. This shows you understand how to verify accessibility compliance.</p>
 
@@ -509,7 +509,7 @@ if (!__DEV__) {
         &lt;RootNavigator /&gt;
     &lt;/NavigationContainer&gt;
 &lt;/ErrorBoundary&gt;</code></pre>
-        `},,{id:43,category:"Advanced Concepts",icon:"🎓",question:"How do you implement push notifications in React Native?",difficulty:"intermediate",seniority:"mid",answer:`
+        `},{id:43,category:"Advanced Concepts",icon:"🎓",question:"How do you implement push notifications in React Native?",difficulty:"intermediate",seniority:"mid",answer:`
             <h4>Setup with Notifee + Firebase</h4>
             <pre><code>// Install dependencies
 npm install @notifee/react-native @react-native-firebase/app @react-native-firebase/messaging</code></pre>
@@ -562,7 +562,7 @@ notifee.onForegroundEvent(({ type, detail }) => {
         navigation.navigate('Details', { id: detail.notification?.data?.id });
     }
 });</code></pre>
-        `},,{id:44,category:"Advanced Concepts",icon:"🎓",question:"What is Metro bundler and how does it work?",difficulty:"intermediate",seniority:"mid",answer:`
+        `},{id:44,category:"Advanced Concepts",icon:"🎓",question:"What is Metro bundler and how does it work?",difficulty:"intermediate",seniority:"mid",answer:`
             <h4>🎯 Why This Question Matters</h4>
             <p>Metro is the heart of React Native development - every line of JavaScript you write passes through it. Understanding Metro helps you debug build issues, optimize bundle size, configure monorepos, and understand why hot reloading sometimes breaks.</p>
 
@@ -878,7 +878,7 @@ module.exports = {
                 <li><strong>HMR not working</strong> - Avoid side effects, use named exports</li>
                 <li><strong>Old code showing</strong> - Always try --reset-cache first</li>
             </ul>
-        `},,{id:45,category:"Advanced Concepts",icon:"🎓",question:"How do you handle app state management (foreground, background, inactive)?",difficulty:"intermediate",seniority:"mid",answer:`
+        `},{id:45,category:"Advanced Concepts",icon:"🎓",question:"How do you handle app state management (foreground, background, inactive)?",difficulty:"intermediate",seniority:"mid",answer:`
             <h4>App State Values</h4>
             <ul>
                 <li><strong>active:</strong> App is running in foreground</li>
@@ -945,7 +945,7 @@ focusManager.setEventListener((handleFocus) => {
     });
     return () => subscription.remove();
 });</code></pre>
-        `},,{id:49,category:"Advanced Concepts",icon:"🎓",question:"How do you implement internationalization (i18n) in React Native?",difficulty:"intermediate",seniority:"mid",answer:`
+        `},{id:49,category:"Advanced Concepts",icon:"🎓",question:"How do you implement internationalization (i18n) in React Native?",difficulty:"intermediate",seniority:"mid",answer:`
             <h4>Popular i18n Libraries</h4>
             <ul>
                 <li><strong>react-i18next:</strong> Most popular, flexible</li>
@@ -1009,7 +1009,7 @@ function HomeScreen() {
 // Enable RTL for Arabic, Hebrew, etc.
 I18nManager.forceRTL(isRTL);
 // Requires app restart</code></pre>
-        `},,{id:50,category:"Advanced Concepts",icon:"🎓",question:"What accessibility (a11y) features does React Native support and how do you implement them?",difficulty:"intermediate",seniority:"mid",answer:`
+        `},{id:50,category:"Advanced Concepts",icon:"🎓",question:"What accessibility (a11y) features does React Native support and how do you implement them?",difficulty:"intermediate",seniority:"mid",answer:`
             <h4>Core Accessibility Props</h4>
             <pre><code>&lt;TouchableOpacity
     accessible={true}
@@ -1066,7 +1066,7 @@ const focusOnButton = () => {
                 <li>Android: TalkBack (Settings → Accessibility)</li>
                 <li>Use Accessibility Inspector in Xcode</li>
             </ul>
-        `},,{id:92,category:"Advanced Concepts",icon:"🎓",question:"How do you implement biometric authentication (Face ID/Touch ID) in React Native?",difficulty:"intermediate",seniority:"mid",answer:`
+        `},{id:92,category:"Advanced Concepts",icon:"🎓",question:"How do you implement biometric authentication (Face ID/Touch ID) in React Native?",difficulty:"intermediate",seniority:"mid",answer:`
             <h4>Using expo-local-authentication</h4>
             <pre><code>import * as LocalAuthentication from 'expo-local-authentication';
 
@@ -1160,7 +1160,7 @@ if (credentials) {
                 <li>Re-authenticate for sensitive operations</li>
                 <li>Check enrollment before prompting</li>
             </ul>
-        `},,{id:93,category:"Advanced Concepts",icon:"🎓",question:"How do you implement background tasks and scheduled jobs in React Native?",difficulty:"advanced",seniority:"senior",answer:`
+        `},{id:93,category:"Advanced Concepts",icon:"🎓",question:"How do you implement background tasks and scheduled jobs in React Native?",difficulty:"advanced",seniority:"senior",answer:`
             <h4>Background Fetch (iOS & Android)</h4>
             <pre><code>import * as BackgroundFetch from 'expo-background-fetch';
 import * as TaskManager from 'expo-task-manager';
@@ -1280,7 +1280,7 @@ await BackgroundService.start(backgroundTask, options);
 
 // Stop
 await BackgroundService.stop();</code></pre>
-        `},,{id:94,category:"Advanced Concepts",icon:"🎓",question:"How do you handle app updates and force update scenarios in React Native?",difficulty:"intermediate",seniority:"mid",answer:`
+        `},{id:94,category:"Advanced Concepts",icon:"🎓",question:"How do you handle app updates and force update scenarios in React Native?",difficulty:"intermediate",seniority:"mid",answer:`
             <h4>Version Check Architecture</h4>
             <pre><code>interface VersionInfo {
     currentVersion: string;
@@ -1440,7 +1440,7 @@ const handlePress = () => {
                 <li><strong>Animated:</strong> Simple fades, basic transforms, progress bars</li>
                 <li><strong>Reanimated:</strong> Gesture-driven, complex sequences, shared element transitions</li>
             </ul>
-        `},,{id:23,category:"Animations",icon:"✨",question:"How do you implement gesture-driven animations with Reanimated and Gesture Handler?",difficulty:"advanced",seniority:"senior",answer:`
+        `},{id:23,category:"Animations",icon:"✨",question:"How do you implement gesture-driven animations with Reanimated and Gesture Handler?",difficulty:"advanced",seniority:"senior",answer:`
             <h4>Setup</h4>
             <pre><code>npm install react-native-reanimated react-native-gesture-handler
 
@@ -1492,7 +1492,7 @@ function DraggableBox() {
         &lt;/GestureDetector&gt;
     );
 }</code></pre>
-        `},,{id:24,category:"Animations",icon:"✨",question:"What is LayoutAnimation and when should you use it?",difficulty:"beginner",seniority:"junior",answer:`
+        `},{id:24,category:"Animations",icon:"✨",question:"What is LayoutAnimation and when should you use it?",difficulty:"beginner",seniority:"junior",answer:`
             <h4>What is LayoutAnimation?</h4>
             <p>LayoutAnimation automatically animates views to their new positions when the next layout change happens.</p>
 
@@ -1892,7 +1892,7 @@ src/
                 <li><strong>God components:</strong> 1000-line components mixing UI and business logic</li>
                 <li><strong>Premature abstraction:</strong> Creating abstractions before understanding patterns</li>
             </ul>
-        `},,{id:41,category:"Architecture",icon:"🏛️",question:"How do you structure and organize a large-scale React Native codebase?",difficulty:"advanced",seniority:"senior",answer:`
+        `},{id:41,category:"Architecture",icon:"🏛️",question:"How do you structure and organize a large-scale React Native codebase?",difficulty:"advanced",seniority:"senior",answer:`
             <h4>🎯 Why This Question Matters</h4>
             <p>Large-scale codebases (100+ files, 5+ developers) require thoughtful organization to maintain productivity. Poor structure leads to confusion, merge conflicts, circular dependencies, and slow onboarding. This question tests your experience with real production apps.</p>
 
@@ -2252,7 +2252,7 @@ features/
                 <li><strong>No barrel exports:</strong> Without index.ts, imports become messy and uncontrolled</li>
                 <li><strong>Circular dependencies:</strong> Feature A imports from Feature B which imports from Feature A</li>
             </ul>
-        `},,{id:149,category:"Architecture",icon:"🏛️",question:"How do you set up a monorepo for React Native with shared code across platforms?",difficulty:"advanced",seniority:"senior",answer:`
+        `},{id:149,category:"Architecture",icon:"🏛️",question:"How do you set up a monorepo for React Native with shared code across platforms?",difficulty:"advanced",seniority:"senior",answer:`
             <h4>🎯 Why This Question Matters</h4>
             <p>Monorepos enable code sharing across mobile, web, and backend. This tests your ability to architect scalable project structures.</p>
 
@@ -2367,7 +2367,7 @@ module.exports = config;</code></pre>
                 <li>Turborepo caches builds for faster CI</li>
                 <li>Keep platform-specific code in apps/, shared in packages/</li>
             </ul>
-        `},,{id:150,category:"Architecture",icon:"🏛️",question:"How do you implement Clean Architecture in a React Native application?",difficulty:"advanced",seniority:"senior",answer:`
+        `},{id:150,category:"Architecture",icon:"🏛️",question:"How do you implement Clean Architecture in a React Native application?",difficulty:"advanced",seniority:"senior",answer:`
             <h4>🎯 Why This Question Matters</h4>
             <p>Clean Architecture separates concerns and makes code testable and maintainable. This tests advanced architectural thinking.</p>
 
@@ -2482,7 +2482,7 @@ function ProfileScreen({ userId }) {
                 <li>Use dependency injection for testability</li>
                 <li>Data flows inward; dependencies point inward</li>
             </ul>
-        `},,{id:151,category:"Architecture",icon:"🏛️",question:"How do you structure a feature-based folder architecture in React Native?",difficulty:"intermediate",seniority:"mid",answer:`
+        `},{id:151,category:"Architecture",icon:"🏛️",question:"How do you structure a feature-based folder architecture in React Native?",difficulty:"intermediate",seniority:"mid",answer:`
             <h4>🎯 Why This Question Matters</h4>
             <p>Feature-based structure scales better than type-based organization. This shows practical experience with large codebases.</p>
 
@@ -2586,7 +2586,7 @@ import { LoginForm } from '@features/auth/components/LoginForm';
                 <li>Use barrel exports (index.ts) to define public API</li>
                 <li>Shared folder contains truly generic, reusable code</li>
             </ul>
-        `},,{id:152,category:"Architecture",icon:"🏛️",question:"How do you build a design system architecture for React Native apps?",difficulty:"advanced",seniority:"senior",answer:`
+        `},{id:152,category:"Architecture",icon:"🏛️",question:"How do you build a design system architecture for React Native apps?",difficulty:"advanced",seniority:"senior",answer:`
             <h4>🎯 Why This Question Matters</h4>
             <p>Design systems ensure UI consistency and speed up development. This tests your ability to create scalable, maintainable component libraries.</p>
 
@@ -2761,7 +2761,7 @@ export function Button({
                 <li>Root cause analysis</li>
                 <li>Preventive measures implemented</li>
             </ul>
-        `},,{id:47,category:"Behavioral",icon:"💬",question:"How do you approach code reviews for React Native projects? What do you look for?",difficulty:"intermediate",seniority:"mid",answer:`
+        `},{id:47,category:"Behavioral",icon:"💬",question:"How do you approach code reviews for React Native projects? What do you look for?",difficulty:"intermediate",seniority:"mid",answer:`
             <h4>Code Review Checklist</h4>
 
             <h4>1. Performance</h4>
@@ -2810,7 +2810,7 @@ export function Button({
                 <li>Provide actionable feedback with examples</li>
                 <li>Distinguish between blockers and suggestions</li>
             </ol>
-        `},,{id:48,category:"Behavioral",icon:"💬",question:"How do you stay updated with React Native ecosystem changes?",difficulty:"beginner",seniority:"junior",answer:`
+        `},{id:48,category:"Behavioral",icon:"💬",question:"How do you stay updated with React Native ecosystem changes?",difficulty:"beginner",seniority:"junior",answer:`
             <h4>Official Sources</h4>
             <ul>
                 <li><strong>React Native Blog:</strong> Official announcements, release notes</li>
@@ -2849,7 +2849,7 @@ export function Button({
                 <li>State management trends</li>
                 <li>Build tooling improvements</li>
             </ul>
-        `},,{id:95,category:"Behavioral",icon:"💬",question:"How do you handle technical debt in a React Native project?",difficulty:"intermediate",seniority:"senior",answer:`
+        `},{id:95,category:"Behavioral",icon:"💬",question:"How do you handle technical debt in a React Native project?",difficulty:"intermediate",seniority:"senior",answer:`
             <h4>Identifying Technical Debt</h4>
             <ul>
                 <li><strong>Code smells:</strong> Duplicated code, long functions, god components</li>
@@ -2928,7 +2928,7 @@ class OldComponent extends Component {
                 <li>CI/CD quality gates</li>
                 <li>Architecture decision records (ADRs)</li>
             </ul>
-        `},,{id:96,category:"Behavioral",icon:"💬",question:"Describe how you would onboard a new developer to an existing React Native codebase.",difficulty:"intermediate",seniority:"senior",answer:`
+        `},{id:96,category:"Behavioral",icon:"💬",question:"Describe how you would onboard a new developer to an existing React Native codebase.",difficulty:"intermediate",seniority:"senior",answer:`
             <h4>Week 1: Environment & Fundamentals</h4>
             <ul>
                 <li><strong>Day 1-2:</strong> Development environment setup
@@ -3004,7 +3004,7 @@ class OldComponent extends Component {
                 <li>30-day retrospective</li>
                 <li>Document onboarding improvements</li>
             </ul>
-        `},,{id:97,category:"Behavioral",icon:"💬",question:"How do you balance delivering features quickly vs maintaining code quality?",difficulty:"intermediate",seniority:"senior",answer:`
+        `},{id:97,category:"Behavioral",icon:"💬",question:"How do you balance delivering features quickly vs maintaining code quality?",difficulty:"intermediate",seniority:"senior",answer:`
             <h4>The Quality vs Speed Tradeoff</h4>
             <p>This isn't binary - it's about making informed tradeoffs and understanding consequences.</p>
 
@@ -3112,7 +3112,7 @@ def enableProguardInReleaseBuilds = true
 plugins: [
     ['transform-remove-console', { exclude: ['error', 'warn'] }]
 ]</code></pre>
-        `},,{id:32,category:"Build & Deployment",icon:"📦",question:"How do you set up CI/CD for React Native apps? What tools would you use?",difficulty:"advanced",seniority:"senior",answer:`
+        `},{id:32,category:"Build & Deployment",icon:"📦",question:"How do you set up CI/CD for React Native apps? What tools would you use?",difficulty:"advanced",seniority:"senior",answer:`
             <h4>Popular CI/CD Tools</h4>
             <ul>
                 <li><strong>EAS Build (Expo):</strong> Managed build service</li>
@@ -3174,7 +3174,7 @@ platform :android do
     upload_to_play_store(track: "beta")
   end
 end</code></pre>
-        `},,{id:33,category:"Build & Deployment",icon:"📦",question:"What is CodePush and how does it enable over-the-air updates?",difficulty:"intermediate",seniority:"mid",answer:`
+        `},{id:33,category:"Build & Deployment",icon:"📦",question:"What is CodePush and how does it enable over-the-air updates?",difficulty:"intermediate",seniority:"mid",answer:`
             <h4>What is CodePush?</h4>
             <p>CodePush allows you to push JavaScript and asset updates directly to users without going through app store review.</p>
 
@@ -3328,7 +3328,7 @@ jobs:
             -configuration Release \\
             -sdk iphonesimulator \\
             -derivedDataPath build</code></pre>
-        `},,{id:121,category:"CI/CD",icon:"🔄",question:"Explain how to manage iOS code signing in a CI environment.",difficulty:"advanced",seniority:"senior",answer:`
+        `},{id:121,category:"CI/CD",icon:"🔄",question:"Explain how to manage iOS code signing in a CI environment.",difficulty:"advanced",seniority:"senior",answer:`
             <h4>Code Signing Components</h4>
             <pre><code>// Required for iOS distribution:
 1. Signing Certificate (.p12)
@@ -3398,7 +3398,7 @@ eas build --platform ios --profile production
 # Credentials stored in Expo's secure cloud
 # Or use local credentials:
 eas credentials</code></pre>
-        `},,{id:122,category:"CI/CD",icon:"🔄",question:"How do you implement automatic version bumping and changelog generation?",difficulty:"intermediate",seniority:"mid",answer:`
+        `},{id:122,category:"CI/CD",icon:"🔄",question:"How do you implement automatic version bumping and changelog generation?",difficulty:"intermediate",seniority:"mid",answer:`
             <h4>Semantic Versioning with standard-version</h4>
             <pre><code># Install
 npm install --save-dev standard-version
@@ -3493,7 +3493,7 @@ jobs:
 
 ### [1.1.0] - 2024-01-01
 ...</code></pre>
-        `},,{id:123,category:"CI/CD",icon:"🔄",question:"What is EAS Build and how does it compare to building locally or with Fastlane?",difficulty:"intermediate",seniority:"mid",answer:`
+        `},{id:123,category:"CI/CD",icon:"🔄",question:"What is EAS Build and how does it compare to building locally or with Fastlane?",difficulty:"intermediate",seniority:"mid",answer:`
             <h4>EAS Build Overview</h4>
             <p>Expo Application Services (EAS) Build is a cloud build service that compiles React Native apps without local native toolchains.</p>
 
@@ -3567,7 +3567,7 @@ eas submit --platform android</code></pre>
                     </ul>
                 </li>
             </ul>
-        `},,{id:124,category:"CI/CD",icon:"🔄",question:"How do you implement over-the-air (OTA) updates in React Native?",difficulty:"intermediate",seniority:"mid",answer:`
+        `},{id:124,category:"CI/CD",icon:"🔄",question:"How do you implement over-the-air (OTA) updates in React Native?",difficulty:"intermediate",seniority:"mid",answer:`
             <h4>OTA Update Options</h4>
 
             <h4>1. EAS Update (Expo)</h4>
@@ -3655,7 +3655,7 @@ codePush.sync(
                 <li>Monitor update adoption metrics</li>
                 <li>Version runtime to prevent incompatible updates</li>
             </ul>
-        `},,{id:125,category:"CI/CD",icon:"🔄",question:"How do you set up Fastlane for automating React Native app releases?",difficulty:"advanced",seniority:"senior",answer:`
+        `},{id:125,category:"CI/CD",icon:"🔄",question:"How do you set up Fastlane for automating React Native app releases?",difficulty:"advanced",seniority:"senior",answer:`
             <h4>Fastlane Setup</h4>
             <pre><code># Install
 brew install fastlane
@@ -3834,7 +3834,7 @@ package_name("com.company.app")</code></pre>
                 <li><strong>Wrong:</strong> "React Native compiles to native code"</li>
                 <li><strong>Correct:</strong> "React Native bridges JavaScript to native platform APIs and renders native views"</li>
             </ul>
-        `},,{id:2,category:"Core React Native",icon:"⚛️",question:"What is the Virtual DOM and how does React Native's reconciliation work?",difficulty:"intermediate",seniority:"mid",answer:`
+        `},{id:2,category:"Core React Native",icon:"⚛️",question:"What is the Virtual DOM and how does React Native's reconciliation work?",difficulty:"intermediate",seniority:"mid",answer:`
             <h4>🎯 Why This Question Matters</h4>
             <p>Understanding reconciliation is crucial for writing performant React Native apps. Interviewers ask this to gauge your depth of knowledge about React's internals and your ability to optimize applications.</p>
 
@@ -3994,7 +3994,7 @@ const handlePress = useCallback((id) => {
                 <li><strong>Mutating state directly:</strong> React relies on reference comparison for change detection. <code>state.items.push(newItem)</code> won't trigger re-render because the array reference didn't change. Always create new references.</li>
                 <li><strong>Not understanding batching:</strong> In React 18+, all updates are automatically batched. But knowing this history shows depth: pre-React 18, only event handlers were batched, not setTimeout/promises.</li>
             </ul>
-        `},,{id:3,category:"Core React Native",icon:"⚛️",question:"Explain the component lifecycle in React Native. How do hooks relate to lifecycle methods?",difficulty:"intermediate",seniority:"mid",answer:`
+        `},{id:3,category:"Core React Native",icon:"⚛️",question:"Explain the component lifecycle in React Native. How do hooks relate to lifecycle methods?",difficulty:"intermediate",seniority:"mid",answer:`
             <h4>🎯 Why This Question Matters</h4>
             <p>Understanding lifecycle is essential for managing side effects, subscriptions, and cleanup. This question reveals whether you can prevent memory leaks and handle async operations properly.</p>
 
@@ -4180,7 +4180,7 @@ useEffect(() => {
     }, 1000);
     return () => clearInterval(interval);
 }, []);</code></pre>
-        `},,{id:4,category:"Core React Native",icon:"⚛️",question:"What are the differences between FlatList and ScrollView? When would you use each?",difficulty:"intermediate",seniority:"mid",answer:`
+        `},{id:4,category:"Core React Native",icon:"⚛️",question:"What are the differences between FlatList and ScrollView? When would you use each?",difficulty:"intermediate",seniority:"mid",answer:`
             <h4>🎯 Why This Question Matters</h4>
             <p>List performance is one of the most common pain points in React Native apps. This question tests your understanding of virtualization and your ability to build smooth, performant scrolling experiences.</p>
 
@@ -4352,7 +4352,7 @@ import { FlashList } from "@shopify/flash-list";
                 <li>Not implementing getItemLayout for fixed-height lists</li>
                 <li>Using removeClippedSubviews on iOS (can cause rendering bugs)</li>
             </ul>
-        `},,{id:5,category:"Core React Native",icon:"⚛️",question:"How do you handle platform-specific code in React Native?",difficulty:"beginner",seniority:"junior",answer:`
+        `},{id:5,category:"Core React Native",icon:"⚛️",question:"How do you handle platform-specific code in React Native?",difficulty:"beginner",seniority:"junior",answer:`
             <h4>1. Platform Module</h4>
             <pre><code>import { Platform } from 'react-native';
 
@@ -4387,7 +4387,7 @@ import Component from './Component';</code></pre>
 if (parseInt(Platform.Version, 10) >= 14) {
     // iOS 14+ specific code
 }</code></pre>
-        `},,{id:6,category:"Core React Native",icon:"⚛️",question:"Explain the purpose and usage of useCallback and useMemo hooks in React Native.",difficulty:"intermediate",seniority:"mid",answer:`
+        `},{id:6,category:"Core React Native",icon:"⚛️",question:"Explain the purpose and usage of useCallback and useMemo hooks in React Native.",difficulty:"intermediate",seniority:"mid",answer:`
             <h4>useMemo - Memoize Values</h4>
             <p>Caches computed values to avoid expensive recalculations:</p>
             <pre><code>const expensiveValue = useMemo(() => {
@@ -4416,7 +4416,7 @@ if (parseInt(Platform.Version, 10) >= 14) {
                 <li><strong>useCallback:</strong> Passing callbacks to optimized child components</li>
                 <li><strong>Don't overuse:</strong> Premature optimization adds complexity</li>
             </ul>
-        `},,{id:51,category:"Core React Native",icon:"⚛️",question:"Explain the difference between Controlled and Uncontrolled components in React Native. When would you use each?",difficulty:"intermediate",seniority:"mid",answer:`
+        `},{id:51,category:"Core React Native",icon:"⚛️",question:"Explain the difference between Controlled and Uncontrolled components in React Native. When would you use each?",difficulty:"intermediate",seniority:"mid",answer:`
             <h4>Controlled Components</h4>
             <p>Form data is handled by React state. The component receives its value from props and notifies changes through callbacks.</p>
             <pre><code>function ControlledInput() {
@@ -4467,7 +4467,7 @@ if (parseInt(Platform.Version, 10) >= 14) {
 
             <h4>Recommendation</h4>
             <p>In React Native, <strong>always prefer controlled components</strong>. They provide better debugging, testing, and predictability.</p>
-        `},,{id:52,category:"Core React Native",icon:"⚛️",question:"What is the difference between useRef and useState? When should you use useRef?",difficulty:"intermediate",seniority:"mid",answer:`
+        `},{id:52,category:"Core React Native",icon:"⚛️",question:"What is the difference between useRef and useState? When should you use useRef?",difficulty:"intermediate",seniority:"mid",answer:`
             <h4>Key Differences</h4>
             <table>
                 <tr><td><strong>useState</strong></td><td><strong>useRef</strong></td></tr>
@@ -4519,7 +4519,7 @@ countRef.current += 1;
 const [count, setCount] = useState(0);
 setCount(c => c + 1);
 // UI updates properly</code></pre>
-        `},,{id:53,category:"Core React Native",icon:"⚛️",question:"Explain the useReducer hook. When would you choose it over useState?",difficulty:"intermediate",seniority:"mid",answer:`
+        `},{id:53,category:"Core React Native",icon:"⚛️",question:"Explain the useReducer hook. When would you choose it over useState?",difficulty:"intermediate",seniority:"mid",answer:`
             <h4>useReducer Basics</h4>
             <p>useReducer is an alternative to useState for managing complex state logic.</p>
             <pre><code>// Reducer function
@@ -4625,7 +4625,7 @@ function LoginForm() {
                 <tr><td><strong>useState</strong></td><td>Simple, independent state values</td></tr>
                 <tr><td><strong>useReducer</strong></td><td>Complex state objects, state machines</td></tr>
             </table>
-        `},,{id:54,category:"Core React Native",icon:"⚛️",question:"What are Portals in React and how do they work in React Native?",difficulty:"advanced",seniority:"senior",answer:`
+        `},{id:54,category:"Core React Native",icon:"⚛️",question:"What are Portals in React and how do they work in React Native?",difficulty:"advanced",seniority:"senior",answer:`
             <h4>Portals in React</h4>
             <p>Portals provide a way to render children into a DOM node that exists outside the parent component's hierarchy.</p>
 
@@ -4711,7 +4711,7 @@ export function Portal({ children }) {
                 <li>Toast notifications</li>
                 <li>Dropdown menus that need to overflow parents</li>
             </ul>
-        `},,{id:55,category:"Core React Native",icon:"⚛️",question:"Explain the concept of Render Props pattern and how it compares to Hooks in React Native.",difficulty:"advanced",seniority:"senior",answer:`
+        `},{id:55,category:"Core React Native",icon:"⚛️",question:"Explain the concept of Render Props pattern and how it compares to Hooks in React Native.",difficulty:"advanced",seniority:"senior",answer:`
             <h4>Render Props Pattern</h4>
             <p>A technique for sharing code between components using a prop whose value is a function.</p>
             <pre><code>// Render Props component
@@ -4838,7 +4838,7 @@ console.timeEnd('operation'); // Shows duration</code></pre>
             <pre><code>// Enable Performance Monitor
 // Shake → Show Perf Monitor
 // Watch JS and UI frame rates</code></pre>
-        `},,{id:30,category:"Debugging",icon:"🐛",question:"How do you debug memory leaks in React Native?",difficulty:"advanced",seniority:"senior",answer:`
+        `},{id:30,category:"Debugging",icon:"🐛",question:"How do you debug memory leaks in React Native?",difficulty:"advanced",seniority:"senior",answer:`
             <h4>Common Memory Leak Causes</h4>
             <ul>
                 <li>Uncleared timers (setTimeout, setInterval)</li>
@@ -4894,7 +4894,7 @@ if (__DEV__) {
         console.log('Memory:', Math.round(used / 1024 / 1024), 'MB');
     }, 5000);
 }</code></pre>
-        `},,{id:137,category:"Debugging",icon:"🐛",question:"How do you use React DevTools Profiler to identify performance issues in React Native?",difficulty:"intermediate",seniority:"mid",answer:`
+        `},{id:137,category:"Debugging",icon:"🐛",question:"How do you use React DevTools Profiler to identify performance issues in React Native?",difficulty:"intermediate",seniority:"mid",answer:`
             <h4>🎯 Why This Question Matters</h4>
             <p>The Profiler is essential for finding unnecessary re-renders and slow components. Interviewers want to see practical debugging skills.</p>
 
@@ -4951,7 +4951,7 @@ const sortedList = useMemo(() => {
                 <li>Look for yellow/red components in the flame graph</li>
                 <li>"Why did this render?" feature shows exact prop changes</li>
             </ul>
-        `},,{id:138,category:"Debugging",icon:"🐛",question:"How do you debug native crashes in React Native on iOS and Android?",difficulty:"advanced",seniority:"senior",answer:`
+        `},{id:138,category:"Debugging",icon:"🐛",question:"How do you debug native crashes in React Native on iOS and Android?",difficulty:"advanced",seniority:"senior",answer:`
             <h4>🎯 Why This Question Matters</h4>
             <p>Native crashes require different debugging approaches than JS errors. Senior developers must be able to diagnose issues at all levels of the stack.</p>
 
@@ -5024,7 +5024,7 @@ crashlytics().recordError(new Error('Test crash'));</code></pre>
                 <li>Use symbolication to convert addresses to function names</li>
                 <li>Implement crash reporting before production release</li>
             </ul>
-        `},,{id:139,category:"Debugging",icon:"🐛",question:"How do you detect and fix memory leaks in React Native applications?",difficulty:"advanced",seniority:"senior",answer:`
+        `},{id:139,category:"Debugging",icon:"🐛",question:"How do you detect and fix memory leaks in React Native applications?",difficulty:"advanced",seniority:"senior",answer:`
             <h4>🎯 Why This Question Matters</h4>
             <p>Memory leaks cause app slowdowns and crashes. This tests your ability to diagnose complex issues that worsen over time.</p>
 
@@ -5106,7 +5106,7 @@ function useLeakDetection(componentName: string) {
                 <li>Use AbortController for fetch requests</li>
                 <li>Profile memory before and after navigation flows</li>
             </ul>
-        `},,{id:140,category:"Debugging",icon:"🐛",question:"What is the difference between remote debugging and Hermes inspector? When should you use each?",difficulty:"intermediate",seniority:"mid",answer:`
+        `},{id:140,category:"Debugging",icon:"🐛",question:"What is the difference between remote debugging and Hermes inspector? When should you use each?",difficulty:"intermediate",seniority:"mid",answer:`
             <h4>🎯 Why This Question Matters</h4>
             <p>Understanding debugging tools helps you choose the right approach for different issues. This shows practical debugging experience.</p>
 
@@ -5339,7 +5339,7 @@ npx expo prebuild --clean
                 <li><strong>Correct:</strong> "Bare workflow with Expo modules gives you best of both worlds"</li>
                 <li><strong>Correct:</strong> "EAS Build works for both managed and bare workflows"</li>
             </ul>
-        `},,{id:39,category:"Expo",icon:"📱",question:"What is EAS (Expo Application Services) and how does it help with app development?",difficulty:"intermediate",seniority:"mid",answer:`
+        `},{id:39,category:"Expo",icon:"📱",question:"What is EAS (Expo Application Services) and how does it help with app development?",difficulty:"intermediate",seniority:"mid",answer:`
             <h4>🎯 Why This Question Matters</h4>
             <p>EAS has become the standard for building, deploying, and updating React Native apps. Understanding EAS demonstrates knowledge of modern mobile DevOps practices and can significantly reduce time-to-production for teams.</p>
 
@@ -5542,7 +5542,7 @@ eas update --branch production --message "Critical fix v1.2.1"
                 <li><strong>Mistake:</strong> Forgetting to configure credentials before first build</li>
                 <li><strong>Best Practice:</strong> Always test OTA updates on preview channel before production</li>
             </ul>
-        `},,{id:126,category:"Expo",icon:"📱",question:"What is Expo Router and how does it compare to React Navigation?",difficulty:"intermediate",seniority:"mid",answer:`
+        `},{id:126,category:"Expo",icon:"📱",question:"What is Expo Router and how does it compare to React Navigation?",difficulty:"intermediate",seniority:"mid",answer:`
             <h4>What is Expo Router?</h4>
             <p>A file-based routing system for React Native (like Next.js for mobile), built on top of React Navigation.</p>
 
@@ -5613,7 +5613,7 @@ function ProductScreen() {
                 <li><strong>Expo Router:</strong> New projects, web support needed, prefer convention</li>
                 <li><strong>React Navigation:</strong> Existing apps, complex custom navigators, more control</li>
             </ul>
-        `},,{id:127,category:"Expo",icon:"📱",question:"What are Expo Config Plugins and when would you create one?",difficulty:"advanced",seniority:"senior",answer:`
+        `},{id:127,category:"Expo",icon:"📱",question:"What are Expo Config Plugins and when would you create one?",difficulty:"advanced",seniority:"senior",answer:`
             <h4>What are Config Plugins?</h4>
             <p>Config Plugins let you customize native iOS/Android configuration without writing native code directly. They modify native files during prebuild.</p>
 
@@ -5692,7 +5692,7 @@ npx expo prebuild
 
 # Clean and regenerate
 npx expo prebuild --clean</code></pre>
-        `},,{id:128,category:"Expo",icon:"📱",question:"Explain the difference between Expo Go, Development Builds, and Production builds.",difficulty:"intermediate",seniority:"mid",answer:`
+        `},{id:128,category:"Expo",icon:"📱",question:"Explain the difference between Expo Go, Development Builds, and Production builds.",difficulty:"intermediate",seniority:"mid",answer:`
             <h4>Build Types Comparison</h4>
             <table>
                 <tr><th>Aspect</th><th>Expo Go</th><th>Dev Build</th><th>Production</th></tr>
@@ -5760,7 +5760,7 @@ eas submit --platform android</code></pre>
 3. Use Production Build for:
    - Beta testing (TestFlight, Internal Track)
    - App Store releases</code></pre>
-        `},,{id:129,category:"Expo",icon:"📱",question:"How do you create a custom Expo Module with native code?",difficulty:"advanced",seniority:"senior",answer:`
+        `},{id:129,category:"Expo",icon:"📱",question:"How do you create a custom Expo Module with native code?",difficulty:"advanced",seniority:"senior",answer:`
             <h4>Expo Modules API</h4>
             <p>Modern way to write native modules for Expo using Swift and Kotlin (no Objective-C or Java).</p>
 
@@ -5856,7 +5856,7 @@ console.log(MyModule.PI);         // 3.14159...
 console.log(MyModule.hello());    // "Hello from Swift/Kotlin!"
 
 const sum = await MyModule.addAsync(2, 3);  // 5</code></pre>
-        `},,{id:130,category:"Expo",icon:"📱",question:"What is Expo Prebuild and how does it enable bare workflow features in managed workflow?",difficulty:"intermediate",seniority:"mid",answer:`
+        `},{id:130,category:"Expo",icon:"📱",question:"What is Expo Prebuild and how does it enable bare workflow features in managed workflow?",difficulty:"intermediate",seniority:"mid",answer:`
             <h4>What is Prebuild?</h4>
             <p>Prebuild generates native iOS and Android projects from your app.json/app.config.js configuration, bridging managed and bare workflows.</p>
 
@@ -5990,7 +5990,7 @@ console.log('Hermes enabled:', isHermes());</code></pre>
                 <li>Some ES features may lag behind</li>
                 <li>Proxy support added in newer versions</li>
             </ul>
-        `},,{id:117,category:"Hermes",icon:"⚡",question:"How do you debug a React Native app running Hermes?",difficulty:"intermediate",seniority:"mid",answer:`
+        `},{id:117,category:"Hermes",icon:"⚡",question:"How do you debug a React Native app running Hermes?",difficulty:"intermediate",seniority:"mid",answer:`
             <h4>Debugging Options</h4>
 
             <h4>1. Flipper (Recommended)</h4>
@@ -6066,7 +6066,7 @@ if (global.HermesInternal) {
                 <li><strong>Breakpoints not hitting:</strong> Ensure source maps enabled</li>
                 <li><strong>Old Chrome DevTools:</strong> Use Flipper or new inspector</li>
             </ul>
-        `},,{id:118,category:"Hermes",icon:"⚡",question:"Explain Hermes bytecode compilation and its impact on app performance.",difficulty:"advanced",seniority:"senior",answer:`
+        `},{id:118,category:"Hermes",icon:"⚡",question:"Explain Hermes bytecode compilation and its impact on app performance.",difficulty:"advanced",seniority:"senior",answer:`
             <h4>Bytecode Compilation Process</h4>
             <pre><code>// Build Pipeline
 1. Metro bundles JavaScript
@@ -6132,7 +6132,7 @@ adb shell run-as com.yourapp ls files/
 
 // Inspect bytecode
 hermes -dump-bytecode bundle.hbc</code></pre>
-        `},,{id:119,category:"Hermes",icon:"⚡",question:"What JavaScript features are not supported in Hermes and how do you handle them?",difficulty:"intermediate",seniority:"mid",answer:`
+        `},{id:119,category:"Hermes",icon:"⚡",question:"What JavaScript features are not supported in Hermes and how do you handle them?",difficulty:"intermediate",seniority:"mid",answer:`
             <h4>Unsupported/Limited Features (as of Hermes 0.12)</h4>
             <pre><code>// ❌ Not Supported
 - with statement (deprecated anyway)
@@ -6272,7 +6272,7 @@ function UserProfile({ userId }) {
                 <li><strong>Optimistic updates:</strong> Instant UI feedback</li>
                 <li><strong>Infinite queries:</strong> Built-in pagination</li>
             </ul>
-        `},,{id:109,category:"Modern Libraries",icon:"📚",question:"Explain worklets in Reanimated 3 and how they enable smooth animations.",difficulty:"advanced",seniority:"senior",answer:`
+        `},{id:109,category:"Modern Libraries",icon:"📚",question:"Explain worklets in Reanimated 3 and how they enable smooth animations.",difficulty:"advanced",seniority:"senior",answer:`
             <h4>What are Worklets?</h4>
             <p>Worklets are small JavaScript functions that run on the UI thread, enabling 60fps animations without bridge communication.</p>
 
@@ -6353,7 +6353,7 @@ const gesture = Gesture.Pan()
                 <li>Gesture-driven animations without frame drops</li>
                 <li>Complex physics-based animations</li>
             </ul>
-        `},,{id:110,category:"Modern Libraries",icon:"📚",question:"Why did Shopify create FlashList and when should you use it over FlatList?",difficulty:"intermediate",seniority:"mid",answer:`
+        `},{id:110,category:"Modern Libraries",icon:"📚",question:"Why did Shopify create FlashList and when should you use it over FlatList?",difficulty:"intermediate",seniority:"mid",answer:`
             <h4>Why FlashList Was Created</h4>
             <p>Shopify found FlatList performance insufficient for their complex product lists. FlashList uses cell recycling (like native UICollectionView/RecyclerView) for better performance.</p>
 
@@ -6412,7 +6412,7 @@ function ProductList({ products }) {
     getItemType={(item) => item.type}  // For heterogeneous lists
     drawDistance={250}  // Pre-render distance
 /&gt;</code></pre>
-        `},,{id:111,category:"Modern Libraries",icon:"📚",question:"Compare Zustand vs Redux for state management in React Native.",difficulty:"intermediate",seniority:"mid",answer:`
+        `},{id:111,category:"Modern Libraries",icon:"📚",question:"Compare Zustand vs Redux for state management in React Native.",difficulty:"intermediate",seniority:"mid",answer:`
             <h4>Zustand: Minimal Setup</h4>
             <pre><code>import { create } from 'zustand';
 
@@ -6487,7 +6487,7 @@ const useStore = create(
         }
     )
 );</code></pre>
-        `},,{id:112,category:"Modern Libraries",icon:"📚",question:"What is MMKV and why is it faster than AsyncStorage?",difficulty:"intermediate",seniority:"mid",answer:`
+        `},{id:112,category:"Modern Libraries",icon:"📚",question:"What is MMKV and why is it faster than AsyncStorage?",difficulty:"intermediate",seniority:"mid",answer:`
             <h4>What is MMKV?</h4>
             <p>MMKV is a key-value storage library developed by WeChat, offering 30x faster performance than AsyncStorage through memory mapping.</p>
 
@@ -6562,7 +6562,7 @@ const useStore = create(
                 <li>Performance-critical storage</li>
                 <li>Replacing AsyncStorage in existing apps</li>
             </ul>
-        `},,{id:113,category:"Modern Libraries",icon:"📚",question:"How do you implement complex gestures with React Native Gesture Handler 2?",difficulty:"advanced",seniority:"senior",answer:`
+        `},{id:113,category:"Modern Libraries",icon:"📚",question:"How do you implement complex gestures with React Native Gesture Handler 2?",difficulty:"advanced",seniority:"senior",answer:`
             <h4>New Gesture API (v2)</h4>
             <pre><code>import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, { useSharedValue, useAnimatedStyle } from 'react-native-reanimated';
@@ -6657,7 +6657,7 @@ const race = Gesture.Race(swipeLeft, swipeRight);</code></pre>
                 <li>Worklet-powered (UI thread)</li>
                 <li>Composable gestures</li>
             </ul>
-        `},,{id:114,category:"Modern Libraries",icon:"📚",question:"How do you implement type-safe navigation with React Navigation and TypeScript?",difficulty:"intermediate",seniority:"mid",answer:`
+        `},{id:114,category:"Modern Libraries",icon:"📚",question:"How do you implement type-safe navigation with React Navigation and TypeScript?",difficulty:"intermediate",seniority:"mid",answer:`
             <h4>Define Navigation Types</h4>
             <pre><code>// navigation/types.ts
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -6750,7 +6750,7 @@ function ProductCard({ product }) {
                 <li>Refactoring safety</li>
                 <li>Catch errors at compile time</li>
             </ul>
-        `},,{id:115,category:"Modern Libraries",icon:"📚",question:"What is Legend State and how does it compare to other state management solutions?",difficulty:"advanced",seniority:"senior",answer:`
+        `},{id:115,category:"Modern Libraries",icon:"📚",question:"What is Legend State and how does it compare to other state management solutions?",difficulty:"advanced",seniority:"senior",answer:`
             <h4>What is Legend State?</h4>
             <p>A fast, fine-grained reactive state library that uses Proxy for automatic tracking, enabling minimal re-renders.</p>
 
@@ -6854,7 +6854,7 @@ const TodoItem = observer(({ todo$ }) => {
 
 // Gestures are particularly affected
 // Touch events must cross bridge for JS handling</code></pre>
-        `},,{id:18,category:"Native Modules",icon:"🔧",question:"How do you create a Native Module for iOS and Android?",difficulty:"advanced",seniority:"senior",answer:`
+        `},{id:18,category:"Native Modules",icon:"🔧",question:"How do you create a Native Module for iOS and Android?",difficulty:"advanced",seniority:"senior",answer:`
             <h4>iOS Native Module (Objective-C)</h4>
             <pre><code>// CalendarModule.m
 #import &lt;React/RCTBridgeModule.h&gt;
@@ -6903,7 +6903,7 @@ const result = await CalendarModule.createEvent(
     'Meeting',
     'Office'
 );</code></pre>
-        `},,{id:19,category:"Native Modules",icon:"🔧",question:"What is JSI and how does it differ from the traditional bridge?",difficulty:"advanced",seniority:"senior",answer:`
+        `},{id:19,category:"Native Modules",icon:"🔧",question:"What is JSI and how does it differ from the traditional bridge?",difficulty:"advanced",seniority:"senior",answer:`
             <h4>JavaScript Interface (JSI)</h4>
             <p>JSI is a lightweight C++ layer that allows JavaScript to directly hold references to C++ objects and invoke methods on them.</p>
 
@@ -6973,7 +6973,7 @@ public:
 &lt;Drawer.Navigator&gt;
     &lt;Drawer.Screen name="Settings" component={Settings} /&gt;
 &lt;/Drawer.Navigator&gt;</code></pre>
-        `},,{id:8,category:"Navigation",icon:"🧭",question:"How do you pass parameters between screens and handle deep linking in React Navigation?",difficulty:"intermediate",seniority:"mid",answer:`
+        `},{id:8,category:"Navigation",icon:"🧭",question:"How do you pass parameters between screens and handle deep linking in React Navigation?",difficulty:"intermediate",seniority:"mid",answer:`
             <h4>Passing Parameters</h4>
             <pre><code>// Sending params
 navigation.navigate('Details', {
@@ -7018,7 +7018,7 @@ type Props = NativeStackScreenProps&lt;RootStackParamList, 'Details'&gt;;</code>
                 <li>iOS: apple-app-site-association file</li>
                 <li>Android: intent filters in AndroidManifest.xml</li>
             </ul>
-        `},,{id:9,category:"Navigation",icon:"🧭",question:"How do you implement authentication flow with protected routes in React Navigation?",difficulty:"advanced",seniority:"senior",answer:`
+        `},{id:9,category:"Navigation",icon:"🧭",question:"How do you implement authentication flow with protected routes in React Navigation?",difficulty:"advanced",seniority:"senior",answer:`
             <h4>Authentication Flow Pattern</h4>
             <pre><code>function RootNavigator() {
     const { user, isLoading } = useAuth();
@@ -7068,7 +7068,7 @@ export function AuthProvider({ children }) {
         &lt;/AuthContext.Provider&gt;
     );
 }</code></pre>
-        `},,{id:56,category:"Navigation",icon:"🧭",question:"How do you handle nested navigators and what are the common patterns?",difficulty:"advanced",seniority:"senior",answer:`
+        `},{id:56,category:"Navigation",icon:"🧭",question:"How do you handle nested navigators and what are the common patterns?",difficulty:"advanced",seniority:"senior",answer:`
             <h4>Nested Navigator Structure</h4>
             <pre><code>function App() {
     return (
@@ -7146,7 +7146,7 @@ navigation.reset({
                 <li>Define types for all param lists</li>
                 <li>Use <code>getParent()</code> to access parent navigator</li>
             </ul>
-        `},,{id:57,category:"Navigation",icon:"🧭",question:"How do you implement custom transitions and animations in React Navigation?",difficulty:"advanced",seniority:"senior",answer:`
+        `},{id:57,category:"Navigation",icon:"🧭",question:"How do you implement custom transitions and animations in React Navigation?",difficulty:"advanced",seniority:"senior",answer:`
             <h4>Built-in Animation Options</h4>
             <pre><code>&lt;Stack.Navigator
     screenOptions={{
@@ -7423,7 +7423,7 @@ console.log('TurboModules:', !!global.__turboModuleProxy);</code></pre>
                 <li><strong>Wrong:</strong> "All libraries need updating" - Most popular libraries already support it</li>
                 <li><strong>Correct:</strong> "It enables synchronous communication when needed"</li>
             </ul>
-        `},,{id:21,category:"New Architecture",icon:"🏗️",question:"How do you migrate an existing app to the New Architecture?",difficulty:"advanced",seniority:"senior",answer:`
+        `},{id:21,category:"New Architecture",icon:"🏗️",question:"How do you migrate an existing app to the New Architecture?",difficulty:"advanced",seniority:"senior",answer:`
             <h4>Migration Steps</h4>
 
             <h4>1. Prerequisites</h4>
@@ -7473,7 +7473,7 @@ export default codegenNativeComponent&lt;NativeProps&gt;('MyComponent');</code><
                 <li>Direct native code modifications needed</li>
                 <li>Testing thoroughly on both platforms</li>
             </ul>
-        `},,{id:100,category:"New Architecture",icon:"🏗️",question:"What is Bridgeless Mode in React Native 0.74+ and why is it important?",difficulty:"advanced",seniority:"senior",answer:`
+        `},{id:100,category:"New Architecture",icon:"🏗️",question:"What is Bridgeless Mode in React Native 0.74+ and why is it important?",difficulty:"advanced",seniority:"senior",answer:`
             <h4>What is Bridgeless Mode?</h4>
             <p>Bridgeless Mode removes the legacy Bridge entirely, making JSI the only communication layer between JavaScript and Native code.</p>
 
@@ -7516,7 +7516,7 @@ override fun isBridgelessEnabled(): Boolean = true
                 <li>All native components must use Fabric</li>
                 <li>Third-party libraries must support New Architecture</li>
             </ul>
-        `},,{id:101,category:"New Architecture",icon:"🏗️",question:"How do you create a TurboModule from scratch?",difficulty:"advanced",seniority:"senior",answer:`
+        `},{id:101,category:"New Architecture",icon:"🏗️",question:"How do you create a TurboModule from scratch?",difficulty:"advanced",seniority:"senior",answer:`
             <h4>Step 1: Define the Spec (TypeScript)</h4>
             <pre><code>// src/specs/NativeCalculator.ts
 import { TurboModule, TurboModuleRegistry } from 'react-native';
@@ -7595,7 +7595,7 @@ class NativeCalculatorModule(context: ReactApplicationContext) :
         const val NAME = "NativeCalculator"
     }
 }</code></pre>
-        `},,{id:102,category:"New Architecture",icon:"🏗️",question:"Explain how Fabric's Shadow Tree works and why it matters.",difficulty:"advanced",seniority:"staff",answer:`
+        `},{id:102,category:"New Architecture",icon:"🏗️",question:"Explain how Fabric's Shadow Tree works and why it matters.",difficulty:"advanced",seniority:"staff",answer:`
             <h4>What is the Shadow Tree?</h4>
             <p>A C++ representation of the UI tree that enables synchronous layout calculations and efficient diffing.</p>
 
@@ -7657,7 +7657,7 @@ applyMutations(mutations); // CREATE, DELETE, UPDATE, INSERT</code></pre>
                 <li>Only changed nodes are updated</li>
                 <li>Reduced main thread work</li>
             </ul>
-        `},,{id:103,category:"New Architecture",icon:"🏗️",question:"What is JSI and how does it differ from the Bridge?",difficulty:"advanced",seniority:"senior",answer:`
+        `},{id:103,category:"New Architecture",icon:"🏗️",question:"What is JSI and how does it differ from the Bridge?",difficulty:"advanced",seniority:"senior",answer:`
             <h4>JSI (JavaScript Interface)</h4>
             <p>A C++ API that allows JavaScript to hold references to C++ objects and invoke methods on them directly.</p>
 
@@ -7707,7 +7707,7 @@ class MyHostObject : public jsi::HostObject {
 
 // JS can access like a regular object
 console.log(myHostObject.value); // 42</code></pre>
-        `},,{id:104,category:"New Architecture",icon:"🏗️",question:"How do you migrate an existing app to the New Architecture?",difficulty:"advanced",seniority:"senior",answer:`
+        `},{id:104,category:"New Architecture",icon:"🏗️",question:"How do you migrate an existing app to the New Architecture?",difficulty:"advanced",seniority:"senior",answer:`
             <h4>Migration Checklist</h4>
             <pre><code>□ Update React Native to 0.71+
 □ Update all dependencies to NA-compatible versions
@@ -7774,7 +7774,7 @@ public void doSomething(String arg, Promise promise) {
                 <li>Use interop for problematic libraries</li>
                 <li>Migrate custom code incrementally</li>
             </ol>
-        `},,{id:105,category:"New Architecture",icon:"🏗️",question:"What is Codegen in React Native and how does it ensure type safety?",difficulty:"intermediate",seniority:"mid",answer:`
+        `},{id:105,category:"New Architecture",icon:"🏗️",question:"What is Codegen in React Native and how does it ensure type safety?",difficulty:"intermediate",seniority:"mid",answer:`
             <h4>What is Codegen?</h4>
             <p>Codegen generates native code (C++, Objective-C, Java/Kotlin) from TypeScript specs, ensuring type safety between JS and Native layers.</p>
 
@@ -7837,7 +7837,7 @@ export default TurboModuleRegistry.getEnforcing<Spec>('UserModule');</code></pre
                 <li><strong>No serialization bugs:</strong> Types enforced at boundary</li>
                 <li><strong>Documentation:</strong> Spec serves as contract</li>
             </ul>
-        `},,{id:106,category:"New Architecture",icon:"🏗️",question:"How do you create a Fabric Native Component?",difficulty:"advanced",seniority:"senior",answer:`
+        `},{id:106,category:"New Architecture",icon:"🏗️",question:"How do you create a Fabric Native Component?",difficulty:"advanced",seniority:"senior",answer:`
             <h4>Step 1: Define the Component Spec</h4>
             <pre><code>// src/specs/CustomViewNativeComponent.ts
 import codegenNativeComponent from 'react-native/Libraries/Utilities/codegenNativeComponent';
@@ -7916,7 +7916,7 @@ function App() {
         /&gt;
     );
 }</code></pre>
-        `},,{id:107,category:"New Architecture",icon:"🏗️",question:"What are the performance improvements of the New Architecture?",difficulty:"intermediate",seniority:"mid",answer:`
+        `},{id:107,category:"New Architecture",icon:"🏗️",question:"What are the performance improvements of the New Architecture?",difficulty:"intermediate",seniority:"mid",answer:`
             <h4>Key Performance Improvements</h4>
 
             <h4>1. Synchronous Native Calls (JSI)</h4>
@@ -8011,7 +8011,7 @@ storage.set('user', JSON.stringify(user));</code></pre>
                 <tr><td>Complex queries</td><td>→ SQLite/WatermelonDB</td></tr>
                 <tr><td>Sensitive data</td><td>→ Keychain/Keystore</td></tr>
             </table>
-        `},,{id:37,category:"Offline & Storage",icon:"💾",question:"How do you implement offline-first functionality in React Native?",difficulty:"advanced",seniority:"senior",answer:`
+        `},{id:37,category:"Offline & Storage",icon:"💾",question:"How do you implement offline-first functionality in React Native?",difficulty:"advanced",seniority:"senior",answer:`
             <h4>Offline-First Architecture</h4>
 
             <h4>1. Network State Detection</h4>
@@ -8075,7 +8075,7 @@ const { data } = useQuery({
     gcTime: Infinity, // Keep in cache
     networkMode: 'offlineFirst',
 });</code></pre>
-        `},,{id:145,category:"Offline & Storage",icon:"💾",question:"What are the differences between AsyncStorage, MMKV, and SQLite? When would you use each?",difficulty:"intermediate",seniority:"mid",answer:`
+        `},{id:145,category:"Offline & Storage",icon:"💾",question:"What are the differences between AsyncStorage, MMKV, and SQLite? When would you use each?",difficulty:"intermediate",seniority:"mid",answer:`
             <h4>🎯 Why This Question Matters</h4>
             <p>Choosing the right storage solution affects app performance and capabilities. This tests practical decision-making skills.</p>
 
@@ -8150,7 +8150,7 @@ const [results] = await db.executeSql(
                 <li>Use SQLite when you need JOINs or complex queries</li>
                 <li>Consider WatermelonDB for reactive SQLite with sync</li>
             </ul>
-        `},,{id:146,category:"Offline & Storage",icon:"💾",question:"How do you design an offline-first architecture in React Native?",difficulty:"advanced",seniority:"senior",answer:`
+        `},{id:146,category:"Offline & Storage",icon:"💾",question:"How do you design an offline-first architecture in React Native?",difficulty:"advanced",seniority:"senior",answer:`
             <h4>🎯 Why This Question Matters</h4>
             <p>Offline-first apps provide better UX in unreliable network conditions. This tests system design and data management skills.</p>
 
@@ -8248,7 +8248,7 @@ function useOfflineFirst() {
                 <li>Use timestamps for conflict resolution</li>
                 <li>Show sync status to users (pending changes count)</li>
             </ul>
-        `},,{id:147,category:"Offline & Storage",icon:"💾",question:"How do you handle data synchronization conflicts in React Native apps?",difficulty:"advanced",seniority:"senior",answer:`
+        `},{id:147,category:"Offline & Storage",icon:"💾",question:"How do you handle data synchronization conflicts in React Native apps?",difficulty:"advanced",seniority:"senior",answer:`
             <h4>🎯 Why This Question Matters</h4>
             <p>Sync conflicts are inevitable in offline-first apps. This tests your ability to design robust data consistency strategies.</p>
 
@@ -8341,7 +8341,7 @@ async function syncEntity(local: SyncableEntity, remote: SyncableEntity) {
                 <li>Use vector clocks for distributed conflict detection</li>
                 <li>Always preserve conflicting data - never silently lose changes</li>
             </ul>
-        `},,{id:148,category:"Offline & Storage",icon:"💾",question:"How do you implement background data synchronization in React Native?",difficulty:"advanced",seniority:"senior",answer:`
+        `},{id:148,category:"Offline & Storage",icon:"💾",question:"How do you implement background data synchronization in React Native?",difficulty:"advanced",seniority:"senior",answer:`
             <h4>🎯 Why This Question Matters</h4>
             <p>Background sync keeps data fresh without user intervention. This tests knowledge of platform-specific background task APIs.</p>
 
@@ -8596,7 +8596,7 @@ MyComponent.whyDidYouRender = true;</code></pre>
                 <li>Not testing on low-end Android devices</li>
                 <li>Ignoring memory usage until app crashes</li>
             </ul>
-        `},,{id:14,category:"Performance",icon:"⚡",question:"How do you optimize FlatList for rendering thousands of items?",difficulty:"advanced",seniority:"mid",answer:`
+        `},{id:14,category:"Performance",icon:"⚡",question:"How do you optimize FlatList for rendering thousands of items?",difficulty:"advanced",seniority:"mid",answer:`
             <h4>Essential Optimizations</h4>
             <pre><code>&lt;FlatList
     data={data}
@@ -8657,7 +8657,7 @@ function ProductList({ products }) {
         /&gt;
     );
 }</code></pre>
-        `},,{id:15,category:"Performance",icon:"⚡",question:"Explain Hermes and its benefits. How does it improve React Native performance?",difficulty:"intermediate",seniority:"mid",answer:`
+        `},{id:15,category:"Performance",icon:"⚡",question:"Explain Hermes and its benefits. How does it improve React Native performance?",difficulty:"intermediate",seniority:"mid",answer:`
             <h4>What is Hermes?</h4>
             <p>Hermes is a JavaScript engine optimized specifically for React Native, developed by Meta.</p>
 
@@ -8694,7 +8694,7 @@ cd ios && pod install</code></pre>
             <pre><code>// Use Flipper for debugging
 // Chrome DevTools via Flipper plugin
 // Direct debugging: chrome://inspect</code></pre>
-        `},,{id:16,category:"Performance",icon:"⚡",question:"How do you prevent unnecessary re-renders in React Native?",difficulty:"intermediate",seniority:"mid",answer:`
+        `},{id:16,category:"Performance",icon:"⚡",question:"How do you prevent unnecessary re-renders in React Native?",difficulty:"intermediate",seniority:"mid",answer:`
             <h4>1. React.memo for Functional Components</h4>
             <pre><code>const MyComponent = React.memo(({ data, onPress }) => {
     return &lt;View&gt;...&lt;/View&gt;;
@@ -8733,7 +8733,7 @@ const [ui, setUi] = useState({});</code></pre>
             <pre><code>// Split context to prevent cascading re-renders
 const UserContext = createContext();
 const UserDispatchContext = createContext();</code></pre>
-        `},,{id:60,category:"Performance",icon:"⚡",question:"What is the InteractionManager and when should you use it?",difficulty:"intermediate",seniority:"mid",answer:`
+        `},{id:60,category:"Performance",icon:"⚡",question:"What is the InteractionManager and when should you use it?",difficulty:"intermediate",seniority:"mid",answer:`
             <h4>What is InteractionManager?</h4>
             <p>InteractionManager allows scheduling long-running work after interactions/animations have completed, keeping the UI responsive.</p>
 
@@ -8801,7 +8801,7 @@ if (__DEV__) {
         console.log(\`Interactions took: \${Date.now() - start}ms\`);
     });
 }</code></pre>
-        `},,{id:61,category:"Performance",icon:"⚡",question:"How do you optimize images in React Native for better performance?",difficulty:"intermediate",seniority:"mid",answer:`
+        `},{id:61,category:"Performance",icon:"⚡",question:"How do you optimize images in React Native for better performance?",difficulty:"intermediate",seniority:"mid",answer:`
             <h4>Image Optimization Strategies</h4>
 
             <h4>1. Use Correct Dimensions</h4>
@@ -8888,7 +8888,7 @@ FastImage.preload([
 // Clear image cache when needed
 FastImage.clearMemoryCache();
 FastImage.clearDiskCache();</code></pre>
-        `},,{id:62,category:"Performance",icon:"⚡",question:"Explain React Native's bridge batching and how it affects performance.",difficulty:"advanced",seniority:"senior",answer:`
+        `},{id:62,category:"Performance",icon:"⚡",question:"Explain React Native's bridge batching and how it affects performance.",difficulty:"advanced",seniority:"senior",answer:`
             <h4>Bridge Batching Concept</h4>
             <p>React Native batches multiple native calls together and sends them across the bridge in a single message to reduce overhead.</p>
 
@@ -9038,7 +9038,7 @@ function SuspectedComponent() {
                 <li>Test on low-end devices</li>
                 <li>Monitor crash-free sessions rate</li>
             </ul>
-        `},,{id:99,category:"Real-World Scenarios",icon:"🌍",question:"Users report the app is slow. How do you identify and fix performance issues?",difficulty:"advanced",seniority:"senior",answer:`
+        `},{id:99,category:"Real-World Scenarios",icon:"🌍",question:"Users report the app is slow. How do you identify and fix performance issues?",difficulty:"advanced",seniority:"senior",answer:`
             <h4>Step 1: Define "Slow"</h4>
             <pre><code>// Quantify the problem
 - Which screens are slow?
@@ -9146,7 +9146,7 @@ describe('Performance', () => {
                 <li>Real User Monitoring (RUM)</li>
                 <li>Alerting on p95 latency regressions</li>
             </ul>
-        `},,{id:153,category:"Real-World Scenarios",icon:"🌍",question:"How would you migrate a large Expo app to bare React Native workflow?",difficulty:"advanced",seniority:"senior",answer:`
+        `},{id:153,category:"Real-World Scenarios",icon:"🌍",question:"How would you migrate a large Expo app to bare React Native workflow?",difficulty:"advanced",seniority:"senior",answer:`
             <h4>🎯 Why This Question Matters</h4>
             <p>Migration decisions impact development velocity and capabilities. This tests strategic thinking and practical experience.</p>
 
@@ -9226,7 +9226,7 @@ const result = await authorize(config);</code></pre>
                 <li>Migrate incrementally - one module at a time</li>
                 <li>Plan for increased maintenance burden</li>
             </ul>
-        `},,{id:154,category:"Real-World Scenarios",icon:"🌍",question:"How do you handle app store rejections in React Native apps?",difficulty:"intermediate",seniority:"mid",answer:`
+        `},{id:154,category:"Real-World Scenarios",icon:"🌍",question:"How do you handle app store rejections in React Native apps?",difficulty:"intermediate",seniority:"mid",answer:`
             <h4>🎯 Why This Question Matters</h4>
             <p>App store rejections delay releases and frustrate stakeholders. This tests your knowledge of platform guidelines and debugging skills.</p>
 
@@ -9310,7 +9310,7 @@ the correct issue."
                 <li>Read App Store Review Guidelines thoroughly</li>
                 <li>Use TestFlight/Internal Testing before production</li>
             </ul>
-        `},,{id:155,category:"Real-World Scenarios",icon:"🌍",question:"How do you achieve a crash-free release in React Native?",difficulty:"advanced",seniority:"senior",answer:`
+        `},{id:155,category:"Real-World Scenarios",icon:"🌍",question:"How do you achieve a crash-free release in React Native?",difficulty:"advanced",seniority:"senior",answer:`
             <h4>🎯 Why This Question Matters</h4>
             <p>Crash-free rates directly impact user retention and app store ranking. This tests quality assurance and release management skills.</p>
 
@@ -9419,7 +9419,7 @@ Sentry.setTag('app_version', appVersion);</code></pre>
                 <li>Have rollback/hotfix process ready before release</li>
                 <li>Use feature flags to disable problematic features</li>
             </ul>
-        `},,{id:156,category:"Real-World Scenarios",icon:"🌍",question:"Describe how you would debug a production performance regression.",difficulty:"advanced",seniority:"senior",answer:`
+        `},{id:156,category:"Real-World Scenarios",icon:"🌍",question:"Describe how you would debug a production performance regression.",difficulty:"advanced",seniority:"senior",answer:`
             <h4>🎯 Why This Question Matters</h4>
             <p>Production issues require systematic debugging without access to user devices. This tests real-world problem-solving skills.</p>
 
@@ -9510,7 +9510,7 @@ const List = ExpensiveList;
                 <li>Use feature flags to isolate suspect code</li>
                 <li>Binary search through commits if cause unclear</li>
             </ul>
-        `},,{id:157,category:"Real-World Scenarios",icon:"🌍",question:"How do you handle breaking changes when upgrading React Native versions?",difficulty:"advanced",seniority:"senior",answer:`
+        `},{id:157,category:"Real-World Scenarios",icon:"🌍",question:"How do you handle breaking changes when upgrading React Native versions?",difficulty:"advanced",seniority:"senior",answer:`
             <h4>🎯 Why This Question Matters</h4>
             <p>RN upgrades are notoriously challenging. This tests your experience with complex migration projects and risk management.</p>
 
@@ -9594,7 +9594,7 @@ npx react-native run-ios --configuration Release</code></pre>
                 <li>Create a dedicated branch, don't upgrade in main</li>
                 <li>Run full regression test suite after upgrade</li>
             </ul>
-        `},,{id:158,category:"Real-World Scenarios",icon:"🌍",question:"How would you implement a feature flag system for gradual feature rollout?",difficulty:"intermediate",seniority:"mid",answer:`
+        `},{id:158,category:"Real-World Scenarios",icon:"🌍",question:"How would you implement a feature flag system for gradual feature rollout?",difficulty:"intermediate",seniority:"mid",answer:`
             <h4>🎯 Why This Question Matters</h4>
             <p>Feature flags enable safe releases and A/B testing. This tests your understanding of release strategies and risk mitigation.</p>
 
@@ -9929,7 +9929,7 @@ android {
                 <li>Not validating input from deep links</li>
                 <li>Trusting client-side validation alone</li>
             </ul>
-        `},,{id:35,category:"Security",icon:"🔒",question:"How do you securely handle authentication tokens in React Native?",difficulty:"advanced",seniority:"senior",answer:`
+        `},{id:35,category:"Security",icon:"🔒",question:"How do you securely handle authentication tokens in React Native?",difficulty:"advanced",seniority:"senior",answer:`
             <h4>Token Storage Best Practices</h4>
             <pre><code>// Use platform-specific secure storage
 // iOS: Keychain
@@ -9985,7 +9985,7 @@ api.interceptors.response.use(
                 <li>Clear tokens on logout</li>
                 <li>Validate tokens server-side</li>
             </ul>
-        `},,{id:141,category:"Security",icon:"🔒",question:"How do you implement secure storage using Keychain (iOS) and Keystore (Android)?",difficulty:"intermediate",seniority:"mid",answer:`
+        `},{id:141,category:"Security",icon:"🔒",question:"How do you implement secure storage using Keychain (iOS) and Keystore (Android)?",difficulty:"intermediate",seniority:"mid",answer:`
             <h4>🎯 Why This Question Matters</h4>
             <p>Storing sensitive data properly is critical for app security. This tests knowledge of platform-specific secure storage mechanisms.</p>
 
@@ -10065,7 +10065,7 @@ function decryptData(encrypted: string, key: string): string {
                 <li>Use <code>WHEN_UNLOCKED_THIS_DEVICE_ONLY</code> for maximum security</li>
                 <li>Keychain data persists across app reinstalls on iOS</li>
             </ul>
-        `},,{id:142,category:"Security",icon:"🔒",question:"How do you implement certificate pinning in React Native to prevent MITM attacks?",difficulty:"advanced",seniority:"senior",answer:`
+        `},{id:142,category:"Security",icon:"🔒",question:"How do you implement certificate pinning in React Native to prevent MITM attacks?",difficulty:"advanced",seniority:"senior",answer:`
             <h4>🎯 Why This Question Matters</h4>
             <p>Certificate pinning prevents man-in-the-middle attacks even when device is compromised. Essential for apps handling sensitive data.</p>
 
@@ -10147,7 +10147,7 @@ try {
                 <li>Always have backup pins for certificate rotation</li>
                 <li>Test pinning with proxy tools like Charles/mitmproxy</li>
             </ul>
-        `},,{id:143,category:"Security",icon:"🔒",question:"How do you implement biometric authentication (Face ID/Touch ID/Fingerprint) in React Native?",difficulty:"intermediate",seniority:"mid",answer:`
+        `},{id:143,category:"Security",icon:"🔒",question:"How do you implement biometric authentication (Face ID/Touch ID/Fingerprint) in React Native?",difficulty:"intermediate",seniority:"mid",answer:`
             <h4>🎯 Why This Question Matters</h4>
             <p>Biometric auth improves UX while maintaining security. This is increasingly expected in modern apps.</p>
 
@@ -10242,7 +10242,7 @@ async function biometricLogin() {
                 <li>Use cryptographic biometrics for high-security apps</li>
                 <li>iOS requires NSFaceIDUsageDescription in Info.plist</li>
             </ul>
-        `},,{id:144,category:"Security",icon:"🔒",question:"How do you prevent sensitive data from appearing in logs and screenshots in React Native?",difficulty:"intermediate",seniority:"mid",answer:`
+        `},{id:144,category:"Security",icon:"🔒",question:"How do you prevent sensitive data from appearing in logs and screenshots in React Native?",difficulty:"intermediate",seniority:"mid",answer:`
             <h4>🎯 Why This Question Matters</h4>
             <p>Data leakage through logs and screenshots is a common security oversight. This tests awareness of production security practices.</p>
 
@@ -10591,7 +10591,7 @@ function LogoutButton() {
                 <li>Creating one giant Context that re-renders the entire app</li>
                 <li>Not using selectors in Redux, causing unnecessary re-renders</li>
             </ul>
-        `},,{id:11,category:"State Management",icon:"🗃️",question:"What is React Query/TanStack Query and why is it important for React Native apps?",difficulty:"intermediate",seniority:"mid",answer:`
+        `},{id:11,category:"State Management",icon:"🗃️",question:"What is React Query/TanStack Query and why is it important for React Native apps?",difficulty:"intermediate",seniority:"mid",answer:`
             <h4>What is TanStack Query?</h4>
             <p>A powerful data-fetching and caching library that handles server state separately from client state.</p>
 
@@ -10633,7 +10633,7 @@ const mutation = useMutation({
         queryClient.setQueryData(['todos'], context.previous);
     }
 });</code></pre>
-        `},,{id:12,category:"State Management",icon:"🗃️",question:"How do you handle global state persistence in React Native?",difficulty:"intermediate",seniority:"mid",answer:`
+        `},{id:12,category:"State Management",icon:"🗃️",question:"How do you handle global state persistence in React Native?",difficulty:"intermediate",seniority:"mid",answer:`
             <h4>AsyncStorage Basics</h4>
             <pre><code>import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -10687,7 +10687,7 @@ const useStore = create(
         }
     )
 );</code></pre>
-        `},,{id:58,category:"State Management",icon:"🗃️",question:"How do you implement optimistic updates and handle rollbacks in React Native?",difficulty:"advanced",seniority:"senior",answer:`
+        `},{id:58,category:"State Management",icon:"🗃️",question:"How do you implement optimistic updates and handle rollbacks in React Native?",difficulty:"advanced",seniority:"senior",answer:`
             <h4>What is Optimistic Update?</h4>
             <p>Updating the UI immediately before the server confirms the change, then rolling back if the request fails.</p>
 
@@ -10777,7 +10777,7 @@ export const updateTodoAsync = (id, changes) => async (dispatch) => {
                 <li>Provide user feedback on failure</li>
                 <li>Consider retry logic for transient failures</li>
             </ul>
-        `},,{id:59,category:"State Management",icon:"🗃️",question:"Explain the concept of Atomic State Management (Jotai/Recoil). How does it differ from Redux?",difficulty:"advanced",seniority:"senior",answer:`
+        `},{id:59,category:"State Management",icon:"🗃️",question:"Explain the concept of Atomic State Management (Jotai/Recoil). How does it differ from Redux?",difficulty:"advanced",seniority:"senior",answer:`
             <h4>What is Atomic State?</h4>
             <p>State is split into independent atoms. Components subscribe only to atoms they use, enabling fine-grained re-renders.</p>
 
@@ -10953,7 +10953,7 @@ function MyComponent() {
                 <tr><td>Styled Components</td><td>Good</td><td>Excellent</td></tr>
                 <tr><td>NativeWind</td><td>Very Good</td><td>Great (if familiar with Tailwind)</td></tr>
             </table>
-        `},,{id:67,category:"Styling & UI",icon:"🎨",question:"How do you implement dark mode and dynamic theming in React Native?",difficulty:"intermediate",seniority:"mid",answer:`
+        `},{id:67,category:"Styling & UI",icon:"🎨",question:"How do you implement dark mode and dynamic theming in React Native?",difficulty:"intermediate",seniority:"mid",answer:`
             <h4>1. Using React Native's useColorScheme</h4>
             <pre><code>import { useColorScheme, View, Text } from 'react-native';
 
@@ -11053,7 +11053,7 @@ function App() {
         &lt;/NavigationContainer&gt;
     );
 }</code></pre>
-        `},,{id:68,category:"Styling & UI",icon:"🎨",question:"How do you handle responsive design and different screen sizes in React Native?",difficulty:"intermediate",seniority:"mid",answer:`
+        `},{id:68,category:"Styling & UI",icon:"🎨",question:"How do you handle responsive design and different screen sizes in React Native?",difficulty:"intermediate",seniority:"mid",answer:`
             <h4>1. Using Dimensions API</h4>
             <pre><code>import { Dimensions, useWindowDimensions } from 'react-native';
 
@@ -11443,7 +11443,7 @@ class ConflictResolver {
                 <li><strong>Partial sync strategy:</strong> Sync only user's categories/wishlist to minimize storage</li>
                 <li><strong>Testing offline:</strong> Use Network Link Conditioner (iOS) / throttling (Android) for realistic testing</li>
             </ul>
-        `},,{id:70,category:"System Design",icon:"🏛️",question:"How would you structure state management for an app with complex data flows across 50+ screens?",difficulty:"advanced",seniority:"senior",answer:`
+        `},{id:70,category:"System Design",icon:"🏛️",question:"How would you structure state management for an app with complex data flows across 50+ screens?",difficulty:"advanced",seniority:"senior",answer:`
             <h4>1. Requirements Clarification</h4>
             <h5>Functional Requirements</h5>
             <ul>
@@ -11787,7 +11787,7 @@ function CheckoutScreen() {
                 <li><strong>Testing state:</strong> Zustand stores can be tested directly; machines can be tested with @xstate/test</li>
                 <li><strong>Performance monitoring:</strong> Use React DevTools Profiler, why-did-you-render, Flipper plugins</li>
             </ul>
-        `},,{id:71,category:"System Design",icon:"🏛️",question:"Design a modular architecture that supports feature teams working independently",difficulty:"advanced",seniority:"staff",answer:`
+        `},{id:71,category:"System Design",icon:"🏛️",question:"Design a modular architecture that supports feature teams working independently",difficulty:"advanced",seniority:"staff",answer:`
             <h4>1. Requirements Clarification</h4>
             <h5>Functional Requirements</h5>
             <ul>
@@ -12086,7 +12086,7 @@ jobs:
                 <li><strong>Testing strategy:</strong> Each feature has unit tests; integration tests in shell app; E2E tests for critical paths</li>
                 <li><strong>Migration path:</strong> Start with packages/ extraction, then gradually split features from existing code</li>
             </ul>
-        `},,{id:72,category:"System Design",icon:"🏛️",question:"Design a social media feed (like Instagram/Twitter) that handles infinite scroll with smooth 60fps performance",difficulty:"advanced",seniority:"senior",answer:`
+        `},{id:72,category:"System Design",icon:"🏛️",question:"Design a social media feed (like Instagram/Twitter) that handles infinite scroll with smooth 60fps performance",difficulty:"advanced",seniority:"senior",answer:`
             <h4>1. Requirements Clarification</h4>
             <h5>Functional Requirements</h5>
             <ul>
@@ -12390,7 +12390,7 @@ const VideoCell = memo(({ url, isActive }: Props) =&gt; {
                 <li><strong>Image caching strategy:</strong> Memory cache for visible + buffer; disk cache for persistence; blurhash for instant placeholder</li>
                 <li><strong>Handling 10k+ items:</strong> FlashList handles this fine; key is proper estimatedItemSize and getItemType</li>
             </ul>
-        `},,{id:73,category:"System Design",icon:"🏛️",question:"How would you architect an app to minimize startup time to under 2 seconds?",difficulty:"advanced",seniority:"senior",answer:`
+        `},{id:73,category:"System Design",icon:"🏛️",question:"How would you architect an app to minimize startup time to under 2 seconds?",difficulty:"advanced",seniority:"senior",answer:`
             <h4>1. Requirements Clarification</h4>
             <h5>Functional Requirements</h5>
             <ul>
@@ -12686,7 +12686,7 @@ import Input from '@ui/Input';
                 <li><strong>Inline requires:</strong> Defers module execution until first import, critical for startup</li>
                 <li><strong>Trade-offs:</strong> Aggressive caching vs data freshness; skeleton vs splash duration</li>
             </ul>
-        `},,{id:74,category:"System Design",icon:"🏛️",question:"Design a system to handle large lists with complex cells containing images, videos, and interactive elements",difficulty:"advanced",seniority:"senior",answer:`
+        `},{id:74,category:"System Design",icon:"🏛️",question:"Design a system to handle large lists with complex cells containing images, videos, and interactive elements",difficulty:"advanced",seniority:"senior",answer:`
             <h4>1. Requirements Clarification</h4>
             <p><strong>Functional Requirements:</strong></p>
             <ul>
@@ -13123,7 +13123,7 @@ const VideoCell = memo(function VideoCell({
                 <li><strong>Optimistic UI:</strong> Update like count immediately, reconcile with server response</li>
                 <li><strong>Memory vs performance:</strong> Larger drawDistance improves scrolling but increases memory; tune per device tier</li>
             </ul>
-        `},,{id:75,category:"System Design",icon:"🏛️",question:"Design a note-taking app (like Notion) that works fully offline and syncs when online",difficulty:"advanced",seniority:"staff",answer:`
+        `},{id:75,category:"System Design",icon:"🏛️",question:"Design a note-taking app (like Notion) that works fully offline and syncs when online",difficulty:"advanced",seniority:"staff",answer:`
             <h4>1. Requirements Clarification</h4>
             <p><strong>Functional Requirements:</strong></p>
             <ul>
@@ -13537,7 +13537,7 @@ class SyncEngine {
                 <li><strong>Conflict UI:</strong> Show diff view for manual resolution when auto-merge fails</li>
                 <li><strong>Sync frequency:</strong> Balance battery life vs data freshness (15-30 min background)</li>
             </ul>
-        `},,{id:76,category:"System Design",icon:"🏛️",question:"How would you handle conflict resolution in a collaborative editing feature?",difficulty:"advanced",seniority:"staff",answer:`
+        `},{id:76,category:"System Design",icon:"🏛️",question:"How would you handle conflict resolution in a collaborative editing feature?",difficulty:"advanced",seniority:"staff",answer:`
             <h4>1. Requirements Clarification</h4>
             <p><strong>Functional Requirements:</strong></p>
             <ul>
@@ -13931,7 +13931,7 @@ function ConflictResolver({ conflict, onResolve }: {
                 <li><strong>Garbage collection:</strong> Periodically clean up old tombstones to reduce document size</li>
                 <li><strong>Consistency models:</strong> Eventual consistency vs strong consistency trade-offs</li>
             </ul>
-        `},,{id:77,category:"System Design",icon:"🏛️",question:"Architect a messaging app that queues messages offline and syncs reliably",difficulty:"advanced",seniority:"senior",answer:`
+        `},{id:77,category:"System Design",icon:"🏛️",question:"Architect a messaging app that queues messages offline and syncs reliably",difficulty:"advanced",seniority:"senior",answer:`
             <h4>1. Requirements Clarification</h4>
             <p><strong>Functional Requirements:</strong></p>
             <ul>
@@ -14359,7 +14359,7 @@ class RetryManager {
                 <li><strong>Push vs pull:</strong> Push for real-time; pull on app launch to catch missed messages</li>
                 <li><strong>Battery efficiency:</strong> Batch queue processing; avoid frequent wake-ups</li>
             </ul>
-        `},,{id:78,category:"System Design",icon:"🏛️",question:"Design a real-time chat system with typing indicators, read receipts, and presence",difficulty:"advanced",seniority:"senior",answer:`
+        `},{id:78,category:"System Design",icon:"🏛️",question:"Design a real-time chat system with typing indicators, read receipts, and presence",difficulty:"advanced",seniority:"senior",answer:`
             <h4>1. Requirements Clarification</h4>
             <p><strong>Functional Requirements:</strong></p>
             <ul>
@@ -14775,7 +14775,7 @@ function usePresence(userIds: string[]) {
                 <li><strong>Typing debounce:</strong> 2s prevents flooding; 3s timeout clears stale indicators</li>
                 <li><strong>Read receipt privacy:</strong> Some users disable; respect preferences server-side</li>
             </ul>
-        `},,{id:79,category:"System Design",icon:"🏛️",question:"How would you build a live auction or bidding feature?",difficulty:"advanced",seniority:"senior",answer:`
+        `},{id:79,category:"System Design",icon:"🏛️",question:"How would you build a live auction or bidding feature?",difficulty:"advanced",seniority:"senior",answer:`
             <h4>1. Requirements Clarification</h4>
             <p><strong>Functional Requirements:</strong></p>
             <ul>
@@ -15299,7 +15299,7 @@ return 0
                 <li><strong>Fraud prevention:</strong> Shill bidding detection, velocity checks, device fingerprinting</li>
                 <li><strong>Reserve price strategy:</strong> When to reveal, psychological impact</li>
             </ul>
-        `},,{id:80,category:"System Design",icon:"🏛️",question:"Design a collaborative whiteboard with multiple concurrent users",difficulty:"advanced",seniority:"staff",answer:`
+        `},{id:80,category:"System Design",icon:"🏛️",question:"Design a collaborative whiteboard with multiple concurrent users",difficulty:"advanced",seniority:"staff",answer:`
             <h4>1. Requirements Clarification</h4>
             <p><strong>Functional Requirements:</strong></p>
             <ul>
@@ -15733,7 +15733,7 @@ class WhiteboardSyncService {
                 <li><strong>Presence throttling:</strong> Cursor updates every 50ms max to reduce bandwidth</li>
                 <li><strong>Snapshot strategy:</strong> Periodic snapshots + incremental updates for fast board loading</li>
             </ul>
-        `},,{id:81,category:"System Design",icon:"🏛️",question:"Design a content blocker app requiring deep iOS/Android native integration",difficulty:"advanced",seniority:"staff",answer:`
+        `},{id:81,category:"System Design",icon:"🏛️",question:"Design a content blocker app requiring deep iOS/Android native integration",difficulty:"advanced",seniority:"staff",answer:`
             <h4>1. Requirements Clarification</h4>
             <p><strong>Functional Requirements:</strong></p>
             <ul>
@@ -16270,7 +16270,7 @@ class RuleCompiler {
                 <li><strong>Filter list formats:</strong> AdBlock Plus syntax, uBlock Origin static filters, hosts files</li>
                 <li><strong>Cosmetic filtering:</strong> CSS injection to hide elements vs network-level blocking</li>
             </ul>
-        `},,{id:82,category:"System Design",icon:"🏛️",question:"How would you architect a camera app with custom filters and real-time processing?",difficulty:"advanced",seniority:"senior",answer:`
+        `},{id:82,category:"System Design",icon:"🏛️",question:"How would you architect a camera app with custom filters and real-time processing?",difficulty:"advanced",seniority:"senior",answer:`
             <h4>1. Requirements Clarification</h4>
             <p><strong>Functional Requirements:</strong></p>
             <ul>
@@ -16773,7 +16773,7 @@ class FilterManager {
                 <li><strong>Video encoding:</strong> Applying filters before hardware encoder, maintaining quality</li>
                 <li><strong>AR filters:</strong> Face mesh rendering, anchor tracking, depth estimation</li>
             </ul>
-        `},,{id:83,category:"System Design",icon:"🏛️",question:"Design a background location tracking system that's battery-efficient",difficulty:"advanced",seniority:"senior",answer:`
+        `},{id:83,category:"System Design",icon:"🏛️",question:"Design a background location tracking system that's battery-efficient",difficulty:"advanced",seniority:"senior",answer:`
             <h4>1. Requirements Clarification</h4>
             <p><strong>Functional Requirements:</strong></p>
             <ul>
@@ -17387,7 +17387,7 @@ class AdaptiveLocationService {
                 <li><strong>Privacy considerations:</strong> GDPR compliance, data minimization, user consent</li>
                 <li><strong>Server-side trip detection:</strong> Clustering algorithm for visit extraction</li>
             </ul>
-        `},,{id:84,category:"System Design",icon:"🏛️",question:"Design a universal deep linking system that handles authentication states and deferred deep links",difficulty:"advanced",seniority:"staff",answer:`
+        `},{id:84,category:"System Design",icon:"🏛️",question:"Design a universal deep linking system that handles authentication states and deferred deep links",difficulty:"advanced",seniority:"staff",answer:`
             <h4>1. Requirements Clarification</h4>
             <p><strong>Functional Requirements:</strong></p>
             <ul>
@@ -18273,7 +18273,7 @@ User Clicks Link
                 <li><strong>Fallback hierarchy:</strong> Universal link → App link → Custom scheme → Web fallback</li>
                 <li><strong>Branch/Adjust trade-offs:</strong> When to use third-party vs custom implementation</li>
             </ul>
-        `},,{id:85,category:"System Design",icon:"🏛️",question:"How would you architect navigation for an app with conditional flows based on user state?",difficulty:"advanced",seniority:"senior",answer:`
+        `},{id:85,category:"System Design",icon:"🏛️",question:"How would you architect navigation for an app with conditional flows based on user state?",difficulty:"advanced",seniority:"senior",answer:`
             <h4>1. Requirements Clarification</h4>
             <p><strong>Functional Requirements:</strong></p>
             <ul>
@@ -18862,7 +18862,7 @@ App Launch
                 <li><strong>Analytics integration:</strong> Track state transitions and screen views in onStateChange</li>
                 <li><strong>Reset vs navigate:</strong> Use reset() for auth changes to clear stack, navigate() for in-app transitions</li>
             </ul>
-        `},,{id:86,category:"System Design",icon:"🏛️",question:"Design an image/video upload system with progress, retry logic, and background uploads",difficulty:"advanced",seniority:"senior",answer:`
+        `},{id:86,category:"System Design",icon:"🏛️",question:"Design an image/video upload system with progress, retry logic, and background uploads",difficulty:"advanced",seniority:"senior",answer:`
             <h4>1. Requirements Clarification</h4>
             <p><strong>Functional Requirements:</strong></p>
             <ul>
@@ -19643,7 +19643,7 @@ User Selects Media
                 <li><strong>Presigned URLs vs direct:</strong> S3 presigned for scalability, direct for small apps</li>
                 <li><strong>Compression strategy:</strong> Client vs server-side, quality vs speed tradeoffs</li>
             </ul>
-        `},,{id:87,category:"System Design",icon:"🏛️",question:"How would you architect a video streaming feature with adaptive quality?",difficulty:"advanced",seniority:"senior",answer:`
+        `},{id:87,category:"System Design",icon:"🏛️",question:"How would you architect a video streaming feature with adaptive quality?",difficulty:"advanced",seniority:"senior",answer:`
             <h4>1. Requirements Clarification</h4>
             <p><strong>Functional Requirements:</strong></p>
             <ul>
@@ -20388,7 +20388,7 @@ User Initiates Playback
                 <li><strong>CDN selection:</strong> Multi-CDN with failover, edge caching strategies</li>
                 <li><strong>QoE metrics:</strong> Rebuffer rate, time to first frame, video quality score</li>
             </ul>
-        `},,{id:88,category:"System Design",icon:"🏛️",question:"Design a secure authentication flow with biometrics, token refresh, and session management",difficulty:"advanced",seniority:"staff",answer:`
+        `},{id:88,category:"System Design",icon:"🏛️",question:"Design a secure authentication flow with biometrics, token refresh, and session management",difficulty:"advanced",seniority:"staff",answer:`
             <h4>1. Requirements Clarification</h4>
             <p><strong>Functional Requirements:</strong></p>
             <ul>
@@ -21169,7 +21169,7 @@ User Opens App
                 <li><strong>Session vs token expiry:</strong> Inactivity timeout vs absolute token lifetime</li>
                 <li><strong>Biometric fallback:</strong> When to allow passcode vs requiring full re-authentication</li>
             </ul>
-        `},,{id:89,category:"System Design",icon:"🏛️",question:"How would you architect secure storage for sensitive user data?",difficulty:"advanced",seniority:"senior",answer:`
+        `},{id:89,category:"System Design",icon:"🏛️",question:"How would you architect secure storage for sensitive user data?",difficulty:"advanced",seniority:"senior",answer:`
             &lt;h4&gt;1. Requirements Clarification&lt;/h4&gt;
             &lt;p&gt;&lt;strong&gt;Functional Requirements:&lt;/strong&gt;&lt;/p&gt;
             &lt;ul&gt;
@@ -22044,7 +22044,7 @@ READ FLOW (Biometric-Protected):
                 &lt;li&gt;&lt;strong&gt;Threat Modeling:&lt;/strong&gt; Protecting against memory dumps, device theft, malicious apps&lt;/li&gt;
                 &lt;li&gt;&lt;strong&gt;Audit Trail:&lt;/strong&gt; Logging access to sensitive data for compliance without exposing the data itself&lt;/li&gt;
             &lt;/ul&gt;
-        `},,{id:90,category:"System Design",icon:"🏛️",question:"Design an error tracking and crash reporting system",difficulty:"advanced",seniority:"senior",answer:`
+        `},{id:90,category:"System Design",icon:"🏛️",question:"Design an error tracking and crash reporting system",difficulty:"advanced",seniority:"senior",answer:`
             &lt;h4&gt;1. Requirements Clarification&lt;/h4&gt;
             &lt;p&gt;&lt;strong&gt;Functional Requirements:&lt;/strong&gt;&lt;/p&gt;
             &lt;ul&gt;
@@ -22749,7 +22749,7 @@ BACKEND PROCESSING:
                 &lt;li&gt;&lt;strong&gt;Release Health:&lt;/strong&gt; Using crash-free session rate as a release quality metric&lt;/li&gt;
                 &lt;li&gt;&lt;strong&gt;Privacy Compliance:&lt;/strong&gt; Configuring PII scrubbing for GDPR, ensuring no user content in stack traces&lt;/li&gt;
             &lt;/ul&gt;
-        `},,{id:91,category:"System Design",icon:"🏛️",question:"How would you architect feature flags and A/B testing infrastructure?",difficulty:"advanced",seniority:"senior",answer:`
+        `},{id:91,category:"System Design",icon:"🏛️",question:"How would you architect feature flags and A/B testing infrastructure?",difficulty:"advanced",seniority:"senior",answer:`
             &lt;h4&gt;1. Requirements Clarification&lt;/h4&gt;
             &lt;p&gt;&lt;strong&gt;Functional Requirements:&lt;/strong&gt;&lt;/p&gt;
             &lt;ul&gt;
@@ -23508,7 +23508,7 @@ test('button calls onPress', () => {
         await expect(element(by.id('home-screen'))).toBeVisible();
     });
 });</code></pre>
-        `},,{id:26,category:"Testing",icon:"🧪",question:"How do you mock native modules and platform-specific code in tests?",difficulty:"advanced",seniority:"senior",answer:`
+        `},{id:26,category:"Testing",icon:"🧪",question:"How do you mock native modules and platform-specific code in tests?",difficulty:"advanced",seniority:"senior",answer:`
             <h4>Mocking Native Modules</h4>
             <pre><code>// __mocks__/react-native-camera.js
 export default {
@@ -23560,7 +23560,7 @@ jest.mock('react-native', () => {
 });
 
 import Component from './Component'; // Loads Component.ios.js</code></pre>
-        `},,{id:63,category:"Testing",icon:"🧪",question:"How do you test async operations and API calls in React Native?",difficulty:"intermediate",seniority:"mid",answer:`
+        `},{id:63,category:"Testing",icon:"🧪",question:"How do you test async operations and API calls in React Native?",difficulty:"intermediate",seniority:"mid",answer:`
             <h4>Testing Async Components</h4>
             <pre><code>import { render, waitFor, screen } from '@testing-library/react-native';
 
@@ -23673,7 +23673,7 @@ test('useApi hook fetches data', async () => {
         expect(screen.getByText(/error/i)).toBeTruthy();
     });
 });</code></pre>
-        `},,{id:64,category:"Testing",icon:"🧪",question:"How do you implement snapshot testing in React Native and when is it useful?",difficulty:"intermediate",seniority:"mid",answer:`
+        `},{id:64,category:"Testing",icon:"🧪",question:"How do you implement snapshot testing in React Native and when is it useful?",difficulty:"intermediate",seniority:"mid",answer:`
             <h4>What is Snapshot Testing?</h4>
             <p>Snapshot tests capture the rendered output of a component and compare it against a stored reference file.</p>
 
@@ -23752,7 +23752,7 @@ test('disabled button has reduced opacity', () =&gt; {
                 <li>Can lead to "approval fatigue"</li>
                 <li>Don't test implementation details</li>
             </ul>
-        `},,{id:65,category:"Testing",icon:"🧪",question:"Explain how to set up and write Detox E2E tests for React Native.",difficulty:"advanced",seniority:"senior",answer:`
+        `},{id:65,category:"Testing",icon:"🧪",question:"Explain how to set up and write Detox E2E tests for React Native.",difficulty:"advanced",seniority:"senior",answer:`
             <h4>Detox Setup</h4>
             <pre><code>// Install
 npm install detox --save-dev
@@ -23913,7 +23913,7 @@ declare global {
         interface RootParamList extends RootStackParamList {}
     }
 }</code></pre>
-        `},,{id:28,category:"TypeScript",icon:"📘",question:"How do you type custom hooks and Context in React Native with TypeScript?",difficulty:"intermediate",seniority:"mid",answer:`
+        `},{id:28,category:"TypeScript",icon:"📘",question:"How do you type custom hooks and Context in React Native with TypeScript?",difficulty:"intermediate",seniority:"mid",answer:`
             <h4>Typed Custom Hook</h4>
             <pre><code>interface UseApiOptions&lt;T&gt; {
     onSuccess?: (data: T) => void;
@@ -24035,7 +24035,7 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
         &lt;/AuthContext.Provider&gt;
     );
 }</code></pre>
-        `},,{id:131,category:"TypeScript",icon:"📘",question:"How do you create type-safe generic components in React Native?",difficulty:"intermediate",seniority:"mid",answer:`
+        `},{id:131,category:"TypeScript",icon:"📘",question:"How do you create type-safe generic components in React Native?",difficulty:"intermediate",seniority:"mid",answer:`
             <h4>🎯 Why This Question Matters</h4>
             <p>Generic components enable reusability while maintaining full type safety. Interviewers assess your ability to write flexible, maintainable TypeScript code.</p>
 
@@ -24093,7 +24093,7 @@ setValue('email', 123); // ✗ Error: number not assignable to string</code></pr
                 <li>Prefer inference over explicit type parameters when possible</li>
                 <li>Generic components reduce code duplication significantly</li>
             </ul>
-        `},,{id:132,category:"TypeScript",icon:"📘",question:"How do you implement type-safe navigation with React Navigation in TypeScript?",difficulty:"intermediate",seniority:"mid",answer:`
+        `},{id:132,category:"TypeScript",icon:"📘",question:"How do you implement type-safe navigation with React Navigation in TypeScript?",difficulty:"intermediate",seniority:"mid",answer:`
             <h4>🎯 Why This Question Matters</h4>
             <p>Type-safe navigation prevents runtime crashes from incorrect params and enables autocomplete. This is essential for large apps with complex navigation.</p>
 
@@ -24156,7 +24156,7 @@ function MyComponent() {
                 <li>Use <code>undefined</code> for screens with no params</li>
                 <li>CompositeScreenProps handles nested navigators</li>
             </ul>
-        `},,{id:133,category:"TypeScript",icon:"📘",question:"How do you type Redux or Zustand stores in React Native applications?",difficulty:"advanced",seniority:"senior",answer:`
+        `},{id:133,category:"TypeScript",icon:"📘",question:"How do you type Redux or Zustand stores in React Native applications?",difficulty:"advanced",seniority:"senior",answer:`
             <h4>🎯 Why This Question Matters</h4>
             <p>Properly typed state management prevents bugs and enables excellent developer experience with autocomplete and refactoring support.</p>
 
@@ -24240,7 +24240,7 @@ await login('email@test.com', 'password');</code></pre>
                 <li>Create typed hooks to avoid repetitive type annotations</li>
                 <li>Zustand's middleware requires the curried <code>create<State>()()</code> syntax</li>
             </ul>
-        `},,{id:134,category:"TypeScript",icon:"📘",question:"How do you write declaration files for native modules in React Native?",difficulty:"advanced",seniority:"senior",answer:`
+        `},{id:134,category:"TypeScript",icon:"📘",question:"How do you write declaration files for native modules in React Native?",difficulty:"advanced",seniority:"senior",answer:`
             <h4>🎯 Why This Question Matters</h4>
             <p>When using native modules without TypeScript support, you need declaration files for type safety. This shows deep TypeScript and RN integration knowledge.</p>
 
@@ -24317,7 +24317,7 @@ export default TurboModuleRegistry.getEnforcing<Spec>('Biometric');</code></pre>
                 <li>Use module augmentation to extend existing types</li>
                 <li>New Architecture codegen generates types automatically</li>
             </ul>
-        `},,{id:135,category:"TypeScript",icon:"📘",question:"What are TypeScript strict mode best practices for React Native projects?",difficulty:"intermediate",seniority:"mid",answer:`
+        `},{id:135,category:"TypeScript",icon:"📘",question:"What are TypeScript strict mode best practices for React Native projects?",difficulty:"intermediate",seniority:"mid",answer:`
             <h4>🎯 Why This Question Matters</h4>
             <p>Strict mode catches bugs at compile time. Interviewers want to see you can configure and work with strict TypeScript effectively.</p>
 
@@ -24396,7 +24396,7 @@ if (isSuccessResponse(response)) {
                 <li>Use type guards instead of type assertions when possible</li>
                 <li><code>noUncheckedIndexedAccess</code> catches array access bugs</li>
             </ul>
-        `},,{id:136,category:"TypeScript",icon:"📘",question:"How do you use type guards and discriminated unions effectively in React Native?",difficulty:"advanced",seniority:"senior",answer:`
+        `},{id:136,category:"TypeScript",icon:"📘",question:"How do you use type guards and discriminated unions effectively in React Native?",difficulty:"advanced",seniority:"senior",answer:`
             <h4>🎯 Why This Question Matters</h4>
             <p>Type guards and discriminated unions enable type-safe handling of complex state and API responses, reducing runtime errors significantly.</p>
 
