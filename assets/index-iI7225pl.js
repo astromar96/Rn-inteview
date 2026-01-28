@@ -1,12 +1,12 @@
-(function(){const A=document.createElement("link").relList;if(A&&A.supports&&A.supports("modulepreload"))return;for(const D of document.querySelectorAll('link[rel="modulepreload"]'))d(D);new MutationObserver(D=>{for(const L of D)if(L.type==="childList")for(const G of L.addedNodes)G.tagName==="LINK"&&G.rel==="modulepreload"&&d(G)}).observe(document,{childList:!0,subtree:!0});function M(D){const L={};return D.integrity&&(L.integrity=D.integrity),D.referrerPolicy&&(L.referrerPolicy=D.referrerPolicy),D.crossOrigin==="use-credentials"?L.credentials="include":D.crossOrigin==="anonymous"?L.credentials="omit":L.credentials="same-origin",L}function d(D){if(D.ep)return;D.ep=!0;const L=M(D);fetch(D.href,L)}})();var gl={exports:{}},En={};var Rp;function Rh(){if(Rp)return En;Rp=1;var u=Symbol.for("react.transitional.element"),A=Symbol.for("react.fragment");function M(d,D,L){var G=null;if(L!==void 0&&(G=""+L),D.key!==void 0&&(G=""+D.key),"key"in D){L={};for(var R in D)R!=="key"&&(L[R]=D[R])}else L=D;return D=L.ref,{$$typeof:u,type:d,key:G,ref:D!==void 0?D:null,props:L}}return En.Fragment=A,En.jsx=M,En.jsxs=M,En}var Ep;function Eh(){return Ep||(Ep=1,gl.exports=Rh()),gl.exports}var s=Eh(),ml={exports:{}},X={};var Mp;function Mh(){if(Mp)return X;Mp=1;var u=Symbol.for("react.transitional.element"),A=Symbol.for("react.portal"),M=Symbol.for("react.fragment"),d=Symbol.for("react.strict_mode"),D=Symbol.for("react.profiler"),L=Symbol.for("react.consumer"),G=Symbol.for("react.context"),R=Symbol.for("react.forward_ref"),E=Symbol.for("react.suspense"),w=Symbol.for("react.memo"),q=Symbol.for("react.lazy"),O=Symbol.for("react.activity"),B=Symbol.iterator;function W(g){return g===null||typeof g!="object"?null:(g=B&&g[B]||g["@@iterator"],typeof g=="function"?g:null)}var le={isMounted:function(){return!1},enqueueForceUpdate:function(){},enqueueReplaceState:function(){},enqueueSetState:function(){}},ee=Object.assign,F={};function te(g,x,U){this.props=g,this.context=x,this.refs=F,this.updater=U||le}te.prototype.isReactComponent={},te.prototype.setState=function(g,x){if(typeof g!="object"&&typeof g!="function"&&g!=null)throw Error("takes an object of state variables to update or a function which returns an object of state variables.");this.updater.enqueueSetState(this,g,x,"setState")},te.prototype.forceUpdate=function(g){this.updater.enqueueForceUpdate(this,g,"forceUpdate")};function je(){}je.prototype=te.prototype;function Ae(g,x,U){this.props=g,this.context=x,this.refs=F,this.updater=U||le}var de=Ae.prototype=new je;de.constructor=Ae,ee(de,te.prototype),de.isPureReactComponent=!0;var ue=Array.isArray;function he(){}var Y={H:null,A:null,T:null,S:null},Ie=Object.prototype.hasOwnProperty;function Ve(g,x,U){var H=U.ref;return{$$typeof:u,type:g,key:x,ref:H!==void 0?H:null,props:U}}function ft(g,x){return Ve(g.type,x,g.props)}function Je(g){return typeof g=="object"&&g!==null&&g.$$typeof===u}function Ue(g){var x={"=":"=0",":":"=2"};return"$"+g.replace(/[=:]/g,function(U){return x[U]})}var Bt=/\/+/g;function Rt(g,x){return typeof g=="object"&&g!==null&&g.key!=null?Ue(""+g.key):x.toString(36)}function at(g){switch(g.status){case"fulfilled":return g.value;case"rejected":throw g.reason;default:switch(typeof g.status=="string"?g.then(he,he):(g.status="pending",g.then(function(x){g.status==="pending"&&(g.status="fulfilled",g.value=x)},function(x){g.status==="pending"&&(g.status="rejected",g.reason=x)})),g.status){case"fulfilled":return g.value;case"rejected":throw g.reason}}throw g}function k(g,x,U,H,J){var b=typeof g;(b==="undefined"||b==="boolean")&&(g=null);var I=!1;if(g===null)I=!0;else switch(b){case"bigint":case"string":case"number":I=!0;break;case"object":switch(g.$$typeof){case u:case A:I=!0;break;case q:return I=g._init,k(I(g._payload),x,U,H,J)}}if(I)return J=J(g),I=H===""?"."+Rt(g,0):H,ue(J)?(U="",I!=null&&(U=I.replace(Bt,"$&/")+"/"),k(J,x,U,"",function(Pt){return Pt})):J!=null&&(Je(J)&&(J=ft(J,U+(J.key==null||g&&g.key===J.key?"":(""+J.key).replace(Bt,"$&/")+"/")+I)),x.push(J)),1;I=0;var K=H===""?".":H+":";if(ue(g))for(var oe=0;oe<g.length;oe++)H=g[oe],b=K+Rt(H,oe),I+=k(H,x,U,b,J);else if(oe=W(g),typeof oe=="function")for(g=oe.call(g),oe=0;!(H=g.next()).done;)H=H.value,b=K+Rt(H,oe++),I+=k(H,x,U,b,J);else if(b==="object"){if(typeof g.then=="function")return k(at(g),x,U,H,J);throw x=String(g),Error("Objects are not valid as a React child (found: "+(x==="[object Object]"?"object with keys {"+Object.keys(g).join(", ")+"}":x)+"). If you meant to render a collection of children, use an array instead.")}return I}function P(g,x,U){if(g==null)return g;var H=[],J=0;return k(g,H,"","",function(b){return x.call(U,b,J++)}),H}function z(g){if(g._status===-1){var x=g._result;x=x(),x.then(function(U){(g._status===0||g._status===-1)&&(g._status=1,g._result=U)},function(U){(g._status===0||g._status===-1)&&(g._status=2,g._result=U)}),g._status===-1&&(g._status=0,g._result=x)}if(g._status===1)return g._result.default;throw g._result}var ce=typeof reportError=="function"?reportError:function(g){if(typeof window=="object"&&typeof window.ErrorEvent=="function"){var x=new window.ErrorEvent("error",{bubbles:!0,cancelable:!0,message:typeof g=="object"&&g!==null&&typeof g.message=="string"?String(g.message):String(g),error:g});if(!window.dispatchEvent(x))return}else if(typeof process=="object"&&typeof process.emit=="function"){process.emit("uncaughtException",g);return}console.error(g)},fe={map:P,forEach:function(g,x,U){P(g,function(){x.apply(this,arguments)},U)},count:function(g){var x=0;return P(g,function(){x++}),x},toArray:function(g){return P(g,function(x){return x})||[]},only:function(g){if(!Je(g))throw Error("React.Children.only expected to receive a single React element child.");return g}};return X.Activity=O,X.Children=fe,X.Component=te,X.Fragment=M,X.Profiler=D,X.PureComponent=Ae,X.StrictMode=d,X.Suspense=E,X.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE=Y,X.__COMPILER_RUNTIME={__proto__:null,c:function(g){return Y.H.useMemoCache(g)}},X.cache=function(g){return function(){return g.apply(null,arguments)}},X.cacheSignal=function(){return null},X.cloneElement=function(g,x,U){if(g==null)throw Error("The argument must be a React element, but you passed "+g+".");var H=ee({},g.props),J=g.key;if(x!=null)for(b in x.key!==void 0&&(J=""+x.key),x)!Ie.call(x,b)||b==="key"||b==="__self"||b==="__source"||b==="ref"&&x.ref===void 0||(H[b]=x[b]);var b=arguments.length-2;if(b===1)H.children=U;else if(1<b){for(var I=Array(b),K=0;K<b;K++)I[K]=arguments[K+2];H.children=I}return Ve(g.type,J,H)},X.createContext=function(g){return g={$$typeof:G,_currentValue:g,_currentValue2:g,_threadCount:0,Provider:null,Consumer:null},g.Provider=g,g.Consumer={$$typeof:L,_context:g},g},X.createElement=function(g,x,U){var H,J={},b=null;if(x!=null)for(H in x.key!==void 0&&(b=""+x.key),x)Ie.call(x,H)&&H!=="key"&&H!=="__self"&&H!=="__source"&&(J[H]=x[H]);var I=arguments.length-2;if(I===1)J.children=U;else if(1<I){for(var K=Array(I),oe=0;oe<I;oe++)K[oe]=arguments[oe+2];J.children=K}if(g&&g.defaultProps)for(H in I=g.defaultProps,I)J[H]===void 0&&(J[H]=I[H]);return Ve(g,b,J)},X.createRef=function(){return{current:null}},X.forwardRef=function(g){return{$$typeof:R,render:g}},X.isValidElement=Je,X.lazy=function(g){return{$$typeof:q,_payload:{_status:-1,_result:g},_init:z}},X.memo=function(g,x){return{$$typeof:w,type:g,compare:x===void 0?null:x}},X.startTransition=function(g){var x=Y.T,U={};Y.T=U;try{var H=g(),J=Y.S;J!==null&&J(U,H),typeof H=="object"&&H!==null&&typeof H.then=="function"&&H.then(he,ce)}catch(b){ce(b)}finally{x!==null&&U.types!==null&&(x.types=U.types),Y.T=x}},X.unstable_useCacheRefresh=function(){return Y.H.useCacheRefresh()},X.use=function(g){return Y.H.use(g)},X.useActionState=function(g,x,U){return Y.H.useActionState(g,x,U)},X.useCallback=function(g,x){return Y.H.useCallback(g,x)},X.useContext=function(g){return Y.H.useContext(g)},X.useDebugValue=function(){},X.useDeferredValue=function(g,x){return Y.H.useDeferredValue(g,x)},X.useEffect=function(g,x){return Y.H.useEffect(g,x)},X.useEffectEvent=function(g){return Y.H.useEffectEvent(g)},X.useId=function(){return Y.H.useId()},X.useImperativeHandle=function(g,x,U){return Y.H.useImperativeHandle(g,x,U)},X.useInsertionEffect=function(g,x){return Y.H.useInsertionEffect(g,x)},X.useLayoutEffect=function(g,x){return Y.H.useLayoutEffect(g,x)},X.useMemo=function(g,x){return Y.H.useMemo(g,x)},X.useOptimistic=function(g,x){return Y.H.useOptimistic(g,x)},X.useReducer=function(g,x,U){return Y.H.useReducer(g,x,U)},X.useRef=function(g){return Y.H.useRef(g)},X.useState=function(g){return Y.H.useState(g)},X.useSyncExternalStore=function(g,x,U){return Y.H.useSyncExternalStore(g,x,U)},X.useTransition=function(){return Y.H.useTransition()},X.version="19.2.3",X}var Dp;function wl(){return Dp||(Dp=1,ml.exports=Mh()),ml.exports}var N=wl(),hl={exports:{}},Mn={},fl={exports:{}},yl={};var Ip;function Dh(){return Ip||(Ip=1,(function(u){function A(k,P){var z=k.length;k.push(P);e:for(;0<z;){var ce=z-1>>>1,fe=k[ce];if(0<D(fe,P))k[ce]=P,k[z]=fe,z=ce;else break e}}function M(k){return k.length===0?null:k[0]}function d(k){if(k.length===0)return null;var P=k[0],z=k.pop();if(z!==P){k[0]=z;e:for(var ce=0,fe=k.length,g=fe>>>1;ce<g;){var x=2*(ce+1)-1,U=k[x],H=x+1,J=k[H];if(0>D(U,z))H<fe&&0>D(J,U)?(k[ce]=J,k[H]=z,ce=H):(k[ce]=U,k[x]=z,ce=x);else if(H<fe&&0>D(J,z))k[ce]=J,k[H]=z,ce=H;else break e}}return P}function D(k,P){var z=k.sortIndex-P.sortIndex;return z!==0?z:k.id-P.id}if(u.unstable_now=void 0,typeof performance=="object"&&typeof performance.now=="function"){var L=performance;u.unstable_now=function(){return L.now()}}else{var G=Date,R=G.now();u.unstable_now=function(){return G.now()-R}}var E=[],w=[],q=1,O=null,B=3,W=!1,le=!1,ee=!1,F=!1,te=typeof setTimeout=="function"?setTimeout:null,je=typeof clearTimeout=="function"?clearTimeout:null,Ae=typeof setImmediate<"u"?setImmediate:null;function de(k){for(var P=M(w);P!==null;){if(P.callback===null)d(w);else if(P.startTime<=k)d(w),P.sortIndex=P.expirationTime,A(E,P);else break;P=M(w)}}function ue(k){if(ee=!1,de(k),!le)if(M(E)!==null)le=!0,he||(he=!0,Ue());else{var P=M(w);P!==null&&at(ue,P.startTime-k)}}var he=!1,Y=-1,Ie=5,Ve=-1;function ft(){return F?!0:!(u.unstable_now()-Ve<Ie)}function Je(){if(F=!1,he){var k=u.unstable_now();Ve=k;var P=!0;try{e:{le=!1,ee&&(ee=!1,je(Y),Y=-1),W=!0;var z=B;try{t:{for(de(k),O=M(E);O!==null&&!(O.expirationTime>k&&ft());){var ce=O.callback;if(typeof ce=="function"){O.callback=null,B=O.priorityLevel;var fe=ce(O.expirationTime<=k);if(k=u.unstable_now(),typeof fe=="function"){O.callback=fe,de(k),P=!0;break t}O===M(E)&&d(E),de(k)}else d(E);O=M(E)}if(O!==null)P=!0;else{var g=M(w);g!==null&&at(ue,g.startTime-k),P=!1}}break e}finally{O=null,B=z,W=!1}P=void 0}}finally{P?Ue():he=!1}}}var Ue;if(typeof Ae=="function")Ue=function(){Ae(Je)};else if(typeof MessageChannel<"u"){var Bt=new MessageChannel,Rt=Bt.port2;Bt.port1.onmessage=Je,Ue=function(){Rt.postMessage(null)}}else Ue=function(){te(Je,0)};function at(k,P){Y=te(function(){k(u.unstable_now())},P)}u.unstable_IdlePriority=5,u.unstable_ImmediatePriority=1,u.unstable_LowPriority=4,u.unstable_NormalPriority=3,u.unstable_Profiling=null,u.unstable_UserBlockingPriority=2,u.unstable_cancelCallback=function(k){k.callback=null},u.unstable_forceFrameRate=function(k){0>k||125<k?console.error("forceFrameRate takes a positive int between 0 and 125, forcing frame rates higher than 125 fps is not supported"):Ie=0<k?Math.floor(1e3/k):5},u.unstable_getCurrentPriorityLevel=function(){return B},u.unstable_next=function(k){switch(B){case 1:case 2:case 3:var P=3;break;default:P=B}var z=B;B=P;try{return k()}finally{B=z}},u.unstable_requestPaint=function(){F=!0},u.unstable_runWithPriority=function(k,P){switch(k){case 1:case 2:case 3:case 4:case 5:break;default:k=3}var z=B;B=k;try{return P()}finally{B=z}},u.unstable_scheduleCallback=function(k,P,z){var ce=u.unstable_now();switch(typeof z=="object"&&z!==null?(z=z.delay,z=typeof z=="number"&&0<z?ce+z:ce):z=ce,k){case 1:var fe=-1;break;case 2:fe=250;break;case 5:fe=1073741823;break;case 4:fe=1e4;break;default:fe=5e3}return fe=z+fe,k={id:q++,callback:P,priorityLevel:k,startTime:z,expirationTime:fe,sortIndex:-1},z>ce?(k.sortIndex=z,A(w,k),M(E)===null&&k===M(w)&&(ee?(je(Y),Y=-1):ee=!0,at(ue,z-ce))):(k.sortIndex=fe,A(E,k),le||W||(le=!0,he||(he=!0,Ue()))),k},u.unstable_shouldYield=ft,u.unstable_wrapCallback=function(k){var P=B;return function(){var z=B;B=P;try{return k.apply(this,arguments)}finally{B=z}}}})(yl)),yl}var Pp;function Ih(){return Pp||(Pp=1,fl.exports=Dh()),fl.exports}var vl={exports:{}},Ye={};var Np;function Ph(){if(Np)return Ye;Np=1;var u=wl();function A(E){var w="https://react.dev/errors/"+E;if(1<arguments.length){w+="?args[]="+encodeURIComponent(arguments[1]);for(var q=2;q<arguments.length;q++)w+="&args[]="+encodeURIComponent(arguments[q])}return"Minified React error #"+E+"; visit "+w+" for the full message or use the non-minified dev environment for full errors and additional helpful warnings."}function M(){}var d={d:{f:M,r:function(){throw Error(A(522))},D:M,C:M,L:M,m:M,X:M,S:M,M},p:0,findDOMNode:null},D=Symbol.for("react.portal");function L(E,w,q){var O=3<arguments.length&&arguments[3]!==void 0?arguments[3]:null;return{$$typeof:D,key:O==null?null:""+O,children:E,containerInfo:w,implementation:q}}var G=u.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE;function R(E,w){if(E==="font")return"";if(typeof w=="string")return w==="use-credentials"?w:""}return Ye.__DOM_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE=d,Ye.createPortal=function(E,w){var q=2<arguments.length&&arguments[2]!==void 0?arguments[2]:null;if(!w||w.nodeType!==1&&w.nodeType!==9&&w.nodeType!==11)throw Error(A(299));return L(E,w,null,q)},Ye.flushSync=function(E){var w=G.T,q=d.p;try{if(G.T=null,d.p=2,E)return E()}finally{G.T=w,d.p=q,d.d.f()}},Ye.preconnect=function(E,w){typeof E=="string"&&(w?(w=w.crossOrigin,w=typeof w=="string"?w==="use-credentials"?w:"":void 0):w=null,d.d.C(E,w))},Ye.prefetchDNS=function(E){typeof E=="string"&&d.d.D(E)},Ye.preinit=function(E,w){if(typeof E=="string"&&w&&typeof w.as=="string"){var q=w.as,O=R(q,w.crossOrigin),B=typeof w.integrity=="string"?w.integrity:void 0,W=typeof w.fetchPriority=="string"?w.fetchPriority:void 0;q==="style"?d.d.S(E,typeof w.precedence=="string"?w.precedence:void 0,{crossOrigin:O,integrity:B,fetchPriority:W}):q==="script"&&d.d.X(E,{crossOrigin:O,integrity:B,fetchPriority:W,nonce:typeof w.nonce=="string"?w.nonce:void 0})}},Ye.preinitModule=function(E,w){if(typeof E=="string")if(typeof w=="object"&&w!==null){if(w.as==null||w.as==="script"){var q=R(w.as,w.crossOrigin);d.d.M(E,{crossOrigin:q,integrity:typeof w.integrity=="string"?w.integrity:void 0,nonce:typeof w.nonce=="string"?w.nonce:void 0})}}else w==null&&d.d.M(E)},Ye.preload=function(E,w){if(typeof E=="string"&&typeof w=="object"&&w!==null&&typeof w.as=="string"){var q=w.as,O=R(q,w.crossOrigin);d.d.L(E,q,{crossOrigin:O,integrity:typeof w.integrity=="string"?w.integrity:void 0,nonce:typeof w.nonce=="string"?w.nonce:void 0,type:typeof w.type=="string"?w.type:void 0,fetchPriority:typeof w.fetchPriority=="string"?w.fetchPriority:void 0,referrerPolicy:typeof w.referrerPolicy=="string"?w.referrerPolicy:void 0,imageSrcSet:typeof w.imageSrcSet=="string"?w.imageSrcSet:void 0,imageSizes:typeof w.imageSizes=="string"?w.imageSizes:void 0,media:typeof w.media=="string"?w.media:void 0})}},Ye.preloadModule=function(E,w){if(typeof E=="string")if(w){var q=R(w.as,w.crossOrigin);d.d.m(E,{as:typeof w.as=="string"&&w.as!=="script"?w.as:void 0,crossOrigin:q,integrity:typeof w.integrity=="string"?w.integrity:void 0})}else d.d.m(E)},Ye.requestFormReset=function(E){d.d.r(E)},Ye.unstable_batchedUpdates=function(E,w){return E(w)},Ye.useFormState=function(E,w,q){return G.H.useFormState(E,w,q)},Ye.useFormStatus=function(){return G.H.useHostTransitionStatus()},Ye.version="19.2.3",Ye}var Up;function Nh(){if(Up)return vl.exports;Up=1;function u(){if(!(typeof __REACT_DEVTOOLS_GLOBAL_HOOK__>"u"||typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.checkDCE!="function"))try{__REACT_DEVTOOLS_GLOBAL_HOOK__.checkDCE(u)}catch(A){console.error(A)}}return u(),vl.exports=Ph(),vl.exports}var Lp;function Uh(){if(Lp)return Mn;Lp=1;var u=Ih(),A=wl(),M=Nh();function d(e){var t="https://react.dev/errors/"+e;if(1<arguments.length){t+="?args[]="+encodeURIComponent(arguments[1]);for(var i=2;i<arguments.length;i++)t+="&args[]="+encodeURIComponent(arguments[i])}return"Minified React error #"+e+"; visit "+t+" for the full message or use the non-minified dev environment for full errors and additional helpful warnings."}function D(e){return!(!e||e.nodeType!==1&&e.nodeType!==9&&e.nodeType!==11)}function L(e){var t=e,i=e;if(e.alternate)for(;t.return;)t=t.return;else{e=t;do t=e,(t.flags&4098)!==0&&(i=t.return),e=t.return;while(e)}return t.tag===3?i:null}function G(e){if(e.tag===13){var t=e.memoizedState;if(t===null&&(e=e.alternate,e!==null&&(t=e.memoizedState)),t!==null)return t.dehydrated}return null}function R(e){if(e.tag===31){var t=e.memoizedState;if(t===null&&(e=e.alternate,e!==null&&(t=e.memoizedState)),t!==null)return t.dehydrated}return null}function E(e){if(L(e)!==e)throw Error(d(188))}function w(e){var t=e.alternate;if(!t){if(t=L(e),t===null)throw Error(d(188));return t!==e?null:e}for(var i=e,r=t;;){var n=i.return;if(n===null)break;var a=n.alternate;if(a===null){if(r=n.return,r!==null){i=r;continue}break}if(n.child===a.child){for(a=n.child;a;){if(a===i)return E(n),e;if(a===r)return E(n),t;a=a.sibling}throw Error(d(188))}if(i.return!==r.return)i=n,r=a;else{for(var o=!1,l=n.child;l;){if(l===i){o=!0,i=n,r=a;break}if(l===r){o=!0,r=n,i=a;break}l=l.sibling}if(!o){for(l=a.child;l;){if(l===i){o=!0,i=a,r=n;break}if(l===r){o=!0,r=a,i=n;break}l=l.sibling}if(!o)throw Error(d(189))}}if(i.alternate!==r)throw Error(d(190))}if(i.tag!==3)throw Error(d(188));return i.stateNode.current===i?e:t}function q(e){var t=e.tag;if(t===5||t===26||t===27||t===6)return e;for(e=e.child;e!==null;){if(t=q(e),t!==null)return t;e=e.sibling}return null}var O=Object.assign,B=Symbol.for("react.element"),W=Symbol.for("react.transitional.element"),le=Symbol.for("react.portal"),ee=Symbol.for("react.fragment"),F=Symbol.for("react.strict_mode"),te=Symbol.for("react.profiler"),je=Symbol.for("react.consumer"),Ae=Symbol.for("react.context"),de=Symbol.for("react.forward_ref"),ue=Symbol.for("react.suspense"),he=Symbol.for("react.suspense_list"),Y=Symbol.for("react.memo"),Ie=Symbol.for("react.lazy"),Ve=Symbol.for("react.activity"),ft=Symbol.for("react.memo_cache_sentinel"),Je=Symbol.iterator;function Ue(e){return e===null||typeof e!="object"?null:(e=Je&&e[Je]||e["@@iterator"],typeof e=="function"?e:null)}var Bt=Symbol.for("react.client.reference");function Rt(e){if(e==null)return null;if(typeof e=="function")return e.$$typeof===Bt?null:e.displayName||e.name||null;if(typeof e=="string")return e;switch(e){case ee:return"Fragment";case te:return"Profiler";case F:return"StrictMode";case ue:return"Suspense";case he:return"SuspenseList";case Ve:return"Activity"}if(typeof e=="object")switch(e.$$typeof){case le:return"Portal";case Ae:return e.displayName||"Context";case je:return(e._context.displayName||"Context")+".Consumer";case de:var t=e.render;return e=e.displayName,e||(e=t.displayName||t.name||"",e=e!==""?"ForwardRef("+e+")":"ForwardRef"),e;case Y:return t=e.displayName||null,t!==null?t:Rt(e.type)||"Memo";case Ie:t=e._payload,e=e._init;try{return Rt(e(t))}catch{}}return null}var at=Array.isArray,k=A.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE,P=M.__DOM_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE,z={pending:!1,data:null,method:null,action:null},ce=[],fe=-1;function g(e){return{current:e}}function x(e){0>fe||(e.current=ce[fe],ce[fe]=null,fe--)}function U(e,t){fe++,ce[fe]=e.current,e.current=t}var H=g(null),J=g(null),b=g(null),I=g(null);function K(e,t){switch(U(b,t),U(J,e),U(H,null),t.nodeType){case 9:case 11:e=(e=t.documentElement)&&(e=e.namespaceURI)?Ju(e):0;break;default:if(e=t.tagName,t=t.namespaceURI)t=Ju(t),e=Xu(t,e);else switch(e){case"svg":e=1;break;case"math":e=2;break;default:e=0}}x(H),U(H,e)}function oe(){x(H),x(J),x(b)}function Pt(e){e.memoizedState!==null&&U(I,e);var t=H.current,i=Xu(t,e.type);t!==i&&(U(J,e),U(H,i))}function Yi(e){J.current===e&&(x(H),x(J)),I.current===e&&(x(I),Cn._currentValue=z)}var Qa,xl;function Di(e){if(Qa===void 0)try{throw Error()}catch(i){var t=i.stack.trim().match(/\n( *(at )?)/);Qa=t&&t[1]||"",xl=-1<i.stack.indexOf(`
+(function(){const A=document.createElement("link").relList;if(A&&A.supports&&A.supports("modulepreload"))return;for(const D of document.querySelectorAll('link[rel="modulepreload"]'))d(D);new MutationObserver(D=>{for(const L of D)if(L.type==="childList")for(const G of L.addedNodes)G.tagName==="LINK"&&G.rel==="modulepreload"&&d(G)}).observe(document,{childList:!0,subtree:!0});function M(D){const L={};return D.integrity&&(L.integrity=D.integrity),D.referrerPolicy&&(L.referrerPolicy=D.referrerPolicy),D.crossOrigin==="use-credentials"?L.credentials="include":D.crossOrigin==="anonymous"?L.credentials="omit":L.credentials="same-origin",L}function d(D){if(D.ep)return;D.ep=!0;const L=M(D);fetch(D.href,L)}})();var gl={exports:{}},En={};var Ep;function Rh(){if(Ep)return En;Ep=1;var u=Symbol.for("react.transitional.element"),A=Symbol.for("react.fragment");function M(d,D,L){var G=null;if(L!==void 0&&(G=""+L),D.key!==void 0&&(G=""+D.key),"key"in D){L={};for(var R in D)R!=="key"&&(L[R]=D[R])}else L=D;return D=L.ref,{$$typeof:u,type:d,key:G,ref:D!==void 0?D:null,props:L}}return En.Fragment=A,En.jsx=M,En.jsxs=M,En}var Mp;function Eh(){return Mp||(Mp=1,gl.exports=Rh()),gl.exports}var s=Eh(),hl={exports:{}},X={};var Dp;function Mh(){if(Dp)return X;Dp=1;var u=Symbol.for("react.transitional.element"),A=Symbol.for("react.portal"),M=Symbol.for("react.fragment"),d=Symbol.for("react.strict_mode"),D=Symbol.for("react.profiler"),L=Symbol.for("react.consumer"),G=Symbol.for("react.context"),R=Symbol.for("react.forward_ref"),E=Symbol.for("react.suspense"),w=Symbol.for("react.memo"),q=Symbol.for("react.lazy"),O=Symbol.for("react.activity"),B=Symbol.iterator;function W(m){return m===null||typeof m!="object"?null:(m=B&&m[B]||m["@@iterator"],typeof m=="function"?m:null)}var le={isMounted:function(){return!1},enqueueForceUpdate:function(){},enqueueReplaceState:function(){},enqueueSetState:function(){}},ee=Object.assign,F={};function te(m,x,U){this.props=m,this.context=x,this.refs=F,this.updater=U||le}te.prototype.isReactComponent={},te.prototype.setState=function(m,x){if(typeof m!="object"&&typeof m!="function"&&m!=null)throw Error("takes an object of state variables to update or a function which returns an object of state variables.");this.updater.enqueueSetState(this,m,x,"setState")},te.prototype.forceUpdate=function(m){this.updater.enqueueForceUpdate(this,m,"forceUpdate")};function je(){}je.prototype=te.prototype;function Ae(m,x,U){this.props=m,this.context=x,this.refs=F,this.updater=U||le}var de=Ae.prototype=new je;de.constructor=Ae,ee(de,te.prototype),de.isPureReactComponent=!0;var ue=Array.isArray;function he(){}var Y={H:null,A:null,T:null,S:null},Ie=Object.prototype.hasOwnProperty;function Ve(m,x,U){var H=U.ref;return{$$typeof:u,type:m,key:x,ref:H!==void 0?H:null,props:U}}function ft(m,x){return Ve(m.type,x,m.props)}function Je(m){return typeof m=="object"&&m!==null&&m.$$typeof===u}function Ue(m){var x={"=":"=0",":":"=2"};return"$"+m.replace(/[=:]/g,function(U){return x[U]})}var Bt=/\/+/g;function Rt(m,x){return typeof m=="object"&&m!==null&&m.key!=null?Ue(""+m.key):x.toString(36)}function at(m){switch(m.status){case"fulfilled":return m.value;case"rejected":throw m.reason;default:switch(typeof m.status=="string"?m.then(he,he):(m.status="pending",m.then(function(x){m.status==="pending"&&(m.status="fulfilled",m.value=x)},function(x){m.status==="pending"&&(m.status="rejected",m.reason=x)})),m.status){case"fulfilled":return m.value;case"rejected":throw m.reason}}throw m}function k(m,x,U,H,J){var b=typeof m;(b==="undefined"||b==="boolean")&&(m=null);var I=!1;if(m===null)I=!0;else switch(b){case"bigint":case"string":case"number":I=!0;break;case"object":switch(m.$$typeof){case u:case A:I=!0;break;case q:return I=m._init,k(I(m._payload),x,U,H,J)}}if(I)return J=J(m),I=H===""?"."+Rt(m,0):H,ue(J)?(U="",I!=null&&(U=I.replace(Bt,"$&/")+"/"),k(J,x,U,"",function(Pt){return Pt})):J!=null&&(Je(J)&&(J=ft(J,U+(J.key==null||m&&m.key===J.key?"":(""+J.key).replace(Bt,"$&/")+"/")+I)),x.push(J)),1;I=0;var K=H===""?".":H+":";if(ue(m))for(var oe=0;oe<m.length;oe++)H=m[oe],b=K+Rt(H,oe),I+=k(H,x,U,b,J);else if(oe=W(m),typeof oe=="function")for(m=oe.call(m),oe=0;!(H=m.next()).done;)H=H.value,b=K+Rt(H,oe++),I+=k(H,x,U,b,J);else if(b==="object"){if(typeof m.then=="function")return k(at(m),x,U,H,J);throw x=String(m),Error("Objects are not valid as a React child (found: "+(x==="[object Object]"?"object with keys {"+Object.keys(m).join(", ")+"}":x)+"). If you meant to render a collection of children, use an array instead.")}return I}function P(m,x,U){if(m==null)return m;var H=[],J=0;return k(m,H,"","",function(b){return x.call(U,b,J++)}),H}function z(m){if(m._status===-1){var x=m._result;x=x(),x.then(function(U){(m._status===0||m._status===-1)&&(m._status=1,m._result=U)},function(U){(m._status===0||m._status===-1)&&(m._status=2,m._result=U)}),m._status===-1&&(m._status=0,m._result=x)}if(m._status===1)return m._result.default;throw m._result}var ce=typeof reportError=="function"?reportError:function(m){if(typeof window=="object"&&typeof window.ErrorEvent=="function"){var x=new window.ErrorEvent("error",{bubbles:!0,cancelable:!0,message:typeof m=="object"&&m!==null&&typeof m.message=="string"?String(m.message):String(m),error:m});if(!window.dispatchEvent(x))return}else if(typeof process=="object"&&typeof process.emit=="function"){process.emit("uncaughtException",m);return}console.error(m)},fe={map:P,forEach:function(m,x,U){P(m,function(){x.apply(this,arguments)},U)},count:function(m){var x=0;return P(m,function(){x++}),x},toArray:function(m){return P(m,function(x){return x})||[]},only:function(m){if(!Je(m))throw Error("React.Children.only expected to receive a single React element child.");return m}};return X.Activity=O,X.Children=fe,X.Component=te,X.Fragment=M,X.Profiler=D,X.PureComponent=Ae,X.StrictMode=d,X.Suspense=E,X.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE=Y,X.__COMPILER_RUNTIME={__proto__:null,c:function(m){return Y.H.useMemoCache(m)}},X.cache=function(m){return function(){return m.apply(null,arguments)}},X.cacheSignal=function(){return null},X.cloneElement=function(m,x,U){if(m==null)throw Error("The argument must be a React element, but you passed "+m+".");var H=ee({},m.props),J=m.key;if(x!=null)for(b in x.key!==void 0&&(J=""+x.key),x)!Ie.call(x,b)||b==="key"||b==="__self"||b==="__source"||b==="ref"&&x.ref===void 0||(H[b]=x[b]);var b=arguments.length-2;if(b===1)H.children=U;else if(1<b){for(var I=Array(b),K=0;K<b;K++)I[K]=arguments[K+2];H.children=I}return Ve(m.type,J,H)},X.createContext=function(m){return m={$$typeof:G,_currentValue:m,_currentValue2:m,_threadCount:0,Provider:null,Consumer:null},m.Provider=m,m.Consumer={$$typeof:L,_context:m},m},X.createElement=function(m,x,U){var H,J={},b=null;if(x!=null)for(H in x.key!==void 0&&(b=""+x.key),x)Ie.call(x,H)&&H!=="key"&&H!=="__self"&&H!=="__source"&&(J[H]=x[H]);var I=arguments.length-2;if(I===1)J.children=U;else if(1<I){for(var K=Array(I),oe=0;oe<I;oe++)K[oe]=arguments[oe+2];J.children=K}if(m&&m.defaultProps)for(H in I=m.defaultProps,I)J[H]===void 0&&(J[H]=I[H]);return Ve(m,b,J)},X.createRef=function(){return{current:null}},X.forwardRef=function(m){return{$$typeof:R,render:m}},X.isValidElement=Je,X.lazy=function(m){return{$$typeof:q,_payload:{_status:-1,_result:m},_init:z}},X.memo=function(m,x){return{$$typeof:w,type:m,compare:x===void 0?null:x}},X.startTransition=function(m){var x=Y.T,U={};Y.T=U;try{var H=m(),J=Y.S;J!==null&&J(U,H),typeof H=="object"&&H!==null&&typeof H.then=="function"&&H.then(he,ce)}catch(b){ce(b)}finally{x!==null&&U.types!==null&&(x.types=U.types),Y.T=x}},X.unstable_useCacheRefresh=function(){return Y.H.useCacheRefresh()},X.use=function(m){return Y.H.use(m)},X.useActionState=function(m,x,U){return Y.H.useActionState(m,x,U)},X.useCallback=function(m,x){return Y.H.useCallback(m,x)},X.useContext=function(m){return Y.H.useContext(m)},X.useDebugValue=function(){},X.useDeferredValue=function(m,x){return Y.H.useDeferredValue(m,x)},X.useEffect=function(m,x){return Y.H.useEffect(m,x)},X.useEffectEvent=function(m){return Y.H.useEffectEvent(m)},X.useId=function(){return Y.H.useId()},X.useImperativeHandle=function(m,x,U){return Y.H.useImperativeHandle(m,x,U)},X.useInsertionEffect=function(m,x){return Y.H.useInsertionEffect(m,x)},X.useLayoutEffect=function(m,x){return Y.H.useLayoutEffect(m,x)},X.useMemo=function(m,x){return Y.H.useMemo(m,x)},X.useOptimistic=function(m,x){return Y.H.useOptimistic(m,x)},X.useReducer=function(m,x,U){return Y.H.useReducer(m,x,U)},X.useRef=function(m){return Y.H.useRef(m)},X.useState=function(m){return Y.H.useState(m)},X.useSyncExternalStore=function(m,x,U){return Y.H.useSyncExternalStore(m,x,U)},X.useTransition=function(){return Y.H.useTransition()},X.version="19.2.3",X}var Ip;function Al(){return Ip||(Ip=1,hl.exports=Mh()),hl.exports}var N=Al(),fl={exports:{}},Mn={},yl={exports:{}},vl={};var Pp;function Dh(){return Pp||(Pp=1,(function(u){function A(k,P){var z=k.length;k.push(P);e:for(;0<z;){var ce=z-1>>>1,fe=k[ce];if(0<D(fe,P))k[ce]=P,k[z]=fe,z=ce;else break e}}function M(k){return k.length===0?null:k[0]}function d(k){if(k.length===0)return null;var P=k[0],z=k.pop();if(z!==P){k[0]=z;e:for(var ce=0,fe=k.length,m=fe>>>1;ce<m;){var x=2*(ce+1)-1,U=k[x],H=x+1,J=k[H];if(0>D(U,z))H<fe&&0>D(J,U)?(k[ce]=J,k[H]=z,ce=H):(k[ce]=U,k[x]=z,ce=x);else if(H<fe&&0>D(J,z))k[ce]=J,k[H]=z,ce=H;else break e}}return P}function D(k,P){var z=k.sortIndex-P.sortIndex;return z!==0?z:k.id-P.id}if(u.unstable_now=void 0,typeof performance=="object"&&typeof performance.now=="function"){var L=performance;u.unstable_now=function(){return L.now()}}else{var G=Date,R=G.now();u.unstable_now=function(){return G.now()-R}}var E=[],w=[],q=1,O=null,B=3,W=!1,le=!1,ee=!1,F=!1,te=typeof setTimeout=="function"?setTimeout:null,je=typeof clearTimeout=="function"?clearTimeout:null,Ae=typeof setImmediate<"u"?setImmediate:null;function de(k){for(var P=M(w);P!==null;){if(P.callback===null)d(w);else if(P.startTime<=k)d(w),P.sortIndex=P.expirationTime,A(E,P);else break;P=M(w)}}function ue(k){if(ee=!1,de(k),!le)if(M(E)!==null)le=!0,he||(he=!0,Ue());else{var P=M(w);P!==null&&at(ue,P.startTime-k)}}var he=!1,Y=-1,Ie=5,Ve=-1;function ft(){return F?!0:!(u.unstable_now()-Ve<Ie)}function Je(){if(F=!1,he){var k=u.unstable_now();Ve=k;var P=!0;try{e:{le=!1,ee&&(ee=!1,je(Y),Y=-1),W=!0;var z=B;try{t:{for(de(k),O=M(E);O!==null&&!(O.expirationTime>k&&ft());){var ce=O.callback;if(typeof ce=="function"){O.callback=null,B=O.priorityLevel;var fe=ce(O.expirationTime<=k);if(k=u.unstable_now(),typeof fe=="function"){O.callback=fe,de(k),P=!0;break t}O===M(E)&&d(E),de(k)}else d(E);O=M(E)}if(O!==null)P=!0;else{var m=M(w);m!==null&&at(ue,m.startTime-k),P=!1}}break e}finally{O=null,B=z,W=!1}P=void 0}}finally{P?Ue():he=!1}}}var Ue;if(typeof Ae=="function")Ue=function(){Ae(Je)};else if(typeof MessageChannel<"u"){var Bt=new MessageChannel,Rt=Bt.port2;Bt.port1.onmessage=Je,Ue=function(){Rt.postMessage(null)}}else Ue=function(){te(Je,0)};function at(k,P){Y=te(function(){k(u.unstable_now())},P)}u.unstable_IdlePriority=5,u.unstable_ImmediatePriority=1,u.unstable_LowPriority=4,u.unstable_NormalPriority=3,u.unstable_Profiling=null,u.unstable_UserBlockingPriority=2,u.unstable_cancelCallback=function(k){k.callback=null},u.unstable_forceFrameRate=function(k){0>k||125<k?console.error("forceFrameRate takes a positive int between 0 and 125, forcing frame rates higher than 125 fps is not supported"):Ie=0<k?Math.floor(1e3/k):5},u.unstable_getCurrentPriorityLevel=function(){return B},u.unstable_next=function(k){switch(B){case 1:case 2:case 3:var P=3;break;default:P=B}var z=B;B=P;try{return k()}finally{B=z}},u.unstable_requestPaint=function(){F=!0},u.unstable_runWithPriority=function(k,P){switch(k){case 1:case 2:case 3:case 4:case 5:break;default:k=3}var z=B;B=k;try{return P()}finally{B=z}},u.unstable_scheduleCallback=function(k,P,z){var ce=u.unstable_now();switch(typeof z=="object"&&z!==null?(z=z.delay,z=typeof z=="number"&&0<z?ce+z:ce):z=ce,k){case 1:var fe=-1;break;case 2:fe=250;break;case 5:fe=1073741823;break;case 4:fe=1e4;break;default:fe=5e3}return fe=z+fe,k={id:q++,callback:P,priorityLevel:k,startTime:z,expirationTime:fe,sortIndex:-1},z>ce?(k.sortIndex=z,A(w,k),M(E)===null&&k===M(w)&&(ee?(je(Y),Y=-1):ee=!0,at(ue,z-ce))):(k.sortIndex=fe,A(E,k),le||W||(le=!0,he||(he=!0,Ue()))),k},u.unstable_shouldYield=ft,u.unstable_wrapCallback=function(k){var P=B;return function(){var z=B;B=P;try{return k.apply(this,arguments)}finally{B=z}}}})(vl)),vl}var Np;function Ih(){return Np||(Np=1,yl.exports=Dh()),yl.exports}var bl={exports:{}},Ye={};var Up;function Ph(){if(Up)return Ye;Up=1;var u=Al();function A(E){var w="https://react.dev/errors/"+E;if(1<arguments.length){w+="?args[]="+encodeURIComponent(arguments[1]);for(var q=2;q<arguments.length;q++)w+="&args[]="+encodeURIComponent(arguments[q])}return"Minified React error #"+E+"; visit "+w+" for the full message or use the non-minified dev environment for full errors and additional helpful warnings."}function M(){}var d={d:{f:M,r:function(){throw Error(A(522))},D:M,C:M,L:M,m:M,X:M,S:M,M},p:0,findDOMNode:null},D=Symbol.for("react.portal");function L(E,w,q){var O=3<arguments.length&&arguments[3]!==void 0?arguments[3]:null;return{$$typeof:D,key:O==null?null:""+O,children:E,containerInfo:w,implementation:q}}var G=u.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE;function R(E,w){if(E==="font")return"";if(typeof w=="string")return w==="use-credentials"?w:""}return Ye.__DOM_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE=d,Ye.createPortal=function(E,w){var q=2<arguments.length&&arguments[2]!==void 0?arguments[2]:null;if(!w||w.nodeType!==1&&w.nodeType!==9&&w.nodeType!==11)throw Error(A(299));return L(E,w,null,q)},Ye.flushSync=function(E){var w=G.T,q=d.p;try{if(G.T=null,d.p=2,E)return E()}finally{G.T=w,d.p=q,d.d.f()}},Ye.preconnect=function(E,w){typeof E=="string"&&(w?(w=w.crossOrigin,w=typeof w=="string"?w==="use-credentials"?w:"":void 0):w=null,d.d.C(E,w))},Ye.prefetchDNS=function(E){typeof E=="string"&&d.d.D(E)},Ye.preinit=function(E,w){if(typeof E=="string"&&w&&typeof w.as=="string"){var q=w.as,O=R(q,w.crossOrigin),B=typeof w.integrity=="string"?w.integrity:void 0,W=typeof w.fetchPriority=="string"?w.fetchPriority:void 0;q==="style"?d.d.S(E,typeof w.precedence=="string"?w.precedence:void 0,{crossOrigin:O,integrity:B,fetchPriority:W}):q==="script"&&d.d.X(E,{crossOrigin:O,integrity:B,fetchPriority:W,nonce:typeof w.nonce=="string"?w.nonce:void 0})}},Ye.preinitModule=function(E,w){if(typeof E=="string")if(typeof w=="object"&&w!==null){if(w.as==null||w.as==="script"){var q=R(w.as,w.crossOrigin);d.d.M(E,{crossOrigin:q,integrity:typeof w.integrity=="string"?w.integrity:void 0,nonce:typeof w.nonce=="string"?w.nonce:void 0})}}else w==null&&d.d.M(E)},Ye.preload=function(E,w){if(typeof E=="string"&&typeof w=="object"&&w!==null&&typeof w.as=="string"){var q=w.as,O=R(q,w.crossOrigin);d.d.L(E,q,{crossOrigin:O,integrity:typeof w.integrity=="string"?w.integrity:void 0,nonce:typeof w.nonce=="string"?w.nonce:void 0,type:typeof w.type=="string"?w.type:void 0,fetchPriority:typeof w.fetchPriority=="string"?w.fetchPriority:void 0,referrerPolicy:typeof w.referrerPolicy=="string"?w.referrerPolicy:void 0,imageSrcSet:typeof w.imageSrcSet=="string"?w.imageSrcSet:void 0,imageSizes:typeof w.imageSizes=="string"?w.imageSizes:void 0,media:typeof w.media=="string"?w.media:void 0})}},Ye.preloadModule=function(E,w){if(typeof E=="string")if(w){var q=R(w.as,w.crossOrigin);d.d.m(E,{as:typeof w.as=="string"&&w.as!=="script"?w.as:void 0,crossOrigin:q,integrity:typeof w.integrity=="string"?w.integrity:void 0})}else d.d.m(E)},Ye.requestFormReset=function(E){d.d.r(E)},Ye.unstable_batchedUpdates=function(E,w){return E(w)},Ye.useFormState=function(E,w,q){return G.H.useFormState(E,w,q)},Ye.useFormStatus=function(){return G.H.useHostTransitionStatus()},Ye.version="19.2.3",Ye}var Lp;function Nh(){if(Lp)return bl.exports;Lp=1;function u(){if(!(typeof __REACT_DEVTOOLS_GLOBAL_HOOK__>"u"||typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.checkDCE!="function"))try{__REACT_DEVTOOLS_GLOBAL_HOOK__.checkDCE(u)}catch(A){console.error(A)}}return u(),bl.exports=Ph(),bl.exports}var Op;function Uh(){if(Op)return Mn;Op=1;var u=Ih(),A=Al(),M=Nh();function d(e){var t="https://react.dev/errors/"+e;if(1<arguments.length){t+="?args[]="+encodeURIComponent(arguments[1]);for(var i=2;i<arguments.length;i++)t+="&args[]="+encodeURIComponent(arguments[i])}return"Minified React error #"+e+"; visit "+t+" for the full message or use the non-minified dev environment for full errors and additional helpful warnings."}function D(e){return!(!e||e.nodeType!==1&&e.nodeType!==9&&e.nodeType!==11)}function L(e){var t=e,i=e;if(e.alternate)for(;t.return;)t=t.return;else{e=t;do t=e,(t.flags&4098)!==0&&(i=t.return),e=t.return;while(e)}return t.tag===3?i:null}function G(e){if(e.tag===13){var t=e.memoizedState;if(t===null&&(e=e.alternate,e!==null&&(t=e.memoizedState)),t!==null)return t.dehydrated}return null}function R(e){if(e.tag===31){var t=e.memoizedState;if(t===null&&(e=e.alternate,e!==null&&(t=e.memoizedState)),t!==null)return t.dehydrated}return null}function E(e){if(L(e)!==e)throw Error(d(188))}function w(e){var t=e.alternate;if(!t){if(t=L(e),t===null)throw Error(d(188));return t!==e?null:e}for(var i=e,r=t;;){var n=i.return;if(n===null)break;var a=n.alternate;if(a===null){if(r=n.return,r!==null){i=r;continue}break}if(n.child===a.child){for(a=n.child;a;){if(a===i)return E(n),e;if(a===r)return E(n),t;a=a.sibling}throw Error(d(188))}if(i.return!==r.return)i=n,r=a;else{for(var o=!1,l=n.child;l;){if(l===i){o=!0,i=n,r=a;break}if(l===r){o=!0,r=n,i=a;break}l=l.sibling}if(!o){for(l=a.child;l;){if(l===i){o=!0,i=a,r=n;break}if(l===r){o=!0,r=a,i=n;break}l=l.sibling}if(!o)throw Error(d(189))}}if(i.alternate!==r)throw Error(d(190))}if(i.tag!==3)throw Error(d(188));return i.stateNode.current===i?e:t}function q(e){var t=e.tag;if(t===5||t===26||t===27||t===6)return e;for(e=e.child;e!==null;){if(t=q(e),t!==null)return t;e=e.sibling}return null}var O=Object.assign,B=Symbol.for("react.element"),W=Symbol.for("react.transitional.element"),le=Symbol.for("react.portal"),ee=Symbol.for("react.fragment"),F=Symbol.for("react.strict_mode"),te=Symbol.for("react.profiler"),je=Symbol.for("react.consumer"),Ae=Symbol.for("react.context"),de=Symbol.for("react.forward_ref"),ue=Symbol.for("react.suspense"),he=Symbol.for("react.suspense_list"),Y=Symbol.for("react.memo"),Ie=Symbol.for("react.lazy"),Ve=Symbol.for("react.activity"),ft=Symbol.for("react.memo_cache_sentinel"),Je=Symbol.iterator;function Ue(e){return e===null||typeof e!="object"?null:(e=Je&&e[Je]||e["@@iterator"],typeof e=="function"?e:null)}var Bt=Symbol.for("react.client.reference");function Rt(e){if(e==null)return null;if(typeof e=="function")return e.$$typeof===Bt?null:e.displayName||e.name||null;if(typeof e=="string")return e;switch(e){case ee:return"Fragment";case te:return"Profiler";case F:return"StrictMode";case ue:return"Suspense";case he:return"SuspenseList";case Ve:return"Activity"}if(typeof e=="object")switch(e.$$typeof){case le:return"Portal";case Ae:return e.displayName||"Context";case je:return(e._context.displayName||"Context")+".Consumer";case de:var t=e.render;return e=e.displayName,e||(e=t.displayName||t.name||"",e=e!==""?"ForwardRef("+e+")":"ForwardRef"),e;case Y:return t=e.displayName||null,t!==null?t:Rt(e.type)||"Memo";case Ie:t=e._payload,e=e._init;try{return Rt(e(t))}catch{}}return null}var at=Array.isArray,k=A.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE,P=M.__DOM_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE,z={pending:!1,data:null,method:null,action:null},ce=[],fe=-1;function m(e){return{current:e}}function x(e){0>fe||(e.current=ce[fe],ce[fe]=null,fe--)}function U(e,t){fe++,ce[fe]=e.current,e.current=t}var H=m(null),J=m(null),b=m(null),I=m(null);function K(e,t){switch(U(b,t),U(J,e),U(H,null),t.nodeType){case 9:case 11:e=(e=t.documentElement)&&(e=e.namespaceURI)?Xu(e):0;break;default:if(e=t.tagName,t=t.namespaceURI)t=Xu(t),e=Zu(t,e);else switch(e){case"svg":e=1;break;case"math":e=2;break;default:e=0}}x(H),U(H,e)}function oe(){x(H),x(J),x(b)}function Pt(e){e.memoizedState!==null&&U(I,e);var t=H.current,i=Zu(t,e.type);t!==i&&(U(J,e),U(H,i))}function Yi(e){J.current===e&&(x(H),x(J)),I.current===e&&(x(I),Cn._currentValue=z)}var Ya,Rl;function Di(e){if(Ya===void 0)try{throw Error()}catch(i){var t=i.stack.trim().match(/\n( *(at )?)/);Ya=t&&t[1]||"",Rl=-1<i.stack.indexOf(`
     at`)?" (<anonymous>)":-1<i.stack.indexOf("@")?"@unknown:0:0":""}return`
-`+Qa+e+xl}var Ya=!1;function Ja(e,t){if(!e||Ya)return"";Ya=!0;var i=Error.prepareStackTrace;Error.prepareStackTrace=void 0;try{var r={DetermineComponentFrameRoot:function(){try{if(t){var T=function(){throw Error()};if(Object.defineProperty(T.prototype,"props",{set:function(){throw Error()}}),typeof Reflect=="object"&&Reflect.construct){try{Reflect.construct(T,[])}catch(v){var y=v}Reflect.construct(e,[],T)}else{try{T.call()}catch(v){y=v}e.call(T.prototype)}}else{try{throw Error()}catch(v){y=v}(T=e())&&typeof T.catch=="function"&&T.catch(function(){})}}catch(v){if(v&&y&&typeof v.stack=="string")return[v.stack,y.stack]}return[null,null]}};r.DetermineComponentFrameRoot.displayName="DetermineComponentFrameRoot";var n=Object.getOwnPropertyDescriptor(r.DetermineComponentFrameRoot,"name");n&&n.configurable&&Object.defineProperty(r.DetermineComponentFrameRoot,"name",{value:"DetermineComponentFrameRoot"});var a=r.DetermineComponentFrameRoot(),o=a[0],l=a[1];if(o&&l){var c=o.split(`
+`+Ya+e+Rl}var Ja=!1;function Xa(e,t){if(!e||Ja)return"";Ja=!0;var i=Error.prepareStackTrace;Error.prepareStackTrace=void 0;try{var r={DetermineComponentFrameRoot:function(){try{if(t){var T=function(){throw Error()};if(Object.defineProperty(T.prototype,"props",{set:function(){throw Error()}}),typeof Reflect=="object"&&Reflect.construct){try{Reflect.construct(T,[])}catch(v){var y=v}Reflect.construct(e,[],T)}else{try{T.call()}catch(v){y=v}e.call(T.prototype)}}else{try{throw Error()}catch(v){y=v}(T=e())&&typeof T.catch=="function"&&T.catch(function(){})}}catch(v){if(v&&y&&typeof v.stack=="string")return[v.stack,y.stack]}return[null,null]}};r.DetermineComponentFrameRoot.displayName="DetermineComponentFrameRoot";var n=Object.getOwnPropertyDescriptor(r.DetermineComponentFrameRoot,"name");n&&n.configurable&&Object.defineProperty(r.DetermineComponentFrameRoot,"name",{value:"DetermineComponentFrameRoot"});var a=r.DetermineComponentFrameRoot(),o=a[0],l=a[1];if(o&&l){var c=o.split(`
 `),f=l.split(`
 `);for(n=r=0;r<c.length&&!c[r].includes("DetermineComponentFrameRoot");)r++;for(;n<f.length&&!f[n].includes("DetermineComponentFrameRoot");)n++;if(r===c.length||n===f.length)for(r=c.length-1,n=f.length-1;1<=r&&0<=n&&c[r]!==f[n];)n--;for(;1<=r&&0<=n;r--,n--)if(c[r]!==f[n]){if(r!==1||n!==1)do if(r--,n--,0>n||c[r]!==f[n]){var S=`
-`+c[r].replace(" at new "," at ");return e.displayName&&S.includes("<anonymous>")&&(S=S.replace("<anonymous>",e.displayName)),S}while(1<=r&&0<=n);break}}}finally{Ya=!1,Error.prepareStackTrace=i}return(i=e?e.displayName||e.name:"")?Di(i):""}function ng(e,t){switch(e.tag){case 26:case 27:case 5:return Di(e.type);case 16:return Di("Lazy");case 13:return e.child!==t&&t!==null?Di("Suspense Fallback"):Di("Suspense");case 19:return Di("SuspenseList");case 0:case 15:return Ja(e.type,!1);case 11:return Ja(e.type.render,!1);case 1:return Ja(e.type,!0);case 31:return Di("Activity");default:return""}}function Rl(e){try{var t="",i=null;do t+=ng(e,i),i=e,e=e.return;while(e);return t}catch(r){return`
+`+c[r].replace(" at new "," at ");return e.displayName&&S.includes("<anonymous>")&&(S=S.replace("<anonymous>",e.displayName)),S}while(1<=r&&0<=n);break}}}finally{Ja=!1,Error.prepareStackTrace=i}return(i=e?e.displayName||e.name:"")?Di(i):""}function nm(e,t){switch(e.tag){case 26:case 27:case 5:return Di(e.type);case 16:return Di("Lazy");case 13:return e.child!==t&&t!==null?Di("Suspense Fallback"):Di("Suspense");case 19:return Di("SuspenseList");case 0:case 15:return Xa(e.type,!1);case 11:return Xa(e.type.render,!1);case 1:return Xa(e.type,!0);case 31:return Di("Activity");default:return""}}function El(e){try{var t="",i=null;do t+=nm(e,i),i=e,e=e.return;while(e);return t}catch(r){return`
 Error generating stack: `+r.message+`
-`+r.stack}}var Xa=Object.prototype.hasOwnProperty,Za=u.unstable_scheduleCallback,$a=u.unstable_cancelCallback,ag=u.unstable_shouldYield,og=u.unstable_requestPaint,ot=u.unstable_now,sg=u.unstable_getCurrentPriorityLevel,El=u.unstable_ImmediatePriority,Ml=u.unstable_UserBlockingPriority,In=u.unstable_NormalPriority,lg=u.unstable_LowPriority,Dl=u.unstable_IdlePriority,cg=u.log,dg=u.unstable_setDisableYieldValue,Lr=null,st=null;function ni(e){if(typeof cg=="function"&&dg(e),st&&typeof st.setStrictMode=="function")try{st.setStrictMode(Lr,e)}catch{}}var lt=Math.clz32?Math.clz32:gg,ug=Math.log,pg=Math.LN2;function gg(e){return e>>>=0,e===0?32:31-(ug(e)/pg|0)|0}var Pn=256,Nn=262144,Un=4194304;function Ii(e){var t=e&42;if(t!==0)return t;switch(e&-e){case 1:return 1;case 2:return 2;case 4:return 4;case 8:return 8;case 16:return 16;case 32:return 32;case 64:return 64;case 128:return 128;case 256:case 512:case 1024:case 2048:case 4096:case 8192:case 16384:case 32768:case 65536:case 131072:return e&261888;case 262144:case 524288:case 1048576:case 2097152:return e&3932160;case 4194304:case 8388608:case 16777216:case 33554432:return e&62914560;case 67108864:return 67108864;case 134217728:return 134217728;case 268435456:return 268435456;case 536870912:return 536870912;case 1073741824:return 0;default:return e}}function Ln(e,t,i){var r=e.pendingLanes;if(r===0)return 0;var n=0,a=e.suspendedLanes,o=e.pingedLanes;e=e.warmLanes;var l=r&134217727;return l!==0?(r=l&~a,r!==0?n=Ii(r):(o&=l,o!==0?n=Ii(o):i||(i=l&~e,i!==0&&(n=Ii(i))))):(l=r&~a,l!==0?n=Ii(l):o!==0?n=Ii(o):i||(i=r&~e,i!==0&&(n=Ii(i)))),n===0?0:t!==0&&t!==n&&(t&a)===0&&(a=n&-n,i=t&-t,a>=i||a===32&&(i&4194048)!==0)?t:n}function Or(e,t){return(e.pendingLanes&~(e.suspendedLanes&~e.pingedLanes)&t)===0}function mg(e,t){switch(e){case 1:case 2:case 4:case 8:case 64:return t+250;case 16:case 32:case 128:case 256:case 512:case 1024:case 2048:case 4096:case 8192:case 16384:case 32768:case 65536:case 131072:case 262144:case 524288:case 1048576:case 2097152:return t+5e3;case 4194304:case 8388608:case 16777216:case 33554432:return-1;case 67108864:case 134217728:case 268435456:case 536870912:case 1073741824:return-1;default:return-1}}function Il(){var e=Un;return Un<<=1,(Un&62914560)===0&&(Un=4194304),e}function eo(e){for(var t=[],i=0;31>i;i++)t.push(e);return t}function Br(e,t){e.pendingLanes|=t,t!==268435456&&(e.suspendedLanes=0,e.pingedLanes=0,e.warmLanes=0)}function hg(e,t,i,r,n,a){var o=e.pendingLanes;e.pendingLanes=i,e.suspendedLanes=0,e.pingedLanes=0,e.warmLanes=0,e.expiredLanes&=i,e.entangledLanes&=i,e.errorRecoveryDisabledLanes&=i,e.shellSuspendCounter=0;var l=e.entanglements,c=e.expirationTimes,f=e.hiddenUpdates;for(i=o&~i;0<i;){var S=31-lt(i),T=1<<S;l[S]=0,c[S]=-1;var y=f[S];if(y!==null)for(f[S]=null,S=0;S<y.length;S++){var v=y[S];v!==null&&(v.lane&=-536870913)}i&=~T}r!==0&&Pl(e,r,0),a!==0&&n===0&&e.tag!==0&&(e.suspendedLanes|=a&~(o&~t))}function Pl(e,t,i){e.pendingLanes|=t,e.suspendedLanes&=~t;var r=31-lt(t);e.entangledLanes|=t,e.entanglements[r]=e.entanglements[r]|1073741824|i&261930}function Nl(e,t){var i=e.entangledLanes|=t;for(e=e.entanglements;i;){var r=31-lt(i),n=1<<r;n&t|e[r]&t&&(e[r]|=t),i&=~n}}function Ul(e,t){var i=t&-t;return i=(i&42)!==0?1:to(i),(i&(e.suspendedLanes|t))!==0?0:i}function to(e){switch(e){case 2:e=1;break;case 8:e=4;break;case 32:e=16;break;case 256:case 512:case 1024:case 2048:case 4096:case 8192:case 16384:case 32768:case 65536:case 131072:case 262144:case 524288:case 1048576:case 2097152:case 4194304:case 8388608:case 16777216:case 33554432:e=128;break;case 268435456:e=134217728;break;default:e=0}return e}function io(e){return e&=-e,2<e?8<e?(e&134217727)!==0?32:268435456:8:2}function Ll(){var e=P.p;return e!==0?e:(e=window.event,e===void 0?32:Sp(e.type))}function Ol(e,t){var i=P.p;try{return P.p=e,t()}finally{P.p=i}}var ai=Math.random().toString(36).slice(2),ze="__reactFiber$"+ai,Ze="__reactProps$"+ai,Ji="__reactContainer$"+ai,ro="__reactEvents$"+ai,fg="__reactListeners$"+ai,yg="__reactHandles$"+ai,Bl="__reactResources$"+ai,Fr="__reactMarker$"+ai;function no(e){delete e[ze],delete e[Ze],delete e[ro],delete e[fg],delete e[yg]}function Xi(e){var t=e[ze];if(t)return t;for(var i=e.parentNode;i;){if(t=i[Ji]||i[ze]){if(i=t.alternate,t.child!==null||i!==null&&i.child!==null)for(e=np(e);e!==null;){if(i=e[ze])return i;e=np(e)}return t}e=i,i=e.parentNode}return null}function Zi(e){if(e=e[ze]||e[Ji]){var t=e.tag;if(t===5||t===6||t===13||t===31||t===26||t===27||t===3)return e}return null}function _r(e){var t=e.tag;if(t===5||t===26||t===27||t===6)return e.stateNode;throw Error(d(33))}function $i(e){var t=e[Bl];return t||(t=e[Bl]={hoistableStyles:new Map,hoistableScripts:new Map}),t}function He(e){e[Fr]=!0}var Fl=new Set,_l={};function Pi(e,t){er(e,t),er(e+"Capture",t)}function er(e,t){for(_l[e]=t,e=0;e<t.length;e++)Fl.add(t[e])}var vg=RegExp("^[:A-Z_a-z\\u00C0-\\u00D6\\u00D8-\\u00F6\\u00F8-\\u02FF\\u0370-\\u037D\\u037F-\\u1FFF\\u200C-\\u200D\\u2070-\\u218F\\u2C00-\\u2FEF\\u3001-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFFD][:A-Z_a-z\\u00C0-\\u00D6\\u00D8-\\u00F6\\u00F8-\\u02FF\\u0370-\\u037D\\u037F-\\u1FFF\\u200C-\\u200D\\u2070-\\u218F\\u2C00-\\u2FEF\\u3001-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFFD\\-.0-9\\u00B7\\u0300-\\u036F\\u203F-\\u2040]*$"),Hl={},ql={};function bg(e){return Xa.call(ql,e)?!0:Xa.call(Hl,e)?!1:vg.test(e)?ql[e]=!0:(Hl[e]=!0,!1)}function On(e,t,i){if(bg(t))if(i===null)e.removeAttribute(t);else{switch(typeof i){case"undefined":case"function":case"symbol":e.removeAttribute(t);return;case"boolean":var r=t.toLowerCase().slice(0,5);if(r!=="data-"&&r!=="aria-"){e.removeAttribute(t);return}}e.setAttribute(t,""+i)}}function Bn(e,t,i){if(i===null)e.removeAttribute(t);else{switch(typeof i){case"undefined":case"function":case"symbol":case"boolean":e.removeAttribute(t);return}e.setAttribute(t,""+i)}}function Ft(e,t,i,r){if(r===null)e.removeAttribute(i);else{switch(typeof r){case"undefined":case"function":case"symbol":case"boolean":e.removeAttribute(i);return}e.setAttributeNS(t,i,""+r)}}function yt(e){switch(typeof e){case"bigint":case"boolean":case"number":case"string":case"undefined":return e;case"object":return e;default:return""}}function jl(e){var t=e.type;return(e=e.nodeName)&&e.toLowerCase()==="input"&&(t==="checkbox"||t==="radio")}function Sg(e,t,i){var r=Object.getOwnPropertyDescriptor(e.constructor.prototype,t);if(!e.hasOwnProperty(t)&&typeof r<"u"&&typeof r.get=="function"&&typeof r.set=="function"){var n=r.get,a=r.set;return Object.defineProperty(e,t,{configurable:!0,get:function(){return n.call(this)},set:function(o){i=""+o,a.call(this,o)}}),Object.defineProperty(e,t,{enumerable:r.enumerable}),{getValue:function(){return i},setValue:function(o){i=""+o},stopTracking:function(){e._valueTracker=null,delete e[t]}}}}function ao(e){if(!e._valueTracker){var t=jl(e)?"checked":"value";e._valueTracker=Sg(e,t,""+e[t])}}function Vl(e){if(!e)return!1;var t=e._valueTracker;if(!t)return!0;var i=t.getValue(),r="";return e&&(r=jl(e)?e.checked?"true":"false":e.value),e=r,e!==i?(t.setValue(e),!0):!1}function Fn(e){if(e=e||(typeof document<"u"?document:void 0),typeof e>"u")return null;try{return e.activeElement||e.body}catch{return e.body}}var kg=/[\n"\\]/g;function vt(e){return e.replace(kg,function(t){return"\\"+t.charCodeAt(0).toString(16)+" "})}function oo(e,t,i,r,n,a,o,l){e.name="",o!=null&&typeof o!="function"&&typeof o!="symbol"&&typeof o!="boolean"?e.type=o:e.removeAttribute("type"),t!=null?o==="number"?(t===0&&e.value===""||e.value!=t)&&(e.value=""+yt(t)):e.value!==""+yt(t)&&(e.value=""+yt(t)):o!=="submit"&&o!=="reset"||e.removeAttribute("value"),t!=null?so(e,o,yt(t)):i!=null?so(e,o,yt(i)):r!=null&&e.removeAttribute("value"),n==null&&a!=null&&(e.defaultChecked=!!a),n!=null&&(e.checked=n&&typeof n!="function"&&typeof n!="symbol"),l!=null&&typeof l!="function"&&typeof l!="symbol"&&typeof l!="boolean"?e.name=""+yt(l):e.removeAttribute("name")}function zl(e,t,i,r,n,a,o,l){if(a!=null&&typeof a!="function"&&typeof a!="symbol"&&typeof a!="boolean"&&(e.type=a),t!=null||i!=null){if(!(a!=="submit"&&a!=="reset"||t!=null)){ao(e);return}i=i!=null?""+yt(i):"",t=t!=null?""+yt(t):i,l||t===e.value||(e.value=t),e.defaultValue=t}r=r??n,r=typeof r!="function"&&typeof r!="symbol"&&!!r,e.checked=l?e.checked:!!r,e.defaultChecked=!!r,o!=null&&typeof o!="function"&&typeof o!="symbol"&&typeof o!="boolean"&&(e.name=o),ao(e)}function so(e,t,i){t==="number"&&Fn(e.ownerDocument)===e||e.defaultValue===""+i||(e.defaultValue=""+i)}function tr(e,t,i,r){if(e=e.options,t){t={};for(var n=0;n<i.length;n++)t["$"+i[n]]=!0;for(i=0;i<e.length;i++)n=t.hasOwnProperty("$"+e[i].value),e[i].selected!==n&&(e[i].selected=n),n&&r&&(e[i].defaultSelected=!0)}else{for(i=""+yt(i),t=null,n=0;n<e.length;n++){if(e[n].value===i){e[n].selected=!0,r&&(e[n].defaultSelected=!0);return}t!==null||e[n].disabled||(t=e[n])}t!==null&&(t.selected=!0)}}function Kl(e,t,i){if(t!=null&&(t=""+yt(t),t!==e.value&&(e.value=t),i==null)){e.defaultValue!==t&&(e.defaultValue=t);return}e.defaultValue=i!=null?""+yt(i):""}function Wl(e,t,i,r){if(t==null){if(r!=null){if(i!=null)throw Error(d(92));if(at(r)){if(1<r.length)throw Error(d(93));r=r[0]}i=r}i==null&&(i=""),t=i}i=yt(t),e.defaultValue=i,r=e.textContent,r===i&&r!==""&&r!==null&&(e.value=r),ao(e)}function ir(e,t){if(t){var i=e.firstChild;if(i&&i===e.lastChild&&i.nodeType===3){i.nodeValue=t;return}}e.textContent=t}var wg=new Set("animationIterationCount aspectRatio borderImageOutset borderImageSlice borderImageWidth boxFlex boxFlexGroup boxOrdinalGroup columnCount columns flex flexGrow flexPositive flexShrink flexNegative flexOrder gridArea gridRow gridRowEnd gridRowSpan gridRowStart gridColumn gridColumnEnd gridColumnSpan gridColumnStart fontWeight lineClamp lineHeight opacity order orphans scale tabSize widows zIndex zoom fillOpacity floodOpacity stopOpacity strokeDasharray strokeDashoffset strokeMiterlimit strokeOpacity strokeWidth MozAnimationIterationCount MozBoxFlex MozBoxFlexGroup MozLineClamp msAnimationIterationCount msFlex msZoom msFlexGrow msFlexNegative msFlexOrder msFlexPositive msFlexShrink msGridColumn msGridColumnSpan msGridRow msGridRowSpan WebkitAnimationIterationCount WebkitBoxFlex WebKitBoxFlexGroup WebkitBoxOrdinalGroup WebkitColumnCount WebkitColumns WebkitFlex WebkitFlexGrow WebkitFlexPositive WebkitFlexShrink WebkitLineClamp".split(" "));function Gl(e,t,i){var r=t.indexOf("--")===0;i==null||typeof i=="boolean"||i===""?r?e.setProperty(t,""):t==="float"?e.cssFloat="":e[t]="":r?e.setProperty(t,i):typeof i!="number"||i===0||wg.has(t)?t==="float"?e.cssFloat=i:e[t]=(""+i).trim():e[t]=i+"px"}function Ql(e,t,i){if(t!=null&&typeof t!="object")throw Error(d(62));if(e=e.style,i!=null){for(var r in i)!i.hasOwnProperty(r)||t!=null&&t.hasOwnProperty(r)||(r.indexOf("--")===0?e.setProperty(r,""):r==="float"?e.cssFloat="":e[r]="");for(var n in t)r=t[n],t.hasOwnProperty(n)&&i[n]!==r&&Gl(e,n,r)}else for(var a in t)t.hasOwnProperty(a)&&Gl(e,a,t[a])}function lo(e){if(e.indexOf("-")===-1)return!1;switch(e){case"annotation-xml":case"color-profile":case"font-face":case"font-face-src":case"font-face-uri":case"font-face-format":case"font-face-name":case"missing-glyph":return!1;default:return!0}}var Ag=new Map([["acceptCharset","accept-charset"],["htmlFor","for"],["httpEquiv","http-equiv"],["crossOrigin","crossorigin"],["accentHeight","accent-height"],["alignmentBaseline","alignment-baseline"],["arabicForm","arabic-form"],["baselineShift","baseline-shift"],["capHeight","cap-height"],["clipPath","clip-path"],["clipRule","clip-rule"],["colorInterpolation","color-interpolation"],["colorInterpolationFilters","color-interpolation-filters"],["colorProfile","color-profile"],["colorRendering","color-rendering"],["dominantBaseline","dominant-baseline"],["enableBackground","enable-background"],["fillOpacity","fill-opacity"],["fillRule","fill-rule"],["floodColor","flood-color"],["floodOpacity","flood-opacity"],["fontFamily","font-family"],["fontSize","font-size"],["fontSizeAdjust","font-size-adjust"],["fontStretch","font-stretch"],["fontStyle","font-style"],["fontVariant","font-variant"],["fontWeight","font-weight"],["glyphName","glyph-name"],["glyphOrientationHorizontal","glyph-orientation-horizontal"],["glyphOrientationVertical","glyph-orientation-vertical"],["horizAdvX","horiz-adv-x"],["horizOriginX","horiz-origin-x"],["imageRendering","image-rendering"],["letterSpacing","letter-spacing"],["lightingColor","lighting-color"],["markerEnd","marker-end"],["markerMid","marker-mid"],["markerStart","marker-start"],["overlinePosition","overline-position"],["overlineThickness","overline-thickness"],["paintOrder","paint-order"],["panose-1","panose-1"],["pointerEvents","pointer-events"],["renderingIntent","rendering-intent"],["shapeRendering","shape-rendering"],["stopColor","stop-color"],["stopOpacity","stop-opacity"],["strikethroughPosition","strikethrough-position"],["strikethroughThickness","strikethrough-thickness"],["strokeDasharray","stroke-dasharray"],["strokeDashoffset","stroke-dashoffset"],["strokeLinecap","stroke-linecap"],["strokeLinejoin","stroke-linejoin"],["strokeMiterlimit","stroke-miterlimit"],["strokeOpacity","stroke-opacity"],["strokeWidth","stroke-width"],["textAnchor","text-anchor"],["textDecoration","text-decoration"],["textRendering","text-rendering"],["transformOrigin","transform-origin"],["underlinePosition","underline-position"],["underlineThickness","underline-thickness"],["unicodeBidi","unicode-bidi"],["unicodeRange","unicode-range"],["unitsPerEm","units-per-em"],["vAlphabetic","v-alphabetic"],["vHanging","v-hanging"],["vIdeographic","v-ideographic"],["vMathematical","v-mathematical"],["vectorEffect","vector-effect"],["vertAdvY","vert-adv-y"],["vertOriginX","vert-origin-x"],["vertOriginY","vert-origin-y"],["wordSpacing","word-spacing"],["writingMode","writing-mode"],["xmlnsXlink","xmlns:xlink"],["xHeight","x-height"]]),Cg=/^[\u0000-\u001F ]*j[\r\n\t]*a[\r\n\t]*v[\r\n\t]*a[\r\n\t]*s[\r\n\t]*c[\r\n\t]*r[\r\n\t]*i[\r\n\t]*p[\r\n\t]*t[\r\n\t]*:/i;function _n(e){return Cg.test(""+e)?"javascript:throw new Error('React has blocked a javascript: URL as a security precaution.')":e}function _t(){}var co=null;function uo(e){return e=e.target||e.srcElement||window,e.correspondingUseElement&&(e=e.correspondingUseElement),e.nodeType===3?e.parentNode:e}var rr=null,nr=null;function Yl(e){var t=Zi(e);if(t&&(e=t.stateNode)){var i=e[Ze]||null;e:switch(e=t.stateNode,t.type){case"input":if(oo(e,i.value,i.defaultValue,i.defaultValue,i.checked,i.defaultChecked,i.type,i.name),t=i.name,i.type==="radio"&&t!=null){for(i=e;i.parentNode;)i=i.parentNode;for(i=i.querySelectorAll('input[name="'+vt(""+t)+'"][type="radio"]'),t=0;t<i.length;t++){var r=i[t];if(r!==e&&r.form===e.form){var n=r[Ze]||null;if(!n)throw Error(d(90));oo(r,n.value,n.defaultValue,n.defaultValue,n.checked,n.defaultChecked,n.type,n.name)}}for(t=0;t<i.length;t++)r=i[t],r.form===e.form&&Vl(r)}break e;case"textarea":Kl(e,i.value,i.defaultValue);break e;case"select":t=i.value,t!=null&&tr(e,!!i.multiple,t,!1)}}}var po=!1;function Jl(e,t,i){if(po)return e(t,i);po=!0;try{var r=e(t);return r}finally{if(po=!1,(rr!==null||nr!==null)&&(xa(),rr&&(t=rr,e=nr,nr=rr=null,Yl(t),e)))for(t=0;t<e.length;t++)Yl(e[t])}}function Hr(e,t){var i=e.stateNode;if(i===null)return null;var r=i[Ze]||null;if(r===null)return null;i=r[t];e:switch(t){case"onClick":case"onClickCapture":case"onDoubleClick":case"onDoubleClickCapture":case"onMouseDown":case"onMouseDownCapture":case"onMouseMove":case"onMouseMoveCapture":case"onMouseUp":case"onMouseUpCapture":case"onMouseEnter":(r=!r.disabled)||(e=e.type,r=!(e==="button"||e==="input"||e==="select"||e==="textarea")),e=!r;break e;default:e=!1}if(e)return null;if(i&&typeof i!="function")throw Error(d(231,t,typeof i));return i}var Ht=!(typeof window>"u"||typeof window.document>"u"||typeof window.document.createElement>"u"),go=!1;if(Ht)try{var qr={};Object.defineProperty(qr,"passive",{get:function(){go=!0}}),window.addEventListener("test",qr,qr),window.removeEventListener("test",qr,qr)}catch{go=!1}var oi=null,mo=null,Hn=null;function Xl(){if(Hn)return Hn;var e,t=mo,i=t.length,r,n="value"in oi?oi.value:oi.textContent,a=n.length;for(e=0;e<i&&t[e]===n[e];e++);var o=i-e;for(r=1;r<=o&&t[i-r]===n[a-r];r++);return Hn=n.slice(e,1<r?1-r:void 0)}function qn(e){var t=e.keyCode;return"charCode"in e?(e=e.charCode,e===0&&t===13&&(e=13)):e=t,e===10&&(e=13),32<=e||e===13?e:0}function jn(){return!0}function Zl(){return!1}function $e(e){function t(i,r,n,a,o){this._reactName=i,this._targetInst=n,this.type=r,this.nativeEvent=a,this.target=o,this.currentTarget=null;for(var l in e)e.hasOwnProperty(l)&&(i=e[l],this[l]=i?i(a):a[l]);return this.isDefaultPrevented=(a.defaultPrevented!=null?a.defaultPrevented:a.returnValue===!1)?jn:Zl,this.isPropagationStopped=Zl,this}return O(t.prototype,{preventDefault:function(){this.defaultPrevented=!0;var i=this.nativeEvent;i&&(i.preventDefault?i.preventDefault():typeof i.returnValue!="unknown"&&(i.returnValue=!1),this.isDefaultPrevented=jn)},stopPropagation:function(){var i=this.nativeEvent;i&&(i.stopPropagation?i.stopPropagation():typeof i.cancelBubble!="unknown"&&(i.cancelBubble=!0),this.isPropagationStopped=jn)},persist:function(){},isPersistent:jn}),t}var Ni={eventPhase:0,bubbles:0,cancelable:0,timeStamp:function(e){return e.timeStamp||Date.now()},defaultPrevented:0,isTrusted:0},Vn=$e(Ni),jr=O({},Ni,{view:0,detail:0}),Tg=$e(jr),ho,fo,Vr,zn=O({},jr,{screenX:0,screenY:0,clientX:0,clientY:0,pageX:0,pageY:0,ctrlKey:0,shiftKey:0,altKey:0,metaKey:0,getModifierState:vo,button:0,buttons:0,relatedTarget:function(e){return e.relatedTarget===void 0?e.fromElement===e.srcElement?e.toElement:e.fromElement:e.relatedTarget},movementX:function(e){return"movementX"in e?e.movementX:(e!==Vr&&(Vr&&e.type==="mousemove"?(ho=e.screenX-Vr.screenX,fo=e.screenY-Vr.screenY):fo=ho=0,Vr=e),ho)},movementY:function(e){return"movementY"in e?e.movementY:fo}}),$l=$e(zn),xg=O({},zn,{dataTransfer:0}),Rg=$e(xg),Eg=O({},jr,{relatedTarget:0}),yo=$e(Eg),Mg=O({},Ni,{animationName:0,elapsedTime:0,pseudoElement:0}),Dg=$e(Mg),Ig=O({},Ni,{clipboardData:function(e){return"clipboardData"in e?e.clipboardData:window.clipboardData}}),Pg=$e(Ig),Ng=O({},Ni,{data:0}),ec=$e(Ng),Ug={Esc:"Escape",Spacebar:" ",Left:"ArrowLeft",Up:"ArrowUp",Right:"ArrowRight",Down:"ArrowDown",Del:"Delete",Win:"OS",Menu:"ContextMenu",Apps:"ContextMenu",Scroll:"ScrollLock",MozPrintableKey:"Unidentified"},Lg={8:"Backspace",9:"Tab",12:"Clear",13:"Enter",16:"Shift",17:"Control",18:"Alt",19:"Pause",20:"CapsLock",27:"Escape",32:" ",33:"PageUp",34:"PageDown",35:"End",36:"Home",37:"ArrowLeft",38:"ArrowUp",39:"ArrowRight",40:"ArrowDown",45:"Insert",46:"Delete",112:"F1",113:"F2",114:"F3",115:"F4",116:"F5",117:"F6",118:"F7",119:"F8",120:"F9",121:"F10",122:"F11",123:"F12",144:"NumLock",145:"ScrollLock",224:"Meta"},Og={Alt:"altKey",Control:"ctrlKey",Meta:"metaKey",Shift:"shiftKey"};function Bg(e){var t=this.nativeEvent;return t.getModifierState?t.getModifierState(e):(e=Og[e])?!!t[e]:!1}function vo(){return Bg}var Fg=O({},jr,{key:function(e){if(e.key){var t=Ug[e.key]||e.key;if(t!=="Unidentified")return t}return e.type==="keypress"?(e=qn(e),e===13?"Enter":String.fromCharCode(e)):e.type==="keydown"||e.type==="keyup"?Lg[e.keyCode]||"Unidentified":""},code:0,location:0,ctrlKey:0,shiftKey:0,altKey:0,metaKey:0,repeat:0,locale:0,getModifierState:vo,charCode:function(e){return e.type==="keypress"?qn(e):0},keyCode:function(e){return e.type==="keydown"||e.type==="keyup"?e.keyCode:0},which:function(e){return e.type==="keypress"?qn(e):e.type==="keydown"||e.type==="keyup"?e.keyCode:0}}),_g=$e(Fg),Hg=O({},zn,{pointerId:0,width:0,height:0,pressure:0,tangentialPressure:0,tiltX:0,tiltY:0,twist:0,pointerType:0,isPrimary:0}),tc=$e(Hg),qg=O({},jr,{touches:0,targetTouches:0,changedTouches:0,altKey:0,metaKey:0,ctrlKey:0,shiftKey:0,getModifierState:vo}),jg=$e(qg),Vg=O({},Ni,{propertyName:0,elapsedTime:0,pseudoElement:0}),zg=$e(Vg),Kg=O({},zn,{deltaX:function(e){return"deltaX"in e?e.deltaX:"wheelDeltaX"in e?-e.wheelDeltaX:0},deltaY:function(e){return"deltaY"in e?e.deltaY:"wheelDeltaY"in e?-e.wheelDeltaY:"wheelDelta"in e?-e.wheelDelta:0},deltaZ:0,deltaMode:0}),Wg=$e(Kg),Gg=O({},Ni,{newState:0,oldState:0}),Qg=$e(Gg),Yg=[9,13,27,32],bo=Ht&&"CompositionEvent"in window,zr=null;Ht&&"documentMode"in document&&(zr=document.documentMode);var Jg=Ht&&"TextEvent"in window&&!zr,ic=Ht&&(!bo||zr&&8<zr&&11>=zr),rc=" ",nc=!1;function ac(e,t){switch(e){case"keyup":return Yg.indexOf(t.keyCode)!==-1;case"keydown":return t.keyCode!==229;case"keypress":case"mousedown":case"focusout":return!0;default:return!1}}function oc(e){return e=e.detail,typeof e=="object"&&"data"in e?e.data:null}var ar=!1;function Xg(e,t){switch(e){case"compositionend":return oc(t);case"keypress":return t.which!==32?null:(nc=!0,rc);case"textInput":return e=t.data,e===rc&&nc?null:e;default:return null}}function Zg(e,t){if(ar)return e==="compositionend"||!bo&&ac(e,t)?(e=Xl(),Hn=mo=oi=null,ar=!1,e):null;switch(e){case"paste":return null;case"keypress":if(!(t.ctrlKey||t.altKey||t.metaKey)||t.ctrlKey&&t.altKey){if(t.char&&1<t.char.length)return t.char;if(t.which)return String.fromCharCode(t.which)}return null;case"compositionend":return ic&&t.locale!=="ko"?null:t.data;default:return null}}var $g={color:!0,date:!0,datetime:!0,"datetime-local":!0,email:!0,month:!0,number:!0,password:!0,range:!0,search:!0,tel:!0,text:!0,time:!0,url:!0,week:!0};function sc(e){var t=e&&e.nodeName&&e.nodeName.toLowerCase();return t==="input"?!!$g[e.type]:t==="textarea"}function lc(e,t,i,r){rr?nr?nr.push(r):nr=[r]:rr=r,t=Na(t,"onChange"),0<t.length&&(i=new Vn("onChange","change",null,i,r),e.push({event:i,listeners:t}))}var Kr=null,Wr=null;function em(e){zu(e,0)}function Kn(e){var t=_r(e);if(Vl(t))return e}function cc(e,t){if(e==="change")return t}var dc=!1;if(Ht){var So;if(Ht){var ko="oninput"in document;if(!ko){var uc=document.createElement("div");uc.setAttribute("oninput","return;"),ko=typeof uc.oninput=="function"}So=ko}else So=!1;dc=So&&(!document.documentMode||9<document.documentMode)}function pc(){Kr&&(Kr.detachEvent("onpropertychange",gc),Wr=Kr=null)}function gc(e){if(e.propertyName==="value"&&Kn(Wr)){var t=[];lc(t,Wr,e,uo(e)),Jl(em,t)}}function tm(e,t,i){e==="focusin"?(pc(),Kr=t,Wr=i,Kr.attachEvent("onpropertychange",gc)):e==="focusout"&&pc()}function im(e){if(e==="selectionchange"||e==="keyup"||e==="keydown")return Kn(Wr)}function rm(e,t){if(e==="click")return Kn(t)}function nm(e,t){if(e==="input"||e==="change")return Kn(t)}function am(e,t){return e===t&&(e!==0||1/e===1/t)||e!==e&&t!==t}var ct=typeof Object.is=="function"?Object.is:am;function Gr(e,t){if(ct(e,t))return!0;if(typeof e!="object"||e===null||typeof t!="object"||t===null)return!1;var i=Object.keys(e),r=Object.keys(t);if(i.length!==r.length)return!1;for(r=0;r<i.length;r++){var n=i[r];if(!Xa.call(t,n)||!ct(e[n],t[n]))return!1}return!0}function mc(e){for(;e&&e.firstChild;)e=e.firstChild;return e}function hc(e,t){var i=mc(e);e=0;for(var r;i;){if(i.nodeType===3){if(r=e+i.textContent.length,e<=t&&r>=t)return{node:i,offset:t-e};e=r}e:{for(;i;){if(i.nextSibling){i=i.nextSibling;break e}i=i.parentNode}i=void 0}i=mc(i)}}function fc(e,t){return e&&t?e===t?!0:e&&e.nodeType===3?!1:t&&t.nodeType===3?fc(e,t.parentNode):"contains"in e?e.contains(t):e.compareDocumentPosition?!!(e.compareDocumentPosition(t)&16):!1:!1}function yc(e){e=e!=null&&e.ownerDocument!=null&&e.ownerDocument.defaultView!=null?e.ownerDocument.defaultView:window;for(var t=Fn(e.document);t instanceof e.HTMLIFrameElement;){try{var i=typeof t.contentWindow.location.href=="string"}catch{i=!1}if(i)e=t.contentWindow;else break;t=Fn(e.document)}return t}function wo(e){var t=e&&e.nodeName&&e.nodeName.toLowerCase();return t&&(t==="input"&&(e.type==="text"||e.type==="search"||e.type==="tel"||e.type==="url"||e.type==="password")||t==="textarea"||e.contentEditable==="true")}var om=Ht&&"documentMode"in document&&11>=document.documentMode,or=null,Ao=null,Qr=null,Co=!1;function vc(e,t,i){var r=i.window===i?i.document:i.nodeType===9?i:i.ownerDocument;Co||or==null||or!==Fn(r)||(r=or,"selectionStart"in r&&wo(r)?r={start:r.selectionStart,end:r.selectionEnd}:(r=(r.ownerDocument&&r.ownerDocument.defaultView||window).getSelection(),r={anchorNode:r.anchorNode,anchorOffset:r.anchorOffset,focusNode:r.focusNode,focusOffset:r.focusOffset}),Qr&&Gr(Qr,r)||(Qr=r,r=Na(Ao,"onSelect"),0<r.length&&(t=new Vn("onSelect","select",null,t,i),e.push({event:t,listeners:r}),t.target=or)))}function Ui(e,t){var i={};return i[e.toLowerCase()]=t.toLowerCase(),i["Webkit"+e]="webkit"+t,i["Moz"+e]="moz"+t,i}var sr={animationend:Ui("Animation","AnimationEnd"),animationiteration:Ui("Animation","AnimationIteration"),animationstart:Ui("Animation","AnimationStart"),transitionrun:Ui("Transition","TransitionRun"),transitionstart:Ui("Transition","TransitionStart"),transitioncancel:Ui("Transition","TransitionCancel"),transitionend:Ui("Transition","TransitionEnd")},To={},bc={};Ht&&(bc=document.createElement("div").style,"AnimationEvent"in window||(delete sr.animationend.animation,delete sr.animationiteration.animation,delete sr.animationstart.animation),"TransitionEvent"in window||delete sr.transitionend.transition);function Li(e){if(To[e])return To[e];if(!sr[e])return e;var t=sr[e],i;for(i in t)if(t.hasOwnProperty(i)&&i in bc)return To[e]=t[i];return e}var Sc=Li("animationend"),kc=Li("animationiteration"),wc=Li("animationstart"),sm=Li("transitionrun"),lm=Li("transitionstart"),cm=Li("transitioncancel"),Ac=Li("transitionend"),Cc=new Map,xo="abort auxClick beforeToggle cancel canPlay canPlayThrough click close contextMenu copy cut drag dragEnd dragEnter dragExit dragLeave dragOver dragStart drop durationChange emptied encrypted ended error gotPointerCapture input invalid keyDown keyPress keyUp load loadedData loadedMetadata loadStart lostPointerCapture mouseDown mouseMove mouseOut mouseOver mouseUp paste pause play playing pointerCancel pointerDown pointerMove pointerOut pointerOver pointerUp progress rateChange reset resize seeked seeking stalled submit suspend timeUpdate touchCancel touchEnd touchStart volumeChange scroll toggle touchMove waiting wheel".split(" ");xo.push("scrollEnd");function Et(e,t){Cc.set(e,t),Pi(t,[e])}var Wn=typeof reportError=="function"?reportError:function(e){if(typeof window=="object"&&typeof window.ErrorEvent=="function"){var t=new window.ErrorEvent("error",{bubbles:!0,cancelable:!0,message:typeof e=="object"&&e!==null&&typeof e.message=="string"?String(e.message):String(e),error:e});if(!window.dispatchEvent(t))return}else if(typeof process=="object"&&typeof process.emit=="function"){process.emit("uncaughtException",e);return}console.error(e)},bt=[],lr=0,Ro=0;function Gn(){for(var e=lr,t=Ro=lr=0;t<e;){var i=bt[t];bt[t++]=null;var r=bt[t];bt[t++]=null;var n=bt[t];bt[t++]=null;var a=bt[t];if(bt[t++]=null,r!==null&&n!==null){var o=r.pending;o===null?n.next=n:(n.next=o.next,o.next=n),r.pending=n}a!==0&&Tc(i,n,a)}}function Qn(e,t,i,r){bt[lr++]=e,bt[lr++]=t,bt[lr++]=i,bt[lr++]=r,Ro|=r,e.lanes|=r,e=e.alternate,e!==null&&(e.lanes|=r)}function Eo(e,t,i,r){return Qn(e,t,i,r),Yn(e)}function Oi(e,t){return Qn(e,null,null,t),Yn(e)}function Tc(e,t,i){e.lanes|=i;var r=e.alternate;r!==null&&(r.lanes|=i);for(var n=!1,a=e.return;a!==null;)a.childLanes|=i,r=a.alternate,r!==null&&(r.childLanes|=i),a.tag===22&&(e=a.stateNode,e===null||e._visibility&1||(n=!0)),e=a,a=a.return;return e.tag===3?(a=e.stateNode,n&&t!==null&&(n=31-lt(i),e=a.hiddenUpdates,r=e[n],r===null?e[n]=[t]:r.push(t),t.lane=i|536870912),a):null}function Yn(e){if(50<yn)throw yn=0,Bs=null,Error(d(185));for(var t=e.return;t!==null;)e=t,t=e.return;return e.tag===3?e.stateNode:null}var cr={};function dm(e,t,i,r){this.tag=e,this.key=i,this.sibling=this.child=this.return=this.stateNode=this.type=this.elementType=null,this.index=0,this.refCleanup=this.ref=null,this.pendingProps=t,this.dependencies=this.memoizedState=this.updateQueue=this.memoizedProps=null,this.mode=r,this.subtreeFlags=this.flags=0,this.deletions=null,this.childLanes=this.lanes=0,this.alternate=null}function dt(e,t,i,r){return new dm(e,t,i,r)}function Mo(e){return e=e.prototype,!(!e||!e.isReactComponent)}function qt(e,t){var i=e.alternate;return i===null?(i=dt(e.tag,t,e.key,e.mode),i.elementType=e.elementType,i.type=e.type,i.stateNode=e.stateNode,i.alternate=e,e.alternate=i):(i.pendingProps=t,i.type=e.type,i.flags=0,i.subtreeFlags=0,i.deletions=null),i.flags=e.flags&65011712,i.childLanes=e.childLanes,i.lanes=e.lanes,i.child=e.child,i.memoizedProps=e.memoizedProps,i.memoizedState=e.memoizedState,i.updateQueue=e.updateQueue,t=e.dependencies,i.dependencies=t===null?null:{lanes:t.lanes,firstContext:t.firstContext},i.sibling=e.sibling,i.index=e.index,i.ref=e.ref,i.refCleanup=e.refCleanup,i}function xc(e,t){e.flags&=65011714;var i=e.alternate;return i===null?(e.childLanes=0,e.lanes=t,e.child=null,e.subtreeFlags=0,e.memoizedProps=null,e.memoizedState=null,e.updateQueue=null,e.dependencies=null,e.stateNode=null):(e.childLanes=i.childLanes,e.lanes=i.lanes,e.child=i.child,e.subtreeFlags=0,e.deletions=null,e.memoizedProps=i.memoizedProps,e.memoizedState=i.memoizedState,e.updateQueue=i.updateQueue,e.type=i.type,t=i.dependencies,e.dependencies=t===null?null:{lanes:t.lanes,firstContext:t.firstContext}),e}function Jn(e,t,i,r,n,a){var o=0;if(r=e,typeof e=="function")Mo(e)&&(o=1);else if(typeof e=="string")o=hh(e,i,H.current)?26:e==="html"||e==="head"||e==="body"?27:5;else e:switch(e){case Ve:return e=dt(31,i,t,n),e.elementType=Ve,e.lanes=a,e;case ee:return Bi(i.children,n,a,t);case F:o=8,n|=24;break;case te:return e=dt(12,i,t,n|2),e.elementType=te,e.lanes=a,e;case ue:return e=dt(13,i,t,n),e.elementType=ue,e.lanes=a,e;case he:return e=dt(19,i,t,n),e.elementType=he,e.lanes=a,e;default:if(typeof e=="object"&&e!==null)switch(e.$$typeof){case Ae:o=10;break e;case je:o=9;break e;case de:o=11;break e;case Y:o=14;break e;case Ie:o=16,r=null;break e}o=29,i=Error(d(130,e===null?"null":typeof e,"")),r=null}return t=dt(o,i,t,n),t.elementType=e,t.type=r,t.lanes=a,t}function Bi(e,t,i,r){return e=dt(7,e,r,t),e.lanes=i,e}function Do(e,t,i){return e=dt(6,e,null,t),e.lanes=i,e}function Rc(e){var t=dt(18,null,null,0);return t.stateNode=e,t}function Io(e,t,i){return t=dt(4,e.children!==null?e.children:[],e.key,t),t.lanes=i,t.stateNode={containerInfo:e.containerInfo,pendingChildren:null,implementation:e.implementation},t}var Ec=new WeakMap;function St(e,t){if(typeof e=="object"&&e!==null){var i=Ec.get(e);return i!==void 0?i:(t={value:e,source:t,stack:Rl(t)},Ec.set(e,t),t)}return{value:e,source:t,stack:Rl(t)}}var dr=[],ur=0,Xn=null,Yr=0,kt=[],wt=0,si=null,Nt=1,Ut="";function jt(e,t){dr[ur++]=Yr,dr[ur++]=Xn,Xn=e,Yr=t}function Mc(e,t,i){kt[wt++]=Nt,kt[wt++]=Ut,kt[wt++]=si,si=e;var r=Nt;e=Ut;var n=32-lt(r)-1;r&=~(1<<n),i+=1;var a=32-lt(t)+n;if(30<a){var o=n-n%5;a=(r&(1<<o)-1).toString(32),r>>=o,n-=o,Nt=1<<32-lt(t)+n|i<<n|r,Ut=a+e}else Nt=1<<a|i<<n|r,Ut=e}function Po(e){e.return!==null&&(jt(e,1),Mc(e,1,0))}function No(e){for(;e===Xn;)Xn=dr[--ur],dr[ur]=null,Yr=dr[--ur],dr[ur]=null;for(;e===si;)si=kt[--wt],kt[wt]=null,Ut=kt[--wt],kt[wt]=null,Nt=kt[--wt],kt[wt]=null}function Dc(e,t){kt[wt++]=Nt,kt[wt++]=Ut,kt[wt++]=si,Nt=t.id,Ut=t.overflow,si=e}var Ke=null,Ce=null,se=!1,li=null,At=!1,Uo=Error(d(519));function ci(e){var t=Error(d(418,1<arguments.length&&arguments[1]!==void 0&&arguments[1]?"text":"HTML",""));throw Jr(St(t,e)),Uo}function Ic(e){var t=e.stateNode,i=e.type,r=e.memoizedProps;switch(t[ze]=e,t[Ze]=r,i){case"dialog":re("cancel",t),re("close",t);break;case"iframe":case"object":case"embed":re("load",t);break;case"video":case"audio":for(i=0;i<bn.length;i++)re(bn[i],t);break;case"source":re("error",t);break;case"img":case"image":case"link":re("error",t),re("load",t);break;case"details":re("toggle",t);break;case"input":re("invalid",t),zl(t,r.value,r.defaultValue,r.checked,r.defaultChecked,r.type,r.name,!0);break;case"select":re("invalid",t);break;case"textarea":re("invalid",t),Wl(t,r.value,r.defaultValue,r.children)}i=r.children,typeof i!="string"&&typeof i!="number"&&typeof i!="bigint"||t.textContent===""+i||r.suppressHydrationWarning===!0||Qu(t.textContent,i)?(r.popover!=null&&(re("beforetoggle",t),re("toggle",t)),r.onScroll!=null&&re("scroll",t),r.onScrollEnd!=null&&re("scrollend",t),r.onClick!=null&&(t.onclick=_t),t=!0):t=!1,t||ci(e,!0)}function Pc(e){for(Ke=e.return;Ke;)switch(Ke.tag){case 5:case 31:case 13:At=!1;return;case 27:case 3:At=!0;return;default:Ke=Ke.return}}function pr(e){if(e!==Ke)return!1;if(!se)return Pc(e),se=!0,!1;var t=e.tag,i;if((i=t!==3&&t!==27)&&((i=t===5)&&(i=e.type,i=!(i!=="form"&&i!=="button")||Zs(e.type,e.memoizedProps)),i=!i),i&&Ce&&ci(e),Pc(e),t===13){if(e=e.memoizedState,e=e!==null?e.dehydrated:null,!e)throw Error(d(317));Ce=rp(e)}else if(t===31){if(e=e.memoizedState,e=e!==null?e.dehydrated:null,!e)throw Error(d(317));Ce=rp(e)}else t===27?(t=Ce,Ai(e.type)?(e=rl,rl=null,Ce=e):Ce=t):Ce=Ke?Tt(e.stateNode.nextSibling):null;return!0}function Fi(){Ce=Ke=null,se=!1}function Lo(){var e=li;return e!==null&&(rt===null?rt=e:rt.push.apply(rt,e),li=null),e}function Jr(e){li===null?li=[e]:li.push(e)}var Oo=g(null),_i=null,Vt=null;function di(e,t,i){U(Oo,t._currentValue),t._currentValue=i}function zt(e){e._currentValue=Oo.current,x(Oo)}function Bo(e,t,i){for(;e!==null;){var r=e.alternate;if((e.childLanes&t)!==t?(e.childLanes|=t,r!==null&&(r.childLanes|=t)):r!==null&&(r.childLanes&t)!==t&&(r.childLanes|=t),e===i)break;e=e.return}}function Fo(e,t,i,r){var n=e.child;for(n!==null&&(n.return=e);n!==null;){var a=n.dependencies;if(a!==null){var o=n.child;a=a.firstContext;e:for(;a!==null;){var l=a;a=n;for(var c=0;c<t.length;c++)if(l.context===t[c]){a.lanes|=i,l=a.alternate,l!==null&&(l.lanes|=i),Bo(a.return,i,e),r||(o=null);break e}a=l.next}}else if(n.tag===18){if(o=n.return,o===null)throw Error(d(341));o.lanes|=i,a=o.alternate,a!==null&&(a.lanes|=i),Bo(o,i,e),o=null}else o=n.child;if(o!==null)o.return=n;else for(o=n;o!==null;){if(o===e){o=null;break}if(n=o.sibling,n!==null){n.return=o.return,o=n;break}o=o.return}n=o}}function gr(e,t,i,r){e=null;for(var n=t,a=!1;n!==null;){if(!a){if((n.flags&524288)!==0)a=!0;else if((n.flags&262144)!==0)break}if(n.tag===10){var o=n.alternate;if(o===null)throw Error(d(387));if(o=o.memoizedProps,o!==null){var l=n.type;ct(n.pendingProps.value,o.value)||(e!==null?e.push(l):e=[l])}}else if(n===I.current){if(o=n.alternate,o===null)throw Error(d(387));o.memoizedState.memoizedState!==n.memoizedState.memoizedState&&(e!==null?e.push(Cn):e=[Cn])}n=n.return}e!==null&&Fo(t,e,i,r),t.flags|=262144}function Zn(e){for(e=e.firstContext;e!==null;){if(!ct(e.context._currentValue,e.memoizedValue))return!0;e=e.next}return!1}function Hi(e){_i=e,Vt=null,e=e.dependencies,e!==null&&(e.firstContext=null)}function We(e){return Nc(_i,e)}function $n(e,t){return _i===null&&Hi(e),Nc(e,t)}function Nc(e,t){var i=t._currentValue;if(t={context:t,memoizedValue:i,next:null},Vt===null){if(e===null)throw Error(d(308));Vt=t,e.dependencies={lanes:0,firstContext:t},e.flags|=524288}else Vt=Vt.next=t;return i}var um=typeof AbortController<"u"?AbortController:function(){var e=[],t=this.signal={aborted:!1,addEventListener:function(i,r){e.push(r)}};this.abort=function(){t.aborted=!0,e.forEach(function(i){return i()})}},pm=u.unstable_scheduleCallback,gm=u.unstable_NormalPriority,Le={$$typeof:Ae,Consumer:null,Provider:null,_currentValue:null,_currentValue2:null,_threadCount:0};function _o(){return{controller:new um,data:new Map,refCount:0}}function Xr(e){e.refCount--,e.refCount===0&&pm(gm,function(){e.controller.abort()})}var Zr=null,Ho=0,mr=0,hr=null;function mm(e,t){if(Zr===null){var i=Zr=[];Ho=0,mr=Vs(),hr={status:"pending",value:void 0,then:function(r){i.push(r)}}}return Ho++,t.then(Uc,Uc),t}function Uc(){if(--Ho===0&&Zr!==null){hr!==null&&(hr.status="fulfilled");var e=Zr;Zr=null,mr=0,hr=null;for(var t=0;t<e.length;t++)(0,e[t])()}}function hm(e,t){var i=[],r={status:"pending",value:null,reason:null,then:function(n){i.push(n)}};return e.then(function(){r.status="fulfilled",r.value=t;for(var n=0;n<i.length;n++)(0,i[n])(t)},function(n){for(r.status="rejected",r.reason=n,n=0;n<i.length;n++)(0,i[n])(void 0)}),r}var Lc=k.S;k.S=function(e,t){vu=ot(),typeof t=="object"&&t!==null&&typeof t.then=="function"&&mm(e,t),Lc!==null&&Lc(e,t)};var qi=g(null);function qo(){var e=qi.current;return e!==null?e:we.pooledCache}function ea(e,t){t===null?U(qi,qi.current):U(qi,t.pool)}function Oc(){var e=qo();return e===null?null:{parent:Le._currentValue,pool:e}}var fr=Error(d(460)),jo=Error(d(474)),ta=Error(d(542)),ia={then:function(){}};function Bc(e){return e=e.status,e==="fulfilled"||e==="rejected"}function Fc(e,t,i){switch(i=e[i],i===void 0?e.push(t):i!==t&&(t.then(_t,_t),t=i),t.status){case"fulfilled":return t.value;case"rejected":throw e=t.reason,Hc(e),e;default:if(typeof t.status=="string")t.then(_t,_t);else{if(e=we,e!==null&&100<e.shellSuspendCounter)throw Error(d(482));e=t,e.status="pending",e.then(function(r){if(t.status==="pending"){var n=t;n.status="fulfilled",n.value=r}},function(r){if(t.status==="pending"){var n=t;n.status="rejected",n.reason=r}})}switch(t.status){case"fulfilled":return t.value;case"rejected":throw e=t.reason,Hc(e),e}throw Vi=t,fr}}function ji(e){try{var t=e._init;return t(e._payload)}catch(i){throw i!==null&&typeof i=="object"&&typeof i.then=="function"?(Vi=i,fr):i}}var Vi=null;function _c(){if(Vi===null)throw Error(d(459));var e=Vi;return Vi=null,e}function Hc(e){if(e===fr||e===ta)throw Error(d(483))}var yr=null,$r=0;function ra(e){var t=$r;return $r+=1,yr===null&&(yr=[]),Fc(yr,e,t)}function en(e,t){t=t.props.ref,e.ref=t!==void 0?t:null}function na(e,t){throw t.$$typeof===B?Error(d(525)):(e=Object.prototype.toString.call(t),Error(d(31,e==="[object Object]"?"object with keys {"+Object.keys(t).join(", ")+"}":e)))}function qc(e){function t(m,p){if(e){var h=m.deletions;h===null?(m.deletions=[p],m.flags|=16):h.push(p)}}function i(m,p){if(!e)return null;for(;p!==null;)t(m,p),p=p.sibling;return null}function r(m){for(var p=new Map;m!==null;)m.key!==null?p.set(m.key,m):p.set(m.index,m),m=m.sibling;return p}function n(m,p){return m=qt(m,p),m.index=0,m.sibling=null,m}function a(m,p,h){return m.index=h,e?(h=m.alternate,h!==null?(h=h.index,h<p?(m.flags|=67108866,p):h):(m.flags|=67108866,p)):(m.flags|=1048576,p)}function o(m){return e&&m.alternate===null&&(m.flags|=67108866),m}function l(m,p,h,C){return p===null||p.tag!==6?(p=Do(h,m.mode,C),p.return=m,p):(p=n(p,h),p.return=m,p)}function c(m,p,h,C){var V=h.type;return V===ee?S(m,p,h.props.children,C,h.key):p!==null&&(p.elementType===V||typeof V=="object"&&V!==null&&V.$$typeof===Ie&&ji(V)===p.type)?(p=n(p,h.props),en(p,h),p.return=m,p):(p=Jn(h.type,h.key,h.props,null,m.mode,C),en(p,h),p.return=m,p)}function f(m,p,h,C){return p===null||p.tag!==4||p.stateNode.containerInfo!==h.containerInfo||p.stateNode.implementation!==h.implementation?(p=Io(h,m.mode,C),p.return=m,p):(p=n(p,h.children||[]),p.return=m,p)}function S(m,p,h,C,V){return p===null||p.tag!==7?(p=Bi(h,m.mode,C,V),p.return=m,p):(p=n(p,h),p.return=m,p)}function T(m,p,h){if(typeof p=="string"&&p!==""||typeof p=="number"||typeof p=="bigint")return p=Do(""+p,m.mode,h),p.return=m,p;if(typeof p=="object"&&p!==null){switch(p.$$typeof){case W:return h=Jn(p.type,p.key,p.props,null,m.mode,h),en(h,p),h.return=m,h;case le:return p=Io(p,m.mode,h),p.return=m,p;case Ie:return p=ji(p),T(m,p,h)}if(at(p)||Ue(p))return p=Bi(p,m.mode,h,null),p.return=m,p;if(typeof p.then=="function")return T(m,ra(p),h);if(p.$$typeof===Ae)return T(m,$n(m,p),h);na(m,p)}return null}function y(m,p,h,C){var V=p!==null?p.key:null;if(typeof h=="string"&&h!==""||typeof h=="number"||typeof h=="bigint")return V!==null?null:l(m,p,""+h,C);if(typeof h=="object"&&h!==null){switch(h.$$typeof){case W:return h.key===V?c(m,p,h,C):null;case le:return h.key===V?f(m,p,h,C):null;case Ie:return h=ji(h),y(m,p,h,C)}if(at(h)||Ue(h))return V!==null?null:S(m,p,h,C,null);if(typeof h.then=="function")return y(m,p,ra(h),C);if(h.$$typeof===Ae)return y(m,p,$n(m,h),C);na(m,h)}return null}function v(m,p,h,C,V){if(typeof C=="string"&&C!==""||typeof C=="number"||typeof C=="bigint")return m=m.get(h)||null,l(p,m,""+C,V);if(typeof C=="object"&&C!==null){switch(C.$$typeof){case W:return m=m.get(C.key===null?h:C.key)||null,c(p,m,C,V);case le:return m=m.get(C.key===null?h:C.key)||null,f(p,m,C,V);case Ie:return C=ji(C),v(m,p,h,C,V)}if(at(C)||Ue(C))return m=m.get(h)||null,S(p,m,C,V,null);if(typeof C.then=="function")return v(m,p,h,ra(C),V);if(C.$$typeof===Ae)return v(m,p,h,$n(p,C),V);na(p,C)}return null}function _(m,p,h,C){for(var V=null,pe=null,j=p,$=p=0,ae=null;j!==null&&$<h.length;$++){j.index>$?(ae=j,j=null):ae=j.sibling;var ge=y(m,j,h[$],C);if(ge===null){j===null&&(j=ae);break}e&&j&&ge.alternate===null&&t(m,j),p=a(ge,p,$),pe===null?V=ge:pe.sibling=ge,pe=ge,j=ae}if($===h.length)return i(m,j),se&&jt(m,$),V;if(j===null){for(;$<h.length;$++)j=T(m,h[$],C),j!==null&&(p=a(j,p,$),pe===null?V=j:pe.sibling=j,pe=j);return se&&jt(m,$),V}for(j=r(j);$<h.length;$++)ae=v(j,m,$,h[$],C),ae!==null&&(e&&ae.alternate!==null&&j.delete(ae.key===null?$:ae.key),p=a(ae,p,$),pe===null?V=ae:pe.sibling=ae,pe=ae);return e&&j.forEach(function(Ei){return t(m,Ei)}),se&&jt(m,$),V}function Q(m,p,h,C){if(h==null)throw Error(d(151));for(var V=null,pe=null,j=p,$=p=0,ae=null,ge=h.next();j!==null&&!ge.done;$++,ge=h.next()){j.index>$?(ae=j,j=null):ae=j.sibling;var Ei=y(m,j,ge.value,C);if(Ei===null){j===null&&(j=ae);break}e&&j&&Ei.alternate===null&&t(m,j),p=a(Ei,p,$),pe===null?V=Ei:pe.sibling=Ei,pe=Ei,j=ae}if(ge.done)return i(m,j),se&&jt(m,$),V;if(j===null){for(;!ge.done;$++,ge=h.next())ge=T(m,ge.value,C),ge!==null&&(p=a(ge,p,$),pe===null?V=ge:pe.sibling=ge,pe=ge);return se&&jt(m,$),V}for(j=r(j);!ge.done;$++,ge=h.next())ge=v(j,m,$,ge.value,C),ge!==null&&(e&&ge.alternate!==null&&j.delete(ge.key===null?$:ge.key),p=a(ge,p,$),pe===null?V=ge:pe.sibling=ge,pe=ge);return e&&j.forEach(function(xh){return t(m,xh)}),se&&jt(m,$),V}function ke(m,p,h,C){if(typeof h=="object"&&h!==null&&h.type===ee&&h.key===null&&(h=h.props.children),typeof h=="object"&&h!==null){switch(h.$$typeof){case W:e:{for(var V=h.key;p!==null;){if(p.key===V){if(V=h.type,V===ee){if(p.tag===7){i(m,p.sibling),C=n(p,h.props.children),C.return=m,m=C;break e}}else if(p.elementType===V||typeof V=="object"&&V!==null&&V.$$typeof===Ie&&ji(V)===p.type){i(m,p.sibling),C=n(p,h.props),en(C,h),C.return=m,m=C;break e}i(m,p);break}else t(m,p);p=p.sibling}h.type===ee?(C=Bi(h.props.children,m.mode,C,h.key),C.return=m,m=C):(C=Jn(h.type,h.key,h.props,null,m.mode,C),en(C,h),C.return=m,m=C)}return o(m);case le:e:{for(V=h.key;p!==null;){if(p.key===V)if(p.tag===4&&p.stateNode.containerInfo===h.containerInfo&&p.stateNode.implementation===h.implementation){i(m,p.sibling),C=n(p,h.children||[]),C.return=m,m=C;break e}else{i(m,p);break}else t(m,p);p=p.sibling}C=Io(h,m.mode,C),C.return=m,m=C}return o(m);case Ie:return h=ji(h),ke(m,p,h,C)}if(at(h))return _(m,p,h,C);if(Ue(h)){if(V=Ue(h),typeof V!="function")throw Error(d(150));return h=V.call(h),Q(m,p,h,C)}if(typeof h.then=="function")return ke(m,p,ra(h),C);if(h.$$typeof===Ae)return ke(m,p,$n(m,h),C);na(m,h)}return typeof h=="string"&&h!==""||typeof h=="number"||typeof h=="bigint"?(h=""+h,p!==null&&p.tag===6?(i(m,p.sibling),C=n(p,h),C.return=m,m=C):(i(m,p),C=Do(h,m.mode,C),C.return=m,m=C),o(m)):i(m,p)}return function(m,p,h,C){try{$r=0;var V=ke(m,p,h,C);return yr=null,V}catch(j){if(j===fr||j===ta)throw j;var pe=dt(29,j,null,m.mode);return pe.lanes=C,pe.return=m,pe}}}var zi=qc(!0),jc=qc(!1),ui=!1;function Vo(e){e.updateQueue={baseState:e.memoizedState,firstBaseUpdate:null,lastBaseUpdate:null,shared:{pending:null,lanes:0,hiddenCallbacks:null},callbacks:null}}function zo(e,t){e=e.updateQueue,t.updateQueue===e&&(t.updateQueue={baseState:e.baseState,firstBaseUpdate:e.firstBaseUpdate,lastBaseUpdate:e.lastBaseUpdate,shared:e.shared,callbacks:null})}function pi(e){return{lane:e,tag:0,payload:null,callback:null,next:null}}function gi(e,t,i){var r=e.updateQueue;if(r===null)return null;if(r=r.shared,(me&2)!==0){var n=r.pending;return n===null?t.next=t:(t.next=n.next,n.next=t),r.pending=t,t=Yn(e),Tc(e,null,i),t}return Qn(e,r,t,i),Yn(e)}function tn(e,t,i){if(t=t.updateQueue,t!==null&&(t=t.shared,(i&4194048)!==0)){var r=t.lanes;r&=e.pendingLanes,i|=r,t.lanes=i,Nl(e,i)}}function Ko(e,t){var i=e.updateQueue,r=e.alternate;if(r!==null&&(r=r.updateQueue,i===r)){var n=null,a=null;if(i=i.firstBaseUpdate,i!==null){do{var o={lane:i.lane,tag:i.tag,payload:i.payload,callback:null,next:null};a===null?n=a=o:a=a.next=o,i=i.next}while(i!==null);a===null?n=a=t:a=a.next=t}else n=a=t;i={baseState:r.baseState,firstBaseUpdate:n,lastBaseUpdate:a,shared:r.shared,callbacks:r.callbacks},e.updateQueue=i;return}e=i.lastBaseUpdate,e===null?i.firstBaseUpdate=t:e.next=t,i.lastBaseUpdate=t}var Wo=!1;function rn(){if(Wo){var e=hr;if(e!==null)throw e}}function nn(e,t,i,r){Wo=!1;var n=e.updateQueue;ui=!1;var a=n.firstBaseUpdate,o=n.lastBaseUpdate,l=n.shared.pending;if(l!==null){n.shared.pending=null;var c=l,f=c.next;c.next=null,o===null?a=f:o.next=f,o=c;var S=e.alternate;S!==null&&(S=S.updateQueue,l=S.lastBaseUpdate,l!==o&&(l===null?S.firstBaseUpdate=f:l.next=f,S.lastBaseUpdate=c))}if(a!==null){var T=n.baseState;o=0,S=f=c=null,l=a;do{var y=l.lane&-536870913,v=y!==l.lane;if(v?(ne&y)===y:(r&y)===y){y!==0&&y===mr&&(Wo=!0),S!==null&&(S=S.next={lane:0,tag:l.tag,payload:l.payload,callback:null,next:null});e:{var _=e,Q=l;y=t;var ke=i;switch(Q.tag){case 1:if(_=Q.payload,typeof _=="function"){T=_.call(ke,T,y);break e}T=_;break e;case 3:_.flags=_.flags&-65537|128;case 0:if(_=Q.payload,y=typeof _=="function"?_.call(ke,T,y):_,y==null)break e;T=O({},T,y);break e;case 2:ui=!0}}y=l.callback,y!==null&&(e.flags|=64,v&&(e.flags|=8192),v=n.callbacks,v===null?n.callbacks=[y]:v.push(y))}else v={lane:y,tag:l.tag,payload:l.payload,callback:l.callback,next:null},S===null?(f=S=v,c=T):S=S.next=v,o|=y;if(l=l.next,l===null){if(l=n.shared.pending,l===null)break;v=l,l=v.next,v.next=null,n.lastBaseUpdate=v,n.shared.pending=null}}while(!0);S===null&&(c=T),n.baseState=c,n.firstBaseUpdate=f,n.lastBaseUpdate=S,a===null&&(n.shared.lanes=0),vi|=o,e.lanes=o,e.memoizedState=T}}function Vc(e,t){if(typeof e!="function")throw Error(d(191,e));e.call(t)}function zc(e,t){var i=e.callbacks;if(i!==null)for(e.callbacks=null,e=0;e<i.length;e++)Vc(i[e],t)}var vr=g(null),aa=g(0);function Kc(e,t){e=$t,U(aa,e),U(vr,t),$t=e|t.baseLanes}function Go(){U(aa,$t),U(vr,vr.current)}function Qo(){$t=aa.current,x(vr),x(aa)}var ut=g(null),Ct=null;function mi(e){var t=e.alternate;U(Pe,Pe.current&1),U(ut,e),Ct===null&&(t===null||vr.current!==null||t.memoizedState!==null)&&(Ct=e)}function Yo(e){U(Pe,Pe.current),U(ut,e),Ct===null&&(Ct=e)}function Wc(e){e.tag===22?(U(Pe,Pe.current),U(ut,e),Ct===null&&(Ct=e)):hi()}function hi(){U(Pe,Pe.current),U(ut,ut.current)}function pt(e){x(ut),Ct===e&&(Ct=null),x(Pe)}var Pe=g(0);function oa(e){for(var t=e;t!==null;){if(t.tag===13){var i=t.memoizedState;if(i!==null&&(i=i.dehydrated,i===null||tl(i)||il(i)))return t}else if(t.tag===19&&(t.memoizedProps.revealOrder==="forwards"||t.memoizedProps.revealOrder==="backwards"||t.memoizedProps.revealOrder==="unstable_legacy-backwards"||t.memoizedProps.revealOrder==="together")){if((t.flags&128)!==0)return t}else if(t.child!==null){t.child.return=t,t=t.child;continue}if(t===e)break;for(;t.sibling===null;){if(t.return===null||t.return===e)return null;t=t.return}t.sibling.return=t.return,t=t.sibling}return null}var Kt=0,Z=null,be=null,Oe=null,sa=!1,br=!1,Ki=!1,la=0,an=0,Sr=null,fm=0;function Ee(){throw Error(d(321))}function Jo(e,t){if(t===null)return!1;for(var i=0;i<t.length&&i<e.length;i++)if(!ct(e[i],t[i]))return!1;return!0}function Xo(e,t,i,r,n,a){return Kt=a,Z=t,t.memoizedState=null,t.updateQueue=null,t.lanes=0,k.H=e===null||e.memoizedState===null?Md:ps,Ki=!1,a=i(r,n),Ki=!1,br&&(a=Qc(t,i,r,n)),Gc(e),a}function Gc(e){k.H=ln;var t=be!==null&&be.next!==null;if(Kt=0,Oe=be=Z=null,sa=!1,an=0,Sr=null,t)throw Error(d(300));e===null||Be||(e=e.dependencies,e!==null&&Zn(e)&&(Be=!0))}function Qc(e,t,i,r){Z=e;var n=0;do{if(br&&(Sr=null),an=0,br=!1,25<=n)throw Error(d(301));if(n+=1,Oe=be=null,e.updateQueue!=null){var a=e.updateQueue;a.lastEffect=null,a.events=null,a.stores=null,a.memoCache!=null&&(a.memoCache.index=0)}k.H=Dd,a=t(i,r)}while(br);return a}function ym(){var e=k.H,t=e.useState()[0];return t=typeof t.then=="function"?on(t):t,e=e.useState()[0],(be!==null?be.memoizedState:null)!==e&&(Z.flags|=1024),t}function Zo(){var e=la!==0;return la=0,e}function $o(e,t,i){t.updateQueue=e.updateQueue,t.flags&=-2053,e.lanes&=~i}function es(e){if(sa){for(e=e.memoizedState;e!==null;){var t=e.queue;t!==null&&(t.pending=null),e=e.next}sa=!1}Kt=0,Oe=be=Z=null,br=!1,an=la=0,Sr=null}function Xe(){var e={memoizedState:null,baseState:null,baseQueue:null,queue:null,next:null};return Oe===null?Z.memoizedState=Oe=e:Oe=Oe.next=e,Oe}function Ne(){if(be===null){var e=Z.alternate;e=e!==null?e.memoizedState:null}else e=be.next;var t=Oe===null?Z.memoizedState:Oe.next;if(t!==null)Oe=t,be=e;else{if(e===null)throw Z.alternate===null?Error(d(467)):Error(d(310));be=e,e={memoizedState:be.memoizedState,baseState:be.baseState,baseQueue:be.baseQueue,queue:be.queue,next:null},Oe===null?Z.memoizedState=Oe=e:Oe=Oe.next=e}return Oe}function ca(){return{lastEffect:null,events:null,stores:null,memoCache:null}}function on(e){var t=an;return an+=1,Sr===null&&(Sr=[]),e=Fc(Sr,e,t),t=Z,(Oe===null?t.memoizedState:Oe.next)===null&&(t=t.alternate,k.H=t===null||t.memoizedState===null?Md:ps),e}function da(e){if(e!==null&&typeof e=="object"){if(typeof e.then=="function")return on(e);if(e.$$typeof===Ae)return We(e)}throw Error(d(438,String(e)))}function ts(e){var t=null,i=Z.updateQueue;if(i!==null&&(t=i.memoCache),t==null){var r=Z.alternate;r!==null&&(r=r.updateQueue,r!==null&&(r=r.memoCache,r!=null&&(t={data:r.data.map(function(n){return n.slice()}),index:0})))}if(t==null&&(t={data:[],index:0}),i===null&&(i=ca(),Z.updateQueue=i),i.memoCache=t,i=t.data[t.index],i===void 0)for(i=t.data[t.index]=Array(e),r=0;r<e;r++)i[r]=ft;return t.index++,i}function Wt(e,t){return typeof t=="function"?t(e):t}function ua(e){var t=Ne();return is(t,be,e)}function is(e,t,i){var r=e.queue;if(r===null)throw Error(d(311));r.lastRenderedReducer=i;var n=e.baseQueue,a=r.pending;if(a!==null){if(n!==null){var o=n.next;n.next=a.next,a.next=o}t.baseQueue=n=a,r.pending=null}if(a=e.baseState,n===null)e.memoizedState=a;else{t=n.next;var l=o=null,c=null,f=t,S=!1;do{var T=f.lane&-536870913;if(T!==f.lane?(ne&T)===T:(Kt&T)===T){var y=f.revertLane;if(y===0)c!==null&&(c=c.next={lane:0,revertLane:0,gesture:null,action:f.action,hasEagerState:f.hasEagerState,eagerState:f.eagerState,next:null}),T===mr&&(S=!0);else if((Kt&y)===y){f=f.next,y===mr&&(S=!0);continue}else T={lane:0,revertLane:f.revertLane,gesture:null,action:f.action,hasEagerState:f.hasEagerState,eagerState:f.eagerState,next:null},c===null?(l=c=T,o=a):c=c.next=T,Z.lanes|=y,vi|=y;T=f.action,Ki&&i(a,T),a=f.hasEagerState?f.eagerState:i(a,T)}else y={lane:T,revertLane:f.revertLane,gesture:f.gesture,action:f.action,hasEagerState:f.hasEagerState,eagerState:f.eagerState,next:null},c===null?(l=c=y,o=a):c=c.next=y,Z.lanes|=T,vi|=T;f=f.next}while(f!==null&&f!==t);if(c===null?o=a:c.next=l,!ct(a,e.memoizedState)&&(Be=!0,S&&(i=hr,i!==null)))throw i;e.memoizedState=a,e.baseState=o,e.baseQueue=c,r.lastRenderedState=a}return n===null&&(r.lanes=0),[e.memoizedState,r.dispatch]}function rs(e){var t=Ne(),i=t.queue;if(i===null)throw Error(d(311));i.lastRenderedReducer=e;var r=i.dispatch,n=i.pending,a=t.memoizedState;if(n!==null){i.pending=null;var o=n=n.next;do a=e(a,o.action),o=o.next;while(o!==n);ct(a,t.memoizedState)||(Be=!0),t.memoizedState=a,t.baseQueue===null&&(t.baseState=a),i.lastRenderedState=a}return[a,r]}function Yc(e,t,i){var r=Z,n=Ne(),a=se;if(a){if(i===void 0)throw Error(d(407));i=i()}else i=t();var o=!ct((be||n).memoizedState,i);if(o&&(n.memoizedState=i,Be=!0),n=n.queue,os(Zc.bind(null,r,n,e),[e]),n.getSnapshot!==t||o||Oe!==null&&Oe.memoizedState.tag&1){if(r.flags|=2048,kr(9,{destroy:void 0},Xc.bind(null,r,n,i,t),null),we===null)throw Error(d(349));a||(Kt&127)!==0||Jc(r,t,i)}return i}function Jc(e,t,i){e.flags|=16384,e={getSnapshot:t,value:i},t=Z.updateQueue,t===null?(t=ca(),Z.updateQueue=t,t.stores=[e]):(i=t.stores,i===null?t.stores=[e]:i.push(e))}function Xc(e,t,i,r){t.value=i,t.getSnapshot=r,$c(t)&&ed(e)}function Zc(e,t,i){return i(function(){$c(t)&&ed(e)})}function $c(e){var t=e.getSnapshot;e=e.value;try{var i=t();return!ct(e,i)}catch{return!0}}function ed(e){var t=Oi(e,2);t!==null&&nt(t,e,2)}function ns(e){var t=Xe();if(typeof e=="function"){var i=e;if(e=i(),Ki){ni(!0);try{i()}finally{ni(!1)}}}return t.memoizedState=t.baseState=e,t.queue={pending:null,lanes:0,dispatch:null,lastRenderedReducer:Wt,lastRenderedState:e},t}function td(e,t,i,r){return e.baseState=i,is(e,be,typeof r=="function"?r:Wt)}function vm(e,t,i,r,n){if(ma(e))throw Error(d(485));if(e=t.action,e!==null){var a={payload:n,action:e,next:null,isTransition:!0,status:"pending",value:null,reason:null,listeners:[],then:function(o){a.listeners.push(o)}};k.T!==null?i(!0):a.isTransition=!1,r(a),i=t.pending,i===null?(a.next=t.pending=a,id(t,a)):(a.next=i.next,t.pending=i.next=a)}}function id(e,t){var i=t.action,r=t.payload,n=e.state;if(t.isTransition){var a=k.T,o={};k.T=o;try{var l=i(n,r),c=k.S;c!==null&&c(o,l),rd(e,t,l)}catch(f){as(e,t,f)}finally{a!==null&&o.types!==null&&(a.types=o.types),k.T=a}}else try{a=i(n,r),rd(e,t,a)}catch(f){as(e,t,f)}}function rd(e,t,i){i!==null&&typeof i=="object"&&typeof i.then=="function"?i.then(function(r){nd(e,t,r)},function(r){return as(e,t,r)}):nd(e,t,i)}function nd(e,t,i){t.status="fulfilled",t.value=i,ad(t),e.state=i,t=e.pending,t!==null&&(i=t.next,i===t?e.pending=null:(i=i.next,t.next=i,id(e,i)))}function as(e,t,i){var r=e.pending;if(e.pending=null,r!==null){r=r.next;do t.status="rejected",t.reason=i,ad(t),t=t.next;while(t!==r)}e.action=null}function ad(e){e=e.listeners;for(var t=0;t<e.length;t++)(0,e[t])()}function od(e,t){return t}function sd(e,t){if(se){var i=we.formState;if(i!==null){e:{var r=Z;if(se){if(Ce){t:{for(var n=Ce,a=At;n.nodeType!==8;){if(!a){n=null;break t}if(n=Tt(n.nextSibling),n===null){n=null;break t}}a=n.data,n=a==="F!"||a==="F"?n:null}if(n){Ce=Tt(n.nextSibling),r=n.data==="F!";break e}}ci(r)}r=!1}r&&(t=i[0])}}return i=Xe(),i.memoizedState=i.baseState=t,r={pending:null,lanes:0,dispatch:null,lastRenderedReducer:od,lastRenderedState:t},i.queue=r,i=xd.bind(null,Z,r),r.dispatch=i,r=ns(!1),a=us.bind(null,Z,!1,r.queue),r=Xe(),n={state:t,dispatch:null,action:e,pending:null},r.queue=n,i=vm.bind(null,Z,n,a,i),n.dispatch=i,r.memoizedState=e,[t,i,!1]}function ld(e){var t=Ne();return cd(t,be,e)}function cd(e,t,i){if(t=is(e,t,od)[0],e=ua(Wt)[0],typeof t=="object"&&t!==null&&typeof t.then=="function")try{var r=on(t)}catch(o){throw o===fr?ta:o}else r=t;t=Ne();var n=t.queue,a=n.dispatch;return i!==t.memoizedState&&(Z.flags|=2048,kr(9,{destroy:void 0},bm.bind(null,n,i),null)),[r,a,e]}function bm(e,t){e.action=t}function dd(e){var t=Ne(),i=be;if(i!==null)return cd(t,i,e);Ne(),t=t.memoizedState,i=Ne();var r=i.queue.dispatch;return i.memoizedState=e,[t,r,!1]}function kr(e,t,i,r){return e={tag:e,create:i,deps:r,inst:t,next:null},t=Z.updateQueue,t===null&&(t=ca(),Z.updateQueue=t),i=t.lastEffect,i===null?t.lastEffect=e.next=e:(r=i.next,i.next=e,e.next=r,t.lastEffect=e),e}function ud(){return Ne().memoizedState}function pa(e,t,i,r){var n=Xe();Z.flags|=e,n.memoizedState=kr(1|t,{destroy:void 0},i,r===void 0?null:r)}function ga(e,t,i,r){var n=Ne();r=r===void 0?null:r;var a=n.memoizedState.inst;be!==null&&r!==null&&Jo(r,be.memoizedState.deps)?n.memoizedState=kr(t,a,i,r):(Z.flags|=e,n.memoizedState=kr(1|t,a,i,r))}function pd(e,t){pa(8390656,8,e,t)}function os(e,t){ga(2048,8,e,t)}function Sm(e){Z.flags|=4;var t=Z.updateQueue;if(t===null)t=ca(),Z.updateQueue=t,t.events=[e];else{var i=t.events;i===null?t.events=[e]:i.push(e)}}function gd(e){var t=Ne().memoizedState;return Sm({ref:t,nextImpl:e}),function(){if((me&2)!==0)throw Error(d(440));return t.impl.apply(void 0,arguments)}}function md(e,t){return ga(4,2,e,t)}function hd(e,t){return ga(4,4,e,t)}function fd(e,t){if(typeof t=="function"){e=e();var i=t(e);return function(){typeof i=="function"?i():t(null)}}if(t!=null)return e=e(),t.current=e,function(){t.current=null}}function yd(e,t,i){i=i!=null?i.concat([e]):null,ga(4,4,fd.bind(null,t,e),i)}function ss(){}function vd(e,t){var i=Ne();t=t===void 0?null:t;var r=i.memoizedState;return t!==null&&Jo(t,r[1])?r[0]:(i.memoizedState=[e,t],e)}function bd(e,t){var i=Ne();t=t===void 0?null:t;var r=i.memoizedState;if(t!==null&&Jo(t,r[1]))return r[0];if(r=e(),Ki){ni(!0);try{e()}finally{ni(!1)}}return i.memoizedState=[r,t],r}function ls(e,t,i){return i===void 0||(Kt&1073741824)!==0&&(ne&261930)===0?e.memoizedState=t:(e.memoizedState=i,e=Su(),Z.lanes|=e,vi|=e,i)}function Sd(e,t,i,r){return ct(i,t)?i:vr.current!==null?(e=ls(e,i,r),ct(e,t)||(Be=!0),e):(Kt&42)===0||(Kt&1073741824)!==0&&(ne&261930)===0?(Be=!0,e.memoizedState=i):(e=Su(),Z.lanes|=e,vi|=e,t)}function kd(e,t,i,r,n){var a=P.p;P.p=a!==0&&8>a?a:8;var o=k.T,l={};k.T=l,us(e,!1,t,i);try{var c=n(),f=k.S;if(f!==null&&f(l,c),c!==null&&typeof c=="object"&&typeof c.then=="function"){var S=hm(c,r);sn(e,t,S,ht(e))}else sn(e,t,r,ht(e))}catch(T){sn(e,t,{then:function(){},status:"rejected",reason:T},ht())}finally{P.p=a,o!==null&&l.types!==null&&(o.types=l.types),k.T=o}}function km(){}function cs(e,t,i,r){if(e.tag!==5)throw Error(d(476));var n=wd(e).queue;kd(e,n,t,z,i===null?km:function(){return Ad(e),i(r)})}function wd(e){var t=e.memoizedState;if(t!==null)return t;t={memoizedState:z,baseState:z,baseQueue:null,queue:{pending:null,lanes:0,dispatch:null,lastRenderedReducer:Wt,lastRenderedState:z},next:null};var i={};return t.next={memoizedState:i,baseState:i,baseQueue:null,queue:{pending:null,lanes:0,dispatch:null,lastRenderedReducer:Wt,lastRenderedState:i},next:null},e.memoizedState=t,e=e.alternate,e!==null&&(e.memoizedState=t),t}function Ad(e){var t=wd(e);t.next===null&&(t=e.alternate.memoizedState),sn(e,t.next.queue,{},ht())}function ds(){return We(Cn)}function Cd(){return Ne().memoizedState}function Td(){return Ne().memoizedState}function wm(e){for(var t=e.return;t!==null;){switch(t.tag){case 24:case 3:var i=ht();e=pi(i);var r=gi(t,e,i);r!==null&&(nt(r,t,i),tn(r,t,i)),t={cache:_o()},e.payload=t;return}t=t.return}}function Am(e,t,i){var r=ht();i={lane:r,revertLane:0,gesture:null,action:i,hasEagerState:!1,eagerState:null,next:null},ma(e)?Rd(t,i):(i=Eo(e,t,i,r),i!==null&&(nt(i,e,r),Ed(i,t,r)))}function xd(e,t,i){var r=ht();sn(e,t,i,r)}function sn(e,t,i,r){var n={lane:r,revertLane:0,gesture:null,action:i,hasEagerState:!1,eagerState:null,next:null};if(ma(e))Rd(t,n);else{var a=e.alternate;if(e.lanes===0&&(a===null||a.lanes===0)&&(a=t.lastRenderedReducer,a!==null))try{var o=t.lastRenderedState,l=a(o,i);if(n.hasEagerState=!0,n.eagerState=l,ct(l,o))return Qn(e,t,n,0),we===null&&Gn(),!1}catch{}if(i=Eo(e,t,n,r),i!==null)return nt(i,e,r),Ed(i,t,r),!0}return!1}function us(e,t,i,r){if(r={lane:2,revertLane:Vs(),gesture:null,action:r,hasEagerState:!1,eagerState:null,next:null},ma(e)){if(t)throw Error(d(479))}else t=Eo(e,i,r,2),t!==null&&nt(t,e,2)}function ma(e){var t=e.alternate;return e===Z||t!==null&&t===Z}function Rd(e,t){br=sa=!0;var i=e.pending;i===null?t.next=t:(t.next=i.next,i.next=t),e.pending=t}function Ed(e,t,i){if((i&4194048)!==0){var r=t.lanes;r&=e.pendingLanes,i|=r,t.lanes=i,Nl(e,i)}}var ln={readContext:We,use:da,useCallback:Ee,useContext:Ee,useEffect:Ee,useImperativeHandle:Ee,useLayoutEffect:Ee,useInsertionEffect:Ee,useMemo:Ee,useReducer:Ee,useRef:Ee,useState:Ee,useDebugValue:Ee,useDeferredValue:Ee,useTransition:Ee,useSyncExternalStore:Ee,useId:Ee,useHostTransitionStatus:Ee,useFormState:Ee,useActionState:Ee,useOptimistic:Ee,useMemoCache:Ee,useCacheRefresh:Ee};ln.useEffectEvent=Ee;var Md={readContext:We,use:da,useCallback:function(e,t){return Xe().memoizedState=[e,t===void 0?null:t],e},useContext:We,useEffect:pd,useImperativeHandle:function(e,t,i){i=i!=null?i.concat([e]):null,pa(4194308,4,fd.bind(null,t,e),i)},useLayoutEffect:function(e,t){return pa(4194308,4,e,t)},useInsertionEffect:function(e,t){pa(4,2,e,t)},useMemo:function(e,t){var i=Xe();t=t===void 0?null:t;var r=e();if(Ki){ni(!0);try{e()}finally{ni(!1)}}return i.memoizedState=[r,t],r},useReducer:function(e,t,i){var r=Xe();if(i!==void 0){var n=i(t);if(Ki){ni(!0);try{i(t)}finally{ni(!1)}}}else n=t;return r.memoizedState=r.baseState=n,e={pending:null,lanes:0,dispatch:null,lastRenderedReducer:e,lastRenderedState:n},r.queue=e,e=e.dispatch=Am.bind(null,Z,e),[r.memoizedState,e]},useRef:function(e){var t=Xe();return e={current:e},t.memoizedState=e},useState:function(e){e=ns(e);var t=e.queue,i=xd.bind(null,Z,t);return t.dispatch=i,[e.memoizedState,i]},useDebugValue:ss,useDeferredValue:function(e,t){var i=Xe();return ls(i,e,t)},useTransition:function(){var e=ns(!1);return e=kd.bind(null,Z,e.queue,!0,!1),Xe().memoizedState=e,[!1,e]},useSyncExternalStore:function(e,t,i){var r=Z,n=Xe();if(se){if(i===void 0)throw Error(d(407));i=i()}else{if(i=t(),we===null)throw Error(d(349));(ne&127)!==0||Jc(r,t,i)}n.memoizedState=i;var a={value:i,getSnapshot:t};return n.queue=a,pd(Zc.bind(null,r,a,e),[e]),r.flags|=2048,kr(9,{destroy:void 0},Xc.bind(null,r,a,i,t),null),i},useId:function(){var e=Xe(),t=we.identifierPrefix;if(se){var i=Ut,r=Nt;i=(r&~(1<<32-lt(r)-1)).toString(32)+i,t="_"+t+"R_"+i,i=la++,0<i&&(t+="H"+i.toString(32)),t+="_"}else i=fm++,t="_"+t+"r_"+i.toString(32)+"_";return e.memoizedState=t},useHostTransitionStatus:ds,useFormState:sd,useActionState:sd,useOptimistic:function(e){var t=Xe();t.memoizedState=t.baseState=e;var i={pending:null,lanes:0,dispatch:null,lastRenderedReducer:null,lastRenderedState:null};return t.queue=i,t=us.bind(null,Z,!0,i),i.dispatch=t,[e,t]},useMemoCache:ts,useCacheRefresh:function(){return Xe().memoizedState=wm.bind(null,Z)},useEffectEvent:function(e){var t=Xe(),i={impl:e};return t.memoizedState=i,function(){if((me&2)!==0)throw Error(d(440));return i.impl.apply(void 0,arguments)}}},ps={readContext:We,use:da,useCallback:vd,useContext:We,useEffect:os,useImperativeHandle:yd,useInsertionEffect:md,useLayoutEffect:hd,useMemo:bd,useReducer:ua,useRef:ud,useState:function(){return ua(Wt)},useDebugValue:ss,useDeferredValue:function(e,t){var i=Ne();return Sd(i,be.memoizedState,e,t)},useTransition:function(){var e=ua(Wt)[0],t=Ne().memoizedState;return[typeof e=="boolean"?e:on(e),t]},useSyncExternalStore:Yc,useId:Cd,useHostTransitionStatus:ds,useFormState:ld,useActionState:ld,useOptimistic:function(e,t){var i=Ne();return td(i,be,e,t)},useMemoCache:ts,useCacheRefresh:Td};ps.useEffectEvent=gd;var Dd={readContext:We,use:da,useCallback:vd,useContext:We,useEffect:os,useImperativeHandle:yd,useInsertionEffect:md,useLayoutEffect:hd,useMemo:bd,useReducer:rs,useRef:ud,useState:function(){return rs(Wt)},useDebugValue:ss,useDeferredValue:function(e,t){var i=Ne();return be===null?ls(i,e,t):Sd(i,be.memoizedState,e,t)},useTransition:function(){var e=rs(Wt)[0],t=Ne().memoizedState;return[typeof e=="boolean"?e:on(e),t]},useSyncExternalStore:Yc,useId:Cd,useHostTransitionStatus:ds,useFormState:dd,useActionState:dd,useOptimistic:function(e,t){var i=Ne();return be!==null?td(i,be,e,t):(i.baseState=e,[e,i.queue.dispatch])},useMemoCache:ts,useCacheRefresh:Td};Dd.useEffectEvent=gd;function gs(e,t,i,r){t=e.memoizedState,i=i(r,t),i=i==null?t:O({},t,i),e.memoizedState=i,e.lanes===0&&(e.updateQueue.baseState=i)}var ms={enqueueSetState:function(e,t,i){e=e._reactInternals;var r=ht(),n=pi(r);n.payload=t,i!=null&&(n.callback=i),t=gi(e,n,r),t!==null&&(nt(t,e,r),tn(t,e,r))},enqueueReplaceState:function(e,t,i){e=e._reactInternals;var r=ht(),n=pi(r);n.tag=1,n.payload=t,i!=null&&(n.callback=i),t=gi(e,n,r),t!==null&&(nt(t,e,r),tn(t,e,r))},enqueueForceUpdate:function(e,t){e=e._reactInternals;var i=ht(),r=pi(i);r.tag=2,t!=null&&(r.callback=t),t=gi(e,r,i),t!==null&&(nt(t,e,i),tn(t,e,i))}};function Id(e,t,i,r,n,a,o){return e=e.stateNode,typeof e.shouldComponentUpdate=="function"?e.shouldComponentUpdate(r,a,o):t.prototype&&t.prototype.isPureReactComponent?!Gr(i,r)||!Gr(n,a):!0}function Pd(e,t,i,r){e=t.state,typeof t.componentWillReceiveProps=="function"&&t.componentWillReceiveProps(i,r),typeof t.UNSAFE_componentWillReceiveProps=="function"&&t.UNSAFE_componentWillReceiveProps(i,r),t.state!==e&&ms.enqueueReplaceState(t,t.state,null)}function Wi(e,t){var i=t;if("ref"in t){i={};for(var r in t)r!=="ref"&&(i[r]=t[r])}if(e=e.defaultProps){i===t&&(i=O({},i));for(var n in e)i[n]===void 0&&(i[n]=e[n])}return i}function Nd(e){Wn(e)}function Ud(e){console.error(e)}function Ld(e){Wn(e)}function ha(e,t){try{var i=e.onUncaughtError;i(t.value,{componentStack:t.stack})}catch(r){setTimeout(function(){throw r})}}function Od(e,t,i){try{var r=e.onCaughtError;r(i.value,{componentStack:i.stack,errorBoundary:t.tag===1?t.stateNode:null})}catch(n){setTimeout(function(){throw n})}}function hs(e,t,i){return i=pi(i),i.tag=3,i.payload={element:null},i.callback=function(){ha(e,t)},i}function Bd(e){return e=pi(e),e.tag=3,e}function Fd(e,t,i,r){var n=i.type.getDerivedStateFromError;if(typeof n=="function"){var a=r.value;e.payload=function(){return n(a)},e.callback=function(){Od(t,i,r)}}var o=i.stateNode;o!==null&&typeof o.componentDidCatch=="function"&&(e.callback=function(){Od(t,i,r),typeof n!="function"&&(bi===null?bi=new Set([this]):bi.add(this));var l=r.stack;this.componentDidCatch(r.value,{componentStack:l!==null?l:""})})}function Cm(e,t,i,r,n){if(i.flags|=32768,r!==null&&typeof r=="object"&&typeof r.then=="function"){if(t=i.alternate,t!==null&&gr(t,i,n,!0),i=ut.current,i!==null){switch(i.tag){case 31:case 13:return Ct===null?Ra():i.alternate===null&&Me===0&&(Me=3),i.flags&=-257,i.flags|=65536,i.lanes=n,r===ia?i.flags|=16384:(t=i.updateQueue,t===null?i.updateQueue=new Set([r]):t.add(r),Hs(e,r,n)),!1;case 22:return i.flags|=65536,r===ia?i.flags|=16384:(t=i.updateQueue,t===null?(t={transitions:null,markerInstances:null,retryQueue:new Set([r])},i.updateQueue=t):(i=t.retryQueue,i===null?t.retryQueue=new Set([r]):i.add(r)),Hs(e,r,n)),!1}throw Error(d(435,i.tag))}return Hs(e,r,n),Ra(),!1}if(se)return t=ut.current,t!==null?((t.flags&65536)===0&&(t.flags|=256),t.flags|=65536,t.lanes=n,r!==Uo&&(e=Error(d(422),{cause:r}),Jr(St(e,i)))):(r!==Uo&&(t=Error(d(423),{cause:r}),Jr(St(t,i))),e=e.current.alternate,e.flags|=65536,n&=-n,e.lanes|=n,r=St(r,i),n=hs(e.stateNode,r,n),Ko(e,n),Me!==4&&(Me=2)),!1;var a=Error(d(520),{cause:r});if(a=St(a,i),fn===null?fn=[a]:fn.push(a),Me!==4&&(Me=2),t===null)return!0;r=St(r,i),i=t;do{switch(i.tag){case 3:return i.flags|=65536,e=n&-n,i.lanes|=e,e=hs(i.stateNode,r,e),Ko(i,e),!1;case 1:if(t=i.type,a=i.stateNode,(i.flags&128)===0&&(typeof t.getDerivedStateFromError=="function"||a!==null&&typeof a.componentDidCatch=="function"&&(bi===null||!bi.has(a))))return i.flags|=65536,n&=-n,i.lanes|=n,n=Bd(n),Fd(n,e,i,r),Ko(i,n),!1}i=i.return}while(i!==null);return!1}var fs=Error(d(461)),Be=!1;function Ge(e,t,i,r){t.child=e===null?jc(t,null,i,r):zi(t,e.child,i,r)}function _d(e,t,i,r,n){i=i.render;var a=t.ref;if("ref"in r){var o={};for(var l in r)l!=="ref"&&(o[l]=r[l])}else o=r;return Hi(t),r=Xo(e,t,i,o,a,n),l=Zo(),e!==null&&!Be?($o(e,t,n),Gt(e,t,n)):(se&&l&&Po(t),t.flags|=1,Ge(e,t,r,n),t.child)}function Hd(e,t,i,r,n){if(e===null){var a=i.type;return typeof a=="function"&&!Mo(a)&&a.defaultProps===void 0&&i.compare===null?(t.tag=15,t.type=a,qd(e,t,a,r,n)):(e=Jn(i.type,null,r,t,t.mode,n),e.ref=t.ref,e.return=t,t.child=e)}if(a=e.child,!Cs(e,n)){var o=a.memoizedProps;if(i=i.compare,i=i!==null?i:Gr,i(o,r)&&e.ref===t.ref)return Gt(e,t,n)}return t.flags|=1,e=qt(a,r),e.ref=t.ref,e.return=t,t.child=e}function qd(e,t,i,r,n){if(e!==null){var a=e.memoizedProps;if(Gr(a,r)&&e.ref===t.ref)if(Be=!1,t.pendingProps=r=a,Cs(e,n))(e.flags&131072)!==0&&(Be=!0);else return t.lanes=e.lanes,Gt(e,t,n)}return ys(e,t,i,r,n)}function jd(e,t,i,r){var n=r.children,a=e!==null?e.memoizedState:null;if(e===null&&t.stateNode===null&&(t.stateNode={_visibility:1,_pendingMarkers:null,_retryCache:null,_transitions:null}),r.mode==="hidden"){if((t.flags&128)!==0){if(a=a!==null?a.baseLanes|i:i,e!==null){for(r=t.child=e.child,n=0;r!==null;)n=n|r.lanes|r.childLanes,r=r.sibling;r=n&~a}else r=0,t.child=null;return Vd(e,t,a,i,r)}if((i&536870912)!==0)t.memoizedState={baseLanes:0,cachePool:null},e!==null&&ea(t,a!==null?a.cachePool:null),a!==null?Kc(t,a):Go(),Wc(t);else return r=t.lanes=536870912,Vd(e,t,a!==null?a.baseLanes|i:i,i,r)}else a!==null?(ea(t,a.cachePool),Kc(t,a),hi(),t.memoizedState=null):(e!==null&&ea(t,null),Go(),hi());return Ge(e,t,n,i),t.child}function cn(e,t){return e!==null&&e.tag===22||t.stateNode!==null||(t.stateNode={_visibility:1,_pendingMarkers:null,_retryCache:null,_transitions:null}),t.sibling}function Vd(e,t,i,r,n){var a=qo();return a=a===null?null:{parent:Le._currentValue,pool:a},t.memoizedState={baseLanes:i,cachePool:a},e!==null&&ea(t,null),Go(),Wc(t),e!==null&&gr(e,t,r,!0),t.childLanes=n,null}function fa(e,t){return t=va({mode:t.mode,children:t.children},e.mode),t.ref=e.ref,e.child=t,t.return=e,t}function zd(e,t,i){return zi(t,e.child,null,i),e=fa(t,t.pendingProps),e.flags|=2,pt(t),t.memoizedState=null,e}function Tm(e,t,i){var r=t.pendingProps,n=(t.flags&128)!==0;if(t.flags&=-129,e===null){if(se){if(r.mode==="hidden")return e=fa(t,r),t.lanes=536870912,cn(null,e);if(Yo(t),(e=Ce)?(e=ip(e,At),e=e!==null&&e.data==="&"?e:null,e!==null&&(t.memoizedState={dehydrated:e,treeContext:si!==null?{id:Nt,overflow:Ut}:null,retryLane:536870912,hydrationErrors:null},i=Rc(e),i.return=t,t.child=i,Ke=t,Ce=null)):e=null,e===null)throw ci(t);return t.lanes=536870912,null}return fa(t,r)}var a=e.memoizedState;if(a!==null){var o=a.dehydrated;if(Yo(t),n)if(t.flags&256)t.flags&=-257,t=zd(e,t,i);else if(t.memoizedState!==null)t.child=e.child,t.flags|=128,t=null;else throw Error(d(558));else if(Be||gr(e,t,i,!1),n=(i&e.childLanes)!==0,Be||n){if(r=we,r!==null&&(o=Ul(r,i),o!==0&&o!==a.retryLane))throw a.retryLane=o,Oi(e,o),nt(r,e,o),fs;Ra(),t=zd(e,t,i)}else e=a.treeContext,Ce=Tt(o.nextSibling),Ke=t,se=!0,li=null,At=!1,e!==null&&Dc(t,e),t=fa(t,r),t.flags|=4096;return t}return e=qt(e.child,{mode:r.mode,children:r.children}),e.ref=t.ref,t.child=e,e.return=t,e}function ya(e,t){var i=t.ref;if(i===null)e!==null&&e.ref!==null&&(t.flags|=4194816);else{if(typeof i!="function"&&typeof i!="object")throw Error(d(284));(e===null||e.ref!==i)&&(t.flags|=4194816)}}function ys(e,t,i,r,n){return Hi(t),i=Xo(e,t,i,r,void 0,n),r=Zo(),e!==null&&!Be?($o(e,t,n),Gt(e,t,n)):(se&&r&&Po(t),t.flags|=1,Ge(e,t,i,n),t.child)}function Kd(e,t,i,r,n,a){return Hi(t),t.updateQueue=null,i=Qc(t,r,i,n),Gc(e),r=Zo(),e!==null&&!Be?($o(e,t,a),Gt(e,t,a)):(se&&r&&Po(t),t.flags|=1,Ge(e,t,i,a),t.child)}function Wd(e,t,i,r,n){if(Hi(t),t.stateNode===null){var a=cr,o=i.contextType;typeof o=="object"&&o!==null&&(a=We(o)),a=new i(r,a),t.memoizedState=a.state!==null&&a.state!==void 0?a.state:null,a.updater=ms,t.stateNode=a,a._reactInternals=t,a=t.stateNode,a.props=r,a.state=t.memoizedState,a.refs={},Vo(t),o=i.contextType,a.context=typeof o=="object"&&o!==null?We(o):cr,a.state=t.memoizedState,o=i.getDerivedStateFromProps,typeof o=="function"&&(gs(t,i,o,r),a.state=t.memoizedState),typeof i.getDerivedStateFromProps=="function"||typeof a.getSnapshotBeforeUpdate=="function"||typeof a.UNSAFE_componentWillMount!="function"&&typeof a.componentWillMount!="function"||(o=a.state,typeof a.componentWillMount=="function"&&a.componentWillMount(),typeof a.UNSAFE_componentWillMount=="function"&&a.UNSAFE_componentWillMount(),o!==a.state&&ms.enqueueReplaceState(a,a.state,null),nn(t,r,a,n),rn(),a.state=t.memoizedState),typeof a.componentDidMount=="function"&&(t.flags|=4194308),r=!0}else if(e===null){a=t.stateNode;var l=t.memoizedProps,c=Wi(i,l);a.props=c;var f=a.context,S=i.contextType;o=cr,typeof S=="object"&&S!==null&&(o=We(S));var T=i.getDerivedStateFromProps;S=typeof T=="function"||typeof a.getSnapshotBeforeUpdate=="function",l=t.pendingProps!==l,S||typeof a.UNSAFE_componentWillReceiveProps!="function"&&typeof a.componentWillReceiveProps!="function"||(l||f!==o)&&Pd(t,a,r,o),ui=!1;var y=t.memoizedState;a.state=y,nn(t,r,a,n),rn(),f=t.memoizedState,l||y!==f||ui?(typeof T=="function"&&(gs(t,i,T,r),f=t.memoizedState),(c=ui||Id(t,i,c,r,y,f,o))?(S||typeof a.UNSAFE_componentWillMount!="function"&&typeof a.componentWillMount!="function"||(typeof a.componentWillMount=="function"&&a.componentWillMount(),typeof a.UNSAFE_componentWillMount=="function"&&a.UNSAFE_componentWillMount()),typeof a.componentDidMount=="function"&&(t.flags|=4194308)):(typeof a.componentDidMount=="function"&&(t.flags|=4194308),t.memoizedProps=r,t.memoizedState=f),a.props=r,a.state=f,a.context=o,r=c):(typeof a.componentDidMount=="function"&&(t.flags|=4194308),r=!1)}else{a=t.stateNode,zo(e,t),o=t.memoizedProps,S=Wi(i,o),a.props=S,T=t.pendingProps,y=a.context,f=i.contextType,c=cr,typeof f=="object"&&f!==null&&(c=We(f)),l=i.getDerivedStateFromProps,(f=typeof l=="function"||typeof a.getSnapshotBeforeUpdate=="function")||typeof a.UNSAFE_componentWillReceiveProps!="function"&&typeof a.componentWillReceiveProps!="function"||(o!==T||y!==c)&&Pd(t,a,r,c),ui=!1,y=t.memoizedState,a.state=y,nn(t,r,a,n),rn();var v=t.memoizedState;o!==T||y!==v||ui||e!==null&&e.dependencies!==null&&Zn(e.dependencies)?(typeof l=="function"&&(gs(t,i,l,r),v=t.memoizedState),(S=ui||Id(t,i,S,r,y,v,c)||e!==null&&e.dependencies!==null&&Zn(e.dependencies))?(f||typeof a.UNSAFE_componentWillUpdate!="function"&&typeof a.componentWillUpdate!="function"||(typeof a.componentWillUpdate=="function"&&a.componentWillUpdate(r,v,c),typeof a.UNSAFE_componentWillUpdate=="function"&&a.UNSAFE_componentWillUpdate(r,v,c)),typeof a.componentDidUpdate=="function"&&(t.flags|=4),typeof a.getSnapshotBeforeUpdate=="function"&&(t.flags|=1024)):(typeof a.componentDidUpdate!="function"||o===e.memoizedProps&&y===e.memoizedState||(t.flags|=4),typeof a.getSnapshotBeforeUpdate!="function"||o===e.memoizedProps&&y===e.memoizedState||(t.flags|=1024),t.memoizedProps=r,t.memoizedState=v),a.props=r,a.state=v,a.context=c,r=S):(typeof a.componentDidUpdate!="function"||o===e.memoizedProps&&y===e.memoizedState||(t.flags|=4),typeof a.getSnapshotBeforeUpdate!="function"||o===e.memoizedProps&&y===e.memoizedState||(t.flags|=1024),r=!1)}return a=r,ya(e,t),r=(t.flags&128)!==0,a||r?(a=t.stateNode,i=r&&typeof i.getDerivedStateFromError!="function"?null:a.render(),t.flags|=1,e!==null&&r?(t.child=zi(t,e.child,null,n),t.child=zi(t,null,i,n)):Ge(e,t,i,n),t.memoizedState=a.state,e=t.child):e=Gt(e,t,n),e}function Gd(e,t,i,r){return Fi(),t.flags|=256,Ge(e,t,i,r),t.child}var vs={dehydrated:null,treeContext:null,retryLane:0,hydrationErrors:null};function bs(e){return{baseLanes:e,cachePool:Oc()}}function Ss(e,t,i){return e=e!==null?e.childLanes&~i:0,t&&(e|=mt),e}function Qd(e,t,i){var r=t.pendingProps,n=!1,a=(t.flags&128)!==0,o;if((o=a)||(o=e!==null&&e.memoizedState===null?!1:(Pe.current&2)!==0),o&&(n=!0,t.flags&=-129),o=(t.flags&32)!==0,t.flags&=-33,e===null){if(se){if(n?mi(t):hi(),(e=Ce)?(e=ip(e,At),e=e!==null&&e.data!=="&"?e:null,e!==null&&(t.memoizedState={dehydrated:e,treeContext:si!==null?{id:Nt,overflow:Ut}:null,retryLane:536870912,hydrationErrors:null},i=Rc(e),i.return=t,t.child=i,Ke=t,Ce=null)):e=null,e===null)throw ci(t);return il(e)?t.lanes=32:t.lanes=536870912,null}var l=r.children;return r=r.fallback,n?(hi(),n=t.mode,l=va({mode:"hidden",children:l},n),r=Bi(r,n,i,null),l.return=t,r.return=t,l.sibling=r,t.child=l,r=t.child,r.memoizedState=bs(i),r.childLanes=Ss(e,o,i),t.memoizedState=vs,cn(null,r)):(mi(t),ks(t,l))}var c=e.memoizedState;if(c!==null&&(l=c.dehydrated,l!==null)){if(a)t.flags&256?(mi(t),t.flags&=-257,t=ws(e,t,i)):t.memoizedState!==null?(hi(),t.child=e.child,t.flags|=128,t=null):(hi(),l=r.fallback,n=t.mode,r=va({mode:"visible",children:r.children},n),l=Bi(l,n,i,null),l.flags|=2,r.return=t,l.return=t,r.sibling=l,t.child=r,zi(t,e.child,null,i),r=t.child,r.memoizedState=bs(i),r.childLanes=Ss(e,o,i),t.memoizedState=vs,t=cn(null,r));else if(mi(t),il(l)){if(o=l.nextSibling&&l.nextSibling.dataset,o)var f=o.dgst;o=f,r=Error(d(419)),r.stack="",r.digest=o,Jr({value:r,source:null,stack:null}),t=ws(e,t,i)}else if(Be||gr(e,t,i,!1),o=(i&e.childLanes)!==0,Be||o){if(o=we,o!==null&&(r=Ul(o,i),r!==0&&r!==c.retryLane))throw c.retryLane=r,Oi(e,r),nt(o,e,r),fs;tl(l)||Ra(),t=ws(e,t,i)}else tl(l)?(t.flags|=192,t.child=e.child,t=null):(e=c.treeContext,Ce=Tt(l.nextSibling),Ke=t,se=!0,li=null,At=!1,e!==null&&Dc(t,e),t=ks(t,r.children),t.flags|=4096);return t}return n?(hi(),l=r.fallback,n=t.mode,c=e.child,f=c.sibling,r=qt(c,{mode:"hidden",children:r.children}),r.subtreeFlags=c.subtreeFlags&65011712,f!==null?l=qt(f,l):(l=Bi(l,n,i,null),l.flags|=2),l.return=t,r.return=t,r.sibling=l,t.child=r,cn(null,r),r=t.child,l=e.child.memoizedState,l===null?l=bs(i):(n=l.cachePool,n!==null?(c=Le._currentValue,n=n.parent!==c?{parent:c,pool:c}:n):n=Oc(),l={baseLanes:l.baseLanes|i,cachePool:n}),r.memoizedState=l,r.childLanes=Ss(e,o,i),t.memoizedState=vs,cn(e.child,r)):(mi(t),i=e.child,e=i.sibling,i=qt(i,{mode:"visible",children:r.children}),i.return=t,i.sibling=null,e!==null&&(o=t.deletions,o===null?(t.deletions=[e],t.flags|=16):o.push(e)),t.child=i,t.memoizedState=null,i)}function ks(e,t){return t=va({mode:"visible",children:t},e.mode),t.return=e,e.child=t}function va(e,t){return e=dt(22,e,null,t),e.lanes=0,e}function ws(e,t,i){return zi(t,e.child,null,i),e=ks(t,t.pendingProps.children),e.flags|=2,t.memoizedState=null,e}function Yd(e,t,i){e.lanes|=t;var r=e.alternate;r!==null&&(r.lanes|=t),Bo(e.return,t,i)}function As(e,t,i,r,n,a){var o=e.memoizedState;o===null?e.memoizedState={isBackwards:t,rendering:null,renderingStartTime:0,last:r,tail:i,tailMode:n,treeForkCount:a}:(o.isBackwards=t,o.rendering=null,o.renderingStartTime=0,o.last=r,o.tail=i,o.tailMode=n,o.treeForkCount=a)}function Jd(e,t,i){var r=t.pendingProps,n=r.revealOrder,a=r.tail;r=r.children;var o=Pe.current,l=(o&2)!==0;if(l?(o=o&1|2,t.flags|=128):o&=1,U(Pe,o),Ge(e,t,r,i),r=se?Yr:0,!l&&e!==null&&(e.flags&128)!==0)e:for(e=t.child;e!==null;){if(e.tag===13)e.memoizedState!==null&&Yd(e,i,t);else if(e.tag===19)Yd(e,i,t);else if(e.child!==null){e.child.return=e,e=e.child;continue}if(e===t)break e;for(;e.sibling===null;){if(e.return===null||e.return===t)break e;e=e.return}e.sibling.return=e.return,e=e.sibling}switch(n){case"forwards":for(i=t.child,n=null;i!==null;)e=i.alternate,e!==null&&oa(e)===null&&(n=i),i=i.sibling;i=n,i===null?(n=t.child,t.child=null):(n=i.sibling,i.sibling=null),As(t,!1,n,i,a,r);break;case"backwards":case"unstable_legacy-backwards":for(i=null,n=t.child,t.child=null;n!==null;){if(e=n.alternate,e!==null&&oa(e)===null){t.child=n;break}e=n.sibling,n.sibling=i,i=n,n=e}As(t,!0,i,null,a,r);break;case"together":As(t,!1,null,null,void 0,r);break;default:t.memoizedState=null}return t.child}function Gt(e,t,i){if(e!==null&&(t.dependencies=e.dependencies),vi|=t.lanes,(i&t.childLanes)===0)if(e!==null){if(gr(e,t,i,!1),(i&t.childLanes)===0)return null}else return null;if(e!==null&&t.child!==e.child)throw Error(d(153));if(t.child!==null){for(e=t.child,i=qt(e,e.pendingProps),t.child=i,i.return=t;e.sibling!==null;)e=e.sibling,i=i.sibling=qt(e,e.pendingProps),i.return=t;i.sibling=null}return t.child}function Cs(e,t){return(e.lanes&t)!==0?!0:(e=e.dependencies,!!(e!==null&&Zn(e)))}function xm(e,t,i){switch(t.tag){case 3:K(t,t.stateNode.containerInfo),di(t,Le,e.memoizedState.cache),Fi();break;case 27:case 5:Pt(t);break;case 4:K(t,t.stateNode.containerInfo);break;case 10:di(t,t.type,t.memoizedProps.value);break;case 31:if(t.memoizedState!==null)return t.flags|=128,Yo(t),null;break;case 13:var r=t.memoizedState;if(r!==null)return r.dehydrated!==null?(mi(t),t.flags|=128,null):(i&t.child.childLanes)!==0?Qd(e,t,i):(mi(t),e=Gt(e,t,i),e!==null?e.sibling:null);mi(t);break;case 19:var n=(e.flags&128)!==0;if(r=(i&t.childLanes)!==0,r||(gr(e,t,i,!1),r=(i&t.childLanes)!==0),n){if(r)return Jd(e,t,i);t.flags|=128}if(n=t.memoizedState,n!==null&&(n.rendering=null,n.tail=null,n.lastEffect=null),U(Pe,Pe.current),r)break;return null;case 22:return t.lanes=0,jd(e,t,i,t.pendingProps);case 24:di(t,Le,e.memoizedState.cache)}return Gt(e,t,i)}function Xd(e,t,i){if(e!==null)if(e.memoizedProps!==t.pendingProps)Be=!0;else{if(!Cs(e,i)&&(t.flags&128)===0)return Be=!1,xm(e,t,i);Be=(e.flags&131072)!==0}else Be=!1,se&&(t.flags&1048576)!==0&&Mc(t,Yr,t.index);switch(t.lanes=0,t.tag){case 16:e:{var r=t.pendingProps;if(e=ji(t.elementType),t.type=e,typeof e=="function")Mo(e)?(r=Wi(e,r),t.tag=1,t=Wd(null,t,e,r,i)):(t.tag=0,t=ys(null,t,e,r,i));else{if(e!=null){var n=e.$$typeof;if(n===de){t.tag=11,t=_d(null,t,e,r,i);break e}else if(n===Y){t.tag=14,t=Hd(null,t,e,r,i);break e}}throw t=Rt(e)||e,Error(d(306,t,""))}}return t;case 0:return ys(e,t,t.type,t.pendingProps,i);case 1:return r=t.type,n=Wi(r,t.pendingProps),Wd(e,t,r,n,i);case 3:e:{if(K(t,t.stateNode.containerInfo),e===null)throw Error(d(387));r=t.pendingProps;var a=t.memoizedState;n=a.element,zo(e,t),nn(t,r,null,i);var o=t.memoizedState;if(r=o.cache,di(t,Le,r),r!==a.cache&&Fo(t,[Le],i,!0),rn(),r=o.element,a.isDehydrated)if(a={element:r,isDehydrated:!1,cache:o.cache},t.updateQueue.baseState=a,t.memoizedState=a,t.flags&256){t=Gd(e,t,r,i);break e}else if(r!==n){n=St(Error(d(424)),t),Jr(n),t=Gd(e,t,r,i);break e}else for(e=t.stateNode.containerInfo,e.nodeType===9?e=e.body:e=e.nodeName==="HTML"?e.ownerDocument.body:e,Ce=Tt(e.firstChild),Ke=t,se=!0,li=null,At=!0,i=jc(t,null,r,i),t.child=i;i;)i.flags=i.flags&-3|4096,i=i.sibling;else{if(Fi(),r===n){t=Gt(e,t,i);break e}Ge(e,t,r,i)}t=t.child}return t;case 26:return ya(e,t),e===null?(i=lp(t.type,null,t.pendingProps,null))?t.memoizedState=i:se||(i=t.type,e=t.pendingProps,r=Ua(b.current).createElement(i),r[ze]=t,r[Ze]=e,Qe(r,i,e),He(r),t.stateNode=r):t.memoizedState=lp(t.type,e.memoizedProps,t.pendingProps,e.memoizedState),null;case 27:return Pt(t),e===null&&se&&(r=t.stateNode=ap(t.type,t.pendingProps,b.current),Ke=t,At=!0,n=Ce,Ai(t.type)?(rl=n,Ce=Tt(r.firstChild)):Ce=n),Ge(e,t,t.pendingProps.children,i),ya(e,t),e===null&&(t.flags|=4194304),t.child;case 5:return e===null&&se&&((n=r=Ce)&&(r=ih(r,t.type,t.pendingProps,At),r!==null?(t.stateNode=r,Ke=t,Ce=Tt(r.firstChild),At=!1,n=!0):n=!1),n||ci(t)),Pt(t),n=t.type,a=t.pendingProps,o=e!==null?e.memoizedProps:null,r=a.children,Zs(n,a)?r=null:o!==null&&Zs(n,o)&&(t.flags|=32),t.memoizedState!==null&&(n=Xo(e,t,ym,null,null,i),Cn._currentValue=n),ya(e,t),Ge(e,t,r,i),t.child;case 6:return e===null&&se&&((e=i=Ce)&&(i=rh(i,t.pendingProps,At),i!==null?(t.stateNode=i,Ke=t,Ce=null,e=!0):e=!1),e||ci(t)),null;case 13:return Qd(e,t,i);case 4:return K(t,t.stateNode.containerInfo),r=t.pendingProps,e===null?t.child=zi(t,null,r,i):Ge(e,t,r,i),t.child;case 11:return _d(e,t,t.type,t.pendingProps,i);case 7:return Ge(e,t,t.pendingProps,i),t.child;case 8:return Ge(e,t,t.pendingProps.children,i),t.child;case 12:return Ge(e,t,t.pendingProps.children,i),t.child;case 10:return r=t.pendingProps,di(t,t.type,r.value),Ge(e,t,r.children,i),t.child;case 9:return n=t.type._context,r=t.pendingProps.children,Hi(t),n=We(n),r=r(n),t.flags|=1,Ge(e,t,r,i),t.child;case 14:return Hd(e,t,t.type,t.pendingProps,i);case 15:return qd(e,t,t.type,t.pendingProps,i);case 19:return Jd(e,t,i);case 31:return Tm(e,t,i);case 22:return jd(e,t,i,t.pendingProps);case 24:return Hi(t),r=We(Le),e===null?(n=qo(),n===null&&(n=we,a=_o(),n.pooledCache=a,a.refCount++,a!==null&&(n.pooledCacheLanes|=i),n=a),t.memoizedState={parent:r,cache:n},Vo(t),di(t,Le,n)):((e.lanes&i)!==0&&(zo(e,t),nn(t,null,null,i),rn()),n=e.memoizedState,a=t.memoizedState,n.parent!==r?(n={parent:r,cache:r},t.memoizedState=n,t.lanes===0&&(t.memoizedState=t.updateQueue.baseState=n),di(t,Le,r)):(r=a.cache,di(t,Le,r),r!==n.cache&&Fo(t,[Le],i,!0))),Ge(e,t,t.pendingProps.children,i),t.child;case 29:throw t.pendingProps}throw Error(d(156,t.tag))}function Qt(e){e.flags|=4}function Ts(e,t,i,r,n){if((t=(e.mode&32)!==0)&&(t=!1),t){if(e.flags|=16777216,(n&335544128)===n)if(e.stateNode.complete)e.flags|=8192;else if(Cu())e.flags|=8192;else throw Vi=ia,jo}else e.flags&=-16777217}function Zd(e,t){if(t.type!=="stylesheet"||(t.state.loading&4)!==0)e.flags&=-16777217;else if(e.flags|=16777216,!gp(t))if(Cu())e.flags|=8192;else throw Vi=ia,jo}function ba(e,t){t!==null&&(e.flags|=4),e.flags&16384&&(t=e.tag!==22?Il():536870912,e.lanes|=t,Tr|=t)}function dn(e,t){if(!se)switch(e.tailMode){case"hidden":t=e.tail;for(var i=null;t!==null;)t.alternate!==null&&(i=t),t=t.sibling;i===null?e.tail=null:i.sibling=null;break;case"collapsed":i=e.tail;for(var r=null;i!==null;)i.alternate!==null&&(r=i),i=i.sibling;r===null?t||e.tail===null?e.tail=null:e.tail.sibling=null:r.sibling=null}}function Te(e){var t=e.alternate!==null&&e.alternate.child===e.child,i=0,r=0;if(t)for(var n=e.child;n!==null;)i|=n.lanes|n.childLanes,r|=n.subtreeFlags&65011712,r|=n.flags&65011712,n.return=e,n=n.sibling;else for(n=e.child;n!==null;)i|=n.lanes|n.childLanes,r|=n.subtreeFlags,r|=n.flags,n.return=e,n=n.sibling;return e.subtreeFlags|=r,e.childLanes=i,t}function Rm(e,t,i){var r=t.pendingProps;switch(No(t),t.tag){case 16:case 15:case 0:case 11:case 7:case 8:case 12:case 9:case 14:return Te(t),null;case 1:return Te(t),null;case 3:return i=t.stateNode,r=null,e!==null&&(r=e.memoizedState.cache),t.memoizedState.cache!==r&&(t.flags|=2048),zt(Le),oe(),i.pendingContext&&(i.context=i.pendingContext,i.pendingContext=null),(e===null||e.child===null)&&(pr(t)?Qt(t):e===null||e.memoizedState.isDehydrated&&(t.flags&256)===0||(t.flags|=1024,Lo())),Te(t),null;case 26:var n=t.type,a=t.memoizedState;return e===null?(Qt(t),a!==null?(Te(t),Zd(t,a)):(Te(t),Ts(t,n,null,r,i))):a?a!==e.memoizedState?(Qt(t),Te(t),Zd(t,a)):(Te(t),t.flags&=-16777217):(e=e.memoizedProps,e!==r&&Qt(t),Te(t),Ts(t,n,e,r,i)),null;case 27:if(Yi(t),i=b.current,n=t.type,e!==null&&t.stateNode!=null)e.memoizedProps!==r&&Qt(t);else{if(!r){if(t.stateNode===null)throw Error(d(166));return Te(t),null}e=H.current,pr(t)?Ic(t):(e=ap(n,r,i),t.stateNode=e,Qt(t))}return Te(t),null;case 5:if(Yi(t),n=t.type,e!==null&&t.stateNode!=null)e.memoizedProps!==r&&Qt(t);else{if(!r){if(t.stateNode===null)throw Error(d(166));return Te(t),null}if(a=H.current,pr(t))Ic(t);else{var o=Ua(b.current);switch(a){case 1:a=o.createElementNS("http://www.w3.org/2000/svg",n);break;case 2:a=o.createElementNS("http://www.w3.org/1998/Math/MathML",n);break;default:switch(n){case"svg":a=o.createElementNS("http://www.w3.org/2000/svg",n);break;case"math":a=o.createElementNS("http://www.w3.org/1998/Math/MathML",n);break;case"script":a=o.createElement("div"),a.innerHTML="<script><\/script>",a=a.removeChild(a.firstChild);break;case"select":a=typeof r.is=="string"?o.createElement("select",{is:r.is}):o.createElement("select"),r.multiple?a.multiple=!0:r.size&&(a.size=r.size);break;default:a=typeof r.is=="string"?o.createElement(n,{is:r.is}):o.createElement(n)}}a[ze]=t,a[Ze]=r;e:for(o=t.child;o!==null;){if(o.tag===5||o.tag===6)a.appendChild(o.stateNode);else if(o.tag!==4&&o.tag!==27&&o.child!==null){o.child.return=o,o=o.child;continue}if(o===t)break e;for(;o.sibling===null;){if(o.return===null||o.return===t)break e;o=o.return}o.sibling.return=o.return,o=o.sibling}t.stateNode=a;e:switch(Qe(a,n,r),n){case"button":case"input":case"select":case"textarea":r=!!r.autoFocus;break e;case"img":r=!0;break e;default:r=!1}r&&Qt(t)}}return Te(t),Ts(t,t.type,e===null?null:e.memoizedProps,t.pendingProps,i),null;case 6:if(e&&t.stateNode!=null)e.memoizedProps!==r&&Qt(t);else{if(typeof r!="string"&&t.stateNode===null)throw Error(d(166));if(e=b.current,pr(t)){if(e=t.stateNode,i=t.memoizedProps,r=null,n=Ke,n!==null)switch(n.tag){case 27:case 5:r=n.memoizedProps}e[ze]=t,e=!!(e.nodeValue===i||r!==null&&r.suppressHydrationWarning===!0||Qu(e.nodeValue,i)),e||ci(t,!0)}else e=Ua(e).createTextNode(r),e[ze]=t,t.stateNode=e}return Te(t),null;case 31:if(i=t.memoizedState,e===null||e.memoizedState!==null){if(r=pr(t),i!==null){if(e===null){if(!r)throw Error(d(318));if(e=t.memoizedState,e=e!==null?e.dehydrated:null,!e)throw Error(d(557));e[ze]=t}else Fi(),(t.flags&128)===0&&(t.memoizedState=null),t.flags|=4;Te(t),e=!1}else i=Lo(),e!==null&&e.memoizedState!==null&&(e.memoizedState.hydrationErrors=i),e=!0;if(!e)return t.flags&256?(pt(t),t):(pt(t),null);if((t.flags&128)!==0)throw Error(d(558))}return Te(t),null;case 13:if(r=t.memoizedState,e===null||e.memoizedState!==null&&e.memoizedState.dehydrated!==null){if(n=pr(t),r!==null&&r.dehydrated!==null){if(e===null){if(!n)throw Error(d(318));if(n=t.memoizedState,n=n!==null?n.dehydrated:null,!n)throw Error(d(317));n[ze]=t}else Fi(),(t.flags&128)===0&&(t.memoizedState=null),t.flags|=4;Te(t),n=!1}else n=Lo(),e!==null&&e.memoizedState!==null&&(e.memoizedState.hydrationErrors=n),n=!0;if(!n)return t.flags&256?(pt(t),t):(pt(t),null)}return pt(t),(t.flags&128)!==0?(t.lanes=i,t):(i=r!==null,e=e!==null&&e.memoizedState!==null,i&&(r=t.child,n=null,r.alternate!==null&&r.alternate.memoizedState!==null&&r.alternate.memoizedState.cachePool!==null&&(n=r.alternate.memoizedState.cachePool.pool),a=null,r.memoizedState!==null&&r.memoizedState.cachePool!==null&&(a=r.memoizedState.cachePool.pool),a!==n&&(r.flags|=2048)),i!==e&&i&&(t.child.flags|=8192),ba(t,t.updateQueue),Te(t),null);case 4:return oe(),e===null&&Gs(t.stateNode.containerInfo),Te(t),null;case 10:return zt(t.type),Te(t),null;case 19:if(x(Pe),r=t.memoizedState,r===null)return Te(t),null;if(n=(t.flags&128)!==0,a=r.rendering,a===null)if(n)dn(r,!1);else{if(Me!==0||e!==null&&(e.flags&128)!==0)for(e=t.child;e!==null;){if(a=oa(e),a!==null){for(t.flags|=128,dn(r,!1),e=a.updateQueue,t.updateQueue=e,ba(t,e),t.subtreeFlags=0,e=i,i=t.child;i!==null;)xc(i,e),i=i.sibling;return U(Pe,Pe.current&1|2),se&&jt(t,r.treeForkCount),t.child}e=e.sibling}r.tail!==null&&ot()>Ca&&(t.flags|=128,n=!0,dn(r,!1),t.lanes=4194304)}else{if(!n)if(e=oa(a),e!==null){if(t.flags|=128,n=!0,e=e.updateQueue,t.updateQueue=e,ba(t,e),dn(r,!0),r.tail===null&&r.tailMode==="hidden"&&!a.alternate&&!se)return Te(t),null}else 2*ot()-r.renderingStartTime>Ca&&i!==536870912&&(t.flags|=128,n=!0,dn(r,!1),t.lanes=4194304);r.isBackwards?(a.sibling=t.child,t.child=a):(e=r.last,e!==null?e.sibling=a:t.child=a,r.last=a)}return r.tail!==null?(e=r.tail,r.rendering=e,r.tail=e.sibling,r.renderingStartTime=ot(),e.sibling=null,i=Pe.current,U(Pe,n?i&1|2:i&1),se&&jt(t,r.treeForkCount),e):(Te(t),null);case 22:case 23:return pt(t),Qo(),r=t.memoizedState!==null,e!==null?e.memoizedState!==null!==r&&(t.flags|=8192):r&&(t.flags|=8192),r?(i&536870912)!==0&&(t.flags&128)===0&&(Te(t),t.subtreeFlags&6&&(t.flags|=8192)):Te(t),i=t.updateQueue,i!==null&&ba(t,i.retryQueue),i=null,e!==null&&e.memoizedState!==null&&e.memoizedState.cachePool!==null&&(i=e.memoizedState.cachePool.pool),r=null,t.memoizedState!==null&&t.memoizedState.cachePool!==null&&(r=t.memoizedState.cachePool.pool),r!==i&&(t.flags|=2048),e!==null&&x(qi),null;case 24:return i=null,e!==null&&(i=e.memoizedState.cache),t.memoizedState.cache!==i&&(t.flags|=2048),zt(Le),Te(t),null;case 25:return null;case 30:return null}throw Error(d(156,t.tag))}function Em(e,t){switch(No(t),t.tag){case 1:return e=t.flags,e&65536?(t.flags=e&-65537|128,t):null;case 3:return zt(Le),oe(),e=t.flags,(e&65536)!==0&&(e&128)===0?(t.flags=e&-65537|128,t):null;case 26:case 27:case 5:return Yi(t),null;case 31:if(t.memoizedState!==null){if(pt(t),t.alternate===null)throw Error(d(340));Fi()}return e=t.flags,e&65536?(t.flags=e&-65537|128,t):null;case 13:if(pt(t),e=t.memoizedState,e!==null&&e.dehydrated!==null){if(t.alternate===null)throw Error(d(340));Fi()}return e=t.flags,e&65536?(t.flags=e&-65537|128,t):null;case 19:return x(Pe),null;case 4:return oe(),null;case 10:return zt(t.type),null;case 22:case 23:return pt(t),Qo(),e!==null&&x(qi),e=t.flags,e&65536?(t.flags=e&-65537|128,t):null;case 24:return zt(Le),null;case 25:return null;default:return null}}function $d(e,t){switch(No(t),t.tag){case 3:zt(Le),oe();break;case 26:case 27:case 5:Yi(t);break;case 4:oe();break;case 31:t.memoizedState!==null&&pt(t);break;case 13:pt(t);break;case 19:x(Pe);break;case 10:zt(t.type);break;case 22:case 23:pt(t),Qo(),e!==null&&x(qi);break;case 24:zt(Le)}}function un(e,t){try{var i=t.updateQueue,r=i!==null?i.lastEffect:null;if(r!==null){var n=r.next;i=n;do{if((i.tag&e)===e){r=void 0;var a=i.create,o=i.inst;r=a(),o.destroy=r}i=i.next}while(i!==n)}}catch(l){ve(t,t.return,l)}}function fi(e,t,i){try{var r=t.updateQueue,n=r!==null?r.lastEffect:null;if(n!==null){var a=n.next;r=a;do{if((r.tag&e)===e){var o=r.inst,l=o.destroy;if(l!==void 0){o.destroy=void 0,n=t;var c=i,f=l;try{f()}catch(S){ve(n,c,S)}}}r=r.next}while(r!==a)}}catch(S){ve(t,t.return,S)}}function eu(e){var t=e.updateQueue;if(t!==null){var i=e.stateNode;try{zc(t,i)}catch(r){ve(e,e.return,r)}}}function tu(e,t,i){i.props=Wi(e.type,e.memoizedProps),i.state=e.memoizedState;try{i.componentWillUnmount()}catch(r){ve(e,t,r)}}function pn(e,t){try{var i=e.ref;if(i!==null){switch(e.tag){case 26:case 27:case 5:var r=e.stateNode;break;case 30:r=e.stateNode;break;default:r=e.stateNode}typeof i=="function"?e.refCleanup=i(r):i.current=r}}catch(n){ve(e,t,n)}}function Lt(e,t){var i=e.ref,r=e.refCleanup;if(i!==null)if(typeof r=="function")try{r()}catch(n){ve(e,t,n)}finally{e.refCleanup=null,e=e.alternate,e!=null&&(e.refCleanup=null)}else if(typeof i=="function")try{i(null)}catch(n){ve(e,t,n)}else i.current=null}function iu(e){var t=e.type,i=e.memoizedProps,r=e.stateNode;try{e:switch(t){case"button":case"input":case"select":case"textarea":i.autoFocus&&r.focus();break e;case"img":i.src?r.src=i.src:i.srcSet&&(r.srcset=i.srcSet)}}catch(n){ve(e,e.return,n)}}function xs(e,t,i){try{var r=e.stateNode;Jm(r,e.type,i,t),r[Ze]=t}catch(n){ve(e,e.return,n)}}function ru(e){return e.tag===5||e.tag===3||e.tag===26||e.tag===27&&Ai(e.type)||e.tag===4}function Rs(e){e:for(;;){for(;e.sibling===null;){if(e.return===null||ru(e.return))return null;e=e.return}for(e.sibling.return=e.return,e=e.sibling;e.tag!==5&&e.tag!==6&&e.tag!==18;){if(e.tag===27&&Ai(e.type)||e.flags&2||e.child===null||e.tag===4)continue e;e.child.return=e,e=e.child}if(!(e.flags&2))return e.stateNode}}function Es(e,t,i){var r=e.tag;if(r===5||r===6)e=e.stateNode,t?(i.nodeType===9?i.body:i.nodeName==="HTML"?i.ownerDocument.body:i).insertBefore(e,t):(t=i.nodeType===9?i.body:i.nodeName==="HTML"?i.ownerDocument.body:i,t.appendChild(e),i=i._reactRootContainer,i!=null||t.onclick!==null||(t.onclick=_t));else if(r!==4&&(r===27&&Ai(e.type)&&(i=e.stateNode,t=null),e=e.child,e!==null))for(Es(e,t,i),e=e.sibling;e!==null;)Es(e,t,i),e=e.sibling}function Sa(e,t,i){var r=e.tag;if(r===5||r===6)e=e.stateNode,t?i.insertBefore(e,t):i.appendChild(e);else if(r!==4&&(r===27&&Ai(e.type)&&(i=e.stateNode),e=e.child,e!==null))for(Sa(e,t,i),e=e.sibling;e!==null;)Sa(e,t,i),e=e.sibling}function nu(e){var t=e.stateNode,i=e.memoizedProps;try{for(var r=e.type,n=t.attributes;n.length;)t.removeAttributeNode(n[0]);Qe(t,r,i),t[ze]=e,t[Ze]=i}catch(a){ve(e,e.return,a)}}var Yt=!1,Fe=!1,Ms=!1,au=typeof WeakSet=="function"?WeakSet:Set,qe=null;function Mm(e,t){if(e=e.containerInfo,Js=qa,e=yc(e),wo(e)){if("selectionStart"in e)var i={start:e.selectionStart,end:e.selectionEnd};else e:{i=(i=e.ownerDocument)&&i.defaultView||window;var r=i.getSelection&&i.getSelection();if(r&&r.rangeCount!==0){i=r.anchorNode;var n=r.anchorOffset,a=r.focusNode;r=r.focusOffset;try{i.nodeType,a.nodeType}catch{i=null;break e}var o=0,l=-1,c=-1,f=0,S=0,T=e,y=null;t:for(;;){for(var v;T!==i||n!==0&&T.nodeType!==3||(l=o+n),T!==a||r!==0&&T.nodeType!==3||(c=o+r),T.nodeType===3&&(o+=T.nodeValue.length),(v=T.firstChild)!==null;)y=T,T=v;for(;;){if(T===e)break t;if(y===i&&++f===n&&(l=o),y===a&&++S===r&&(c=o),(v=T.nextSibling)!==null)break;T=y,y=T.parentNode}T=v}i=l===-1||c===-1?null:{start:l,end:c}}else i=null}i=i||{start:0,end:0}}else i=null;for(Xs={focusedElem:e,selectionRange:i},qa=!1,qe=t;qe!==null;)if(t=qe,e=t.child,(t.subtreeFlags&1028)!==0&&e!==null)e.return=t,qe=e;else for(;qe!==null;){switch(t=qe,a=t.alternate,e=t.flags,t.tag){case 0:if((e&4)!==0&&(e=t.updateQueue,e=e!==null?e.events:null,e!==null))for(i=0;i<e.length;i++)n=e[i],n.ref.impl=n.nextImpl;break;case 11:case 15:break;case 1:if((e&1024)!==0&&a!==null){e=void 0,i=t,n=a.memoizedProps,a=a.memoizedState,r=i.stateNode;try{var _=Wi(i.type,n);e=r.getSnapshotBeforeUpdate(_,a),r.__reactInternalSnapshotBeforeUpdate=e}catch(Q){ve(i,i.return,Q)}}break;case 3:if((e&1024)!==0){if(e=t.stateNode.containerInfo,i=e.nodeType,i===9)el(e);else if(i===1)switch(e.nodeName){case"HEAD":case"HTML":case"BODY":el(e);break;default:e.textContent=""}}break;case 5:case 26:case 27:case 6:case 4:case 17:break;default:if((e&1024)!==0)throw Error(d(163))}if(e=t.sibling,e!==null){e.return=t.return,qe=e;break}qe=t.return}}function ou(e,t,i){var r=i.flags;switch(i.tag){case 0:case 11:case 15:Xt(e,i),r&4&&un(5,i);break;case 1:if(Xt(e,i),r&4)if(e=i.stateNode,t===null)try{e.componentDidMount()}catch(o){ve(i,i.return,o)}else{var n=Wi(i.type,t.memoizedProps);t=t.memoizedState;try{e.componentDidUpdate(n,t,e.__reactInternalSnapshotBeforeUpdate)}catch(o){ve(i,i.return,o)}}r&64&&eu(i),r&512&&pn(i,i.return);break;case 3:if(Xt(e,i),r&64&&(e=i.updateQueue,e!==null)){if(t=null,i.child!==null)switch(i.child.tag){case 27:case 5:t=i.child.stateNode;break;case 1:t=i.child.stateNode}try{zc(e,t)}catch(o){ve(i,i.return,o)}}break;case 27:t===null&&r&4&&nu(i);case 26:case 5:Xt(e,i),t===null&&r&4&&iu(i),r&512&&pn(i,i.return);break;case 12:Xt(e,i);break;case 31:Xt(e,i),r&4&&cu(e,i);break;case 13:Xt(e,i),r&4&&du(e,i),r&64&&(e=i.memoizedState,e!==null&&(e=e.dehydrated,e!==null&&(i=Fm.bind(null,i),nh(e,i))));break;case 22:if(r=i.memoizedState!==null||Yt,!r){t=t!==null&&t.memoizedState!==null||Fe,n=Yt;var a=Fe;Yt=r,(Fe=t)&&!a?Zt(e,i,(i.subtreeFlags&8772)!==0):Xt(e,i),Yt=n,Fe=a}break;case 30:break;default:Xt(e,i)}}function su(e){var t=e.alternate;t!==null&&(e.alternate=null,su(t)),e.child=null,e.deletions=null,e.sibling=null,e.tag===5&&(t=e.stateNode,t!==null&&no(t)),e.stateNode=null,e.return=null,e.dependencies=null,e.memoizedProps=null,e.memoizedState=null,e.pendingProps=null,e.stateNode=null,e.updateQueue=null}var Re=null,et=!1;function Jt(e,t,i){for(i=i.child;i!==null;)lu(e,t,i),i=i.sibling}function lu(e,t,i){if(st&&typeof st.onCommitFiberUnmount=="function")try{st.onCommitFiberUnmount(Lr,i)}catch{}switch(i.tag){case 26:Fe||Lt(i,t),Jt(e,t,i),i.memoizedState?i.memoizedState.count--:i.stateNode&&(i=i.stateNode,i.parentNode.removeChild(i));break;case 27:Fe||Lt(i,t);var r=Re,n=et;Ai(i.type)&&(Re=i.stateNode,et=!1),Jt(e,t,i),kn(i.stateNode),Re=r,et=n;break;case 5:Fe||Lt(i,t);case 6:if(r=Re,n=et,Re=null,Jt(e,t,i),Re=r,et=n,Re!==null)if(et)try{(Re.nodeType===9?Re.body:Re.nodeName==="HTML"?Re.ownerDocument.body:Re).removeChild(i.stateNode)}catch(a){ve(i,t,a)}else try{Re.removeChild(i.stateNode)}catch(a){ve(i,t,a)}break;case 18:Re!==null&&(et?(e=Re,ep(e.nodeType===9?e.body:e.nodeName==="HTML"?e.ownerDocument.body:e,i.stateNode),Nr(e)):ep(Re,i.stateNode));break;case 4:r=Re,n=et,Re=i.stateNode.containerInfo,et=!0,Jt(e,t,i),Re=r,et=n;break;case 0:case 11:case 14:case 15:fi(2,i,t),Fe||fi(4,i,t),Jt(e,t,i);break;case 1:Fe||(Lt(i,t),r=i.stateNode,typeof r.componentWillUnmount=="function"&&tu(i,t,r)),Jt(e,t,i);break;case 21:Jt(e,t,i);break;case 22:Fe=(r=Fe)||i.memoizedState!==null,Jt(e,t,i),Fe=r;break;default:Jt(e,t,i)}}function cu(e,t){if(t.memoizedState===null&&(e=t.alternate,e!==null&&(e=e.memoizedState,e!==null))){e=e.dehydrated;try{Nr(e)}catch(i){ve(t,t.return,i)}}}function du(e,t){if(t.memoizedState===null&&(e=t.alternate,e!==null&&(e=e.memoizedState,e!==null&&(e=e.dehydrated,e!==null))))try{Nr(e)}catch(i){ve(t,t.return,i)}}function Dm(e){switch(e.tag){case 31:case 13:case 19:var t=e.stateNode;return t===null&&(t=e.stateNode=new au),t;case 22:return e=e.stateNode,t=e._retryCache,t===null&&(t=e._retryCache=new au),t;default:throw Error(d(435,e.tag))}}function ka(e,t){var i=Dm(e);t.forEach(function(r){if(!i.has(r)){i.add(r);var n=_m.bind(null,e,r);r.then(n,n)}})}function tt(e,t){var i=t.deletions;if(i!==null)for(var r=0;r<i.length;r++){var n=i[r],a=e,o=t,l=o;e:for(;l!==null;){switch(l.tag){case 27:if(Ai(l.type)){Re=l.stateNode,et=!1;break e}break;case 5:Re=l.stateNode,et=!1;break e;case 3:case 4:Re=l.stateNode.containerInfo,et=!0;break e}l=l.return}if(Re===null)throw Error(d(160));lu(a,o,n),Re=null,et=!1,a=n.alternate,a!==null&&(a.return=null),n.return=null}if(t.subtreeFlags&13886)for(t=t.child;t!==null;)uu(t,e),t=t.sibling}var Mt=null;function uu(e,t){var i=e.alternate,r=e.flags;switch(e.tag){case 0:case 11:case 14:case 15:tt(t,e),it(e),r&4&&(fi(3,e,e.return),un(3,e),fi(5,e,e.return));break;case 1:tt(t,e),it(e),r&512&&(Fe||i===null||Lt(i,i.return)),r&64&&Yt&&(e=e.updateQueue,e!==null&&(r=e.callbacks,r!==null&&(i=e.shared.hiddenCallbacks,e.shared.hiddenCallbacks=i===null?r:i.concat(r))));break;case 26:var n=Mt;if(tt(t,e),it(e),r&512&&(Fe||i===null||Lt(i,i.return)),r&4){var a=i!==null?i.memoizedState:null;if(r=e.memoizedState,i===null)if(r===null)if(e.stateNode===null){e:{r=e.type,i=e.memoizedProps,n=n.ownerDocument||n;t:switch(r){case"title":a=n.getElementsByTagName("title")[0],(!a||a[Fr]||a[ze]||a.namespaceURI==="http://www.w3.org/2000/svg"||a.hasAttribute("itemprop"))&&(a=n.createElement(r),n.head.insertBefore(a,n.querySelector("head > title"))),Qe(a,r,i),a[ze]=e,He(a),r=a;break e;case"link":var o=up("link","href",n).get(r+(i.href||""));if(o){for(var l=0;l<o.length;l++)if(a=o[l],a.getAttribute("href")===(i.href==null||i.href===""?null:i.href)&&a.getAttribute("rel")===(i.rel==null?null:i.rel)&&a.getAttribute("title")===(i.title==null?null:i.title)&&a.getAttribute("crossorigin")===(i.crossOrigin==null?null:i.crossOrigin)){o.splice(l,1);break t}}a=n.createElement(r),Qe(a,r,i),n.head.appendChild(a);break;case"meta":if(o=up("meta","content",n).get(r+(i.content||""))){for(l=0;l<o.length;l++)if(a=o[l],a.getAttribute("content")===(i.content==null?null:""+i.content)&&a.getAttribute("name")===(i.name==null?null:i.name)&&a.getAttribute("property")===(i.property==null?null:i.property)&&a.getAttribute("http-equiv")===(i.httpEquiv==null?null:i.httpEquiv)&&a.getAttribute("charset")===(i.charSet==null?null:i.charSet)){o.splice(l,1);break t}}a=n.createElement(r),Qe(a,r,i),n.head.appendChild(a);break;default:throw Error(d(468,r))}a[ze]=e,He(a),r=a}e.stateNode=r}else pp(n,e.type,e.stateNode);else e.stateNode=dp(n,r,e.memoizedProps);else a!==r?(a===null?i.stateNode!==null&&(i=i.stateNode,i.parentNode.removeChild(i)):a.count--,r===null?pp(n,e.type,e.stateNode):dp(n,r,e.memoizedProps)):r===null&&e.stateNode!==null&&xs(e,e.memoizedProps,i.memoizedProps)}break;case 27:tt(t,e),it(e),r&512&&(Fe||i===null||Lt(i,i.return)),i!==null&&r&4&&xs(e,e.memoizedProps,i.memoizedProps);break;case 5:if(tt(t,e),it(e),r&512&&(Fe||i===null||Lt(i,i.return)),e.flags&32){n=e.stateNode;try{ir(n,"")}catch(_){ve(e,e.return,_)}}r&4&&e.stateNode!=null&&(n=e.memoizedProps,xs(e,n,i!==null?i.memoizedProps:n)),r&1024&&(Ms=!0);break;case 6:if(tt(t,e),it(e),r&4){if(e.stateNode===null)throw Error(d(162));r=e.memoizedProps,i=e.stateNode;try{i.nodeValue=r}catch(_){ve(e,e.return,_)}}break;case 3:if(Ba=null,n=Mt,Mt=La(t.containerInfo),tt(t,e),Mt=n,it(e),r&4&&i!==null&&i.memoizedState.isDehydrated)try{Nr(t.containerInfo)}catch(_){ve(e,e.return,_)}Ms&&(Ms=!1,pu(e));break;case 4:r=Mt,Mt=La(e.stateNode.containerInfo),tt(t,e),it(e),Mt=r;break;case 12:tt(t,e),it(e);break;case 31:tt(t,e),it(e),r&4&&(r=e.updateQueue,r!==null&&(e.updateQueue=null,ka(e,r)));break;case 13:tt(t,e),it(e),e.child.flags&8192&&e.memoizedState!==null!=(i!==null&&i.memoizedState!==null)&&(Aa=ot()),r&4&&(r=e.updateQueue,r!==null&&(e.updateQueue=null,ka(e,r)));break;case 22:n=e.memoizedState!==null;var c=i!==null&&i.memoizedState!==null,f=Yt,S=Fe;if(Yt=f||n,Fe=S||c,tt(t,e),Fe=S,Yt=f,it(e),r&8192)e:for(t=e.stateNode,t._visibility=n?t._visibility&-2:t._visibility|1,n&&(i===null||c||Yt||Fe||Gi(e)),i=null,t=e;;){if(t.tag===5||t.tag===26){if(i===null){c=i=t;try{if(a=c.stateNode,n)o=a.style,typeof o.setProperty=="function"?o.setProperty("display","none","important"):o.display="none";else{l=c.stateNode;var T=c.memoizedProps.style,y=T!=null&&T.hasOwnProperty("display")?T.display:null;l.style.display=y==null||typeof y=="boolean"?"":(""+y).trim()}}catch(_){ve(c,c.return,_)}}}else if(t.tag===6){if(i===null){c=t;try{c.stateNode.nodeValue=n?"":c.memoizedProps}catch(_){ve(c,c.return,_)}}}else if(t.tag===18){if(i===null){c=t;try{var v=c.stateNode;n?tp(v,!0):tp(c.stateNode,!1)}catch(_){ve(c,c.return,_)}}}else if((t.tag!==22&&t.tag!==23||t.memoizedState===null||t===e)&&t.child!==null){t.child.return=t,t=t.child;continue}if(t===e)break e;for(;t.sibling===null;){if(t.return===null||t.return===e)break e;i===t&&(i=null),t=t.return}i===t&&(i=null),t.sibling.return=t.return,t=t.sibling}r&4&&(r=e.updateQueue,r!==null&&(i=r.retryQueue,i!==null&&(r.retryQueue=null,ka(e,i))));break;case 19:tt(t,e),it(e),r&4&&(r=e.updateQueue,r!==null&&(e.updateQueue=null,ka(e,r)));break;case 30:break;case 21:break;default:tt(t,e),it(e)}}function it(e){var t=e.flags;if(t&2){try{for(var i,r=e.return;r!==null;){if(ru(r)){i=r;break}r=r.return}if(i==null)throw Error(d(160));switch(i.tag){case 27:var n=i.stateNode,a=Rs(e);Sa(e,a,n);break;case 5:var o=i.stateNode;i.flags&32&&(ir(o,""),i.flags&=-33);var l=Rs(e);Sa(e,l,o);break;case 3:case 4:var c=i.stateNode.containerInfo,f=Rs(e);Es(e,f,c);break;default:throw Error(d(161))}}catch(S){ve(e,e.return,S)}e.flags&=-3}t&4096&&(e.flags&=-4097)}function pu(e){if(e.subtreeFlags&1024)for(e=e.child;e!==null;){var t=e;pu(t),t.tag===5&&t.flags&1024&&t.stateNode.reset(),e=e.sibling}}function Xt(e,t){if(t.subtreeFlags&8772)for(t=t.child;t!==null;)ou(e,t.alternate,t),t=t.sibling}function Gi(e){for(e=e.child;e!==null;){var t=e;switch(t.tag){case 0:case 11:case 14:case 15:fi(4,t,t.return),Gi(t);break;case 1:Lt(t,t.return);var i=t.stateNode;typeof i.componentWillUnmount=="function"&&tu(t,t.return,i),Gi(t);break;case 27:kn(t.stateNode);case 26:case 5:Lt(t,t.return),Gi(t);break;case 22:t.memoizedState===null&&Gi(t);break;case 30:Gi(t);break;default:Gi(t)}e=e.sibling}}function Zt(e,t,i){for(i=i&&(t.subtreeFlags&8772)!==0,t=t.child;t!==null;){var r=t.alternate,n=e,a=t,o=a.flags;switch(a.tag){case 0:case 11:case 15:Zt(n,a,i),un(4,a);break;case 1:if(Zt(n,a,i),r=a,n=r.stateNode,typeof n.componentDidMount=="function")try{n.componentDidMount()}catch(f){ve(r,r.return,f)}if(r=a,n=r.updateQueue,n!==null){var l=r.stateNode;try{var c=n.shared.hiddenCallbacks;if(c!==null)for(n.shared.hiddenCallbacks=null,n=0;n<c.length;n++)Vc(c[n],l)}catch(f){ve(r,r.return,f)}}i&&o&64&&eu(a),pn(a,a.return);break;case 27:nu(a);case 26:case 5:Zt(n,a,i),i&&r===null&&o&4&&iu(a),pn(a,a.return);break;case 12:Zt(n,a,i);break;case 31:Zt(n,a,i),i&&o&4&&cu(n,a);break;case 13:Zt(n,a,i),i&&o&4&&du(n,a);break;case 22:a.memoizedState===null&&Zt(n,a,i),pn(a,a.return);break;case 30:break;default:Zt(n,a,i)}t=t.sibling}}function Ds(e,t){var i=null;e!==null&&e.memoizedState!==null&&e.memoizedState.cachePool!==null&&(i=e.memoizedState.cachePool.pool),e=null,t.memoizedState!==null&&t.memoizedState.cachePool!==null&&(e=t.memoizedState.cachePool.pool),e!==i&&(e!=null&&e.refCount++,i!=null&&Xr(i))}function Is(e,t){e=null,t.alternate!==null&&(e=t.alternate.memoizedState.cache),t=t.memoizedState.cache,t!==e&&(t.refCount++,e!=null&&Xr(e))}function Dt(e,t,i,r){if(t.subtreeFlags&10256)for(t=t.child;t!==null;)gu(e,t,i,r),t=t.sibling}function gu(e,t,i,r){var n=t.flags;switch(t.tag){case 0:case 11:case 15:Dt(e,t,i,r),n&2048&&un(9,t);break;case 1:Dt(e,t,i,r);break;case 3:Dt(e,t,i,r),n&2048&&(e=null,t.alternate!==null&&(e=t.alternate.memoizedState.cache),t=t.memoizedState.cache,t!==e&&(t.refCount++,e!=null&&Xr(e)));break;case 12:if(n&2048){Dt(e,t,i,r),e=t.stateNode;try{var a=t.memoizedProps,o=a.id,l=a.onPostCommit;typeof l=="function"&&l(o,t.alternate===null?"mount":"update",e.passiveEffectDuration,-0)}catch(c){ve(t,t.return,c)}}else Dt(e,t,i,r);break;case 31:Dt(e,t,i,r);break;case 13:Dt(e,t,i,r);break;case 23:break;case 22:a=t.stateNode,o=t.alternate,t.memoizedState!==null?a._visibility&2?Dt(e,t,i,r):gn(e,t):a._visibility&2?Dt(e,t,i,r):(a._visibility|=2,wr(e,t,i,r,(t.subtreeFlags&10256)!==0||!1)),n&2048&&Ds(o,t);break;case 24:Dt(e,t,i,r),n&2048&&Is(t.alternate,t);break;default:Dt(e,t,i,r)}}function wr(e,t,i,r,n){for(n=n&&((t.subtreeFlags&10256)!==0||!1),t=t.child;t!==null;){var a=e,o=t,l=i,c=r,f=o.flags;switch(o.tag){case 0:case 11:case 15:wr(a,o,l,c,n),un(8,o);break;case 23:break;case 22:var S=o.stateNode;o.memoizedState!==null?S._visibility&2?wr(a,o,l,c,n):gn(a,o):(S._visibility|=2,wr(a,o,l,c,n)),n&&f&2048&&Ds(o.alternate,o);break;case 24:wr(a,o,l,c,n),n&&f&2048&&Is(o.alternate,o);break;default:wr(a,o,l,c,n)}t=t.sibling}}function gn(e,t){if(t.subtreeFlags&10256)for(t=t.child;t!==null;){var i=e,r=t,n=r.flags;switch(r.tag){case 22:gn(i,r),n&2048&&Ds(r.alternate,r);break;case 24:gn(i,r),n&2048&&Is(r.alternate,r);break;default:gn(i,r)}t=t.sibling}}var mn=8192;function Ar(e,t,i){if(e.subtreeFlags&mn)for(e=e.child;e!==null;)mu(e,t,i),e=e.sibling}function mu(e,t,i){switch(e.tag){case 26:Ar(e,t,i),e.flags&mn&&e.memoizedState!==null&&fh(i,Mt,e.memoizedState,e.memoizedProps);break;case 5:Ar(e,t,i);break;case 3:case 4:var r=Mt;Mt=La(e.stateNode.containerInfo),Ar(e,t,i),Mt=r;break;case 22:e.memoizedState===null&&(r=e.alternate,r!==null&&r.memoizedState!==null?(r=mn,mn=16777216,Ar(e,t,i),mn=r):Ar(e,t,i));break;default:Ar(e,t,i)}}function hu(e){var t=e.alternate;if(t!==null&&(e=t.child,e!==null)){t.child=null;do t=e.sibling,e.sibling=null,e=t;while(e!==null)}}function hn(e){var t=e.deletions;if((e.flags&16)!==0){if(t!==null)for(var i=0;i<t.length;i++){var r=t[i];qe=r,yu(r,e)}hu(e)}if(e.subtreeFlags&10256)for(e=e.child;e!==null;)fu(e),e=e.sibling}function fu(e){switch(e.tag){case 0:case 11:case 15:hn(e),e.flags&2048&&fi(9,e,e.return);break;case 3:hn(e);break;case 12:hn(e);break;case 22:var t=e.stateNode;e.memoizedState!==null&&t._visibility&2&&(e.return===null||e.return.tag!==13)?(t._visibility&=-3,wa(e)):hn(e);break;default:hn(e)}}function wa(e){var t=e.deletions;if((e.flags&16)!==0){if(t!==null)for(var i=0;i<t.length;i++){var r=t[i];qe=r,yu(r,e)}hu(e)}for(e=e.child;e!==null;){switch(t=e,t.tag){case 0:case 11:case 15:fi(8,t,t.return),wa(t);break;case 22:i=t.stateNode,i._visibility&2&&(i._visibility&=-3,wa(t));break;default:wa(t)}e=e.sibling}}function yu(e,t){for(;qe!==null;){var i=qe;switch(i.tag){case 0:case 11:case 15:fi(8,i,t);break;case 23:case 22:if(i.memoizedState!==null&&i.memoizedState.cachePool!==null){var r=i.memoizedState.cachePool.pool;r!=null&&r.refCount++}break;case 24:Xr(i.memoizedState.cache)}if(r=i.child,r!==null)r.return=i,qe=r;else e:for(i=e;qe!==null;){r=qe;var n=r.sibling,a=r.return;if(su(r),r===i){qe=null;break e}if(n!==null){n.return=a,qe=n;break e}qe=a}}}var Im={getCacheForType:function(e){var t=We(Le),i=t.data.get(e);return i===void 0&&(i=e(),t.data.set(e,i)),i},cacheSignal:function(){return We(Le).controller.signal}},Pm=typeof WeakMap=="function"?WeakMap:Map,me=0,we=null,ie=null,ne=0,ye=0,gt=null,yi=!1,Cr=!1,Ps=!1,$t=0,Me=0,vi=0,Qi=0,Ns=0,mt=0,Tr=0,fn=null,rt=null,Us=!1,Aa=0,vu=0,Ca=1/0,Ta=null,bi=null,_e=0,Si=null,xr=null,ei=0,Ls=0,Os=null,bu=null,yn=0,Bs=null;function ht(){return(me&2)!==0&&ne!==0?ne&-ne:k.T!==null?Vs():Ll()}function Su(){if(mt===0)if((ne&536870912)===0||se){var e=Nn;Nn<<=1,(Nn&3932160)===0&&(Nn=262144),mt=e}else mt=536870912;return e=ut.current,e!==null&&(e.flags|=32),mt}function nt(e,t,i){(e===we&&(ye===2||ye===9)||e.cancelPendingCommit!==null)&&(Rr(e,0),ki(e,ne,mt,!1)),Br(e,i),((me&2)===0||e!==we)&&(e===we&&((me&2)===0&&(Qi|=i),Me===4&&ki(e,ne,mt,!1)),Ot(e))}function ku(e,t,i){if((me&6)!==0)throw Error(d(327));var r=!i&&(t&127)===0&&(t&e.expiredLanes)===0||Or(e,t),n=r?Lm(e,t):_s(e,t,!0),a=r;do{if(n===0){Cr&&!r&&ki(e,t,0,!1);break}else{if(i=e.current.alternate,a&&!Nm(i)){n=_s(e,t,!1),a=!1;continue}if(n===2){if(a=t,e.errorRecoveryDisabledLanes&a)var o=0;else o=e.pendingLanes&-536870913,o=o!==0?o:o&536870912?536870912:0;if(o!==0){t=o;e:{var l=e;n=fn;var c=l.current.memoizedState.isDehydrated;if(c&&(Rr(l,o).flags|=256),o=_s(l,o,!1),o!==2){if(Ps&&!c){l.errorRecoveryDisabledLanes|=a,Qi|=a,n=4;break e}a=rt,rt=n,a!==null&&(rt===null?rt=a:rt.push.apply(rt,a))}n=o}if(a=!1,n!==2)continue}}if(n===1){Rr(e,0),ki(e,t,0,!0);break}e:{switch(r=e,a=n,a){case 0:case 1:throw Error(d(345));case 4:if((t&4194048)!==t)break;case 6:ki(r,t,mt,!yi);break e;case 2:rt=null;break;case 3:case 5:break;default:throw Error(d(329))}if((t&62914560)===t&&(n=Aa+300-ot(),10<n)){if(ki(r,t,mt,!yi),Ln(r,0,!0)!==0)break e;ei=t,r.timeoutHandle=Zu(wu.bind(null,r,i,rt,Ta,Us,t,mt,Qi,Tr,yi,a,"Throttled",-0,0),n);break e}wu(r,i,rt,Ta,Us,t,mt,Qi,Tr,yi,a,null,-0,0)}}break}while(!0);Ot(e)}function wu(e,t,i,r,n,a,o,l,c,f,S,T,y,v){if(e.timeoutHandle=-1,T=t.subtreeFlags,T&8192||(T&16785408)===16785408){T={stylesheets:null,count:0,imgCount:0,imgBytes:0,suspenseyImages:[],waitingForImages:!0,waitingForViewTransition:!1,unsuspend:_t},mu(t,a,T);var _=(a&62914560)===a?Aa-ot():(a&4194048)===a?vu-ot():0;if(_=yh(T,_),_!==null){ei=a,e.cancelPendingCommit=_(Du.bind(null,e,t,a,i,r,n,o,l,c,S,T,null,y,v)),ki(e,a,o,!f);return}}Du(e,t,a,i,r,n,o,l,c)}function Nm(e){for(var t=e;;){var i=t.tag;if((i===0||i===11||i===15)&&t.flags&16384&&(i=t.updateQueue,i!==null&&(i=i.stores,i!==null)))for(var r=0;r<i.length;r++){var n=i[r],a=n.getSnapshot;n=n.value;try{if(!ct(a(),n))return!1}catch{return!1}}if(i=t.child,t.subtreeFlags&16384&&i!==null)i.return=t,t=i;else{if(t===e)break;for(;t.sibling===null;){if(t.return===null||t.return===e)return!0;t=t.return}t.sibling.return=t.return,t=t.sibling}}return!0}function ki(e,t,i,r){t&=~Ns,t&=~Qi,e.suspendedLanes|=t,e.pingedLanes&=~t,r&&(e.warmLanes|=t),r=e.expirationTimes;for(var n=t;0<n;){var a=31-lt(n),o=1<<a;r[a]=-1,n&=~o}i!==0&&Pl(e,i,t)}function xa(){return(me&6)===0?(vn(0),!1):!0}function Fs(){if(ie!==null){if(ye===0)var e=ie.return;else e=ie,Vt=_i=null,es(e),yr=null,$r=0,e=ie;for(;e!==null;)$d(e.alternate,e),e=e.return;ie=null}}function Rr(e,t){var i=e.timeoutHandle;i!==-1&&(e.timeoutHandle=-1,$m(i)),i=e.cancelPendingCommit,i!==null&&(e.cancelPendingCommit=null,i()),ei=0,Fs(),we=e,ie=i=qt(e.current,null),ne=t,ye=0,gt=null,yi=!1,Cr=Or(e,t),Ps=!1,Tr=mt=Ns=Qi=vi=Me=0,rt=fn=null,Us=!1,(t&8)!==0&&(t|=t&32);var r=e.entangledLanes;if(r!==0)for(e=e.entanglements,r&=t;0<r;){var n=31-lt(r),a=1<<n;t|=e[n],r&=~a}return $t=t,Gn(),i}function Au(e,t){Z=null,k.H=ln,t===fr||t===ta?(t=_c(),ye=3):t===jo?(t=_c(),ye=4):ye=t===fs?8:t!==null&&typeof t=="object"&&typeof t.then=="function"?6:1,gt=t,ie===null&&(Me=1,ha(e,St(t,e.current)))}function Cu(){var e=ut.current;return e===null?!0:(ne&4194048)===ne?Ct===null:(ne&62914560)===ne||(ne&536870912)!==0?e===Ct:!1}function Tu(){var e=k.H;return k.H=ln,e===null?ln:e}function xu(){var e=k.A;return k.A=Im,e}function Ra(){Me=4,yi||(ne&4194048)!==ne&&ut.current!==null||(Cr=!0),(vi&134217727)===0&&(Qi&134217727)===0||we===null||ki(we,ne,mt,!1)}function _s(e,t,i){var r=me;me|=2;var n=Tu(),a=xu();(we!==e||ne!==t)&&(Ta=null,Rr(e,t)),t=!1;var o=Me;e:do try{if(ye!==0&&ie!==null){var l=ie,c=gt;switch(ye){case 8:Fs(),o=6;break e;case 3:case 2:case 9:case 6:ut.current===null&&(t=!0);var f=ye;if(ye=0,gt=null,Er(e,l,c,f),i&&Cr){o=0;break e}break;default:f=ye,ye=0,gt=null,Er(e,l,c,f)}}Um(),o=Me;break}catch(S){Au(e,S)}while(!0);return t&&e.shellSuspendCounter++,Vt=_i=null,me=r,k.H=n,k.A=a,ie===null&&(we=null,ne=0,Gn()),o}function Um(){for(;ie!==null;)Ru(ie)}function Lm(e,t){var i=me;me|=2;var r=Tu(),n=xu();we!==e||ne!==t?(Ta=null,Ca=ot()+500,Rr(e,t)):Cr=Or(e,t);e:do try{if(ye!==0&&ie!==null){t=ie;var a=gt;t:switch(ye){case 1:ye=0,gt=null,Er(e,t,a,1);break;case 2:case 9:if(Bc(a)){ye=0,gt=null,Eu(t);break}t=function(){ye!==2&&ye!==9||we!==e||(ye=7),Ot(e)},a.then(t,t);break e;case 3:ye=7;break e;case 4:ye=5;break e;case 7:Bc(a)?(ye=0,gt=null,Eu(t)):(ye=0,gt=null,Er(e,t,a,7));break;case 5:var o=null;switch(ie.tag){case 26:o=ie.memoizedState;case 5:case 27:var l=ie;if(o?gp(o):l.stateNode.complete){ye=0,gt=null;var c=l.sibling;if(c!==null)ie=c;else{var f=l.return;f!==null?(ie=f,Ea(f)):ie=null}break t}}ye=0,gt=null,Er(e,t,a,5);break;case 6:ye=0,gt=null,Er(e,t,a,6);break;case 8:Fs(),Me=6;break e;default:throw Error(d(462))}}Om();break}catch(S){Au(e,S)}while(!0);return Vt=_i=null,k.H=r,k.A=n,me=i,ie!==null?0:(we=null,ne=0,Gn(),Me)}function Om(){for(;ie!==null&&!ag();)Ru(ie)}function Ru(e){var t=Xd(e.alternate,e,$t);e.memoizedProps=e.pendingProps,t===null?Ea(e):ie=t}function Eu(e){var t=e,i=t.alternate;switch(t.tag){case 15:case 0:t=Kd(i,t,t.pendingProps,t.type,void 0,ne);break;case 11:t=Kd(i,t,t.pendingProps,t.type.render,t.ref,ne);break;case 5:es(t);default:$d(i,t),t=ie=xc(t,$t),t=Xd(i,t,$t)}e.memoizedProps=e.pendingProps,t===null?Ea(e):ie=t}function Er(e,t,i,r){Vt=_i=null,es(t),yr=null,$r=0;var n=t.return;try{if(Cm(e,n,t,i,ne)){Me=1,ha(e,St(i,e.current)),ie=null;return}}catch(a){if(n!==null)throw ie=n,a;Me=1,ha(e,St(i,e.current)),ie=null;return}t.flags&32768?(se||r===1?e=!0:Cr||(ne&536870912)!==0?e=!1:(yi=e=!0,(r===2||r===9||r===3||r===6)&&(r=ut.current,r!==null&&r.tag===13&&(r.flags|=16384))),Mu(t,e)):Ea(t)}function Ea(e){var t=e;do{if((t.flags&32768)!==0){Mu(t,yi);return}e=t.return;var i=Rm(t.alternate,t,$t);if(i!==null){ie=i;return}if(t=t.sibling,t!==null){ie=t;return}ie=t=e}while(t!==null);Me===0&&(Me=5)}function Mu(e,t){do{var i=Em(e.alternate,e);if(i!==null){i.flags&=32767,ie=i;return}if(i=e.return,i!==null&&(i.flags|=32768,i.subtreeFlags=0,i.deletions=null),!t&&(e=e.sibling,e!==null)){ie=e;return}ie=e=i}while(e!==null);Me=6,ie=null}function Du(e,t,i,r,n,a,o,l,c){e.cancelPendingCommit=null;do Ma();while(_e!==0);if((me&6)!==0)throw Error(d(327));if(t!==null){if(t===e.current)throw Error(d(177));if(a=t.lanes|t.childLanes,a|=Ro,hg(e,i,a,o,l,c),e===we&&(ie=we=null,ne=0),xr=t,Si=e,ei=i,Ls=a,Os=n,bu=r,(t.subtreeFlags&10256)!==0||(t.flags&10256)!==0?(e.callbackNode=null,e.callbackPriority=0,Hm(In,function(){return Lu(),null})):(e.callbackNode=null,e.callbackPriority=0),r=(t.flags&13878)!==0,(t.subtreeFlags&13878)!==0||r){r=k.T,k.T=null,n=P.p,P.p=2,o=me,me|=4;try{Mm(e,t,i)}finally{me=o,P.p=n,k.T=r}}_e=1,Iu(),Pu(),Nu()}}function Iu(){if(_e===1){_e=0;var e=Si,t=xr,i=(t.flags&13878)!==0;if((t.subtreeFlags&13878)!==0||i){i=k.T,k.T=null;var r=P.p;P.p=2;var n=me;me|=4;try{uu(t,e);var a=Xs,o=yc(e.containerInfo),l=a.focusedElem,c=a.selectionRange;if(o!==l&&l&&l.ownerDocument&&fc(l.ownerDocument.documentElement,l)){if(c!==null&&wo(l)){var f=c.start,S=c.end;if(S===void 0&&(S=f),"selectionStart"in l)l.selectionStart=f,l.selectionEnd=Math.min(S,l.value.length);else{var T=l.ownerDocument||document,y=T&&T.defaultView||window;if(y.getSelection){var v=y.getSelection(),_=l.textContent.length,Q=Math.min(c.start,_),ke=c.end===void 0?Q:Math.min(c.end,_);!v.extend&&Q>ke&&(o=ke,ke=Q,Q=o);var m=hc(l,Q),p=hc(l,ke);if(m&&p&&(v.rangeCount!==1||v.anchorNode!==m.node||v.anchorOffset!==m.offset||v.focusNode!==p.node||v.focusOffset!==p.offset)){var h=T.createRange();h.setStart(m.node,m.offset),v.removeAllRanges(),Q>ke?(v.addRange(h),v.extend(p.node,p.offset)):(h.setEnd(p.node,p.offset),v.addRange(h))}}}}for(T=[],v=l;v=v.parentNode;)v.nodeType===1&&T.push({element:v,left:v.scrollLeft,top:v.scrollTop});for(typeof l.focus=="function"&&l.focus(),l=0;l<T.length;l++){var C=T[l];C.element.scrollLeft=C.left,C.element.scrollTop=C.top}}qa=!!Js,Xs=Js=null}finally{me=n,P.p=r,k.T=i}}e.current=t,_e=2}}function Pu(){if(_e===2){_e=0;var e=Si,t=xr,i=(t.flags&8772)!==0;if((t.subtreeFlags&8772)!==0||i){i=k.T,k.T=null;var r=P.p;P.p=2;var n=me;me|=4;try{ou(e,t.alternate,t)}finally{me=n,P.p=r,k.T=i}}_e=3}}function Nu(){if(_e===4||_e===3){_e=0,og();var e=Si,t=xr,i=ei,r=bu;(t.subtreeFlags&10256)!==0||(t.flags&10256)!==0?_e=5:(_e=0,xr=Si=null,Uu(e,e.pendingLanes));var n=e.pendingLanes;if(n===0&&(bi=null),io(i),t=t.stateNode,st&&typeof st.onCommitFiberRoot=="function")try{st.onCommitFiberRoot(Lr,t,void 0,(t.current.flags&128)===128)}catch{}if(r!==null){t=k.T,n=P.p,P.p=2,k.T=null;try{for(var a=e.onRecoverableError,o=0;o<r.length;o++){var l=r[o];a(l.value,{componentStack:l.stack})}}finally{k.T=t,P.p=n}}(ei&3)!==0&&Ma(),Ot(e),n=e.pendingLanes,(i&261930)!==0&&(n&42)!==0?e===Bs?yn++:(yn=0,Bs=e):yn=0,vn(0)}}function Uu(e,t){(e.pooledCacheLanes&=t)===0&&(t=e.pooledCache,t!=null&&(e.pooledCache=null,Xr(t)))}function Ma(){return Iu(),Pu(),Nu(),Lu()}function Lu(){if(_e!==5)return!1;var e=Si,t=Ls;Ls=0;var i=io(ei),r=k.T,n=P.p;try{P.p=32>i?32:i,k.T=null,i=Os,Os=null;var a=Si,o=ei;if(_e=0,xr=Si=null,ei=0,(me&6)!==0)throw Error(d(331));var l=me;if(me|=4,fu(a.current),gu(a,a.current,o,i),me=l,vn(0,!1),st&&typeof st.onPostCommitFiberRoot=="function")try{st.onPostCommitFiberRoot(Lr,a)}catch{}return!0}finally{P.p=n,k.T=r,Uu(e,t)}}function Ou(e,t,i){t=St(i,t),t=hs(e.stateNode,t,2),e=gi(e,t,2),e!==null&&(Br(e,2),Ot(e))}function ve(e,t,i){if(e.tag===3)Ou(e,e,i);else for(;t!==null;){if(t.tag===3){Ou(t,e,i);break}else if(t.tag===1){var r=t.stateNode;if(typeof t.type.getDerivedStateFromError=="function"||typeof r.componentDidCatch=="function"&&(bi===null||!bi.has(r))){e=St(i,e),i=Bd(2),r=gi(t,i,2),r!==null&&(Fd(i,r,t,e),Br(r,2),Ot(r));break}}t=t.return}}function Hs(e,t,i){var r=e.pingCache;if(r===null){r=e.pingCache=new Pm;var n=new Set;r.set(t,n)}else n=r.get(t),n===void 0&&(n=new Set,r.set(t,n));n.has(i)||(Ps=!0,n.add(i),e=Bm.bind(null,e,t,i),t.then(e,e))}function Bm(e,t,i){var r=e.pingCache;r!==null&&r.delete(t),e.pingedLanes|=e.suspendedLanes&i,e.warmLanes&=~i,we===e&&(ne&i)===i&&(Me===4||Me===3&&(ne&62914560)===ne&&300>ot()-Aa?(me&2)===0&&Rr(e,0):Ns|=i,Tr===ne&&(Tr=0)),Ot(e)}function Bu(e,t){t===0&&(t=Il()),e=Oi(e,t),e!==null&&(Br(e,t),Ot(e))}function Fm(e){var t=e.memoizedState,i=0;t!==null&&(i=t.retryLane),Bu(e,i)}function _m(e,t){var i=0;switch(e.tag){case 31:case 13:var r=e.stateNode,n=e.memoizedState;n!==null&&(i=n.retryLane);break;case 19:r=e.stateNode;break;case 22:r=e.stateNode._retryCache;break;default:throw Error(d(314))}r!==null&&r.delete(t),Bu(e,i)}function Hm(e,t){return Za(e,t)}var Da=null,Mr=null,qs=!1,Ia=!1,js=!1,wi=0;function Ot(e){e!==Mr&&e.next===null&&(Mr===null?Da=Mr=e:Mr=Mr.next=e),Ia=!0,qs||(qs=!0,jm())}function vn(e,t){if(!js&&Ia){js=!0;do for(var i=!1,r=Da;r!==null;){if(e!==0){var n=r.pendingLanes;if(n===0)var a=0;else{var o=r.suspendedLanes,l=r.pingedLanes;a=(1<<31-lt(42|e)+1)-1,a&=n&~(o&~l),a=a&201326741?a&201326741|1:a?a|2:0}a!==0&&(i=!0,qu(r,a))}else a=ne,a=Ln(r,r===we?a:0,r.cancelPendingCommit!==null||r.timeoutHandle!==-1),(a&3)===0||Or(r,a)||(i=!0,qu(r,a));r=r.next}while(i);js=!1}}function qm(){Fu()}function Fu(){Ia=qs=!1;var e=0;wi!==0&&Zm()&&(e=wi);for(var t=ot(),i=null,r=Da;r!==null;){var n=r.next,a=_u(r,t);a===0?(r.next=null,i===null?Da=n:i.next=n,n===null&&(Mr=i)):(i=r,(e!==0||(a&3)!==0)&&(Ia=!0)),r=n}_e!==0&&_e!==5||vn(e),wi!==0&&(wi=0)}function _u(e,t){for(var i=e.suspendedLanes,r=e.pingedLanes,n=e.expirationTimes,a=e.pendingLanes&-62914561;0<a;){var o=31-lt(a),l=1<<o,c=n[o];c===-1?((l&i)===0||(l&r)!==0)&&(n[o]=mg(l,t)):c<=t&&(e.expiredLanes|=l),a&=~l}if(t=we,i=ne,i=Ln(e,e===t?i:0,e.cancelPendingCommit!==null||e.timeoutHandle!==-1),r=e.callbackNode,i===0||e===t&&(ye===2||ye===9)||e.cancelPendingCommit!==null)return r!==null&&r!==null&&$a(r),e.callbackNode=null,e.callbackPriority=0;if((i&3)===0||Or(e,i)){if(t=i&-i,t===e.callbackPriority)return t;switch(r!==null&&$a(r),io(i)){case 2:case 8:i=Ml;break;case 32:i=In;break;case 268435456:i=Dl;break;default:i=In}return r=Hu.bind(null,e),i=Za(i,r),e.callbackPriority=t,e.callbackNode=i,t}return r!==null&&r!==null&&$a(r),e.callbackPriority=2,e.callbackNode=null,2}function Hu(e,t){if(_e!==0&&_e!==5)return e.callbackNode=null,e.callbackPriority=0,null;var i=e.callbackNode;if(Ma()&&e.callbackNode!==i)return null;var r=ne;return r=Ln(e,e===we?r:0,e.cancelPendingCommit!==null||e.timeoutHandle!==-1),r===0?null:(ku(e,r,t),_u(e,ot()),e.callbackNode!=null&&e.callbackNode===i?Hu.bind(null,e):null)}function qu(e,t){if(Ma())return null;ku(e,t,!0)}function jm(){eh(function(){(me&6)!==0?Za(El,qm):Fu()})}function Vs(){if(wi===0){var e=mr;e===0&&(e=Pn,Pn<<=1,(Pn&261888)===0&&(Pn=256)),wi=e}return wi}function ju(e){return e==null||typeof e=="symbol"||typeof e=="boolean"?null:typeof e=="function"?e:_n(""+e)}function Vu(e,t){var i=t.ownerDocument.createElement("input");return i.name=t.name,i.value=t.value,e.id&&i.setAttribute("form",e.id),t.parentNode.insertBefore(i,t),e=new FormData(e),i.parentNode.removeChild(i),e}function Vm(e,t,i,r,n){if(t==="submit"&&i&&i.stateNode===n){var a=ju((n[Ze]||null).action),o=r.submitter;o&&(t=(t=o[Ze]||null)?ju(t.formAction):o.getAttribute("formAction"),t!==null&&(a=t,o=null));var l=new Vn("action","action",null,r,n);e.push({event:l,listeners:[{instance:null,listener:function(){if(r.defaultPrevented){if(wi!==0){var c=o?Vu(n,o):new FormData(n);cs(i,{pending:!0,data:c,method:n.method,action:a},null,c)}}else typeof a=="function"&&(l.preventDefault(),c=o?Vu(n,o):new FormData(n),cs(i,{pending:!0,data:c,method:n.method,action:a},a,c))},currentTarget:n}]})}}for(var zs=0;zs<xo.length;zs++){var Ks=xo[zs],zm=Ks.toLowerCase(),Km=Ks[0].toUpperCase()+Ks.slice(1);Et(zm,"on"+Km)}Et(Sc,"onAnimationEnd"),Et(kc,"onAnimationIteration"),Et(wc,"onAnimationStart"),Et("dblclick","onDoubleClick"),Et("focusin","onFocus"),Et("focusout","onBlur"),Et(sm,"onTransitionRun"),Et(lm,"onTransitionStart"),Et(cm,"onTransitionCancel"),Et(Ac,"onTransitionEnd"),er("onMouseEnter",["mouseout","mouseover"]),er("onMouseLeave",["mouseout","mouseover"]),er("onPointerEnter",["pointerout","pointerover"]),er("onPointerLeave",["pointerout","pointerover"]),Pi("onChange","change click focusin focusout input keydown keyup selectionchange".split(" ")),Pi("onSelect","focusout contextmenu dragend focusin keydown keyup mousedown mouseup selectionchange".split(" ")),Pi("onBeforeInput",["compositionend","keypress","textInput","paste"]),Pi("onCompositionEnd","compositionend focusout keydown keypress keyup mousedown".split(" ")),Pi("onCompositionStart","compositionstart focusout keydown keypress keyup mousedown".split(" ")),Pi("onCompositionUpdate","compositionupdate focusout keydown keypress keyup mousedown".split(" "));var bn="abort canplay canplaythrough durationchange emptied encrypted ended error loadeddata loadedmetadata loadstart pause play playing progress ratechange resize seeked seeking stalled suspend timeupdate volumechange waiting".split(" "),Wm=new Set("beforetoggle cancel close invalid load scroll scrollend toggle".split(" ").concat(bn));function zu(e,t){t=(t&4)!==0;for(var i=0;i<e.length;i++){var r=e[i],n=r.event;r=r.listeners;e:{var a=void 0;if(t)for(var o=r.length-1;0<=o;o--){var l=r[o],c=l.instance,f=l.currentTarget;if(l=l.listener,c!==a&&n.isPropagationStopped())break e;a=l,n.currentTarget=f;try{a(n)}catch(S){Wn(S)}n.currentTarget=null,a=c}else for(o=0;o<r.length;o++){if(l=r[o],c=l.instance,f=l.currentTarget,l=l.listener,c!==a&&n.isPropagationStopped())break e;a=l,n.currentTarget=f;try{a(n)}catch(S){Wn(S)}n.currentTarget=null,a=c}}}}function re(e,t){var i=t[ro];i===void 0&&(i=t[ro]=new Set);var r=e+"__bubble";i.has(r)||(Ku(t,e,2,!1),i.add(r))}function Ws(e,t,i){var r=0;t&&(r|=4),Ku(i,e,r,t)}var Pa="_reactListening"+Math.random().toString(36).slice(2);function Gs(e){if(!e[Pa]){e[Pa]=!0,Fl.forEach(function(i){i!=="selectionchange"&&(Wm.has(i)||Ws(i,!1,e),Ws(i,!0,e))});var t=e.nodeType===9?e:e.ownerDocument;t===null||t[Pa]||(t[Pa]=!0,Ws("selectionchange",!1,t))}}function Ku(e,t,i,r){switch(Sp(t)){case 2:var n=Sh;break;case 8:n=kh;break;default:n=ll}i=n.bind(null,t,i,e),n=void 0,!go||t!=="touchstart"&&t!=="touchmove"&&t!=="wheel"||(n=!0),r?n!==void 0?e.addEventListener(t,i,{capture:!0,passive:n}):e.addEventListener(t,i,!0):n!==void 0?e.addEventListener(t,i,{passive:n}):e.addEventListener(t,i,!1)}function Qs(e,t,i,r,n){var a=r;if((t&1)===0&&(t&2)===0&&r!==null)e:for(;;){if(r===null)return;var o=r.tag;if(o===3||o===4){var l=r.stateNode.containerInfo;if(l===n)break;if(o===4)for(o=r.return;o!==null;){var c=o.tag;if((c===3||c===4)&&o.stateNode.containerInfo===n)return;o=o.return}for(;l!==null;){if(o=Xi(l),o===null)return;if(c=o.tag,c===5||c===6||c===26||c===27){r=a=o;continue e}l=l.parentNode}}r=r.return}Jl(function(){var f=a,S=uo(i),T=[];e:{var y=Cc.get(e);if(y!==void 0){var v=Vn,_=e;switch(e){case"keypress":if(qn(i)===0)break e;case"keydown":case"keyup":v=_g;break;case"focusin":_="focus",v=yo;break;case"focusout":_="blur",v=yo;break;case"beforeblur":case"afterblur":v=yo;break;case"click":if(i.button===2)break e;case"auxclick":case"dblclick":case"mousedown":case"mousemove":case"mouseup":case"mouseout":case"mouseover":case"contextmenu":v=$l;break;case"drag":case"dragend":case"dragenter":case"dragexit":case"dragleave":case"dragover":case"dragstart":case"drop":v=Rg;break;case"touchcancel":case"touchend":case"touchmove":case"touchstart":v=jg;break;case Sc:case kc:case wc:v=Dg;break;case Ac:v=zg;break;case"scroll":case"scrollend":v=Tg;break;case"wheel":v=Wg;break;case"copy":case"cut":case"paste":v=Pg;break;case"gotpointercapture":case"lostpointercapture":case"pointercancel":case"pointerdown":case"pointermove":case"pointerout":case"pointerover":case"pointerup":v=tc;break;case"toggle":case"beforetoggle":v=Qg}var Q=(t&4)!==0,ke=!Q&&(e==="scroll"||e==="scrollend"),m=Q?y!==null?y+"Capture":null:y;Q=[];for(var p=f,h;p!==null;){var C=p;if(h=C.stateNode,C=C.tag,C!==5&&C!==26&&C!==27||h===null||m===null||(C=Hr(p,m),C!=null&&Q.push(Sn(p,C,h))),ke)break;p=p.return}0<Q.length&&(y=new v(y,_,null,i,S),T.push({event:y,listeners:Q}))}}if((t&7)===0){e:{if(y=e==="mouseover"||e==="pointerover",v=e==="mouseout"||e==="pointerout",y&&i!==co&&(_=i.relatedTarget||i.fromElement)&&(Xi(_)||_[Ji]))break e;if((v||y)&&(y=S.window===S?S:(y=S.ownerDocument)?y.defaultView||y.parentWindow:window,v?(_=i.relatedTarget||i.toElement,v=f,_=_?Xi(_):null,_!==null&&(ke=L(_),Q=_.tag,_!==ke||Q!==5&&Q!==27&&Q!==6)&&(_=null)):(v=null,_=f),v!==_)){if(Q=$l,C="onMouseLeave",m="onMouseEnter",p="mouse",(e==="pointerout"||e==="pointerover")&&(Q=tc,C="onPointerLeave",m="onPointerEnter",p="pointer"),ke=v==null?y:_r(v),h=_==null?y:_r(_),y=new Q(C,p+"leave",v,i,S),y.target=ke,y.relatedTarget=h,C=null,Xi(S)===f&&(Q=new Q(m,p+"enter",_,i,S),Q.target=h,Q.relatedTarget=ke,C=Q),ke=C,v&&_)t:{for(Q=Gm,m=v,p=_,h=0,C=m;C;C=Q(C))h++;C=0;for(var V=p;V;V=Q(V))C++;for(;0<h-C;)m=Q(m),h--;for(;0<C-h;)p=Q(p),C--;for(;h--;){if(m===p||p!==null&&m===p.alternate){Q=m;break t}m=Q(m),p=Q(p)}Q=null}else Q=null;v!==null&&Wu(T,y,v,Q,!1),_!==null&&ke!==null&&Wu(T,ke,_,Q,!0)}}e:{if(y=f?_r(f):window,v=y.nodeName&&y.nodeName.toLowerCase(),v==="select"||v==="input"&&y.type==="file")var pe=cc;else if(sc(y))if(dc)pe=nm;else{pe=im;var j=tm}else v=y.nodeName,!v||v.toLowerCase()!=="input"||y.type!=="checkbox"&&y.type!=="radio"?f&&lo(f.elementType)&&(pe=cc):pe=rm;if(pe&&(pe=pe(e,f))){lc(T,pe,i,S);break e}j&&j(e,y,f),e==="focusout"&&f&&y.type==="number"&&f.memoizedProps.value!=null&&so(y,"number",y.value)}switch(j=f?_r(f):window,e){case"focusin":(sc(j)||j.contentEditable==="true")&&(or=j,Ao=f,Qr=null);break;case"focusout":Qr=Ao=or=null;break;case"mousedown":Co=!0;break;case"contextmenu":case"mouseup":case"dragend":Co=!1,vc(T,i,S);break;case"selectionchange":if(om)break;case"keydown":case"keyup":vc(T,i,S)}var $;if(bo)e:{switch(e){case"compositionstart":var ae="onCompositionStart";break e;case"compositionend":ae="onCompositionEnd";break e;case"compositionupdate":ae="onCompositionUpdate";break e}ae=void 0}else ar?ac(e,i)&&(ae="onCompositionEnd"):e==="keydown"&&i.keyCode===229&&(ae="onCompositionStart");ae&&(ic&&i.locale!=="ko"&&(ar||ae!=="onCompositionStart"?ae==="onCompositionEnd"&&ar&&($=Xl()):(oi=S,mo="value"in oi?oi.value:oi.textContent,ar=!0)),j=Na(f,ae),0<j.length&&(ae=new ec(ae,e,null,i,S),T.push({event:ae,listeners:j}),$?ae.data=$:($=oc(i),$!==null&&(ae.data=$)))),($=Jg?Xg(e,i):Zg(e,i))&&(ae=Na(f,"onBeforeInput"),0<ae.length&&(j=new ec("onBeforeInput","beforeinput",null,i,S),T.push({event:j,listeners:ae}),j.data=$)),Vm(T,e,f,i,S)}zu(T,t)})}function Sn(e,t,i){return{instance:e,listener:t,currentTarget:i}}function Na(e,t){for(var i=t+"Capture",r=[];e!==null;){var n=e,a=n.stateNode;if(n=n.tag,n!==5&&n!==26&&n!==27||a===null||(n=Hr(e,i),n!=null&&r.unshift(Sn(e,n,a)),n=Hr(e,t),n!=null&&r.push(Sn(e,n,a))),e.tag===3)return r;e=e.return}return[]}function Gm(e){if(e===null)return null;do e=e.return;while(e&&e.tag!==5&&e.tag!==27);return e||null}function Wu(e,t,i,r,n){for(var a=t._reactName,o=[];i!==null&&i!==r;){var l=i,c=l.alternate,f=l.stateNode;if(l=l.tag,c!==null&&c===r)break;l!==5&&l!==26&&l!==27||f===null||(c=f,n?(f=Hr(i,a),f!=null&&o.unshift(Sn(i,f,c))):n||(f=Hr(i,a),f!=null&&o.push(Sn(i,f,c)))),i=i.return}o.length!==0&&e.push({event:t,listeners:o})}var Qm=/\r\n?/g,Ym=/\u0000|\uFFFD/g;function Gu(e){return(typeof e=="string"?e:""+e).replace(Qm,`
-`).replace(Ym,"")}function Qu(e,t){return t=Gu(t),Gu(e)===t}function Se(e,t,i,r,n,a){switch(i){case"children":typeof r=="string"?t==="body"||t==="textarea"&&r===""||ir(e,r):(typeof r=="number"||typeof r=="bigint")&&t!=="body"&&ir(e,""+r);break;case"className":Bn(e,"class",r);break;case"tabIndex":Bn(e,"tabindex",r);break;case"dir":case"role":case"viewBox":case"width":case"height":Bn(e,i,r);break;case"style":Ql(e,r,a);break;case"data":if(t!=="object"){Bn(e,"data",r);break}case"src":case"href":if(r===""&&(t!=="a"||i!=="href")){e.removeAttribute(i);break}if(r==null||typeof r=="function"||typeof r=="symbol"||typeof r=="boolean"){e.removeAttribute(i);break}r=_n(""+r),e.setAttribute(i,r);break;case"action":case"formAction":if(typeof r=="function"){e.setAttribute(i,"javascript:throw new Error('A React form was unexpectedly submitted. If you called form.submit() manually, consider using form.requestSubmit() instead. If you\\'re trying to use event.stopPropagation() in a submit event handler, consider also calling event.preventDefault().')");break}else typeof a=="function"&&(i==="formAction"?(t!=="input"&&Se(e,t,"name",n.name,n,null),Se(e,t,"formEncType",n.formEncType,n,null),Se(e,t,"formMethod",n.formMethod,n,null),Se(e,t,"formTarget",n.formTarget,n,null)):(Se(e,t,"encType",n.encType,n,null),Se(e,t,"method",n.method,n,null),Se(e,t,"target",n.target,n,null)));if(r==null||typeof r=="symbol"||typeof r=="boolean"){e.removeAttribute(i);break}r=_n(""+r),e.setAttribute(i,r);break;case"onClick":r!=null&&(e.onclick=_t);break;case"onScroll":r!=null&&re("scroll",e);break;case"onScrollEnd":r!=null&&re("scrollend",e);break;case"dangerouslySetInnerHTML":if(r!=null){if(typeof r!="object"||!("__html"in r))throw Error(d(61));if(i=r.__html,i!=null){if(n.children!=null)throw Error(d(60));e.innerHTML=i}}break;case"multiple":e.multiple=r&&typeof r!="function"&&typeof r!="symbol";break;case"muted":e.muted=r&&typeof r!="function"&&typeof r!="symbol";break;case"suppressContentEditableWarning":case"suppressHydrationWarning":case"defaultValue":case"defaultChecked":case"innerHTML":case"ref":break;case"autoFocus":break;case"xlinkHref":if(r==null||typeof r=="function"||typeof r=="boolean"||typeof r=="symbol"){e.removeAttribute("xlink:href");break}i=_n(""+r),e.setAttributeNS("http://www.w3.org/1999/xlink","xlink:href",i);break;case"contentEditable":case"spellCheck":case"draggable":case"value":case"autoReverse":case"externalResourcesRequired":case"focusable":case"preserveAlpha":r!=null&&typeof r!="function"&&typeof r!="symbol"?e.setAttribute(i,""+r):e.removeAttribute(i);break;case"inert":case"allowFullScreen":case"async":case"autoPlay":case"controls":case"default":case"defer":case"disabled":case"disablePictureInPicture":case"disableRemotePlayback":case"formNoValidate":case"hidden":case"loop":case"noModule":case"noValidate":case"open":case"playsInline":case"readOnly":case"required":case"reversed":case"scoped":case"seamless":case"itemScope":r&&typeof r!="function"&&typeof r!="symbol"?e.setAttribute(i,""):e.removeAttribute(i);break;case"capture":case"download":r===!0?e.setAttribute(i,""):r!==!1&&r!=null&&typeof r!="function"&&typeof r!="symbol"?e.setAttribute(i,r):e.removeAttribute(i);break;case"cols":case"rows":case"size":case"span":r!=null&&typeof r!="function"&&typeof r!="symbol"&&!isNaN(r)&&1<=r?e.setAttribute(i,r):e.removeAttribute(i);break;case"rowSpan":case"start":r==null||typeof r=="function"||typeof r=="symbol"||isNaN(r)?e.removeAttribute(i):e.setAttribute(i,r);break;case"popover":re("beforetoggle",e),re("toggle",e),On(e,"popover",r);break;case"xlinkActuate":Ft(e,"http://www.w3.org/1999/xlink","xlink:actuate",r);break;case"xlinkArcrole":Ft(e,"http://www.w3.org/1999/xlink","xlink:arcrole",r);break;case"xlinkRole":Ft(e,"http://www.w3.org/1999/xlink","xlink:role",r);break;case"xlinkShow":Ft(e,"http://www.w3.org/1999/xlink","xlink:show",r);break;case"xlinkTitle":Ft(e,"http://www.w3.org/1999/xlink","xlink:title",r);break;case"xlinkType":Ft(e,"http://www.w3.org/1999/xlink","xlink:type",r);break;case"xmlBase":Ft(e,"http://www.w3.org/XML/1998/namespace","xml:base",r);break;case"xmlLang":Ft(e,"http://www.w3.org/XML/1998/namespace","xml:lang",r);break;case"xmlSpace":Ft(e,"http://www.w3.org/XML/1998/namespace","xml:space",r);break;case"is":On(e,"is",r);break;case"innerText":case"textContent":break;default:(!(2<i.length)||i[0]!=="o"&&i[0]!=="O"||i[1]!=="n"&&i[1]!=="N")&&(i=Ag.get(i)||i,On(e,i,r))}}function Ys(e,t,i,r,n,a){switch(i){case"style":Ql(e,r,a);break;case"dangerouslySetInnerHTML":if(r!=null){if(typeof r!="object"||!("__html"in r))throw Error(d(61));if(i=r.__html,i!=null){if(n.children!=null)throw Error(d(60));e.innerHTML=i}}break;case"children":typeof r=="string"?ir(e,r):(typeof r=="number"||typeof r=="bigint")&&ir(e,""+r);break;case"onScroll":r!=null&&re("scroll",e);break;case"onScrollEnd":r!=null&&re("scrollend",e);break;case"onClick":r!=null&&(e.onclick=_t);break;case"suppressContentEditableWarning":case"suppressHydrationWarning":case"innerHTML":case"ref":break;case"innerText":case"textContent":break;default:if(!_l.hasOwnProperty(i))e:{if(i[0]==="o"&&i[1]==="n"&&(n=i.endsWith("Capture"),t=i.slice(2,n?i.length-7:void 0),a=e[Ze]||null,a=a!=null?a[i]:null,typeof a=="function"&&e.removeEventListener(t,a,n),typeof r=="function")){typeof a!="function"&&a!==null&&(i in e?e[i]=null:e.hasAttribute(i)&&e.removeAttribute(i)),e.addEventListener(t,r,n);break e}i in e?e[i]=r:r===!0?e.setAttribute(i,""):On(e,i,r)}}}function Qe(e,t,i){switch(t){case"div":case"span":case"svg":case"path":case"a":case"g":case"p":case"li":break;case"img":re("error",e),re("load",e);var r=!1,n=!1,a;for(a in i)if(i.hasOwnProperty(a)){var o=i[a];if(o!=null)switch(a){case"src":r=!0;break;case"srcSet":n=!0;break;case"children":case"dangerouslySetInnerHTML":throw Error(d(137,t));default:Se(e,t,a,o,i,null)}}n&&Se(e,t,"srcSet",i.srcSet,i,null),r&&Se(e,t,"src",i.src,i,null);return;case"input":re("invalid",e);var l=a=o=n=null,c=null,f=null;for(r in i)if(i.hasOwnProperty(r)){var S=i[r];if(S!=null)switch(r){case"name":n=S;break;case"type":o=S;break;case"checked":c=S;break;case"defaultChecked":f=S;break;case"value":a=S;break;case"defaultValue":l=S;break;case"children":case"dangerouslySetInnerHTML":if(S!=null)throw Error(d(137,t));break;default:Se(e,t,r,S,i,null)}}zl(e,a,l,c,f,o,n,!1);return;case"select":re("invalid",e),r=o=a=null;for(n in i)if(i.hasOwnProperty(n)&&(l=i[n],l!=null))switch(n){case"value":a=l;break;case"defaultValue":o=l;break;case"multiple":r=l;default:Se(e,t,n,l,i,null)}t=a,i=o,e.multiple=!!r,t!=null?tr(e,!!r,t,!1):i!=null&&tr(e,!!r,i,!0);return;case"textarea":re("invalid",e),a=n=r=null;for(o in i)if(i.hasOwnProperty(o)&&(l=i[o],l!=null))switch(o){case"value":r=l;break;case"defaultValue":n=l;break;case"children":a=l;break;case"dangerouslySetInnerHTML":if(l!=null)throw Error(d(91));break;default:Se(e,t,o,l,i,null)}Wl(e,r,n,a);return;case"option":for(c in i)i.hasOwnProperty(c)&&(r=i[c],r!=null)&&(c==="selected"?e.selected=r&&typeof r!="function"&&typeof r!="symbol":Se(e,t,c,r,i,null));return;case"dialog":re("beforetoggle",e),re("toggle",e),re("cancel",e),re("close",e);break;case"iframe":case"object":re("load",e);break;case"video":case"audio":for(r=0;r<bn.length;r++)re(bn[r],e);break;case"image":re("error",e),re("load",e);break;case"details":re("toggle",e);break;case"embed":case"source":case"link":re("error",e),re("load",e);case"area":case"base":case"br":case"col":case"hr":case"keygen":case"meta":case"param":case"track":case"wbr":case"menuitem":for(f in i)if(i.hasOwnProperty(f)&&(r=i[f],r!=null))switch(f){case"children":case"dangerouslySetInnerHTML":throw Error(d(137,t));default:Se(e,t,f,r,i,null)}return;default:if(lo(t)){for(S in i)i.hasOwnProperty(S)&&(r=i[S],r!==void 0&&Ys(e,t,S,r,i,void 0));return}}for(l in i)i.hasOwnProperty(l)&&(r=i[l],r!=null&&Se(e,t,l,r,i,null))}function Jm(e,t,i,r){switch(t){case"div":case"span":case"svg":case"path":case"a":case"g":case"p":case"li":break;case"input":var n=null,a=null,o=null,l=null,c=null,f=null,S=null;for(v in i){var T=i[v];if(i.hasOwnProperty(v)&&T!=null)switch(v){case"checked":break;case"value":break;case"defaultValue":c=T;default:r.hasOwnProperty(v)||Se(e,t,v,null,r,T)}}for(var y in r){var v=r[y];if(T=i[y],r.hasOwnProperty(y)&&(v!=null||T!=null))switch(y){case"type":a=v;break;case"name":n=v;break;case"checked":f=v;break;case"defaultChecked":S=v;break;case"value":o=v;break;case"defaultValue":l=v;break;case"children":case"dangerouslySetInnerHTML":if(v!=null)throw Error(d(137,t));break;default:v!==T&&Se(e,t,y,v,r,T)}}oo(e,o,l,c,f,S,a,n);return;case"select":v=o=l=y=null;for(a in i)if(c=i[a],i.hasOwnProperty(a)&&c!=null)switch(a){case"value":break;case"multiple":v=c;default:r.hasOwnProperty(a)||Se(e,t,a,null,r,c)}for(n in r)if(a=r[n],c=i[n],r.hasOwnProperty(n)&&(a!=null||c!=null))switch(n){case"value":y=a;break;case"defaultValue":l=a;break;case"multiple":o=a;default:a!==c&&Se(e,t,n,a,r,c)}t=l,i=o,r=v,y!=null?tr(e,!!i,y,!1):!!r!=!!i&&(t!=null?tr(e,!!i,t,!0):tr(e,!!i,i?[]:"",!1));return;case"textarea":v=y=null;for(l in i)if(n=i[l],i.hasOwnProperty(l)&&n!=null&&!r.hasOwnProperty(l))switch(l){case"value":break;case"children":break;default:Se(e,t,l,null,r,n)}for(o in r)if(n=r[o],a=i[o],r.hasOwnProperty(o)&&(n!=null||a!=null))switch(o){case"value":y=n;break;case"defaultValue":v=n;break;case"children":break;case"dangerouslySetInnerHTML":if(n!=null)throw Error(d(91));break;default:n!==a&&Se(e,t,o,n,r,a)}Kl(e,y,v);return;case"option":for(var _ in i)y=i[_],i.hasOwnProperty(_)&&y!=null&&!r.hasOwnProperty(_)&&(_==="selected"?e.selected=!1:Se(e,t,_,null,r,y));for(c in r)y=r[c],v=i[c],r.hasOwnProperty(c)&&y!==v&&(y!=null||v!=null)&&(c==="selected"?e.selected=y&&typeof y!="function"&&typeof y!="symbol":Se(e,t,c,y,r,v));return;case"img":case"link":case"area":case"base":case"br":case"col":case"embed":case"hr":case"keygen":case"meta":case"param":case"source":case"track":case"wbr":case"menuitem":for(var Q in i)y=i[Q],i.hasOwnProperty(Q)&&y!=null&&!r.hasOwnProperty(Q)&&Se(e,t,Q,null,r,y);for(f in r)if(y=r[f],v=i[f],r.hasOwnProperty(f)&&y!==v&&(y!=null||v!=null))switch(f){case"children":case"dangerouslySetInnerHTML":if(y!=null)throw Error(d(137,t));break;default:Se(e,t,f,y,r,v)}return;default:if(lo(t)){for(var ke in i)y=i[ke],i.hasOwnProperty(ke)&&y!==void 0&&!r.hasOwnProperty(ke)&&Ys(e,t,ke,void 0,r,y);for(S in r)y=r[S],v=i[S],!r.hasOwnProperty(S)||y===v||y===void 0&&v===void 0||Ys(e,t,S,y,r,v);return}}for(var m in i)y=i[m],i.hasOwnProperty(m)&&y!=null&&!r.hasOwnProperty(m)&&Se(e,t,m,null,r,y);for(T in r)y=r[T],v=i[T],!r.hasOwnProperty(T)||y===v||y==null&&v==null||Se(e,t,T,y,r,v)}function Yu(e){switch(e){case"css":case"script":case"font":case"img":case"image":case"input":case"link":return!0;default:return!1}}function Xm(){if(typeof performance.getEntriesByType=="function"){for(var e=0,t=0,i=performance.getEntriesByType("resource"),r=0;r<i.length;r++){var n=i[r],a=n.transferSize,o=n.initiatorType,l=n.duration;if(a&&l&&Yu(o)){for(o=0,l=n.responseEnd,r+=1;r<i.length;r++){var c=i[r],f=c.startTime;if(f>l)break;var S=c.transferSize,T=c.initiatorType;S&&Yu(T)&&(c=c.responseEnd,o+=S*(c<l?1:(l-f)/(c-f)))}if(--r,t+=8*(a+o)/(n.duration/1e3),e++,10<e)break}}if(0<e)return t/e/1e6}return navigator.connection&&(e=navigator.connection.downlink,typeof e=="number")?e:5}var Js=null,Xs=null;function Ua(e){return e.nodeType===9?e:e.ownerDocument}function Ju(e){switch(e){case"http://www.w3.org/2000/svg":return 1;case"http://www.w3.org/1998/Math/MathML":return 2;default:return 0}}function Xu(e,t){if(e===0)switch(t){case"svg":return 1;case"math":return 2;default:return 0}return e===1&&t==="foreignObject"?0:e}function Zs(e,t){return e==="textarea"||e==="noscript"||typeof t.children=="string"||typeof t.children=="number"||typeof t.children=="bigint"||typeof t.dangerouslySetInnerHTML=="object"&&t.dangerouslySetInnerHTML!==null&&t.dangerouslySetInnerHTML.__html!=null}var $s=null;function Zm(){var e=window.event;return e&&e.type==="popstate"?e===$s?!1:($s=e,!0):($s=null,!1)}var Zu=typeof setTimeout=="function"?setTimeout:void 0,$m=typeof clearTimeout=="function"?clearTimeout:void 0,$u=typeof Promise=="function"?Promise:void 0,eh=typeof queueMicrotask=="function"?queueMicrotask:typeof $u<"u"?function(e){return $u.resolve(null).then(e).catch(th)}:Zu;function th(e){setTimeout(function(){throw e})}function Ai(e){return e==="head"}function ep(e,t){var i=t,r=0;do{var n=i.nextSibling;if(e.removeChild(i),n&&n.nodeType===8)if(i=n.data,i==="/$"||i==="/&"){if(r===0){e.removeChild(n),Nr(t);return}r--}else if(i==="$"||i==="$?"||i==="$~"||i==="$!"||i==="&")r++;else if(i==="html")kn(e.ownerDocument.documentElement);else if(i==="head"){i=e.ownerDocument.head,kn(i);for(var a=i.firstChild;a;){var o=a.nextSibling,l=a.nodeName;a[Fr]||l==="SCRIPT"||l==="STYLE"||l==="LINK"&&a.rel.toLowerCase()==="stylesheet"||i.removeChild(a),a=o}}else i==="body"&&kn(e.ownerDocument.body);i=n}while(i);Nr(t)}function tp(e,t){var i=e;e=0;do{var r=i.nextSibling;if(i.nodeType===1?t?(i._stashedDisplay=i.style.display,i.style.display="none"):(i.style.display=i._stashedDisplay||"",i.getAttribute("style")===""&&i.removeAttribute("style")):i.nodeType===3&&(t?(i._stashedText=i.nodeValue,i.nodeValue=""):i.nodeValue=i._stashedText||""),r&&r.nodeType===8)if(i=r.data,i==="/$"){if(e===0)break;e--}else i!=="$"&&i!=="$?"&&i!=="$~"&&i!=="$!"||e++;i=r}while(i)}function el(e){var t=e.firstChild;for(t&&t.nodeType===10&&(t=t.nextSibling);t;){var i=t;switch(t=t.nextSibling,i.nodeName){case"HTML":case"HEAD":case"BODY":el(i),no(i);continue;case"SCRIPT":case"STYLE":continue;case"LINK":if(i.rel.toLowerCase()==="stylesheet")continue}e.removeChild(i)}}function ih(e,t,i,r){for(;e.nodeType===1;){var n=i;if(e.nodeName.toLowerCase()!==t.toLowerCase()){if(!r&&(e.nodeName!=="INPUT"||e.type!=="hidden"))break}else if(r){if(!e[Fr])switch(t){case"meta":if(!e.hasAttribute("itemprop"))break;return e;case"link":if(a=e.getAttribute("rel"),a==="stylesheet"&&e.hasAttribute("data-precedence"))break;if(a!==n.rel||e.getAttribute("href")!==(n.href==null||n.href===""?null:n.href)||e.getAttribute("crossorigin")!==(n.crossOrigin==null?null:n.crossOrigin)||e.getAttribute("title")!==(n.title==null?null:n.title))break;return e;case"style":if(e.hasAttribute("data-precedence"))break;return e;case"script":if(a=e.getAttribute("src"),(a!==(n.src==null?null:n.src)||e.getAttribute("type")!==(n.type==null?null:n.type)||e.getAttribute("crossorigin")!==(n.crossOrigin==null?null:n.crossOrigin))&&a&&e.hasAttribute("async")&&!e.hasAttribute("itemprop"))break;return e;default:return e}}else if(t==="input"&&e.type==="hidden"){var a=n.name==null?null:""+n.name;if(n.type==="hidden"&&e.getAttribute("name")===a)return e}else return e;if(e=Tt(e.nextSibling),e===null)break}return null}function rh(e,t,i){if(t==="")return null;for(;e.nodeType!==3;)if((e.nodeType!==1||e.nodeName!=="INPUT"||e.type!=="hidden")&&!i||(e=Tt(e.nextSibling),e===null))return null;return e}function ip(e,t){for(;e.nodeType!==8;)if((e.nodeType!==1||e.nodeName!=="INPUT"||e.type!=="hidden")&&!t||(e=Tt(e.nextSibling),e===null))return null;return e}function tl(e){return e.data==="$?"||e.data==="$~"}function il(e){return e.data==="$!"||e.data==="$?"&&e.ownerDocument.readyState!=="loading"}function nh(e,t){var i=e.ownerDocument;if(e.data==="$~")e._reactRetry=t;else if(e.data!=="$?"||i.readyState!=="loading")t();else{var r=function(){t(),i.removeEventListener("DOMContentLoaded",r)};i.addEventListener("DOMContentLoaded",r),e._reactRetry=r}}function Tt(e){for(;e!=null;e=e.nextSibling){var t=e.nodeType;if(t===1||t===3)break;if(t===8){if(t=e.data,t==="$"||t==="$!"||t==="$?"||t==="$~"||t==="&"||t==="F!"||t==="F")break;if(t==="/$"||t==="/&")return null}}return e}var rl=null;function rp(e){e=e.nextSibling;for(var t=0;e;){if(e.nodeType===8){var i=e.data;if(i==="/$"||i==="/&"){if(t===0)return Tt(e.nextSibling);t--}else i!=="$"&&i!=="$!"&&i!=="$?"&&i!=="$~"&&i!=="&"||t++}e=e.nextSibling}return null}function np(e){e=e.previousSibling;for(var t=0;e;){if(e.nodeType===8){var i=e.data;if(i==="$"||i==="$!"||i==="$?"||i==="$~"||i==="&"){if(t===0)return e;t--}else i!=="/$"&&i!=="/&"||t++}e=e.previousSibling}return null}function ap(e,t,i){switch(t=Ua(i),e){case"html":if(e=t.documentElement,!e)throw Error(d(452));return e;case"head":if(e=t.head,!e)throw Error(d(453));return e;case"body":if(e=t.body,!e)throw Error(d(454));return e;default:throw Error(d(451))}}function kn(e){for(var t=e.attributes;t.length;)e.removeAttributeNode(t[0]);no(e)}var xt=new Map,op=new Set;function La(e){return typeof e.getRootNode=="function"?e.getRootNode():e.nodeType===9?e:e.ownerDocument}var ti=P.d;P.d={f:ah,r:oh,D:sh,C:lh,L:ch,m:dh,X:ph,S:uh,M:gh};function ah(){var e=ti.f(),t=xa();return e||t}function oh(e){var t=Zi(e);t!==null&&t.tag===5&&t.type==="form"?Ad(t):ti.r(e)}var Dr=typeof document>"u"?null:document;function sp(e,t,i){var r=Dr;if(r&&typeof t=="string"&&t){var n=vt(t);n='link[rel="'+e+'"][href="'+n+'"]',typeof i=="string"&&(n+='[crossorigin="'+i+'"]'),op.has(n)||(op.add(n),e={rel:e,crossOrigin:i,href:t},r.querySelector(n)===null&&(t=r.createElement("link"),Qe(t,"link",e),He(t),r.head.appendChild(t)))}}function sh(e){ti.D(e),sp("dns-prefetch",e,null)}function lh(e,t){ti.C(e,t),sp("preconnect",e,t)}function ch(e,t,i){ti.L(e,t,i);var r=Dr;if(r&&e&&t){var n='link[rel="preload"][as="'+vt(t)+'"]';t==="image"&&i&&i.imageSrcSet?(n+='[imagesrcset="'+vt(i.imageSrcSet)+'"]',typeof i.imageSizes=="string"&&(n+='[imagesizes="'+vt(i.imageSizes)+'"]')):n+='[href="'+vt(e)+'"]';var a=n;switch(t){case"style":a=Ir(e);break;case"script":a=Pr(e)}xt.has(a)||(e=O({rel:"preload",href:t==="image"&&i&&i.imageSrcSet?void 0:e,as:t},i),xt.set(a,e),r.querySelector(n)!==null||t==="style"&&r.querySelector(wn(a))||t==="script"&&r.querySelector(An(a))||(t=r.createElement("link"),Qe(t,"link",e),He(t),r.head.appendChild(t)))}}function dh(e,t){ti.m(e,t);var i=Dr;if(i&&e){var r=t&&typeof t.as=="string"?t.as:"script",n='link[rel="modulepreload"][as="'+vt(r)+'"][href="'+vt(e)+'"]',a=n;switch(r){case"audioworklet":case"paintworklet":case"serviceworker":case"sharedworker":case"worker":case"script":a=Pr(e)}if(!xt.has(a)&&(e=O({rel:"modulepreload",href:e},t),xt.set(a,e),i.querySelector(n)===null)){switch(r){case"audioworklet":case"paintworklet":case"serviceworker":case"sharedworker":case"worker":case"script":if(i.querySelector(An(a)))return}r=i.createElement("link"),Qe(r,"link",e),He(r),i.head.appendChild(r)}}}function uh(e,t,i){ti.S(e,t,i);var r=Dr;if(r&&e){var n=$i(r).hoistableStyles,a=Ir(e);t=t||"default";var o=n.get(a);if(!o){var l={loading:0,preload:null};if(o=r.querySelector(wn(a)))l.loading=5;else{e=O({rel:"stylesheet",href:e,"data-precedence":t},i),(i=xt.get(a))&&nl(e,i);var c=o=r.createElement("link");He(c),Qe(c,"link",e),c._p=new Promise(function(f,S){c.onload=f,c.onerror=S}),c.addEventListener("load",function(){l.loading|=1}),c.addEventListener("error",function(){l.loading|=2}),l.loading|=4,Oa(o,t,r)}o={type:"stylesheet",instance:o,count:1,state:l},n.set(a,o)}}}function ph(e,t){ti.X(e,t);var i=Dr;if(i&&e){var r=$i(i).hoistableScripts,n=Pr(e),a=r.get(n);a||(a=i.querySelector(An(n)),a||(e=O({src:e,async:!0},t),(t=xt.get(n))&&al(e,t),a=i.createElement("script"),He(a),Qe(a,"link",e),i.head.appendChild(a)),a={type:"script",instance:a,count:1,state:null},r.set(n,a))}}function gh(e,t){ti.M(e,t);var i=Dr;if(i&&e){var r=$i(i).hoistableScripts,n=Pr(e),a=r.get(n);a||(a=i.querySelector(An(n)),a||(e=O({src:e,async:!0,type:"module"},t),(t=xt.get(n))&&al(e,t),a=i.createElement("script"),He(a),Qe(a,"link",e),i.head.appendChild(a)),a={type:"script",instance:a,count:1,state:null},r.set(n,a))}}function lp(e,t,i,r){var n=(n=b.current)?La(n):null;if(!n)throw Error(d(446));switch(e){case"meta":case"title":return null;case"style":return typeof i.precedence=="string"&&typeof i.href=="string"?(t=Ir(i.href),i=$i(n).hoistableStyles,r=i.get(t),r||(r={type:"style",instance:null,count:0,state:null},i.set(t,r)),r):{type:"void",instance:null,count:0,state:null};case"link":if(i.rel==="stylesheet"&&typeof i.href=="string"&&typeof i.precedence=="string"){e=Ir(i.href);var a=$i(n).hoistableStyles,o=a.get(e);if(o||(n=n.ownerDocument||n,o={type:"stylesheet",instance:null,count:0,state:{loading:0,preload:null}},a.set(e,o),(a=n.querySelector(wn(e)))&&!a._p&&(o.instance=a,o.state.loading=5),xt.has(e)||(i={rel:"preload",as:"style",href:i.href,crossOrigin:i.crossOrigin,integrity:i.integrity,media:i.media,hrefLang:i.hrefLang,referrerPolicy:i.referrerPolicy},xt.set(e,i),a||mh(n,e,i,o.state))),t&&r===null)throw Error(d(528,""));return o}if(t&&r!==null)throw Error(d(529,""));return null;case"script":return t=i.async,i=i.src,typeof i=="string"&&t&&typeof t!="function"&&typeof t!="symbol"?(t=Pr(i),i=$i(n).hoistableScripts,r=i.get(t),r||(r={type:"script",instance:null,count:0,state:null},i.set(t,r)),r):{type:"void",instance:null,count:0,state:null};default:throw Error(d(444,e))}}function Ir(e){return'href="'+vt(e)+'"'}function wn(e){return'link[rel="stylesheet"]['+e+"]"}function cp(e){return O({},e,{"data-precedence":e.precedence,precedence:null})}function mh(e,t,i,r){e.querySelector('link[rel="preload"][as="style"]['+t+"]")?r.loading=1:(t=e.createElement("link"),r.preload=t,t.addEventListener("load",function(){return r.loading|=1}),t.addEventListener("error",function(){return r.loading|=2}),Qe(t,"link",i),He(t),e.head.appendChild(t))}function Pr(e){return'[src="'+vt(e)+'"]'}function An(e){return"script[async]"+e}function dp(e,t,i){if(t.count++,t.instance===null)switch(t.type){case"style":var r=e.querySelector('style[data-href~="'+vt(i.href)+'"]');if(r)return t.instance=r,He(r),r;var n=O({},i,{"data-href":i.href,"data-precedence":i.precedence,href:null,precedence:null});return r=(e.ownerDocument||e).createElement("style"),He(r),Qe(r,"style",n),Oa(r,i.precedence,e),t.instance=r;case"stylesheet":n=Ir(i.href);var a=e.querySelector(wn(n));if(a)return t.state.loading|=4,t.instance=a,He(a),a;r=cp(i),(n=xt.get(n))&&nl(r,n),a=(e.ownerDocument||e).createElement("link"),He(a);var o=a;return o._p=new Promise(function(l,c){o.onload=l,o.onerror=c}),Qe(a,"link",r),t.state.loading|=4,Oa(a,i.precedence,e),t.instance=a;case"script":return a=Pr(i.src),(n=e.querySelector(An(a)))?(t.instance=n,He(n),n):(r=i,(n=xt.get(a))&&(r=O({},i),al(r,n)),e=e.ownerDocument||e,n=e.createElement("script"),He(n),Qe(n,"link",r),e.head.appendChild(n),t.instance=n);case"void":return null;default:throw Error(d(443,t.type))}else t.type==="stylesheet"&&(t.state.loading&4)===0&&(r=t.instance,t.state.loading|=4,Oa(r,i.precedence,e));return t.instance}function Oa(e,t,i){for(var r=i.querySelectorAll('link[rel="stylesheet"][data-precedence],style[data-precedence]'),n=r.length?r[r.length-1]:null,a=n,o=0;o<r.length;o++){var l=r[o];if(l.dataset.precedence===t)a=l;else if(a!==n)break}a?a.parentNode.insertBefore(e,a.nextSibling):(t=i.nodeType===9?i.head:i,t.insertBefore(e,t.firstChild))}function nl(e,t){e.crossOrigin==null&&(e.crossOrigin=t.crossOrigin),e.referrerPolicy==null&&(e.referrerPolicy=t.referrerPolicy),e.title==null&&(e.title=t.title)}function al(e,t){e.crossOrigin==null&&(e.crossOrigin=t.crossOrigin),e.referrerPolicy==null&&(e.referrerPolicy=t.referrerPolicy),e.integrity==null&&(e.integrity=t.integrity)}var Ba=null;function up(e,t,i){if(Ba===null){var r=new Map,n=Ba=new Map;n.set(i,r)}else n=Ba,r=n.get(i),r||(r=new Map,n.set(i,r));if(r.has(e))return r;for(r.set(e,null),i=i.getElementsByTagName(e),n=0;n<i.length;n++){var a=i[n];if(!(a[Fr]||a[ze]||e==="link"&&a.getAttribute("rel")==="stylesheet")&&a.namespaceURI!=="http://www.w3.org/2000/svg"){var o=a.getAttribute(t)||"";o=e+o;var l=r.get(o);l?l.push(a):r.set(o,[a])}}return r}function pp(e,t,i){e=e.ownerDocument||e,e.head.insertBefore(i,t==="title"?e.querySelector("head > title"):null)}function hh(e,t,i){if(i===1||t.itemProp!=null)return!1;switch(e){case"meta":case"title":return!0;case"style":if(typeof t.precedence!="string"||typeof t.href!="string"||t.href==="")break;return!0;case"link":if(typeof t.rel!="string"||typeof t.href!="string"||t.href===""||t.onLoad||t.onError)break;return t.rel==="stylesheet"?(e=t.disabled,typeof t.precedence=="string"&&e==null):!0;case"script":if(t.async&&typeof t.async!="function"&&typeof t.async!="symbol"&&!t.onLoad&&!t.onError&&t.src&&typeof t.src=="string")return!0}return!1}function gp(e){return!(e.type==="stylesheet"&&(e.state.loading&3)===0)}function fh(e,t,i,r){if(i.type==="stylesheet"&&(typeof r.media!="string"||matchMedia(r.media).matches!==!1)&&(i.state.loading&4)===0){if(i.instance===null){var n=Ir(r.href),a=t.querySelector(wn(n));if(a){t=a._p,t!==null&&typeof t=="object"&&typeof t.then=="function"&&(e.count++,e=Fa.bind(e),t.then(e,e)),i.state.loading|=4,i.instance=a,He(a);return}a=t.ownerDocument||t,r=cp(r),(n=xt.get(n))&&nl(r,n),a=a.createElement("link"),He(a);var o=a;o._p=new Promise(function(l,c){o.onload=l,o.onerror=c}),Qe(a,"link",r),i.instance=a}e.stylesheets===null&&(e.stylesheets=new Map),e.stylesheets.set(i,t),(t=i.state.preload)&&(i.state.loading&3)===0&&(e.count++,i=Fa.bind(e),t.addEventListener("load",i),t.addEventListener("error",i))}}var ol=0;function yh(e,t){return e.stylesheets&&e.count===0&&Ha(e,e.stylesheets),0<e.count||0<e.imgCount?function(i){var r=setTimeout(function(){if(e.stylesheets&&Ha(e,e.stylesheets),e.unsuspend){var a=e.unsuspend;e.unsuspend=null,a()}},6e4+t);0<e.imgBytes&&ol===0&&(ol=62500*Xm());var n=setTimeout(function(){if(e.waitingForImages=!1,e.count===0&&(e.stylesheets&&Ha(e,e.stylesheets),e.unsuspend)){var a=e.unsuspend;e.unsuspend=null,a()}},(e.imgBytes>ol?50:800)+t);return e.unsuspend=i,function(){e.unsuspend=null,clearTimeout(r),clearTimeout(n)}}:null}function Fa(){if(this.count--,this.count===0&&(this.imgCount===0||!this.waitingForImages)){if(this.stylesheets)Ha(this,this.stylesheets);else if(this.unsuspend){var e=this.unsuspend;this.unsuspend=null,e()}}}var _a=null;function Ha(e,t){e.stylesheets=null,e.unsuspend!==null&&(e.count++,_a=new Map,t.forEach(vh,e),_a=null,Fa.call(e))}function vh(e,t){if(!(t.state.loading&4)){var i=_a.get(e);if(i)var r=i.get(null);else{i=new Map,_a.set(e,i);for(var n=e.querySelectorAll("link[data-precedence],style[data-precedence]"),a=0;a<n.length;a++){var o=n[a];(o.nodeName==="LINK"||o.getAttribute("media")!=="not all")&&(i.set(o.dataset.precedence,o),r=o)}r&&i.set(null,r)}n=t.instance,o=n.getAttribute("data-precedence"),a=i.get(o)||r,a===r&&i.set(null,n),i.set(o,n),this.count++,r=Fa.bind(this),n.addEventListener("load",r),n.addEventListener("error",r),a?a.parentNode.insertBefore(n,a.nextSibling):(e=e.nodeType===9?e.head:e,e.insertBefore(n,e.firstChild)),t.state.loading|=4}}var Cn={$$typeof:Ae,Provider:null,Consumer:null,_currentValue:z,_currentValue2:z,_threadCount:0};function bh(e,t,i,r,n,a,o,l,c){this.tag=1,this.containerInfo=e,this.pingCache=this.current=this.pendingChildren=null,this.timeoutHandle=-1,this.callbackNode=this.next=this.pendingContext=this.context=this.cancelPendingCommit=null,this.callbackPriority=0,this.expirationTimes=eo(-1),this.entangledLanes=this.shellSuspendCounter=this.errorRecoveryDisabledLanes=this.expiredLanes=this.warmLanes=this.pingedLanes=this.suspendedLanes=this.pendingLanes=0,this.entanglements=eo(0),this.hiddenUpdates=eo(null),this.identifierPrefix=r,this.onUncaughtError=n,this.onCaughtError=a,this.onRecoverableError=o,this.pooledCache=null,this.pooledCacheLanes=0,this.formState=c,this.incompleteTransitions=new Map}function mp(e,t,i,r,n,a,o,l,c,f,S,T){return e=new bh(e,t,i,o,c,f,S,T,l),t=1,a===!0&&(t|=24),a=dt(3,null,null,t),e.current=a,a.stateNode=e,t=_o(),t.refCount++,e.pooledCache=t,t.refCount++,a.memoizedState={element:r,isDehydrated:i,cache:t},Vo(a),e}function hp(e){return e?(e=cr,e):cr}function fp(e,t,i,r,n,a){n=hp(n),r.context===null?r.context=n:r.pendingContext=n,r=pi(t),r.payload={element:i},a=a===void 0?null:a,a!==null&&(r.callback=a),i=gi(e,r,t),i!==null&&(nt(i,e,t),tn(i,e,t))}function yp(e,t){if(e=e.memoizedState,e!==null&&e.dehydrated!==null){var i=e.retryLane;e.retryLane=i!==0&&i<t?i:t}}function sl(e,t){yp(e,t),(e=e.alternate)&&yp(e,t)}function vp(e){if(e.tag===13||e.tag===31){var t=Oi(e,67108864);t!==null&&nt(t,e,67108864),sl(e,67108864)}}function bp(e){if(e.tag===13||e.tag===31){var t=ht();t=to(t);var i=Oi(e,t);i!==null&&nt(i,e,t),sl(e,t)}}var qa=!0;function Sh(e,t,i,r){var n=k.T;k.T=null;var a=P.p;try{P.p=2,ll(e,t,i,r)}finally{P.p=a,k.T=n}}function kh(e,t,i,r){var n=k.T;k.T=null;var a=P.p;try{P.p=8,ll(e,t,i,r)}finally{P.p=a,k.T=n}}function ll(e,t,i,r){if(qa){var n=cl(r);if(n===null)Qs(e,t,r,ja,i),kp(e,r);else if(Ah(n,e,t,i,r))r.stopPropagation();else if(kp(e,r),t&4&&-1<wh.indexOf(e)){for(;n!==null;){var a=Zi(n);if(a!==null)switch(a.tag){case 3:if(a=a.stateNode,a.current.memoizedState.isDehydrated){var o=Ii(a.pendingLanes);if(o!==0){var l=a;for(l.pendingLanes|=2,l.entangledLanes|=2;o;){var c=1<<31-lt(o);l.entanglements[1]|=c,o&=~c}Ot(a),(me&6)===0&&(Ca=ot()+500,vn(0))}}break;case 31:case 13:l=Oi(a,2),l!==null&&nt(l,a,2),xa(),sl(a,2)}if(a=cl(r),a===null&&Qs(e,t,r,ja,i),a===n)break;n=a}n!==null&&r.stopPropagation()}else Qs(e,t,r,null,i)}}function cl(e){return e=uo(e),dl(e)}var ja=null;function dl(e){if(ja=null,e=Xi(e),e!==null){var t=L(e);if(t===null)e=null;else{var i=t.tag;if(i===13){if(e=G(t),e!==null)return e;e=null}else if(i===31){if(e=R(t),e!==null)return e;e=null}else if(i===3){if(t.stateNode.current.memoizedState.isDehydrated)return t.tag===3?t.stateNode.containerInfo:null;e=null}else t!==e&&(e=null)}}return ja=e,null}function Sp(e){switch(e){case"beforetoggle":case"cancel":case"click":case"close":case"contextmenu":case"copy":case"cut":case"auxclick":case"dblclick":case"dragend":case"dragstart":case"drop":case"focusin":case"focusout":case"input":case"invalid":case"keydown":case"keypress":case"keyup":case"mousedown":case"mouseup":case"paste":case"pause":case"play":case"pointercancel":case"pointerdown":case"pointerup":case"ratechange":case"reset":case"resize":case"seeked":case"submit":case"toggle":case"touchcancel":case"touchend":case"touchstart":case"volumechange":case"change":case"selectionchange":case"textInput":case"compositionstart":case"compositionend":case"compositionupdate":case"beforeblur":case"afterblur":case"beforeinput":case"blur":case"fullscreenchange":case"focus":case"hashchange":case"popstate":case"select":case"selectstart":return 2;case"drag":case"dragenter":case"dragexit":case"dragleave":case"dragover":case"mousemove":case"mouseout":case"mouseover":case"pointermove":case"pointerout":case"pointerover":case"scroll":case"touchmove":case"wheel":case"mouseenter":case"mouseleave":case"pointerenter":case"pointerleave":return 8;case"message":switch(sg()){case El:return 2;case Ml:return 8;case In:case lg:return 32;case Dl:return 268435456;default:return 32}default:return 32}}var ul=!1,Ci=null,Ti=null,xi=null,Tn=new Map,xn=new Map,Ri=[],wh="mousedown mouseup touchcancel touchend touchstart auxclick dblclick pointercancel pointerdown pointerup dragend dragstart drop compositionend compositionstart keydown keypress keyup input textInput copy cut paste click change contextmenu reset".split(" ");function kp(e,t){switch(e){case"focusin":case"focusout":Ci=null;break;case"dragenter":case"dragleave":Ti=null;break;case"mouseover":case"mouseout":xi=null;break;case"pointerover":case"pointerout":Tn.delete(t.pointerId);break;case"gotpointercapture":case"lostpointercapture":xn.delete(t.pointerId)}}function Rn(e,t,i,r,n,a){return e===null||e.nativeEvent!==a?(e={blockedOn:t,domEventName:i,eventSystemFlags:r,nativeEvent:a,targetContainers:[n]},t!==null&&(t=Zi(t),t!==null&&vp(t)),e):(e.eventSystemFlags|=r,t=e.targetContainers,n!==null&&t.indexOf(n)===-1&&t.push(n),e)}function Ah(e,t,i,r,n){switch(t){case"focusin":return Ci=Rn(Ci,e,t,i,r,n),!0;case"dragenter":return Ti=Rn(Ti,e,t,i,r,n),!0;case"mouseover":return xi=Rn(xi,e,t,i,r,n),!0;case"pointerover":var a=n.pointerId;return Tn.set(a,Rn(Tn.get(a)||null,e,t,i,r,n)),!0;case"gotpointercapture":return a=n.pointerId,xn.set(a,Rn(xn.get(a)||null,e,t,i,r,n)),!0}return!1}function wp(e){var t=Xi(e.target);if(t!==null){var i=L(t);if(i!==null){if(t=i.tag,t===13){if(t=G(i),t!==null){e.blockedOn=t,Ol(e.priority,function(){bp(i)});return}}else if(t===31){if(t=R(i),t!==null){e.blockedOn=t,Ol(e.priority,function(){bp(i)});return}}else if(t===3&&i.stateNode.current.memoizedState.isDehydrated){e.blockedOn=i.tag===3?i.stateNode.containerInfo:null;return}}}e.blockedOn=null}function Va(e){if(e.blockedOn!==null)return!1;for(var t=e.targetContainers;0<t.length;){var i=cl(e.nativeEvent);if(i===null){i=e.nativeEvent;var r=new i.constructor(i.type,i);co=r,i.target.dispatchEvent(r),co=null}else return t=Zi(i),t!==null&&vp(t),e.blockedOn=i,!1;t.shift()}return!0}function Ap(e,t,i){Va(e)&&i.delete(t)}function Ch(){ul=!1,Ci!==null&&Va(Ci)&&(Ci=null),Ti!==null&&Va(Ti)&&(Ti=null),xi!==null&&Va(xi)&&(xi=null),Tn.forEach(Ap),xn.forEach(Ap)}function za(e,t){e.blockedOn===t&&(e.blockedOn=null,ul||(ul=!0,u.unstable_scheduleCallback(u.unstable_NormalPriority,Ch)))}var Ka=null;function Cp(e){Ka!==e&&(Ka=e,u.unstable_scheduleCallback(u.unstable_NormalPriority,function(){Ka===e&&(Ka=null);for(var t=0;t<e.length;t+=3){var i=e[t],r=e[t+1],n=e[t+2];if(typeof r!="function"){if(dl(r||i)===null)continue;break}var a=Zi(i);a!==null&&(e.splice(t,3),t-=3,cs(a,{pending:!0,data:n,method:i.method,action:r},r,n))}}))}function Nr(e){function t(c){return za(c,e)}Ci!==null&&za(Ci,e),Ti!==null&&za(Ti,e),xi!==null&&za(xi,e),Tn.forEach(t),xn.forEach(t);for(var i=0;i<Ri.length;i++){var r=Ri[i];r.blockedOn===e&&(r.blockedOn=null)}for(;0<Ri.length&&(i=Ri[0],i.blockedOn===null);)wp(i),i.blockedOn===null&&Ri.shift();if(i=(e.ownerDocument||e).$$reactFormReplay,i!=null)for(r=0;r<i.length;r+=3){var n=i[r],a=i[r+1],o=n[Ze]||null;if(typeof a=="function")o||Cp(i);else if(o){var l=null;if(a&&a.hasAttribute("formAction")){if(n=a,o=a[Ze]||null)l=o.formAction;else if(dl(n)!==null)continue}else l=o.action;typeof l=="function"?i[r+1]=l:(i.splice(r,3),r-=3),Cp(i)}}}function Tp(){function e(a){a.canIntercept&&a.info==="react-transition"&&a.intercept({handler:function(){return new Promise(function(o){return n=o})},focusReset:"manual",scroll:"manual"})}function t(){n!==null&&(n(),n=null),r||setTimeout(i,20)}function i(){if(!r&&!navigation.transition){var a=navigation.currentEntry;a&&a.url!=null&&navigation.navigate(a.url,{state:a.getState(),info:"react-transition",history:"replace"})}}if(typeof navigation=="object"){var r=!1,n=null;return navigation.addEventListener("navigate",e),navigation.addEventListener("navigatesuccess",t),navigation.addEventListener("navigateerror",t),setTimeout(i,100),function(){r=!0,navigation.removeEventListener("navigate",e),navigation.removeEventListener("navigatesuccess",t),navigation.removeEventListener("navigateerror",t),n!==null&&(n(),n=null)}}}function pl(e){this._internalRoot=e}Wa.prototype.render=pl.prototype.render=function(e){var t=this._internalRoot;if(t===null)throw Error(d(409));var i=t.current,r=ht();fp(i,r,e,t,null,null)},Wa.prototype.unmount=pl.prototype.unmount=function(){var e=this._internalRoot;if(e!==null){this._internalRoot=null;var t=e.containerInfo;fp(e.current,2,null,e,null,null),xa(),t[Ji]=null}};function Wa(e){this._internalRoot=e}Wa.prototype.unstable_scheduleHydration=function(e){if(e){var t=Ll();e={blockedOn:null,target:e,priority:t};for(var i=0;i<Ri.length&&t!==0&&t<Ri[i].priority;i++);Ri.splice(i,0,e),i===0&&wp(e)}};var xp=A.version;if(xp!=="19.2.3")throw Error(d(527,xp,"19.2.3"));P.findDOMNode=function(e){var t=e._reactInternals;if(t===void 0)throw typeof e.render=="function"?Error(d(188)):(e=Object.keys(e).join(","),Error(d(268,e)));return e=w(t),e=e!==null?q(e):null,e=e===null?null:e.stateNode,e};var Th={bundleType:0,version:"19.2.3",rendererPackageName:"react-dom",currentDispatcherRef:k,reconcilerVersion:"19.2.3"};if(typeof __REACT_DEVTOOLS_GLOBAL_HOOK__<"u"){var Ga=__REACT_DEVTOOLS_GLOBAL_HOOK__;if(!Ga.isDisabled&&Ga.supportsFiber)try{Lr=Ga.inject(Th),st=Ga}catch{}}return Mn.createRoot=function(e,t){if(!D(e))throw Error(d(299));var i=!1,r="",n=Nd,a=Ud,o=Ld;return t!=null&&(t.unstable_strictMode===!0&&(i=!0),t.identifierPrefix!==void 0&&(r=t.identifierPrefix),t.onUncaughtError!==void 0&&(n=t.onUncaughtError),t.onCaughtError!==void 0&&(a=t.onCaughtError),t.onRecoverableError!==void 0&&(o=t.onRecoverableError)),t=mp(e,1,!1,null,null,i,r,null,n,a,o,Tp),e[Ji]=t.current,Gs(e),new pl(t)},Mn.hydrateRoot=function(e,t,i){if(!D(e))throw Error(d(299));var r=!1,n="",a=Nd,o=Ud,l=Ld,c=null;return i!=null&&(i.unstable_strictMode===!0&&(r=!0),i.identifierPrefix!==void 0&&(n=i.identifierPrefix),i.onUncaughtError!==void 0&&(a=i.onUncaughtError),i.onCaughtError!==void 0&&(o=i.onCaughtError),i.onRecoverableError!==void 0&&(l=i.onRecoverableError),i.formState!==void 0&&(c=i.formState)),t=mp(e,1,!0,t,i??null,r,n,c,a,o,l,Tp),t.context=hp(null),i=t.current,r=ht(),r=to(r),n=pi(r),n.callback=null,gi(i,n,r),i=r,t.current.lanes=i,Br(t,i),Ot(t),e[Ji]=t.current,Gs(e),new Wa(t)},Mn.version="19.2.3",Mn}var Op;function Lh(){if(Op)return hl.exports;Op=1;function u(){if(!(typeof __REACT_DEVTOOLS_GLOBAL_HOOK__>"u"||typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.checkDCE!="function"))try{__REACT_DEVTOOLS_GLOBAL_HOOK__.checkDCE(u)}catch(A){console.error(A)}}return u(),hl.exports=Uh(),hl.exports}var Oh=Lh();const Bh=[{id:159,category:"Accessibility",icon:"♿",question:"How do you implement VoiceOver (iOS) and TalkBack (Android) support in React Native?",difficulty:"intermediate",seniority:"mid",answer:`
+`+r.stack}}var Za=Object.prototype.hasOwnProperty,$a=u.unstable_scheduleCallback,eo=u.unstable_cancelCallback,am=u.unstable_shouldYield,om=u.unstable_requestPaint,ot=u.unstable_now,sm=u.unstable_getCurrentPriorityLevel,Ml=u.unstable_ImmediatePriority,Dl=u.unstable_UserBlockingPriority,In=u.unstable_NormalPriority,lm=u.unstable_LowPriority,Il=u.unstable_IdlePriority,cm=u.log,dm=u.unstable_setDisableYieldValue,Lr=null,st=null;function ni(e){if(typeof cm=="function"&&dm(e),st&&typeof st.setStrictMode=="function")try{st.setStrictMode(Lr,e)}catch{}}var lt=Math.clz32?Math.clz32:mm,um=Math.log,pm=Math.LN2;function mm(e){return e>>>=0,e===0?32:31-(um(e)/pm|0)|0}var Pn=256,Nn=262144,Un=4194304;function Ii(e){var t=e&42;if(t!==0)return t;switch(e&-e){case 1:return 1;case 2:return 2;case 4:return 4;case 8:return 8;case 16:return 16;case 32:return 32;case 64:return 64;case 128:return 128;case 256:case 512:case 1024:case 2048:case 4096:case 8192:case 16384:case 32768:case 65536:case 131072:return e&261888;case 262144:case 524288:case 1048576:case 2097152:return e&3932160;case 4194304:case 8388608:case 16777216:case 33554432:return e&62914560;case 67108864:return 67108864;case 134217728:return 134217728;case 268435456:return 268435456;case 536870912:return 536870912;case 1073741824:return 0;default:return e}}function Ln(e,t,i){var r=e.pendingLanes;if(r===0)return 0;var n=0,a=e.suspendedLanes,o=e.pingedLanes;e=e.warmLanes;var l=r&134217727;return l!==0?(r=l&~a,r!==0?n=Ii(r):(o&=l,o!==0?n=Ii(o):i||(i=l&~e,i!==0&&(n=Ii(i))))):(l=r&~a,l!==0?n=Ii(l):o!==0?n=Ii(o):i||(i=r&~e,i!==0&&(n=Ii(i)))),n===0?0:t!==0&&t!==n&&(t&a)===0&&(a=n&-n,i=t&-t,a>=i||a===32&&(i&4194048)!==0)?t:n}function Or(e,t){return(e.pendingLanes&~(e.suspendedLanes&~e.pingedLanes)&t)===0}function gm(e,t){switch(e){case 1:case 2:case 4:case 8:case 64:return t+250;case 16:case 32:case 128:case 256:case 512:case 1024:case 2048:case 4096:case 8192:case 16384:case 32768:case 65536:case 131072:case 262144:case 524288:case 1048576:case 2097152:return t+5e3;case 4194304:case 8388608:case 16777216:case 33554432:return-1;case 67108864:case 134217728:case 268435456:case 536870912:case 1073741824:return-1;default:return-1}}function Pl(){var e=Un;return Un<<=1,(Un&62914560)===0&&(Un=4194304),e}function to(e){for(var t=[],i=0;31>i;i++)t.push(e);return t}function Br(e,t){e.pendingLanes|=t,t!==268435456&&(e.suspendedLanes=0,e.pingedLanes=0,e.warmLanes=0)}function hm(e,t,i,r,n,a){var o=e.pendingLanes;e.pendingLanes=i,e.suspendedLanes=0,e.pingedLanes=0,e.warmLanes=0,e.expiredLanes&=i,e.entangledLanes&=i,e.errorRecoveryDisabledLanes&=i,e.shellSuspendCounter=0;var l=e.entanglements,c=e.expirationTimes,f=e.hiddenUpdates;for(i=o&~i;0<i;){var S=31-lt(i),T=1<<S;l[S]=0,c[S]=-1;var y=f[S];if(y!==null)for(f[S]=null,S=0;S<y.length;S++){var v=y[S];v!==null&&(v.lane&=-536870913)}i&=~T}r!==0&&Nl(e,r,0),a!==0&&n===0&&e.tag!==0&&(e.suspendedLanes|=a&~(o&~t))}function Nl(e,t,i){e.pendingLanes|=t,e.suspendedLanes&=~t;var r=31-lt(t);e.entangledLanes|=t,e.entanglements[r]=e.entanglements[r]|1073741824|i&261930}function Ul(e,t){var i=e.entangledLanes|=t;for(e=e.entanglements;i;){var r=31-lt(i),n=1<<r;n&t|e[r]&t&&(e[r]|=t),i&=~n}}function Ll(e,t){var i=t&-t;return i=(i&42)!==0?1:io(i),(i&(e.suspendedLanes|t))!==0?0:i}function io(e){switch(e){case 2:e=1;break;case 8:e=4;break;case 32:e=16;break;case 256:case 512:case 1024:case 2048:case 4096:case 8192:case 16384:case 32768:case 65536:case 131072:case 262144:case 524288:case 1048576:case 2097152:case 4194304:case 8388608:case 16777216:case 33554432:e=128;break;case 268435456:e=134217728;break;default:e=0}return e}function ro(e){return e&=-e,2<e?8<e?(e&134217727)!==0?32:268435456:8:2}function Ol(){var e=P.p;return e!==0?e:(e=window.event,e===void 0?32:kp(e.type))}function Bl(e,t){var i=P.p;try{return P.p=e,t()}finally{P.p=i}}var ai=Math.random().toString(36).slice(2),ze="__reactFiber$"+ai,Ze="__reactProps$"+ai,Ji="__reactContainer$"+ai,no="__reactEvents$"+ai,fm="__reactListeners$"+ai,ym="__reactHandles$"+ai,Fl="__reactResources$"+ai,Fr="__reactMarker$"+ai;function ao(e){delete e[ze],delete e[Ze],delete e[no],delete e[fm],delete e[ym]}function Xi(e){var t=e[ze];if(t)return t;for(var i=e.parentNode;i;){if(t=i[Ji]||i[ze]){if(i=t.alternate,t.child!==null||i!==null&&i.child!==null)for(e=ap(e);e!==null;){if(i=e[ze])return i;e=ap(e)}return t}e=i,i=e.parentNode}return null}function Zi(e){if(e=e[ze]||e[Ji]){var t=e.tag;if(t===5||t===6||t===13||t===31||t===26||t===27||t===3)return e}return null}function _r(e){var t=e.tag;if(t===5||t===26||t===27||t===6)return e.stateNode;throw Error(d(33))}function $i(e){var t=e[Fl];return t||(t=e[Fl]={hoistableStyles:new Map,hoistableScripts:new Map}),t}function He(e){e[Fr]=!0}var _l=new Set,Hl={};function Pi(e,t){er(e,t),er(e+"Capture",t)}function er(e,t){for(Hl[e]=t,e=0;e<t.length;e++)_l.add(t[e])}var vm=RegExp("^[:A-Z_a-z\\u00C0-\\u00D6\\u00D8-\\u00F6\\u00F8-\\u02FF\\u0370-\\u037D\\u037F-\\u1FFF\\u200C-\\u200D\\u2070-\\u218F\\u2C00-\\u2FEF\\u3001-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFFD][:A-Z_a-z\\u00C0-\\u00D6\\u00D8-\\u00F6\\u00F8-\\u02FF\\u0370-\\u037D\\u037F-\\u1FFF\\u200C-\\u200D\\u2070-\\u218F\\u2C00-\\u2FEF\\u3001-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFFD\\-.0-9\\u00B7\\u0300-\\u036F\\u203F-\\u2040]*$"),ql={},jl={};function bm(e){return Za.call(jl,e)?!0:Za.call(ql,e)?!1:vm.test(e)?jl[e]=!0:(ql[e]=!0,!1)}function On(e,t,i){if(bm(t))if(i===null)e.removeAttribute(t);else{switch(typeof i){case"undefined":case"function":case"symbol":e.removeAttribute(t);return;case"boolean":var r=t.toLowerCase().slice(0,5);if(r!=="data-"&&r!=="aria-"){e.removeAttribute(t);return}}e.setAttribute(t,""+i)}}function Bn(e,t,i){if(i===null)e.removeAttribute(t);else{switch(typeof i){case"undefined":case"function":case"symbol":case"boolean":e.removeAttribute(t);return}e.setAttribute(t,""+i)}}function Ft(e,t,i,r){if(r===null)e.removeAttribute(i);else{switch(typeof r){case"undefined":case"function":case"symbol":case"boolean":e.removeAttribute(i);return}e.setAttributeNS(t,i,""+r)}}function yt(e){switch(typeof e){case"bigint":case"boolean":case"number":case"string":case"undefined":return e;case"object":return e;default:return""}}function Vl(e){var t=e.type;return(e=e.nodeName)&&e.toLowerCase()==="input"&&(t==="checkbox"||t==="radio")}function Sm(e,t,i){var r=Object.getOwnPropertyDescriptor(e.constructor.prototype,t);if(!e.hasOwnProperty(t)&&typeof r<"u"&&typeof r.get=="function"&&typeof r.set=="function"){var n=r.get,a=r.set;return Object.defineProperty(e,t,{configurable:!0,get:function(){return n.call(this)},set:function(o){i=""+o,a.call(this,o)}}),Object.defineProperty(e,t,{enumerable:r.enumerable}),{getValue:function(){return i},setValue:function(o){i=""+o},stopTracking:function(){e._valueTracker=null,delete e[t]}}}}function oo(e){if(!e._valueTracker){var t=Vl(e)?"checked":"value";e._valueTracker=Sm(e,t,""+e[t])}}function zl(e){if(!e)return!1;var t=e._valueTracker;if(!t)return!0;var i=t.getValue(),r="";return e&&(r=Vl(e)?e.checked?"true":"false":e.value),e=r,e!==i?(t.setValue(e),!0):!1}function Fn(e){if(e=e||(typeof document<"u"?document:void 0),typeof e>"u")return null;try{return e.activeElement||e.body}catch{return e.body}}var km=/[\n"\\]/g;function vt(e){return e.replace(km,function(t){return"\\"+t.charCodeAt(0).toString(16)+" "})}function so(e,t,i,r,n,a,o,l){e.name="",o!=null&&typeof o!="function"&&typeof o!="symbol"&&typeof o!="boolean"?e.type=o:e.removeAttribute("type"),t!=null?o==="number"?(t===0&&e.value===""||e.value!=t)&&(e.value=""+yt(t)):e.value!==""+yt(t)&&(e.value=""+yt(t)):o!=="submit"&&o!=="reset"||e.removeAttribute("value"),t!=null?lo(e,o,yt(t)):i!=null?lo(e,o,yt(i)):r!=null&&e.removeAttribute("value"),n==null&&a!=null&&(e.defaultChecked=!!a),n!=null&&(e.checked=n&&typeof n!="function"&&typeof n!="symbol"),l!=null&&typeof l!="function"&&typeof l!="symbol"&&typeof l!="boolean"?e.name=""+yt(l):e.removeAttribute("name")}function Kl(e,t,i,r,n,a,o,l){if(a!=null&&typeof a!="function"&&typeof a!="symbol"&&typeof a!="boolean"&&(e.type=a),t!=null||i!=null){if(!(a!=="submit"&&a!=="reset"||t!=null)){oo(e);return}i=i!=null?""+yt(i):"",t=t!=null?""+yt(t):i,l||t===e.value||(e.value=t),e.defaultValue=t}r=r??n,r=typeof r!="function"&&typeof r!="symbol"&&!!r,e.checked=l?e.checked:!!r,e.defaultChecked=!!r,o!=null&&typeof o!="function"&&typeof o!="symbol"&&typeof o!="boolean"&&(e.name=o),oo(e)}function lo(e,t,i){t==="number"&&Fn(e.ownerDocument)===e||e.defaultValue===""+i||(e.defaultValue=""+i)}function tr(e,t,i,r){if(e=e.options,t){t={};for(var n=0;n<i.length;n++)t["$"+i[n]]=!0;for(i=0;i<e.length;i++)n=t.hasOwnProperty("$"+e[i].value),e[i].selected!==n&&(e[i].selected=n),n&&r&&(e[i].defaultSelected=!0)}else{for(i=""+yt(i),t=null,n=0;n<e.length;n++){if(e[n].value===i){e[n].selected=!0,r&&(e[n].defaultSelected=!0);return}t!==null||e[n].disabled||(t=e[n])}t!==null&&(t.selected=!0)}}function Wl(e,t,i){if(t!=null&&(t=""+yt(t),t!==e.value&&(e.value=t),i==null)){e.defaultValue!==t&&(e.defaultValue=t);return}e.defaultValue=i!=null?""+yt(i):""}function Gl(e,t,i,r){if(t==null){if(r!=null){if(i!=null)throw Error(d(92));if(at(r)){if(1<r.length)throw Error(d(93));r=r[0]}i=r}i==null&&(i=""),t=i}i=yt(t),e.defaultValue=i,r=e.textContent,r===i&&r!==""&&r!==null&&(e.value=r),oo(e)}function ir(e,t){if(t){var i=e.firstChild;if(i&&i===e.lastChild&&i.nodeType===3){i.nodeValue=t;return}}e.textContent=t}var wm=new Set("animationIterationCount aspectRatio borderImageOutset borderImageSlice borderImageWidth boxFlex boxFlexGroup boxOrdinalGroup columnCount columns flex flexGrow flexPositive flexShrink flexNegative flexOrder gridArea gridRow gridRowEnd gridRowSpan gridRowStart gridColumn gridColumnEnd gridColumnSpan gridColumnStart fontWeight lineClamp lineHeight opacity order orphans scale tabSize widows zIndex zoom fillOpacity floodOpacity stopOpacity strokeDasharray strokeDashoffset strokeMiterlimit strokeOpacity strokeWidth MozAnimationIterationCount MozBoxFlex MozBoxFlexGroup MozLineClamp msAnimationIterationCount msFlex msZoom msFlexGrow msFlexNegative msFlexOrder msFlexPositive msFlexShrink msGridColumn msGridColumnSpan msGridRow msGridRowSpan WebkitAnimationIterationCount WebkitBoxFlex WebKitBoxFlexGroup WebkitBoxOrdinalGroup WebkitColumnCount WebkitColumns WebkitFlex WebkitFlexGrow WebkitFlexPositive WebkitFlexShrink WebkitLineClamp".split(" "));function Ql(e,t,i){var r=t.indexOf("--")===0;i==null||typeof i=="boolean"||i===""?r?e.setProperty(t,""):t==="float"?e.cssFloat="":e[t]="":r?e.setProperty(t,i):typeof i!="number"||i===0||wm.has(t)?t==="float"?e.cssFloat=i:e[t]=(""+i).trim():e[t]=i+"px"}function Yl(e,t,i){if(t!=null&&typeof t!="object")throw Error(d(62));if(e=e.style,i!=null){for(var r in i)!i.hasOwnProperty(r)||t!=null&&t.hasOwnProperty(r)||(r.indexOf("--")===0?e.setProperty(r,""):r==="float"?e.cssFloat="":e[r]="");for(var n in t)r=t[n],t.hasOwnProperty(n)&&i[n]!==r&&Ql(e,n,r)}else for(var a in t)t.hasOwnProperty(a)&&Ql(e,a,t[a])}function co(e){if(e.indexOf("-")===-1)return!1;switch(e){case"annotation-xml":case"color-profile":case"font-face":case"font-face-src":case"font-face-uri":case"font-face-format":case"font-face-name":case"missing-glyph":return!1;default:return!0}}var Am=new Map([["acceptCharset","accept-charset"],["htmlFor","for"],["httpEquiv","http-equiv"],["crossOrigin","crossorigin"],["accentHeight","accent-height"],["alignmentBaseline","alignment-baseline"],["arabicForm","arabic-form"],["baselineShift","baseline-shift"],["capHeight","cap-height"],["clipPath","clip-path"],["clipRule","clip-rule"],["colorInterpolation","color-interpolation"],["colorInterpolationFilters","color-interpolation-filters"],["colorProfile","color-profile"],["colorRendering","color-rendering"],["dominantBaseline","dominant-baseline"],["enableBackground","enable-background"],["fillOpacity","fill-opacity"],["fillRule","fill-rule"],["floodColor","flood-color"],["floodOpacity","flood-opacity"],["fontFamily","font-family"],["fontSize","font-size"],["fontSizeAdjust","font-size-adjust"],["fontStretch","font-stretch"],["fontStyle","font-style"],["fontVariant","font-variant"],["fontWeight","font-weight"],["glyphName","glyph-name"],["glyphOrientationHorizontal","glyph-orientation-horizontal"],["glyphOrientationVertical","glyph-orientation-vertical"],["horizAdvX","horiz-adv-x"],["horizOriginX","horiz-origin-x"],["imageRendering","image-rendering"],["letterSpacing","letter-spacing"],["lightingColor","lighting-color"],["markerEnd","marker-end"],["markerMid","marker-mid"],["markerStart","marker-start"],["overlinePosition","overline-position"],["overlineThickness","overline-thickness"],["paintOrder","paint-order"],["panose-1","panose-1"],["pointerEvents","pointer-events"],["renderingIntent","rendering-intent"],["shapeRendering","shape-rendering"],["stopColor","stop-color"],["stopOpacity","stop-opacity"],["strikethroughPosition","strikethrough-position"],["strikethroughThickness","strikethrough-thickness"],["strokeDasharray","stroke-dasharray"],["strokeDashoffset","stroke-dashoffset"],["strokeLinecap","stroke-linecap"],["strokeLinejoin","stroke-linejoin"],["strokeMiterlimit","stroke-miterlimit"],["strokeOpacity","stroke-opacity"],["strokeWidth","stroke-width"],["textAnchor","text-anchor"],["textDecoration","text-decoration"],["textRendering","text-rendering"],["transformOrigin","transform-origin"],["underlinePosition","underline-position"],["underlineThickness","underline-thickness"],["unicodeBidi","unicode-bidi"],["unicodeRange","unicode-range"],["unitsPerEm","units-per-em"],["vAlphabetic","v-alphabetic"],["vHanging","v-hanging"],["vIdeographic","v-ideographic"],["vMathematical","v-mathematical"],["vectorEffect","vector-effect"],["vertAdvY","vert-adv-y"],["vertOriginX","vert-origin-x"],["vertOriginY","vert-origin-y"],["wordSpacing","word-spacing"],["writingMode","writing-mode"],["xmlnsXlink","xmlns:xlink"],["xHeight","x-height"]]),Cm=/^[\u0000-\u001F ]*j[\r\n\t]*a[\r\n\t]*v[\r\n\t]*a[\r\n\t]*s[\r\n\t]*c[\r\n\t]*r[\r\n\t]*i[\r\n\t]*p[\r\n\t]*t[\r\n\t]*:/i;function _n(e){return Cm.test(""+e)?"javascript:throw new Error('React has blocked a javascript: URL as a security precaution.')":e}function _t(){}var uo=null;function po(e){return e=e.target||e.srcElement||window,e.correspondingUseElement&&(e=e.correspondingUseElement),e.nodeType===3?e.parentNode:e}var rr=null,nr=null;function Jl(e){var t=Zi(e);if(t&&(e=t.stateNode)){var i=e[Ze]||null;e:switch(e=t.stateNode,t.type){case"input":if(so(e,i.value,i.defaultValue,i.defaultValue,i.checked,i.defaultChecked,i.type,i.name),t=i.name,i.type==="radio"&&t!=null){for(i=e;i.parentNode;)i=i.parentNode;for(i=i.querySelectorAll('input[name="'+vt(""+t)+'"][type="radio"]'),t=0;t<i.length;t++){var r=i[t];if(r!==e&&r.form===e.form){var n=r[Ze]||null;if(!n)throw Error(d(90));so(r,n.value,n.defaultValue,n.defaultValue,n.checked,n.defaultChecked,n.type,n.name)}}for(t=0;t<i.length;t++)r=i[t],r.form===e.form&&zl(r)}break e;case"textarea":Wl(e,i.value,i.defaultValue);break e;case"select":t=i.value,t!=null&&tr(e,!!i.multiple,t,!1)}}}var mo=!1;function Xl(e,t,i){if(mo)return e(t,i);mo=!0;try{var r=e(t);return r}finally{if(mo=!1,(rr!==null||nr!==null)&&(xa(),rr&&(t=rr,e=nr,nr=rr=null,Jl(t),e)))for(t=0;t<e.length;t++)Jl(e[t])}}function Hr(e,t){var i=e.stateNode;if(i===null)return null;var r=i[Ze]||null;if(r===null)return null;i=r[t];e:switch(t){case"onClick":case"onClickCapture":case"onDoubleClick":case"onDoubleClickCapture":case"onMouseDown":case"onMouseDownCapture":case"onMouseMove":case"onMouseMoveCapture":case"onMouseUp":case"onMouseUpCapture":case"onMouseEnter":(r=!r.disabled)||(e=e.type,r=!(e==="button"||e==="input"||e==="select"||e==="textarea")),e=!r;break e;default:e=!1}if(e)return null;if(i&&typeof i!="function")throw Error(d(231,t,typeof i));return i}var Ht=!(typeof window>"u"||typeof window.document>"u"||typeof window.document.createElement>"u"),go=!1;if(Ht)try{var qr={};Object.defineProperty(qr,"passive",{get:function(){go=!0}}),window.addEventListener("test",qr,qr),window.removeEventListener("test",qr,qr)}catch{go=!1}var oi=null,ho=null,Hn=null;function Zl(){if(Hn)return Hn;var e,t=ho,i=t.length,r,n="value"in oi?oi.value:oi.textContent,a=n.length;for(e=0;e<i&&t[e]===n[e];e++);var o=i-e;for(r=1;r<=o&&t[i-r]===n[a-r];r++);return Hn=n.slice(e,1<r?1-r:void 0)}function qn(e){var t=e.keyCode;return"charCode"in e?(e=e.charCode,e===0&&t===13&&(e=13)):e=t,e===10&&(e=13),32<=e||e===13?e:0}function jn(){return!0}function $l(){return!1}function $e(e){function t(i,r,n,a,o){this._reactName=i,this._targetInst=n,this.type=r,this.nativeEvent=a,this.target=o,this.currentTarget=null;for(var l in e)e.hasOwnProperty(l)&&(i=e[l],this[l]=i?i(a):a[l]);return this.isDefaultPrevented=(a.defaultPrevented!=null?a.defaultPrevented:a.returnValue===!1)?jn:$l,this.isPropagationStopped=$l,this}return O(t.prototype,{preventDefault:function(){this.defaultPrevented=!0;var i=this.nativeEvent;i&&(i.preventDefault?i.preventDefault():typeof i.returnValue!="unknown"&&(i.returnValue=!1),this.isDefaultPrevented=jn)},stopPropagation:function(){var i=this.nativeEvent;i&&(i.stopPropagation?i.stopPropagation():typeof i.cancelBubble!="unknown"&&(i.cancelBubble=!0),this.isPropagationStopped=jn)},persist:function(){},isPersistent:jn}),t}var Ni={eventPhase:0,bubbles:0,cancelable:0,timeStamp:function(e){return e.timeStamp||Date.now()},defaultPrevented:0,isTrusted:0},Vn=$e(Ni),jr=O({},Ni,{view:0,detail:0}),Tm=$e(jr),fo,yo,Vr,zn=O({},jr,{screenX:0,screenY:0,clientX:0,clientY:0,pageX:0,pageY:0,ctrlKey:0,shiftKey:0,altKey:0,metaKey:0,getModifierState:bo,button:0,buttons:0,relatedTarget:function(e){return e.relatedTarget===void 0?e.fromElement===e.srcElement?e.toElement:e.fromElement:e.relatedTarget},movementX:function(e){return"movementX"in e?e.movementX:(e!==Vr&&(Vr&&e.type==="mousemove"?(fo=e.screenX-Vr.screenX,yo=e.screenY-Vr.screenY):yo=fo=0,Vr=e),fo)},movementY:function(e){return"movementY"in e?e.movementY:yo}}),ec=$e(zn),xm=O({},zn,{dataTransfer:0}),Rm=$e(xm),Em=O({},jr,{relatedTarget:0}),vo=$e(Em),Mm=O({},Ni,{animationName:0,elapsedTime:0,pseudoElement:0}),Dm=$e(Mm),Im=O({},Ni,{clipboardData:function(e){return"clipboardData"in e?e.clipboardData:window.clipboardData}}),Pm=$e(Im),Nm=O({},Ni,{data:0}),tc=$e(Nm),Um={Esc:"Escape",Spacebar:" ",Left:"ArrowLeft",Up:"ArrowUp",Right:"ArrowRight",Down:"ArrowDown",Del:"Delete",Win:"OS",Menu:"ContextMenu",Apps:"ContextMenu",Scroll:"ScrollLock",MozPrintableKey:"Unidentified"},Lm={8:"Backspace",9:"Tab",12:"Clear",13:"Enter",16:"Shift",17:"Control",18:"Alt",19:"Pause",20:"CapsLock",27:"Escape",32:" ",33:"PageUp",34:"PageDown",35:"End",36:"Home",37:"ArrowLeft",38:"ArrowUp",39:"ArrowRight",40:"ArrowDown",45:"Insert",46:"Delete",112:"F1",113:"F2",114:"F3",115:"F4",116:"F5",117:"F6",118:"F7",119:"F8",120:"F9",121:"F10",122:"F11",123:"F12",144:"NumLock",145:"ScrollLock",224:"Meta"},Om={Alt:"altKey",Control:"ctrlKey",Meta:"metaKey",Shift:"shiftKey"};function Bm(e){var t=this.nativeEvent;return t.getModifierState?t.getModifierState(e):(e=Om[e])?!!t[e]:!1}function bo(){return Bm}var Fm=O({},jr,{key:function(e){if(e.key){var t=Um[e.key]||e.key;if(t!=="Unidentified")return t}return e.type==="keypress"?(e=qn(e),e===13?"Enter":String.fromCharCode(e)):e.type==="keydown"||e.type==="keyup"?Lm[e.keyCode]||"Unidentified":""},code:0,location:0,ctrlKey:0,shiftKey:0,altKey:0,metaKey:0,repeat:0,locale:0,getModifierState:bo,charCode:function(e){return e.type==="keypress"?qn(e):0},keyCode:function(e){return e.type==="keydown"||e.type==="keyup"?e.keyCode:0},which:function(e){return e.type==="keypress"?qn(e):e.type==="keydown"||e.type==="keyup"?e.keyCode:0}}),_m=$e(Fm),Hm=O({},zn,{pointerId:0,width:0,height:0,pressure:0,tangentialPressure:0,tiltX:0,tiltY:0,twist:0,pointerType:0,isPrimary:0}),ic=$e(Hm),qm=O({},jr,{touches:0,targetTouches:0,changedTouches:0,altKey:0,metaKey:0,ctrlKey:0,shiftKey:0,getModifierState:bo}),jm=$e(qm),Vm=O({},Ni,{propertyName:0,elapsedTime:0,pseudoElement:0}),zm=$e(Vm),Km=O({},zn,{deltaX:function(e){return"deltaX"in e?e.deltaX:"wheelDeltaX"in e?-e.wheelDeltaX:0},deltaY:function(e){return"deltaY"in e?e.deltaY:"wheelDeltaY"in e?-e.wheelDeltaY:"wheelDelta"in e?-e.wheelDelta:0},deltaZ:0,deltaMode:0}),Wm=$e(Km),Gm=O({},Ni,{newState:0,oldState:0}),Qm=$e(Gm),Ym=[9,13,27,32],So=Ht&&"CompositionEvent"in window,zr=null;Ht&&"documentMode"in document&&(zr=document.documentMode);var Jm=Ht&&"TextEvent"in window&&!zr,rc=Ht&&(!So||zr&&8<zr&&11>=zr),nc=" ",ac=!1;function oc(e,t){switch(e){case"keyup":return Ym.indexOf(t.keyCode)!==-1;case"keydown":return t.keyCode!==229;case"keypress":case"mousedown":case"focusout":return!0;default:return!1}}function sc(e){return e=e.detail,typeof e=="object"&&"data"in e?e.data:null}var ar=!1;function Xm(e,t){switch(e){case"compositionend":return sc(t);case"keypress":return t.which!==32?null:(ac=!0,nc);case"textInput":return e=t.data,e===nc&&ac?null:e;default:return null}}function Zm(e,t){if(ar)return e==="compositionend"||!So&&oc(e,t)?(e=Zl(),Hn=ho=oi=null,ar=!1,e):null;switch(e){case"paste":return null;case"keypress":if(!(t.ctrlKey||t.altKey||t.metaKey)||t.ctrlKey&&t.altKey){if(t.char&&1<t.char.length)return t.char;if(t.which)return String.fromCharCode(t.which)}return null;case"compositionend":return rc&&t.locale!=="ko"?null:t.data;default:return null}}var $m={color:!0,date:!0,datetime:!0,"datetime-local":!0,email:!0,month:!0,number:!0,password:!0,range:!0,search:!0,tel:!0,text:!0,time:!0,url:!0,week:!0};function lc(e){var t=e&&e.nodeName&&e.nodeName.toLowerCase();return t==="input"?!!$m[e.type]:t==="textarea"}function cc(e,t,i,r){rr?nr?nr.push(r):nr=[r]:rr=r,t=Na(t,"onChange"),0<t.length&&(i=new Vn("onChange","change",null,i,r),e.push({event:i,listeners:t}))}var Kr=null,Wr=null;function eg(e){Ku(e,0)}function Kn(e){var t=_r(e);if(zl(t))return e}function dc(e,t){if(e==="change")return t}var uc=!1;if(Ht){var ko;if(Ht){var wo="oninput"in document;if(!wo){var pc=document.createElement("div");pc.setAttribute("oninput","return;"),wo=typeof pc.oninput=="function"}ko=wo}else ko=!1;uc=ko&&(!document.documentMode||9<document.documentMode)}function mc(){Kr&&(Kr.detachEvent("onpropertychange",gc),Wr=Kr=null)}function gc(e){if(e.propertyName==="value"&&Kn(Wr)){var t=[];cc(t,Wr,e,po(e)),Xl(eg,t)}}function tg(e,t,i){e==="focusin"?(mc(),Kr=t,Wr=i,Kr.attachEvent("onpropertychange",gc)):e==="focusout"&&mc()}function ig(e){if(e==="selectionchange"||e==="keyup"||e==="keydown")return Kn(Wr)}function rg(e,t){if(e==="click")return Kn(t)}function ng(e,t){if(e==="input"||e==="change")return Kn(t)}function ag(e,t){return e===t&&(e!==0||1/e===1/t)||e!==e&&t!==t}var ct=typeof Object.is=="function"?Object.is:ag;function Gr(e,t){if(ct(e,t))return!0;if(typeof e!="object"||e===null||typeof t!="object"||t===null)return!1;var i=Object.keys(e),r=Object.keys(t);if(i.length!==r.length)return!1;for(r=0;r<i.length;r++){var n=i[r];if(!Za.call(t,n)||!ct(e[n],t[n]))return!1}return!0}function hc(e){for(;e&&e.firstChild;)e=e.firstChild;return e}function fc(e,t){var i=hc(e);e=0;for(var r;i;){if(i.nodeType===3){if(r=e+i.textContent.length,e<=t&&r>=t)return{node:i,offset:t-e};e=r}e:{for(;i;){if(i.nextSibling){i=i.nextSibling;break e}i=i.parentNode}i=void 0}i=hc(i)}}function yc(e,t){return e&&t?e===t?!0:e&&e.nodeType===3?!1:t&&t.nodeType===3?yc(e,t.parentNode):"contains"in e?e.contains(t):e.compareDocumentPosition?!!(e.compareDocumentPosition(t)&16):!1:!1}function vc(e){e=e!=null&&e.ownerDocument!=null&&e.ownerDocument.defaultView!=null?e.ownerDocument.defaultView:window;for(var t=Fn(e.document);t instanceof e.HTMLIFrameElement;){try{var i=typeof t.contentWindow.location.href=="string"}catch{i=!1}if(i)e=t.contentWindow;else break;t=Fn(e.document)}return t}function Ao(e){var t=e&&e.nodeName&&e.nodeName.toLowerCase();return t&&(t==="input"&&(e.type==="text"||e.type==="search"||e.type==="tel"||e.type==="url"||e.type==="password")||t==="textarea"||e.contentEditable==="true")}var og=Ht&&"documentMode"in document&&11>=document.documentMode,or=null,Co=null,Qr=null,To=!1;function bc(e,t,i){var r=i.window===i?i.document:i.nodeType===9?i:i.ownerDocument;To||or==null||or!==Fn(r)||(r=or,"selectionStart"in r&&Ao(r)?r={start:r.selectionStart,end:r.selectionEnd}:(r=(r.ownerDocument&&r.ownerDocument.defaultView||window).getSelection(),r={anchorNode:r.anchorNode,anchorOffset:r.anchorOffset,focusNode:r.focusNode,focusOffset:r.focusOffset}),Qr&&Gr(Qr,r)||(Qr=r,r=Na(Co,"onSelect"),0<r.length&&(t=new Vn("onSelect","select",null,t,i),e.push({event:t,listeners:r}),t.target=or)))}function Ui(e,t){var i={};return i[e.toLowerCase()]=t.toLowerCase(),i["Webkit"+e]="webkit"+t,i["Moz"+e]="moz"+t,i}var sr={animationend:Ui("Animation","AnimationEnd"),animationiteration:Ui("Animation","AnimationIteration"),animationstart:Ui("Animation","AnimationStart"),transitionrun:Ui("Transition","TransitionRun"),transitionstart:Ui("Transition","TransitionStart"),transitioncancel:Ui("Transition","TransitionCancel"),transitionend:Ui("Transition","TransitionEnd")},xo={},Sc={};Ht&&(Sc=document.createElement("div").style,"AnimationEvent"in window||(delete sr.animationend.animation,delete sr.animationiteration.animation,delete sr.animationstart.animation),"TransitionEvent"in window||delete sr.transitionend.transition);function Li(e){if(xo[e])return xo[e];if(!sr[e])return e;var t=sr[e],i;for(i in t)if(t.hasOwnProperty(i)&&i in Sc)return xo[e]=t[i];return e}var kc=Li("animationend"),wc=Li("animationiteration"),Ac=Li("animationstart"),sg=Li("transitionrun"),lg=Li("transitionstart"),cg=Li("transitioncancel"),Cc=Li("transitionend"),Tc=new Map,Ro="abort auxClick beforeToggle cancel canPlay canPlayThrough click close contextMenu copy cut drag dragEnd dragEnter dragExit dragLeave dragOver dragStart drop durationChange emptied encrypted ended error gotPointerCapture input invalid keyDown keyPress keyUp load loadedData loadedMetadata loadStart lostPointerCapture mouseDown mouseMove mouseOut mouseOver mouseUp paste pause play playing pointerCancel pointerDown pointerMove pointerOut pointerOver pointerUp progress rateChange reset resize seeked seeking stalled submit suspend timeUpdate touchCancel touchEnd touchStart volumeChange scroll toggle touchMove waiting wheel".split(" ");Ro.push("scrollEnd");function Et(e,t){Tc.set(e,t),Pi(t,[e])}var Wn=typeof reportError=="function"?reportError:function(e){if(typeof window=="object"&&typeof window.ErrorEvent=="function"){var t=new window.ErrorEvent("error",{bubbles:!0,cancelable:!0,message:typeof e=="object"&&e!==null&&typeof e.message=="string"?String(e.message):String(e),error:e});if(!window.dispatchEvent(t))return}else if(typeof process=="object"&&typeof process.emit=="function"){process.emit("uncaughtException",e);return}console.error(e)},bt=[],lr=0,Eo=0;function Gn(){for(var e=lr,t=Eo=lr=0;t<e;){var i=bt[t];bt[t++]=null;var r=bt[t];bt[t++]=null;var n=bt[t];bt[t++]=null;var a=bt[t];if(bt[t++]=null,r!==null&&n!==null){var o=r.pending;o===null?n.next=n:(n.next=o.next,o.next=n),r.pending=n}a!==0&&xc(i,n,a)}}function Qn(e,t,i,r){bt[lr++]=e,bt[lr++]=t,bt[lr++]=i,bt[lr++]=r,Eo|=r,e.lanes|=r,e=e.alternate,e!==null&&(e.lanes|=r)}function Mo(e,t,i,r){return Qn(e,t,i,r),Yn(e)}function Oi(e,t){return Qn(e,null,null,t),Yn(e)}function xc(e,t,i){e.lanes|=i;var r=e.alternate;r!==null&&(r.lanes|=i);for(var n=!1,a=e.return;a!==null;)a.childLanes|=i,r=a.alternate,r!==null&&(r.childLanes|=i),a.tag===22&&(e=a.stateNode,e===null||e._visibility&1||(n=!0)),e=a,a=a.return;return e.tag===3?(a=e.stateNode,n&&t!==null&&(n=31-lt(i),e=a.hiddenUpdates,r=e[n],r===null?e[n]=[t]:r.push(t),t.lane=i|536870912),a):null}function Yn(e){if(50<yn)throw yn=0,Fs=null,Error(d(185));for(var t=e.return;t!==null;)e=t,t=e.return;return e.tag===3?e.stateNode:null}var cr={};function dg(e,t,i,r){this.tag=e,this.key=i,this.sibling=this.child=this.return=this.stateNode=this.type=this.elementType=null,this.index=0,this.refCleanup=this.ref=null,this.pendingProps=t,this.dependencies=this.memoizedState=this.updateQueue=this.memoizedProps=null,this.mode=r,this.subtreeFlags=this.flags=0,this.deletions=null,this.childLanes=this.lanes=0,this.alternate=null}function dt(e,t,i,r){return new dg(e,t,i,r)}function Do(e){return e=e.prototype,!(!e||!e.isReactComponent)}function qt(e,t){var i=e.alternate;return i===null?(i=dt(e.tag,t,e.key,e.mode),i.elementType=e.elementType,i.type=e.type,i.stateNode=e.stateNode,i.alternate=e,e.alternate=i):(i.pendingProps=t,i.type=e.type,i.flags=0,i.subtreeFlags=0,i.deletions=null),i.flags=e.flags&65011712,i.childLanes=e.childLanes,i.lanes=e.lanes,i.child=e.child,i.memoizedProps=e.memoizedProps,i.memoizedState=e.memoizedState,i.updateQueue=e.updateQueue,t=e.dependencies,i.dependencies=t===null?null:{lanes:t.lanes,firstContext:t.firstContext},i.sibling=e.sibling,i.index=e.index,i.ref=e.ref,i.refCleanup=e.refCleanup,i}function Rc(e,t){e.flags&=65011714;var i=e.alternate;return i===null?(e.childLanes=0,e.lanes=t,e.child=null,e.subtreeFlags=0,e.memoizedProps=null,e.memoizedState=null,e.updateQueue=null,e.dependencies=null,e.stateNode=null):(e.childLanes=i.childLanes,e.lanes=i.lanes,e.child=i.child,e.subtreeFlags=0,e.deletions=null,e.memoizedProps=i.memoizedProps,e.memoizedState=i.memoizedState,e.updateQueue=i.updateQueue,e.type=i.type,t=i.dependencies,e.dependencies=t===null?null:{lanes:t.lanes,firstContext:t.firstContext}),e}function Jn(e,t,i,r,n,a){var o=0;if(r=e,typeof e=="function")Do(e)&&(o=1);else if(typeof e=="string")o=hh(e,i,H.current)?26:e==="html"||e==="head"||e==="body"?27:5;else e:switch(e){case Ve:return e=dt(31,i,t,n),e.elementType=Ve,e.lanes=a,e;case ee:return Bi(i.children,n,a,t);case F:o=8,n|=24;break;case te:return e=dt(12,i,t,n|2),e.elementType=te,e.lanes=a,e;case ue:return e=dt(13,i,t,n),e.elementType=ue,e.lanes=a,e;case he:return e=dt(19,i,t,n),e.elementType=he,e.lanes=a,e;default:if(typeof e=="object"&&e!==null)switch(e.$$typeof){case Ae:o=10;break e;case je:o=9;break e;case de:o=11;break e;case Y:o=14;break e;case Ie:o=16,r=null;break e}o=29,i=Error(d(130,e===null?"null":typeof e,"")),r=null}return t=dt(o,i,t,n),t.elementType=e,t.type=r,t.lanes=a,t}function Bi(e,t,i,r){return e=dt(7,e,r,t),e.lanes=i,e}function Io(e,t,i){return e=dt(6,e,null,t),e.lanes=i,e}function Ec(e){var t=dt(18,null,null,0);return t.stateNode=e,t}function Po(e,t,i){return t=dt(4,e.children!==null?e.children:[],e.key,t),t.lanes=i,t.stateNode={containerInfo:e.containerInfo,pendingChildren:null,implementation:e.implementation},t}var Mc=new WeakMap;function St(e,t){if(typeof e=="object"&&e!==null){var i=Mc.get(e);return i!==void 0?i:(t={value:e,source:t,stack:El(t)},Mc.set(e,t),t)}return{value:e,source:t,stack:El(t)}}var dr=[],ur=0,Xn=null,Yr=0,kt=[],wt=0,si=null,Nt=1,Ut="";function jt(e,t){dr[ur++]=Yr,dr[ur++]=Xn,Xn=e,Yr=t}function Dc(e,t,i){kt[wt++]=Nt,kt[wt++]=Ut,kt[wt++]=si,si=e;var r=Nt;e=Ut;var n=32-lt(r)-1;r&=~(1<<n),i+=1;var a=32-lt(t)+n;if(30<a){var o=n-n%5;a=(r&(1<<o)-1).toString(32),r>>=o,n-=o,Nt=1<<32-lt(t)+n|i<<n|r,Ut=a+e}else Nt=1<<a|i<<n|r,Ut=e}function No(e){e.return!==null&&(jt(e,1),Dc(e,1,0))}function Uo(e){for(;e===Xn;)Xn=dr[--ur],dr[ur]=null,Yr=dr[--ur],dr[ur]=null;for(;e===si;)si=kt[--wt],kt[wt]=null,Ut=kt[--wt],kt[wt]=null,Nt=kt[--wt],kt[wt]=null}function Ic(e,t){kt[wt++]=Nt,kt[wt++]=Ut,kt[wt++]=si,Nt=t.id,Ut=t.overflow,si=e}var Ke=null,Ce=null,se=!1,li=null,At=!1,Lo=Error(d(519));function ci(e){var t=Error(d(418,1<arguments.length&&arguments[1]!==void 0&&arguments[1]?"text":"HTML",""));throw Jr(St(t,e)),Lo}function Pc(e){var t=e.stateNode,i=e.type,r=e.memoizedProps;switch(t[ze]=e,t[Ze]=r,i){case"dialog":re("cancel",t),re("close",t);break;case"iframe":case"object":case"embed":re("load",t);break;case"video":case"audio":for(i=0;i<bn.length;i++)re(bn[i],t);break;case"source":re("error",t);break;case"img":case"image":case"link":re("error",t),re("load",t);break;case"details":re("toggle",t);break;case"input":re("invalid",t),Kl(t,r.value,r.defaultValue,r.checked,r.defaultChecked,r.type,r.name,!0);break;case"select":re("invalid",t);break;case"textarea":re("invalid",t),Gl(t,r.value,r.defaultValue,r.children)}i=r.children,typeof i!="string"&&typeof i!="number"&&typeof i!="bigint"||t.textContent===""+i||r.suppressHydrationWarning===!0||Yu(t.textContent,i)?(r.popover!=null&&(re("beforetoggle",t),re("toggle",t)),r.onScroll!=null&&re("scroll",t),r.onScrollEnd!=null&&re("scrollend",t),r.onClick!=null&&(t.onclick=_t),t=!0):t=!1,t||ci(e,!0)}function Nc(e){for(Ke=e.return;Ke;)switch(Ke.tag){case 5:case 31:case 13:At=!1;return;case 27:case 3:At=!0;return;default:Ke=Ke.return}}function pr(e){if(e!==Ke)return!1;if(!se)return Nc(e),se=!0,!1;var t=e.tag,i;if((i=t!==3&&t!==27)&&((i=t===5)&&(i=e.type,i=!(i!=="form"&&i!=="button")||$s(e.type,e.memoizedProps)),i=!i),i&&Ce&&ci(e),Nc(e),t===13){if(e=e.memoizedState,e=e!==null?e.dehydrated:null,!e)throw Error(d(317));Ce=np(e)}else if(t===31){if(e=e.memoizedState,e=e!==null?e.dehydrated:null,!e)throw Error(d(317));Ce=np(e)}else t===27?(t=Ce,Ai(e.type)?(e=nl,nl=null,Ce=e):Ce=t):Ce=Ke?Tt(e.stateNode.nextSibling):null;return!0}function Fi(){Ce=Ke=null,se=!1}function Oo(){var e=li;return e!==null&&(rt===null?rt=e:rt.push.apply(rt,e),li=null),e}function Jr(e){li===null?li=[e]:li.push(e)}var Bo=m(null),_i=null,Vt=null;function di(e,t,i){U(Bo,t._currentValue),t._currentValue=i}function zt(e){e._currentValue=Bo.current,x(Bo)}function Fo(e,t,i){for(;e!==null;){var r=e.alternate;if((e.childLanes&t)!==t?(e.childLanes|=t,r!==null&&(r.childLanes|=t)):r!==null&&(r.childLanes&t)!==t&&(r.childLanes|=t),e===i)break;e=e.return}}function _o(e,t,i,r){var n=e.child;for(n!==null&&(n.return=e);n!==null;){var a=n.dependencies;if(a!==null){var o=n.child;a=a.firstContext;e:for(;a!==null;){var l=a;a=n;for(var c=0;c<t.length;c++)if(l.context===t[c]){a.lanes|=i,l=a.alternate,l!==null&&(l.lanes|=i),Fo(a.return,i,e),r||(o=null);break e}a=l.next}}else if(n.tag===18){if(o=n.return,o===null)throw Error(d(341));o.lanes|=i,a=o.alternate,a!==null&&(a.lanes|=i),Fo(o,i,e),o=null}else o=n.child;if(o!==null)o.return=n;else for(o=n;o!==null;){if(o===e){o=null;break}if(n=o.sibling,n!==null){n.return=o.return,o=n;break}o=o.return}n=o}}function mr(e,t,i,r){e=null;for(var n=t,a=!1;n!==null;){if(!a){if((n.flags&524288)!==0)a=!0;else if((n.flags&262144)!==0)break}if(n.tag===10){var o=n.alternate;if(o===null)throw Error(d(387));if(o=o.memoizedProps,o!==null){var l=n.type;ct(n.pendingProps.value,o.value)||(e!==null?e.push(l):e=[l])}}else if(n===I.current){if(o=n.alternate,o===null)throw Error(d(387));o.memoizedState.memoizedState!==n.memoizedState.memoizedState&&(e!==null?e.push(Cn):e=[Cn])}n=n.return}e!==null&&_o(t,e,i,r),t.flags|=262144}function Zn(e){for(e=e.firstContext;e!==null;){if(!ct(e.context._currentValue,e.memoizedValue))return!0;e=e.next}return!1}function Hi(e){_i=e,Vt=null,e=e.dependencies,e!==null&&(e.firstContext=null)}function We(e){return Uc(_i,e)}function $n(e,t){return _i===null&&Hi(e),Uc(e,t)}function Uc(e,t){var i=t._currentValue;if(t={context:t,memoizedValue:i,next:null},Vt===null){if(e===null)throw Error(d(308));Vt=t,e.dependencies={lanes:0,firstContext:t},e.flags|=524288}else Vt=Vt.next=t;return i}var ug=typeof AbortController<"u"?AbortController:function(){var e=[],t=this.signal={aborted:!1,addEventListener:function(i,r){e.push(r)}};this.abort=function(){t.aborted=!0,e.forEach(function(i){return i()})}},pg=u.unstable_scheduleCallback,mg=u.unstable_NormalPriority,Le={$$typeof:Ae,Consumer:null,Provider:null,_currentValue:null,_currentValue2:null,_threadCount:0};function Ho(){return{controller:new ug,data:new Map,refCount:0}}function Xr(e){e.refCount--,e.refCount===0&&pg(mg,function(){e.controller.abort()})}var Zr=null,qo=0,gr=0,hr=null;function gg(e,t){if(Zr===null){var i=Zr=[];qo=0,gr=zs(),hr={status:"pending",value:void 0,then:function(r){i.push(r)}}}return qo++,t.then(Lc,Lc),t}function Lc(){if(--qo===0&&Zr!==null){hr!==null&&(hr.status="fulfilled");var e=Zr;Zr=null,gr=0,hr=null;for(var t=0;t<e.length;t++)(0,e[t])()}}function hg(e,t){var i=[],r={status:"pending",value:null,reason:null,then:function(n){i.push(n)}};return e.then(function(){r.status="fulfilled",r.value=t;for(var n=0;n<i.length;n++)(0,i[n])(t)},function(n){for(r.status="rejected",r.reason=n,n=0;n<i.length;n++)(0,i[n])(void 0)}),r}var Oc=k.S;k.S=function(e,t){bu=ot(),typeof t=="object"&&t!==null&&typeof t.then=="function"&&gg(e,t),Oc!==null&&Oc(e,t)};var qi=m(null);function jo(){var e=qi.current;return e!==null?e:we.pooledCache}function ea(e,t){t===null?U(qi,qi.current):U(qi,t.pool)}function Bc(){var e=jo();return e===null?null:{parent:Le._currentValue,pool:e}}var fr=Error(d(460)),Vo=Error(d(474)),ta=Error(d(542)),ia={then:function(){}};function Fc(e){return e=e.status,e==="fulfilled"||e==="rejected"}function _c(e,t,i){switch(i=e[i],i===void 0?e.push(t):i!==t&&(t.then(_t,_t),t=i),t.status){case"fulfilled":return t.value;case"rejected":throw e=t.reason,qc(e),e;default:if(typeof t.status=="string")t.then(_t,_t);else{if(e=we,e!==null&&100<e.shellSuspendCounter)throw Error(d(482));e=t,e.status="pending",e.then(function(r){if(t.status==="pending"){var n=t;n.status="fulfilled",n.value=r}},function(r){if(t.status==="pending"){var n=t;n.status="rejected",n.reason=r}})}switch(t.status){case"fulfilled":return t.value;case"rejected":throw e=t.reason,qc(e),e}throw Vi=t,fr}}function ji(e){try{var t=e._init;return t(e._payload)}catch(i){throw i!==null&&typeof i=="object"&&typeof i.then=="function"?(Vi=i,fr):i}}var Vi=null;function Hc(){if(Vi===null)throw Error(d(459));var e=Vi;return Vi=null,e}function qc(e){if(e===fr||e===ta)throw Error(d(483))}var yr=null,$r=0;function ra(e){var t=$r;return $r+=1,yr===null&&(yr=[]),_c(yr,e,t)}function en(e,t){t=t.props.ref,e.ref=t!==void 0?t:null}function na(e,t){throw t.$$typeof===B?Error(d(525)):(e=Object.prototype.toString.call(t),Error(d(31,e==="[object Object]"?"object with keys {"+Object.keys(t).join(", ")+"}":e)))}function jc(e){function t(g,p){if(e){var h=g.deletions;h===null?(g.deletions=[p],g.flags|=16):h.push(p)}}function i(g,p){if(!e)return null;for(;p!==null;)t(g,p),p=p.sibling;return null}function r(g){for(var p=new Map;g!==null;)g.key!==null?p.set(g.key,g):p.set(g.index,g),g=g.sibling;return p}function n(g,p){return g=qt(g,p),g.index=0,g.sibling=null,g}function a(g,p,h){return g.index=h,e?(h=g.alternate,h!==null?(h=h.index,h<p?(g.flags|=67108866,p):h):(g.flags|=67108866,p)):(g.flags|=1048576,p)}function o(g){return e&&g.alternate===null&&(g.flags|=67108866),g}function l(g,p,h,C){return p===null||p.tag!==6?(p=Io(h,g.mode,C),p.return=g,p):(p=n(p,h),p.return=g,p)}function c(g,p,h,C){var V=h.type;return V===ee?S(g,p,h.props.children,C,h.key):p!==null&&(p.elementType===V||typeof V=="object"&&V!==null&&V.$$typeof===Ie&&ji(V)===p.type)?(p=n(p,h.props),en(p,h),p.return=g,p):(p=Jn(h.type,h.key,h.props,null,g.mode,C),en(p,h),p.return=g,p)}function f(g,p,h,C){return p===null||p.tag!==4||p.stateNode.containerInfo!==h.containerInfo||p.stateNode.implementation!==h.implementation?(p=Po(h,g.mode,C),p.return=g,p):(p=n(p,h.children||[]),p.return=g,p)}function S(g,p,h,C,V){return p===null||p.tag!==7?(p=Bi(h,g.mode,C,V),p.return=g,p):(p=n(p,h),p.return=g,p)}function T(g,p,h){if(typeof p=="string"&&p!==""||typeof p=="number"||typeof p=="bigint")return p=Io(""+p,g.mode,h),p.return=g,p;if(typeof p=="object"&&p!==null){switch(p.$$typeof){case W:return h=Jn(p.type,p.key,p.props,null,g.mode,h),en(h,p),h.return=g,h;case le:return p=Po(p,g.mode,h),p.return=g,p;case Ie:return p=ji(p),T(g,p,h)}if(at(p)||Ue(p))return p=Bi(p,g.mode,h,null),p.return=g,p;if(typeof p.then=="function")return T(g,ra(p),h);if(p.$$typeof===Ae)return T(g,$n(g,p),h);na(g,p)}return null}function y(g,p,h,C){var V=p!==null?p.key:null;if(typeof h=="string"&&h!==""||typeof h=="number"||typeof h=="bigint")return V!==null?null:l(g,p,""+h,C);if(typeof h=="object"&&h!==null){switch(h.$$typeof){case W:return h.key===V?c(g,p,h,C):null;case le:return h.key===V?f(g,p,h,C):null;case Ie:return h=ji(h),y(g,p,h,C)}if(at(h)||Ue(h))return V!==null?null:S(g,p,h,C,null);if(typeof h.then=="function")return y(g,p,ra(h),C);if(h.$$typeof===Ae)return y(g,p,$n(g,h),C);na(g,h)}return null}function v(g,p,h,C,V){if(typeof C=="string"&&C!==""||typeof C=="number"||typeof C=="bigint")return g=g.get(h)||null,l(p,g,""+C,V);if(typeof C=="object"&&C!==null){switch(C.$$typeof){case W:return g=g.get(C.key===null?h:C.key)||null,c(p,g,C,V);case le:return g=g.get(C.key===null?h:C.key)||null,f(p,g,C,V);case Ie:return C=ji(C),v(g,p,h,C,V)}if(at(C)||Ue(C))return g=g.get(h)||null,S(p,g,C,V,null);if(typeof C.then=="function")return v(g,p,h,ra(C),V);if(C.$$typeof===Ae)return v(g,p,h,$n(p,C),V);na(p,C)}return null}function _(g,p,h,C){for(var V=null,pe=null,j=p,$=p=0,ae=null;j!==null&&$<h.length;$++){j.index>$?(ae=j,j=null):ae=j.sibling;var me=y(g,j,h[$],C);if(me===null){j===null&&(j=ae);break}e&&j&&me.alternate===null&&t(g,j),p=a(me,p,$),pe===null?V=me:pe.sibling=me,pe=me,j=ae}if($===h.length)return i(g,j),se&&jt(g,$),V;if(j===null){for(;$<h.length;$++)j=T(g,h[$],C),j!==null&&(p=a(j,p,$),pe===null?V=j:pe.sibling=j,pe=j);return se&&jt(g,$),V}for(j=r(j);$<h.length;$++)ae=v(j,g,$,h[$],C),ae!==null&&(e&&ae.alternate!==null&&j.delete(ae.key===null?$:ae.key),p=a(ae,p,$),pe===null?V=ae:pe.sibling=ae,pe=ae);return e&&j.forEach(function(Ei){return t(g,Ei)}),se&&jt(g,$),V}function Q(g,p,h,C){if(h==null)throw Error(d(151));for(var V=null,pe=null,j=p,$=p=0,ae=null,me=h.next();j!==null&&!me.done;$++,me=h.next()){j.index>$?(ae=j,j=null):ae=j.sibling;var Ei=y(g,j,me.value,C);if(Ei===null){j===null&&(j=ae);break}e&&j&&Ei.alternate===null&&t(g,j),p=a(Ei,p,$),pe===null?V=Ei:pe.sibling=Ei,pe=Ei,j=ae}if(me.done)return i(g,j),se&&jt(g,$),V;if(j===null){for(;!me.done;$++,me=h.next())me=T(g,me.value,C),me!==null&&(p=a(me,p,$),pe===null?V=me:pe.sibling=me,pe=me);return se&&jt(g,$),V}for(j=r(j);!me.done;$++,me=h.next())me=v(j,g,$,me.value,C),me!==null&&(e&&me.alternate!==null&&j.delete(me.key===null?$:me.key),p=a(me,p,$),pe===null?V=me:pe.sibling=me,pe=me);return e&&j.forEach(function(xh){return t(g,xh)}),se&&jt(g,$),V}function ke(g,p,h,C){if(typeof h=="object"&&h!==null&&h.type===ee&&h.key===null&&(h=h.props.children),typeof h=="object"&&h!==null){switch(h.$$typeof){case W:e:{for(var V=h.key;p!==null;){if(p.key===V){if(V=h.type,V===ee){if(p.tag===7){i(g,p.sibling),C=n(p,h.props.children),C.return=g,g=C;break e}}else if(p.elementType===V||typeof V=="object"&&V!==null&&V.$$typeof===Ie&&ji(V)===p.type){i(g,p.sibling),C=n(p,h.props),en(C,h),C.return=g,g=C;break e}i(g,p);break}else t(g,p);p=p.sibling}h.type===ee?(C=Bi(h.props.children,g.mode,C,h.key),C.return=g,g=C):(C=Jn(h.type,h.key,h.props,null,g.mode,C),en(C,h),C.return=g,g=C)}return o(g);case le:e:{for(V=h.key;p!==null;){if(p.key===V)if(p.tag===4&&p.stateNode.containerInfo===h.containerInfo&&p.stateNode.implementation===h.implementation){i(g,p.sibling),C=n(p,h.children||[]),C.return=g,g=C;break e}else{i(g,p);break}else t(g,p);p=p.sibling}C=Po(h,g.mode,C),C.return=g,g=C}return o(g);case Ie:return h=ji(h),ke(g,p,h,C)}if(at(h))return _(g,p,h,C);if(Ue(h)){if(V=Ue(h),typeof V!="function")throw Error(d(150));return h=V.call(h),Q(g,p,h,C)}if(typeof h.then=="function")return ke(g,p,ra(h),C);if(h.$$typeof===Ae)return ke(g,p,$n(g,h),C);na(g,h)}return typeof h=="string"&&h!==""||typeof h=="number"||typeof h=="bigint"?(h=""+h,p!==null&&p.tag===6?(i(g,p.sibling),C=n(p,h),C.return=g,g=C):(i(g,p),C=Io(h,g.mode,C),C.return=g,g=C),o(g)):i(g,p)}return function(g,p,h,C){try{$r=0;var V=ke(g,p,h,C);return yr=null,V}catch(j){if(j===fr||j===ta)throw j;var pe=dt(29,j,null,g.mode);return pe.lanes=C,pe.return=g,pe}}}var zi=jc(!0),Vc=jc(!1),ui=!1;function zo(e){e.updateQueue={baseState:e.memoizedState,firstBaseUpdate:null,lastBaseUpdate:null,shared:{pending:null,lanes:0,hiddenCallbacks:null},callbacks:null}}function Ko(e,t){e=e.updateQueue,t.updateQueue===e&&(t.updateQueue={baseState:e.baseState,firstBaseUpdate:e.firstBaseUpdate,lastBaseUpdate:e.lastBaseUpdate,shared:e.shared,callbacks:null})}function pi(e){return{lane:e,tag:0,payload:null,callback:null,next:null}}function mi(e,t,i){var r=e.updateQueue;if(r===null)return null;if(r=r.shared,(ge&2)!==0){var n=r.pending;return n===null?t.next=t:(t.next=n.next,n.next=t),r.pending=t,t=Yn(e),xc(e,null,i),t}return Qn(e,r,t,i),Yn(e)}function tn(e,t,i){if(t=t.updateQueue,t!==null&&(t=t.shared,(i&4194048)!==0)){var r=t.lanes;r&=e.pendingLanes,i|=r,t.lanes=i,Ul(e,i)}}function Wo(e,t){var i=e.updateQueue,r=e.alternate;if(r!==null&&(r=r.updateQueue,i===r)){var n=null,a=null;if(i=i.firstBaseUpdate,i!==null){do{var o={lane:i.lane,tag:i.tag,payload:i.payload,callback:null,next:null};a===null?n=a=o:a=a.next=o,i=i.next}while(i!==null);a===null?n=a=t:a=a.next=t}else n=a=t;i={baseState:r.baseState,firstBaseUpdate:n,lastBaseUpdate:a,shared:r.shared,callbacks:r.callbacks},e.updateQueue=i;return}e=i.lastBaseUpdate,e===null?i.firstBaseUpdate=t:e.next=t,i.lastBaseUpdate=t}var Go=!1;function rn(){if(Go){var e=hr;if(e!==null)throw e}}function nn(e,t,i,r){Go=!1;var n=e.updateQueue;ui=!1;var a=n.firstBaseUpdate,o=n.lastBaseUpdate,l=n.shared.pending;if(l!==null){n.shared.pending=null;var c=l,f=c.next;c.next=null,o===null?a=f:o.next=f,o=c;var S=e.alternate;S!==null&&(S=S.updateQueue,l=S.lastBaseUpdate,l!==o&&(l===null?S.firstBaseUpdate=f:l.next=f,S.lastBaseUpdate=c))}if(a!==null){var T=n.baseState;o=0,S=f=c=null,l=a;do{var y=l.lane&-536870913,v=y!==l.lane;if(v?(ne&y)===y:(r&y)===y){y!==0&&y===gr&&(Go=!0),S!==null&&(S=S.next={lane:0,tag:l.tag,payload:l.payload,callback:null,next:null});e:{var _=e,Q=l;y=t;var ke=i;switch(Q.tag){case 1:if(_=Q.payload,typeof _=="function"){T=_.call(ke,T,y);break e}T=_;break e;case 3:_.flags=_.flags&-65537|128;case 0:if(_=Q.payload,y=typeof _=="function"?_.call(ke,T,y):_,y==null)break e;T=O({},T,y);break e;case 2:ui=!0}}y=l.callback,y!==null&&(e.flags|=64,v&&(e.flags|=8192),v=n.callbacks,v===null?n.callbacks=[y]:v.push(y))}else v={lane:y,tag:l.tag,payload:l.payload,callback:l.callback,next:null},S===null?(f=S=v,c=T):S=S.next=v,o|=y;if(l=l.next,l===null){if(l=n.shared.pending,l===null)break;v=l,l=v.next,v.next=null,n.lastBaseUpdate=v,n.shared.pending=null}}while(!0);S===null&&(c=T),n.baseState=c,n.firstBaseUpdate=f,n.lastBaseUpdate=S,a===null&&(n.shared.lanes=0),vi|=o,e.lanes=o,e.memoizedState=T}}function zc(e,t){if(typeof e!="function")throw Error(d(191,e));e.call(t)}function Kc(e,t){var i=e.callbacks;if(i!==null)for(e.callbacks=null,e=0;e<i.length;e++)zc(i[e],t)}var vr=m(null),aa=m(0);function Wc(e,t){e=$t,U(aa,e),U(vr,t),$t=e|t.baseLanes}function Qo(){U(aa,$t),U(vr,vr.current)}function Yo(){$t=aa.current,x(vr),x(aa)}var ut=m(null),Ct=null;function gi(e){var t=e.alternate;U(Pe,Pe.current&1),U(ut,e),Ct===null&&(t===null||vr.current!==null||t.memoizedState!==null)&&(Ct=e)}function Jo(e){U(Pe,Pe.current),U(ut,e),Ct===null&&(Ct=e)}function Gc(e){e.tag===22?(U(Pe,Pe.current),U(ut,e),Ct===null&&(Ct=e)):hi()}function hi(){U(Pe,Pe.current),U(ut,ut.current)}function pt(e){x(ut),Ct===e&&(Ct=null),x(Pe)}var Pe=m(0);function oa(e){for(var t=e;t!==null;){if(t.tag===13){var i=t.memoizedState;if(i!==null&&(i=i.dehydrated,i===null||il(i)||rl(i)))return t}else if(t.tag===19&&(t.memoizedProps.revealOrder==="forwards"||t.memoizedProps.revealOrder==="backwards"||t.memoizedProps.revealOrder==="unstable_legacy-backwards"||t.memoizedProps.revealOrder==="together")){if((t.flags&128)!==0)return t}else if(t.child!==null){t.child.return=t,t=t.child;continue}if(t===e)break;for(;t.sibling===null;){if(t.return===null||t.return===e)return null;t=t.return}t.sibling.return=t.return,t=t.sibling}return null}var Kt=0,Z=null,be=null,Oe=null,sa=!1,br=!1,Ki=!1,la=0,an=0,Sr=null,fg=0;function Ee(){throw Error(d(321))}function Xo(e,t){if(t===null)return!1;for(var i=0;i<t.length&&i<e.length;i++)if(!ct(e[i],t[i]))return!1;return!0}function Zo(e,t,i,r,n,a){return Kt=a,Z=t,t.memoizedState=null,t.updateQueue=null,t.lanes=0,k.H=e===null||e.memoizedState===null?Dd:ms,Ki=!1,a=i(r,n),Ki=!1,br&&(a=Yc(t,i,r,n)),Qc(e),a}function Qc(e){k.H=ln;var t=be!==null&&be.next!==null;if(Kt=0,Oe=be=Z=null,sa=!1,an=0,Sr=null,t)throw Error(d(300));e===null||Be||(e=e.dependencies,e!==null&&Zn(e)&&(Be=!0))}function Yc(e,t,i,r){Z=e;var n=0;do{if(br&&(Sr=null),an=0,br=!1,25<=n)throw Error(d(301));if(n+=1,Oe=be=null,e.updateQueue!=null){var a=e.updateQueue;a.lastEffect=null,a.events=null,a.stores=null,a.memoCache!=null&&(a.memoCache.index=0)}k.H=Id,a=t(i,r)}while(br);return a}function yg(){var e=k.H,t=e.useState()[0];return t=typeof t.then=="function"?on(t):t,e=e.useState()[0],(be!==null?be.memoizedState:null)!==e&&(Z.flags|=1024),t}function $o(){var e=la!==0;return la=0,e}function es(e,t,i){t.updateQueue=e.updateQueue,t.flags&=-2053,e.lanes&=~i}function ts(e){if(sa){for(e=e.memoizedState;e!==null;){var t=e.queue;t!==null&&(t.pending=null),e=e.next}sa=!1}Kt=0,Oe=be=Z=null,br=!1,an=la=0,Sr=null}function Xe(){var e={memoizedState:null,baseState:null,baseQueue:null,queue:null,next:null};return Oe===null?Z.memoizedState=Oe=e:Oe=Oe.next=e,Oe}function Ne(){if(be===null){var e=Z.alternate;e=e!==null?e.memoizedState:null}else e=be.next;var t=Oe===null?Z.memoizedState:Oe.next;if(t!==null)Oe=t,be=e;else{if(e===null)throw Z.alternate===null?Error(d(467)):Error(d(310));be=e,e={memoizedState:be.memoizedState,baseState:be.baseState,baseQueue:be.baseQueue,queue:be.queue,next:null},Oe===null?Z.memoizedState=Oe=e:Oe=Oe.next=e}return Oe}function ca(){return{lastEffect:null,events:null,stores:null,memoCache:null}}function on(e){var t=an;return an+=1,Sr===null&&(Sr=[]),e=_c(Sr,e,t),t=Z,(Oe===null?t.memoizedState:Oe.next)===null&&(t=t.alternate,k.H=t===null||t.memoizedState===null?Dd:ms),e}function da(e){if(e!==null&&typeof e=="object"){if(typeof e.then=="function")return on(e);if(e.$$typeof===Ae)return We(e)}throw Error(d(438,String(e)))}function is(e){var t=null,i=Z.updateQueue;if(i!==null&&(t=i.memoCache),t==null){var r=Z.alternate;r!==null&&(r=r.updateQueue,r!==null&&(r=r.memoCache,r!=null&&(t={data:r.data.map(function(n){return n.slice()}),index:0})))}if(t==null&&(t={data:[],index:0}),i===null&&(i=ca(),Z.updateQueue=i),i.memoCache=t,i=t.data[t.index],i===void 0)for(i=t.data[t.index]=Array(e),r=0;r<e;r++)i[r]=ft;return t.index++,i}function Wt(e,t){return typeof t=="function"?t(e):t}function ua(e){var t=Ne();return rs(t,be,e)}function rs(e,t,i){var r=e.queue;if(r===null)throw Error(d(311));r.lastRenderedReducer=i;var n=e.baseQueue,a=r.pending;if(a!==null){if(n!==null){var o=n.next;n.next=a.next,a.next=o}t.baseQueue=n=a,r.pending=null}if(a=e.baseState,n===null)e.memoizedState=a;else{t=n.next;var l=o=null,c=null,f=t,S=!1;do{var T=f.lane&-536870913;if(T!==f.lane?(ne&T)===T:(Kt&T)===T){var y=f.revertLane;if(y===0)c!==null&&(c=c.next={lane:0,revertLane:0,gesture:null,action:f.action,hasEagerState:f.hasEagerState,eagerState:f.eagerState,next:null}),T===gr&&(S=!0);else if((Kt&y)===y){f=f.next,y===gr&&(S=!0);continue}else T={lane:0,revertLane:f.revertLane,gesture:null,action:f.action,hasEagerState:f.hasEagerState,eagerState:f.eagerState,next:null},c===null?(l=c=T,o=a):c=c.next=T,Z.lanes|=y,vi|=y;T=f.action,Ki&&i(a,T),a=f.hasEagerState?f.eagerState:i(a,T)}else y={lane:T,revertLane:f.revertLane,gesture:f.gesture,action:f.action,hasEagerState:f.hasEagerState,eagerState:f.eagerState,next:null},c===null?(l=c=y,o=a):c=c.next=y,Z.lanes|=T,vi|=T;f=f.next}while(f!==null&&f!==t);if(c===null?o=a:c.next=l,!ct(a,e.memoizedState)&&(Be=!0,S&&(i=hr,i!==null)))throw i;e.memoizedState=a,e.baseState=o,e.baseQueue=c,r.lastRenderedState=a}return n===null&&(r.lanes=0),[e.memoizedState,r.dispatch]}function ns(e){var t=Ne(),i=t.queue;if(i===null)throw Error(d(311));i.lastRenderedReducer=e;var r=i.dispatch,n=i.pending,a=t.memoizedState;if(n!==null){i.pending=null;var o=n=n.next;do a=e(a,o.action),o=o.next;while(o!==n);ct(a,t.memoizedState)||(Be=!0),t.memoizedState=a,t.baseQueue===null&&(t.baseState=a),i.lastRenderedState=a}return[a,r]}function Jc(e,t,i){var r=Z,n=Ne(),a=se;if(a){if(i===void 0)throw Error(d(407));i=i()}else i=t();var o=!ct((be||n).memoizedState,i);if(o&&(n.memoizedState=i,Be=!0),n=n.queue,ss($c.bind(null,r,n,e),[e]),n.getSnapshot!==t||o||Oe!==null&&Oe.memoizedState.tag&1){if(r.flags|=2048,kr(9,{destroy:void 0},Zc.bind(null,r,n,i,t),null),we===null)throw Error(d(349));a||(Kt&127)!==0||Xc(r,t,i)}return i}function Xc(e,t,i){e.flags|=16384,e={getSnapshot:t,value:i},t=Z.updateQueue,t===null?(t=ca(),Z.updateQueue=t,t.stores=[e]):(i=t.stores,i===null?t.stores=[e]:i.push(e))}function Zc(e,t,i,r){t.value=i,t.getSnapshot=r,ed(t)&&td(e)}function $c(e,t,i){return i(function(){ed(t)&&td(e)})}function ed(e){var t=e.getSnapshot;e=e.value;try{var i=t();return!ct(e,i)}catch{return!0}}function td(e){var t=Oi(e,2);t!==null&&nt(t,e,2)}function as(e){var t=Xe();if(typeof e=="function"){var i=e;if(e=i(),Ki){ni(!0);try{i()}finally{ni(!1)}}}return t.memoizedState=t.baseState=e,t.queue={pending:null,lanes:0,dispatch:null,lastRenderedReducer:Wt,lastRenderedState:e},t}function id(e,t,i,r){return e.baseState=i,rs(e,be,typeof r=="function"?r:Wt)}function vg(e,t,i,r,n){if(ga(e))throw Error(d(485));if(e=t.action,e!==null){var a={payload:n,action:e,next:null,isTransition:!0,status:"pending",value:null,reason:null,listeners:[],then:function(o){a.listeners.push(o)}};k.T!==null?i(!0):a.isTransition=!1,r(a),i=t.pending,i===null?(a.next=t.pending=a,rd(t,a)):(a.next=i.next,t.pending=i.next=a)}}function rd(e,t){var i=t.action,r=t.payload,n=e.state;if(t.isTransition){var a=k.T,o={};k.T=o;try{var l=i(n,r),c=k.S;c!==null&&c(o,l),nd(e,t,l)}catch(f){os(e,t,f)}finally{a!==null&&o.types!==null&&(a.types=o.types),k.T=a}}else try{a=i(n,r),nd(e,t,a)}catch(f){os(e,t,f)}}function nd(e,t,i){i!==null&&typeof i=="object"&&typeof i.then=="function"?i.then(function(r){ad(e,t,r)},function(r){return os(e,t,r)}):ad(e,t,i)}function ad(e,t,i){t.status="fulfilled",t.value=i,od(t),e.state=i,t=e.pending,t!==null&&(i=t.next,i===t?e.pending=null:(i=i.next,t.next=i,rd(e,i)))}function os(e,t,i){var r=e.pending;if(e.pending=null,r!==null){r=r.next;do t.status="rejected",t.reason=i,od(t),t=t.next;while(t!==r)}e.action=null}function od(e){e=e.listeners;for(var t=0;t<e.length;t++)(0,e[t])()}function sd(e,t){return t}function ld(e,t){if(se){var i=we.formState;if(i!==null){e:{var r=Z;if(se){if(Ce){t:{for(var n=Ce,a=At;n.nodeType!==8;){if(!a){n=null;break t}if(n=Tt(n.nextSibling),n===null){n=null;break t}}a=n.data,n=a==="F!"||a==="F"?n:null}if(n){Ce=Tt(n.nextSibling),r=n.data==="F!";break e}}ci(r)}r=!1}r&&(t=i[0])}}return i=Xe(),i.memoizedState=i.baseState=t,r={pending:null,lanes:0,dispatch:null,lastRenderedReducer:sd,lastRenderedState:t},i.queue=r,i=Rd.bind(null,Z,r),r.dispatch=i,r=as(!1),a=ps.bind(null,Z,!1,r.queue),r=Xe(),n={state:t,dispatch:null,action:e,pending:null},r.queue=n,i=vg.bind(null,Z,n,a,i),n.dispatch=i,r.memoizedState=e,[t,i,!1]}function cd(e){var t=Ne();return dd(t,be,e)}function dd(e,t,i){if(t=rs(e,t,sd)[0],e=ua(Wt)[0],typeof t=="object"&&t!==null&&typeof t.then=="function")try{var r=on(t)}catch(o){throw o===fr?ta:o}else r=t;t=Ne();var n=t.queue,a=n.dispatch;return i!==t.memoizedState&&(Z.flags|=2048,kr(9,{destroy:void 0},bg.bind(null,n,i),null)),[r,a,e]}function bg(e,t){e.action=t}function ud(e){var t=Ne(),i=be;if(i!==null)return dd(t,i,e);Ne(),t=t.memoizedState,i=Ne();var r=i.queue.dispatch;return i.memoizedState=e,[t,r,!1]}function kr(e,t,i,r){return e={tag:e,create:i,deps:r,inst:t,next:null},t=Z.updateQueue,t===null&&(t=ca(),Z.updateQueue=t),i=t.lastEffect,i===null?t.lastEffect=e.next=e:(r=i.next,i.next=e,e.next=r,t.lastEffect=e),e}function pd(){return Ne().memoizedState}function pa(e,t,i,r){var n=Xe();Z.flags|=e,n.memoizedState=kr(1|t,{destroy:void 0},i,r===void 0?null:r)}function ma(e,t,i,r){var n=Ne();r=r===void 0?null:r;var a=n.memoizedState.inst;be!==null&&r!==null&&Xo(r,be.memoizedState.deps)?n.memoizedState=kr(t,a,i,r):(Z.flags|=e,n.memoizedState=kr(1|t,a,i,r))}function md(e,t){pa(8390656,8,e,t)}function ss(e,t){ma(2048,8,e,t)}function Sg(e){Z.flags|=4;var t=Z.updateQueue;if(t===null)t=ca(),Z.updateQueue=t,t.events=[e];else{var i=t.events;i===null?t.events=[e]:i.push(e)}}function gd(e){var t=Ne().memoizedState;return Sg({ref:t,nextImpl:e}),function(){if((ge&2)!==0)throw Error(d(440));return t.impl.apply(void 0,arguments)}}function hd(e,t){return ma(4,2,e,t)}function fd(e,t){return ma(4,4,e,t)}function yd(e,t){if(typeof t=="function"){e=e();var i=t(e);return function(){typeof i=="function"?i():t(null)}}if(t!=null)return e=e(),t.current=e,function(){t.current=null}}function vd(e,t,i){i=i!=null?i.concat([e]):null,ma(4,4,yd.bind(null,t,e),i)}function ls(){}function bd(e,t){var i=Ne();t=t===void 0?null:t;var r=i.memoizedState;return t!==null&&Xo(t,r[1])?r[0]:(i.memoizedState=[e,t],e)}function Sd(e,t){var i=Ne();t=t===void 0?null:t;var r=i.memoizedState;if(t!==null&&Xo(t,r[1]))return r[0];if(r=e(),Ki){ni(!0);try{e()}finally{ni(!1)}}return i.memoizedState=[r,t],r}function cs(e,t,i){return i===void 0||(Kt&1073741824)!==0&&(ne&261930)===0?e.memoizedState=t:(e.memoizedState=i,e=ku(),Z.lanes|=e,vi|=e,i)}function kd(e,t,i,r){return ct(i,t)?i:vr.current!==null?(e=cs(e,i,r),ct(e,t)||(Be=!0),e):(Kt&42)===0||(Kt&1073741824)!==0&&(ne&261930)===0?(Be=!0,e.memoizedState=i):(e=ku(),Z.lanes|=e,vi|=e,t)}function wd(e,t,i,r,n){var a=P.p;P.p=a!==0&&8>a?a:8;var o=k.T,l={};k.T=l,ps(e,!1,t,i);try{var c=n(),f=k.S;if(f!==null&&f(l,c),c!==null&&typeof c=="object"&&typeof c.then=="function"){var S=hg(c,r);sn(e,t,S,ht(e))}else sn(e,t,r,ht(e))}catch(T){sn(e,t,{then:function(){},status:"rejected",reason:T},ht())}finally{P.p=a,o!==null&&l.types!==null&&(o.types=l.types),k.T=o}}function kg(){}function ds(e,t,i,r){if(e.tag!==5)throw Error(d(476));var n=Ad(e).queue;wd(e,n,t,z,i===null?kg:function(){return Cd(e),i(r)})}function Ad(e){var t=e.memoizedState;if(t!==null)return t;t={memoizedState:z,baseState:z,baseQueue:null,queue:{pending:null,lanes:0,dispatch:null,lastRenderedReducer:Wt,lastRenderedState:z},next:null};var i={};return t.next={memoizedState:i,baseState:i,baseQueue:null,queue:{pending:null,lanes:0,dispatch:null,lastRenderedReducer:Wt,lastRenderedState:i},next:null},e.memoizedState=t,e=e.alternate,e!==null&&(e.memoizedState=t),t}function Cd(e){var t=Ad(e);t.next===null&&(t=e.alternate.memoizedState),sn(e,t.next.queue,{},ht())}function us(){return We(Cn)}function Td(){return Ne().memoizedState}function xd(){return Ne().memoizedState}function wg(e){for(var t=e.return;t!==null;){switch(t.tag){case 24:case 3:var i=ht();e=pi(i);var r=mi(t,e,i);r!==null&&(nt(r,t,i),tn(r,t,i)),t={cache:Ho()},e.payload=t;return}t=t.return}}function Ag(e,t,i){var r=ht();i={lane:r,revertLane:0,gesture:null,action:i,hasEagerState:!1,eagerState:null,next:null},ga(e)?Ed(t,i):(i=Mo(e,t,i,r),i!==null&&(nt(i,e,r),Md(i,t,r)))}function Rd(e,t,i){var r=ht();sn(e,t,i,r)}function sn(e,t,i,r){var n={lane:r,revertLane:0,gesture:null,action:i,hasEagerState:!1,eagerState:null,next:null};if(ga(e))Ed(t,n);else{var a=e.alternate;if(e.lanes===0&&(a===null||a.lanes===0)&&(a=t.lastRenderedReducer,a!==null))try{var o=t.lastRenderedState,l=a(o,i);if(n.hasEagerState=!0,n.eagerState=l,ct(l,o))return Qn(e,t,n,0),we===null&&Gn(),!1}catch{}if(i=Mo(e,t,n,r),i!==null)return nt(i,e,r),Md(i,t,r),!0}return!1}function ps(e,t,i,r){if(r={lane:2,revertLane:zs(),gesture:null,action:r,hasEagerState:!1,eagerState:null,next:null},ga(e)){if(t)throw Error(d(479))}else t=Mo(e,i,r,2),t!==null&&nt(t,e,2)}function ga(e){var t=e.alternate;return e===Z||t!==null&&t===Z}function Ed(e,t){br=sa=!0;var i=e.pending;i===null?t.next=t:(t.next=i.next,i.next=t),e.pending=t}function Md(e,t,i){if((i&4194048)!==0){var r=t.lanes;r&=e.pendingLanes,i|=r,t.lanes=i,Ul(e,i)}}var ln={readContext:We,use:da,useCallback:Ee,useContext:Ee,useEffect:Ee,useImperativeHandle:Ee,useLayoutEffect:Ee,useInsertionEffect:Ee,useMemo:Ee,useReducer:Ee,useRef:Ee,useState:Ee,useDebugValue:Ee,useDeferredValue:Ee,useTransition:Ee,useSyncExternalStore:Ee,useId:Ee,useHostTransitionStatus:Ee,useFormState:Ee,useActionState:Ee,useOptimistic:Ee,useMemoCache:Ee,useCacheRefresh:Ee};ln.useEffectEvent=Ee;var Dd={readContext:We,use:da,useCallback:function(e,t){return Xe().memoizedState=[e,t===void 0?null:t],e},useContext:We,useEffect:md,useImperativeHandle:function(e,t,i){i=i!=null?i.concat([e]):null,pa(4194308,4,yd.bind(null,t,e),i)},useLayoutEffect:function(e,t){return pa(4194308,4,e,t)},useInsertionEffect:function(e,t){pa(4,2,e,t)},useMemo:function(e,t){var i=Xe();t=t===void 0?null:t;var r=e();if(Ki){ni(!0);try{e()}finally{ni(!1)}}return i.memoizedState=[r,t],r},useReducer:function(e,t,i){var r=Xe();if(i!==void 0){var n=i(t);if(Ki){ni(!0);try{i(t)}finally{ni(!1)}}}else n=t;return r.memoizedState=r.baseState=n,e={pending:null,lanes:0,dispatch:null,lastRenderedReducer:e,lastRenderedState:n},r.queue=e,e=e.dispatch=Ag.bind(null,Z,e),[r.memoizedState,e]},useRef:function(e){var t=Xe();return e={current:e},t.memoizedState=e},useState:function(e){e=as(e);var t=e.queue,i=Rd.bind(null,Z,t);return t.dispatch=i,[e.memoizedState,i]},useDebugValue:ls,useDeferredValue:function(e,t){var i=Xe();return cs(i,e,t)},useTransition:function(){var e=as(!1);return e=wd.bind(null,Z,e.queue,!0,!1),Xe().memoizedState=e,[!1,e]},useSyncExternalStore:function(e,t,i){var r=Z,n=Xe();if(se){if(i===void 0)throw Error(d(407));i=i()}else{if(i=t(),we===null)throw Error(d(349));(ne&127)!==0||Xc(r,t,i)}n.memoizedState=i;var a={value:i,getSnapshot:t};return n.queue=a,md($c.bind(null,r,a,e),[e]),r.flags|=2048,kr(9,{destroy:void 0},Zc.bind(null,r,a,i,t),null),i},useId:function(){var e=Xe(),t=we.identifierPrefix;if(se){var i=Ut,r=Nt;i=(r&~(1<<32-lt(r)-1)).toString(32)+i,t="_"+t+"R_"+i,i=la++,0<i&&(t+="H"+i.toString(32)),t+="_"}else i=fg++,t="_"+t+"r_"+i.toString(32)+"_";return e.memoizedState=t},useHostTransitionStatus:us,useFormState:ld,useActionState:ld,useOptimistic:function(e){var t=Xe();t.memoizedState=t.baseState=e;var i={pending:null,lanes:0,dispatch:null,lastRenderedReducer:null,lastRenderedState:null};return t.queue=i,t=ps.bind(null,Z,!0,i),i.dispatch=t,[e,t]},useMemoCache:is,useCacheRefresh:function(){return Xe().memoizedState=wg.bind(null,Z)},useEffectEvent:function(e){var t=Xe(),i={impl:e};return t.memoizedState=i,function(){if((ge&2)!==0)throw Error(d(440));return i.impl.apply(void 0,arguments)}}},ms={readContext:We,use:da,useCallback:bd,useContext:We,useEffect:ss,useImperativeHandle:vd,useInsertionEffect:hd,useLayoutEffect:fd,useMemo:Sd,useReducer:ua,useRef:pd,useState:function(){return ua(Wt)},useDebugValue:ls,useDeferredValue:function(e,t){var i=Ne();return kd(i,be.memoizedState,e,t)},useTransition:function(){var e=ua(Wt)[0],t=Ne().memoizedState;return[typeof e=="boolean"?e:on(e),t]},useSyncExternalStore:Jc,useId:Td,useHostTransitionStatus:us,useFormState:cd,useActionState:cd,useOptimistic:function(e,t){var i=Ne();return id(i,be,e,t)},useMemoCache:is,useCacheRefresh:xd};ms.useEffectEvent=gd;var Id={readContext:We,use:da,useCallback:bd,useContext:We,useEffect:ss,useImperativeHandle:vd,useInsertionEffect:hd,useLayoutEffect:fd,useMemo:Sd,useReducer:ns,useRef:pd,useState:function(){return ns(Wt)},useDebugValue:ls,useDeferredValue:function(e,t){var i=Ne();return be===null?cs(i,e,t):kd(i,be.memoizedState,e,t)},useTransition:function(){var e=ns(Wt)[0],t=Ne().memoizedState;return[typeof e=="boolean"?e:on(e),t]},useSyncExternalStore:Jc,useId:Td,useHostTransitionStatus:us,useFormState:ud,useActionState:ud,useOptimistic:function(e,t){var i=Ne();return be!==null?id(i,be,e,t):(i.baseState=e,[e,i.queue.dispatch])},useMemoCache:is,useCacheRefresh:xd};Id.useEffectEvent=gd;function gs(e,t,i,r){t=e.memoizedState,i=i(r,t),i=i==null?t:O({},t,i),e.memoizedState=i,e.lanes===0&&(e.updateQueue.baseState=i)}var hs={enqueueSetState:function(e,t,i){e=e._reactInternals;var r=ht(),n=pi(r);n.payload=t,i!=null&&(n.callback=i),t=mi(e,n,r),t!==null&&(nt(t,e,r),tn(t,e,r))},enqueueReplaceState:function(e,t,i){e=e._reactInternals;var r=ht(),n=pi(r);n.tag=1,n.payload=t,i!=null&&(n.callback=i),t=mi(e,n,r),t!==null&&(nt(t,e,r),tn(t,e,r))},enqueueForceUpdate:function(e,t){e=e._reactInternals;var i=ht(),r=pi(i);r.tag=2,t!=null&&(r.callback=t),t=mi(e,r,i),t!==null&&(nt(t,e,i),tn(t,e,i))}};function Pd(e,t,i,r,n,a,o){return e=e.stateNode,typeof e.shouldComponentUpdate=="function"?e.shouldComponentUpdate(r,a,o):t.prototype&&t.prototype.isPureReactComponent?!Gr(i,r)||!Gr(n,a):!0}function Nd(e,t,i,r){e=t.state,typeof t.componentWillReceiveProps=="function"&&t.componentWillReceiveProps(i,r),typeof t.UNSAFE_componentWillReceiveProps=="function"&&t.UNSAFE_componentWillReceiveProps(i,r),t.state!==e&&hs.enqueueReplaceState(t,t.state,null)}function Wi(e,t){var i=t;if("ref"in t){i={};for(var r in t)r!=="ref"&&(i[r]=t[r])}if(e=e.defaultProps){i===t&&(i=O({},i));for(var n in e)i[n]===void 0&&(i[n]=e[n])}return i}function Ud(e){Wn(e)}function Ld(e){console.error(e)}function Od(e){Wn(e)}function ha(e,t){try{var i=e.onUncaughtError;i(t.value,{componentStack:t.stack})}catch(r){setTimeout(function(){throw r})}}function Bd(e,t,i){try{var r=e.onCaughtError;r(i.value,{componentStack:i.stack,errorBoundary:t.tag===1?t.stateNode:null})}catch(n){setTimeout(function(){throw n})}}function fs(e,t,i){return i=pi(i),i.tag=3,i.payload={element:null},i.callback=function(){ha(e,t)},i}function Fd(e){return e=pi(e),e.tag=3,e}function _d(e,t,i,r){var n=i.type.getDerivedStateFromError;if(typeof n=="function"){var a=r.value;e.payload=function(){return n(a)},e.callback=function(){Bd(t,i,r)}}var o=i.stateNode;o!==null&&typeof o.componentDidCatch=="function"&&(e.callback=function(){Bd(t,i,r),typeof n!="function"&&(bi===null?bi=new Set([this]):bi.add(this));var l=r.stack;this.componentDidCatch(r.value,{componentStack:l!==null?l:""})})}function Cg(e,t,i,r,n){if(i.flags|=32768,r!==null&&typeof r=="object"&&typeof r.then=="function"){if(t=i.alternate,t!==null&&mr(t,i,n,!0),i=ut.current,i!==null){switch(i.tag){case 31:case 13:return Ct===null?Ra():i.alternate===null&&Me===0&&(Me=3),i.flags&=-257,i.flags|=65536,i.lanes=n,r===ia?i.flags|=16384:(t=i.updateQueue,t===null?i.updateQueue=new Set([r]):t.add(r),qs(e,r,n)),!1;case 22:return i.flags|=65536,r===ia?i.flags|=16384:(t=i.updateQueue,t===null?(t={transitions:null,markerInstances:null,retryQueue:new Set([r])},i.updateQueue=t):(i=t.retryQueue,i===null?t.retryQueue=new Set([r]):i.add(r)),qs(e,r,n)),!1}throw Error(d(435,i.tag))}return qs(e,r,n),Ra(),!1}if(se)return t=ut.current,t!==null?((t.flags&65536)===0&&(t.flags|=256),t.flags|=65536,t.lanes=n,r!==Lo&&(e=Error(d(422),{cause:r}),Jr(St(e,i)))):(r!==Lo&&(t=Error(d(423),{cause:r}),Jr(St(t,i))),e=e.current.alternate,e.flags|=65536,n&=-n,e.lanes|=n,r=St(r,i),n=fs(e.stateNode,r,n),Wo(e,n),Me!==4&&(Me=2)),!1;var a=Error(d(520),{cause:r});if(a=St(a,i),fn===null?fn=[a]:fn.push(a),Me!==4&&(Me=2),t===null)return!0;r=St(r,i),i=t;do{switch(i.tag){case 3:return i.flags|=65536,e=n&-n,i.lanes|=e,e=fs(i.stateNode,r,e),Wo(i,e),!1;case 1:if(t=i.type,a=i.stateNode,(i.flags&128)===0&&(typeof t.getDerivedStateFromError=="function"||a!==null&&typeof a.componentDidCatch=="function"&&(bi===null||!bi.has(a))))return i.flags|=65536,n&=-n,i.lanes|=n,n=Fd(n),_d(n,e,i,r),Wo(i,n),!1}i=i.return}while(i!==null);return!1}var ys=Error(d(461)),Be=!1;function Ge(e,t,i,r){t.child=e===null?Vc(t,null,i,r):zi(t,e.child,i,r)}function Hd(e,t,i,r,n){i=i.render;var a=t.ref;if("ref"in r){var o={};for(var l in r)l!=="ref"&&(o[l]=r[l])}else o=r;return Hi(t),r=Zo(e,t,i,o,a,n),l=$o(),e!==null&&!Be?(es(e,t,n),Gt(e,t,n)):(se&&l&&No(t),t.flags|=1,Ge(e,t,r,n),t.child)}function qd(e,t,i,r,n){if(e===null){var a=i.type;return typeof a=="function"&&!Do(a)&&a.defaultProps===void 0&&i.compare===null?(t.tag=15,t.type=a,jd(e,t,a,r,n)):(e=Jn(i.type,null,r,t,t.mode,n),e.ref=t.ref,e.return=t,t.child=e)}if(a=e.child,!Ts(e,n)){var o=a.memoizedProps;if(i=i.compare,i=i!==null?i:Gr,i(o,r)&&e.ref===t.ref)return Gt(e,t,n)}return t.flags|=1,e=qt(a,r),e.ref=t.ref,e.return=t,t.child=e}function jd(e,t,i,r,n){if(e!==null){var a=e.memoizedProps;if(Gr(a,r)&&e.ref===t.ref)if(Be=!1,t.pendingProps=r=a,Ts(e,n))(e.flags&131072)!==0&&(Be=!0);else return t.lanes=e.lanes,Gt(e,t,n)}return vs(e,t,i,r,n)}function Vd(e,t,i,r){var n=r.children,a=e!==null?e.memoizedState:null;if(e===null&&t.stateNode===null&&(t.stateNode={_visibility:1,_pendingMarkers:null,_retryCache:null,_transitions:null}),r.mode==="hidden"){if((t.flags&128)!==0){if(a=a!==null?a.baseLanes|i:i,e!==null){for(r=t.child=e.child,n=0;r!==null;)n=n|r.lanes|r.childLanes,r=r.sibling;r=n&~a}else r=0,t.child=null;return zd(e,t,a,i,r)}if((i&536870912)!==0)t.memoizedState={baseLanes:0,cachePool:null},e!==null&&ea(t,a!==null?a.cachePool:null),a!==null?Wc(t,a):Qo(),Gc(t);else return r=t.lanes=536870912,zd(e,t,a!==null?a.baseLanes|i:i,i,r)}else a!==null?(ea(t,a.cachePool),Wc(t,a),hi(),t.memoizedState=null):(e!==null&&ea(t,null),Qo(),hi());return Ge(e,t,n,i),t.child}function cn(e,t){return e!==null&&e.tag===22||t.stateNode!==null||(t.stateNode={_visibility:1,_pendingMarkers:null,_retryCache:null,_transitions:null}),t.sibling}function zd(e,t,i,r,n){var a=jo();return a=a===null?null:{parent:Le._currentValue,pool:a},t.memoizedState={baseLanes:i,cachePool:a},e!==null&&ea(t,null),Qo(),Gc(t),e!==null&&mr(e,t,r,!0),t.childLanes=n,null}function fa(e,t){return t=va({mode:t.mode,children:t.children},e.mode),t.ref=e.ref,e.child=t,t.return=e,t}function Kd(e,t,i){return zi(t,e.child,null,i),e=fa(t,t.pendingProps),e.flags|=2,pt(t),t.memoizedState=null,e}function Tg(e,t,i){var r=t.pendingProps,n=(t.flags&128)!==0;if(t.flags&=-129,e===null){if(se){if(r.mode==="hidden")return e=fa(t,r),t.lanes=536870912,cn(null,e);if(Jo(t),(e=Ce)?(e=rp(e,At),e=e!==null&&e.data==="&"?e:null,e!==null&&(t.memoizedState={dehydrated:e,treeContext:si!==null?{id:Nt,overflow:Ut}:null,retryLane:536870912,hydrationErrors:null},i=Ec(e),i.return=t,t.child=i,Ke=t,Ce=null)):e=null,e===null)throw ci(t);return t.lanes=536870912,null}return fa(t,r)}var a=e.memoizedState;if(a!==null){var o=a.dehydrated;if(Jo(t),n)if(t.flags&256)t.flags&=-257,t=Kd(e,t,i);else if(t.memoizedState!==null)t.child=e.child,t.flags|=128,t=null;else throw Error(d(558));else if(Be||mr(e,t,i,!1),n=(i&e.childLanes)!==0,Be||n){if(r=we,r!==null&&(o=Ll(r,i),o!==0&&o!==a.retryLane))throw a.retryLane=o,Oi(e,o),nt(r,e,o),ys;Ra(),t=Kd(e,t,i)}else e=a.treeContext,Ce=Tt(o.nextSibling),Ke=t,se=!0,li=null,At=!1,e!==null&&Ic(t,e),t=fa(t,r),t.flags|=4096;return t}return e=qt(e.child,{mode:r.mode,children:r.children}),e.ref=t.ref,t.child=e,e.return=t,e}function ya(e,t){var i=t.ref;if(i===null)e!==null&&e.ref!==null&&(t.flags|=4194816);else{if(typeof i!="function"&&typeof i!="object")throw Error(d(284));(e===null||e.ref!==i)&&(t.flags|=4194816)}}function vs(e,t,i,r,n){return Hi(t),i=Zo(e,t,i,r,void 0,n),r=$o(),e!==null&&!Be?(es(e,t,n),Gt(e,t,n)):(se&&r&&No(t),t.flags|=1,Ge(e,t,i,n),t.child)}function Wd(e,t,i,r,n,a){return Hi(t),t.updateQueue=null,i=Yc(t,r,i,n),Qc(e),r=$o(),e!==null&&!Be?(es(e,t,a),Gt(e,t,a)):(se&&r&&No(t),t.flags|=1,Ge(e,t,i,a),t.child)}function Gd(e,t,i,r,n){if(Hi(t),t.stateNode===null){var a=cr,o=i.contextType;typeof o=="object"&&o!==null&&(a=We(o)),a=new i(r,a),t.memoizedState=a.state!==null&&a.state!==void 0?a.state:null,a.updater=hs,t.stateNode=a,a._reactInternals=t,a=t.stateNode,a.props=r,a.state=t.memoizedState,a.refs={},zo(t),o=i.contextType,a.context=typeof o=="object"&&o!==null?We(o):cr,a.state=t.memoizedState,o=i.getDerivedStateFromProps,typeof o=="function"&&(gs(t,i,o,r),a.state=t.memoizedState),typeof i.getDerivedStateFromProps=="function"||typeof a.getSnapshotBeforeUpdate=="function"||typeof a.UNSAFE_componentWillMount!="function"&&typeof a.componentWillMount!="function"||(o=a.state,typeof a.componentWillMount=="function"&&a.componentWillMount(),typeof a.UNSAFE_componentWillMount=="function"&&a.UNSAFE_componentWillMount(),o!==a.state&&hs.enqueueReplaceState(a,a.state,null),nn(t,r,a,n),rn(),a.state=t.memoizedState),typeof a.componentDidMount=="function"&&(t.flags|=4194308),r=!0}else if(e===null){a=t.stateNode;var l=t.memoizedProps,c=Wi(i,l);a.props=c;var f=a.context,S=i.contextType;o=cr,typeof S=="object"&&S!==null&&(o=We(S));var T=i.getDerivedStateFromProps;S=typeof T=="function"||typeof a.getSnapshotBeforeUpdate=="function",l=t.pendingProps!==l,S||typeof a.UNSAFE_componentWillReceiveProps!="function"&&typeof a.componentWillReceiveProps!="function"||(l||f!==o)&&Nd(t,a,r,o),ui=!1;var y=t.memoizedState;a.state=y,nn(t,r,a,n),rn(),f=t.memoizedState,l||y!==f||ui?(typeof T=="function"&&(gs(t,i,T,r),f=t.memoizedState),(c=ui||Pd(t,i,c,r,y,f,o))?(S||typeof a.UNSAFE_componentWillMount!="function"&&typeof a.componentWillMount!="function"||(typeof a.componentWillMount=="function"&&a.componentWillMount(),typeof a.UNSAFE_componentWillMount=="function"&&a.UNSAFE_componentWillMount()),typeof a.componentDidMount=="function"&&(t.flags|=4194308)):(typeof a.componentDidMount=="function"&&(t.flags|=4194308),t.memoizedProps=r,t.memoizedState=f),a.props=r,a.state=f,a.context=o,r=c):(typeof a.componentDidMount=="function"&&(t.flags|=4194308),r=!1)}else{a=t.stateNode,Ko(e,t),o=t.memoizedProps,S=Wi(i,o),a.props=S,T=t.pendingProps,y=a.context,f=i.contextType,c=cr,typeof f=="object"&&f!==null&&(c=We(f)),l=i.getDerivedStateFromProps,(f=typeof l=="function"||typeof a.getSnapshotBeforeUpdate=="function")||typeof a.UNSAFE_componentWillReceiveProps!="function"&&typeof a.componentWillReceiveProps!="function"||(o!==T||y!==c)&&Nd(t,a,r,c),ui=!1,y=t.memoizedState,a.state=y,nn(t,r,a,n),rn();var v=t.memoizedState;o!==T||y!==v||ui||e!==null&&e.dependencies!==null&&Zn(e.dependencies)?(typeof l=="function"&&(gs(t,i,l,r),v=t.memoizedState),(S=ui||Pd(t,i,S,r,y,v,c)||e!==null&&e.dependencies!==null&&Zn(e.dependencies))?(f||typeof a.UNSAFE_componentWillUpdate!="function"&&typeof a.componentWillUpdate!="function"||(typeof a.componentWillUpdate=="function"&&a.componentWillUpdate(r,v,c),typeof a.UNSAFE_componentWillUpdate=="function"&&a.UNSAFE_componentWillUpdate(r,v,c)),typeof a.componentDidUpdate=="function"&&(t.flags|=4),typeof a.getSnapshotBeforeUpdate=="function"&&(t.flags|=1024)):(typeof a.componentDidUpdate!="function"||o===e.memoizedProps&&y===e.memoizedState||(t.flags|=4),typeof a.getSnapshotBeforeUpdate!="function"||o===e.memoizedProps&&y===e.memoizedState||(t.flags|=1024),t.memoizedProps=r,t.memoizedState=v),a.props=r,a.state=v,a.context=c,r=S):(typeof a.componentDidUpdate!="function"||o===e.memoizedProps&&y===e.memoizedState||(t.flags|=4),typeof a.getSnapshotBeforeUpdate!="function"||o===e.memoizedProps&&y===e.memoizedState||(t.flags|=1024),r=!1)}return a=r,ya(e,t),r=(t.flags&128)!==0,a||r?(a=t.stateNode,i=r&&typeof i.getDerivedStateFromError!="function"?null:a.render(),t.flags|=1,e!==null&&r?(t.child=zi(t,e.child,null,n),t.child=zi(t,null,i,n)):Ge(e,t,i,n),t.memoizedState=a.state,e=t.child):e=Gt(e,t,n),e}function Qd(e,t,i,r){return Fi(),t.flags|=256,Ge(e,t,i,r),t.child}var bs={dehydrated:null,treeContext:null,retryLane:0,hydrationErrors:null};function Ss(e){return{baseLanes:e,cachePool:Bc()}}function ks(e,t,i){return e=e!==null?e.childLanes&~i:0,t&&(e|=gt),e}function Yd(e,t,i){var r=t.pendingProps,n=!1,a=(t.flags&128)!==0,o;if((o=a)||(o=e!==null&&e.memoizedState===null?!1:(Pe.current&2)!==0),o&&(n=!0,t.flags&=-129),o=(t.flags&32)!==0,t.flags&=-33,e===null){if(se){if(n?gi(t):hi(),(e=Ce)?(e=rp(e,At),e=e!==null&&e.data!=="&"?e:null,e!==null&&(t.memoizedState={dehydrated:e,treeContext:si!==null?{id:Nt,overflow:Ut}:null,retryLane:536870912,hydrationErrors:null},i=Ec(e),i.return=t,t.child=i,Ke=t,Ce=null)):e=null,e===null)throw ci(t);return rl(e)?t.lanes=32:t.lanes=536870912,null}var l=r.children;return r=r.fallback,n?(hi(),n=t.mode,l=va({mode:"hidden",children:l},n),r=Bi(r,n,i,null),l.return=t,r.return=t,l.sibling=r,t.child=l,r=t.child,r.memoizedState=Ss(i),r.childLanes=ks(e,o,i),t.memoizedState=bs,cn(null,r)):(gi(t),ws(t,l))}var c=e.memoizedState;if(c!==null&&(l=c.dehydrated,l!==null)){if(a)t.flags&256?(gi(t),t.flags&=-257,t=As(e,t,i)):t.memoizedState!==null?(hi(),t.child=e.child,t.flags|=128,t=null):(hi(),l=r.fallback,n=t.mode,r=va({mode:"visible",children:r.children},n),l=Bi(l,n,i,null),l.flags|=2,r.return=t,l.return=t,r.sibling=l,t.child=r,zi(t,e.child,null,i),r=t.child,r.memoizedState=Ss(i),r.childLanes=ks(e,o,i),t.memoizedState=bs,t=cn(null,r));else if(gi(t),rl(l)){if(o=l.nextSibling&&l.nextSibling.dataset,o)var f=o.dgst;o=f,r=Error(d(419)),r.stack="",r.digest=o,Jr({value:r,source:null,stack:null}),t=As(e,t,i)}else if(Be||mr(e,t,i,!1),o=(i&e.childLanes)!==0,Be||o){if(o=we,o!==null&&(r=Ll(o,i),r!==0&&r!==c.retryLane))throw c.retryLane=r,Oi(e,r),nt(o,e,r),ys;il(l)||Ra(),t=As(e,t,i)}else il(l)?(t.flags|=192,t.child=e.child,t=null):(e=c.treeContext,Ce=Tt(l.nextSibling),Ke=t,se=!0,li=null,At=!1,e!==null&&Ic(t,e),t=ws(t,r.children),t.flags|=4096);return t}return n?(hi(),l=r.fallback,n=t.mode,c=e.child,f=c.sibling,r=qt(c,{mode:"hidden",children:r.children}),r.subtreeFlags=c.subtreeFlags&65011712,f!==null?l=qt(f,l):(l=Bi(l,n,i,null),l.flags|=2),l.return=t,r.return=t,r.sibling=l,t.child=r,cn(null,r),r=t.child,l=e.child.memoizedState,l===null?l=Ss(i):(n=l.cachePool,n!==null?(c=Le._currentValue,n=n.parent!==c?{parent:c,pool:c}:n):n=Bc(),l={baseLanes:l.baseLanes|i,cachePool:n}),r.memoizedState=l,r.childLanes=ks(e,o,i),t.memoizedState=bs,cn(e.child,r)):(gi(t),i=e.child,e=i.sibling,i=qt(i,{mode:"visible",children:r.children}),i.return=t,i.sibling=null,e!==null&&(o=t.deletions,o===null?(t.deletions=[e],t.flags|=16):o.push(e)),t.child=i,t.memoizedState=null,i)}function ws(e,t){return t=va({mode:"visible",children:t},e.mode),t.return=e,e.child=t}function va(e,t){return e=dt(22,e,null,t),e.lanes=0,e}function As(e,t,i){return zi(t,e.child,null,i),e=ws(t,t.pendingProps.children),e.flags|=2,t.memoizedState=null,e}function Jd(e,t,i){e.lanes|=t;var r=e.alternate;r!==null&&(r.lanes|=t),Fo(e.return,t,i)}function Cs(e,t,i,r,n,a){var o=e.memoizedState;o===null?e.memoizedState={isBackwards:t,rendering:null,renderingStartTime:0,last:r,tail:i,tailMode:n,treeForkCount:a}:(o.isBackwards=t,o.rendering=null,o.renderingStartTime=0,o.last=r,o.tail=i,o.tailMode=n,o.treeForkCount=a)}function Xd(e,t,i){var r=t.pendingProps,n=r.revealOrder,a=r.tail;r=r.children;var o=Pe.current,l=(o&2)!==0;if(l?(o=o&1|2,t.flags|=128):o&=1,U(Pe,o),Ge(e,t,r,i),r=se?Yr:0,!l&&e!==null&&(e.flags&128)!==0)e:for(e=t.child;e!==null;){if(e.tag===13)e.memoizedState!==null&&Jd(e,i,t);else if(e.tag===19)Jd(e,i,t);else if(e.child!==null){e.child.return=e,e=e.child;continue}if(e===t)break e;for(;e.sibling===null;){if(e.return===null||e.return===t)break e;e=e.return}e.sibling.return=e.return,e=e.sibling}switch(n){case"forwards":for(i=t.child,n=null;i!==null;)e=i.alternate,e!==null&&oa(e)===null&&(n=i),i=i.sibling;i=n,i===null?(n=t.child,t.child=null):(n=i.sibling,i.sibling=null),Cs(t,!1,n,i,a,r);break;case"backwards":case"unstable_legacy-backwards":for(i=null,n=t.child,t.child=null;n!==null;){if(e=n.alternate,e!==null&&oa(e)===null){t.child=n;break}e=n.sibling,n.sibling=i,i=n,n=e}Cs(t,!0,i,null,a,r);break;case"together":Cs(t,!1,null,null,void 0,r);break;default:t.memoizedState=null}return t.child}function Gt(e,t,i){if(e!==null&&(t.dependencies=e.dependencies),vi|=t.lanes,(i&t.childLanes)===0)if(e!==null){if(mr(e,t,i,!1),(i&t.childLanes)===0)return null}else return null;if(e!==null&&t.child!==e.child)throw Error(d(153));if(t.child!==null){for(e=t.child,i=qt(e,e.pendingProps),t.child=i,i.return=t;e.sibling!==null;)e=e.sibling,i=i.sibling=qt(e,e.pendingProps),i.return=t;i.sibling=null}return t.child}function Ts(e,t){return(e.lanes&t)!==0?!0:(e=e.dependencies,!!(e!==null&&Zn(e)))}function xg(e,t,i){switch(t.tag){case 3:K(t,t.stateNode.containerInfo),di(t,Le,e.memoizedState.cache),Fi();break;case 27:case 5:Pt(t);break;case 4:K(t,t.stateNode.containerInfo);break;case 10:di(t,t.type,t.memoizedProps.value);break;case 31:if(t.memoizedState!==null)return t.flags|=128,Jo(t),null;break;case 13:var r=t.memoizedState;if(r!==null)return r.dehydrated!==null?(gi(t),t.flags|=128,null):(i&t.child.childLanes)!==0?Yd(e,t,i):(gi(t),e=Gt(e,t,i),e!==null?e.sibling:null);gi(t);break;case 19:var n=(e.flags&128)!==0;if(r=(i&t.childLanes)!==0,r||(mr(e,t,i,!1),r=(i&t.childLanes)!==0),n){if(r)return Xd(e,t,i);t.flags|=128}if(n=t.memoizedState,n!==null&&(n.rendering=null,n.tail=null,n.lastEffect=null),U(Pe,Pe.current),r)break;return null;case 22:return t.lanes=0,Vd(e,t,i,t.pendingProps);case 24:di(t,Le,e.memoizedState.cache)}return Gt(e,t,i)}function Zd(e,t,i){if(e!==null)if(e.memoizedProps!==t.pendingProps)Be=!0;else{if(!Ts(e,i)&&(t.flags&128)===0)return Be=!1,xg(e,t,i);Be=(e.flags&131072)!==0}else Be=!1,se&&(t.flags&1048576)!==0&&Dc(t,Yr,t.index);switch(t.lanes=0,t.tag){case 16:e:{var r=t.pendingProps;if(e=ji(t.elementType),t.type=e,typeof e=="function")Do(e)?(r=Wi(e,r),t.tag=1,t=Gd(null,t,e,r,i)):(t.tag=0,t=vs(null,t,e,r,i));else{if(e!=null){var n=e.$$typeof;if(n===de){t.tag=11,t=Hd(null,t,e,r,i);break e}else if(n===Y){t.tag=14,t=qd(null,t,e,r,i);break e}}throw t=Rt(e)||e,Error(d(306,t,""))}}return t;case 0:return vs(e,t,t.type,t.pendingProps,i);case 1:return r=t.type,n=Wi(r,t.pendingProps),Gd(e,t,r,n,i);case 3:e:{if(K(t,t.stateNode.containerInfo),e===null)throw Error(d(387));r=t.pendingProps;var a=t.memoizedState;n=a.element,Ko(e,t),nn(t,r,null,i);var o=t.memoizedState;if(r=o.cache,di(t,Le,r),r!==a.cache&&_o(t,[Le],i,!0),rn(),r=o.element,a.isDehydrated)if(a={element:r,isDehydrated:!1,cache:o.cache},t.updateQueue.baseState=a,t.memoizedState=a,t.flags&256){t=Qd(e,t,r,i);break e}else if(r!==n){n=St(Error(d(424)),t),Jr(n),t=Qd(e,t,r,i);break e}else for(e=t.stateNode.containerInfo,e.nodeType===9?e=e.body:e=e.nodeName==="HTML"?e.ownerDocument.body:e,Ce=Tt(e.firstChild),Ke=t,se=!0,li=null,At=!0,i=Vc(t,null,r,i),t.child=i;i;)i.flags=i.flags&-3|4096,i=i.sibling;else{if(Fi(),r===n){t=Gt(e,t,i);break e}Ge(e,t,r,i)}t=t.child}return t;case 26:return ya(e,t),e===null?(i=cp(t.type,null,t.pendingProps,null))?t.memoizedState=i:se||(i=t.type,e=t.pendingProps,r=Ua(b.current).createElement(i),r[ze]=t,r[Ze]=e,Qe(r,i,e),He(r),t.stateNode=r):t.memoizedState=cp(t.type,e.memoizedProps,t.pendingProps,e.memoizedState),null;case 27:return Pt(t),e===null&&se&&(r=t.stateNode=op(t.type,t.pendingProps,b.current),Ke=t,At=!0,n=Ce,Ai(t.type)?(nl=n,Ce=Tt(r.firstChild)):Ce=n),Ge(e,t,t.pendingProps.children,i),ya(e,t),e===null&&(t.flags|=4194304),t.child;case 5:return e===null&&se&&((n=r=Ce)&&(r=ih(r,t.type,t.pendingProps,At),r!==null?(t.stateNode=r,Ke=t,Ce=Tt(r.firstChild),At=!1,n=!0):n=!1),n||ci(t)),Pt(t),n=t.type,a=t.pendingProps,o=e!==null?e.memoizedProps:null,r=a.children,$s(n,a)?r=null:o!==null&&$s(n,o)&&(t.flags|=32),t.memoizedState!==null&&(n=Zo(e,t,yg,null,null,i),Cn._currentValue=n),ya(e,t),Ge(e,t,r,i),t.child;case 6:return e===null&&se&&((e=i=Ce)&&(i=rh(i,t.pendingProps,At),i!==null?(t.stateNode=i,Ke=t,Ce=null,e=!0):e=!1),e||ci(t)),null;case 13:return Yd(e,t,i);case 4:return K(t,t.stateNode.containerInfo),r=t.pendingProps,e===null?t.child=zi(t,null,r,i):Ge(e,t,r,i),t.child;case 11:return Hd(e,t,t.type,t.pendingProps,i);case 7:return Ge(e,t,t.pendingProps,i),t.child;case 8:return Ge(e,t,t.pendingProps.children,i),t.child;case 12:return Ge(e,t,t.pendingProps.children,i),t.child;case 10:return r=t.pendingProps,di(t,t.type,r.value),Ge(e,t,r.children,i),t.child;case 9:return n=t.type._context,r=t.pendingProps.children,Hi(t),n=We(n),r=r(n),t.flags|=1,Ge(e,t,r,i),t.child;case 14:return qd(e,t,t.type,t.pendingProps,i);case 15:return jd(e,t,t.type,t.pendingProps,i);case 19:return Xd(e,t,i);case 31:return Tg(e,t,i);case 22:return Vd(e,t,i,t.pendingProps);case 24:return Hi(t),r=We(Le),e===null?(n=jo(),n===null&&(n=we,a=Ho(),n.pooledCache=a,a.refCount++,a!==null&&(n.pooledCacheLanes|=i),n=a),t.memoizedState={parent:r,cache:n},zo(t),di(t,Le,n)):((e.lanes&i)!==0&&(Ko(e,t),nn(t,null,null,i),rn()),n=e.memoizedState,a=t.memoizedState,n.parent!==r?(n={parent:r,cache:r},t.memoizedState=n,t.lanes===0&&(t.memoizedState=t.updateQueue.baseState=n),di(t,Le,r)):(r=a.cache,di(t,Le,r),r!==n.cache&&_o(t,[Le],i,!0))),Ge(e,t,t.pendingProps.children,i),t.child;case 29:throw t.pendingProps}throw Error(d(156,t.tag))}function Qt(e){e.flags|=4}function xs(e,t,i,r,n){if((t=(e.mode&32)!==0)&&(t=!1),t){if(e.flags|=16777216,(n&335544128)===n)if(e.stateNode.complete)e.flags|=8192;else if(Tu())e.flags|=8192;else throw Vi=ia,Vo}else e.flags&=-16777217}function $d(e,t){if(t.type!=="stylesheet"||(t.state.loading&4)!==0)e.flags&=-16777217;else if(e.flags|=16777216,!gp(t))if(Tu())e.flags|=8192;else throw Vi=ia,Vo}function ba(e,t){t!==null&&(e.flags|=4),e.flags&16384&&(t=e.tag!==22?Pl():536870912,e.lanes|=t,Tr|=t)}function dn(e,t){if(!se)switch(e.tailMode){case"hidden":t=e.tail;for(var i=null;t!==null;)t.alternate!==null&&(i=t),t=t.sibling;i===null?e.tail=null:i.sibling=null;break;case"collapsed":i=e.tail;for(var r=null;i!==null;)i.alternate!==null&&(r=i),i=i.sibling;r===null?t||e.tail===null?e.tail=null:e.tail.sibling=null:r.sibling=null}}function Te(e){var t=e.alternate!==null&&e.alternate.child===e.child,i=0,r=0;if(t)for(var n=e.child;n!==null;)i|=n.lanes|n.childLanes,r|=n.subtreeFlags&65011712,r|=n.flags&65011712,n.return=e,n=n.sibling;else for(n=e.child;n!==null;)i|=n.lanes|n.childLanes,r|=n.subtreeFlags,r|=n.flags,n.return=e,n=n.sibling;return e.subtreeFlags|=r,e.childLanes=i,t}function Rg(e,t,i){var r=t.pendingProps;switch(Uo(t),t.tag){case 16:case 15:case 0:case 11:case 7:case 8:case 12:case 9:case 14:return Te(t),null;case 1:return Te(t),null;case 3:return i=t.stateNode,r=null,e!==null&&(r=e.memoizedState.cache),t.memoizedState.cache!==r&&(t.flags|=2048),zt(Le),oe(),i.pendingContext&&(i.context=i.pendingContext,i.pendingContext=null),(e===null||e.child===null)&&(pr(t)?Qt(t):e===null||e.memoizedState.isDehydrated&&(t.flags&256)===0||(t.flags|=1024,Oo())),Te(t),null;case 26:var n=t.type,a=t.memoizedState;return e===null?(Qt(t),a!==null?(Te(t),$d(t,a)):(Te(t),xs(t,n,null,r,i))):a?a!==e.memoizedState?(Qt(t),Te(t),$d(t,a)):(Te(t),t.flags&=-16777217):(e=e.memoizedProps,e!==r&&Qt(t),Te(t),xs(t,n,e,r,i)),null;case 27:if(Yi(t),i=b.current,n=t.type,e!==null&&t.stateNode!=null)e.memoizedProps!==r&&Qt(t);else{if(!r){if(t.stateNode===null)throw Error(d(166));return Te(t),null}e=H.current,pr(t)?Pc(t):(e=op(n,r,i),t.stateNode=e,Qt(t))}return Te(t),null;case 5:if(Yi(t),n=t.type,e!==null&&t.stateNode!=null)e.memoizedProps!==r&&Qt(t);else{if(!r){if(t.stateNode===null)throw Error(d(166));return Te(t),null}if(a=H.current,pr(t))Pc(t);else{var o=Ua(b.current);switch(a){case 1:a=o.createElementNS("http://www.w3.org/2000/svg",n);break;case 2:a=o.createElementNS("http://www.w3.org/1998/Math/MathML",n);break;default:switch(n){case"svg":a=o.createElementNS("http://www.w3.org/2000/svg",n);break;case"math":a=o.createElementNS("http://www.w3.org/1998/Math/MathML",n);break;case"script":a=o.createElement("div"),a.innerHTML="<script><\/script>",a=a.removeChild(a.firstChild);break;case"select":a=typeof r.is=="string"?o.createElement("select",{is:r.is}):o.createElement("select"),r.multiple?a.multiple=!0:r.size&&(a.size=r.size);break;default:a=typeof r.is=="string"?o.createElement(n,{is:r.is}):o.createElement(n)}}a[ze]=t,a[Ze]=r;e:for(o=t.child;o!==null;){if(o.tag===5||o.tag===6)a.appendChild(o.stateNode);else if(o.tag!==4&&o.tag!==27&&o.child!==null){o.child.return=o,o=o.child;continue}if(o===t)break e;for(;o.sibling===null;){if(o.return===null||o.return===t)break e;o=o.return}o.sibling.return=o.return,o=o.sibling}t.stateNode=a;e:switch(Qe(a,n,r),n){case"button":case"input":case"select":case"textarea":r=!!r.autoFocus;break e;case"img":r=!0;break e;default:r=!1}r&&Qt(t)}}return Te(t),xs(t,t.type,e===null?null:e.memoizedProps,t.pendingProps,i),null;case 6:if(e&&t.stateNode!=null)e.memoizedProps!==r&&Qt(t);else{if(typeof r!="string"&&t.stateNode===null)throw Error(d(166));if(e=b.current,pr(t)){if(e=t.stateNode,i=t.memoizedProps,r=null,n=Ke,n!==null)switch(n.tag){case 27:case 5:r=n.memoizedProps}e[ze]=t,e=!!(e.nodeValue===i||r!==null&&r.suppressHydrationWarning===!0||Yu(e.nodeValue,i)),e||ci(t,!0)}else e=Ua(e).createTextNode(r),e[ze]=t,t.stateNode=e}return Te(t),null;case 31:if(i=t.memoizedState,e===null||e.memoizedState!==null){if(r=pr(t),i!==null){if(e===null){if(!r)throw Error(d(318));if(e=t.memoizedState,e=e!==null?e.dehydrated:null,!e)throw Error(d(557));e[ze]=t}else Fi(),(t.flags&128)===0&&(t.memoizedState=null),t.flags|=4;Te(t),e=!1}else i=Oo(),e!==null&&e.memoizedState!==null&&(e.memoizedState.hydrationErrors=i),e=!0;if(!e)return t.flags&256?(pt(t),t):(pt(t),null);if((t.flags&128)!==0)throw Error(d(558))}return Te(t),null;case 13:if(r=t.memoizedState,e===null||e.memoizedState!==null&&e.memoizedState.dehydrated!==null){if(n=pr(t),r!==null&&r.dehydrated!==null){if(e===null){if(!n)throw Error(d(318));if(n=t.memoizedState,n=n!==null?n.dehydrated:null,!n)throw Error(d(317));n[ze]=t}else Fi(),(t.flags&128)===0&&(t.memoizedState=null),t.flags|=4;Te(t),n=!1}else n=Oo(),e!==null&&e.memoizedState!==null&&(e.memoizedState.hydrationErrors=n),n=!0;if(!n)return t.flags&256?(pt(t),t):(pt(t),null)}return pt(t),(t.flags&128)!==0?(t.lanes=i,t):(i=r!==null,e=e!==null&&e.memoizedState!==null,i&&(r=t.child,n=null,r.alternate!==null&&r.alternate.memoizedState!==null&&r.alternate.memoizedState.cachePool!==null&&(n=r.alternate.memoizedState.cachePool.pool),a=null,r.memoizedState!==null&&r.memoizedState.cachePool!==null&&(a=r.memoizedState.cachePool.pool),a!==n&&(r.flags|=2048)),i!==e&&i&&(t.child.flags|=8192),ba(t,t.updateQueue),Te(t),null);case 4:return oe(),e===null&&Qs(t.stateNode.containerInfo),Te(t),null;case 10:return zt(t.type),Te(t),null;case 19:if(x(Pe),r=t.memoizedState,r===null)return Te(t),null;if(n=(t.flags&128)!==0,a=r.rendering,a===null)if(n)dn(r,!1);else{if(Me!==0||e!==null&&(e.flags&128)!==0)for(e=t.child;e!==null;){if(a=oa(e),a!==null){for(t.flags|=128,dn(r,!1),e=a.updateQueue,t.updateQueue=e,ba(t,e),t.subtreeFlags=0,e=i,i=t.child;i!==null;)Rc(i,e),i=i.sibling;return U(Pe,Pe.current&1|2),se&&jt(t,r.treeForkCount),t.child}e=e.sibling}r.tail!==null&&ot()>Ca&&(t.flags|=128,n=!0,dn(r,!1),t.lanes=4194304)}else{if(!n)if(e=oa(a),e!==null){if(t.flags|=128,n=!0,e=e.updateQueue,t.updateQueue=e,ba(t,e),dn(r,!0),r.tail===null&&r.tailMode==="hidden"&&!a.alternate&&!se)return Te(t),null}else 2*ot()-r.renderingStartTime>Ca&&i!==536870912&&(t.flags|=128,n=!0,dn(r,!1),t.lanes=4194304);r.isBackwards?(a.sibling=t.child,t.child=a):(e=r.last,e!==null?e.sibling=a:t.child=a,r.last=a)}return r.tail!==null?(e=r.tail,r.rendering=e,r.tail=e.sibling,r.renderingStartTime=ot(),e.sibling=null,i=Pe.current,U(Pe,n?i&1|2:i&1),se&&jt(t,r.treeForkCount),e):(Te(t),null);case 22:case 23:return pt(t),Yo(),r=t.memoizedState!==null,e!==null?e.memoizedState!==null!==r&&(t.flags|=8192):r&&(t.flags|=8192),r?(i&536870912)!==0&&(t.flags&128)===0&&(Te(t),t.subtreeFlags&6&&(t.flags|=8192)):Te(t),i=t.updateQueue,i!==null&&ba(t,i.retryQueue),i=null,e!==null&&e.memoizedState!==null&&e.memoizedState.cachePool!==null&&(i=e.memoizedState.cachePool.pool),r=null,t.memoizedState!==null&&t.memoizedState.cachePool!==null&&(r=t.memoizedState.cachePool.pool),r!==i&&(t.flags|=2048),e!==null&&x(qi),null;case 24:return i=null,e!==null&&(i=e.memoizedState.cache),t.memoizedState.cache!==i&&(t.flags|=2048),zt(Le),Te(t),null;case 25:return null;case 30:return null}throw Error(d(156,t.tag))}function Eg(e,t){switch(Uo(t),t.tag){case 1:return e=t.flags,e&65536?(t.flags=e&-65537|128,t):null;case 3:return zt(Le),oe(),e=t.flags,(e&65536)!==0&&(e&128)===0?(t.flags=e&-65537|128,t):null;case 26:case 27:case 5:return Yi(t),null;case 31:if(t.memoizedState!==null){if(pt(t),t.alternate===null)throw Error(d(340));Fi()}return e=t.flags,e&65536?(t.flags=e&-65537|128,t):null;case 13:if(pt(t),e=t.memoizedState,e!==null&&e.dehydrated!==null){if(t.alternate===null)throw Error(d(340));Fi()}return e=t.flags,e&65536?(t.flags=e&-65537|128,t):null;case 19:return x(Pe),null;case 4:return oe(),null;case 10:return zt(t.type),null;case 22:case 23:return pt(t),Yo(),e!==null&&x(qi),e=t.flags,e&65536?(t.flags=e&-65537|128,t):null;case 24:return zt(Le),null;case 25:return null;default:return null}}function eu(e,t){switch(Uo(t),t.tag){case 3:zt(Le),oe();break;case 26:case 27:case 5:Yi(t);break;case 4:oe();break;case 31:t.memoizedState!==null&&pt(t);break;case 13:pt(t);break;case 19:x(Pe);break;case 10:zt(t.type);break;case 22:case 23:pt(t),Yo(),e!==null&&x(qi);break;case 24:zt(Le)}}function un(e,t){try{var i=t.updateQueue,r=i!==null?i.lastEffect:null;if(r!==null){var n=r.next;i=n;do{if((i.tag&e)===e){r=void 0;var a=i.create,o=i.inst;r=a(),o.destroy=r}i=i.next}while(i!==n)}}catch(l){ve(t,t.return,l)}}function fi(e,t,i){try{var r=t.updateQueue,n=r!==null?r.lastEffect:null;if(n!==null){var a=n.next;r=a;do{if((r.tag&e)===e){var o=r.inst,l=o.destroy;if(l!==void 0){o.destroy=void 0,n=t;var c=i,f=l;try{f()}catch(S){ve(n,c,S)}}}r=r.next}while(r!==a)}}catch(S){ve(t,t.return,S)}}function tu(e){var t=e.updateQueue;if(t!==null){var i=e.stateNode;try{Kc(t,i)}catch(r){ve(e,e.return,r)}}}function iu(e,t,i){i.props=Wi(e.type,e.memoizedProps),i.state=e.memoizedState;try{i.componentWillUnmount()}catch(r){ve(e,t,r)}}function pn(e,t){try{var i=e.ref;if(i!==null){switch(e.tag){case 26:case 27:case 5:var r=e.stateNode;break;case 30:r=e.stateNode;break;default:r=e.stateNode}typeof i=="function"?e.refCleanup=i(r):i.current=r}}catch(n){ve(e,t,n)}}function Lt(e,t){var i=e.ref,r=e.refCleanup;if(i!==null)if(typeof r=="function")try{r()}catch(n){ve(e,t,n)}finally{e.refCleanup=null,e=e.alternate,e!=null&&(e.refCleanup=null)}else if(typeof i=="function")try{i(null)}catch(n){ve(e,t,n)}else i.current=null}function ru(e){var t=e.type,i=e.memoizedProps,r=e.stateNode;try{e:switch(t){case"button":case"input":case"select":case"textarea":i.autoFocus&&r.focus();break e;case"img":i.src?r.src=i.src:i.srcSet&&(r.srcset=i.srcSet)}}catch(n){ve(e,e.return,n)}}function Rs(e,t,i){try{var r=e.stateNode;Jg(r,e.type,i,t),r[Ze]=t}catch(n){ve(e,e.return,n)}}function nu(e){return e.tag===5||e.tag===3||e.tag===26||e.tag===27&&Ai(e.type)||e.tag===4}function Es(e){e:for(;;){for(;e.sibling===null;){if(e.return===null||nu(e.return))return null;e=e.return}for(e.sibling.return=e.return,e=e.sibling;e.tag!==5&&e.tag!==6&&e.tag!==18;){if(e.tag===27&&Ai(e.type)||e.flags&2||e.child===null||e.tag===4)continue e;e.child.return=e,e=e.child}if(!(e.flags&2))return e.stateNode}}function Ms(e,t,i){var r=e.tag;if(r===5||r===6)e=e.stateNode,t?(i.nodeType===9?i.body:i.nodeName==="HTML"?i.ownerDocument.body:i).insertBefore(e,t):(t=i.nodeType===9?i.body:i.nodeName==="HTML"?i.ownerDocument.body:i,t.appendChild(e),i=i._reactRootContainer,i!=null||t.onclick!==null||(t.onclick=_t));else if(r!==4&&(r===27&&Ai(e.type)&&(i=e.stateNode,t=null),e=e.child,e!==null))for(Ms(e,t,i),e=e.sibling;e!==null;)Ms(e,t,i),e=e.sibling}function Sa(e,t,i){var r=e.tag;if(r===5||r===6)e=e.stateNode,t?i.insertBefore(e,t):i.appendChild(e);else if(r!==4&&(r===27&&Ai(e.type)&&(i=e.stateNode),e=e.child,e!==null))for(Sa(e,t,i),e=e.sibling;e!==null;)Sa(e,t,i),e=e.sibling}function au(e){var t=e.stateNode,i=e.memoizedProps;try{for(var r=e.type,n=t.attributes;n.length;)t.removeAttributeNode(n[0]);Qe(t,r,i),t[ze]=e,t[Ze]=i}catch(a){ve(e,e.return,a)}}var Yt=!1,Fe=!1,Ds=!1,ou=typeof WeakSet=="function"?WeakSet:Set,qe=null;function Mg(e,t){if(e=e.containerInfo,Xs=qa,e=vc(e),Ao(e)){if("selectionStart"in e)var i={start:e.selectionStart,end:e.selectionEnd};else e:{i=(i=e.ownerDocument)&&i.defaultView||window;var r=i.getSelection&&i.getSelection();if(r&&r.rangeCount!==0){i=r.anchorNode;var n=r.anchorOffset,a=r.focusNode;r=r.focusOffset;try{i.nodeType,a.nodeType}catch{i=null;break e}var o=0,l=-1,c=-1,f=0,S=0,T=e,y=null;t:for(;;){for(var v;T!==i||n!==0&&T.nodeType!==3||(l=o+n),T!==a||r!==0&&T.nodeType!==3||(c=o+r),T.nodeType===3&&(o+=T.nodeValue.length),(v=T.firstChild)!==null;)y=T,T=v;for(;;){if(T===e)break t;if(y===i&&++f===n&&(l=o),y===a&&++S===r&&(c=o),(v=T.nextSibling)!==null)break;T=y,y=T.parentNode}T=v}i=l===-1||c===-1?null:{start:l,end:c}}else i=null}i=i||{start:0,end:0}}else i=null;for(Zs={focusedElem:e,selectionRange:i},qa=!1,qe=t;qe!==null;)if(t=qe,e=t.child,(t.subtreeFlags&1028)!==0&&e!==null)e.return=t,qe=e;else for(;qe!==null;){switch(t=qe,a=t.alternate,e=t.flags,t.tag){case 0:if((e&4)!==0&&(e=t.updateQueue,e=e!==null?e.events:null,e!==null))for(i=0;i<e.length;i++)n=e[i],n.ref.impl=n.nextImpl;break;case 11:case 15:break;case 1:if((e&1024)!==0&&a!==null){e=void 0,i=t,n=a.memoizedProps,a=a.memoizedState,r=i.stateNode;try{var _=Wi(i.type,n);e=r.getSnapshotBeforeUpdate(_,a),r.__reactInternalSnapshotBeforeUpdate=e}catch(Q){ve(i,i.return,Q)}}break;case 3:if((e&1024)!==0){if(e=t.stateNode.containerInfo,i=e.nodeType,i===9)tl(e);else if(i===1)switch(e.nodeName){case"HEAD":case"HTML":case"BODY":tl(e);break;default:e.textContent=""}}break;case 5:case 26:case 27:case 6:case 4:case 17:break;default:if((e&1024)!==0)throw Error(d(163))}if(e=t.sibling,e!==null){e.return=t.return,qe=e;break}qe=t.return}}function su(e,t,i){var r=i.flags;switch(i.tag){case 0:case 11:case 15:Xt(e,i),r&4&&un(5,i);break;case 1:if(Xt(e,i),r&4)if(e=i.stateNode,t===null)try{e.componentDidMount()}catch(o){ve(i,i.return,o)}else{var n=Wi(i.type,t.memoizedProps);t=t.memoizedState;try{e.componentDidUpdate(n,t,e.__reactInternalSnapshotBeforeUpdate)}catch(o){ve(i,i.return,o)}}r&64&&tu(i),r&512&&pn(i,i.return);break;case 3:if(Xt(e,i),r&64&&(e=i.updateQueue,e!==null)){if(t=null,i.child!==null)switch(i.child.tag){case 27:case 5:t=i.child.stateNode;break;case 1:t=i.child.stateNode}try{Kc(e,t)}catch(o){ve(i,i.return,o)}}break;case 27:t===null&&r&4&&au(i);case 26:case 5:Xt(e,i),t===null&&r&4&&ru(i),r&512&&pn(i,i.return);break;case 12:Xt(e,i);break;case 31:Xt(e,i),r&4&&du(e,i);break;case 13:Xt(e,i),r&4&&uu(e,i),r&64&&(e=i.memoizedState,e!==null&&(e=e.dehydrated,e!==null&&(i=Fg.bind(null,i),nh(e,i))));break;case 22:if(r=i.memoizedState!==null||Yt,!r){t=t!==null&&t.memoizedState!==null||Fe,n=Yt;var a=Fe;Yt=r,(Fe=t)&&!a?Zt(e,i,(i.subtreeFlags&8772)!==0):Xt(e,i),Yt=n,Fe=a}break;case 30:break;default:Xt(e,i)}}function lu(e){var t=e.alternate;t!==null&&(e.alternate=null,lu(t)),e.child=null,e.deletions=null,e.sibling=null,e.tag===5&&(t=e.stateNode,t!==null&&ao(t)),e.stateNode=null,e.return=null,e.dependencies=null,e.memoizedProps=null,e.memoizedState=null,e.pendingProps=null,e.stateNode=null,e.updateQueue=null}var Re=null,et=!1;function Jt(e,t,i){for(i=i.child;i!==null;)cu(e,t,i),i=i.sibling}function cu(e,t,i){if(st&&typeof st.onCommitFiberUnmount=="function")try{st.onCommitFiberUnmount(Lr,i)}catch{}switch(i.tag){case 26:Fe||Lt(i,t),Jt(e,t,i),i.memoizedState?i.memoizedState.count--:i.stateNode&&(i=i.stateNode,i.parentNode.removeChild(i));break;case 27:Fe||Lt(i,t);var r=Re,n=et;Ai(i.type)&&(Re=i.stateNode,et=!1),Jt(e,t,i),kn(i.stateNode),Re=r,et=n;break;case 5:Fe||Lt(i,t);case 6:if(r=Re,n=et,Re=null,Jt(e,t,i),Re=r,et=n,Re!==null)if(et)try{(Re.nodeType===9?Re.body:Re.nodeName==="HTML"?Re.ownerDocument.body:Re).removeChild(i.stateNode)}catch(a){ve(i,t,a)}else try{Re.removeChild(i.stateNode)}catch(a){ve(i,t,a)}break;case 18:Re!==null&&(et?(e=Re,tp(e.nodeType===9?e.body:e.nodeName==="HTML"?e.ownerDocument.body:e,i.stateNode),Nr(e)):tp(Re,i.stateNode));break;case 4:r=Re,n=et,Re=i.stateNode.containerInfo,et=!0,Jt(e,t,i),Re=r,et=n;break;case 0:case 11:case 14:case 15:fi(2,i,t),Fe||fi(4,i,t),Jt(e,t,i);break;case 1:Fe||(Lt(i,t),r=i.stateNode,typeof r.componentWillUnmount=="function"&&iu(i,t,r)),Jt(e,t,i);break;case 21:Jt(e,t,i);break;case 22:Fe=(r=Fe)||i.memoizedState!==null,Jt(e,t,i),Fe=r;break;default:Jt(e,t,i)}}function du(e,t){if(t.memoizedState===null&&(e=t.alternate,e!==null&&(e=e.memoizedState,e!==null))){e=e.dehydrated;try{Nr(e)}catch(i){ve(t,t.return,i)}}}function uu(e,t){if(t.memoizedState===null&&(e=t.alternate,e!==null&&(e=e.memoizedState,e!==null&&(e=e.dehydrated,e!==null))))try{Nr(e)}catch(i){ve(t,t.return,i)}}function Dg(e){switch(e.tag){case 31:case 13:case 19:var t=e.stateNode;return t===null&&(t=e.stateNode=new ou),t;case 22:return e=e.stateNode,t=e._retryCache,t===null&&(t=e._retryCache=new ou),t;default:throw Error(d(435,e.tag))}}function ka(e,t){var i=Dg(e);t.forEach(function(r){if(!i.has(r)){i.add(r);var n=_g.bind(null,e,r);r.then(n,n)}})}function tt(e,t){var i=t.deletions;if(i!==null)for(var r=0;r<i.length;r++){var n=i[r],a=e,o=t,l=o;e:for(;l!==null;){switch(l.tag){case 27:if(Ai(l.type)){Re=l.stateNode,et=!1;break e}break;case 5:Re=l.stateNode,et=!1;break e;case 3:case 4:Re=l.stateNode.containerInfo,et=!0;break e}l=l.return}if(Re===null)throw Error(d(160));cu(a,o,n),Re=null,et=!1,a=n.alternate,a!==null&&(a.return=null),n.return=null}if(t.subtreeFlags&13886)for(t=t.child;t!==null;)pu(t,e),t=t.sibling}var Mt=null;function pu(e,t){var i=e.alternate,r=e.flags;switch(e.tag){case 0:case 11:case 14:case 15:tt(t,e),it(e),r&4&&(fi(3,e,e.return),un(3,e),fi(5,e,e.return));break;case 1:tt(t,e),it(e),r&512&&(Fe||i===null||Lt(i,i.return)),r&64&&Yt&&(e=e.updateQueue,e!==null&&(r=e.callbacks,r!==null&&(i=e.shared.hiddenCallbacks,e.shared.hiddenCallbacks=i===null?r:i.concat(r))));break;case 26:var n=Mt;if(tt(t,e),it(e),r&512&&(Fe||i===null||Lt(i,i.return)),r&4){var a=i!==null?i.memoizedState:null;if(r=e.memoizedState,i===null)if(r===null)if(e.stateNode===null){e:{r=e.type,i=e.memoizedProps,n=n.ownerDocument||n;t:switch(r){case"title":a=n.getElementsByTagName("title")[0],(!a||a[Fr]||a[ze]||a.namespaceURI==="http://www.w3.org/2000/svg"||a.hasAttribute("itemprop"))&&(a=n.createElement(r),n.head.insertBefore(a,n.querySelector("head > title"))),Qe(a,r,i),a[ze]=e,He(a),r=a;break e;case"link":var o=pp("link","href",n).get(r+(i.href||""));if(o){for(var l=0;l<o.length;l++)if(a=o[l],a.getAttribute("href")===(i.href==null||i.href===""?null:i.href)&&a.getAttribute("rel")===(i.rel==null?null:i.rel)&&a.getAttribute("title")===(i.title==null?null:i.title)&&a.getAttribute("crossorigin")===(i.crossOrigin==null?null:i.crossOrigin)){o.splice(l,1);break t}}a=n.createElement(r),Qe(a,r,i),n.head.appendChild(a);break;case"meta":if(o=pp("meta","content",n).get(r+(i.content||""))){for(l=0;l<o.length;l++)if(a=o[l],a.getAttribute("content")===(i.content==null?null:""+i.content)&&a.getAttribute("name")===(i.name==null?null:i.name)&&a.getAttribute("property")===(i.property==null?null:i.property)&&a.getAttribute("http-equiv")===(i.httpEquiv==null?null:i.httpEquiv)&&a.getAttribute("charset")===(i.charSet==null?null:i.charSet)){o.splice(l,1);break t}}a=n.createElement(r),Qe(a,r,i),n.head.appendChild(a);break;default:throw Error(d(468,r))}a[ze]=e,He(a),r=a}e.stateNode=r}else mp(n,e.type,e.stateNode);else e.stateNode=up(n,r,e.memoizedProps);else a!==r?(a===null?i.stateNode!==null&&(i=i.stateNode,i.parentNode.removeChild(i)):a.count--,r===null?mp(n,e.type,e.stateNode):up(n,r,e.memoizedProps)):r===null&&e.stateNode!==null&&Rs(e,e.memoizedProps,i.memoizedProps)}break;case 27:tt(t,e),it(e),r&512&&(Fe||i===null||Lt(i,i.return)),i!==null&&r&4&&Rs(e,e.memoizedProps,i.memoizedProps);break;case 5:if(tt(t,e),it(e),r&512&&(Fe||i===null||Lt(i,i.return)),e.flags&32){n=e.stateNode;try{ir(n,"")}catch(_){ve(e,e.return,_)}}r&4&&e.stateNode!=null&&(n=e.memoizedProps,Rs(e,n,i!==null?i.memoizedProps:n)),r&1024&&(Ds=!0);break;case 6:if(tt(t,e),it(e),r&4){if(e.stateNode===null)throw Error(d(162));r=e.memoizedProps,i=e.stateNode;try{i.nodeValue=r}catch(_){ve(e,e.return,_)}}break;case 3:if(Ba=null,n=Mt,Mt=La(t.containerInfo),tt(t,e),Mt=n,it(e),r&4&&i!==null&&i.memoizedState.isDehydrated)try{Nr(t.containerInfo)}catch(_){ve(e,e.return,_)}Ds&&(Ds=!1,mu(e));break;case 4:r=Mt,Mt=La(e.stateNode.containerInfo),tt(t,e),it(e),Mt=r;break;case 12:tt(t,e),it(e);break;case 31:tt(t,e),it(e),r&4&&(r=e.updateQueue,r!==null&&(e.updateQueue=null,ka(e,r)));break;case 13:tt(t,e),it(e),e.child.flags&8192&&e.memoizedState!==null!=(i!==null&&i.memoizedState!==null)&&(Aa=ot()),r&4&&(r=e.updateQueue,r!==null&&(e.updateQueue=null,ka(e,r)));break;case 22:n=e.memoizedState!==null;var c=i!==null&&i.memoizedState!==null,f=Yt,S=Fe;if(Yt=f||n,Fe=S||c,tt(t,e),Fe=S,Yt=f,it(e),r&8192)e:for(t=e.stateNode,t._visibility=n?t._visibility&-2:t._visibility|1,n&&(i===null||c||Yt||Fe||Gi(e)),i=null,t=e;;){if(t.tag===5||t.tag===26){if(i===null){c=i=t;try{if(a=c.stateNode,n)o=a.style,typeof o.setProperty=="function"?o.setProperty("display","none","important"):o.display="none";else{l=c.stateNode;var T=c.memoizedProps.style,y=T!=null&&T.hasOwnProperty("display")?T.display:null;l.style.display=y==null||typeof y=="boolean"?"":(""+y).trim()}}catch(_){ve(c,c.return,_)}}}else if(t.tag===6){if(i===null){c=t;try{c.stateNode.nodeValue=n?"":c.memoizedProps}catch(_){ve(c,c.return,_)}}}else if(t.tag===18){if(i===null){c=t;try{var v=c.stateNode;n?ip(v,!0):ip(c.stateNode,!1)}catch(_){ve(c,c.return,_)}}}else if((t.tag!==22&&t.tag!==23||t.memoizedState===null||t===e)&&t.child!==null){t.child.return=t,t=t.child;continue}if(t===e)break e;for(;t.sibling===null;){if(t.return===null||t.return===e)break e;i===t&&(i=null),t=t.return}i===t&&(i=null),t.sibling.return=t.return,t=t.sibling}r&4&&(r=e.updateQueue,r!==null&&(i=r.retryQueue,i!==null&&(r.retryQueue=null,ka(e,i))));break;case 19:tt(t,e),it(e),r&4&&(r=e.updateQueue,r!==null&&(e.updateQueue=null,ka(e,r)));break;case 30:break;case 21:break;default:tt(t,e),it(e)}}function it(e){var t=e.flags;if(t&2){try{for(var i,r=e.return;r!==null;){if(nu(r)){i=r;break}r=r.return}if(i==null)throw Error(d(160));switch(i.tag){case 27:var n=i.stateNode,a=Es(e);Sa(e,a,n);break;case 5:var o=i.stateNode;i.flags&32&&(ir(o,""),i.flags&=-33);var l=Es(e);Sa(e,l,o);break;case 3:case 4:var c=i.stateNode.containerInfo,f=Es(e);Ms(e,f,c);break;default:throw Error(d(161))}}catch(S){ve(e,e.return,S)}e.flags&=-3}t&4096&&(e.flags&=-4097)}function mu(e){if(e.subtreeFlags&1024)for(e=e.child;e!==null;){var t=e;mu(t),t.tag===5&&t.flags&1024&&t.stateNode.reset(),e=e.sibling}}function Xt(e,t){if(t.subtreeFlags&8772)for(t=t.child;t!==null;)su(e,t.alternate,t),t=t.sibling}function Gi(e){for(e=e.child;e!==null;){var t=e;switch(t.tag){case 0:case 11:case 14:case 15:fi(4,t,t.return),Gi(t);break;case 1:Lt(t,t.return);var i=t.stateNode;typeof i.componentWillUnmount=="function"&&iu(t,t.return,i),Gi(t);break;case 27:kn(t.stateNode);case 26:case 5:Lt(t,t.return),Gi(t);break;case 22:t.memoizedState===null&&Gi(t);break;case 30:Gi(t);break;default:Gi(t)}e=e.sibling}}function Zt(e,t,i){for(i=i&&(t.subtreeFlags&8772)!==0,t=t.child;t!==null;){var r=t.alternate,n=e,a=t,o=a.flags;switch(a.tag){case 0:case 11:case 15:Zt(n,a,i),un(4,a);break;case 1:if(Zt(n,a,i),r=a,n=r.stateNode,typeof n.componentDidMount=="function")try{n.componentDidMount()}catch(f){ve(r,r.return,f)}if(r=a,n=r.updateQueue,n!==null){var l=r.stateNode;try{var c=n.shared.hiddenCallbacks;if(c!==null)for(n.shared.hiddenCallbacks=null,n=0;n<c.length;n++)zc(c[n],l)}catch(f){ve(r,r.return,f)}}i&&o&64&&tu(a),pn(a,a.return);break;case 27:au(a);case 26:case 5:Zt(n,a,i),i&&r===null&&o&4&&ru(a),pn(a,a.return);break;case 12:Zt(n,a,i);break;case 31:Zt(n,a,i),i&&o&4&&du(n,a);break;case 13:Zt(n,a,i),i&&o&4&&uu(n,a);break;case 22:a.memoizedState===null&&Zt(n,a,i),pn(a,a.return);break;case 30:break;default:Zt(n,a,i)}t=t.sibling}}function Is(e,t){var i=null;e!==null&&e.memoizedState!==null&&e.memoizedState.cachePool!==null&&(i=e.memoizedState.cachePool.pool),e=null,t.memoizedState!==null&&t.memoizedState.cachePool!==null&&(e=t.memoizedState.cachePool.pool),e!==i&&(e!=null&&e.refCount++,i!=null&&Xr(i))}function Ps(e,t){e=null,t.alternate!==null&&(e=t.alternate.memoizedState.cache),t=t.memoizedState.cache,t!==e&&(t.refCount++,e!=null&&Xr(e))}function Dt(e,t,i,r){if(t.subtreeFlags&10256)for(t=t.child;t!==null;)gu(e,t,i,r),t=t.sibling}function gu(e,t,i,r){var n=t.flags;switch(t.tag){case 0:case 11:case 15:Dt(e,t,i,r),n&2048&&un(9,t);break;case 1:Dt(e,t,i,r);break;case 3:Dt(e,t,i,r),n&2048&&(e=null,t.alternate!==null&&(e=t.alternate.memoizedState.cache),t=t.memoizedState.cache,t!==e&&(t.refCount++,e!=null&&Xr(e)));break;case 12:if(n&2048){Dt(e,t,i,r),e=t.stateNode;try{var a=t.memoizedProps,o=a.id,l=a.onPostCommit;typeof l=="function"&&l(o,t.alternate===null?"mount":"update",e.passiveEffectDuration,-0)}catch(c){ve(t,t.return,c)}}else Dt(e,t,i,r);break;case 31:Dt(e,t,i,r);break;case 13:Dt(e,t,i,r);break;case 23:break;case 22:a=t.stateNode,o=t.alternate,t.memoizedState!==null?a._visibility&2?Dt(e,t,i,r):mn(e,t):a._visibility&2?Dt(e,t,i,r):(a._visibility|=2,wr(e,t,i,r,(t.subtreeFlags&10256)!==0||!1)),n&2048&&Is(o,t);break;case 24:Dt(e,t,i,r),n&2048&&Ps(t.alternate,t);break;default:Dt(e,t,i,r)}}function wr(e,t,i,r,n){for(n=n&&((t.subtreeFlags&10256)!==0||!1),t=t.child;t!==null;){var a=e,o=t,l=i,c=r,f=o.flags;switch(o.tag){case 0:case 11:case 15:wr(a,o,l,c,n),un(8,o);break;case 23:break;case 22:var S=o.stateNode;o.memoizedState!==null?S._visibility&2?wr(a,o,l,c,n):mn(a,o):(S._visibility|=2,wr(a,o,l,c,n)),n&&f&2048&&Is(o.alternate,o);break;case 24:wr(a,o,l,c,n),n&&f&2048&&Ps(o.alternate,o);break;default:wr(a,o,l,c,n)}t=t.sibling}}function mn(e,t){if(t.subtreeFlags&10256)for(t=t.child;t!==null;){var i=e,r=t,n=r.flags;switch(r.tag){case 22:mn(i,r),n&2048&&Is(r.alternate,r);break;case 24:mn(i,r),n&2048&&Ps(r.alternate,r);break;default:mn(i,r)}t=t.sibling}}var gn=8192;function Ar(e,t,i){if(e.subtreeFlags&gn)for(e=e.child;e!==null;)hu(e,t,i),e=e.sibling}function hu(e,t,i){switch(e.tag){case 26:Ar(e,t,i),e.flags&gn&&e.memoizedState!==null&&fh(i,Mt,e.memoizedState,e.memoizedProps);break;case 5:Ar(e,t,i);break;case 3:case 4:var r=Mt;Mt=La(e.stateNode.containerInfo),Ar(e,t,i),Mt=r;break;case 22:e.memoizedState===null&&(r=e.alternate,r!==null&&r.memoizedState!==null?(r=gn,gn=16777216,Ar(e,t,i),gn=r):Ar(e,t,i));break;default:Ar(e,t,i)}}function fu(e){var t=e.alternate;if(t!==null&&(e=t.child,e!==null)){t.child=null;do t=e.sibling,e.sibling=null,e=t;while(e!==null)}}function hn(e){var t=e.deletions;if((e.flags&16)!==0){if(t!==null)for(var i=0;i<t.length;i++){var r=t[i];qe=r,vu(r,e)}fu(e)}if(e.subtreeFlags&10256)for(e=e.child;e!==null;)yu(e),e=e.sibling}function yu(e){switch(e.tag){case 0:case 11:case 15:hn(e),e.flags&2048&&fi(9,e,e.return);break;case 3:hn(e);break;case 12:hn(e);break;case 22:var t=e.stateNode;e.memoizedState!==null&&t._visibility&2&&(e.return===null||e.return.tag!==13)?(t._visibility&=-3,wa(e)):hn(e);break;default:hn(e)}}function wa(e){var t=e.deletions;if((e.flags&16)!==0){if(t!==null)for(var i=0;i<t.length;i++){var r=t[i];qe=r,vu(r,e)}fu(e)}for(e=e.child;e!==null;){switch(t=e,t.tag){case 0:case 11:case 15:fi(8,t,t.return),wa(t);break;case 22:i=t.stateNode,i._visibility&2&&(i._visibility&=-3,wa(t));break;default:wa(t)}e=e.sibling}}function vu(e,t){for(;qe!==null;){var i=qe;switch(i.tag){case 0:case 11:case 15:fi(8,i,t);break;case 23:case 22:if(i.memoizedState!==null&&i.memoizedState.cachePool!==null){var r=i.memoizedState.cachePool.pool;r!=null&&r.refCount++}break;case 24:Xr(i.memoizedState.cache)}if(r=i.child,r!==null)r.return=i,qe=r;else e:for(i=e;qe!==null;){r=qe;var n=r.sibling,a=r.return;if(lu(r),r===i){qe=null;break e}if(n!==null){n.return=a,qe=n;break e}qe=a}}}var Ig={getCacheForType:function(e){var t=We(Le),i=t.data.get(e);return i===void 0&&(i=e(),t.data.set(e,i)),i},cacheSignal:function(){return We(Le).controller.signal}},Pg=typeof WeakMap=="function"?WeakMap:Map,ge=0,we=null,ie=null,ne=0,ye=0,mt=null,yi=!1,Cr=!1,Ns=!1,$t=0,Me=0,vi=0,Qi=0,Us=0,gt=0,Tr=0,fn=null,rt=null,Ls=!1,Aa=0,bu=0,Ca=1/0,Ta=null,bi=null,_e=0,Si=null,xr=null,ei=0,Os=0,Bs=null,Su=null,yn=0,Fs=null;function ht(){return(ge&2)!==0&&ne!==0?ne&-ne:k.T!==null?zs():Ol()}function ku(){if(gt===0)if((ne&536870912)===0||se){var e=Nn;Nn<<=1,(Nn&3932160)===0&&(Nn=262144),gt=e}else gt=536870912;return e=ut.current,e!==null&&(e.flags|=32),gt}function nt(e,t,i){(e===we&&(ye===2||ye===9)||e.cancelPendingCommit!==null)&&(Rr(e,0),ki(e,ne,gt,!1)),Br(e,i),((ge&2)===0||e!==we)&&(e===we&&((ge&2)===0&&(Qi|=i),Me===4&&ki(e,ne,gt,!1)),Ot(e))}function wu(e,t,i){if((ge&6)!==0)throw Error(d(327));var r=!i&&(t&127)===0&&(t&e.expiredLanes)===0||Or(e,t),n=r?Lg(e,t):Hs(e,t,!0),a=r;do{if(n===0){Cr&&!r&&ki(e,t,0,!1);break}else{if(i=e.current.alternate,a&&!Ng(i)){n=Hs(e,t,!1),a=!1;continue}if(n===2){if(a=t,e.errorRecoveryDisabledLanes&a)var o=0;else o=e.pendingLanes&-536870913,o=o!==0?o:o&536870912?536870912:0;if(o!==0){t=o;e:{var l=e;n=fn;var c=l.current.memoizedState.isDehydrated;if(c&&(Rr(l,o).flags|=256),o=Hs(l,o,!1),o!==2){if(Ns&&!c){l.errorRecoveryDisabledLanes|=a,Qi|=a,n=4;break e}a=rt,rt=n,a!==null&&(rt===null?rt=a:rt.push.apply(rt,a))}n=o}if(a=!1,n!==2)continue}}if(n===1){Rr(e,0),ki(e,t,0,!0);break}e:{switch(r=e,a=n,a){case 0:case 1:throw Error(d(345));case 4:if((t&4194048)!==t)break;case 6:ki(r,t,gt,!yi);break e;case 2:rt=null;break;case 3:case 5:break;default:throw Error(d(329))}if((t&62914560)===t&&(n=Aa+300-ot(),10<n)){if(ki(r,t,gt,!yi),Ln(r,0,!0)!==0)break e;ei=t,r.timeoutHandle=$u(Au.bind(null,r,i,rt,Ta,Ls,t,gt,Qi,Tr,yi,a,"Throttled",-0,0),n);break e}Au(r,i,rt,Ta,Ls,t,gt,Qi,Tr,yi,a,null,-0,0)}}break}while(!0);Ot(e)}function Au(e,t,i,r,n,a,o,l,c,f,S,T,y,v){if(e.timeoutHandle=-1,T=t.subtreeFlags,T&8192||(T&16785408)===16785408){T={stylesheets:null,count:0,imgCount:0,imgBytes:0,suspenseyImages:[],waitingForImages:!0,waitingForViewTransition:!1,unsuspend:_t},hu(t,a,T);var _=(a&62914560)===a?Aa-ot():(a&4194048)===a?bu-ot():0;if(_=yh(T,_),_!==null){ei=a,e.cancelPendingCommit=_(Iu.bind(null,e,t,a,i,r,n,o,l,c,S,T,null,y,v)),ki(e,a,o,!f);return}}Iu(e,t,a,i,r,n,o,l,c)}function Ng(e){for(var t=e;;){var i=t.tag;if((i===0||i===11||i===15)&&t.flags&16384&&(i=t.updateQueue,i!==null&&(i=i.stores,i!==null)))for(var r=0;r<i.length;r++){var n=i[r],a=n.getSnapshot;n=n.value;try{if(!ct(a(),n))return!1}catch{return!1}}if(i=t.child,t.subtreeFlags&16384&&i!==null)i.return=t,t=i;else{if(t===e)break;for(;t.sibling===null;){if(t.return===null||t.return===e)return!0;t=t.return}t.sibling.return=t.return,t=t.sibling}}return!0}function ki(e,t,i,r){t&=~Us,t&=~Qi,e.suspendedLanes|=t,e.pingedLanes&=~t,r&&(e.warmLanes|=t),r=e.expirationTimes;for(var n=t;0<n;){var a=31-lt(n),o=1<<a;r[a]=-1,n&=~o}i!==0&&Nl(e,i,t)}function xa(){return(ge&6)===0?(vn(0),!1):!0}function _s(){if(ie!==null){if(ye===0)var e=ie.return;else e=ie,Vt=_i=null,ts(e),yr=null,$r=0,e=ie;for(;e!==null;)eu(e.alternate,e),e=e.return;ie=null}}function Rr(e,t){var i=e.timeoutHandle;i!==-1&&(e.timeoutHandle=-1,$g(i)),i=e.cancelPendingCommit,i!==null&&(e.cancelPendingCommit=null,i()),ei=0,_s(),we=e,ie=i=qt(e.current,null),ne=t,ye=0,mt=null,yi=!1,Cr=Or(e,t),Ns=!1,Tr=gt=Us=Qi=vi=Me=0,rt=fn=null,Ls=!1,(t&8)!==0&&(t|=t&32);var r=e.entangledLanes;if(r!==0)for(e=e.entanglements,r&=t;0<r;){var n=31-lt(r),a=1<<n;t|=e[n],r&=~a}return $t=t,Gn(),i}function Cu(e,t){Z=null,k.H=ln,t===fr||t===ta?(t=Hc(),ye=3):t===Vo?(t=Hc(),ye=4):ye=t===ys?8:t!==null&&typeof t=="object"&&typeof t.then=="function"?6:1,mt=t,ie===null&&(Me=1,ha(e,St(t,e.current)))}function Tu(){var e=ut.current;return e===null?!0:(ne&4194048)===ne?Ct===null:(ne&62914560)===ne||(ne&536870912)!==0?e===Ct:!1}function xu(){var e=k.H;return k.H=ln,e===null?ln:e}function Ru(){var e=k.A;return k.A=Ig,e}function Ra(){Me=4,yi||(ne&4194048)!==ne&&ut.current!==null||(Cr=!0),(vi&134217727)===0&&(Qi&134217727)===0||we===null||ki(we,ne,gt,!1)}function Hs(e,t,i){var r=ge;ge|=2;var n=xu(),a=Ru();(we!==e||ne!==t)&&(Ta=null,Rr(e,t)),t=!1;var o=Me;e:do try{if(ye!==0&&ie!==null){var l=ie,c=mt;switch(ye){case 8:_s(),o=6;break e;case 3:case 2:case 9:case 6:ut.current===null&&(t=!0);var f=ye;if(ye=0,mt=null,Er(e,l,c,f),i&&Cr){o=0;break e}break;default:f=ye,ye=0,mt=null,Er(e,l,c,f)}}Ug(),o=Me;break}catch(S){Cu(e,S)}while(!0);return t&&e.shellSuspendCounter++,Vt=_i=null,ge=r,k.H=n,k.A=a,ie===null&&(we=null,ne=0,Gn()),o}function Ug(){for(;ie!==null;)Eu(ie)}function Lg(e,t){var i=ge;ge|=2;var r=xu(),n=Ru();we!==e||ne!==t?(Ta=null,Ca=ot()+500,Rr(e,t)):Cr=Or(e,t);e:do try{if(ye!==0&&ie!==null){t=ie;var a=mt;t:switch(ye){case 1:ye=0,mt=null,Er(e,t,a,1);break;case 2:case 9:if(Fc(a)){ye=0,mt=null,Mu(t);break}t=function(){ye!==2&&ye!==9||we!==e||(ye=7),Ot(e)},a.then(t,t);break e;case 3:ye=7;break e;case 4:ye=5;break e;case 7:Fc(a)?(ye=0,mt=null,Mu(t)):(ye=0,mt=null,Er(e,t,a,7));break;case 5:var o=null;switch(ie.tag){case 26:o=ie.memoizedState;case 5:case 27:var l=ie;if(o?gp(o):l.stateNode.complete){ye=0,mt=null;var c=l.sibling;if(c!==null)ie=c;else{var f=l.return;f!==null?(ie=f,Ea(f)):ie=null}break t}}ye=0,mt=null,Er(e,t,a,5);break;case 6:ye=0,mt=null,Er(e,t,a,6);break;case 8:_s(),Me=6;break e;default:throw Error(d(462))}}Og();break}catch(S){Cu(e,S)}while(!0);return Vt=_i=null,k.H=r,k.A=n,ge=i,ie!==null?0:(we=null,ne=0,Gn(),Me)}function Og(){for(;ie!==null&&!am();)Eu(ie)}function Eu(e){var t=Zd(e.alternate,e,$t);e.memoizedProps=e.pendingProps,t===null?Ea(e):ie=t}function Mu(e){var t=e,i=t.alternate;switch(t.tag){case 15:case 0:t=Wd(i,t,t.pendingProps,t.type,void 0,ne);break;case 11:t=Wd(i,t,t.pendingProps,t.type.render,t.ref,ne);break;case 5:ts(t);default:eu(i,t),t=ie=Rc(t,$t),t=Zd(i,t,$t)}e.memoizedProps=e.pendingProps,t===null?Ea(e):ie=t}function Er(e,t,i,r){Vt=_i=null,ts(t),yr=null,$r=0;var n=t.return;try{if(Cg(e,n,t,i,ne)){Me=1,ha(e,St(i,e.current)),ie=null;return}}catch(a){if(n!==null)throw ie=n,a;Me=1,ha(e,St(i,e.current)),ie=null;return}t.flags&32768?(se||r===1?e=!0:Cr||(ne&536870912)!==0?e=!1:(yi=e=!0,(r===2||r===9||r===3||r===6)&&(r=ut.current,r!==null&&r.tag===13&&(r.flags|=16384))),Du(t,e)):Ea(t)}function Ea(e){var t=e;do{if((t.flags&32768)!==0){Du(t,yi);return}e=t.return;var i=Rg(t.alternate,t,$t);if(i!==null){ie=i;return}if(t=t.sibling,t!==null){ie=t;return}ie=t=e}while(t!==null);Me===0&&(Me=5)}function Du(e,t){do{var i=Eg(e.alternate,e);if(i!==null){i.flags&=32767,ie=i;return}if(i=e.return,i!==null&&(i.flags|=32768,i.subtreeFlags=0,i.deletions=null),!t&&(e=e.sibling,e!==null)){ie=e;return}ie=e=i}while(e!==null);Me=6,ie=null}function Iu(e,t,i,r,n,a,o,l,c){e.cancelPendingCommit=null;do Ma();while(_e!==0);if((ge&6)!==0)throw Error(d(327));if(t!==null){if(t===e.current)throw Error(d(177));if(a=t.lanes|t.childLanes,a|=Eo,hm(e,i,a,o,l,c),e===we&&(ie=we=null,ne=0),xr=t,Si=e,ei=i,Os=a,Bs=n,Su=r,(t.subtreeFlags&10256)!==0||(t.flags&10256)!==0?(e.callbackNode=null,e.callbackPriority=0,Hg(In,function(){return Ou(),null})):(e.callbackNode=null,e.callbackPriority=0),r=(t.flags&13878)!==0,(t.subtreeFlags&13878)!==0||r){r=k.T,k.T=null,n=P.p,P.p=2,o=ge,ge|=4;try{Mg(e,t,i)}finally{ge=o,P.p=n,k.T=r}}_e=1,Pu(),Nu(),Uu()}}function Pu(){if(_e===1){_e=0;var e=Si,t=xr,i=(t.flags&13878)!==0;if((t.subtreeFlags&13878)!==0||i){i=k.T,k.T=null;var r=P.p;P.p=2;var n=ge;ge|=4;try{pu(t,e);var a=Zs,o=vc(e.containerInfo),l=a.focusedElem,c=a.selectionRange;if(o!==l&&l&&l.ownerDocument&&yc(l.ownerDocument.documentElement,l)){if(c!==null&&Ao(l)){var f=c.start,S=c.end;if(S===void 0&&(S=f),"selectionStart"in l)l.selectionStart=f,l.selectionEnd=Math.min(S,l.value.length);else{var T=l.ownerDocument||document,y=T&&T.defaultView||window;if(y.getSelection){var v=y.getSelection(),_=l.textContent.length,Q=Math.min(c.start,_),ke=c.end===void 0?Q:Math.min(c.end,_);!v.extend&&Q>ke&&(o=ke,ke=Q,Q=o);var g=fc(l,Q),p=fc(l,ke);if(g&&p&&(v.rangeCount!==1||v.anchorNode!==g.node||v.anchorOffset!==g.offset||v.focusNode!==p.node||v.focusOffset!==p.offset)){var h=T.createRange();h.setStart(g.node,g.offset),v.removeAllRanges(),Q>ke?(v.addRange(h),v.extend(p.node,p.offset)):(h.setEnd(p.node,p.offset),v.addRange(h))}}}}for(T=[],v=l;v=v.parentNode;)v.nodeType===1&&T.push({element:v,left:v.scrollLeft,top:v.scrollTop});for(typeof l.focus=="function"&&l.focus(),l=0;l<T.length;l++){var C=T[l];C.element.scrollLeft=C.left,C.element.scrollTop=C.top}}qa=!!Xs,Zs=Xs=null}finally{ge=n,P.p=r,k.T=i}}e.current=t,_e=2}}function Nu(){if(_e===2){_e=0;var e=Si,t=xr,i=(t.flags&8772)!==0;if((t.subtreeFlags&8772)!==0||i){i=k.T,k.T=null;var r=P.p;P.p=2;var n=ge;ge|=4;try{su(e,t.alternate,t)}finally{ge=n,P.p=r,k.T=i}}_e=3}}function Uu(){if(_e===4||_e===3){_e=0,om();var e=Si,t=xr,i=ei,r=Su;(t.subtreeFlags&10256)!==0||(t.flags&10256)!==0?_e=5:(_e=0,xr=Si=null,Lu(e,e.pendingLanes));var n=e.pendingLanes;if(n===0&&(bi=null),ro(i),t=t.stateNode,st&&typeof st.onCommitFiberRoot=="function")try{st.onCommitFiberRoot(Lr,t,void 0,(t.current.flags&128)===128)}catch{}if(r!==null){t=k.T,n=P.p,P.p=2,k.T=null;try{for(var a=e.onRecoverableError,o=0;o<r.length;o++){var l=r[o];a(l.value,{componentStack:l.stack})}}finally{k.T=t,P.p=n}}(ei&3)!==0&&Ma(),Ot(e),n=e.pendingLanes,(i&261930)!==0&&(n&42)!==0?e===Fs?yn++:(yn=0,Fs=e):yn=0,vn(0)}}function Lu(e,t){(e.pooledCacheLanes&=t)===0&&(t=e.pooledCache,t!=null&&(e.pooledCache=null,Xr(t)))}function Ma(){return Pu(),Nu(),Uu(),Ou()}function Ou(){if(_e!==5)return!1;var e=Si,t=Os;Os=0;var i=ro(ei),r=k.T,n=P.p;try{P.p=32>i?32:i,k.T=null,i=Bs,Bs=null;var a=Si,o=ei;if(_e=0,xr=Si=null,ei=0,(ge&6)!==0)throw Error(d(331));var l=ge;if(ge|=4,yu(a.current),gu(a,a.current,o,i),ge=l,vn(0,!1),st&&typeof st.onPostCommitFiberRoot=="function")try{st.onPostCommitFiberRoot(Lr,a)}catch{}return!0}finally{P.p=n,k.T=r,Lu(e,t)}}function Bu(e,t,i){t=St(i,t),t=fs(e.stateNode,t,2),e=mi(e,t,2),e!==null&&(Br(e,2),Ot(e))}function ve(e,t,i){if(e.tag===3)Bu(e,e,i);else for(;t!==null;){if(t.tag===3){Bu(t,e,i);break}else if(t.tag===1){var r=t.stateNode;if(typeof t.type.getDerivedStateFromError=="function"||typeof r.componentDidCatch=="function"&&(bi===null||!bi.has(r))){e=St(i,e),i=Fd(2),r=mi(t,i,2),r!==null&&(_d(i,r,t,e),Br(r,2),Ot(r));break}}t=t.return}}function qs(e,t,i){var r=e.pingCache;if(r===null){r=e.pingCache=new Pg;var n=new Set;r.set(t,n)}else n=r.get(t),n===void 0&&(n=new Set,r.set(t,n));n.has(i)||(Ns=!0,n.add(i),e=Bg.bind(null,e,t,i),t.then(e,e))}function Bg(e,t,i){var r=e.pingCache;r!==null&&r.delete(t),e.pingedLanes|=e.suspendedLanes&i,e.warmLanes&=~i,we===e&&(ne&i)===i&&(Me===4||Me===3&&(ne&62914560)===ne&&300>ot()-Aa?(ge&2)===0&&Rr(e,0):Us|=i,Tr===ne&&(Tr=0)),Ot(e)}function Fu(e,t){t===0&&(t=Pl()),e=Oi(e,t),e!==null&&(Br(e,t),Ot(e))}function Fg(e){var t=e.memoizedState,i=0;t!==null&&(i=t.retryLane),Fu(e,i)}function _g(e,t){var i=0;switch(e.tag){case 31:case 13:var r=e.stateNode,n=e.memoizedState;n!==null&&(i=n.retryLane);break;case 19:r=e.stateNode;break;case 22:r=e.stateNode._retryCache;break;default:throw Error(d(314))}r!==null&&r.delete(t),Fu(e,i)}function Hg(e,t){return $a(e,t)}var Da=null,Mr=null,js=!1,Ia=!1,Vs=!1,wi=0;function Ot(e){e!==Mr&&e.next===null&&(Mr===null?Da=Mr=e:Mr=Mr.next=e),Ia=!0,js||(js=!0,jg())}function vn(e,t){if(!Vs&&Ia){Vs=!0;do for(var i=!1,r=Da;r!==null;){if(e!==0){var n=r.pendingLanes;if(n===0)var a=0;else{var o=r.suspendedLanes,l=r.pingedLanes;a=(1<<31-lt(42|e)+1)-1,a&=n&~(o&~l),a=a&201326741?a&201326741|1:a?a|2:0}a!==0&&(i=!0,ju(r,a))}else a=ne,a=Ln(r,r===we?a:0,r.cancelPendingCommit!==null||r.timeoutHandle!==-1),(a&3)===0||Or(r,a)||(i=!0,ju(r,a));r=r.next}while(i);Vs=!1}}function qg(){_u()}function _u(){Ia=js=!1;var e=0;wi!==0&&Zg()&&(e=wi);for(var t=ot(),i=null,r=Da;r!==null;){var n=r.next,a=Hu(r,t);a===0?(r.next=null,i===null?Da=n:i.next=n,n===null&&(Mr=i)):(i=r,(e!==0||(a&3)!==0)&&(Ia=!0)),r=n}_e!==0&&_e!==5||vn(e),wi!==0&&(wi=0)}function Hu(e,t){for(var i=e.suspendedLanes,r=e.pingedLanes,n=e.expirationTimes,a=e.pendingLanes&-62914561;0<a;){var o=31-lt(a),l=1<<o,c=n[o];c===-1?((l&i)===0||(l&r)!==0)&&(n[o]=gm(l,t)):c<=t&&(e.expiredLanes|=l),a&=~l}if(t=we,i=ne,i=Ln(e,e===t?i:0,e.cancelPendingCommit!==null||e.timeoutHandle!==-1),r=e.callbackNode,i===0||e===t&&(ye===2||ye===9)||e.cancelPendingCommit!==null)return r!==null&&r!==null&&eo(r),e.callbackNode=null,e.callbackPriority=0;if((i&3)===0||Or(e,i)){if(t=i&-i,t===e.callbackPriority)return t;switch(r!==null&&eo(r),ro(i)){case 2:case 8:i=Dl;break;case 32:i=In;break;case 268435456:i=Il;break;default:i=In}return r=qu.bind(null,e),i=$a(i,r),e.callbackPriority=t,e.callbackNode=i,t}return r!==null&&r!==null&&eo(r),e.callbackPriority=2,e.callbackNode=null,2}function qu(e,t){if(_e!==0&&_e!==5)return e.callbackNode=null,e.callbackPriority=0,null;var i=e.callbackNode;if(Ma()&&e.callbackNode!==i)return null;var r=ne;return r=Ln(e,e===we?r:0,e.cancelPendingCommit!==null||e.timeoutHandle!==-1),r===0?null:(wu(e,r,t),Hu(e,ot()),e.callbackNode!=null&&e.callbackNode===i?qu.bind(null,e):null)}function ju(e,t){if(Ma())return null;wu(e,t,!0)}function jg(){eh(function(){(ge&6)!==0?$a(Ml,qg):_u()})}function zs(){if(wi===0){var e=gr;e===0&&(e=Pn,Pn<<=1,(Pn&261888)===0&&(Pn=256)),wi=e}return wi}function Vu(e){return e==null||typeof e=="symbol"||typeof e=="boolean"?null:typeof e=="function"?e:_n(""+e)}function zu(e,t){var i=t.ownerDocument.createElement("input");return i.name=t.name,i.value=t.value,e.id&&i.setAttribute("form",e.id),t.parentNode.insertBefore(i,t),e=new FormData(e),i.parentNode.removeChild(i),e}function Vg(e,t,i,r,n){if(t==="submit"&&i&&i.stateNode===n){var a=Vu((n[Ze]||null).action),o=r.submitter;o&&(t=(t=o[Ze]||null)?Vu(t.formAction):o.getAttribute("formAction"),t!==null&&(a=t,o=null));var l=new Vn("action","action",null,r,n);e.push({event:l,listeners:[{instance:null,listener:function(){if(r.defaultPrevented){if(wi!==0){var c=o?zu(n,o):new FormData(n);ds(i,{pending:!0,data:c,method:n.method,action:a},null,c)}}else typeof a=="function"&&(l.preventDefault(),c=o?zu(n,o):new FormData(n),ds(i,{pending:!0,data:c,method:n.method,action:a},a,c))},currentTarget:n}]})}}for(var Ks=0;Ks<Ro.length;Ks++){var Ws=Ro[Ks],zg=Ws.toLowerCase(),Kg=Ws[0].toUpperCase()+Ws.slice(1);Et(zg,"on"+Kg)}Et(kc,"onAnimationEnd"),Et(wc,"onAnimationIteration"),Et(Ac,"onAnimationStart"),Et("dblclick","onDoubleClick"),Et("focusin","onFocus"),Et("focusout","onBlur"),Et(sg,"onTransitionRun"),Et(lg,"onTransitionStart"),Et(cg,"onTransitionCancel"),Et(Cc,"onTransitionEnd"),er("onMouseEnter",["mouseout","mouseover"]),er("onMouseLeave",["mouseout","mouseover"]),er("onPointerEnter",["pointerout","pointerover"]),er("onPointerLeave",["pointerout","pointerover"]),Pi("onChange","change click focusin focusout input keydown keyup selectionchange".split(" ")),Pi("onSelect","focusout contextmenu dragend focusin keydown keyup mousedown mouseup selectionchange".split(" ")),Pi("onBeforeInput",["compositionend","keypress","textInput","paste"]),Pi("onCompositionEnd","compositionend focusout keydown keypress keyup mousedown".split(" ")),Pi("onCompositionStart","compositionstart focusout keydown keypress keyup mousedown".split(" ")),Pi("onCompositionUpdate","compositionupdate focusout keydown keypress keyup mousedown".split(" "));var bn="abort canplay canplaythrough durationchange emptied encrypted ended error loadeddata loadedmetadata loadstart pause play playing progress ratechange resize seeked seeking stalled suspend timeupdate volumechange waiting".split(" "),Wg=new Set("beforetoggle cancel close invalid load scroll scrollend toggle".split(" ").concat(bn));function Ku(e,t){t=(t&4)!==0;for(var i=0;i<e.length;i++){var r=e[i],n=r.event;r=r.listeners;e:{var a=void 0;if(t)for(var o=r.length-1;0<=o;o--){var l=r[o],c=l.instance,f=l.currentTarget;if(l=l.listener,c!==a&&n.isPropagationStopped())break e;a=l,n.currentTarget=f;try{a(n)}catch(S){Wn(S)}n.currentTarget=null,a=c}else for(o=0;o<r.length;o++){if(l=r[o],c=l.instance,f=l.currentTarget,l=l.listener,c!==a&&n.isPropagationStopped())break e;a=l,n.currentTarget=f;try{a(n)}catch(S){Wn(S)}n.currentTarget=null,a=c}}}}function re(e,t){var i=t[no];i===void 0&&(i=t[no]=new Set);var r=e+"__bubble";i.has(r)||(Wu(t,e,2,!1),i.add(r))}function Gs(e,t,i){var r=0;t&&(r|=4),Wu(i,e,r,t)}var Pa="_reactListening"+Math.random().toString(36).slice(2);function Qs(e){if(!e[Pa]){e[Pa]=!0,_l.forEach(function(i){i!=="selectionchange"&&(Wg.has(i)||Gs(i,!1,e),Gs(i,!0,e))});var t=e.nodeType===9?e:e.ownerDocument;t===null||t[Pa]||(t[Pa]=!0,Gs("selectionchange",!1,t))}}function Wu(e,t,i,r){switch(kp(t)){case 2:var n=Sh;break;case 8:n=kh;break;default:n=cl}i=n.bind(null,t,i,e),n=void 0,!go||t!=="touchstart"&&t!=="touchmove"&&t!=="wheel"||(n=!0),r?n!==void 0?e.addEventListener(t,i,{capture:!0,passive:n}):e.addEventListener(t,i,!0):n!==void 0?e.addEventListener(t,i,{passive:n}):e.addEventListener(t,i,!1)}function Ys(e,t,i,r,n){var a=r;if((t&1)===0&&(t&2)===0&&r!==null)e:for(;;){if(r===null)return;var o=r.tag;if(o===3||o===4){var l=r.stateNode.containerInfo;if(l===n)break;if(o===4)for(o=r.return;o!==null;){var c=o.tag;if((c===3||c===4)&&o.stateNode.containerInfo===n)return;o=o.return}for(;l!==null;){if(o=Xi(l),o===null)return;if(c=o.tag,c===5||c===6||c===26||c===27){r=a=o;continue e}l=l.parentNode}}r=r.return}Xl(function(){var f=a,S=po(i),T=[];e:{var y=Tc.get(e);if(y!==void 0){var v=Vn,_=e;switch(e){case"keypress":if(qn(i)===0)break e;case"keydown":case"keyup":v=_m;break;case"focusin":_="focus",v=vo;break;case"focusout":_="blur",v=vo;break;case"beforeblur":case"afterblur":v=vo;break;case"click":if(i.button===2)break e;case"auxclick":case"dblclick":case"mousedown":case"mousemove":case"mouseup":case"mouseout":case"mouseover":case"contextmenu":v=ec;break;case"drag":case"dragend":case"dragenter":case"dragexit":case"dragleave":case"dragover":case"dragstart":case"drop":v=Rm;break;case"touchcancel":case"touchend":case"touchmove":case"touchstart":v=jm;break;case kc:case wc:case Ac:v=Dm;break;case Cc:v=zm;break;case"scroll":case"scrollend":v=Tm;break;case"wheel":v=Wm;break;case"copy":case"cut":case"paste":v=Pm;break;case"gotpointercapture":case"lostpointercapture":case"pointercancel":case"pointerdown":case"pointermove":case"pointerout":case"pointerover":case"pointerup":v=ic;break;case"toggle":case"beforetoggle":v=Qm}var Q=(t&4)!==0,ke=!Q&&(e==="scroll"||e==="scrollend"),g=Q?y!==null?y+"Capture":null:y;Q=[];for(var p=f,h;p!==null;){var C=p;if(h=C.stateNode,C=C.tag,C!==5&&C!==26&&C!==27||h===null||g===null||(C=Hr(p,g),C!=null&&Q.push(Sn(p,C,h))),ke)break;p=p.return}0<Q.length&&(y=new v(y,_,null,i,S),T.push({event:y,listeners:Q}))}}if((t&7)===0){e:{if(y=e==="mouseover"||e==="pointerover",v=e==="mouseout"||e==="pointerout",y&&i!==uo&&(_=i.relatedTarget||i.fromElement)&&(Xi(_)||_[Ji]))break e;if((v||y)&&(y=S.window===S?S:(y=S.ownerDocument)?y.defaultView||y.parentWindow:window,v?(_=i.relatedTarget||i.toElement,v=f,_=_?Xi(_):null,_!==null&&(ke=L(_),Q=_.tag,_!==ke||Q!==5&&Q!==27&&Q!==6)&&(_=null)):(v=null,_=f),v!==_)){if(Q=ec,C="onMouseLeave",g="onMouseEnter",p="mouse",(e==="pointerout"||e==="pointerover")&&(Q=ic,C="onPointerLeave",g="onPointerEnter",p="pointer"),ke=v==null?y:_r(v),h=_==null?y:_r(_),y=new Q(C,p+"leave",v,i,S),y.target=ke,y.relatedTarget=h,C=null,Xi(S)===f&&(Q=new Q(g,p+"enter",_,i,S),Q.target=h,Q.relatedTarget=ke,C=Q),ke=C,v&&_)t:{for(Q=Gg,g=v,p=_,h=0,C=g;C;C=Q(C))h++;C=0;for(var V=p;V;V=Q(V))C++;for(;0<h-C;)g=Q(g),h--;for(;0<C-h;)p=Q(p),C--;for(;h--;){if(g===p||p!==null&&g===p.alternate){Q=g;break t}g=Q(g),p=Q(p)}Q=null}else Q=null;v!==null&&Gu(T,y,v,Q,!1),_!==null&&ke!==null&&Gu(T,ke,_,Q,!0)}}e:{if(y=f?_r(f):window,v=y.nodeName&&y.nodeName.toLowerCase(),v==="select"||v==="input"&&y.type==="file")var pe=dc;else if(lc(y))if(uc)pe=ng;else{pe=ig;var j=tg}else v=y.nodeName,!v||v.toLowerCase()!=="input"||y.type!=="checkbox"&&y.type!=="radio"?f&&co(f.elementType)&&(pe=dc):pe=rg;if(pe&&(pe=pe(e,f))){cc(T,pe,i,S);break e}j&&j(e,y,f),e==="focusout"&&f&&y.type==="number"&&f.memoizedProps.value!=null&&lo(y,"number",y.value)}switch(j=f?_r(f):window,e){case"focusin":(lc(j)||j.contentEditable==="true")&&(or=j,Co=f,Qr=null);break;case"focusout":Qr=Co=or=null;break;case"mousedown":To=!0;break;case"contextmenu":case"mouseup":case"dragend":To=!1,bc(T,i,S);break;case"selectionchange":if(og)break;case"keydown":case"keyup":bc(T,i,S)}var $;if(So)e:{switch(e){case"compositionstart":var ae="onCompositionStart";break e;case"compositionend":ae="onCompositionEnd";break e;case"compositionupdate":ae="onCompositionUpdate";break e}ae=void 0}else ar?oc(e,i)&&(ae="onCompositionEnd"):e==="keydown"&&i.keyCode===229&&(ae="onCompositionStart");ae&&(rc&&i.locale!=="ko"&&(ar||ae!=="onCompositionStart"?ae==="onCompositionEnd"&&ar&&($=Zl()):(oi=S,ho="value"in oi?oi.value:oi.textContent,ar=!0)),j=Na(f,ae),0<j.length&&(ae=new tc(ae,e,null,i,S),T.push({event:ae,listeners:j}),$?ae.data=$:($=sc(i),$!==null&&(ae.data=$)))),($=Jm?Xm(e,i):Zm(e,i))&&(ae=Na(f,"onBeforeInput"),0<ae.length&&(j=new tc("onBeforeInput","beforeinput",null,i,S),T.push({event:j,listeners:ae}),j.data=$)),Vg(T,e,f,i,S)}Ku(T,t)})}function Sn(e,t,i){return{instance:e,listener:t,currentTarget:i}}function Na(e,t){for(var i=t+"Capture",r=[];e!==null;){var n=e,a=n.stateNode;if(n=n.tag,n!==5&&n!==26&&n!==27||a===null||(n=Hr(e,i),n!=null&&r.unshift(Sn(e,n,a)),n=Hr(e,t),n!=null&&r.push(Sn(e,n,a))),e.tag===3)return r;e=e.return}return[]}function Gg(e){if(e===null)return null;do e=e.return;while(e&&e.tag!==5&&e.tag!==27);return e||null}function Gu(e,t,i,r,n){for(var a=t._reactName,o=[];i!==null&&i!==r;){var l=i,c=l.alternate,f=l.stateNode;if(l=l.tag,c!==null&&c===r)break;l!==5&&l!==26&&l!==27||f===null||(c=f,n?(f=Hr(i,a),f!=null&&o.unshift(Sn(i,f,c))):n||(f=Hr(i,a),f!=null&&o.push(Sn(i,f,c)))),i=i.return}o.length!==0&&e.push({event:t,listeners:o})}var Qg=/\r\n?/g,Yg=/\u0000|\uFFFD/g;function Qu(e){return(typeof e=="string"?e:""+e).replace(Qg,`
+`).replace(Yg,"")}function Yu(e,t){return t=Qu(t),Qu(e)===t}function Se(e,t,i,r,n,a){switch(i){case"children":typeof r=="string"?t==="body"||t==="textarea"&&r===""||ir(e,r):(typeof r=="number"||typeof r=="bigint")&&t!=="body"&&ir(e,""+r);break;case"className":Bn(e,"class",r);break;case"tabIndex":Bn(e,"tabindex",r);break;case"dir":case"role":case"viewBox":case"width":case"height":Bn(e,i,r);break;case"style":Yl(e,r,a);break;case"data":if(t!=="object"){Bn(e,"data",r);break}case"src":case"href":if(r===""&&(t!=="a"||i!=="href")){e.removeAttribute(i);break}if(r==null||typeof r=="function"||typeof r=="symbol"||typeof r=="boolean"){e.removeAttribute(i);break}r=_n(""+r),e.setAttribute(i,r);break;case"action":case"formAction":if(typeof r=="function"){e.setAttribute(i,"javascript:throw new Error('A React form was unexpectedly submitted. If you called form.submit() manually, consider using form.requestSubmit() instead. If you\\'re trying to use event.stopPropagation() in a submit event handler, consider also calling event.preventDefault().')");break}else typeof a=="function"&&(i==="formAction"?(t!=="input"&&Se(e,t,"name",n.name,n,null),Se(e,t,"formEncType",n.formEncType,n,null),Se(e,t,"formMethod",n.formMethod,n,null),Se(e,t,"formTarget",n.formTarget,n,null)):(Se(e,t,"encType",n.encType,n,null),Se(e,t,"method",n.method,n,null),Se(e,t,"target",n.target,n,null)));if(r==null||typeof r=="symbol"||typeof r=="boolean"){e.removeAttribute(i);break}r=_n(""+r),e.setAttribute(i,r);break;case"onClick":r!=null&&(e.onclick=_t);break;case"onScroll":r!=null&&re("scroll",e);break;case"onScrollEnd":r!=null&&re("scrollend",e);break;case"dangerouslySetInnerHTML":if(r!=null){if(typeof r!="object"||!("__html"in r))throw Error(d(61));if(i=r.__html,i!=null){if(n.children!=null)throw Error(d(60));e.innerHTML=i}}break;case"multiple":e.multiple=r&&typeof r!="function"&&typeof r!="symbol";break;case"muted":e.muted=r&&typeof r!="function"&&typeof r!="symbol";break;case"suppressContentEditableWarning":case"suppressHydrationWarning":case"defaultValue":case"defaultChecked":case"innerHTML":case"ref":break;case"autoFocus":break;case"xlinkHref":if(r==null||typeof r=="function"||typeof r=="boolean"||typeof r=="symbol"){e.removeAttribute("xlink:href");break}i=_n(""+r),e.setAttributeNS("http://www.w3.org/1999/xlink","xlink:href",i);break;case"contentEditable":case"spellCheck":case"draggable":case"value":case"autoReverse":case"externalResourcesRequired":case"focusable":case"preserveAlpha":r!=null&&typeof r!="function"&&typeof r!="symbol"?e.setAttribute(i,""+r):e.removeAttribute(i);break;case"inert":case"allowFullScreen":case"async":case"autoPlay":case"controls":case"default":case"defer":case"disabled":case"disablePictureInPicture":case"disableRemotePlayback":case"formNoValidate":case"hidden":case"loop":case"noModule":case"noValidate":case"open":case"playsInline":case"readOnly":case"required":case"reversed":case"scoped":case"seamless":case"itemScope":r&&typeof r!="function"&&typeof r!="symbol"?e.setAttribute(i,""):e.removeAttribute(i);break;case"capture":case"download":r===!0?e.setAttribute(i,""):r!==!1&&r!=null&&typeof r!="function"&&typeof r!="symbol"?e.setAttribute(i,r):e.removeAttribute(i);break;case"cols":case"rows":case"size":case"span":r!=null&&typeof r!="function"&&typeof r!="symbol"&&!isNaN(r)&&1<=r?e.setAttribute(i,r):e.removeAttribute(i);break;case"rowSpan":case"start":r==null||typeof r=="function"||typeof r=="symbol"||isNaN(r)?e.removeAttribute(i):e.setAttribute(i,r);break;case"popover":re("beforetoggle",e),re("toggle",e),On(e,"popover",r);break;case"xlinkActuate":Ft(e,"http://www.w3.org/1999/xlink","xlink:actuate",r);break;case"xlinkArcrole":Ft(e,"http://www.w3.org/1999/xlink","xlink:arcrole",r);break;case"xlinkRole":Ft(e,"http://www.w3.org/1999/xlink","xlink:role",r);break;case"xlinkShow":Ft(e,"http://www.w3.org/1999/xlink","xlink:show",r);break;case"xlinkTitle":Ft(e,"http://www.w3.org/1999/xlink","xlink:title",r);break;case"xlinkType":Ft(e,"http://www.w3.org/1999/xlink","xlink:type",r);break;case"xmlBase":Ft(e,"http://www.w3.org/XML/1998/namespace","xml:base",r);break;case"xmlLang":Ft(e,"http://www.w3.org/XML/1998/namespace","xml:lang",r);break;case"xmlSpace":Ft(e,"http://www.w3.org/XML/1998/namespace","xml:space",r);break;case"is":On(e,"is",r);break;case"innerText":case"textContent":break;default:(!(2<i.length)||i[0]!=="o"&&i[0]!=="O"||i[1]!=="n"&&i[1]!=="N")&&(i=Am.get(i)||i,On(e,i,r))}}function Js(e,t,i,r,n,a){switch(i){case"style":Yl(e,r,a);break;case"dangerouslySetInnerHTML":if(r!=null){if(typeof r!="object"||!("__html"in r))throw Error(d(61));if(i=r.__html,i!=null){if(n.children!=null)throw Error(d(60));e.innerHTML=i}}break;case"children":typeof r=="string"?ir(e,r):(typeof r=="number"||typeof r=="bigint")&&ir(e,""+r);break;case"onScroll":r!=null&&re("scroll",e);break;case"onScrollEnd":r!=null&&re("scrollend",e);break;case"onClick":r!=null&&(e.onclick=_t);break;case"suppressContentEditableWarning":case"suppressHydrationWarning":case"innerHTML":case"ref":break;case"innerText":case"textContent":break;default:if(!Hl.hasOwnProperty(i))e:{if(i[0]==="o"&&i[1]==="n"&&(n=i.endsWith("Capture"),t=i.slice(2,n?i.length-7:void 0),a=e[Ze]||null,a=a!=null?a[i]:null,typeof a=="function"&&e.removeEventListener(t,a,n),typeof r=="function")){typeof a!="function"&&a!==null&&(i in e?e[i]=null:e.hasAttribute(i)&&e.removeAttribute(i)),e.addEventListener(t,r,n);break e}i in e?e[i]=r:r===!0?e.setAttribute(i,""):On(e,i,r)}}}function Qe(e,t,i){switch(t){case"div":case"span":case"svg":case"path":case"a":case"g":case"p":case"li":break;case"img":re("error",e),re("load",e);var r=!1,n=!1,a;for(a in i)if(i.hasOwnProperty(a)){var o=i[a];if(o!=null)switch(a){case"src":r=!0;break;case"srcSet":n=!0;break;case"children":case"dangerouslySetInnerHTML":throw Error(d(137,t));default:Se(e,t,a,o,i,null)}}n&&Se(e,t,"srcSet",i.srcSet,i,null),r&&Se(e,t,"src",i.src,i,null);return;case"input":re("invalid",e);var l=a=o=n=null,c=null,f=null;for(r in i)if(i.hasOwnProperty(r)){var S=i[r];if(S!=null)switch(r){case"name":n=S;break;case"type":o=S;break;case"checked":c=S;break;case"defaultChecked":f=S;break;case"value":a=S;break;case"defaultValue":l=S;break;case"children":case"dangerouslySetInnerHTML":if(S!=null)throw Error(d(137,t));break;default:Se(e,t,r,S,i,null)}}Kl(e,a,l,c,f,o,n,!1);return;case"select":re("invalid",e),r=o=a=null;for(n in i)if(i.hasOwnProperty(n)&&(l=i[n],l!=null))switch(n){case"value":a=l;break;case"defaultValue":o=l;break;case"multiple":r=l;default:Se(e,t,n,l,i,null)}t=a,i=o,e.multiple=!!r,t!=null?tr(e,!!r,t,!1):i!=null&&tr(e,!!r,i,!0);return;case"textarea":re("invalid",e),a=n=r=null;for(o in i)if(i.hasOwnProperty(o)&&(l=i[o],l!=null))switch(o){case"value":r=l;break;case"defaultValue":n=l;break;case"children":a=l;break;case"dangerouslySetInnerHTML":if(l!=null)throw Error(d(91));break;default:Se(e,t,o,l,i,null)}Gl(e,r,n,a);return;case"option":for(c in i)i.hasOwnProperty(c)&&(r=i[c],r!=null)&&(c==="selected"?e.selected=r&&typeof r!="function"&&typeof r!="symbol":Se(e,t,c,r,i,null));return;case"dialog":re("beforetoggle",e),re("toggle",e),re("cancel",e),re("close",e);break;case"iframe":case"object":re("load",e);break;case"video":case"audio":for(r=0;r<bn.length;r++)re(bn[r],e);break;case"image":re("error",e),re("load",e);break;case"details":re("toggle",e);break;case"embed":case"source":case"link":re("error",e),re("load",e);case"area":case"base":case"br":case"col":case"hr":case"keygen":case"meta":case"param":case"track":case"wbr":case"menuitem":for(f in i)if(i.hasOwnProperty(f)&&(r=i[f],r!=null))switch(f){case"children":case"dangerouslySetInnerHTML":throw Error(d(137,t));default:Se(e,t,f,r,i,null)}return;default:if(co(t)){for(S in i)i.hasOwnProperty(S)&&(r=i[S],r!==void 0&&Js(e,t,S,r,i,void 0));return}}for(l in i)i.hasOwnProperty(l)&&(r=i[l],r!=null&&Se(e,t,l,r,i,null))}function Jg(e,t,i,r){switch(t){case"div":case"span":case"svg":case"path":case"a":case"g":case"p":case"li":break;case"input":var n=null,a=null,o=null,l=null,c=null,f=null,S=null;for(v in i){var T=i[v];if(i.hasOwnProperty(v)&&T!=null)switch(v){case"checked":break;case"value":break;case"defaultValue":c=T;default:r.hasOwnProperty(v)||Se(e,t,v,null,r,T)}}for(var y in r){var v=r[y];if(T=i[y],r.hasOwnProperty(y)&&(v!=null||T!=null))switch(y){case"type":a=v;break;case"name":n=v;break;case"checked":f=v;break;case"defaultChecked":S=v;break;case"value":o=v;break;case"defaultValue":l=v;break;case"children":case"dangerouslySetInnerHTML":if(v!=null)throw Error(d(137,t));break;default:v!==T&&Se(e,t,y,v,r,T)}}so(e,o,l,c,f,S,a,n);return;case"select":v=o=l=y=null;for(a in i)if(c=i[a],i.hasOwnProperty(a)&&c!=null)switch(a){case"value":break;case"multiple":v=c;default:r.hasOwnProperty(a)||Se(e,t,a,null,r,c)}for(n in r)if(a=r[n],c=i[n],r.hasOwnProperty(n)&&(a!=null||c!=null))switch(n){case"value":y=a;break;case"defaultValue":l=a;break;case"multiple":o=a;default:a!==c&&Se(e,t,n,a,r,c)}t=l,i=o,r=v,y!=null?tr(e,!!i,y,!1):!!r!=!!i&&(t!=null?tr(e,!!i,t,!0):tr(e,!!i,i?[]:"",!1));return;case"textarea":v=y=null;for(l in i)if(n=i[l],i.hasOwnProperty(l)&&n!=null&&!r.hasOwnProperty(l))switch(l){case"value":break;case"children":break;default:Se(e,t,l,null,r,n)}for(o in r)if(n=r[o],a=i[o],r.hasOwnProperty(o)&&(n!=null||a!=null))switch(o){case"value":y=n;break;case"defaultValue":v=n;break;case"children":break;case"dangerouslySetInnerHTML":if(n!=null)throw Error(d(91));break;default:n!==a&&Se(e,t,o,n,r,a)}Wl(e,y,v);return;case"option":for(var _ in i)y=i[_],i.hasOwnProperty(_)&&y!=null&&!r.hasOwnProperty(_)&&(_==="selected"?e.selected=!1:Se(e,t,_,null,r,y));for(c in r)y=r[c],v=i[c],r.hasOwnProperty(c)&&y!==v&&(y!=null||v!=null)&&(c==="selected"?e.selected=y&&typeof y!="function"&&typeof y!="symbol":Se(e,t,c,y,r,v));return;case"img":case"link":case"area":case"base":case"br":case"col":case"embed":case"hr":case"keygen":case"meta":case"param":case"source":case"track":case"wbr":case"menuitem":for(var Q in i)y=i[Q],i.hasOwnProperty(Q)&&y!=null&&!r.hasOwnProperty(Q)&&Se(e,t,Q,null,r,y);for(f in r)if(y=r[f],v=i[f],r.hasOwnProperty(f)&&y!==v&&(y!=null||v!=null))switch(f){case"children":case"dangerouslySetInnerHTML":if(y!=null)throw Error(d(137,t));break;default:Se(e,t,f,y,r,v)}return;default:if(co(t)){for(var ke in i)y=i[ke],i.hasOwnProperty(ke)&&y!==void 0&&!r.hasOwnProperty(ke)&&Js(e,t,ke,void 0,r,y);for(S in r)y=r[S],v=i[S],!r.hasOwnProperty(S)||y===v||y===void 0&&v===void 0||Js(e,t,S,y,r,v);return}}for(var g in i)y=i[g],i.hasOwnProperty(g)&&y!=null&&!r.hasOwnProperty(g)&&Se(e,t,g,null,r,y);for(T in r)y=r[T],v=i[T],!r.hasOwnProperty(T)||y===v||y==null&&v==null||Se(e,t,T,y,r,v)}function Ju(e){switch(e){case"css":case"script":case"font":case"img":case"image":case"input":case"link":return!0;default:return!1}}function Xg(){if(typeof performance.getEntriesByType=="function"){for(var e=0,t=0,i=performance.getEntriesByType("resource"),r=0;r<i.length;r++){var n=i[r],a=n.transferSize,o=n.initiatorType,l=n.duration;if(a&&l&&Ju(o)){for(o=0,l=n.responseEnd,r+=1;r<i.length;r++){var c=i[r],f=c.startTime;if(f>l)break;var S=c.transferSize,T=c.initiatorType;S&&Ju(T)&&(c=c.responseEnd,o+=S*(c<l?1:(l-f)/(c-f)))}if(--r,t+=8*(a+o)/(n.duration/1e3),e++,10<e)break}}if(0<e)return t/e/1e6}return navigator.connection&&(e=navigator.connection.downlink,typeof e=="number")?e:5}var Xs=null,Zs=null;function Ua(e){return e.nodeType===9?e:e.ownerDocument}function Xu(e){switch(e){case"http://www.w3.org/2000/svg":return 1;case"http://www.w3.org/1998/Math/MathML":return 2;default:return 0}}function Zu(e,t){if(e===0)switch(t){case"svg":return 1;case"math":return 2;default:return 0}return e===1&&t==="foreignObject"?0:e}function $s(e,t){return e==="textarea"||e==="noscript"||typeof t.children=="string"||typeof t.children=="number"||typeof t.children=="bigint"||typeof t.dangerouslySetInnerHTML=="object"&&t.dangerouslySetInnerHTML!==null&&t.dangerouslySetInnerHTML.__html!=null}var el=null;function Zg(){var e=window.event;return e&&e.type==="popstate"?e===el?!1:(el=e,!0):(el=null,!1)}var $u=typeof setTimeout=="function"?setTimeout:void 0,$g=typeof clearTimeout=="function"?clearTimeout:void 0,ep=typeof Promise=="function"?Promise:void 0,eh=typeof queueMicrotask=="function"?queueMicrotask:typeof ep<"u"?function(e){return ep.resolve(null).then(e).catch(th)}:$u;function th(e){setTimeout(function(){throw e})}function Ai(e){return e==="head"}function tp(e,t){var i=t,r=0;do{var n=i.nextSibling;if(e.removeChild(i),n&&n.nodeType===8)if(i=n.data,i==="/$"||i==="/&"){if(r===0){e.removeChild(n),Nr(t);return}r--}else if(i==="$"||i==="$?"||i==="$~"||i==="$!"||i==="&")r++;else if(i==="html")kn(e.ownerDocument.documentElement);else if(i==="head"){i=e.ownerDocument.head,kn(i);for(var a=i.firstChild;a;){var o=a.nextSibling,l=a.nodeName;a[Fr]||l==="SCRIPT"||l==="STYLE"||l==="LINK"&&a.rel.toLowerCase()==="stylesheet"||i.removeChild(a),a=o}}else i==="body"&&kn(e.ownerDocument.body);i=n}while(i);Nr(t)}function ip(e,t){var i=e;e=0;do{var r=i.nextSibling;if(i.nodeType===1?t?(i._stashedDisplay=i.style.display,i.style.display="none"):(i.style.display=i._stashedDisplay||"",i.getAttribute("style")===""&&i.removeAttribute("style")):i.nodeType===3&&(t?(i._stashedText=i.nodeValue,i.nodeValue=""):i.nodeValue=i._stashedText||""),r&&r.nodeType===8)if(i=r.data,i==="/$"){if(e===0)break;e--}else i!=="$"&&i!=="$?"&&i!=="$~"&&i!=="$!"||e++;i=r}while(i)}function tl(e){var t=e.firstChild;for(t&&t.nodeType===10&&(t=t.nextSibling);t;){var i=t;switch(t=t.nextSibling,i.nodeName){case"HTML":case"HEAD":case"BODY":tl(i),ao(i);continue;case"SCRIPT":case"STYLE":continue;case"LINK":if(i.rel.toLowerCase()==="stylesheet")continue}e.removeChild(i)}}function ih(e,t,i,r){for(;e.nodeType===1;){var n=i;if(e.nodeName.toLowerCase()!==t.toLowerCase()){if(!r&&(e.nodeName!=="INPUT"||e.type!=="hidden"))break}else if(r){if(!e[Fr])switch(t){case"meta":if(!e.hasAttribute("itemprop"))break;return e;case"link":if(a=e.getAttribute("rel"),a==="stylesheet"&&e.hasAttribute("data-precedence"))break;if(a!==n.rel||e.getAttribute("href")!==(n.href==null||n.href===""?null:n.href)||e.getAttribute("crossorigin")!==(n.crossOrigin==null?null:n.crossOrigin)||e.getAttribute("title")!==(n.title==null?null:n.title))break;return e;case"style":if(e.hasAttribute("data-precedence"))break;return e;case"script":if(a=e.getAttribute("src"),(a!==(n.src==null?null:n.src)||e.getAttribute("type")!==(n.type==null?null:n.type)||e.getAttribute("crossorigin")!==(n.crossOrigin==null?null:n.crossOrigin))&&a&&e.hasAttribute("async")&&!e.hasAttribute("itemprop"))break;return e;default:return e}}else if(t==="input"&&e.type==="hidden"){var a=n.name==null?null:""+n.name;if(n.type==="hidden"&&e.getAttribute("name")===a)return e}else return e;if(e=Tt(e.nextSibling),e===null)break}return null}function rh(e,t,i){if(t==="")return null;for(;e.nodeType!==3;)if((e.nodeType!==1||e.nodeName!=="INPUT"||e.type!=="hidden")&&!i||(e=Tt(e.nextSibling),e===null))return null;return e}function rp(e,t){for(;e.nodeType!==8;)if((e.nodeType!==1||e.nodeName!=="INPUT"||e.type!=="hidden")&&!t||(e=Tt(e.nextSibling),e===null))return null;return e}function il(e){return e.data==="$?"||e.data==="$~"}function rl(e){return e.data==="$!"||e.data==="$?"&&e.ownerDocument.readyState!=="loading"}function nh(e,t){var i=e.ownerDocument;if(e.data==="$~")e._reactRetry=t;else if(e.data!=="$?"||i.readyState!=="loading")t();else{var r=function(){t(),i.removeEventListener("DOMContentLoaded",r)};i.addEventListener("DOMContentLoaded",r),e._reactRetry=r}}function Tt(e){for(;e!=null;e=e.nextSibling){var t=e.nodeType;if(t===1||t===3)break;if(t===8){if(t=e.data,t==="$"||t==="$!"||t==="$?"||t==="$~"||t==="&"||t==="F!"||t==="F")break;if(t==="/$"||t==="/&")return null}}return e}var nl=null;function np(e){e=e.nextSibling;for(var t=0;e;){if(e.nodeType===8){var i=e.data;if(i==="/$"||i==="/&"){if(t===0)return Tt(e.nextSibling);t--}else i!=="$"&&i!=="$!"&&i!=="$?"&&i!=="$~"&&i!=="&"||t++}e=e.nextSibling}return null}function ap(e){e=e.previousSibling;for(var t=0;e;){if(e.nodeType===8){var i=e.data;if(i==="$"||i==="$!"||i==="$?"||i==="$~"||i==="&"){if(t===0)return e;t--}else i!=="/$"&&i!=="/&"||t++}e=e.previousSibling}return null}function op(e,t,i){switch(t=Ua(i),e){case"html":if(e=t.documentElement,!e)throw Error(d(452));return e;case"head":if(e=t.head,!e)throw Error(d(453));return e;case"body":if(e=t.body,!e)throw Error(d(454));return e;default:throw Error(d(451))}}function kn(e){for(var t=e.attributes;t.length;)e.removeAttributeNode(t[0]);ao(e)}var xt=new Map,sp=new Set;function La(e){return typeof e.getRootNode=="function"?e.getRootNode():e.nodeType===9?e:e.ownerDocument}var ti=P.d;P.d={f:ah,r:oh,D:sh,C:lh,L:ch,m:dh,X:ph,S:uh,M:mh};function ah(){var e=ti.f(),t=xa();return e||t}function oh(e){var t=Zi(e);t!==null&&t.tag===5&&t.type==="form"?Cd(t):ti.r(e)}var Dr=typeof document>"u"?null:document;function lp(e,t,i){var r=Dr;if(r&&typeof t=="string"&&t){var n=vt(t);n='link[rel="'+e+'"][href="'+n+'"]',typeof i=="string"&&(n+='[crossorigin="'+i+'"]'),sp.has(n)||(sp.add(n),e={rel:e,crossOrigin:i,href:t},r.querySelector(n)===null&&(t=r.createElement("link"),Qe(t,"link",e),He(t),r.head.appendChild(t)))}}function sh(e){ti.D(e),lp("dns-prefetch",e,null)}function lh(e,t){ti.C(e,t),lp("preconnect",e,t)}function ch(e,t,i){ti.L(e,t,i);var r=Dr;if(r&&e&&t){var n='link[rel="preload"][as="'+vt(t)+'"]';t==="image"&&i&&i.imageSrcSet?(n+='[imagesrcset="'+vt(i.imageSrcSet)+'"]',typeof i.imageSizes=="string"&&(n+='[imagesizes="'+vt(i.imageSizes)+'"]')):n+='[href="'+vt(e)+'"]';var a=n;switch(t){case"style":a=Ir(e);break;case"script":a=Pr(e)}xt.has(a)||(e=O({rel:"preload",href:t==="image"&&i&&i.imageSrcSet?void 0:e,as:t},i),xt.set(a,e),r.querySelector(n)!==null||t==="style"&&r.querySelector(wn(a))||t==="script"&&r.querySelector(An(a))||(t=r.createElement("link"),Qe(t,"link",e),He(t),r.head.appendChild(t)))}}function dh(e,t){ti.m(e,t);var i=Dr;if(i&&e){var r=t&&typeof t.as=="string"?t.as:"script",n='link[rel="modulepreload"][as="'+vt(r)+'"][href="'+vt(e)+'"]',a=n;switch(r){case"audioworklet":case"paintworklet":case"serviceworker":case"sharedworker":case"worker":case"script":a=Pr(e)}if(!xt.has(a)&&(e=O({rel:"modulepreload",href:e},t),xt.set(a,e),i.querySelector(n)===null)){switch(r){case"audioworklet":case"paintworklet":case"serviceworker":case"sharedworker":case"worker":case"script":if(i.querySelector(An(a)))return}r=i.createElement("link"),Qe(r,"link",e),He(r),i.head.appendChild(r)}}}function uh(e,t,i){ti.S(e,t,i);var r=Dr;if(r&&e){var n=$i(r).hoistableStyles,a=Ir(e);t=t||"default";var o=n.get(a);if(!o){var l={loading:0,preload:null};if(o=r.querySelector(wn(a)))l.loading=5;else{e=O({rel:"stylesheet",href:e,"data-precedence":t},i),(i=xt.get(a))&&al(e,i);var c=o=r.createElement("link");He(c),Qe(c,"link",e),c._p=new Promise(function(f,S){c.onload=f,c.onerror=S}),c.addEventListener("load",function(){l.loading|=1}),c.addEventListener("error",function(){l.loading|=2}),l.loading|=4,Oa(o,t,r)}o={type:"stylesheet",instance:o,count:1,state:l},n.set(a,o)}}}function ph(e,t){ti.X(e,t);var i=Dr;if(i&&e){var r=$i(i).hoistableScripts,n=Pr(e),a=r.get(n);a||(a=i.querySelector(An(n)),a||(e=O({src:e,async:!0},t),(t=xt.get(n))&&ol(e,t),a=i.createElement("script"),He(a),Qe(a,"link",e),i.head.appendChild(a)),a={type:"script",instance:a,count:1,state:null},r.set(n,a))}}function mh(e,t){ti.M(e,t);var i=Dr;if(i&&e){var r=$i(i).hoistableScripts,n=Pr(e),a=r.get(n);a||(a=i.querySelector(An(n)),a||(e=O({src:e,async:!0,type:"module"},t),(t=xt.get(n))&&ol(e,t),a=i.createElement("script"),He(a),Qe(a,"link",e),i.head.appendChild(a)),a={type:"script",instance:a,count:1,state:null},r.set(n,a))}}function cp(e,t,i,r){var n=(n=b.current)?La(n):null;if(!n)throw Error(d(446));switch(e){case"meta":case"title":return null;case"style":return typeof i.precedence=="string"&&typeof i.href=="string"?(t=Ir(i.href),i=$i(n).hoistableStyles,r=i.get(t),r||(r={type:"style",instance:null,count:0,state:null},i.set(t,r)),r):{type:"void",instance:null,count:0,state:null};case"link":if(i.rel==="stylesheet"&&typeof i.href=="string"&&typeof i.precedence=="string"){e=Ir(i.href);var a=$i(n).hoistableStyles,o=a.get(e);if(o||(n=n.ownerDocument||n,o={type:"stylesheet",instance:null,count:0,state:{loading:0,preload:null}},a.set(e,o),(a=n.querySelector(wn(e)))&&!a._p&&(o.instance=a,o.state.loading=5),xt.has(e)||(i={rel:"preload",as:"style",href:i.href,crossOrigin:i.crossOrigin,integrity:i.integrity,media:i.media,hrefLang:i.hrefLang,referrerPolicy:i.referrerPolicy},xt.set(e,i),a||gh(n,e,i,o.state))),t&&r===null)throw Error(d(528,""));return o}if(t&&r!==null)throw Error(d(529,""));return null;case"script":return t=i.async,i=i.src,typeof i=="string"&&t&&typeof t!="function"&&typeof t!="symbol"?(t=Pr(i),i=$i(n).hoistableScripts,r=i.get(t),r||(r={type:"script",instance:null,count:0,state:null},i.set(t,r)),r):{type:"void",instance:null,count:0,state:null};default:throw Error(d(444,e))}}function Ir(e){return'href="'+vt(e)+'"'}function wn(e){return'link[rel="stylesheet"]['+e+"]"}function dp(e){return O({},e,{"data-precedence":e.precedence,precedence:null})}function gh(e,t,i,r){e.querySelector('link[rel="preload"][as="style"]['+t+"]")?r.loading=1:(t=e.createElement("link"),r.preload=t,t.addEventListener("load",function(){return r.loading|=1}),t.addEventListener("error",function(){return r.loading|=2}),Qe(t,"link",i),He(t),e.head.appendChild(t))}function Pr(e){return'[src="'+vt(e)+'"]'}function An(e){return"script[async]"+e}function up(e,t,i){if(t.count++,t.instance===null)switch(t.type){case"style":var r=e.querySelector('style[data-href~="'+vt(i.href)+'"]');if(r)return t.instance=r,He(r),r;var n=O({},i,{"data-href":i.href,"data-precedence":i.precedence,href:null,precedence:null});return r=(e.ownerDocument||e).createElement("style"),He(r),Qe(r,"style",n),Oa(r,i.precedence,e),t.instance=r;case"stylesheet":n=Ir(i.href);var a=e.querySelector(wn(n));if(a)return t.state.loading|=4,t.instance=a,He(a),a;r=dp(i),(n=xt.get(n))&&al(r,n),a=(e.ownerDocument||e).createElement("link"),He(a);var o=a;return o._p=new Promise(function(l,c){o.onload=l,o.onerror=c}),Qe(a,"link",r),t.state.loading|=4,Oa(a,i.precedence,e),t.instance=a;case"script":return a=Pr(i.src),(n=e.querySelector(An(a)))?(t.instance=n,He(n),n):(r=i,(n=xt.get(a))&&(r=O({},i),ol(r,n)),e=e.ownerDocument||e,n=e.createElement("script"),He(n),Qe(n,"link",r),e.head.appendChild(n),t.instance=n);case"void":return null;default:throw Error(d(443,t.type))}else t.type==="stylesheet"&&(t.state.loading&4)===0&&(r=t.instance,t.state.loading|=4,Oa(r,i.precedence,e));return t.instance}function Oa(e,t,i){for(var r=i.querySelectorAll('link[rel="stylesheet"][data-precedence],style[data-precedence]'),n=r.length?r[r.length-1]:null,a=n,o=0;o<r.length;o++){var l=r[o];if(l.dataset.precedence===t)a=l;else if(a!==n)break}a?a.parentNode.insertBefore(e,a.nextSibling):(t=i.nodeType===9?i.head:i,t.insertBefore(e,t.firstChild))}function al(e,t){e.crossOrigin==null&&(e.crossOrigin=t.crossOrigin),e.referrerPolicy==null&&(e.referrerPolicy=t.referrerPolicy),e.title==null&&(e.title=t.title)}function ol(e,t){e.crossOrigin==null&&(e.crossOrigin=t.crossOrigin),e.referrerPolicy==null&&(e.referrerPolicy=t.referrerPolicy),e.integrity==null&&(e.integrity=t.integrity)}var Ba=null;function pp(e,t,i){if(Ba===null){var r=new Map,n=Ba=new Map;n.set(i,r)}else n=Ba,r=n.get(i),r||(r=new Map,n.set(i,r));if(r.has(e))return r;for(r.set(e,null),i=i.getElementsByTagName(e),n=0;n<i.length;n++){var a=i[n];if(!(a[Fr]||a[ze]||e==="link"&&a.getAttribute("rel")==="stylesheet")&&a.namespaceURI!=="http://www.w3.org/2000/svg"){var o=a.getAttribute(t)||"";o=e+o;var l=r.get(o);l?l.push(a):r.set(o,[a])}}return r}function mp(e,t,i){e=e.ownerDocument||e,e.head.insertBefore(i,t==="title"?e.querySelector("head > title"):null)}function hh(e,t,i){if(i===1||t.itemProp!=null)return!1;switch(e){case"meta":case"title":return!0;case"style":if(typeof t.precedence!="string"||typeof t.href!="string"||t.href==="")break;return!0;case"link":if(typeof t.rel!="string"||typeof t.href!="string"||t.href===""||t.onLoad||t.onError)break;return t.rel==="stylesheet"?(e=t.disabled,typeof t.precedence=="string"&&e==null):!0;case"script":if(t.async&&typeof t.async!="function"&&typeof t.async!="symbol"&&!t.onLoad&&!t.onError&&t.src&&typeof t.src=="string")return!0}return!1}function gp(e){return!(e.type==="stylesheet"&&(e.state.loading&3)===0)}function fh(e,t,i,r){if(i.type==="stylesheet"&&(typeof r.media!="string"||matchMedia(r.media).matches!==!1)&&(i.state.loading&4)===0){if(i.instance===null){var n=Ir(r.href),a=t.querySelector(wn(n));if(a){t=a._p,t!==null&&typeof t=="object"&&typeof t.then=="function"&&(e.count++,e=Fa.bind(e),t.then(e,e)),i.state.loading|=4,i.instance=a,He(a);return}a=t.ownerDocument||t,r=dp(r),(n=xt.get(n))&&al(r,n),a=a.createElement("link"),He(a);var o=a;o._p=new Promise(function(l,c){o.onload=l,o.onerror=c}),Qe(a,"link",r),i.instance=a}e.stylesheets===null&&(e.stylesheets=new Map),e.stylesheets.set(i,t),(t=i.state.preload)&&(i.state.loading&3)===0&&(e.count++,i=Fa.bind(e),t.addEventListener("load",i),t.addEventListener("error",i))}}var sl=0;function yh(e,t){return e.stylesheets&&e.count===0&&Ha(e,e.stylesheets),0<e.count||0<e.imgCount?function(i){var r=setTimeout(function(){if(e.stylesheets&&Ha(e,e.stylesheets),e.unsuspend){var a=e.unsuspend;e.unsuspend=null,a()}},6e4+t);0<e.imgBytes&&sl===0&&(sl=62500*Xg());var n=setTimeout(function(){if(e.waitingForImages=!1,e.count===0&&(e.stylesheets&&Ha(e,e.stylesheets),e.unsuspend)){var a=e.unsuspend;e.unsuspend=null,a()}},(e.imgBytes>sl?50:800)+t);return e.unsuspend=i,function(){e.unsuspend=null,clearTimeout(r),clearTimeout(n)}}:null}function Fa(){if(this.count--,this.count===0&&(this.imgCount===0||!this.waitingForImages)){if(this.stylesheets)Ha(this,this.stylesheets);else if(this.unsuspend){var e=this.unsuspend;this.unsuspend=null,e()}}}var _a=null;function Ha(e,t){e.stylesheets=null,e.unsuspend!==null&&(e.count++,_a=new Map,t.forEach(vh,e),_a=null,Fa.call(e))}function vh(e,t){if(!(t.state.loading&4)){var i=_a.get(e);if(i)var r=i.get(null);else{i=new Map,_a.set(e,i);for(var n=e.querySelectorAll("link[data-precedence],style[data-precedence]"),a=0;a<n.length;a++){var o=n[a];(o.nodeName==="LINK"||o.getAttribute("media")!=="not all")&&(i.set(o.dataset.precedence,o),r=o)}r&&i.set(null,r)}n=t.instance,o=n.getAttribute("data-precedence"),a=i.get(o)||r,a===r&&i.set(null,n),i.set(o,n),this.count++,r=Fa.bind(this),n.addEventListener("load",r),n.addEventListener("error",r),a?a.parentNode.insertBefore(n,a.nextSibling):(e=e.nodeType===9?e.head:e,e.insertBefore(n,e.firstChild)),t.state.loading|=4}}var Cn={$$typeof:Ae,Provider:null,Consumer:null,_currentValue:z,_currentValue2:z,_threadCount:0};function bh(e,t,i,r,n,a,o,l,c){this.tag=1,this.containerInfo=e,this.pingCache=this.current=this.pendingChildren=null,this.timeoutHandle=-1,this.callbackNode=this.next=this.pendingContext=this.context=this.cancelPendingCommit=null,this.callbackPriority=0,this.expirationTimes=to(-1),this.entangledLanes=this.shellSuspendCounter=this.errorRecoveryDisabledLanes=this.expiredLanes=this.warmLanes=this.pingedLanes=this.suspendedLanes=this.pendingLanes=0,this.entanglements=to(0),this.hiddenUpdates=to(null),this.identifierPrefix=r,this.onUncaughtError=n,this.onCaughtError=a,this.onRecoverableError=o,this.pooledCache=null,this.pooledCacheLanes=0,this.formState=c,this.incompleteTransitions=new Map}function hp(e,t,i,r,n,a,o,l,c,f,S,T){return e=new bh(e,t,i,o,c,f,S,T,l),t=1,a===!0&&(t|=24),a=dt(3,null,null,t),e.current=a,a.stateNode=e,t=Ho(),t.refCount++,e.pooledCache=t,t.refCount++,a.memoizedState={element:r,isDehydrated:i,cache:t},zo(a),e}function fp(e){return e?(e=cr,e):cr}function yp(e,t,i,r,n,a){n=fp(n),r.context===null?r.context=n:r.pendingContext=n,r=pi(t),r.payload={element:i},a=a===void 0?null:a,a!==null&&(r.callback=a),i=mi(e,r,t),i!==null&&(nt(i,e,t),tn(i,e,t))}function vp(e,t){if(e=e.memoizedState,e!==null&&e.dehydrated!==null){var i=e.retryLane;e.retryLane=i!==0&&i<t?i:t}}function ll(e,t){vp(e,t),(e=e.alternate)&&vp(e,t)}function bp(e){if(e.tag===13||e.tag===31){var t=Oi(e,67108864);t!==null&&nt(t,e,67108864),ll(e,67108864)}}function Sp(e){if(e.tag===13||e.tag===31){var t=ht();t=io(t);var i=Oi(e,t);i!==null&&nt(i,e,t),ll(e,t)}}var qa=!0;function Sh(e,t,i,r){var n=k.T;k.T=null;var a=P.p;try{P.p=2,cl(e,t,i,r)}finally{P.p=a,k.T=n}}function kh(e,t,i,r){var n=k.T;k.T=null;var a=P.p;try{P.p=8,cl(e,t,i,r)}finally{P.p=a,k.T=n}}function cl(e,t,i,r){if(qa){var n=dl(r);if(n===null)Ys(e,t,r,ja,i),wp(e,r);else if(Ah(n,e,t,i,r))r.stopPropagation();else if(wp(e,r),t&4&&-1<wh.indexOf(e)){for(;n!==null;){var a=Zi(n);if(a!==null)switch(a.tag){case 3:if(a=a.stateNode,a.current.memoizedState.isDehydrated){var o=Ii(a.pendingLanes);if(o!==0){var l=a;for(l.pendingLanes|=2,l.entangledLanes|=2;o;){var c=1<<31-lt(o);l.entanglements[1]|=c,o&=~c}Ot(a),(ge&6)===0&&(Ca=ot()+500,vn(0))}}break;case 31:case 13:l=Oi(a,2),l!==null&&nt(l,a,2),xa(),ll(a,2)}if(a=dl(r),a===null&&Ys(e,t,r,ja,i),a===n)break;n=a}n!==null&&r.stopPropagation()}else Ys(e,t,r,null,i)}}function dl(e){return e=po(e),ul(e)}var ja=null;function ul(e){if(ja=null,e=Xi(e),e!==null){var t=L(e);if(t===null)e=null;else{var i=t.tag;if(i===13){if(e=G(t),e!==null)return e;e=null}else if(i===31){if(e=R(t),e!==null)return e;e=null}else if(i===3){if(t.stateNode.current.memoizedState.isDehydrated)return t.tag===3?t.stateNode.containerInfo:null;e=null}else t!==e&&(e=null)}}return ja=e,null}function kp(e){switch(e){case"beforetoggle":case"cancel":case"click":case"close":case"contextmenu":case"copy":case"cut":case"auxclick":case"dblclick":case"dragend":case"dragstart":case"drop":case"focusin":case"focusout":case"input":case"invalid":case"keydown":case"keypress":case"keyup":case"mousedown":case"mouseup":case"paste":case"pause":case"play":case"pointercancel":case"pointerdown":case"pointerup":case"ratechange":case"reset":case"resize":case"seeked":case"submit":case"toggle":case"touchcancel":case"touchend":case"touchstart":case"volumechange":case"change":case"selectionchange":case"textInput":case"compositionstart":case"compositionend":case"compositionupdate":case"beforeblur":case"afterblur":case"beforeinput":case"blur":case"fullscreenchange":case"focus":case"hashchange":case"popstate":case"select":case"selectstart":return 2;case"drag":case"dragenter":case"dragexit":case"dragleave":case"dragover":case"mousemove":case"mouseout":case"mouseover":case"pointermove":case"pointerout":case"pointerover":case"scroll":case"touchmove":case"wheel":case"mouseenter":case"mouseleave":case"pointerenter":case"pointerleave":return 8;case"message":switch(sm()){case Ml:return 2;case Dl:return 8;case In:case lm:return 32;case Il:return 268435456;default:return 32}default:return 32}}var pl=!1,Ci=null,Ti=null,xi=null,Tn=new Map,xn=new Map,Ri=[],wh="mousedown mouseup touchcancel touchend touchstart auxclick dblclick pointercancel pointerdown pointerup dragend dragstart drop compositionend compositionstart keydown keypress keyup input textInput copy cut paste click change contextmenu reset".split(" ");function wp(e,t){switch(e){case"focusin":case"focusout":Ci=null;break;case"dragenter":case"dragleave":Ti=null;break;case"mouseover":case"mouseout":xi=null;break;case"pointerover":case"pointerout":Tn.delete(t.pointerId);break;case"gotpointercapture":case"lostpointercapture":xn.delete(t.pointerId)}}function Rn(e,t,i,r,n,a){return e===null||e.nativeEvent!==a?(e={blockedOn:t,domEventName:i,eventSystemFlags:r,nativeEvent:a,targetContainers:[n]},t!==null&&(t=Zi(t),t!==null&&bp(t)),e):(e.eventSystemFlags|=r,t=e.targetContainers,n!==null&&t.indexOf(n)===-1&&t.push(n),e)}function Ah(e,t,i,r,n){switch(t){case"focusin":return Ci=Rn(Ci,e,t,i,r,n),!0;case"dragenter":return Ti=Rn(Ti,e,t,i,r,n),!0;case"mouseover":return xi=Rn(xi,e,t,i,r,n),!0;case"pointerover":var a=n.pointerId;return Tn.set(a,Rn(Tn.get(a)||null,e,t,i,r,n)),!0;case"gotpointercapture":return a=n.pointerId,xn.set(a,Rn(xn.get(a)||null,e,t,i,r,n)),!0}return!1}function Ap(e){var t=Xi(e.target);if(t!==null){var i=L(t);if(i!==null){if(t=i.tag,t===13){if(t=G(i),t!==null){e.blockedOn=t,Bl(e.priority,function(){Sp(i)});return}}else if(t===31){if(t=R(i),t!==null){e.blockedOn=t,Bl(e.priority,function(){Sp(i)});return}}else if(t===3&&i.stateNode.current.memoizedState.isDehydrated){e.blockedOn=i.tag===3?i.stateNode.containerInfo:null;return}}}e.blockedOn=null}function Va(e){if(e.blockedOn!==null)return!1;for(var t=e.targetContainers;0<t.length;){var i=dl(e.nativeEvent);if(i===null){i=e.nativeEvent;var r=new i.constructor(i.type,i);uo=r,i.target.dispatchEvent(r),uo=null}else return t=Zi(i),t!==null&&bp(t),e.blockedOn=i,!1;t.shift()}return!0}function Cp(e,t,i){Va(e)&&i.delete(t)}function Ch(){pl=!1,Ci!==null&&Va(Ci)&&(Ci=null),Ti!==null&&Va(Ti)&&(Ti=null),xi!==null&&Va(xi)&&(xi=null),Tn.forEach(Cp),xn.forEach(Cp)}function za(e,t){e.blockedOn===t&&(e.blockedOn=null,pl||(pl=!0,u.unstable_scheduleCallback(u.unstable_NormalPriority,Ch)))}var Ka=null;function Tp(e){Ka!==e&&(Ka=e,u.unstable_scheduleCallback(u.unstable_NormalPriority,function(){Ka===e&&(Ka=null);for(var t=0;t<e.length;t+=3){var i=e[t],r=e[t+1],n=e[t+2];if(typeof r!="function"){if(ul(r||i)===null)continue;break}var a=Zi(i);a!==null&&(e.splice(t,3),t-=3,ds(a,{pending:!0,data:n,method:i.method,action:r},r,n))}}))}function Nr(e){function t(c){return za(c,e)}Ci!==null&&za(Ci,e),Ti!==null&&za(Ti,e),xi!==null&&za(xi,e),Tn.forEach(t),xn.forEach(t);for(var i=0;i<Ri.length;i++){var r=Ri[i];r.blockedOn===e&&(r.blockedOn=null)}for(;0<Ri.length&&(i=Ri[0],i.blockedOn===null);)Ap(i),i.blockedOn===null&&Ri.shift();if(i=(e.ownerDocument||e).$$reactFormReplay,i!=null)for(r=0;r<i.length;r+=3){var n=i[r],a=i[r+1],o=n[Ze]||null;if(typeof a=="function")o||Tp(i);else if(o){var l=null;if(a&&a.hasAttribute("formAction")){if(n=a,o=a[Ze]||null)l=o.formAction;else if(ul(n)!==null)continue}else l=o.action;typeof l=="function"?i[r+1]=l:(i.splice(r,3),r-=3),Tp(i)}}}function xp(){function e(a){a.canIntercept&&a.info==="react-transition"&&a.intercept({handler:function(){return new Promise(function(o){return n=o})},focusReset:"manual",scroll:"manual"})}function t(){n!==null&&(n(),n=null),r||setTimeout(i,20)}function i(){if(!r&&!navigation.transition){var a=navigation.currentEntry;a&&a.url!=null&&navigation.navigate(a.url,{state:a.getState(),info:"react-transition",history:"replace"})}}if(typeof navigation=="object"){var r=!1,n=null;return navigation.addEventListener("navigate",e),navigation.addEventListener("navigatesuccess",t),navigation.addEventListener("navigateerror",t),setTimeout(i,100),function(){r=!0,navigation.removeEventListener("navigate",e),navigation.removeEventListener("navigatesuccess",t),navigation.removeEventListener("navigateerror",t),n!==null&&(n(),n=null)}}}function ml(e){this._internalRoot=e}Wa.prototype.render=ml.prototype.render=function(e){var t=this._internalRoot;if(t===null)throw Error(d(409));var i=t.current,r=ht();yp(i,r,e,t,null,null)},Wa.prototype.unmount=ml.prototype.unmount=function(){var e=this._internalRoot;if(e!==null){this._internalRoot=null;var t=e.containerInfo;yp(e.current,2,null,e,null,null),xa(),t[Ji]=null}};function Wa(e){this._internalRoot=e}Wa.prototype.unstable_scheduleHydration=function(e){if(e){var t=Ol();e={blockedOn:null,target:e,priority:t};for(var i=0;i<Ri.length&&t!==0&&t<Ri[i].priority;i++);Ri.splice(i,0,e),i===0&&Ap(e)}};var Rp=A.version;if(Rp!=="19.2.3")throw Error(d(527,Rp,"19.2.3"));P.findDOMNode=function(e){var t=e._reactInternals;if(t===void 0)throw typeof e.render=="function"?Error(d(188)):(e=Object.keys(e).join(","),Error(d(268,e)));return e=w(t),e=e!==null?q(e):null,e=e===null?null:e.stateNode,e};var Th={bundleType:0,version:"19.2.3",rendererPackageName:"react-dom",currentDispatcherRef:k,reconcilerVersion:"19.2.3"};if(typeof __REACT_DEVTOOLS_GLOBAL_HOOK__<"u"){var Ga=__REACT_DEVTOOLS_GLOBAL_HOOK__;if(!Ga.isDisabled&&Ga.supportsFiber)try{Lr=Ga.inject(Th),st=Ga}catch{}}return Mn.createRoot=function(e,t){if(!D(e))throw Error(d(299));var i=!1,r="",n=Ud,a=Ld,o=Od;return t!=null&&(t.unstable_strictMode===!0&&(i=!0),t.identifierPrefix!==void 0&&(r=t.identifierPrefix),t.onUncaughtError!==void 0&&(n=t.onUncaughtError),t.onCaughtError!==void 0&&(a=t.onCaughtError),t.onRecoverableError!==void 0&&(o=t.onRecoverableError)),t=hp(e,1,!1,null,null,i,r,null,n,a,o,xp),e[Ji]=t.current,Qs(e),new ml(t)},Mn.hydrateRoot=function(e,t,i){if(!D(e))throw Error(d(299));var r=!1,n="",a=Ud,o=Ld,l=Od,c=null;return i!=null&&(i.unstable_strictMode===!0&&(r=!0),i.identifierPrefix!==void 0&&(n=i.identifierPrefix),i.onUncaughtError!==void 0&&(a=i.onUncaughtError),i.onCaughtError!==void 0&&(o=i.onCaughtError),i.onRecoverableError!==void 0&&(l=i.onRecoverableError),i.formState!==void 0&&(c=i.formState)),t=hp(e,1,!0,t,i??null,r,n,c,a,o,l,xp),t.context=fp(null),i=t.current,r=ht(),r=io(r),n=pi(r),n.callback=null,mi(i,n,r),i=r,t.current.lanes=i,Br(t,i),Ot(t),e[Ji]=t.current,Qs(e),new Wa(t)},Mn.version="19.2.3",Mn}var Bp;function Lh(){if(Bp)return fl.exports;Bp=1;function u(){if(!(typeof __REACT_DEVTOOLS_GLOBAL_HOOK__>"u"||typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.checkDCE!="function"))try{__REACT_DEVTOOLS_GLOBAL_HOOK__.checkDCE(u)}catch(A){console.error(A)}}return u(),fl.exports=Uh(),fl.exports}var Oh=Lh();const Bh=[{id:159,category:"Accessibility",icon:"♿",question:"How do you implement VoiceOver (iOS) and TalkBack (Android) support in React Native?",difficulty:"intermediate",seniority:"mid",answer:`
             <h4>🎯 Why This Question Matters</h4>
             <p>Accessibility is both a legal requirement and ethical responsibility. Apps must be usable by people with visual impairments.</p>
 
@@ -11185,10 +11185,10 @@ function Screen() {
 
             <h5>Non-Functional Requirements</h5>
             <ul>
-                <li><strong>Performance:</strong> Sync latency &lt; 5 seconds when reconnecting; UI response &lt; 100ms</li>
-                <li><strong>Storage:</strong> Local storage &lt; 100MB for core catalog data; images cached separately</li>
+                <li><strong>Performance:</strong> Sync latency < 5 seconds when reconnecting; UI response < 100ms</li>
+                <li><strong>Storage:</strong> Local storage < 100MB for core catalog data; images cached separately</li>
                 <li><strong>Reliability:</strong> Zero data loss on conflicts; 99.9% sync success rate</li>
-                <li><strong>Battery:</strong> Background sync must use &lt; 1% battery per hour</li>
+                <li><strong>Battery:</strong> Background sync must use < 1% battery per hour</li>
                 <li><strong>Security:</strong> Encrypted local storage for user data; secure token refresh offline</li>
             </ul>
 
@@ -11258,7 +11258,7 @@ function Screen() {
         │
         ▼
 ┌───────────────────┐
-│ Update Local DB   │ ◀── Instant UI feedback (&lt;100ms)
+│ Update Local DB   │ ◀── Instant UI feedback (<100ms)
 │ (WatermelonDB)    │
 └────────┬──────────┘
          │
@@ -11308,7 +11308,7 @@ interface Product {
     categoryId: string;            // FK to Category
     images: string[];              // Array of image URLs
     thumbnailUrl: string;          // Primary thumbnail
-    attributes: Record&lt;string, string&gt;; // Size, color, etc.
+    attributes: Record<string, string>; // Size, color, etc.
     rating: number;                // Average rating 0-5
     reviewCount: number;           // Number of reviews
     syncedAt: number;              // Last sync timestamp
@@ -11320,7 +11320,7 @@ interface CartItem {
     id: string;                    // Local UUID
     productId: string;             // FK to Product
     quantity: number;              // Item quantity
-    selectedAttributes: Record&lt;string, string&gt;; // Selected size, color
+    selectedAttributes: Record<string, string>; // Selected size, color
     priceAtAdd: number;            // Price when added (for change detection)
     syncStatus: 'synced' | 'pending' | 'failed' | 'conflict';
     localCreatedAt: number;        // Local creation timestamp
@@ -11421,14 +11421,14 @@ interface IProductRepository {
     getProducts(
         categoryId: string,
         options?: { limit?: number; offset?: number; sortBy?: 'price' | 'rating' | 'name' }
-    ): Promise&lt;Product[]&gt;;
+    ): Promise<Product[]>;
 
     /**
      * Search products with full-text search
      * @param query - Search term
      * @returns Matching products from local FTS index
      */
-    searchProducts(query: string): Promise&lt;Product[]&gt;;
+    searchProducts(query: string): Promise<Product[]>;
 
     /**
      * Get single product with freshness check
@@ -11436,14 +11436,14 @@ interface IProductRepository {
      * @param maxAge - Max acceptable age in ms (default 5min)
      * @returns Product data, null if not found
      */
-    getProduct(productId: string, maxAge?: number): Promise&lt;Product | null&gt;;
+    getProduct(productId: string, maxAge?: number): Promise<Product | null>;
 
     /**
      * Force sync products from server
      * @param categoryId - Optional category filter
      * @returns Sync result with stats
      */
-    syncProducts(categoryId?: string): Promise&lt;SyncResult&gt;;
+    syncProducts(categoryId?: string): Promise<SyncResult>;
 }
 
 /**
@@ -11454,30 +11454,30 @@ interface ICartRepository {
      * Add item to cart (optimistic)
      * @returns Created cart item with pending sync status
      */
-    addItem(productId: string, quantity: number, attributes?: Record&lt;string, string&gt;): Promise&lt;CartItem&gt;;
+    addItem(productId: string, quantity: number, attributes?: Record<string, string>): Promise<CartItem>;
 
     /**
      * Update item quantity (optimistic)
      * @returns Updated item, throws if item not found
      */
-    updateQuantity(itemId: string, quantity: number): Promise&lt;CartItem&gt;;
+    updateQuantity(itemId: string, quantity: number): Promise<CartItem>;
 
     /**
      * Remove item from cart (optimistic)
      */
-    removeItem(itemId: string): Promise&lt;void&gt;;
+    removeItem(itemId: string): Promise<void>;
 
     /**
      * Get current cart with sync status
      * @returns Cart items with sync status indicators
      */
-    getCart(): Promise&lt;CartItem[]&gt;;
+    getCart(): Promise<CartItem[]>;
 
     /**
      * Get cart total with price validation
      * @returns Total and any price change warnings
      */
-    getCartTotal(): Promise&lt;{ total: number; warnings: PriceWarning[] }&gt;;
+    getCartTotal(): Promise<{ total: number; warnings: PriceWarning[] }>;
 }</code></pre>
 
             <h5>Hook Interfaces</h5>
@@ -11488,7 +11488,7 @@ function useProducts(categoryId: string): {
     isOffline: boolean;
     lastSyncedAt: number | null;
     error: Error | null;
-    refetch: () =&gt; Promise&lt;void&gt;;
+    refetch: () => Promise<void>;
 };
 
 function useProduct(productId: string): {
@@ -11507,11 +11507,11 @@ function useCart(): {
     failedCount: number;   // Items that failed to sync
     isLoading: boolean;
     actions: {
-        addItem: (productId: string, qty: number) =&gt; Promise&lt;void&gt;;
-        updateQuantity: (itemId: string, qty: number) =&gt; Promise&lt;void&gt;;
-        removeItem: (itemId: string) =&gt; Promise&lt;void&gt;;
-        retryFailed: () =&gt; Promise&lt;void&gt;;
-        clearCart: () =&gt; Promise&lt;void&gt;;
+        addItem: (productId: string, qty: number) => Promise<void>;
+        updateQuantity: (itemId: string, qty: number) => Promise<void>;
+        removeItem: (itemId: string) => Promise<void>;
+        retryFailed: () => Promise<void>;
+        clearCart: () => Promise<void>;
     };
 };
 
@@ -11522,7 +11522,7 @@ function useSyncStatus(): {
     pendingOperations: number;
     lastSyncAt: number | null;
     syncError: Error | null;
-    forceSync: () =&gt; Promise&lt;void&gt;;
+    forceSync: () => Promise<void>;
 };</code></pre>
 
             <h5>Sync Engine Events</h5>
@@ -11538,10 +11538,10 @@ type SyncEventMap = {
 
 // Subscribe to sync events
 interface ISyncEngine {
-    on&lt;K extends keyof SyncEventMap&gt;(event: K, handler: (data: SyncEventMap[K]) =&gt; void): () =&gt; void;
-    processQueue(): Promise&lt;SyncResult&gt;;
+    on<K extends keyof SyncEventMap>(event: K, handler: (data: SyncEventMap[K]) => void): () => void;
+    processQueue(): Promise<SyncResult>;
     getQueueSize(): number;
-    clearQueue(): Promise&lt;void&gt;;
+    clearQueue(): Promise<void>;
 }</code></pre>
 
             <h5>Native Bridge APIs</h5>
@@ -11571,7 +11571,7 @@ class BackgroundSync: NSObject {
      */
     @objc func canScheduleSync(_ resolve: @escaping RCTPromiseResolveBlock,
                                 reject: @escaping RCTPromiseRejectBlock) {
-        resolve(BGTaskScheduler.shared.pendingTaskRequests.count &lt; 10)
+        resolve(BGTaskScheduler.shared.pendingTaskRequests.count < 10)
     }
 }
 
@@ -11589,7 +11589,7 @@ class BackgroundSyncModule(reactContext: ReactApplicationContext) :
             .setRequiresBatteryNotLow(true)
             .build()
 
-        val syncRequest = PeriodicWorkRequestBuilder&lt;SyncWorker&gt;(
+        val syncRequest = PeriodicWorkRequestBuilder<SyncWorker>(
             intervalMinutes.toLong(), TimeUnit.MINUTES
         ).setConstraints(constraints).build()
 
@@ -11671,7 +11671,7 @@ class BackgroundSyncModule(reactContext: ReactApplicationContext) :
                 <li><strong>Cart item deleted on server while offline:</strong> Show "item unavailable" toast on sync, auto-remove from cart, offer similar products</li>
                 <li><strong>Price changed during offline session:</strong> Display price difference modal before checkout with old vs new price comparison</li>
                 <li><strong>Inventory depleted:</strong> Reduce quantity to available stock with explanation; if zero, move to wishlist</li>
-                <li><strong>Sync queue grows too large (&gt;100 ops):</strong> Compress by merging sequential updates; drop superseded operations</li>
+                <li><strong>Sync queue grows too large (>100 ops):</strong> Compress by merging sequential updates; drop superseded operations</li>
                 <li><strong>App killed during sync:</strong> Mark in-flight operation as "unknown"; verify on next launch before retrying</li>
                 <li><strong>Multiple devices:</strong> Use device ID + user ID compound key; last-write-wins across devices</li>
                 <li><strong>Token expired while offline:</strong> Queue operations continue; refresh token on reconnect before processing</li>
@@ -11746,7 +11746,7 @@ class BackgroundSyncModule(reactContext: ReactApplicationContext) :
                 <li><strong>Performance:</strong> Only components using changed state re-render; max 16ms render time</li>
                 <li><strong>Memory:</strong> No leaks from subscriptions; cache eviction after 30 minutes unused</li>
                 <li><strong>DX:</strong> Easy debugging with Redux DevTools compatible logging; predictable updates</li>
-                <li><strong>Persistence:</strong> Critical state survives restarts; cold start with cached data &lt; 500ms</li>
+                <li><strong>Persistence:</strong> Critical state survives restarts; cold start with cached data < 500ms</li>
                 <li><strong>Type safety:</strong> Full TypeScript coverage with inference; no any types in state</li>
             </ul>
 
@@ -11895,7 +11895,7 @@ interface SettingsState {
 
 // Feature flags slice - server-synced
 interface FeatureFlagsState {
-    flags: Record&lt;string, boolean&gt;;
+    flags: Record<string, boolean>;
     lastFetchedAt: number;
     isStale: boolean;
 }
@@ -11903,7 +11903,7 @@ interface FeatureFlagsState {
 // ============ SERVER STATE TYPES ============
 
 // Generic server state wrapper (TanStack Query provides this)
-interface ServerState&lt;T&gt; {
+interface ServerState<T> {
     data: T | undefined;
     isLoading: boolean;
     isFetching: boolean;             // Background refetch
@@ -12002,20 +12002,20 @@ interface IAuthStore {
     isInitialized: boolean;
 
     // Actions
-    login: (credentials: LoginCredentials) =&gt; Promise&lt;void&gt;;
-    loginWithBiometrics: () =&gt; Promise&lt;void&gt;;
-    logout: () =&gt; void;
-    refreshToken: () =&gt; Promise&lt;boolean&gt;;
-    updateUser: (updates: Partial&lt;User&gt;) =&gt; void;
+    login: (credentials: LoginCredentials) => Promise<void>;
+    loginWithBiometrics: () => Promise<void>;
+    logout: () => void;
+    refreshToken: () => Promise<boolean>;
+    updateUser: (updates: Partial<User>) => void;
 
     // Hydration
-    hydrate: () =&gt; Promise&lt;void&gt;;
+    hydrate: () => Promise<void>;
 }
 
 // Selector hooks for minimal re-renders
-const useAuth = (): IAuthStore =&gt; useAuthStore();
-const useUser = (): User | null =&gt; useAuthStore((s) =&gt; s.user);
-const useIsAuthenticated = (): boolean =&gt; useAuthStore((s) =&gt; s.isAuthenticated);
+const useAuth = (): IAuthStore => useAuthStore();
+const useUser = (): User | null => useAuthStore((s) => s.user);
+const useIsAuthenticated = (): boolean => useAuthStore((s) => s.isAuthenticated);
 
 // Theme store interface
 interface IThemeStore {
@@ -12023,9 +12023,9 @@ interface IThemeStore {
     resolvedMode: 'light' | 'dark';
     accentColor: string;
 
-    setMode: (mode: IThemeStore['mode']) =&gt; void;
-    setAccentColor: (color: string) =&gt; void;
-    toggleMode: () =&gt; void;
+    setMode: (mode: IThemeStore['mode']) => void;
+    setAccentColor: (color: string) => void;
+    toggleMode: () => void;
 }</code></pre>
 
             <h5>TanStack Query Hook Interfaces</h5>
@@ -12036,7 +12036,7 @@ function useProducts(categoryId: string): {
     isFetching: boolean;
     isError: boolean;
     error: Error | null;
-    refetch: () =&gt; Promise&lt;QueryObserverResult&lt;Product[]&gt;&gt;;
+    refetch: () => Promise<QueryObserverResult<Product[]>>;
 };
 
 function useProduct(productId: string): {
@@ -12046,24 +12046,24 @@ function useProduct(productId: string): {
 };
 
 function useInfiniteProducts(categoryId: string): {
-    data: InfiniteData&lt;ProductPage&gt; | undefined;
-    fetchNextPage: () =&gt; void;
+    data: InfiniteData<ProductPage> | undefined;
+    fetchNextPage: () => void;
     hasNextPage: boolean;
     isFetchingNextPage: boolean;
 };
 
 // Mutation hooks
 function useAddToCart(): {
-    mutate: (item: AddToCartInput) =&gt; void;
-    mutateAsync: (item: AddToCartInput) =&gt; Promise&lt;CartItem&gt;;
+    mutate: (item: AddToCartInput) => void;
+    mutateAsync: (item: AddToCartInput) => Promise<CartItem>;
     isLoading: boolean;
     isError: boolean;
     error: Error | null;
-    reset: () =&gt; void;
+    reset: () => void;
 };
 
 function useUpdateCart(): {
-    mutate: (update: UpdateCartInput) =&gt; void;
+    mutate: (update: UpdateCartInput) => void;
     isLoading: boolean;
     variables: UpdateCartInput | undefined;  // For optimistic UI
 };</code></pre>
@@ -12086,7 +12086,7 @@ type CheckoutEvent =
 function useCheckoutMachine(): {
     state: CheckoutState;
     context: CheckoutContext;
-    send: (event: CheckoutEvent) =&gt; void;
+    send: (event: CheckoutEvent) => void;
 
     // Convenience matchers
     isCart: boolean;
@@ -12115,13 +12115,13 @@ type AppEventMap = {
 
 // Event bus interface
 interface IEventBus {
-    emit&lt;K extends keyof AppEventMap&gt;(event: K, data: AppEventMap[K]): void;
-    on&lt;K extends keyof AppEventMap&gt;(event: K, handler: (data: AppEventMap[K]) =&gt; void): () =&gt; void;
-    once&lt;K extends keyof AppEventMap&gt;(event: K, handler: (data: AppEventMap[K]) =&gt; void): void;
+    emit<K extends keyof AppEventMap>(event: K, data: AppEventMap[K]): void;
+    on<K extends keyof AppEventMap>(event: K, handler: (data: AppEventMap[K]) => void): () => void;
+    once<K extends keyof AppEventMap>(event: K, handler: (data: AppEventMap[K]) => void): void;
 }
 
 // Usage example: clear cache on logout
-eventBus.on('auth:logout', () =&gt; {
+eventBus.on('auth:logout', () => {
     queryClient.clear();
     checkoutMachine.send('CANCEL');
 });</code></pre>
@@ -12140,8 +12140,8 @@ eventBus.on('auth:logout', () =&gt; {
 const { user, token, theme } = useAppStore();
 
 // Good: subscribes only to user
-const user = useAppStore((s) =&gt; s.user);
-const token = useAppStore((s) =&gt; s.token);</code></pre>
+const user = useAppStore((s) => s.user);
+const token = useAppStore((s) => s.token);</code></pre>
                 </li>
                 <li><strong>Query key optimization:</strong>
                     <ul>
@@ -12251,7 +12251,7 @@ const token = useAppStore((s) =&gt; s.token);</code></pre>
 
             <h5>Non-Functional Requirements</h5>
             <ul>
-                <li><strong>Build time:</strong> &lt; 5 minutes for affected packages only (incremental builds)</li>
+                <li><strong>Build time:</strong> < 5 minutes for affected packages only (incremental builds)</li>
                 <li><strong>Dependency safety:</strong> No circular dependencies between feature modules</li>
                 <li><strong>Type safety:</strong> Type-safe contracts between modules, caught at compile time</li>
                 <li><strong>Migration:</strong> Incremental adoption - migrate existing code gradually</li>
@@ -12393,14 +12393,14 @@ interface FeaturePackageJson {
 // Feature module public API contract
 interface FeatureModule {
     // Screens exported for navigation registration
-    screens: Record&lt;string, React.ComponentType&gt;;
+    screens: Record<string, React.ComponentType>;
 
     // Navigation param types for type-safe navigation
-    paramList: Record&lt;string, object | undefined&gt;;
+    paramList: Record<string, object | undefined>;
 
     // Hooks for cross-feature data access
     hooks?: {
-        useFeatureData?: () =&gt; unknown;
+        useFeatureData?: () => unknown;
     };
 
     // Feature configuration
@@ -12423,20 +12423,20 @@ interface AppServices {
 }
 
 interface IAPIClient {
-    get&lt;T&gt;(path: string): Promise&lt;T&gt;;
-    post&lt;T&gt;(path: string, body: unknown): Promise&lt;T&gt;;
+    get<T>(path: string): Promise<T>;
+    post<T>(path: string, body: unknown): Promise<T>;
     // ... other methods
 }
 
 interface IAnalyticsService {
-    track(event: string, properties?: Record&lt;string, unknown&gt;): void;
-    identify(userId: string, traits?: Record&lt;string, unknown&gt;): void;
+    track(event: string, properties?: Record<string, unknown>): void;
+    identify(userId: string, traits?: Record<string, unknown>): void;
     screen(name: string): void;
 }
 
 interface IFeatureFlagService {
     isEnabled(flag: string): boolean;
-    getVariant&lt;T&gt;(flag: string, defaultValue: T): T;
+    getVariant<T>(flag: string, defaultValue: T): T;
 }
 
 // ============ EVENT CONTRACTS ============
@@ -12458,7 +12458,7 @@ interface AppEventMap {
     'order:statusChanged': { orderId: string; status: string };
 
     // Navigation events
-    'navigation:deepLink': { url: string; params: Record&lt;string, string&gt; };
+    'navigation:deepLink': { url: string; params: Record<string, string> };
 }</code></pre>
 
             <h5>Directory Structure</h5>
@@ -12603,7 +12603,7 @@ interface IEventBus {
      * @param event - Event name from AppEventMap
      * @param payload - Event payload (type-safe)
      */
-    emit&lt;K extends keyof AppEventMap&gt;(event: K, payload: AppEventMap[K]): void;
+    emit<K extends keyof AppEventMap>(event: K, payload: AppEventMap[K]): void;
 
     /**
      * Subscribe to an event
@@ -12611,17 +12611,17 @@ interface IEventBus {
      * @param handler - Callback function
      * @returns Unsubscribe function
      */
-    on&lt;K extends keyof AppEventMap&gt;(
+    on<K extends keyof AppEventMap>(
         event: K,
-        handler: (payload: AppEventMap[K]) =&gt; void
-    ): () =&gt; void;
+        handler: (payload: AppEventMap[K]) => void
+    ): () => void;
 
     /**
      * Subscribe to an event once
      */
-    once&lt;K extends keyof AppEventMap&gt;(
+    once<K extends keyof AppEventMap>(
         event: K,
-        handler: (payload: AppEventMap[K]) =&gt; void
+        handler: (payload: AppEventMap[K]) => void
     ): void;
 }
 
@@ -12632,8 +12632,8 @@ const eventBus = useEventBus();
 eventBus.emit('auth:login', { userId: user.id, method: 'email' });
 
 // Usage in checkout feature - listen for auth changes
-useEffect(() =&gt; {
-    return eventBus.on('auth:logout', () =&gt; {
+useEffect(() => {
+    return eventBus.on('auth:logout', () => {
         // Clear checkout state when user logs out
         clearCheckoutState();
     });
@@ -12679,13 +12679,13 @@ function RootNavigator() {
     const featureFlags = useFeatureFlags();
 
     return (
-        &lt;Stack.Navigator&gt;
+        <Stack.Navigator>
             {registeredFeatures
-                .filter(f =&gt; featureFlags.isEnabled(f.config.featureFlagKey))
-                .flatMap(f =&gt; f.screens.map(s =&gt; (
-                    &lt;Stack.Screen key={s.name} name={s.name} component={s.component} /&gt;
+                .filter(f => featureFlags.isEnabled(f.config.featureFlagKey))
+                .flatMap(f => f.screens.map(s => (
+                    <Stack.Screen key={s.name} name={s.name} component={s.component} />
                 )))}
-        &lt;/Stack.Navigator&gt;
+        </Stack.Navigator>
     );
 }</code></pre>
 
@@ -12711,7 +12711,7 @@ function RootNavigator() {
                     <ul>
                         <li>Problem: Hot reload slow when watching entire monorepo</li>
                         <li>Solution: Configure watchFolders to only include active packages</li>
-                        <li>Impact: Hot reload time from 5s to &lt;1s</li>
+                        <li>Impact: Hot reload time from 5s to <1s</li>
                     </ul>
                 </li>
             </ul>
@@ -12831,7 +12831,7 @@ module.exports = config;</code></pre>
             <ul>
                 <li>Infinite scroll with cursor-based pagination (no duplicate posts on new content)</li>
                 <li>Mixed content types: text, images, videos, carousels with nested horizontal scroll</li>
-                <li>Auto-play videos when &gt;60% visible, pause when scrolled away, max 1 playing at a time</li>
+                <li>Auto-play videos when >60% visible, pause when scrolled away, max 1 playing at a time</li>
                 <li>Pull-to-refresh for new content with "new posts" banner option</li>
                 <li>Like/comment/share interactions without scroll position interruption</li>
                 <li>Real-time like count updates via WebSocket</li>
@@ -12841,8 +12841,8 @@ module.exports = config;</code></pre>
             <h5>Non-Functional Requirements</h5>
             <ul>
                 <li><strong>Performance:</strong> Maintain 60fps during fast scrolling (16.67ms frame budget)</li>
-                <li><strong>Memory:</strong> Usage &lt; 200MB even with 1000+ items scrolled (virtualization)</li>
-                <li><strong>Load time:</strong> First meaningful paint &lt; 500ms with skeleton UI</li>
+                <li><strong>Memory:</strong> Usage < 200MB even with 1000+ items scrolled (virtualization)</li>
+                <li><strong>Load time:</strong> First meaningful paint < 500ms with skeleton UI</li>
                 <li><strong>Visual stability:</strong> Zero layout shifts - no content jumping during image load</li>
                 <li><strong>Scroll position:</strong> Preserve position on tab switch and app background</li>
             </ul>
@@ -12998,7 +12998,7 @@ interface InteractionState {
 interface VideoPlaybackState {
     activePostId: string | null;     // Currently playing video
     mutedByDefault: boolean;         // User preference
-    volumes: Record&lt;string, number&gt;; // Per-video volume memory
+    volumes: Record<string, number>; // Per-video volume memory
 }</code></pre>
 
             <h5>Entity Relationships</h5>
@@ -13044,20 +13044,20 @@ interface FeedAPI {
      * @param cursor - Pagination cursor (null for first page)
      * @param limit - Posts per page (default 10)
      */
-    getFeed(cursor: string | null, limit?: number): Promise&lt;FeedPage&gt;;
+    getFeed(cursor: string | null, limit?: number): Promise<FeedPage>;
 
     /**
      * Refresh feed (get latest posts)
      * @returns New posts count and first page
      */
-    refreshFeed(): Promise&lt;{ newCount: number; page: FeedPage }&gt;;
+    refreshFeed(): Promise<{ newCount: number; page: FeedPage }>;
 
     /**
      * Like/unlike a post
      * @param postId - Post to interact with
      * @param liked - New like state
      */
-    toggleLike(postId: string, liked: boolean): Promise&lt;{ likes: number }&gt;;
+    toggleLike(postId: string, liked: boolean): Promise<{ likes: number }>;
 }</code></pre>
 
             <h5>Component Interfaces</h5>
@@ -13069,42 +13069,42 @@ function useFeed(): {
     isFetchingNextPage: boolean;
     hasNextPage: boolean;
     error: Error | null;
-    fetchNextPage: () =&gt; void;
-    refresh: () =&gt; Promise&lt;void&gt;;
+    fetchNextPage: () => void;
+    refresh: () => Promise<void>;
 };
 
 // FeedItem component props
 interface FeedItemProps {
     post: Post;
     isVideoActive: boolean;
-    onLike: (postId: string) =&gt; void;
-    onComment: (postId: string) =&gt; void;
-    onShare: (postId: string) =&gt; void;
-    onAuthorPress: (userId: string) =&gt; void;
+    onLike: (postId: string) => void;
+    onComment: (postId: string) => void;
+    onShare: (postId: string) => void;
+    onAuthorPress: (userId: string) => void;
 }
 
 // Video controller hook
 function useVideoPlayback(): {
     activePostId: string | null;
     isMuted: boolean;
-    setActivePost: (postId: string | null) =&gt; void;
-    toggleMute: () =&gt; void;
+    setActivePost: (postId: string | null) => void;
+    toggleMute: () => void;
 };</code></pre>
 
             <h5>FlashList Configuration</h5>
             <pre><code>// Optimized FlashList props for feed
-&lt;FlashList&lt;Post&gt;
+<FlashList<Post>
     data={posts}
-    renderItem={({ item }) =&gt; &lt;FeedItem post={item} ... /&gt;}
+    renderItem={({ item }) => <FeedItem post={item} ... />}
 
     // CRITICAL: Enables cell recycling by post type
-    getItemType={(item) =&gt; item.type}
+    getItemType={(item) => item.type}
 
     // Estimated average height (adjust based on content mix)
     estimatedItemSize={450}
 
     // Stable key for reconciliation
-    keyExtractor={(item) =&gt; item.id}
+    keyExtractor={(item) => item.id}
 
     // Pagination
     onEndReached={fetchNextPage}
@@ -13123,7 +13123,7 @@ function useVideoPlayback(): {
     // Performance props
     removeClippedSubviews={true}
     maintainVisibleContentPosition={{ minIndexForVisible: 0 }}
-/&gt;</code></pre>
+/></code></pre>
 
             <h4>O - Optimizations and Deep Dive</h4>
 
@@ -13167,10 +13167,10 @@ const viewabilityConfig = {
 };
 
 const onViewableItemsChanged = useCallback(
-    ({ viewableItems }: { viewableItems: ViewToken[] }) =&gt; {
+    ({ viewableItems }: { viewableItems: ViewToken[] }) => {
         // Find first visible video post
         const visibleVideo = viewableItems.find(
-            (item) =&gt; item.isViewable &amp;&amp; item.item.type === 'video'
+            (item) => item.isViewable &amp;&amp; item.item.type === 'video'
         );
         setActiveVideoId(visibleVideo?.item.id ?? null);
     },
@@ -13178,17 +13178,17 @@ const onViewableItemsChanged = useCallback(
 );
 
 // Video cell pauses when not active
-const VideoCell = memo(({ url, isActive, poster }: Props) =&gt; {
+const VideoCell = memo(({ url, isActive, poster }: Props) => {
     return (
-        &lt;Video
+        <Video
             source={{ uri: url }}
             posterSource={{ uri: poster }}
             shouldPlay={isActive}
             isLooping
             isMuted={isMuted}
             resizeMode="cover"
-            onLoad={() =&gt; {/* preload complete */}}
-        /&gt;
+            onLoad={() => {/* preload complete */}}
+        />
     );
 });</code></pre>
 
@@ -13264,7 +13264,7 @@ const VideoCell = memo(({ url, isActive, poster }: Props) =&gt; {
 
             <h5>Functional Requirements</h5>
             <ul>
-                <li>Cold start to interactive home screen &lt; 2 seconds on target devices</li>
+                <li>Cold start to interactive home screen < 2 seconds on target devices</li>
                 <li>Show meaningful content during loading (skeleton UI, cached content - not just spinner)</li>
                 <li>Restore user session without re-login (silent auth token refresh)</li>
                 <li>Prefetch critical data before hiding splash screen</li>
@@ -13275,12 +13275,12 @@ const VideoCell = memo(({ url, isActive, poster }: Props) =&gt; {
 
             <h5>Non-Functional Requirements</h5>
             <ul>
-                <li>JS bundle size &lt; 2MB compressed for initial load</li>
+                <li>JS bundle size < 2MB compressed for initial load</li>
                 <li>No white flash between native splash and React content</li>
                 <li>Works on low-end devices (2GB RAM, older CPUs, Android 7+)</li>
                 <li>Consistent startup time across app versions (no regression)</li>
-                <li>Warm start &lt; 500ms, hot start &lt; 100ms</li>
-                <li>Memory footprint &lt; 100MB during startup phase</li>
+                <li>Warm start < 500ms, hot start < 100ms</li>
+                <li>Memory footprint < 100MB during startup phase</li>
             </ul>
 
             <h5>Out of Scope</h5>
@@ -13430,7 +13430,7 @@ type StartupPhase =
 interface BootstrapState {
     phase: StartupPhase;
     startTime: number;           // Performance.now() at app launch
-    phaseTimings: Record&lt;StartupPhase, number&gt;;  // Duration per phase
+    phaseTimings: Record<StartupPhase, number>;  // Duration per phase
     isSessionRestored: boolean;
     isCacheHydrated: boolean;
     isCriticalDataLoaded: boolean;
@@ -13570,13 +13570,13 @@ interface UseBootstrapReturn {
     session: CachedSession | null;
 
     /** Manually advance to next phase (for testing) */
-    advancePhase: () =&gt; void;
+    advancePhase: () => void;
 
     /** Record error during startup */
-    recordError: (phase: StartupPhase, error: Error) =&gt; void;
+    recordError: (phase: StartupPhase, error: Error) => void;
 
     /** Get startup metrics */
-    getMetrics: () =&gt; StartupMetrics;
+    getMetrics: () => StartupMetrics;
 }
 
 function useBootstrap(config: BootstrapConfig): UseBootstrapReturn;
@@ -13589,10 +13589,10 @@ interface BootstrapConfig {
     requireFeatureFlags: boolean;
 
     /** Callback when startup completes */
-    onComplete: (metrics: StartupMetrics) =&gt; void;
+    onComplete: (metrics: StartupMetrics) => void;
 
     /** Callback when startup fails */
-    onError: (errors: StartupError[]) =&gt; void;
+    onError: (errors: StartupError[]) => void;
 }</code></pre>
 
             <h5>Cache Hydration API</h5>
@@ -13621,7 +13621,7 @@ interface CacheHydrator {
 
 // MMKV-based implementation
 const cacheHydrator: CacheHydrator = {
-    getSession: () =&gt; {
+    getSession: () => {
         const data = mmkv.getString('session');
         return data ? JSON.parse(data) : null;
     },
@@ -13639,7 +13639,7 @@ interface DeferredLoader {
     /** Queue a module for deferred loading */
     defer(
         moduleId: string,
-        loader: () =&gt; Promise&lt;any&gt;,
+        loader: () => Promise<any>,
         priority: 'high' | 'medium' | 'low'
     ): void;
 
@@ -13661,9 +13661,9 @@ interface DeferredLoadingStatus {
 }
 
 // Usage example
-deferredLoader.defer('analytics', () =&gt; import('./analytics'), 'medium');
-deferredLoader.defer('crashReporting', () =&gt; import('./crashReporting'), 'high');
-deferredLoader.defer('pushNotifications', () =&gt; import('./push'), 'low');</code></pre>
+deferredLoader.defer('analytics', () => import('./analytics'), 'medium');
+deferredLoader.defer('crashReporting', () => import('./crashReporting'), 'high');
+deferredLoader.defer('pushNotifications', () => import('./push'), 'low');</code></pre>
 
             <h5>Startup Metrics API</h5>
             <pre><code>// services/startupMetrics.ts
@@ -13686,7 +13686,7 @@ interface StartupMetricsService {
     getMetrics(): StartupMetrics;
 
     /** Send metrics to analytics backend */
-    reportMetrics(): Promise&lt;void&gt;;
+    reportMetrics(): Promise<void>;
 }
 
 // Native module for high-precision timing
@@ -13741,7 +13741,7 @@ class SplashScreenModule(reactContext: ReactApplicationContext) :
     fun hide(animated: Boolean, duration: Int, promise: Promise) {
         currentActivity?.runOnUiThread {
             val splashView = currentActivity?.window?.decorView
-                ?.findViewById&lt;View&gt;(R.id.splash_view)
+                ?.findViewById<View>(R.id.splash_view)
 
             if (animated) {
                 splashView?.animate()
@@ -13811,13 +13811,13 @@ class SplashScreenModule(reactContext: ReactApplicationContext) :
             <pre><code>// metro.config.js - Optimized configuration
 const { getDefaultConfig } = require('metro-config');
 
-module.exports = (async () =&gt; {
+module.exports = (async () => {
     const config = await getDefaultConfig();
     return {
         ...config,
         transformer: {
             ...config.transformer,
-            getTransformOptions: async () =&gt; ({
+            getTransformOptions: async () => ({
                 transform: {
                     experimentalImportSupport: false,
                     inlineRequires: true,  // CRITICAL: defer module execution
@@ -13855,7 +13855,7 @@ import Button from '@ui/Button';
                 <tr><td>Splash implementation</td><td>LaunchScreen.storyboard</td><td>windowBackground drawable + SplashActivity</td></tr>
                 <tr><td>Prewarming</td><td>iOS 15+ scene prewarming</td><td>Not available (use baseline profiles)</td></tr>
                 <tr><td>Bytecode format</td><td>Hermes iOS binary</td><td>Hermes Android binary + baseline profiles</td></tr>
-                <tr><td>Static linking</td><td>use_frameworks! :linkage =&gt; :static</td><td>N/A (dynamic by default)</td></tr>
+                <tr><td>Static linking</td><td>use_frameworks! :linkage => :static</td><td>N/A (dynamic by default)</td></tr>
                 <tr><td>Startup tracing</td><td>Xcode Instruments</td><td>adb shell am start + systrace</td></tr>
                 <tr><td>AOT compilation</td><td>Hermes bytecode</td><td>Baseline profiles (Android 7+)</td></tr>
                 <tr><td>Memory measurement</td><td>Instruments Allocations</td><td>Android Profiler / adb dumpsys</td></tr>
@@ -13873,7 +13873,7 @@ import Button from '@ui/Button';
 
     // Minimize modules loaded at startup
     // Only link native modules you actually use
-    // Podfile: use_frameworks! :linkage =&gt; :static
+    // Podfile: use_frameworks! :linkage => :static
 
     return [super application:application
         didFinishLaunchingWithOptions:launchOptions];
@@ -13881,13 +13881,13 @@ import Button from '@ui/Button';
 
 // Info.plist - Enable prewarming (iOS 15+)
 // Scene-based lifecycle allows iOS to pre-launch app
-&lt;key&gt;UIApplicationSceneManifest&lt;/key&gt;
-&lt;dict&gt;
-    &lt;key&gt;UIApplicationSupportsMultipleScenes&lt;/key&gt;
-    &lt;false/&gt;
-    &lt;key&gt;UISceneConfigurations&lt;/key&gt;
-    &lt;dict/&gt;
-&lt;/dict&gt;</code></pre>
+<key>UIApplicationSceneManifest</key>
+<dict>
+    <key>UIApplicationSupportsMultipleScenes</key>
+    <false/>
+    <key>UISceneConfigurations</key>
+    <dict/>
+</dict></code></pre>
 
             <h5>Android-Specific Optimizations</h5>
             <pre><code>// android/app/build.gradle
@@ -13907,15 +13907,15 @@ android {
 
 // android/app/src/main/res/values/styles.xml
 // Use windowBackground for instant splash
-&lt;style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar"&gt;
-    &lt;item name="android:windowBackground"&gt;@drawable/splash&lt;/item&gt;
-    &lt;item name="android:windowNoTitle"&gt;true&lt;/item&gt;
-&lt;/style&gt;
+<style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <item name="android:windowBackground">@drawable/splash</item>
+    <item name="android:windowNoTitle">true</item>
+</style>
 
 // Baseline Profiles (Android 7+) - AOT for critical paths
 // android/app/src/main/baseline-prof.txt
-HSPLcom/facebook/react/**-&gt;**(**)**
-HSPLcom/yourapp/MainActivity;-&gt;onCreate(**)</code></pre>
+HSPLcom/facebook/react/**->**(**)**
+HSPLcom/yourapp/MainActivity;->onCreate(**)</code></pre>
 
             <h5>Critical Path Implementation</h5>
             <pre><code>// App.tsx - Optimized startup sequence
@@ -13929,9 +13929,9 @@ import { HomeScreen } from './screens/HomeScreen';
 import { LoginScreen } from './screens/LoginScreen';
 
 // DEFER everything else - loads after app is interactive
-const ProfileScreen = lazy(() =&gt; import('./screens/ProfileScreen'));
-const SettingsScreen = lazy(() =&gt; import('./screens/SettingsScreen'));
-const NotificationsScreen = lazy(() =&gt; import('./screens/Notifications'));
+const ProfileScreen = lazy(() => import('./screens/ProfileScreen'));
+const SettingsScreen = lazy(() => import('./screens/SettingsScreen'));
+const NotificationsScreen = lazy(() => import('./screens/Notifications'));
 
 function App() {
     const [isReady, setIsReady] = useState(false);
@@ -13940,7 +13940,7 @@ function App() {
     const [hasSession] = useMMKVBoolean('hasSession');
     const [cachedUser] = useMMKVString('cachedUser');
 
-    useEffect(() =&gt; {
+    useEffect(() => {
         async function bootstrap() {
             const startTime = performance.now();
 
@@ -13963,7 +13963,7 @@ function App() {
             console.log('TTI:', performance.now() - startTime, 'ms');
 
             // PHASE 4: Defer ALL non-critical work
-            InteractionManager.runAfterInteractions(() =&gt; {
+            InteractionManager.runAfterInteractions(() => {
                 // These run AFTER first frame renders
                 initAnalytics();
                 initCrashReporting();
@@ -13982,11 +13982,11 @@ function App() {
     }
 
     return (
-        &lt;NavigationContainer&gt;
-            &lt;Suspense fallback={&lt;ScreenSkeleton /&gt;}&gt;
-                {hasSession ? &lt;MainNavigator /&gt; : &lt;AuthNavigator /&gt;}
-            &lt;/Suspense&gt;
-        &lt;/NavigationContainer&gt;
+        <NavigationContainer>
+            <Suspense fallback={<ScreenSkeleton />}>
+                {hasSession ? <MainNavigator /> : <AuthNavigator />}
+            </Suspense>
+        </NavigationContainer>
     );
 }</code></pre>
 
@@ -14010,7 +14010,7 @@ function App() {
                 <tr><td>Cache storage</td><td>MMKV</td><td>AsyncStorage</td><td>Sync reads critical for startup, 30x faster</td></tr>
                 <tr><td>Module loading</td><td>Inline requires</td><td>Eager loading</td><td>Only critical path executes at startup</td></tr>
                 <tr><td>Splash strategy</td><td>Native windowBackground</td><td>JS-rendered splash</td><td>Shows before any code runs, no white flash</td></tr>
-                <tr><td>Data fetching</td><td>Timeout + cache fallback</td><td>Block until complete</td><td>Guarantees &lt;2s startup regardless of network</td></tr>
+                <tr><td>Data fetching</td><td>Timeout + cache fallback</td><td>Block until complete</td><td>Guarantees <2s startup regardless of network</td></tr>
                 <tr><td>Code splitting</td><td>React.lazy</td><td>Re.Pack true splitting</td><td>Simpler setup, adequate for most apps</td></tr>
             </table>
 
@@ -14096,7 +14096,7 @@ function App() {
             <h5>Non-Functional Requirements</h5>
             <ul>
                 <li>Memory footprint under 150MB with 100 items in render buffer</li>
-                <li>Frame drops &lt; 5% during fast scrolling (measure with systrace)</li>
+                <li>Frame drops < 5% during fast scrolling (measure with systrace)</li>
                 <li>Initial render under 100ms for first 10 items (Time to Interactive)</li>
                 <li>Graceful degradation on low-end devices (reduce video quality, simpler animations)</li>
                 <li>Image cache: 100MB memory + 500MB disk</li>
@@ -14271,14 +14271,14 @@ interface VideoPost extends BasePost {
 /** Carousel with multiple media items */
 interface CarouselPost extends BasePost {
     type: 'carousel';
-    media: Array&lt;{
+    media: Array<{
         id: string;
         url: string;
         type: 'image' | 'video';
         aspectRatio: number;
         blurhash: string;
         duration?: number;          // For videos
-    }&gt;;
+    }>;
 }
 
 /** Text-only post */
@@ -14299,7 +14299,7 @@ interface FeedPage {
 }
 
 /** Cell height estimates for FlashList layout */
-const CELL_HEIGHTS: Record&lt;CellType, number&gt; = {
+const CELL_HEIGHTS: Record<CellType, number> = {
     image: 500,
     video: 600,
     carousel: 550,
@@ -14308,10 +14308,10 @@ const CELL_HEIGHTS: Record&lt;CellType, number&gt; = {
 
 /** Interaction state for optimistic updates */
 interface InteractionState {
-    likedPosts: Set&lt;string&gt;;        // Post IDs user has liked
-    bookmarkedPosts: Set&lt;string&gt;;   // Post IDs user has bookmarked
-    mutedPosts: Set&lt;string&gt;;        // Post IDs user has muted
-    pendingLikes: Map&lt;string, 'like' | 'unlike'&gt;;  // In-flight requests
+    likedPosts: Set<string>;        // Post IDs user has liked
+    bookmarkedPosts: Set<string>;   // Post IDs user has bookmarked
+    mutedPosts: Set<string>;        // Post IDs user has muted
+    pendingLikes: Map<string, 'like' | 'unlike'>;  // In-flight requests
 }</code></pre>
 
             <h5>Entity Relationships</h5>
@@ -14376,7 +14376,7 @@ interface FeedProps {
     queryKey: QueryKey;
 
     /** API function to fetch a page */
-    fetchPage: (cursor: string | null) =&gt; Promise&lt;FeedPage&gt;;
+    fetchPage: (cursor: string | null) => Promise<FeedPage>;
 
     /** Header component (e.g., stories row) */
     ListHeaderComponent?: React.ComponentType;
@@ -14385,10 +14385,10 @@ interface FeedProps {
     ListEmptyComponent?: React.ComponentType;
 
     /** Callback when user taps a post */
-    onPostPress?: (postId: string) =&gt; void;
+    onPostPress?: (postId: string) => void;
 
     /** Callback when user taps author avatar/name */
-    onAuthorPress?: (authorId: string) =&gt; void;
+    onAuthorPress?: (authorId: string) => void;
 
     /** Enable/disable pull-to-refresh */
     enableRefresh?: boolean;
@@ -14414,10 +14414,10 @@ interface ImageCellProps {
     isVisible: boolean;
 
     /** Callback when like button tapped */
-    onLike: () =&gt; void;
+    onLike: () => void;
 
     /** Callback when post tapped (navigate to detail) */
-    onPress: () =&gt; void;
+    onPress: () => void;
 }
 
 /**
@@ -14442,10 +14442,10 @@ interface VideoCellProps {
     isMuted: boolean;
 
     /** Toggle mute callback */
-    onToggleMute: () =&gt; void;
+    onToggleMute: () => void;
 
     /** Callback when like button tapped */
-    onLike: () =&gt; void;
+    onLike: () => void;
 }
 
 /**
@@ -14459,7 +14459,7 @@ export const VideoCell = memo(function VideoCell(props: VideoCellProps): JSX.Ele
 
 interface UseVisibilityManagerReturn {
     /** Set of currently visible item IDs */
-    visibleItems: Set&lt;string&gt;;
+    visibleItems: Set<string>;
 
     /** ID of the topmost visible video (for autoplay) */
     activeVideoId: string | null;
@@ -14471,7 +14471,7 @@ interface UseVisibilityManagerReturn {
     onViewableItemsChanged: (info: {
         viewableItems: ViewToken[];
         changed: ViewToken[];
-    }) =&gt; void;
+    }) => void;
 }
 
 /**
@@ -14485,34 +14485,34 @@ export function useVisibilityManager(): UseVisibilityManagerReturn;</code></pre>
 
 interface InteractionStore {
     /** Posts the user has liked */
-    likedPosts: Set&lt;string&gt;;
+    likedPosts: Set<string>;
 
     /** Posts the user has bookmarked */
-    bookmarkedPosts: Set&lt;string&gt;;
+    bookmarkedPosts: Set<string>;
 
     /** Global video mute state */
     isMuted: boolean;
 
     /** Optimistically like a post */
-    likePost: (postId: string) =&gt; void;
+    likePost: (postId: string) => void;
 
     /** Optimistically unlike a post */
-    unlikePost: (postId: string) =&gt; void;
+    unlikePost: (postId: string) => void;
 
     /** Toggle bookmark on a post */
-    toggleBookmark: (postId: string) =&gt; void;
+    toggleBookmark: (postId: string) => void;
 
     /** Toggle global mute */
-    toggleMute: () =&gt; void;
+    toggleMute: () => void;
 
     /** Sync interaction state with server response */
-    reconcile: (postId: string, serverState: { isLiked: boolean; likeCount: number }) =&gt; void;
+    reconcile: (postId: string, serverState: { isLiked: boolean; likeCount: number }) => void;
 }
 
 /**
  * Zustand store for interaction state with MMKV persistence.
  */
-export const useInteractionStore = create&lt;InteractionStore&gt;(...);</code></pre>
+export const useInteractionStore = create<InteractionStore>(...);</code></pre>
 
             <h5>Native Video Player Pool API</h5>
             <pre><code>// native/VideoPlayerPool (iOS - Swift)
@@ -14524,7 +14524,7 @@ export const useInteractionStore = create&lt;InteractionStore&gt;(...);</code></
     static let maxPlayers = 3
 
     /// Get an available player or create/recycle one
-    @objc func getPlayer() -&gt; AVPlayer
+    @objc func getPlayer() -> AVPlayer
 
     /// Return a player to the pool when cell unmounts
     @objc func releasePlayer(_ player: AVPlayer)
@@ -14604,56 +14604,56 @@ export function Feed({ queryKey, fetchPage, ...props }: FeedProps) {
     const { data, fetchNextPage, hasNextPage, refetch, isRefetching } =
         useInfiniteQuery({
             queryKey,
-            queryFn: ({ pageParam }) =&gt; fetchPage(pageParam ?? null),
-            getNextPageParam: (lastPage) =&gt; lastPage.nextCursor,
+            queryFn: ({ pageParam }) => fetchPage(pageParam ?? null),
+            getNextPageParam: (lastPage) => lastPage.nextCursor,
             staleTime: 5 * 60 * 1000,  // 5 minutes
         });
 
     const posts = useMemo(
-        () =&gt; data?.pages.flatMap(page =&gt; page.posts) ?? [],
+        () => data?.pages.flatMap(page => page.posts) ?? [],
         [data]
     );
 
     const { visibleItems, activeVideoId, viewabilityConfig, onViewableItemsChanged } =
         useVisibilityManager();
 
-    const isMuted = useInteractionStore(state =&gt; state.isMuted);
+    const isMuted = useInteractionStore(state => state.isMuted);
 
     const renderItem = useCallback(
-        ({ item }: { item: Post }) =&gt; {
+        ({ item }: { item: Post }) => {
             const isVisible = visibleItems.has(item.id);
 
             switch (item.type) {
                 case 'image':
-                    return &lt;ImageCell post={item} isVisible={isVisible} /&gt;;
+                    return <ImageCell post={item} isVisible={isVisible} />;
                 case 'video':
                     return (
-                        &lt;VideoCell
+                        <VideoCell
                             post={item}
                             isVisible={isVisible}
                             isActive={activeVideoId === item.id}
                             isMuted={isMuted}
-                        /&gt;
+                        />
                     );
                 case 'carousel':
-                    return &lt;CarouselCell post={item} isVisible={isVisible} /&gt;;
+                    return <CarouselCell post={item} isVisible={isVisible} />;
                 case 'text':
-                    return &lt;TextCell post={item} /&gt;;
+                    return <TextCell post={item} />;
             }
         },
         [visibleItems, activeVideoId, isMuted]
     );
 
-    const onEndReached = useCallback(() =&gt; {
+    const onEndReached = useCallback(() => {
         if (hasNextPage) fetchNextPage();
     }, [hasNextPage, fetchNextPage]);
 
     return (
-        &lt;FlashList
+        <FlashList
             data={posts}
             renderItem={renderItem}
-            keyExtractor={item =&gt; item.id}
-            getItemType={item =&gt; item.type}
+            keyExtractor={item => item.id}
+            getItemType={item => item.type}
             estimatedItemSize={450}
             onEndReached={onEndReached}
             onEndReachedThreshold={0.5}
@@ -14662,11 +14662,11 @@ export function Feed({ queryKey, fetchPage, ...props }: FeedProps) {
             refreshing={isRefetching}
             onRefresh={refetch}
             drawDistance={500}
-            overrideItemLayout={(layout, item) =&gt; {
+            overrideItemLayout={(layout, item) => {
                 layout.size = CELL_HEIGHTS[item.type];
             }}
             {...props}
-        /&gt;
+        />
     );
 }</code></pre>
 
@@ -14689,14 +14689,14 @@ export function Feed({ queryKey, fetchPage, ...props }: FeedProps) {
     private var players: [AVPlayer] = []
     private let maxPlayers = 3
 
-    @objc func getPlayer() -&gt; AVPlayer {
+    @objc func getPlayer() -> AVPlayer {
         // Return available player
         if let available = players.first(where: { $0.currentItem == nil }) {
             return available
         }
 
         // Create new if under limit
-        if players.count &lt; maxPlayers {
+        if players.count < maxPlayers {
             let player = AVPlayer()
             player.automaticallyWaitsToMinimizeStalling = false
             players.append(player)
@@ -14724,7 +14724,7 @@ export function Feed({ queryKey, fetchPage, ...props }: FeedProps) {
             <pre><code>// android/VideoPlayerPool.kt
 
 object VideoPlayerPool {
-    private val players = mutableListOf&lt;ExoPlayer&gt;()
+    private val players = mutableListOf<ExoPlayer>()
     private const val MAX_PLAYERS = 3
 
     fun getPlayer(context: Context): ExoPlayer {
@@ -14733,7 +14733,7 @@ object VideoPlayerPool {
             players.find { !it.isPlaying }?.let { return it }
 
             // Create new if under limit
-            if (players.size &lt; MAX_PLAYERS) {
+            if (players.size < MAX_PLAYERS) {
                 val player = ExoPlayer.Builder(context)
                     .setLoadControl(
                         DefaultLoadControl.Builder()
@@ -14785,9 +14785,9 @@ object VideoPlayerPool {
             <ul>
                 <li><strong>Performance Tests:</strong>
                     <ul>
-                        <li>Scroll 10,000 items with Perf Monitor enabled, verify &lt;5% frame drops</li>
-                        <li>Monitor memory with Flipper, ensure &lt;150MB at 100 items in buffer</li>
-                        <li>Measure initial render time with systrace, target &lt;100ms for 10 items</li>
+                        <li>Scroll 10,000 items with Perf Monitor enabled, verify <5% frame drops</li>
+                        <li>Monitor memory with Flipper, ensure <150MB at 100 items in buffer</li>
+                        <li>Measure initial render time with systrace, target <100ms for 10 items</li>
                     </ul>
                 </li>
                 <li><strong>Video Behavior Tests:</strong>
@@ -14864,8 +14864,8 @@ object VideoPlayerPool {
                 <li>Sync latency under 2s when reconnecting after offline period</li>
                 <li>Handle 10,000+ pages with 100+ blocks each without performance degradation</li>
                 <li>Battery-efficient background sync (15-30 minute intervals)</li>
-                <li>Cold start to usable editor &lt; 1 second</li>
-                <li>Offline database size &lt; 500MB for typical user (10K pages)</li>
+                <li>Cold start to usable editor < 1 second</li>
+                <li>Offline database size < 500MB for typical user (10K pages)</li>
             </ul>
 
             <h5>Out of Scope</h5>
@@ -14942,7 +14942,7 @@ object VideoPlayerPool {
 │         ▼                                                        │
 │  ┌─────────────────┐    Immediate    ┌──────────────────────────┐│
 │  │  UI Component   │ ──────────────► │  WatermelonDB           ││
-│  │  (Optimistic)   │                 │  (Local Write &lt;100ms)   ││
+│  │  (Optimistic)   │                 │  (Local Write <100ms)   ││
 │  └────────┬────────┘                 └───────────┬──────────────┘│
 │           │                                      │               │
 │           │ Re-render (reactive)                 │ Create Op     │
@@ -15059,7 +15059,7 @@ interface Operation {
     type: 'INSERT' | 'UPDATE' | 'DELETE';
     entity: 'page' | 'block';
     entityId: string;
-    changes: Record&lt;string, unknown&gt;; // Diff of changed fields
+    changes: Record<string, unknown>; // Diff of changed fields
     timestamp: number;
     clientId: string;                 // Device identifier
     baseVersion: number;              // Version this change is based on
@@ -15100,13 +15100,13 @@ export class PageModel extends Model {
     @readonly @date('created_at') createdAt!: Date;
     @date('updated_at') updatedAt!: Date;
 
-    @children('blocks') blocks!: Query&lt;BlockModel&gt;;
+    @children('blocks') blocks!: Query<BlockModel>;
     @lazy childPages = this.collections
-        .get&lt;PageModel&gt;('pages')
+        .get<PageModel>('pages')
         .query(Q.where('parent_id', this.id));
 
     @writer async updateTitle(newTitle: string) {
-        await this.update(page =&gt; {
+        await this.update(page => {
             page.title = newTitle;
             page.syncStatus = 'pending';
             page.version += 1;
@@ -15115,7 +15115,7 @@ export class PageModel extends Model {
     }
 
     @writer async archive() {
-        await this.update(page =&gt; {
+        await this.update(page => {
             page.isArchived = true;
             page.syncStatus = 'pending';
             page.version += 1;
@@ -15124,8 +15124,8 @@ export class PageModel extends Model {
     }
 
     private async logOperation(type: 'UPDATE' | 'DELETE', changes: object) {
-        await this.database.write(async () =&gt; {
-            await this.database.get('operations').create(op =&gt; {
+        await this.database.write(async () => {
+            await this.database.get('operations').create(op => {
                 op.type = type;
                 op.entity = 'page';
                 op.entityId = this.id;
@@ -15189,22 +15189,22 @@ export class PageModel extends Model {
 
 interface SyncEngine {
     /** Start sync process (push + pull + conflicts) */
-    sync(): Promise&lt;SyncResult&gt;;
+    sync(): Promise<SyncResult>;
 
     /** Push local changes to server */
-    pushChanges(): Promise&lt;PushResult&gt;;
+    pushChanges(): Promise<PushResult>;
 
     /** Pull remote changes from server */
-    pullChanges(): Promise&lt;PullResult&gt;;
+    pullChanges(): Promise<PullResult>;
 
     /** Resolve detected conflicts */
-    resolveConflicts(conflicts: Conflict[]): Promise&lt;void&gt;;
+    resolveConflicts(conflicts: Conflict[]): Promise<void>;
 
     /** Subscribe to sync state changes */
-    onSyncStateChange(callback: (state: SyncState) =&gt; void): () =&gt; void;
+    onSyncStateChange(callback: (state: SyncState) => void): () => void;
 
     /** Force immediate sync (user-triggered) */
-    forceSync(): Promise&lt;SyncResult&gt;;
+    forceSync(): Promise<SyncResult>;
 
     /** Cancel in-progress sync */
     cancelSync(): void;
@@ -15238,28 +15238,28 @@ interface Conflict {
 
 interface PageRepository {
     /** Get page by ID with blocks */
-    getPage(id: string): Promise&lt;PageWithBlocks | null&gt;;
+    getPage(id: string): Promise<PageWithBlocks | null>;
 
     /** Get root pages (no parent) */
-    getRootPages(): Promise&lt;Page[]&gt;;
+    getRootPages(): Promise<Page[]>;
 
     /** Get child pages of a parent */
-    getChildPages(parentId: string): Promise&lt;Page[]&gt;;
+    getChildPages(parentId: string): Promise<Page[]>;
 
     /** Create new page */
-    createPage(data: CreatePageInput): Promise&lt;Page&gt;;
+    createPage(data: CreatePageInput): Promise<Page>;
 
     /** Update page metadata */
-    updatePage(id: string, changes: UpdatePageInput): Promise&lt;Page&gt;;
+    updatePage(id: string, changes: UpdatePageInput): Promise<Page>;
 
     /** Archive page (soft delete) */
-    archivePage(id: string): Promise&lt;void&gt;;
+    archivePage(id: string): Promise<void>;
 
     /** Search pages by title/content */
-    searchPages(query: string): Promise&lt;Page[]&gt;;
+    searchPages(query: string): Promise<Page[]>;
 
     /** Subscribe to page changes (reactive) */
-    observePage(id: string): Observable&lt;PageWithBlocks&gt;;
+    observePage(id: string): Observable<PageWithBlocks>;
 }
 
 interface CreatePageInput {
@@ -15283,28 +15283,28 @@ interface UseBlockEditorReturn {
     isLoading: boolean;
 
     /** Create new block after specified block */
-    insertBlock(afterBlockId: string | null, type: BlockType): Promise&lt;Block&gt;;
+    insertBlock(afterBlockId: string | null, type: BlockType): Promise<Block>;
 
     /** Update block content */
-    updateBlock(blockId: string, content: string): Promise&lt;void&gt;;
+    updateBlock(blockId: string, content: string): Promise<void>;
 
     /** Update block properties (heading level, todo checked, etc.) */
-    updateBlockProperties(blockId: string, props: Partial&lt;BlockProperties&gt;): Promise&lt;void&gt;;
+    updateBlockProperties(blockId: string, props: Partial<BlockProperties>): Promise<void>;
 
     /** Delete block */
-    deleteBlock(blockId: string): Promise&lt;void&gt;;
+    deleteBlock(blockId: string): Promise<void>;
 
     /** Move block to new position */
-    moveBlock(blockId: string, afterBlockId: string | null): Promise&lt;void&gt;;
+    moveBlock(blockId: string, afterBlockId: string | null): Promise<void>;
 
     /** Indent block (increase nesting) */
-    indentBlock(blockId: string): Promise&lt;void&gt;;
+    indentBlock(blockId: string): Promise<void>;
 
     /** Outdent block (decrease nesting) */
-    outdentBlock(blockId: string): Promise&lt;void&gt;;
+    outdentBlock(blockId: string): Promise<void>;
 
     /** Change block type (text → heading, bullet → numbered, etc.) */
-    changeBlockType(blockId: string, newType: BlockType): Promise&lt;void&gt;;
+    changeBlockType(blockId: string, newType: BlockType): Promise<void>;
 }
 
 /**
@@ -15357,13 +15357,13 @@ class SyncWorker(context: Context, params: WorkerParameters) :
             SyncEngine.getInstance(applicationContext).sync()
             Result.success()
         } catch (e: Exception) {
-            if (runAttemptCount &lt; 3) Result.retry() else Result.failure()
+            if (runAttemptCount < 3) Result.retry() else Result.failure()
         }
     }
 
     companion object {
         fun schedule(context: Context) {
-            val request = PeriodicWorkRequestBuilder&lt;SyncWorker&gt;(15, TimeUnit.MINUTES)
+            val request = PeriodicWorkRequestBuilder<SyncWorker>(15, TimeUnit.MINUTES)
                 .setConstraints(Constraints.Builder()
                     .setRequiredNetworkType(NetworkType.CONNECTED)
                     .build())
@@ -15436,14 +15436,14 @@ class SyncEngine {
     }
 
     private setupNetworkListener() {
-        NetInfo.addEventListener(state =&gt; {
+        NetInfo.addEventListener(state => {
             if (state.isConnected &amp;&amp; this.hasPendingOperations()) {
                 this.sync(); // Auto-sync when coming online
             }
         });
     }
 
-    async sync(): Promise&lt;SyncResult&gt; {
+    async sync(): Promise<SyncResult> {
         if (this.isSyncing) {
             return { success: false, pushed: 0, pulled: 0, conflicts: 0, errors: [] };
         }
@@ -15459,7 +15459,7 @@ class SyncEngine {
             const pullResult = await this.pullChanges();
 
             // Phase 3: Resolve conflicts
-            if (pullResult.conflicts.length &gt; 0) {
+            if (pullResult.conflicts.length > 0) {
                 await this.resolveConflicts(pullResult.conflicts);
             }
 
@@ -15484,7 +15484,7 @@ class SyncEngine {
         }
     }
 
-    private async pushChanges(): Promise&lt;{ count: number }&gt; {
+    private async pushChanges(): Promise<{ count: number }> {
         const operations = await database
             .get('operations')
             .query(Q.where('synced', false))
@@ -15493,15 +15493,15 @@ class SyncEngine {
         if (operations.length === 0) return { count: 0 };
 
         const response = await api.pushOperations({
-            operations: operations.map(op =&gt; op._raw),
+            operations: operations.map(op => op._raw),
             clientId: this.clientId,
         }, { signal: this.syncAbortController?.signal });
 
         // Mark accepted operations as synced
-        await database.write(async () =&gt; {
+        await database.write(async () => {
             for (const opId of response.accepted) {
-                const op = operations.find(o =&gt; o.id === opId);
-                if (op) await op.update(o =&gt; { o.synced = true; });
+                const op = operations.find(o => o.id === opId);
+                if (op) await op.update(o => { o.synced = true; });
             }
         });
 
@@ -15513,7 +15513,7 @@ class SyncEngine {
         return { count: response.accepted.length };
     }
 
-    private async pullChanges(): Promise&lt;{ count: number; conflicts: Conflict[] }&gt; {
+    private async pullChanges(): Promise<{ count: number; conflicts: Conflict[] }> {
         const response = await api.getChanges({
             cursor: this.lastSyncCursor,
             clientId: this.clientId,
@@ -15521,7 +15521,7 @@ class SyncEngine {
 
         const conflicts: Conflict[] = [];
 
-        await database.write(async () =&gt; {
+        await database.write(async () => {
             for (const change of response.changes) {
                 const conflict = await this.applyRemoteChange(change);
                 if (conflict) conflicts.push(conflict);
@@ -15535,13 +15535,13 @@ class SyncEngine {
         return { count: response.changes.length, conflicts };
     }
 
-    private async applyRemoteChange(change: RemoteChange): Promise&lt;Conflict | null&gt; {
-        const collection = database.get(change.entity + 's'); // 'page' =&gt; 'pages'
-        const existing = await collection.find(change.entityId).catch(() =&gt; null);
+    private async applyRemoteChange(change: RemoteChange): Promise<Conflict | null> {
+        const collection = database.get(change.entity + 's'); // 'page' => 'pages'
+        const existing = await collection.find(change.entityId).catch(() => null);
 
         if (!existing) {
             // New entity from server - create locally
-            await collection.create(record =&gt; {
+            await collection.create(record => {
                 Object.assign(record._raw, change.data);
                 record.syncStatus = 'synced';
             });
@@ -15560,7 +15560,7 @@ class SyncEngine {
         }
 
         // No conflict - apply server version
-        await existing.update(record =&gt; {
+        await existing.update(record => {
             Object.assign(record._raw, change.data);
             record.syncStatus = 'synced';
         });
@@ -15590,7 +15590,7 @@ class ConflictResolver {
      * - Structural changes: Last-write-wins with history
      * - Deletions: Server wins (prevent resurrection)
      */
-    async resolve(conflict: Conflict): Promise&lt;ResolvedChange&gt; {
+    async resolve(conflict: Conflict): Promise<ResolvedChange> {
         const { localVersion, serverVersion, baseVersion } = conflict;
 
         // Check if it's a delete conflict
@@ -15617,7 +15617,7 @@ class ConflictResolver {
         }
 
         // Structural changes (order, parent) - last-write-wins
-        if (localVersion.updatedAt &gt; serverVersion.updatedAt) {
+        if (localVersion.updatedAt > serverVersion.updatedAt) {
             return { type: 'local-wins', data: localVersion };
         } else {
             return { type: 'server-wins', data: serverVersion };
@@ -15635,7 +15635,7 @@ class ConflictResolver {
         const [result1, success1] = dmp.patch_apply(patch2, local);
 
         // Check for conflicts
-        if (success1.every(s =&gt; s)) {
+        if (success1.every(s => s)) {
             return { success: true, result: result1 };
         }
 
@@ -15690,8 +15690,8 @@ class ConflictResolver {
                 </li>
                 <li><strong>Performance Tests:</strong>
                     <ul>
-                        <li>Create 10,000 pages, verify startup &lt; 1 second</li>
-                        <li>Sync 1,000 operations, verify &lt; 10 seconds</li>
+                        <li>Create 10,000 pages, verify startup < 1 second</li>
+                        <li>Sync 1,000 operations, verify < 10 seconds</li>
                         <li>Monitor memory during large sync, verify no leaks</li>
                     </ul>
                 </li>
@@ -15726,13 +15726,13 @@ class ConflictResolver {
                 <li><strong>Offline support:</strong> How long can users edit offline? Hours, days, or indefinitely?</li>
                 <li><strong>Conflict visibility:</strong> Should conflicts auto-resolve silently, or show UI for manual resolution?</li>
                 <li><strong>History requirements:</strong> Need full version history? Undo/redo across collaborative sessions?</li>
-                <li><strong>Latency targets:</strong> Acceptable delay for seeing others' changes? Real-time (&lt;100ms) or near-real-time (&lt;1s)?</li>
+                <li><strong>Latency targets:</strong> Acceptable delay for seeing others' changes? Real-time (<100ms) or near-real-time (<1s)?</li>
                 <li><strong>Platform specifics:</strong> iOS/Android native, React Native, or web? Background sync requirements?</li>
             </ul>
 
             <h5>Functional Requirements</h5>
             <ul>
-                <li>Multiple users can edit the same document simultaneously with changes propagated in &lt;100ms</li>
+                <li>Multiple users can edit the same document simultaneously with changes propagated in <100ms</li>
                 <li>Real-time cursor positions and selections visible for all active collaborators</li>
                 <li>Offline editing supported with automatic sync on reconnection</li>
                 <li>Automatic conflict resolution for concurrent edits using CRDT (no data loss)</li>
@@ -15744,13 +15744,13 @@ class ConflictResolver {
 
             <h5>Non-Functional Requirements</h5>
             <ul>
-                <li>Keystroke-to-broadcast latency &lt;100ms on good network</li>
+                <li>Keystroke-to-broadcast latency <100ms on good network</li>
                 <li>Guaranteed eventual consistency across all clients (CRDT property)</li>
                 <li>Support 20+ concurrent editors on a single document</li>
                 <li>Handle 100,000+ character documents without performance degradation</li>
                 <li>Offline edits persist through app kills and device restarts</li>
                 <li>Sync completion within 5 seconds of network restoration</li>
-                <li>Memory usage &lt;50MB per document for CRDT state</li>
+                <li>Memory usage <50MB per document for CRDT state</li>
             </ul>
 
             <h5>Out of Scope</h5>
@@ -15853,8 +15853,8 @@ class ConflictResolver {
 │                      ▼                                           │
 │  ┌───────────────────────────────────────────────────────────┐  │
 │  │  Ordering: clientID with lower value wins tie             │  │
-│  │  If A.clientID &lt; B.clientID:  "HelloWorld"                │  │
-│  │  If A.clientID &gt; B.clientID:  "WorldHello"                │  │
+│  │  If A.clientID < B.clientID:  "HelloWorld"                │  │
+│  │  If A.clientID > B.clientID:  "WorldHello"                │  │
 │  │  Result: Deterministic on ALL clients                     │  │
 │  └───────────────────────────────────────────────────────────┘  │
 │                      │                                           │
@@ -15890,7 +15890,7 @@ interface Operation {
     /** Length for delete/retain operations */
     length?: number;
     /** Formatting attributes for format operations */
-    attributes?: Record&lt;string, unknown&gt;;
+    attributes?: Record<string, unknown>;
     /** Unique client identifier */
     clientId: string;
     /** Lamport timestamp for ordering */
@@ -15923,7 +15923,7 @@ interface Presence {
 interface CursorPosition {
     /** Absolute index in document */
     index: number;
-    /** Selection length (0 for cursor, &gt;0 for selection) */
+    /** Selection length (0 for cursor, >0 for selection) */
     length: number;
 }
 
@@ -16087,7 +16087,7 @@ class CollaborativeDocument {
         userName?: string;
         /** Cursor color (hex) */
         cursorColor?: string;
-    }): Promise&lt;void&gt; {
+    }): Promise<void> {
         // Setup local persistence first
         this.persistence = new IndexedDBPersistence(this.documentId, this.doc);
         await this.persistence.whenSynced;
@@ -16132,7 +16132,7 @@ class CollaborativeDocument {
      * @param length - Length of range
      * @param attributes - Formatting attributes
      */
-    format(index: number, length: number, attributes: Record&lt;string, unknown&gt;): void {
+    format(index: number, length: number, attributes: Record<string, unknown>): void {
         this.text.format(index, length, attributes);
     }
 
@@ -16148,9 +16148,9 @@ class CollaborativeDocument {
      * @param callback - Called when document content changes
      * @returns Unsubscribe function
      */
-    observe(callback: (event: Y.YTextEvent, transaction: Y.Transaction) =&gt; void): () =&gt; void {
+    observe(callback: (event: Y.YTextEvent, transaction: Y.Transaction) => void): () => void {
         this.text.observe(callback);
-        return () =&gt; this.text.unobserve(callback);
+        return () => this.text.unobserve(callback);
     }
 
     /**
@@ -16201,11 +16201,11 @@ interface UseCollaborativeEditorOptions {
     /** Current user info */
     user: { id: string; name: string };
     /** Called when document content changes */
-    onChange?: (content: string) =&gt; void;
+    onChange?: (content: string) => void;
     /** Called when connection status changes */
-    onStatusChange?: (status: ConnectionStatus) =&gt; void;
+    onStatusChange?: (status: ConnectionStatus) => void;
     /** Called when conflict needs manual resolution */
-    onConflict?: (conflict: ConflictData) =&gt; void;
+    onConflict?: (conflict: ConflictData) => void;
 }
 
 type ConnectionStatus = 'connecting' | 'connected' | 'disconnected' | 'syncing';
@@ -16214,23 +16214,23 @@ interface UseCollaborativeEditorReturn {
     /** Current document content */
     content: string;
     /** Insert text at position */
-    insert: (index: number, text: string) =&gt; void;
+    insert: (index: number, text: string) => void;
     /** Delete text at position */
-    delete: (index: number, length: number) =&gt; void;
+    delete: (index: number, length: number) => void;
     /** Apply formatting */
-    format: (index: number, length: number, attrs: Record&lt;string, unknown&gt;) =&gt; void;
+    format: (index: number, length: number, attrs: Record<string, unknown>) => void;
     /** Current connection status */
     status: ConnectionStatus;
     /** List of online collaborators */
     collaborators: Presence[];
     /** Update local cursor position */
-    updateCursor: (position: CursorPosition | null) =&gt; void;
+    updateCursor: (position: CursorPosition | null) => void;
     /** Force reconnection attempt */
-    reconnect: () =&gt; void;
+    reconnect: () => void;
     /** Undo last local change */
-    undo: () =&gt; void;
+    undo: () => void;
     /** Redo last undone change */
-    redo: () =&gt; void;
+    redo: () => void;
     /** Check if can undo */
     canUndo: boolean;
     /** Check if can redo */
@@ -16250,9 +16250,9 @@ interface ConflictResolverProps {
     /** Conflict data to resolve */
     conflict: ConflictData;
     /** Called when user resolves the conflict */
-    onResolve: (resolution: ConflictResolution) =&gt; void;
+    onResolve: (resolution: ConflictResolution) => void;
     /** Called when user dismisses without resolving */
-    onDismiss?: () =&gt; void;
+    onDismiss?: () => void;
     /** Show auto-merge preview if available */
     showAutoMergePreview?: boolean;
 }
@@ -16270,7 +16270,7 @@ interface CollaboratorCursorsProps {
     /** List of collaborator presence data */
     collaborators: Presence[];
     /** Editor component ref for positioning */
-    editorRef: React.RefObject&lt;TextInput&gt;;
+    editorRef: React.RefObject<TextInput>;
     /** Current scroll offset for cursor positioning */
     scrollOffset: { x: number; y: number };
 }
@@ -16290,7 +16290,7 @@ interface PresenceAvatarsProps {
     /** Avatar size in pixels */
     size?: number;
     /** Called when avatar is pressed */
-    onPress?: (collaborator: Presence) =&gt; void;
+    onPress?: (collaborator: Presence) => void;
 }
 
 /**
@@ -16430,7 +16430,7 @@ class CollaborationModule(reactContext: ReactApplicationContext) :
         reconnectAttempts++
 
         // Use WorkManager for reliable background reconnection
-        val request = OneTimeWorkRequestBuilder&lt;ReconnectWorker&gt;()
+        val request = OneTimeWorkRequestBuilder<ReconnectWorker>()
             .setInitialDelay(delay, TimeUnit.MILLISECONDS)
             .setBackoffCriteria(BackoffPolicy.EXPONENTIAL, 1, TimeUnit.SECONDS)
             .build()
@@ -16453,7 +16453,7 @@ class CollaborationModule(reactContext: ReactApplicationContext) :
                     <ul>
                         <li>Problem: JSON encoding of operations is verbose, slow to parse</li>
                         <li>Solution: Yjs uses custom binary encoding (lib0) - 10x smaller than JSON, zero-copy parsing</li>
-                        <li>Impact: 90% bandwidth reduction, &lt;1ms parse time for typical updates</li>
+                        <li>Impact: 90% bandwidth reduction, <1ms parse time for typical updates</li>
                     </ul>
                 </li>
                 <li><strong>Update batching:</strong>
@@ -16500,7 +16500,7 @@ class CollaborationModule(reactContext: ReactApplicationContext) :
             <h5>Edge Cases and Error Handling</h5>
             <ol>
                 <li><strong>Concurrent deletes of same text:</strong> CRDT handles automatically - both deletions applied, no duplication. Result is deterministic across all clients.</li>
-                <li><strong>Long offline period (days):</strong> Large pending update accumulated. Use incremental sync with progress UI. Paginate if &gt;10MB of updates.</li>
+                <li><strong>Long offline period (days):</strong> Large pending update accumulated. Use incremental sync with progress UI. Paginate if >10MB of updates.</li>
                 <li><strong>Network partition (split-brain):</strong> Two groups editing independently. When partition heals, CRDT merges all changes - may result in interleaved text requiring review.</li>
                 <li><strong>Undo with collaboration:</strong> Local undo manager tracks only own operations. Use UndoManager from Yjs that respects operation origins.</li>
                 <li><strong>Large document (1M+ characters):</strong> Virtualize rendering, lazy-load CRDT sections, consider block-based CRDT (Y.Array of Y.Text blocks).</li>
@@ -16544,8 +16544,8 @@ class CollaborationModule(reactContext: ReactApplicationContext) :
                 </li>
                 <li><strong>Performance Tests:</strong>
                     <ul>
-                        <li>20 concurrent editors typing - verify &lt;100ms latency</li>
-                        <li>100,000 character document - verify &lt;500ms load time</li>
+                        <li>20 concurrent editors typing - verify <100ms latency</li>
+                        <li>100,000 character document - verify <500ms load time</li>
                         <li>1000 operations/second - verify no dropped updates</li>
                     </ul>
                 </li>
@@ -16815,7 +16815,7 @@ interface QueuedOperation {
     /** Message localId this operation targets */
     messageLocalId: string;
     /** Operation payload */
-    payload: Record&lt;string, unknown&gt;;
+    payload: Record<string, unknown>;
     /** When operation was created */
     createdAt: number;
     /** Number of send attempts */
@@ -16915,7 +16915,7 @@ const storage = new MMKV({ id: 'message-queue' });
 class MessageQueue {
     private queue: QueuedOperation[] = [];
     private isProcessing = false;
-    private unsubscribeNetwork: (() =&gt; void) | null = null;
+    private unsubscribeNetwork: (() => void) | null = null;
 
     constructor() {
         this.loadQueue();
@@ -16941,8 +16941,8 @@ class MessageQueue {
      * Listens for network restoration to trigger queue processing.
      */
     private setupNetworkListener(): void {
-        this.unsubscribeNetwork = NetInfo.addEventListener(state =&gt; {
-            if (state.isConnected &amp;&amp; this.queue.length &gt; 0) {
+        this.unsubscribeNetwork = NetInfo.addEventListener(state => {
+            if (state.isConnected &amp;&amp; this.queue.length > 0) {
                 this.processQueue();
             }
         });
@@ -16953,12 +16953,12 @@ class MessageQueue {
      * Immediately persists to database and queue.
      * @returns The generated localId
      */
-    async enqueue(message: Omit&lt;Message, 'id' | 'status' | 'retryCount'&gt;): Promise&lt;string&gt; {
+    async enqueue(message: Omit<Message, 'id' | 'status' | 'retryCount'>): Promise<string> {
         const localId = generateNanoid();
 
         // 1. Save to local database immediately (appears in UI)
-        await database.write(async () =&gt; {
-            await database.get&lt;MessageModel&gt;('messages').create(msg =&gt; {
+        await database.write(async () => {
+            await database.get<MessageModel>('messages').create(msg => {
                 msg.localId = localId;
                 msg.conversationId = message.conversationId;
                 msg.content = message.content;
@@ -16992,15 +16992,15 @@ class MessageQueue {
      * Processes the queue in FIFO order.
      * Handles failures with exponential backoff.
      */
-    async processQueue(): Promise&lt;void&gt; {
+    async processQueue(): Promise<void> {
         if (this.isProcessing || this.queue.length === 0) return;
         this.isProcessing = true;
 
-        const sortedQueue = [...this.queue].sort((a, b) =&gt; a.createdAt - b.createdAt);
+        const sortedQueue = [...this.queue].sort((a, b) => a.createdAt - b.createdAt);
 
         for (const op of sortedQueue) {
             // Skip if not ready for retry yet
-            if (op.nextRetryAt &amp;&amp; op.nextRetryAt &gt; Date.now()) continue;
+            if (op.nextRetryAt &amp;&amp; op.nextRetryAt > Date.now()) continue;
 
             try {
                 await this.processOperation(op);
@@ -17038,7 +17038,7 @@ class MessageQueue {
  * Prevents thundering herd effect on server recovery.
  */
 class RetryManager {
-    private retryTimers = new Map&lt;string, NodeJS.Timeout&gt;();
+    private retryTimers = new Map<string, NodeJS.Timeout>();
     private readonly MAX_RETRIES = 5;
     private readonly BASE_DELAY_MS = 1000;
     private readonly MAX_DELAY_MS = 300000; // 5 minutes
@@ -17061,10 +17061,10 @@ class RetryManager {
     /**
      * Schedules a retry for the given operation.
      */
-    scheduleRetry(operation: QueuedOperation, onRetry: () =&gt; void): void {
+    scheduleRetry(operation: QueuedOperation, onRetry: () => void): void {
         this.clearRetry(operation.id);
 
-        if (operation.attempts &gt;= this.MAX_RETRIES) {
+        if (operation.attempts >= this.MAX_RETRIES) {
             // Mark as permanently failed
             messageQueue.markFailed(operation.id);
             return;
@@ -17072,7 +17072,7 @@ class RetryManager {
 
         const delay = this.calculateDelay(operation.attempts);
 
-        const timer = setTimeout(() =&gt; {
+        const timer = setTimeout(() => {
             this.retryTimers.delete(operation.id);
             onRetry();
         }, delay);
@@ -17095,7 +17095,7 @@ class RetryManager {
      * Cancels all pending retries.
      */
     clearAll(): void {
-        this.retryTimers.forEach(timer =&gt; clearTimeout(timer));
+        this.retryTimers.forEach(timer => clearTimeout(timer));
         this.retryTimers.clear();
     }
 }</code></pre>
@@ -17161,23 +17161,23 @@ class MessageSyncWorker(
             for (operation in pending) {
                 try {
                     when (operation.type) {
-                        "send" -&gt; sendMessage(operation)
-                        "delete" -&gt; deleteMessage(operation)
-                        "edit" -&gt; editMessage(operation)
+                        "send" -> sendMessage(operation)
+                        "delete" -> deleteMessage(operation)
+                        "edit" -> editMessage(operation)
                     }
                     queue.remove(operation.id)
                 } catch (e: Exception) {
                     queue.incrementAttempts(operation.id)
-                    if (operation.attempts &gt;= MAX_RETRIES) {
+                    if (operation.attempts >= MAX_RETRIES) {
                         queue.markFailed(operation.id)
                     }
                 }
             }
 
-            if (queue.getPendingCount() &gt; 0) Result.retry()
+            if (queue.getPendingCount() > 0) Result.retry()
             else Result.success()
         } catch (e: Exception) {
-            if (runAttemptCount &lt; 3) Result.retry() else Result.failure()
+            if (runAttemptCount < 3) Result.retry() else Result.failure()
         }
     }
 
@@ -17189,7 +17189,7 @@ class MessageSyncWorker(
                 .setRequiredNetworkType(NetworkType.CONNECTED)
                 .build()
 
-            val request = OneTimeWorkRequestBuilder&lt;MessageSyncWorker&gt;()
+            val request = OneTimeWorkRequestBuilder<MessageSyncWorker>()
                 .setConstraints(constraints)
                 .setBackoffCriteria(BackoffPolicy.EXPONENTIAL, 30, TimeUnit.SECONDS)
                 .build()
@@ -17341,7 +17341,7 @@ class MessageSyncWorker(
 
             <h5>Functional Requirements</h5>
             <ul>
-                <li>Real-time message delivery with &lt;100ms latency on good network</li>
+                <li>Real-time message delivery with <100ms latency on good network</li>
                 <li>Typing indicators showing "User is typing..." with 2-second debounce</li>
                 <li>Read receipts with sent → delivered → read progression</li>
                 <li>User presence: online, away (after 5 min), offline with "last seen X" timestamp</li>
@@ -17353,7 +17353,7 @@ class MessageSyncWorker(
 
             <h5>Non-Functional Requirements</h5>
             <ul>
-                <li>Typing indicator broadcast latency &lt;200ms end-to-end</li>
+                <li>Typing indicator broadcast latency <200ms end-to-end</li>
                 <li>Presence update propagation within 5 seconds of state change</li>
                 <li>Support 50,000+ concurrent WebSocket connections per server node</li>
                 <li>Read receipts batched to prevent flooding (max 5/second)</li>
@@ -17611,8 +17611,8 @@ import { io, Socket } from 'socket.io-client';
 class SocketManager {
     private socket: Socket | null = null;
     private reconnectAttempts = 0;
-    private pendingEvents: Array&lt;{ event: string; data: unknown }&gt; = [];
-    private listeners = new Map&lt;string, Set&lt;(data: unknown) =&gt; void&gt;&gt;();
+    private pendingEvents: Array<{ event: string; data: unknown }> = [];
+    private listeners = new Map<string, Set<(data: unknown) => void>>();
     private heartbeatInterval: NodeJS.Timer | null = null;
 
     /**
@@ -17636,25 +17636,25 @@ class SocketManager {
     private setupEventHandlers(): void {
         if (!this.socket) return;
 
-        this.socket.on('connect', () =&gt; {
+        this.socket.on('connect', () => {
             this.reconnectAttempts = 0;
             this.flushPendingEvents();
             this.emit('connection:established');
         });
 
-        this.socket.on('disconnect', (reason) =&gt; {
+        this.socket.on('disconnect', (reason) => {
             this.emit('connection:lost', { reason });
         });
 
-        this.socket.on('connect_error', (error) =&gt; {
+        this.socket.on('connect_error', (error) => {
             this.reconnectAttempts++;
             this.emit('connection:error', { error, attempts: this.reconnectAttempts });
         });
 
         // Forward server events to subscribers
         const events = ['message', 'typing', 'presence', 'read_receipt', 'delivery_status'];
-        events.forEach(event =&gt; {
-            this.socket?.on(event, (data) =&gt; this.emit(event, data));
+        events.forEach(event => {
+            this.socket?.on(event, (data) => this.emit(event, data));
         });
     }
 
@@ -17674,12 +17674,12 @@ class SocketManager {
      * Subscribes to an event type.
      * @returns Unsubscribe function
      */
-    subscribe&lt;T&gt;(event: string, callback: (data: T) =&gt; void): () =&gt; void {
+    subscribe<T>(event: string, callback: (data: T) => void): () => void {
         if (!this.listeners.has(event)) {
             this.listeners.set(event, new Set());
         }
-        this.listeners.get(event)!.add(callback as (data: unknown) =&gt; void);
-        return () =&gt; this.listeners.get(event)?.delete(callback as (data: unknown) =&gt; void);
+        this.listeners.get(event)!.add(callback as (data: unknown) => void);
+        return () => this.listeners.get(event)?.delete(callback as (data: unknown) => void);
     }
 
     /**
@@ -17702,18 +17702,18 @@ class SocketManager {
     }
 
     private emit(event: string, data?: unknown): void {
-        this.listeners.get(event)?.forEach(cb =&gt; cb(data));
+        this.listeners.get(event)?.forEach(cb => cb(data));
     }
 
     private flushPendingEvents(): void {
-        while (this.pendingEvents.length &gt; 0) {
+        while (this.pendingEvents.length > 0) {
             const { event, data } = this.pendingEvents.shift()!;
             this.send(event, data);
         }
     }
 
     private startHeartbeat(): void {
-        this.heartbeatInterval = setInterval(() =&gt; {
+        this.heartbeatInterval = setInterval(() => {
             this.send('heartbeat', { timestamp: Date.now() });
         }, 30000);
     }
@@ -17737,7 +17737,7 @@ function useTypingIndicator(conversationId: string): {
     /** Array of user IDs currently typing */
     typingUserIds: string[];
     /** Send typing status for current user */
-    sendTypingStatus: (isTyping: boolean) =&gt; void;
+    sendTypingStatus: (isTyping: boolean) => void;
 };
 
 // hooks/usePresence.ts
@@ -17748,7 +17748,7 @@ function useTypingIndicator(conversationId: string): {
  */
 function usePresence(userIds: string[]): {
     /** Map of userId to presence state */
-    presence: Map&lt;string, PresenceState&gt;;
+    presence: Map<string, PresenceState>;
     /** Whether presence data is loading */
     isLoading: boolean;
 };
@@ -17761,9 +17761,9 @@ function usePresence(userIds: string[]): {
  */
 function useReadReceipts(conversationId: string): {
     /** Mark a message as read (batched) */
-    markAsRead: (messageId: string) =&gt; void;
+    markAsRead: (messageId: string) => void;
     /** Get read status for a message */
-    getReadBy: (messageId: string) =&gt; string[];
+    getReadBy: (messageId: string) => string[];
 };</code></pre>
 
             <h5>Native Bridge APIs</h5>
@@ -17921,7 +17921,7 @@ class PresenceModule(reactContext: ReactApplicationContext) :
                     <ul>
                         <li>10,000 concurrent connections per server</li>
                         <li>1,000 typing events/second cluster-wide</li>
-                        <li>Latency percentiles under load (p50 &lt; 50ms, p99 &lt; 200ms)</li>
+                        <li>Latency percentiles under load (p50 < 50ms, p99 < 200ms)</li>
                     </ul>
                 </li>
             </ul>
@@ -17963,7 +17963,7 @@ class PresenceModule(reactContext: ReactApplicationContext) :
             <h5>Functional Requirements</h5>
             <ul>
                 <li>Real-time bid updates visible to all participants within 100ms</li>
-                <li>Precise countdown timer synchronized across all devices (&lt;50ms drift)</li>
+                <li>Precise countdown timer synchronized across all devices (<50ms drift)</li>
                 <li>Anti-snipe protection - extend auction by 30s on bids in final 30s</li>
                 <li>Complete bid history with user identification and timestamps</li>
                 <li>Automatic winner determination and notification</li>
@@ -17977,7 +17977,7 @@ class PresenceModule(reactContext: ReactApplicationContext) :
             <h5>Non-Functional Requirements</h5>
             <ul>
                 <li><strong>Scalability:</strong> Handle 10,000+ concurrent bidders per auction</li>
-                <li><strong>Latency:</strong> Bid processing &lt;50ms server-side, broadcast &lt;100ms to all clients</li>
+                <li><strong>Latency:</strong> Bid processing <50ms server-side, broadcast <100ms to all clients</li>
                 <li><strong>Consistency:</strong> Zero double-bid or race condition issues (strong consistency for bids)</li>
                 <li><strong>Availability:</strong> 99.99% uptime during live auctions</li>
                 <li><strong>Timer precision:</strong> Server-client time sync within 50ms</li>
@@ -18243,7 +18243,7 @@ interface ProxyBid {
 interface AuctionUpdate {
     type: AuctionUpdateType;
     auctionId: string;
-    payload: Partial&lt;Auction&gt; | Bid | TimeExtension;
+    payload: Partial<Auction> | Bid | TimeExtension;
     serverTime: number;
     /** Sequence number for ordering */
     sequence: number;
@@ -18335,7 +18335,7 @@ type AuctionEvent =
     | { type: 'CONNECTION_RESTORED' }
     | { type: 'RETRY' };
 
-const auctionMachine = createMachine&lt;AuctionContext, AuctionEvent&gt;({
+const auctionMachine = createMachine<AuctionContext, AuctionEvent>({
     id: 'auction',
     initial: 'loading',
     context: {
@@ -18421,8 +18421,8 @@ class BidService {
      * @param authToken - User authentication token
      * @returns Promise resolving when connected and joined
      */
-    async connect(auctionId: string, authToken: string): Promise&lt;void&gt; {
-        return new Promise((resolve, reject) =&gt; {
+    async connect(auctionId: string, authToken: string): Promise<void> {
+        return new Promise((resolve, reject) => {
             this.socket = io(AUCTION_WS_URL, {
                 auth: { token: authToken },
                 transports: ['websocket'],
@@ -18431,7 +18431,7 @@ class BidService {
                 reconnectionDelayMax: 5000,
             });
 
-            this.socket.on('connect', () =&gt; {
+            this.socket.on('connect', () => {
                 this.socket?.emit('join_auction', auctionId);
                 this.reconnectAttempts = 0;
                 resolve();
@@ -18446,13 +18446,13 @@ class BidService {
      * @param bid - Bid details
      * @returns Promise with bid result
      */
-    async placeBid(bid: PlaceBidRequest): Promise&lt;BidResult&gt; {
-        return new Promise((resolve, reject) =&gt; {
-            const timeout = setTimeout(() =&gt; {
+    async placeBid(bid: PlaceBidRequest): Promise<BidResult> {
+        return new Promise((resolve, reject) => {
+            const timeout = setTimeout(() => {
                 reject(new Error('Bid timeout'));
             }, 5000);
 
-            this.socket?.emit('place_bid', bid, (response: BidResult) =&gt; {
+            this.socket?.emit('place_bid', bid, (response: BidResult) => {
                 clearTimeout(timeout);
                 resolve(response);
             });
@@ -18463,7 +18463,7 @@ class BidService {
      * Set up proxy/automatic bidding.
      * @param maxAmount - Maximum amount to bid up to
      */
-    async setProxyBid(auctionId: string, maxAmount: number): Promise&lt;void&gt; {
+    async setProxyBid(auctionId: string, maxAmount: number): Promise<void> {
         this.socket?.emit('set_proxy_bid', { auctionId, maxAmount });
     }
 
@@ -18471,7 +18471,7 @@ class BidService {
      * Subscribe to auction updates.
      * @param callback - Handler for auction events
      */
-    onAuctionUpdate(callback: (update: AuctionUpdate) =&gt; void): void {
+    onAuctionUpdate(callback: (update: AuctionUpdate) => void): void {
         this.socket?.on('auction_update', callback);
     }
 
@@ -18479,10 +18479,10 @@ class BidService {
      * Sync server time for accurate countdown.
      * @returns Server time delta in milliseconds
      */
-    async syncTime(): Promise&lt;number&gt; {
+    async syncTime(): Promise<number> {
         const samples: number[] = [];
 
-        for (let i = 0; i &lt; 5; i++) {
+        for (let i = 0; i < 5; i++) {
             const start = Date.now();
             const serverTime = await this.requestServerTime();
             const rtt = Date.now() - start;
@@ -18491,13 +18491,13 @@ class BidService {
         }
 
         // Use median to filter outliers
-        samples.sort((a, b) =&gt; a - b);
+        samples.sort((a, b) => a - b);
         return samples[2];
     }
 
-    private requestServerTime(): Promise&lt;number&gt; {
-        return new Promise((resolve) =&gt; {
-            this.socket?.emit('get_server_time', {}, (time: number) =&gt; {
+    private requestServerTime(): Promise<number> {
+        return new Promise((resolve) => {
+            this.socket?.emit('get_server_time', {}, (time: number) => {
                 resolve(time);
             });
         });
@@ -18543,13 +18543,13 @@ function useAuction(auctionId: string): {
     /** User's current bid */
     myBid: Bid | null;
     /** Place a new bid */
-    placeBid: (amount: number) =&gt; Promise&lt;BidResult&gt;;
+    placeBid: (amount: number) => Promise<BidResult>;
     /** Set proxy/auto bidding */
-    setProxyBid: (maxAmount: number) =&gt; Promise&lt;void&gt;;
+    setProxyBid: (maxAmount: number) => Promise<void>;
     /** Toggle watchlist status */
-    toggleWatch: () =&gt; void;
+    toggleWatch: () => void;
     /** Retry after error */
-    retry: () =&gt; void;
+    retry: () => void;
 };
 
 // hooks/useAuctionTimer.ts
@@ -18588,9 +18588,9 @@ function useBidInput(auction: Auction | null): {
     /** Suggested increment amounts */
     quickBids: number[];
     /** Set bid amount */
-    setValue: (value: string) =&gt; void;
+    setValue: (value: string) => void;
     /** Increment by one step */
-    increment: () =&gt; void;
+    increment: () => void;
     /** Whether current value is valid */
     isValid: boolean;
     /** Validation error message */
@@ -18642,14 +18642,14 @@ class AuctionTimerModule: NSObject {
     @objc private func tick() {
         let remaining = endTime - Date().timeIntervalSince1970
 
-        if remaining &lt;= 0 {
+        if remaining <= 0 {
             displayLink?.invalidate()
             displayLink = nil
             sendEvent("auctionTimerEnded", body: ["remaining": 0])
         } else {
             sendEvent("auctionTimerTick", body: [
                 "remaining": Int(remaining * 1000),
-                "isUrgent": remaining &lt; 30
+                "isUrgent": remaining < 30
             ])
         }
     }
@@ -18725,7 +18725,7 @@ class AuctionTimerModule(
 
             val remaining = endTimeMs - System.currentTimeMillis()
 
-            if (remaining &lt;= 0) {
+            if (remaining <= 0) {
                 isRunning = false
                 sendEvent("auctionTimerEnded", Arguments.createMap().apply {
                     putInt("remaining", 0)
@@ -18733,7 +18733,7 @@ class AuctionTimerModule(
             } else {
                 sendEvent("auctionTimerTick", Arguments.createMap().apply {
                     putInt("remaining", remaining.toInt())
-                    putBoolean("isUrgent", remaining &lt; 30000)
+                    putBoolean("isUrgent", remaining < 30000)
                 })
                 choreographer.postFrameCallback(this)
             }
@@ -18755,7 +18755,7 @@ class AuctionTimerModule(
 
     @ReactMethod
     fun triggerHaptic(type: String) {
-        val vibrator = if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.S) {
+        val vibrator = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             val manager = reactContext.getSystemService(VibratorManager::class.java)
             manager?.defaultVibrator
         } else {
@@ -18763,16 +18763,16 @@ class AuctionTimerModule(
             reactContext.getSystemService(Vibrator::class.java)
         }
 
-        if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val effect = when (type) {
-                "bidPlaced" -&gt; VibrationEffect.createOneShot(50, 128)
-                "bidAccepted" -&gt; VibrationEffect.createOneShot(100, 200)
-                "outbid" -&gt; VibrationEffect.createWaveform(
+                "bidPlaced" -> VibrationEffect.createOneShot(50, 128)
+                "bidAccepted" -> VibrationEffect.createOneShot(100, 200)
+                "outbid" -> VibrationEffect.createWaveform(
                     longArrayOf(0, 100, 50, 100), -1
                 )
-                "auctionEnded" -&gt; VibrationEffect.createOneShot(200, 255)
-                "urgent" -&gt; VibrationEffect.createOneShot(75, 255)
-                else -&gt; VibrationEffect.createOneShot(25, 64)
+                "auctionEnded" -> VibrationEffect.createOneShot(200, 255)
+                "urgent" -> VibrationEffect.createOneShot(75, 255)
+                else -> VibrationEffect.createOneShot(25, 64)
             }
             vibrator?.vibrate(effect)
         }
@@ -18814,7 +18814,7 @@ class AuctionTimerModule(
                     <ul>
                         <li>Problem: Client clocks vary by seconds, breaks countdown accuracy</li>
                         <li>Solution: NTP-style sync on connect (5 samples, use median), recalibrate on reconnect</li>
-                        <li>Impact: &lt;50ms time sync across all clients</li>
+                        <li>Impact: <50ms time sync across all clients</li>
                     </ul>
                 </li>
                 <li><strong>Bid broadcast batching:</strong>
@@ -18962,8 +18962,8 @@ return cjson.encode({
                     <ul>
                         <li>10,000 concurrent watchers per auction</li>
                         <li>500 bids/second sustained for final minute</li>
-                        <li>Broadcast latency p99 &lt; 100ms under load</li>
-                        <li>Redis Lua script execution &lt; 1ms</li>
+                        <li>Broadcast latency p99 < 100ms under load</li>
+                        <li>Redis Lua script execution < 1ms</li>
                     </ul>
                 </li>
             </ul>
@@ -19439,7 +19439,7 @@ class WhiteboardSyncService {
     private ydoc: Y.Doc;
     private provider: WebsocketProvider | null = null;
     private persistence: IndexeddbPersistence | null = null;
-    private yElements: Y.Map&lt;WhiteboardElement&gt;;
+    private yElements: Y.Map<WhiteboardElement>;
     private awareness: Awareness;
     private undoManager: Y.UndoManager;
 
@@ -19484,10 +19484,10 @@ class WhiteboardSyncService {
      * @param element - Element data without ID
      * @returns Generated element ID
      */
-    addElement(element: Omit&lt;WhiteboardElement, 'id'&gt;): string {
+    addElement(element: Omit<WhiteboardElement, 'id'>): string {
         const id = nanoid();
 
-        this.ydoc.transact(() =&gt; {
+        this.ydoc.transact(() => {
             this.yElements.set(id, {
                 ...element,
                 id,
@@ -19505,8 +19505,8 @@ class WhiteboardSyncService {
      * @param id - Element ID
      * @param updates - Partial element updates
      */
-    updateElement(id: string, updates: Partial&lt;WhiteboardElement&gt;): void {
-        this.ydoc.transact(() =&gt; {
+    updateElement(id: string, updates: Partial<WhiteboardElement>): void {
+        this.ydoc.transact(() => {
             const existing = this.yElements.get(id);
             if (existing) {
                 this.yElements.set(id, {
@@ -19523,7 +19523,7 @@ class WhiteboardSyncService {
      * @param id - Element ID to delete
      */
     deleteElement(id: string): void {
-        this.ydoc.transact(() =&gt; {
+        this.ydoc.transact(() => {
             this.yElements.delete(id);
         }, this.ydoc.clientID);
     }
@@ -19535,7 +19535,7 @@ class WhiteboardSyncService {
      * @param points - New points to append
      */
     appendPathPoints(id: string, points: Point[]): void {
-        this.ydoc.transact(() =&gt; {
+        this.ydoc.transact(() => {
             const element = this.yElements.get(id) as PathElement;
             if (element?.type === 'path') {
                 const newPoints = [...element.points, ...points];
@@ -19567,16 +19567,16 @@ class WhiteboardSyncService {
     /**
      * Subscribe to element changes.
      */
-    onElementsChange(callback: (elements: Map&lt;string, WhiteboardElement&gt;) =&gt; void): () =&gt; void {
-        const handler = () =&gt; callback(new Map(this.yElements.entries()));
+    onElementsChange(callback: (elements: Map<string, WhiteboardElement>) => void): () => void {
+        const handler = () => callback(new Map(this.yElements.entries()));
         this.yElements.observe(handler);
-        return () =&gt; this.yElements.unobserve(handler);
+        return () => this.yElements.unobserve(handler);
     }
 
     /**
      * Update cursor position (throttled to 50ms).
      */
-    updateCursor(cursor: Partial&lt;CursorState&gt;): void {
+    updateCursor(cursor: Partial<CursorState>): void {
         this.awareness.setLocalStateField('cursor', {
             ...this.awareness.getLocalState()?.cursor,
             ...cursor,
@@ -19587,10 +19587,10 @@ class WhiteboardSyncService {
     /**
      * Subscribe to presence updates (other users' cursors).
      */
-    onPresenceChange(callback: (cursors: CursorState[]) =&gt; void): () =&gt; void {
-        const handler = () =&gt; {
+    onPresenceChange(callback: (cursors: CursorState[]) => void): () => void {
+        const handler = () => {
             const cursors: CursorState[] = [];
-            this.awareness.getStates().forEach((state, clientId) =&gt; {
+            this.awareness.getStates().forEach((state, clientId) => {
                 if (clientId !== this.ydoc.clientID &amp;&amp; state.cursor) {
                     cursors.push({ ...state.cursor, ...state.user });
                 }
@@ -19598,7 +19598,7 @@ class WhiteboardSyncService {
             callback(cursors);
         };
         this.awareness.on('change', handler);
-        return () =&gt; this.awareness.off('change', handler);
+        return () => this.awareness.off('change', handler);
     }
 
     /** Get connection status */
@@ -19623,7 +19623,7 @@ class WhiteboardSyncService {
  */
 function useWhiteboard(boardId: string): {
     /** All elements on the board */
-    elements: Map&lt;string, WhiteboardElement&gt;;
+    elements: Map<string, WhiteboardElement>;
     /** Other users' cursors */
     cursors: CursorState[];
     /** Connection status */
@@ -19631,17 +19631,17 @@ function useWhiteboard(boardId: string): {
     /** Whether offline changes are pending sync */
     hasPendingChanges: boolean;
     /** Add a new element */
-    addElement: (element: Omit&lt;WhiteboardElement, 'id'&gt;) =&gt; string;
+    addElement: (element: Omit<WhiteboardElement, 'id'>) => string;
     /** Update an element */
-    updateElement: (id: string, updates: Partial&lt;WhiteboardElement&gt;) =&gt; void;
+    updateElement: (id: string, updates: Partial<WhiteboardElement>) => void;
     /** Delete an element */
-    deleteElement: (id: string) =&gt; void;
+    deleteElement: (id: string) => void;
     /** Append points to a path */
-    appendPathPoints: (id: string, points: Point[]) =&gt; void;
+    appendPathPoints: (id: string, points: Point[]) => void;
     /** Undo last action */
-    undo: () =&gt; void;
+    undo: () => void;
     /** Redo last undone action */
-    redo: () =&gt; void;
+    redo: () => void;
     /** Whether undo is available */
     canUndo: boolean;
     /** Whether redo is available */
@@ -19657,19 +19657,19 @@ function useViewport(): {
     /** Current viewport state */
     viewport: CanvasViewport;
     /** Set viewport directly */
-    setViewport: (viewport: CanvasViewport) =&gt; void;
+    setViewport: (viewport: CanvasViewport) => void;
     /** Pan by delta */
-    pan: (dx: number, dy: number) =&gt; void;
+    pan: (dx: number, dy: number) => void;
     /** Zoom to point */
-    zoomTo: (scale: number, centerX: number, centerY: number) =&gt; void;
+    zoomTo: (scale: number, centerX: number, centerY: number) => void;
     /** Fit all elements in view */
-    fitToContent: (elements: WhiteboardElement[]) =&gt; void;
+    fitToContent: (elements: WhiteboardElement[]) => void;
     /** Reset to default view */
-    resetView: () =&gt; void;
+    resetView: () => void;
     /** Convert screen coords to canvas coords */
-    screenToCanvas: (screenX: number, screenY: number) =&gt; Point;
+    screenToCanvas: (screenX: number, screenY: number) => Point;
     /** Convert canvas coords to screen coords */
-    canvasToScreen: (canvasX: number, canvasY: number) =&gt; Point;
+    canvasToScreen: (canvasX: number, canvasY: number) => Point;
 };
 
 // hooks/useDrawing.ts
@@ -19685,13 +19685,13 @@ function useDrawing(
     /** Currently drawing path (optimistic) */
     currentPath: PathElement | null;
     /** Start a new path */
-    startPath: (point: Point, options: PathOptions) =&gt; void;
+    startPath: (point: Point, options: PathOptions) => void;
     /** Add point to current path */
-    addPoint: (point: Point) =&gt; void;
+    addPoint: (point: Point) => void;
     /** Finish current path */
-    endPath: () =&gt; void;
+    endPath: () => void;
     /** Cancel current path */
-    cancelPath: () =&gt; void;
+    cancelPath: () => void;
 };
 
 interface PathOptions {
@@ -19853,7 +19853,7 @@ class WhiteboardCanvasModule(
 
     @ReactMethod
     fun initializeCanvas(promise: Promise) {
-        val maxFPS = if (Build.VERSION.SDK_INT &gt;= 30) {
+        val maxFPS = if (Build.VERSION.SDK_INT >= 30) {
             currentActivity?.display?.refreshRate?.toInt() ?: 60
         } else 60
 
@@ -19885,7 +19885,7 @@ class WhiteboardCanvasModule(
         sendRenderEvent(canvas)
 
         val file = File(reactContext.cacheDir, "\${java.util.UUID.randomUUID()}.png")
-        FileOutputStream(file).use { out -&gt;
+        FileOutputStream(file).use { out ->
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, out)
         }
 
@@ -19909,7 +19909,7 @@ class WhiteboardCanvasModule(
         document.finishPage(page)
 
         val file = File(reactContext.cacheDir, "\${java.util.UUID.randomUUID()}.pdf")
-        FileOutputStream(file).use { out -&gt;
+        FileOutputStream(file).use { out ->
             document.writeTo(out)
         }
         document.close()
@@ -19920,7 +19920,7 @@ class WhiteboardCanvasModule(
     }
 
     private fun isVulkanSupported(): Boolean {
-        return Build.VERSION.SDK_INT &gt;= 24 &amp;&amp;
+        return Build.VERSION.SDK_INT >= 24 &amp;&amp;
             reactContext.packageManager.hasSystemFeature("android.hardware.vulkan.level")
     }
 
@@ -20046,8 +20046,8 @@ class WhiteboardCanvasModule(
                     <ul>
                         <li>60fps sustained with 10,000 elements</li>
                         <li>Memory stays under 500MB for large boards</li>
-                        <li>Drawing latency &lt; 16ms from touch to render</li>
-                        <li>Remote cursor latency &lt; 100ms p95</li>
+                        <li>Drawing latency < 16ms from touch to render</li>
+                        <li>Remote cursor latency < 100ms p95</li>
                     </ul>
                 </li>
             </ul>
@@ -20102,11 +20102,11 @@ class WhiteboardCanvasModule(
 
             <h5>Non-Functional Requirements</h5>
             <ul>
-                <li><strong>Performance:</strong> Zero perceptible impact on page load time (&lt;5ms filter matching overhead)</li>
-                <li><strong>Battery:</strong> &lt;2% additional drain vs no blocker installed</li>
+                <li><strong>Performance:</strong> Zero perceptible impact on page load time (<5ms filter matching overhead)</li>
+                <li><strong>Battery:</strong> <2% additional drain vs no blocker installed</li>
                 <li><strong>Scale:</strong> Support 100,000+ blocking rules efficiently</li>
                 <li><strong>Privacy:</strong> All filtering happens on-device; no network traffic for blocking logic</li>
-                <li><strong>Memory:</strong> &lt;50MB memory footprint for rule engine</li>
+                <li><strong>Memory:</strong> <50MB memory footprint for rule engine</li>
                 <li><strong>Startup:</strong> Rules loaded and active within 500ms of device boot</li>
             </ul>
 
@@ -20369,7 +20369,7 @@ interface BlockingStatistics {
     /** Total requests blocked all-time */
     totalBlocked: number;
     /** Breakdown by category */
-    blockedByCategory: Record&lt;FilterCategory, number&gt;;
+    blockedByCategory: Record<FilterCategory, number>;
     /** Estimated bandwidth saved in bytes */
     bandwidthSaved: number;
     /** Daily statistics for charts */
@@ -20478,7 +20478,7 @@ class RuleCompiler {
      * @param filterLists - Array of subscribed filter lists
      * @returns Compiled rules for iOS and Android with statistics
      */
-    async compileRules(filterLists: FilterList[]): Promise&lt;CompiledRuleSet&gt;;
+    async compileRules(filterLists: FilterList[]): Promise<CompiledRuleSet>;
 
     /**
      * Convert normalized rules to Safari Content Blocker JSON format.
@@ -20518,7 +20518,7 @@ interface CompiledRuleSet {
     /** Compilation statistics */
     statistics: {
         totalRules: number;
-        byCategory: Record&lt;FilterCategory, number&gt;;
+        byCategory: Record<FilterCategory, number>;
     };
 }
 
@@ -20540,17 +20540,17 @@ function useContentBlocker(): {
     /** Subscribed filter lists */
     filterLists: FilterList[];
     /** Subscribe to a new filter list */
-    addFilterList: (url: string) =&gt; Promise&lt;void&gt;;
+    addFilterList: (url: string) => Promise<void>;
     /** Remove a filter list subscription */
-    removeFilterList: (id: string) =&gt; void;
+    removeFilterList: (id: string) => void;
     /** Toggle filter list enabled state */
-    toggleFilterList: (id: string) =&gt; void;
+    toggleFilterList: (id: string) => void;
     /** Force refresh all filter lists */
-    refreshLists: () =&gt; Promise&lt;void&gt;;
+    refreshLists: () => Promise<void>;
     /** Whether blocking is currently active */
     isEnabled: boolean;
     /** Toggle blocking on/off */
-    setEnabled: (enabled: boolean) =&gt; Promise&lt;void&gt;;
+    setEnabled: (enabled: boolean) => Promise<void>;
     /** Total active rule count */
     ruleCount: number;
     /** Last update timestamp */
@@ -20568,7 +20568,7 @@ function useBlockingStats(): {
     /** Total requests blocked all-time */
     totalBlocked: number;
     /** Blocked by category breakdown */
-    blockedByCategory: Record&lt;FilterCategory, number&gt;;
+    blockedByCategory: Record<FilterCategory, number>;
     /** Estimated bandwidth saved in bytes */
     bandwidthSaved: number;
     /** Daily statistics for charts (last 30 days) */
@@ -20576,7 +20576,7 @@ function useBlockingStats(): {
     /** Top 10 blocked domains */
     topBlockedDomains: DomainStat[];
     /** Reset all statistics */
-    resetStats: () =&gt; void;
+    resetStats: () => void;
 };
 
 // hooks/useWhitelist.ts
@@ -20588,13 +20588,13 @@ function useWhitelist(): {
     /** All whitelist entries */
     entries: WhitelistEntry[];
     /** Add domain to whitelist */
-    addToWhitelist: (domain: string, note?: string) =&gt; void;
+    addToWhitelist: (domain: string, note?: string) => void;
     /** Remove from whitelist */
-    removeFromWhitelist: (pattern: string) =&gt; void;
+    removeFromWhitelist: (pattern: string) => void;
     /** Check if domain is whitelisted */
-    isWhitelisted: (domain: string) =&gt; boolean;
+    isWhitelisted: (domain: string) => boolean;
     /** Temporarily whitelist for session */
-    temporaryWhitelist: (domain: string) =&gt; void;
+    temporaryWhitelist: (domain: string) => void;
 };</code></pre>
 
             <h5>Native Bridge APIs - iOS</h5>
@@ -20718,7 +20718,7 @@ class ContentBlockerModule: NSObject {
         }
     }
 
-    private func countRules(_ data: Data) -&gt; Int {
+    private func countRules(_ data: Data) -> Int {
         (try? JSONSerialization.jsonObject(with: data) as? [[String: Any]])?.count ?? 0
     }
 }</code></pre>
@@ -20758,8 +20758,8 @@ class DnsBlockerService : VpnService() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         when (intent?.action) {
-            ACTION_START -&gt; startVpn()
-            ACTION_STOP -&gt; stopVpn()
+            ACTION_START -> startVpn()
+            ACTION_STOP -> stopVpn()
         }
         return START_STICKY
     }
@@ -20794,7 +20794,7 @@ class DnsBlockerService : VpnService() {
         while (isRunning) {
             packet.clear()
             val length = inputStream.read(packet.array())
-            if (length &lt;= 0) continue
+            if (length <= 0) continue
 
             val dnsQuery = parseDnsQuery(packet) ?: continue
             val domain = dnsQuery.questionDomain
@@ -20829,7 +20829,7 @@ class DomainTrie {
     /** Insert domain for blocking (stored reversed for suffix matching) */
     fun insert(domain: String) {
         var node = root
-        domain.split(".").reversed().forEach { part -&gt;
+        domain.split(".").reversed().forEach { part ->
             node = node.children.getOrPut(part) { TrieNode() }
         }
         node.isEnd = true
@@ -20849,7 +20849,7 @@ class DomainTrie {
 }
 
 private class TrieNode {
-    val children = mutableMapOf&lt;String, TrieNode&gt;()
+    val children = mutableMapOf<String, TrieNode>()
     var isEnd = false
 }</code></pre>
 
@@ -20882,7 +20882,7 @@ private class TrieNode {
                     <ul>
                         <li>Problem: Writing stats on every blocked request is expensive</li>
                         <li>Solution: Batch updates in memory, flush to MMKV every 100 requests</li>
-                        <li>Impact: &lt;1% CPU overhead for statistics tracking</li>
+                        <li>Impact: <1% CPU overhead for statistics tracking</li>
                     </ul>
                 </li>
             </ul>
@@ -20894,7 +20894,7 @@ private class TrieNode {
                 <tr><td>Rule format</td><td>Declarative JSON (Safari Content Blocker)</td><td>Domain list + runtime checking</td></tr>
                 <tr><td>Rule limit</td><td>50,000 per extension</td><td>Unlimited (memory-constrained)</td></tr>
                 <tr><td>HTTPS visibility</td><td>URL patterns only</td><td>DNS queries only (no HTTPS inspection)</td></tr>
-                <tr><td>User setup</td><td>Enable in Settings &gt; Safari</td><td>Grant VPN permission</td></tr>
+                <tr><td>User setup</td><td>Enable in Settings > Safari</td><td>Grant VPN permission</td></tr>
                 <tr><td>Battery impact</td><td>Minimal (kernel-level)</td><td>Low (only DNS routed through VPN)</td></tr>
                 <tr><td>Statistics</td><td>No callback for blocked requests</td><td>Can track every blocked domain</td></tr>
                 <tr><td>CSS hiding</td><td>Native support via selector rules</td><td>Requires WebView injection</td></tr>
@@ -21000,10 +21000,10 @@ private class TrieNode {
 
             <h5>Non-Functional Requirements</h5>
             <ul>
-                <li><strong>Latency:</strong> Zero perceptible lag between viewfinder and real scene (&lt;33ms)</li>
-                <li><strong>Capture speed:</strong> Photo capture latency &lt;200ms from tap to saved image</li>
-                <li><strong>Battery:</strong> Battery drain comparable to native camera apps (&lt;10%/hour active use)</li>
-                <li><strong>Memory:</strong> Peak memory usage &lt;300MB including filter textures</li>
+                <li><strong>Latency:</strong> Zero perceptible lag between viewfinder and real scene (<33ms)</li>
+                <li><strong>Capture speed:</strong> Photo capture latency <200ms from tap to saved image</li>
+                <li><strong>Battery:</strong> Battery drain comparable to native camera apps (<10%/hour active use)</li>
+                <li><strong>Memory:</strong> Peak memory usage <300MB including filter textures</li>
                 <li><strong>Compatibility:</strong> Support devices from iPhone 8/Android API 24+</li>
                 <li><strong>Thermal:</strong> No throttling warnings during 10-minute continuous recording</li>
             </ul>
@@ -21313,13 +21313,13 @@ function useCamera(): {
     /** Current flash mode */
     flash: FlashMode;
     /** Update flash mode */
-    setFlash: (mode: FlashMode) =&gt; void;
+    setFlash: (mode: FlashMode) => void;
     /** Switch between front/back camera */
-    flipCamera: () =&gt; void;
+    flipCamera: () => void;
     /** Current camera position */
     position: CameraPosition;
     /** Camera reference for capture */
-    cameraRef: React.RefObject&lt;Camera&gt;;
+    cameraRef: React.RefObject<Camera>;
 };
 
 // hooks/useFilter.ts
@@ -21334,15 +21334,15 @@ function useFilter(): {
     /** Currently selected filter */
     activeFilter: Filter;
     /** Select a filter by ID */
-    setFilter: (filterId: string) =&gt; void;
+    setFilter: (filterId: string) => void;
     /** Current intensity (0-1) */
     intensity: number;
     /** Update intensity (Reanimated shared value) */
-    setIntensity: (value: number) =&gt; void;
+    setIntensity: (value: number) => void;
     /** Shared value for worklet access */
-    intensityShared: SharedValue&lt;number&gt;;
+    intensityShared: SharedValue<number>;
     /** Shared value for filter config */
-    filterConfigShared: SharedValue&lt;FilterConfig&gt;;
+    filterConfigShared: SharedValue<FilterConfig>;
 };
 
 // hooks/useFaceDetection.ts
@@ -21357,7 +21357,7 @@ function useFaceDetection(): {
     /** Whether face detection is active */
     isActive: boolean;
     /** Enable/disable face detection */
-    setActive: (active: boolean) =&gt; void;
+    setActive: (active: boolean) => void;
     /** Processing time in ms */
     processingTime: number;
 };
@@ -21367,13 +21367,13 @@ function useFaceDetection(): {
 /**
  * Hook for photo and video capture with filters applied.
  */
-function useCapture(cameraRef: React.RefObject&lt;Camera&gt;): {
+function useCapture(cameraRef: React.RefObject<Camera>): {
     /** Take photo with current filter */
-    takePhoto: () =&gt; Promise&lt;CaptureResult&gt;;
+    takePhoto: () => Promise<CaptureResult>;
     /** Start video recording */
-    startRecording: () =&gt; void;
+    startRecording: () => void;
     /** Stop video recording */
-    stopRecording: () =&gt; Promise&lt;CaptureResult&gt;;
+    stopRecording: () => Promise<CaptureResult>;
     /** Whether recording is in progress */
     isRecording: boolean;
     /** Recording duration in seconds */
@@ -21484,7 +21484,7 @@ class MetalFilterPipeline {
 
         encoder.setComputePipelineState(pipeline)
         encoder.setTexture(texture, index: 0)
-        encoder.setBytes([intensity], length: MemoryLayout&lt;Float&gt;.size, index: 0)
+        encoder.setBytes([intensity], length: MemoryLayout<Float>.size, index: 0)
 
         let threadGroupSize = MTLSize(width: 16, height: 16, depth: 1)
         let threadGroups = MTLSize(
@@ -21512,12 +21512,12 @@ class MetalFilterPipeline {
 
 // Metal Shader Example - LUT-based color grading
 /*
-#include &lt;metal_stdlib&gt;
+#include <metal_stdlib>
 using namespace metal;
 
 kernel void lutFilter(
-    texture2d&lt;float, access::read_write&gt; image [[texture(0)]],
-    texture3d&lt;float, access::sample&gt; lut [[texture(1)]],
+    texture2d<float, access::read_write> image [[texture(0)]],
+    texture3d<float, access::sample> lut [[texture(1)]],
     constant float &amp;intensity [[buffer(0)]],
     uint2 gid [[thread_position_in_grid]]
 ) {
@@ -21555,7 +21555,7 @@ class FilterFrameProcessor(
 
     private val gpuImage = GPUImage(reactContext)
 
-    override fun callback(frame: Frame, params: Map&lt;String, Any&gt;?): Any? {
+    override fun callback(frame: Frame, params: Map<String, Any>?): Any? {
         val filterName = params?.get("filter") as? String ?: return null
         val intensity = (params["intensity"] as? Double)?.toFloat() ?: 1f
 
@@ -21569,16 +21569,16 @@ class FilterFrameProcessor(
 
     private fun getFilter(name: String, intensity: Float): GPUImageFilter {
         return when (name) {
-            "grayscale" -&gt; GPUImageGrayscaleFilter()
-            "sepia" -&gt; GPUImageSepiaToneFilter().apply { setIntensity(intensity) }
-            "blur" -&gt; GPUImageGaussianBlurFilter().apply { setBlurSize(intensity * 2f) }
-            "beauty" -&gt; GPUImageBilateralBlurFilter().apply {
+            "grayscale" -> GPUImageGrayscaleFilter()
+            "sepia" -> GPUImageSepiaToneFilter().apply { setIntensity(intensity) }
+            "blur" -> GPUImageGaussianBlurFilter().apply { setBlurSize(intensity * 2f) }
+            "beauty" -> GPUImageBilateralBlurFilter().apply {
                 setDistanceNormalizationFactor(intensity * 8f)
             }
-            "vintage" -&gt; GPUImageLookupFilter().apply {
+            "vintage" -> GPUImageLookupFilter().apply {
                 // Load 3D LUT texture
             }
-            else -&gt; GPUImageFilter()
+            else -> GPUImageFilter()
         }
     }
 }
@@ -21750,7 +21750,7 @@ void main() {
 
             <h5>Non-Functional Requirements</h5>
             <ul>
-                <li><strong>Battery:</strong> Drain &lt;5% per hour in balanced mode, &lt;1% in significant-only mode</li>
+                <li><strong>Battery:</strong> Drain <5% per hour in balanced mode, <1% in significant-only mode</li>
                 <li><strong>Duration:</strong> Background tracking works for 24+ hours without app interaction</li>
                 <li><strong>Resilience:</strong> Survive app being killed by OS (via significant location/geofence wake-up)</li>
                 <li><strong>Compliance:</strong> Adhere to iOS/Android background restrictions and privacy requirements</li>
@@ -21954,7 +21954,7 @@ interface Geofence {
     /** Dwell time threshold in ms */
     dwellTime?: number;
     /** Custom metadata */
-    metadata?: Record&lt;string, any&gt;;
+    metadata?: Record<string, any>;
 }
 
 /**
@@ -21970,7 +21970,7 @@ interface GeofenceEvent {
 /**
  * Predefined tracking configurations for each mode
  */
-const TRACKING_CONFIGS: Record&lt;TrackingMode, TrackingConfig&gt; = {
+const TRACKING_CONFIGS: Record<TrackingMode, TrackingConfig> = {
     high: {
         mode: 'high',
         distanceFilter: 10,
@@ -22063,11 +22063,11 @@ function useLocationTracking(): {
     /** Current tracking mode */
     mode: TrackingMode;
     /** Start background tracking with specified mode */
-    startTracking: (mode: TrackingMode) =&gt; Promise&lt;void&gt;;
+    startTracking: (mode: TrackingMode) => Promise<void>;
     /** Stop all tracking */
-    stopTracking: () =&gt; Promise&lt;void&gt;;
+    stopTracking: () => Promise<void>;
     /** Change tracking mode while running */
-    setMode: (mode: TrackingMode) =&gt; Promise&lt;void&gt;;
+    setMode: (mode: TrackingMode) => Promise<void>;
     /** Whether tracking is currently active */
     isTracking: boolean;
     /** Last known location */
@@ -22086,11 +22086,11 @@ function useGeofence(): {
     /** All registered geofences */
     geofences: Geofence[];
     /** Add a new geofence */
-    addGeofence: (geofence: Omit&lt;Geofence, 'id'&gt;) =&gt; Promise&lt;string&gt;;
+    addGeofence: (geofence: Omit<Geofence, 'id'>) => Promise<string>;
     /** Remove a geofence */
-    removeGeofence: (id: string) =&gt; Promise&lt;void&gt;;
+    removeGeofence: (id: string) => Promise<void>;
     /** Remove all geofences */
-    clearGeofences: () =&gt; Promise&lt;void&gt;;
+    clearGeofences: () => Promise<void>;
     /** Recent geofence events */
     events: GeofenceEvent[];
 };
@@ -22103,9 +22103,9 @@ function useGeofence(): {
  */
 function useAdaptiveTracking(): {
     /** Enable adaptive mode switching */
-    enable: () =&gt; void;
+    enable: () => void;
     /** Disable adaptive mode (use manual mode) */
-    disable: () =&gt; void;
+    disable: () => void;
     /** Whether adaptive tracking is enabled */
     isEnabled: boolean;
     /** Current detected activity */
@@ -22126,9 +22126,9 @@ function useLocationSync(): {
     /** Number of locations pending upload */
     pendingCount: number;
     /** Force immediate sync (if online) */
-    syncNow: () =&gt; Promise&lt;{ synced: number; failed: number }&gt;;
+    syncNow: () => Promise<{ synced: number; failed: number }>;
     /** Configure sync behavior */
-    configure: (config: SyncConfig) =&gt; void;
+    configure: (config: SyncConfig) => void;
     /** Last successful sync timestamp */
     lastSyncTime: number | null;
 };</code></pre>
@@ -22245,12 +22245,12 @@ extension LocationModule: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let validLocations = locations.filter { location in
             let age = -location.timestamp.timeIntervalSinceNow
-            return age &lt; 60 &amp;&amp; location.horizontalAccuracy &lt; 100
+            return age < 60 &amp;&amp; location.horizontalAccuracy < 100
         }
 
         locationBuffer.append(contentsOf: validLocations)
 
-        if locationBuffer.count &gt;= 10 {
+        if locationBuffer.count >= 10 {
             sendLocationsToJS(locationBuffer)
             locationBuffer.removeAll()
         }
@@ -22282,7 +22282,7 @@ import com.google.android.gms.location.*
 class LocationTrackingService : Service() {
     private lateinit var fusedClient: FusedLocationProviderClient
     private lateinit var geofencingClient: GeofencingClient
-    private val locationBuffer = mutableListOf&lt;Location&gt;()
+    private val locationBuffer = mutableListOf<Location>()
 
     companion object {
         const val ACTION_START = "START"
@@ -22298,11 +22298,11 @@ class LocationTrackingService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         when (intent?.action) {
-            ACTION_START -&gt; {
+            ACTION_START -> {
                 val mode = intent.getStringExtra(EXTRA_MODE) ?: "balanced"
                 startTracking(mode)
             }
-            ACTION_STOP -&gt; stopTracking()
+            ACTION_STOP -> stopTracking()
         }
         return START_STICKY
     }
@@ -22311,19 +22311,19 @@ class LocationTrackingService : Service() {
         startForeground(NOTIFICATION_ID, createNotification(mode))
 
         val request = when (mode) {
-            "high" -&gt; LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 5000)
+            "high" -> LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 5000)
                 .setMinUpdateDistanceMeters(10f)
                 .setGranularity(Granularity.GRANULARITY_FINE)
                 .build()
-            "balanced" -&gt; LocationRequest.Builder(Priority.PRIORITY_BALANCED_POWER_ACCURACY, 30000)
+            "balanced" -> LocationRequest.Builder(Priority.PRIORITY_BALANCED_POWER_ACCURACY, 30000)
                 .setMinUpdateDistanceMeters(50f)
                 .setMaxUpdateDelayMillis(120000)
                 .build()
-            "low" -&gt; LocationRequest.Builder(Priority.PRIORITY_LOW_POWER, 60000)
+            "low" -> LocationRequest.Builder(Priority.PRIORITY_LOW_POWER, 60000)
                 .setMinUpdateDistanceMeters(100f)
                 .setMaxUpdateDelayMillis(300000)
                 .build()
-            else -&gt; LocationRequest.Builder(Priority.PRIORITY_BALANCED_POWER_ACCURACY, 30000).build()
+            else -> LocationRequest.Builder(Priority.PRIORITY_BALANCED_POWER_ACCURACY, 30000).build()
         }
 
         fusedClient.requestLocationUpdates(request, locationCallback, Looper.getMainLooper())
@@ -22332,13 +22332,13 @@ class LocationTrackingService : Service() {
 
     private val locationCallback = object : LocationCallback() {
         override fun onLocationResult(result: LocationResult) {
-            result.locations.forEach { location -&gt;
+            result.locations.forEach { location ->
                 if (isValidLocation(location)) {
                     locationBuffer.add(location)
                 }
             }
 
-            if (locationBuffer.size &gt;= 5) {
+            if (locationBuffer.size >= 5) {
                 sendLocationsToReactNative(locationBuffer.toList())
                 locationBuffer.clear()
             }
@@ -22512,9 +22512,9 @@ class LocationTrackingService : Service() {
 
             <h5>Non-Functional Requirements</h5>
             <ul>
-                <li>Link resolution latency &lt;200ms from tap to screen render</li>
+                <li>Link resolution latency <200ms from tap to screen render</li>
                 <li>99.9% link handling reliability across cold/warm/hot app states</li>
-                <li>Deferred link matching accuracy &gt;95% using probabilistic fingerprinting</li>
+                <li>Deferred link matching accuracy >95% using probabilistic fingerprinting</li>
                 <li>Pending links persist across app kills and device restarts</li>
                 <li>Zero navigation flicker during auth-gated redirects</li>
                 <li>TypeScript type safety for all route params and link configurations</li>
@@ -22685,8 +22685,8 @@ interface DeepLink {
     url: string;                             // Original URL string
     scheme: LinkScheme;                      // Type of link entry
     path: string;                            // URL pathname
-    params: Record&lt;string, string&gt;;          // Extracted route params (:id)
-    queryParams: Record&lt;string, string&gt;;     // Query string params (?foo=bar)
+    params: Record<string, string>;          // Extracted route params (:id)
+    queryParams: Record<string, string>;     // Query string params (?foo=bar)
     requiresAuth: boolean;                   // Whether target screen needs auth
     priority: number;                        // For conflict resolution
     timestamp: number;                       // When link was received
@@ -22722,7 +22722,7 @@ interface RouteConfig {
     paramNames?: string[];                              // Expected param keys
     requiresAuth: boolean;                              // Auth gate flag
     nestedIn?: string;                                  // Parent navigator name
-    validator?: (params: Record&lt;string, string&gt;) =&gt; boolean;  // Param validation
+    validator?: (params: Record<string, string>) => boolean;  // Param validation
     priority?: number;                                  // For pattern conflicts
 }
 
@@ -22829,10 +22829,10 @@ interface PendingDeepLink {
             <pre><code>// hooks/useDeepLinking.ts
 
 interface UseDeepLinkingOptions {
-    onLinkReceived?: (link: DeepLink) =&gt; void;
-    onAuthRequired?: (link: DeepLink) =&gt; void;
-    onNavigated?: (link: DeepLink) =&gt; void;
-    onError?: (error: Error, url: string) =&gt; void;
+    onLinkReceived?: (link: DeepLink) => void;
+    onAuthRequired?: (link: DeepLink) => void;
+    onNavigated?: (link: DeepLink) => void;
+    onError?: (error: Error, url: string) => void;
 }
 
 interface UseDeepLinkingReturn {
@@ -22841,13 +22841,13 @@ interface UseDeepLinkingReturn {
     /** Link waiting for auth completion */
     pendingLink: DeepLink | null;
     /** Process auth-gated link after login */
-    processPendingLink: () =&gt; Promise&lt;void&gt;;
+    processPendingLink: () => Promise<void>;
     /** Manually handle a URL */
-    handleUrl: (url: string) =&gt; Promise&lt;void&gt;;
+    handleUrl: (url: string) => Promise<void>;
     /** Generate shareable link for screen */
-    generateLink: (screen: string, params?: Record&lt;string, string&gt;) =&gt; string;
+    generateLink: (screen: string, params?: Record<string, string>) => string;
     /** Clear stored pending link */
-    clearPendingLink: () =&gt; void;
+    clearPendingLink: () => void;
 }
 
 function useDeepLinking(options?: UseDeepLinkingOptions): UseDeepLinkingReturn;
@@ -22856,7 +22856,7 @@ function useDeepLinking(options?: UseDeepLinkingOptions): UseDeepLinkingReturn;
 
 interface UseDeferredDeepLinkReturn {
     /** Check for deferred link on first launch */
-    checkDeferredLink: () =&gt; Promise&lt;string | null&gt;;
+    checkDeferredLink: () => Promise<string | null>;
     /** Whether check has been performed */
     hasChecked: boolean;
     /** Whether a deferred link was found */
@@ -22873,9 +22873,9 @@ interface UseLinkAttributionReturn {
     /** Current session attribution */
     attribution: LinkAttribution | null;
     /** Extract attribution from URL */
-    extractAttribution: (url: string) =&gt; LinkAttribution;
+    extractAttribution: (url: string) => LinkAttribution;
     /** Track attribution event */
-    trackAttribution: (link: DeepLink) =&gt; void;
+    trackAttribution: (link: DeepLink) => void;
 }
 
 function useLinkAttribution(): UseLinkAttributionReturn;</code></pre>
@@ -22890,13 +22890,13 @@ const storage = new MMKV({ id: 'deeplinks' });
 
 class DeepLinkEngine {
     private routeTrie: RouteTrie;
-    private pendingLinks: Map&lt;string, DeepLink&gt; = new Map();
-    private machine: ReturnType&lt;typeof interpret&gt;;
-    private navigationRef: NavigationContainerRef&lt;any&gt;;
+    private pendingLinks: Map<string, DeepLink> = new Map();
+    private machine: ReturnType<typeof interpret>;
+    private navigationRef: NavigationContainerRef<any>;
 
     private routes: RouteConfig[] = [
         { pattern: '/product/:id', screen: 'Product', requiresAuth: false,
-          validator: (p) =&gt; /^[a-zA-Z0-9-]+$/.test(p.id) },
+          validator: (p) => /^[a-zA-Z0-9-]+$/.test(p.id) },
         { pattern: '/order/:id', screen: 'OrderDetail', requiresAuth: true },
         { pattern: '/profile/:userId?', screen: 'Profile', requiresAuth: true },
         { pattern: '/invite/:code', screen: 'InviteAccept', requiresAuth: false },
@@ -22904,7 +22904,7 @@ class DeepLinkEngine {
         { pattern: '/chat/:roomId', screen: 'ChatRoom', requiresAuth: true, nestedIn: 'Messages' },
     ];
 
-    constructor(navigationRef: NavigationContainerRef&lt;any&gt;) {
+    constructor(navigationRef: NavigationContainerRef<any>) {
         this.navigationRef = navigationRef;
         this.routeTrie = new RouteTrie(this.routes);
         this.machine = this.createStateMachine();
@@ -22955,12 +22955,12 @@ class DeepLinkEngine {
 
     private setupListeners() {
         // Hot link (app already open)
-        Linking.addEventListener('url', ({ url }) =&gt; {
+        Linking.addEventListener('url', ({ url }) => {
             this.handleIncomingLink(url, 'hot');
         });
 
         // Cold link (app opened via link)
-        Linking.getInitialURL().then(url =&gt; {
+        Linking.getInitialURL().then(url => {
             if (url) this.handleIncomingLink(url, 'cold');
         });
     }
@@ -23032,7 +23032,7 @@ class DeepLinkEngine {
         const stored = storage.getString('pending_link');
         if (stored) {
             const link = JSON.parse(stored) as DeepLink;
-            if (Date.now() - link.timestamp &lt; 24 * 60 * 60 * 1000) {
+            if (Date.now() - link.timestamp < 24 * 60 * 60 * 1000) {
                 this.navigate(link);
             }
             storage.delete('pending_link');
@@ -23076,7 +23076,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     // Handle Custom Scheme when app is running
     func scene(_ scene: UIScene,
-               openURLContexts URLContexts: Set&lt;UIOpenURLContext&gt;) {
+               openURLContexts URLContexts: Set<UIOpenURLContext>) {
         guard let url = URLContexts.first?.url else { return }
         DeepLinkBridge.shared.handleCustomScheme(url)
     }
@@ -23163,11 +23163,11 @@ class DeepLinkActivity : AppCompatActivity() {
         val data = intent.data
 
         when (action) {
-            Intent.ACTION_VIEW -&gt; {
-                data?.let { uri -&gt;
+            Intent.ACTION_VIEW -> {
+                data?.let { uri ->
                     when {
-                        isAppLink(uri) -&gt; handleAppLink(uri)
-                        isCustomScheme(uri) -&gt; handleCustomScheme(uri)
+                        isAppLink(uri) -> handleAppLink(uri)
+                        isCustomScheme(uri) -> handleCustomScheme(uri)
                     }
                 }
             }
@@ -23218,35 +23218,35 @@ class DeepLinkActivity : AppCompatActivity() {
 }
 
 // AndroidManifest.xml
-&lt;activity
+<activity
     android:name=".DeepLinkActivity"
     android:exported="true"
-    android:launchMode="singleTask"&gt;
+    android:launchMode="singleTask">
 
-    &lt;!-- Verified App Links --&gt;
-    &lt;intent-filter android:autoVerify="true"&gt;
-        &lt;action android:name="android.intent.action.VIEW" /&gt;
-        &lt;category android:name="android.intent.category.DEFAULT" /&gt;
-        &lt;category android:name="android.intent.category.BROWSABLE" /&gt;
-        &lt;data android:scheme="https"
+    <!-- Verified App Links -->
+    <intent-filter android:autoVerify="true">
+        <action android:name="android.intent.action.VIEW" />
+        <category android:name="android.intent.category.DEFAULT" />
+        <category android:name="android.intent.category.BROWSABLE" />
+        <data android:scheme="https"
               android:host="example.com"
-              android:pathPattern="/product/.*" /&gt;
-        &lt;data android:scheme="https"
+              android:pathPattern="/product/.*" />
+        <data android:scheme="https"
               android:host="example.com"
-              android:pathPattern="/order/.*" /&gt;
-        &lt;data android:scheme="https"
+              android:pathPattern="/order/.*" />
+        <data android:scheme="https"
               android:host="example.com"
-              android:pathPattern="/invite/.*" /&gt;
-    &lt;/intent-filter&gt;
+              android:pathPattern="/invite/.*" />
+    </intent-filter>
 
-    &lt;!-- Custom Scheme --&gt;
-    &lt;intent-filter&gt;
-        &lt;action android:name="android.intent.action.VIEW" /&gt;
-        &lt;category android:name="android.intent.category.DEFAULT" /&gt;
-        &lt;category android:name="android.intent.category.BROWSABLE" /&gt;
-        &lt;data android:scheme="myapp" /&gt;
-    &lt;/intent-filter&gt;
-&lt;/activity&gt;
+    <!-- Custom Scheme -->
+    <intent-filter>
+        <action android:name="android.intent.action.VIEW" />
+        <category android:name="android.intent.category.DEFAULT" />
+        <category android:name="android.intent.category.BROWSABLE" />
+        <data android:scheme="myapp" />
+    </intent-filter>
+</activity>
 
 // assetlinks.json (/.well-known/)
 [{
@@ -23292,7 +23292,7 @@ class DeferredDeepLinkService {
     }
 
     // Client-side: Check for matching deferred link on first launch
-    async checkDeferredLink(): Promise&lt;string | null&gt; {
+    async checkDeferredLink(): Promise<string | null> {
         // Only check on first launch
         if (storage.getBoolean('deferred_link_checked')) {
             return null;
@@ -23324,7 +23324,7 @@ class DeferredDeepLinkService {
         return null;
     }
 
-    private async generateFingerprint(): Promise&lt;FingerprintData&gt; {
+    private async generateFingerprint(): Promise<FingerprintData> {
         const [ipResponse, dimensions] = await Promise.all([
             fetch('https://api.example.com/ip-hash'),
             this.getScreenDimensions(),
@@ -23351,7 +23351,7 @@ class DeferredDeepLinkService {
 async function matchDeferredLink(
     fingerprint: FingerprintData,
     installTime: number
-): Promise&lt;{ link: string; confidence: number } | null&gt; {
+): Promise<{ link: string; confidence: number } | null> {
     // Find candidates within time window
     const candidates = await db.deferredLinks.find({
         expiresAt: { $gt: Date.now() },
@@ -23367,7 +23367,7 @@ async function matchDeferredLink(
     for (const candidate of candidates) {
         const confidence = calculateConfidence(fingerprint, candidate.fingerprint);
 
-        if (confidence &gt; 0.8 &amp;&amp; (!bestMatch || confidence &gt; bestMatch.confidence)) {
+        if (confidence > 0.8 &amp;&amp; (!bestMatch || confidence > bestMatch.confidence)) {
             bestMatch = { link: candidate.link, confidence };
         }
     }
@@ -23409,7 +23409,7 @@ function calculateConfidence(a: FingerprintData, b: FingerprintData): number {
             <pre><code>// navigation/linking.ts
 import { LinkingOptions, getStateFromPath } from '@react-navigation/native';
 
-export const linking: LinkingOptions&lt;RootStackParamList&gt; = {
+export const linking: LinkingOptions<RootStackParamList> = {
     prefixes: [
         'myapp://',
         'https://example.com',
@@ -23448,7 +23448,7 @@ export const linking: LinkingOptions&lt;RootStackParamList&gt; = {
                     Profile: 'profile/:userId?',
                     Settings: {
                         path: 'settings/:section?',
-                        parse: { section: (s: string) =&gt; s || 'general' },
+                        parse: { section: (s: string) => s || 'general' },
                     },
                     // Nested chat
                     Messages: {
@@ -23465,13 +23465,13 @@ export const linking: LinkingOptions&lt;RootStackParamList&gt; = {
         },
     },
 
-    getStateFromPath: (path, config) =&gt; {
+    getStateFromPath: (path, config) => {
         // Extract and validate parameters
         const cleanPath = sanitizePath(path);
 
         // Check authentication requirements
         const authRequiredPatterns = ['/order/', '/profile', '/settings', '/chat/'];
-        const requiresAuth = authRequiredPatterns.some(p =&gt; cleanPath.includes(p));
+        const requiresAuth = authRequiredPatterns.some(p => cleanPath.includes(p));
 
         if (requiresAuth &amp;&amp; !authStore.isAuthenticated) {
             // Store path for post-auth navigation
@@ -23495,7 +23495,7 @@ export const linking: LinkingOptions&lt;RootStackParamList&gt; = {
         return getStateFromPath(cleanPath, config);
     },
 
-    getPathFromState: (state, config) =&gt; {
+    getPathFromState: (state, config) => {
         // Custom path generation for sharing
         return getPathFromState(state, config);
     },
@@ -23508,7 +23508,7 @@ function sanitizePath(path: string): string {
     // Remove UTM and tracking params from path for navigation
     // but preserve them for analytics
     const cleanParams = new URLSearchParams();
-    url.searchParams.forEach((value, key) =&gt; {
+    url.searchParams.forEach((value, key) => {
         if (!key.startsWith('utm_') &amp;&amp; !['ref', 'source'].includes(key)) {
             cleanParams.set(key, value);
         }
@@ -23672,7 +23672,7 @@ function sanitizePath(path: string): string {
 
             <h5>Non-Functional Requirements</h5>
             <ul>
-                <li>Navigation state transitions complete in &lt;100ms (no perceptible delay)</li>
+                <li>Navigation state transitions complete in <100ms (no perceptible delay)</li>
                 <li>Zero flicker between navigator stacks (smooth fade transitions)</li>
                 <li>State decisions made synchronously at app launch (no loading spinner between screens)</li>
                 <li>TypeScript type-safety for all navigation params and route names</li>
@@ -23846,7 +23846,7 @@ interface AppState {
 /** Navigation gate that controls access to a stack */
 interface NavigationGate {
     id: string;                                    // Unique identifier
-    condition: (state: AppState) =&gt; boolean;       // When to activate this gate
+    condition: (state: AppState) => boolean;       // When to activate this gate
     stack: keyof RootStackParamList;               // Target navigator
     priority: number;                              // Higher = evaluated first
 }
@@ -23855,11 +23855,11 @@ interface NavigationGate {
 type RootStackParamList = {
     ForceUpdate: undefined;
     Maintenance: undefined;
-    Auth: NavigatorScreenParams&lt;AuthStackParamList&gt;;
-    Onboarding: NavigatorScreenParams&lt;OnboardingStackParamList&gt;;
-    Verification: NavigatorScreenParams&lt;VerificationStackParamList&gt;;
-    Main: NavigatorScreenParams&lt;MainTabParamList&gt;;
-    AdminDashboard: NavigatorScreenParams&lt;AdminStackParamList&gt;;
+    Auth: NavigatorScreenParams<AuthStackParamList>;
+    Onboarding: NavigatorScreenParams<OnboardingStackParamList>;
+    Verification: NavigatorScreenParams<VerificationStackParamList>;
+    Main: NavigatorScreenParams<MainTabParamList>;
+    AdminDashboard: NavigatorScreenParams<AdminStackParamList>;
 };
 
 /** Auth flow screens with their params */
@@ -23890,9 +23890,9 @@ type VerificationStackParamList = {
 /** Main app tab navigator */
 type MainTabParamList = {
     Home: undefined;
-    Shop: NavigatorScreenParams&lt;ShopStackParamList&gt;;
+    Shop: NavigatorScreenParams<ShopStackParamList>;
     Cart: undefined;
-    Account: NavigatorScreenParams&lt;AccountStackParamList&gt;;
+    Account: NavigatorScreenParams<AccountStackParamList>;
 };</code></pre>
 
             <h5>Entity Relationships</h5>
@@ -23981,7 +23981,7 @@ type NavigationEvent =
     | { type: 'DEEP_LINK_RECEIVED'; payload: { url: string } }
     | { type: 'SESSION_EXPIRED' };
 
-export const navigationMachine = createMachine&lt;NavigationContext, NavigationEvent&gt;({
+export const navigationMachine = createMachine<NavigationContext, NavigationEvent>({
     id: 'navigation',
     initial: 'initializing',
     context: {
@@ -24002,7 +24002,7 @@ export const navigationMachine = createMachine&lt;NavigationContext, NavigationE
                 src: 'loadInitialState',
                 onDone: {
                     target: 'deciding',
-                    actions: assign({ appState: (_, event) =&gt; event.data }),
+                    actions: assign({ appState: (_, event) => event.data }),
                 },
                 onError: 'error',
             },
@@ -24025,7 +24025,7 @@ export const navigationMachine = createMachine&lt;NavigationContext, NavigationE
             on: {
                 MAINTENANCE_MODE: {
                     target: 'deciding',
-                    cond: (_, event) =&gt; !event.payload.active,
+                    cond: (_, event) => !event.payload.active,
                 },
             },
             meta: { stack: 'Maintenance' },
@@ -24035,14 +24035,14 @@ export const navigationMachine = createMachine&lt;NavigationContext, NavigationE
                 AUTH_STATE_CHANGED: {
                     target: 'deciding',
                     actions: assign({
-                        appState: (ctx, event) =&gt; ({
+                        appState: (ctx, event) => ({
                             ...ctx.appState,
                             auth: event.payload.authenticated ? 'authenticated' : 'unauthenticated',
                         }),
                     }),
                 },
                 DEEP_LINK_RECEIVED: {
-                    actions: assign({ pendingDeepLink: (_, event) =&gt; event.payload.url }),
+                    actions: assign({ pendingDeepLink: (_, event) => event.payload.url }),
                 },
             },
             meta: { stack: 'Auth' },
@@ -24052,7 +24052,7 @@ export const navigationMachine = createMachine&lt;NavigationContext, NavigationE
                 ONBOARDING_COMPLETED: {
                     target: 'deciding',
                     actions: assign({
-                        appState: (ctx) =&gt; ({ ...ctx.appState, onboarding: 'completed' }),
+                        appState: (ctx) => ({ ...ctx.appState, onboarding: 'completed' }),
                     }),
                 },
                 SESSION_EXPIRED: 'unauthenticated',
@@ -24064,7 +24064,7 @@ export const navigationMachine = createMachine&lt;NavigationContext, NavigationE
                 VERIFICATION_COMPLETED: {
                     target: 'deciding',
                     actions: assign({
-                        appState: (ctx, event) =&gt; ({
+                        appState: (ctx, event) => ({
                             ...ctx.appState,
                             verification: event.payload.type === 'phone' ? 'fully_verified' : 'email_verified',
                         }),
@@ -24138,7 +24138,7 @@ class NavigationBridge: RCTEventEmitter {
         sendEvent(withName: eventName, body: body)
     }
 
-    override func supportedEvents() -&gt; [String]! {
+    override func supportedEvents() -> [String]! {
         return ["onStateRestore", "SESSION_EXPIRED", "DEEP_LINK"]
     }
 }</code></pre>
@@ -24185,7 +24185,7 @@ class NavigationModule(
 
     override fun onStart(owner: LifecycleOwner) {
         // App coming to foreground - validate session
-        validateSession { isValid -&gt;
+        validateSession { isValid ->
             if (!isValid) {
                 sendEvent("SESSION_EXPIRED", null)
             }
@@ -24202,10 +24202,10 @@ class NavigationModule(
             .emit(eventName, params)
     }
 
-    private fun validateSession(callback: (Boolean) -&gt; Unit) {
+    private fun validateSession(callback: (Boolean) -> Unit) {
         // Check token expiry
         val tokenExpiry = prefs.getLong("tokenExpiry", 0)
-        callback(System.currentTimeMillis() &lt; tokenExpiry)
+        callback(System.currentTimeMillis() < tokenExpiry)
     }
 }</code></pre>
 
@@ -24221,7 +24221,7 @@ interface NavigationProviderProps {
 export function NavigationProvider({ children }: NavigationProviderProps) {
     const [state, send, service] = useMachine(navigationMachine, {
         services: {
-            loadInitialState: async () =&gt; {
+            loadInitialState: async () => {
                 // Parallel fetch of all required state
                 const [authState, appConfig, userData] = await Promise.all([
                     authService.getStoredAuth(),
@@ -24240,82 +24240,82 @@ export function NavigationProvider({ children }: NavigationProviderProps) {
             },
         },
         actions: {
-            processPendingDeepLink: (ctx) =&gt; {
+            processPendingDeepLink: (ctx) => {
                 if (ctx.pendingDeepLink) {
                     deepLinkService.navigate(ctx.pendingDeepLink);
                 }
             },
-            handleDeepLink: (_, event) =&gt; {
+            handleDeepLink: (_, event) => {
                 deepLinkService.navigate(event.payload.url);
             },
         },
     });
 
     // Listen for native events
-    useEffect(() =&gt; {
+    useEffect(() => {
         const subscriptions = [
-            NativeModules.NavigationModule.addListener('SESSION_EXPIRED', () =&gt; {
+            NativeModules.NavigationModule.addListener('SESSION_EXPIRED', () => {
                 send('SESSION_EXPIRED');
             }),
-            authService.onAuthStateChanged((authenticated, user) =&gt; {
+            authService.onAuthStateChanged((authenticated, user) => {
                 send({ type: 'AUTH_STATE_CHANGED', payload: { authenticated, user } });
             }),
         ];
 
-        return () =&gt; subscriptions.forEach(sub =&gt; sub.remove());
+        return () => subscriptions.forEach(sub => sub.remove());
     }, [send]);
 
     return (
-        &lt;NavigationContext.Provider value={{ state, send, service }}&gt;
+        <NavigationContext.Provider value={{ state, send, service }}>
             {children}
-        &lt;/NavigationContext.Provider&gt;
+        </NavigationContext.Provider>
     );
 }
 
 // navigation/RootNavigator.tsx
 export function RootNavigator() {
     const { state } = useNavigationContext();
-    const navigationRef = useNavigationContainerRef&lt;RootStackParamList&gt;();
+    const navigationRef = useNavigationContainerRef<RootStackParamList>();
 
     // Get current stack from state machine
     const currentStack = state.meta?.stack as keyof RootStackParamList;
 
     if (state.matches('initializing')) {
-        return &lt;SplashScreen /&gt;;
+        return <SplashScreen />;
     }
 
     return (
-        &lt;NavigationContainer
+        <NavigationContainer
             ref={navigationRef}
             linking={linkingConfig}
-            onStateChange={(navState) =&gt; {
+            onStateChange={(navState) => {
                 // Persist navigation state
                 NativeModules.NavigationModule.persistState(JSON.stringify(navState));
                 // Track screen views
                 analytics.trackScreenView(navState);
             }}
-        &gt;
-            &lt;RootStack.Navigator screenOptions={{ headerShown: false, animation: 'fade' }}&gt;
+        >
+            <RootStack.Navigator screenOptions={{ headerShown: false, animation: 'fade' }}>
                 {currentStack === 'ForceUpdate' &amp;&amp; (
-                    &lt;RootStack.Screen name="ForceUpdate" component={ForceUpdateScreen} /&gt;
+                    <RootStack.Screen name="ForceUpdate" component={ForceUpdateScreen} />
                 )}
                 {currentStack === 'Maintenance' &amp;&amp; (
-                    &lt;RootStack.Screen name="Maintenance" component={MaintenanceScreen} /&gt;
+                    <RootStack.Screen name="Maintenance" component={MaintenanceScreen} />
                 )}
                 {currentStack === 'Auth' &amp;&amp; (
-                    &lt;RootStack.Screen name="Auth" component={AuthNavigator} /&gt;
+                    <RootStack.Screen name="Auth" component={AuthNavigator} />
                 )}
                 {currentStack === 'Onboarding' &amp;&amp; (
-                    &lt;RootStack.Screen name="Onboarding" component={OnboardingNavigator} /&gt;
+                    <RootStack.Screen name="Onboarding" component={OnboardingNavigator} />
                 )}
                 {currentStack === 'Verification' &amp;&amp; (
-                    &lt;RootStack.Screen name="Verification" component={VerificationNavigator} /&gt;
+                    <RootStack.Screen name="Verification" component={VerificationNavigator} />
                 )}
                 {currentStack === 'Main' &amp;&amp; (
-                    &lt;RootStack.Screen name="Main" component={MainNavigator} /&gt;
+                    <RootStack.Screen name="Main" component={MainNavigator} />
                 )}
-            &lt;/RootStack.Navigator&gt;
-        &lt;/NavigationContainer&gt;
+            </RootStack.Navigator>
+        </NavigationContainer>
     );
 }</code></pre>
 
@@ -24325,7 +24325,7 @@ export function RootNavigator() {
             <table>
                 <tr><th>Problem</th><th>Solution</th><th>Impact</th></tr>
                 <tr><td>Flash of wrong screen on launch</td><td>Sync read cached auth state from MMKV before first render</td><td>Zero flicker, instant correct navigator</td></tr>
-                <tr><td>Slow state resolution</td><td>Parallel fetch: auth + config + user profile</td><td>&lt;100ms total initialization</td></tr>
+                <tr><td>Slow state resolution</td><td>Parallel fetch: auth + config + user profile</td><td><100ms total initialization</td></tr>
                 <tr><td>Navigation history loss on stack switch</td><td>Persist nav state per stack, restore when returning</td><td>Seamless resumption of previous position</td></tr>
                 <tr><td>Jarring transitions between stacks</td><td>Fade animation on RootStack.Navigator</td><td>Smooth 300ms transition between contexts</td></tr>
                 <tr><td>Redundant re-renders</td><td>Memoize gate conditions, use React.memo on navigators</td><td>Minimal re-render on state changes</td></tr>
@@ -24396,7 +24396,7 @@ export function RootNavigator() {
                 <li><strong>Q: How do you prevent screen flickering on app launch?</strong>
                     <br/>A: Use synchronous storage (MMKV) to read cached auth state before first render. Show splash screen only during async operations (token validation), not during initial state determination.</li>
                 <li><strong>Q: How would you implement A/B testing for different onboarding flows?</strong>
-                    <br/>A: Inject experiment assignment into machine context, use guards that check assignment. e.g., cond: (ctx) =&gt; ctx.experiment === 'onboarding_v2'. All flows defined in same machine, selected at runtime.</li>
+                    <br/>A: Inject experiment assignment into machine context, use guards that check assignment. e.g., cond: (ctx) => ctx.experiment === 'onboarding_v2'. All flows defined in same machine, selected at runtime.</li>
                 <li><strong>Q: What happens if config fetch fails on launch?</strong>
                     <br/>A: Use cached config with short TTL. If cache is valid, proceed normally. If stale and fetch fails, show user (maybe soft-block). Background refresh when network returns.</li>
                 <li><strong>Q: How do you handle reset() vs navigate() for auth changes?</strong>
@@ -24446,7 +24446,7 @@ export function RootNavigator() {
                 <li>Battery optimized: batch operations, adaptive chunk size based on network</li>
                 <li>Handle network transitions (WiFi ↔ cellular) seamlessly with user preference</li>
                 <li>Complete pending uploads after app restart (persist queue state)</li>
-                <li>Upload progress updates &lt;100ms latency (smooth UI)</li>
+                <li>Upload progress updates <100ms latency (smooth UI)</li>
             </ul>
 
             <h5>Out of Scope</h5>
@@ -24635,7 +24635,7 @@ interface UploadTask {
     /** Error details if status is 'failed' */
     error?: UploadError;
     /** Custom metadata to attach to upload */
-    metadata?: Record&lt;string, unknown&gt;;
+    metadata?: Record<string, unknown>;
     /** Server-assigned upload session URL (tus) */
     uploadUrl?: string;
     /** Final media URL after completion */
@@ -24818,16 +24818,16 @@ const storage = new MMKV({ id: 'uploads' });
  *
  * @example
  * const coordinator = new UploadCoordinator({ maxConcurrentUploads: 2 });
- * coordinator.on('progress', ({ taskId, progress }) =&gt; updateUI(taskId, progress));
+ * coordinator.on('progress', ({ taskId, progress }) => updateUI(taskId, progress));
  * const taskId = await coordinator.addUpload(mediaFile, { albumId: '123' });
  */
 class UploadCoordinator extends EventEmitter {
-    private queue: Map&lt;string, UploadTask&gt; = new Map();
-    private activeUploads: Map&lt;string, AbortController&gt; = new Map();
+    private queue: Map<string, UploadTask> = new Map();
+    private activeUploads: Map<string, AbortController> = new Map();
     private config: UploadConfig;
     private networkState: 'wifi' | 'cellular' | 'none' = 'wifi';
 
-    constructor(config: Partial&lt;UploadConfig&gt; = {}) {
+    constructor(config: Partial<UploadConfig> = {}) {
         super();
         this.config = {
             chunkSize: 5 * 1024 * 1024, // 5MB
@@ -24851,7 +24851,7 @@ class UploadCoordinator extends EventEmitter {
         const saved = storage.getString('queue');
         if (saved) {
             const tasks: UploadTask[] = JSON.parse(saved);
-            tasks.forEach(task =&gt; {
+            tasks.forEach(task => {
                 if (task.status === 'uploading') {
                     task.status = 'queued'; // Resume interrupted uploads
                 }
@@ -24869,7 +24869,7 @@ class UploadCoordinator extends EventEmitter {
 
     /** Monitor network changes and auto-resume */
     private setupNetworkListener(): void {
-        NetInfo.addEventListener(state =&gt; {
+        NetInfo.addEventListener(state => {
             const newState = state.isConnected
                 ? (state.type === 'wifi' ? 'wifi' : 'cellular')
                 : 'none';
@@ -24893,7 +24893,7 @@ class UploadCoordinator extends EventEmitter {
      * @param metadata - Custom metadata to attach
      * @returns Task ID for tracking
      */
-    async addUpload(file: MediaFile, metadata?: Record&lt;string, unknown&gt;): Promise&lt;string&gt; {
+    async addUpload(file: MediaFile, metadata?: Record<string, unknown>): Promise<string> {
         const task: UploadTask = {
             id: generateUUID(),
             uri: file.uri,
@@ -24966,21 +24966,21 @@ class UploadCoordinator extends EventEmitter {
 
     /** Pause all active uploads */
     pauseAll(): void {
-        this.activeUploads.forEach((_, taskId) =&gt; this.pauseUpload(taskId));
+        this.activeUploads.forEach((_, taskId) => this.pauseUpload(taskId));
     }
 
     /** Process queue and start pending uploads */
-    private async processQueue(): Promise&lt;void&gt; {
+    private async processQueue(): Promise<void> {
         if (this.networkState === 'none') return;
         if (this.networkState === 'cellular' &amp;&amp; !this.config.allowCellular) return;
 
         const activeCount = this.activeUploads.size;
         const available = this.config.maxConcurrentUploads - activeCount;
-        if (available &lt;= 0) return;
+        if (available <= 0) return;
 
         const pending = Array.from(this.queue.values())
-            .filter(t =&gt; t.status === 'queued')
-            .sort((a, b) =&gt; {
+            .filter(t => t.status === 'queued')
+            .sort((a, b) => {
                 const priorityOrder = { high: 0, normal: 1, low: 2 };
                 const pDiff = priorityOrder[a.priority] - priorityOrder[b.priority];
                 return pDiff !== 0 ? pDiff : a.createdAt - b.createdAt;
@@ -24993,7 +24993,7 @@ class UploadCoordinator extends EventEmitter {
     }
 
     /** Start uploading a task */
-    private async startUpload(task: UploadTask): Promise&lt;void&gt; {
+    private async startUpload(task: UploadTask): Promise<void> {
         const controller = new AbortController();
         this.activeUploads.set(task.id, controller);
         task.status = 'preparing';
@@ -25022,7 +25022,7 @@ class UploadCoordinator extends EventEmitter {
                 task.status = 'failed';
                 task.error = this.categorizeError(error);
 
-                if (task.error.retryable &amp;&amp; task.retryCount &lt; task.maxRetries) {
+                if (task.error.retryable &amp;&amp; task.retryCount < task.maxRetries) {
                     this.scheduleRetry(task);
                 }
             }
@@ -25039,7 +25039,7 @@ class UploadCoordinator extends EventEmitter {
         task.retryCount++;
         const delay = this.config.retryDelayMs * Math.pow(2, task.retryCount - 1);
 
-        setTimeout(() =&gt; {
+        setTimeout(() => {
             if (task.status === 'failed') {
                 task.status = 'queued';
                 this.processQueue();
@@ -25065,19 +25065,19 @@ function useUploadQueue(): {
     /** Tasks that failed */
     failedTasks: UploadTask[];
     /** Add file to upload queue */
-    addUpload: (file: MediaFile, metadata?: Record&lt;string, unknown&gt;) =&gt; Promise&lt;string&gt;;
+    addUpload: (file: MediaFile, metadata?: Record<string, unknown>) => Promise<string>;
     /** Pause specific upload */
-    pauseUpload: (taskId: string) =&gt; void;
+    pauseUpload: (taskId: string) => void;
     /** Resume paused upload */
-    resumeUpload: (taskId: string) =&gt; void;
+    resumeUpload: (taskId: string) => void;
     /** Cancel and remove upload */
-    cancelUpload: (taskId: string) =&gt; void;
+    cancelUpload: (taskId: string) => void;
     /** Pause all active uploads */
-    pauseAll: () =&gt; void;
+    pauseAll: () => void;
     /** Retry a failed upload */
-    retryUpload: (taskId: string) =&gt; void;
+    retryUpload: (taskId: string) => void;
     /** Clear all completed uploads from list */
-    clearCompleted: () =&gt; void;
+    clearCompleted: () => void;
 };
 
 // hooks/useUploadProgress.ts
@@ -25111,17 +25111,17 @@ function useUploadProgress(taskId: string): {
  */
 function useMediaPicker(): {
     /** Pick images from gallery */
-    pickImages: (options?: PickerOptions) =&gt; Promise&lt;MediaFile[]&gt;;
+    pickImages: (options?: PickerOptions) => Promise<MediaFile[]>;
     /** Pick videos from gallery */
-    pickVideos: (options?: PickerOptions) =&gt; Promise&lt;MediaFile[]&gt;;
+    pickVideos: (options?: PickerOptions) => Promise<MediaFile[]>;
     /** Capture photo with camera */
-    takePhoto: () =&gt; Promise&lt;MediaFile | null&gt;;
+    takePhoto: () => Promise<MediaFile | null>;
     /** Record video with camera */
-    recordVideo: (maxDuration?: number) =&gt; Promise&lt;MediaFile | null&gt;;
+    recordVideo: (maxDuration?: number) => Promise<MediaFile | null>;
     /** Check if permissions granted */
     hasPermission: boolean;
     /** Request permissions */
-    requestPermission: () =&gt; Promise&lt;boolean&gt;;
+    requestPermission: () => Promise<boolean>;
 };
 
 interface PickerOptions {
@@ -25156,7 +25156,7 @@ class BackgroundUploadModule: RCTEventEmitter {
     }()
 
     private var uploadTasks: [String: URLSessionUploadTask] = [:]
-    private var progressHandlers: [Int: (Double) -&gt; Void] = [:]
+    private var progressHandlers: [Int: (Double) -> Void] = [:]
 
     @objc func uploadFile(
         _ taskId: String,
@@ -25301,7 +25301,7 @@ class UploadWorker(
                 .setRequiredNetworkType(NetworkType.CONNECTED)
                 .build()
 
-            val request = OneTimeWorkRequestBuilder&lt;UploadWorker&gt;()
+            val request = OneTimeWorkRequestBuilder<UploadWorker>()
                 .setInputData(data)
                 .setConstraints(constraints)
                 .setBackoffCriteria(
@@ -25336,7 +25336,7 @@ class UploadWorker(
                 val progressRequestBody = ProgressRequestBody(
                     file,
                     "application/octet-stream".toMediaType()
-                ) { progress -&gt;
+                ) { progress ->
                     // Update notification progress
                     setProgressAsync(workDataOf("progress" to progress))
                     sendProgressEvent(taskId, progress)
@@ -25358,7 +25358,7 @@ class UploadWorker(
                 }
             } catch (e: Exception) {
                 sendFailedEvent(taskId, e.message ?: "Unknown error")
-                if (runAttemptCount &lt; 3) Result.retry() else Result.failure()
+                if (runAttemptCount < 3) Result.retry() else Result.failure()
             }
         }
     }
@@ -25390,7 +25390,7 @@ class UploadWorker(
 class ProgressRequestBody(
     private val file: File,
     private val contentType: MediaType,
-    private val onProgress: (Int) -&gt; Unit
+    private val onProgress: (Int) -> Unit
 ) : RequestBody() {
 
     override fun contentType() = contentType
@@ -25401,7 +25401,7 @@ class ProgressRequestBody(
         var uploaded: Long = 0
         val total = file.length()
 
-        file.inputStream().use { input -&gt;
+        file.inputStream().use { input ->
             var read: Int
             while (input.read(buffer).also { read = it } != -1) {
                 sink.write(buffer, 0, read)
@@ -25419,7 +25419,7 @@ class ProgressRequestBody(
 class TusUploader {
     private tusEndpoint: string;
 
-    async initUpload(task: UploadTask): Promise&lt;string&gt; {
+    async initUpload(task: UploadTask): Promise<string> {
         const response = await fetch(this.tusEndpoint, {
             method: 'POST',
             headers: {
@@ -25440,7 +25440,7 @@ class TusUploader {
         chunk: ArrayBuffer,
         offset: number,
         signal: AbortSignal
-    ): Promise&lt;number&gt; {
+    ): Promise<number> {
         const response = await fetch(uploadUrl, {
             method: 'PATCH',
             headers: {
@@ -25460,7 +25460,7 @@ class TusUploader {
         return parseInt(newOffset || '0', 10);
     }
 
-    async getUploadOffset(uploadUrl: string): Promise&lt;number&gt; {
+    async getUploadOffset(uploadUrl: string): Promise<number> {
         const response = await fetch(uploadUrl, {
             method: 'HEAD',
             headers: { 'Tus-Resumable': '1.0.0' },
@@ -25478,7 +25478,7 @@ class TusUploader {
         };
 
         return Object.entries(metadata)
-            .map(([key, value]) =&gt;
+            .map(([key, value]) =>
                 \`\${key} \${Buffer.from(String(value)).toString('base64')}\`
             )
             .join(',');
@@ -25492,7 +25492,7 @@ class TusUploader {
                 <tr><th>Problem</th><th>Solution</th><th>Impact</th></tr>
                 <tr><td>Large files exhaust memory</td><td>Stream chunks from disk using native file APIs (NSFileHandle/RandomAccessFile); never load entire file</td><td>Upload 2GB+ files on 2GB RAM devices</td></tr>
                 <tr><td>Slow upload on poor networks</td><td>Adaptive chunk size based on bandwidth estimation (1MB slow, 10MB fast); smaller chunks = more frequent progress</td><td>Better perceived progress, faster resume</td></tr>
-                <tr><td>Progress updates lag UI</td><td>Throttle progress events to 60fps (16ms); batch chunk updates; use requestAnimationFrame for smooth animations</td><td>&lt;16ms update latency, no jank</td></tr>
+                <tr><td>Progress updates lag UI</td><td>Throttle progress events to 60fps (16ms); batch chunk updates; use requestAnimationFrame for smooth animations</td><td><16ms update latency, no jank</td></tr>
                 <tr><td>Compression blocks UI thread</td><td>Run compression in native thread (ios: DispatchQueue, Android: coroutine); show placeholder during processing</td><td>UI remains responsive during 10s+ compression</td></tr>
                 <tr><td>Queue serialization is slow</td><td>Use MMKV instead of AsyncStorage; partial updates instead of full queue rewrite</td><td>10x faster persistence, ~1ms writes</td></tr>
                 <tr><td>Network detection is delayed</td><td>Subscribe to NetInfo before upload starts; proactively pause when cellular detected (if user preference)</td><td>No wasted data on cellular</td></tr>
@@ -25565,7 +25565,7 @@ class TusUploader {
                     <ul>
                         <li>Memory stays under 100MB during 2GB upload</li>
                         <li>Progress UI maintains 60fps</li>
-                        <li>Queue with 50 pending items loads &lt;100ms</li>
+                        <li>Queue with 50 pending items loads <100ms</li>
                     </ul>
                 </li>
             </ul>
@@ -25620,12 +25620,12 @@ class TusUploader {
 
             <h5>Non-Functional Requirements</h5>
             <ul>
-                <li><strong>Startup latency:</strong> Time to first frame &lt; 2 seconds on 4G networks</li>
-                <li><strong>Rebuffering:</strong> Zero rebuffering events on stable connections (&gt;3Mbps)</li>
+                <li><strong>Startup latency:</strong> Time to first frame < 2 seconds on 4G networks</li>
+                <li><strong>Rebuffering:</strong> Zero rebuffering events on stable connections (>3Mbps)</li>
                 <li><strong>Quality transitions:</strong> Smooth switching without visible artifacts or stalls</li>
-                <li><strong>Battery efficiency:</strong> Hardware decoding only; &lt;5% drain per hour of playback</li>
-                <li><strong>Memory usage:</strong> &lt;150MB during 1080p playback</li>
-                <li><strong>Seek latency:</strong> &lt;500ms to resume playback after seek</li>
+                <li><strong>Battery efficiency:</strong> Hardware decoding only; <5% drain per hour of playback</li>
+                <li><strong>Memory usage:</strong> <150MB during 1080p playback</li>
+                <li><strong>Seek latency:</strong> <500ms to resume playback after seek</li>
             </ul>
 
             <h5>Out of Scope</h5>
@@ -25791,7 +25791,7 @@ interface VideoSource {
     /** Starting position in seconds (for resume) */
     startPosition?: number;
     /** Custom headers for manifest/segment requests */
-    headers?: Record&lt;string, string&gt;;
+    headers?: Record<string, string>;
 }
 
 /**
@@ -25805,7 +25805,7 @@ interface DRMConfig {
     /** FairPlay certificate URL (iOS only) */
     certificateUrl?: string;
     /** Custom headers for license requests */
-    headers?: Record&lt;string, string&gt;;
+    headers?: Record<string, string>;
     /** Whether to persist license for offline playback */
     persistLicense?: boolean;
 }
@@ -26013,7 +26013,7 @@ interface AdaptiveVideoPlayerProps {
     source: VideoSource;
     poster?: string;
     autoPlay?: boolean;
-    onQualityChange?: (quality: QualityLevel) =&gt; void;
+    onQualityChange?: (quality: QualityLevel) => void;
 }
 
 export function AdaptiveVideoPlayer({
@@ -26022,8 +26022,8 @@ export function AdaptiveVideoPlayer({
     autoPlay = false,
     onQualityChange,
 }: AdaptiveVideoPlayerProps) {
-    const videoRef = useRef&lt;VideoRef&gt;(null);
-    const [state, setState] = useState&lt;PlaybackState&gt;({
+    const videoRef = useRef<VideoRef>(null);
+    const [state, setState] = useState<PlaybackState>({
         status: 'idle',
         currentTime: 0,
         duration: 0,
@@ -26032,21 +26032,21 @@ export function AdaptiveVideoPlayer({
         volume: 1,
         playbackRate: 1,
     });
-    const [selectedQuality, setSelectedQuality] = useState&lt;'auto' | string&gt;('auto');
-    const [availableQualities, setAvailableQualities] = useState&lt;QualityLevel[]&gt;([]);
+    const [selectedQuality, setSelectedQuality] = useState<'auto' | string>('auto');
+    const [availableQualities, setAvailableQualities] = useState<QualityLevel[]>([]);
 
     const analytics = useVideoAnalytics(source.metadata?.title);
 
     // Buffer configuration optimized for mobile
-    const bufferConfig: BufferConfig = useMemo(() =&gt; ({
+    const bufferConfig: BufferConfig = useMemo(() => ({
         minBufferMs: 15000,         // 15s minimum buffer
         maxBufferMs: 50000,         // 50s maximum buffer
         bufferForPlaybackMs: 2500,  // Start playing after 2.5s buffered
         bufferForPlaybackAfterRebufferMs: 5000, // After rebuffer, wait for 5s
     }), []);
 
-    const handleLoad = useCallback((data: OnLoadData) =&gt; {
-        setState(prev =&gt; ({
+    const handleLoad = useCallback((data: OnLoadData) => {
+        setState(prev => ({
             ...prev,
             status: autoPlay ? 'playing' : 'paused',
             duration: data.duration,
@@ -26054,7 +26054,7 @@ export function AdaptiveVideoPlayer({
 
         // Extract available qualities from HLS manifest
         if (data.videoTracks) {
-            const qualities = data.videoTracks.map(track =&gt; ({
+            const qualities = data.videoTracks.map(track => ({
                 resolution: getResolutionLabel(track.height),
                 bitrate: track.bitrate,
                 codec: track.codecs,
@@ -26067,16 +26067,16 @@ export function AdaptiveVideoPlayer({
         analytics.trackLoad(data.duration);
     }, [autoPlay, analytics]);
 
-    const handleProgress = useCallback((data: OnProgressData) =&gt; {
-        setState(prev =&gt; ({
+    const handleProgress = useCallback((data: OnProgressData) => {
+        setState(prev => ({
             ...prev,
             currentTime: data.currentTime,
             bufferedDuration: data.playableDuration,
         }));
     }, []);
 
-    const handleBuffer = useCallback((data: OnBufferData) =&gt; {
-        setState(prev =&gt; ({
+    const handleBuffer = useCallback((data: OnBufferData) => {
+        setState(prev => ({
             ...prev,
             status: data.isBuffering ? 'buffering' : prev.status === 'buffering' ? 'playing' : prev.status,
         }));
@@ -26086,14 +26086,14 @@ export function AdaptiveVideoPlayer({
         }
     }, [analytics, state.currentTime]);
 
-    const handleQualityChange = useCallback((quality: 'auto' | string) =&gt; {
+    const handleQualityChange = useCallback((quality: 'auto' | string) => {
         setSelectedQuality(quality);
-        onQualityChange?.(quality === 'auto' ? 'auto' : availableQualities.find(q =&gt; q.resolution === quality)!);
+        onQualityChange?.(quality === 'auto' ? 'auto' : availableQualities.find(q => q.resolution === quality)!);
         analytics.trackQualityChange(quality);
     }, [availableQualities, onQualityChange, analytics]);
 
     // Build DRM config for native player
-    const drmConfig = useMemo(() =&gt; {
+    const drmConfig = useMemo(() => {
         if (!source.drmConfig) return undefined;
 
         return {
@@ -26105,8 +26105,8 @@ export function AdaptiveVideoPlayer({
     }, [source.drmConfig]);
 
     return (
-        &lt;View style={styles.container}&gt;
-            &lt;Video
+        <View style={styles.container}>
+            <Video
                 ref={videoRef}
                 source={{
                     uri: source.uri,
@@ -26131,28 +26131,28 @@ export function AdaptiveVideoPlayer({
                 onLoad={handleLoad}
                 onProgress={handleProgress}
                 onBuffer={handleBuffer}
-                onError={(error) =&gt; {
-                    setState(prev =&gt; ({ ...prev, status: 'error' }));
+                onError={(error) => {
+                    setState(prev => ({ ...prev, status: 'error' }));
                     analytics.trackError(error);
                 }}
-                onEnd={() =&gt; {
-                    setState(prev =&gt; ({ ...prev, status: 'ended' }));
+                onEnd={() => {
+                    setState(prev => ({ ...prev, status: 'ended' }));
                     analytics.trackComplete();
                 }}
-            /&gt;
+            />
 
-            &lt;VideoControls
+            <VideoControls
                 state={state}
-                onPlay={() =&gt; setState(prev =&gt; ({ ...prev, status: 'playing' }))}
-                onPause={() =&gt; setState(prev =&gt; ({ ...prev, status: 'paused' }))}
-                onSeek={(time) =&gt; videoRef.current?.seek(time)}
+                onPlay={() => setState(prev => ({ ...prev, status: 'playing' }))}
+                onPause={() => setState(prev => ({ ...prev, status: 'paused' }))}
+                onSeek={(time) => videoRef.current?.seek(time)}
                 availableQualities={availableQualities}
                 selectedQuality={selectedQuality}
                 onQualityChange={handleQualityChange}
-            /&gt;
+            />
 
-            {state.status === 'buffering' &amp;&amp; &lt;BufferingIndicator /&gt;}
-        &lt;/View&gt;
+            {state.status === 'buffering' &amp;&amp; <BufferingIndicator />}
+        </View>
     );
 }</code></pre>
 
@@ -26223,7 +26223,7 @@ class FairPlayDRMModule: NSObject {
         }
         downloadConfig.primaryContentConfiguration.variantQualifiers = [
             AVAssetVariantQualifier.predicate(
-                .init(format: "peakBitRate &lt;= %lld", bitrate)
+                .init(format: "peakBitRate <= %lld", bitrate)
             )
         ]
 
@@ -26330,7 +26330,7 @@ class WidevineDRMModule(
             )
 
             // Add custom headers if provided
-            headers?.toHashMap()?.forEach { (key, value) -&gt;
+            headers?.toHashMap()?.forEach { (key, value) ->
                 drmCallback.setKeyRequestProperty(key, value.toString())
             }
 
@@ -26432,10 +26432,10 @@ class WidevineDRMModule(
 
     private fun getBitrateForQuality(quality: String): Int {
         return when (quality) {
-            "1080p" -&gt; 6_000_000
-            "720p" -&gt; 3_000_000
-            "480p" -&gt; 1_500_000
-            else -&gt; 1_000_000
+            "1080p" -> 6_000_000
+            "720p" -> 3_000_000
+            "480p" -> 1_500_000
+            else -> 1_000_000
         }
     }
 }</code></pre>
@@ -26465,7 +26465,7 @@ class ABRController {
         this.samples.push(sample);
 
         // Keep last 20 samples
-        if (this.samples.length &gt; 20) {
+        if (this.samples.length > 20) {
             this.samples.shift();
         }
 
@@ -26493,7 +26493,7 @@ class ABRController {
         targetBufferDuration: number = 30
     ): QualityLevel {
         // Sort by bitrate descending
-        const sortedQualities = [...availableQualities].sort((a, b) =&gt; b.bitrate - a.bitrate);
+        const sortedQualities = [...availableQualities].sort((a, b) => b.bitrate - a.bitrate);
 
         // Buffer health factor (0.5 - 1.5)
         const bufferHealth = Math.max(0.5, Math.min(1.5, currentBufferDuration / targetBufferDuration));
@@ -26504,7 +26504,7 @@ class ABRController {
         // Select highest quality that fits in bandwidth (with 20% safety margin)
         const safetyMargin = 0.8;
         const selectedQuality = sortedQualities.find(
-            q =&gt; q.bitrate &lt;= effectiveBandwidth * safetyMargin
+            q => q.bitrate <= effectiveBandwidth * safetyMargin
         ) || sortedQualities[sortedQualities.length - 1];
 
         return selectedQuality;
@@ -26520,12 +26520,12 @@ class ABRController {
             <h5>Performance Optimizations</h5>
             <table>
                 <tr><th>Problem</th><th>Solution</th><th>Impact</th></tr>
-                <tr><td>Slow startup time</td><td>Start with lowest quality (fast decode); switch up once buffer is healthy; preload manifest</td><td>Time to first frame &lt;2s on 4G</td></tr>
+                <tr><td>Slow startup time</td><td>Start with lowest quality (fast decode); switch up once buffer is healthy; preload manifest</td><td>Time to first frame <2s on 4G</td></tr>
                 <tr><td>Rebuffering events</td><td>Conservative ABR with 20% safety margin; maintain 30s buffer target; drop quality early</td><td>Zero rebuffer on stable 3Mbps+</td></tr>
                 <tr><td>Quality oscillation</td><td>EWMA with slow decay (0.95) for stability; hysteresis (switch up needs higher threshold than down)</td><td>Stable quality for 30s+ stretches</td></tr>
-                <tr><td>Seek latency</td><td>Pre-fetch I-frames at seek targets; keep decoded frames in memory; cancel pending segments</td><td>&lt;500ms seek latency</td></tr>
-                <tr><td>Memory usage</td><td>Limit buffer size (50s max); release decoded frames outside window; use hardware decoder</td><td>&lt;150MB during 1080p playback</td></tr>
-                <tr><td>Battery drain</td><td>Hardware decoding only; throttle analytics events; reduce wake locks during pause</td><td>&lt;5% battery per hour</td></tr>
+                <tr><td>Seek latency</td><td>Pre-fetch I-frames at seek targets; keep decoded frames in memory; cancel pending segments</td><td><500ms seek latency</td></tr>
+                <tr><td>Memory usage</td><td>Limit buffer size (50s max); release decoded frames outside window; use hardware decoder</td><td><150MB during 1080p playback</td></tr>
+                <tr><td>Battery drain</td><td>Hardware decoding only; throttle analytics events; reduce wake locks during pause</td><td><5% battery per hour</td></tr>
             </table>
 
             <h5>Platform-Specific Considerations</h5>
@@ -26548,7 +26548,7 @@ class ABRController {
                 <li><strong>Background audio:</strong> Enable audio-only mode when app backgrounds. Handle audio interruptions (phone calls) gracefully - pause, then resume. Maintain lock screen controls and now playing info.</li>
                 <li><strong>Seek to unbuffered region:</strong> Cancel pending segment downloads. Show loading spinner. Buffer at least bufferForPlaybackMs before resuming. Prefer nearest I-frame for faster start.</li>
                 <li><strong>Device rotation:</strong> Maintain exact playback position across rotation. Don't restart player. Update layout constraints. Consider auto-fullscreen on landscape.</li>
-                <li><strong>Storage full for downloads:</strong> Check available space before starting (estimate: bitrate × duration × 1.1). Show warning if &lt;500MB free. Clean expired downloads automatically. Allow manual deletion of downloads.</li>
+                <li><strong>Storage full for downloads:</strong> Check available space before starting (estimate: bitrate × duration × 1.1). Show warning if <500MB free. Clean expired downloads automatically. Allow manual deletion of downloads.</li>
                 <li><strong>Codec not supported:</strong> Fallback to compatible variant from manifest. If no compatible variant, show clear error. Log for analytics to track device coverage.</li>
                 <li><strong>CDN failure:</strong> Implement multi-CDN with automatic failover. Retry on different edge server. Track CDN performance for routing decisions.</li>
             </ol>
@@ -26654,7 +26654,7 @@ class ABRController {
                 <li>OWASP Mobile Application Security (MASVS L2) compliance</li>
                 <li>Token refresh transparent to user (no re-login interruption)</li>
                 <li>Session timeout after 15 min inactivity for financial/sensitive apps</li>
-                <li>Authentication latency &lt; 500ms for biometric, &lt; 2s for full login</li>
+                <li>Authentication latency < 500ms for biometric, < 2s for full login</li>
                 <li>Support 99.9% of devices with graceful degradation for older hardware</li>
             </ul>
 
@@ -26853,7 +26853,7 @@ interface OAuthConfig {
     clientId: string;
     redirectUrl: string;
     scopes: string[];
-    additionalParameters?: Record&lt;string, string&gt;;
+    additionalParameters?: Record<string, string>;
 }
 
 /** Biometric capability information */
@@ -26929,25 +26929,25 @@ interface AuthStore {
     state: AuthState;
 
     /** Login with email and password */
-    login: (email: string, password: string) =&gt; Promise&lt;void&gt;;
+    login: (email: string, password: string) => Promise<void>;
 
     /** Login using social OAuth provider */
-    loginWithOAuth: (provider: 'google' | 'apple' | 'facebook') =&gt; Promise&lt;void&gt;;
+    loginWithOAuth: (provider: 'google' | 'apple' | 'facebook') => Promise<void>;
 
     /** Authenticate with biometric for session resume */
-    loginWithBiometric: () =&gt; Promise&lt;void&gt;;
+    loginWithBiometric: () => Promise<void>;
 
     /** Verify MFA code during authentication */
-    verifyMFA: (code: string, method: MFAMethod) =&gt; Promise&lt;void&gt;;
+    verifyMFA: (code: string, method: MFAMethod) => Promise<void>;
 
     /** Refresh access token using refresh token */
-    refreshTokens: () =&gt; Promise&lt;void&gt;;
+    refreshTokens: () => Promise<void>;
 
     /** Logout and clear all credentials */
-    logout: (options?: { revokeAllSessions?: boolean }) =&gt; Promise&lt;void&gt;;
+    logout: (options?: { revokeAllSessions?: boolean }) => Promise<void>;
 
     /** Check if biometric authentication is available */
-    checkBiometricAvailability: () =&gt; Promise&lt;BiometricCapability&gt;;
+    checkBiometricAvailability: () => Promise<BiometricCapability>;
 }</code></pre>
 
             <h5>React Hooks Interface</h5>
@@ -26965,13 +26965,13 @@ function useAuth(): {
     /** Current user (if authenticated) */
     user: User | null;
     /** Login with credentials */
-    login: (email: string, password: string) =&gt; Promise&lt;void&gt;;
+    login: (email: string, password: string) => Promise<void>;
     /** Login with OAuth provider */
-    loginWithOAuth: (provider: OAuthProvider) =&gt; Promise&lt;void&gt;;
+    loginWithOAuth: (provider: OAuthProvider) => Promise<void>;
     /** Login with biometric */
-    loginWithBiometric: () =&gt; Promise&lt;void&gt;;
+    loginWithBiometric: () => Promise<void>;
     /** Logout current session */
-    logout: () =&gt; Promise&lt;void&gt;;
+    logout: () => Promise<void>;
 };
 
 /**
@@ -26983,11 +26983,11 @@ function useMFA(): {
     /** Remaining verification attempts */
     attemptsRemaining: number;
     /** Verify MFA code */
-    verify: (code: string, method: MFAMethod) =&gt; Promise&lt;void&gt;;
+    verify: (code: string, method: MFAMethod) => Promise<void>;
     /** Request new SMS/email code */
-    resendCode: (method: 'sms' | 'email') =&gt; Promise&lt;void&gt;;
+    resendCode: (method: 'sms' | 'email') => Promise<void>;
     /** Cancel MFA and return to login */
-    cancel: () =&gt; void;
+    cancel: () => void;
 };
 
 /**
@@ -26999,11 +26999,11 @@ function useBiometric(): {
     /** Whether biometric is enabled for this app */
     isEnabled: boolean;
     /** Enable biometric authentication */
-    enable: () =&gt; Promise&lt;void&gt;;
+    enable: () => Promise<void>;
     /** Disable biometric authentication */
-    disable: () =&gt; Promise&lt;void&gt;;
+    disable: () => Promise<void>;
     /** Prompt for biometric authentication */
-    authenticate: (reason: string) =&gt; Promise&lt;boolean&gt;;
+    authenticate: (reason: string) => Promise<boolean>;
 };
 
 /**
@@ -27015,11 +27015,11 @@ function useSessions(): {
     /** Loading state */
     isLoading: boolean;
     /** Fetch sessions from server */
-    refresh: () =&gt; Promise&lt;void&gt;;
+    refresh: () => Promise<void>;
     /** Revoke a specific session */
-    revokeSession: (sessionId: string) =&gt; Promise&lt;void&gt;;
+    revokeSession: (sessionId: string) => Promise<void>;
     /** Revoke all sessions except current */
-    revokeAllOtherSessions: () =&gt; Promise&lt;void&gt;;
+    revokeAllOtherSessions: () => Promise<void>;
 };</code></pre>
 
             <h5>Secure Storage Service Interface</h5>
@@ -27031,34 +27031,34 @@ interface SecureStorageService {
      * @param tokens - Auth tokens to store
      * @param requireBiometric - Require biometric to access
      */
-    storeTokens(tokens: AuthTokens, requireBiometric?: boolean): Promise&lt;void&gt;;
+    storeTokens(tokens: AuthTokens, requireBiometric?: boolean): Promise<void>;
 
     /**
      * Retrieve tokens (may trigger biometric prompt)
      * @param promptMessage - Message to show in biometric prompt
      */
-    getTokens(promptMessage?: string): Promise&lt;AuthTokens | null&gt;;
+    getTokens(promptMessage?: string): Promise<AuthTokens | null>;
 
     /**
      * Get tokens without biometric (for background refresh)
      * Only works if tokens were stored without biometric requirement
      */
-    getTokensWithoutBiometric(): Promise&lt;AuthTokens | null&gt;;
+    getTokensWithoutBiometric(): Promise<AuthTokens | null>;
 
     /**
      * Clear all stored tokens
      */
-    clearTokens(): Promise&lt;void&gt;;
+    clearTokens(): Promise<void>;
 
     /**
      * Get or create persistent device ID
      */
-    getDeviceId(): Promise&lt;string&gt;;
+    getDeviceId(): Promise<string>;
 
     /**
      * Check if tokens exist (without decrypting)
      */
-    hasTokens(): Promise&lt;boolean&gt;;
+    hasTokens(): Promise<boolean>;
 }</code></pre>
 
             <h5>iOS Platform Bridge (Keychain with Secure Enclave)</h5>
@@ -27303,7 +27303,7 @@ class SecureStorageModule(
         }
 
         // Use StrongBox if available
-        if (android.os.Build.VERSION.SDK_INT &gt;= android.os.Build.VERSION_CODES.P) {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
             builder.setIsStrongBoxBacked(true)
         }
 
@@ -27320,7 +27320,7 @@ class ApiClient {
     private client: AxiosInstance;
     private accessToken: string | null = null;
     private isRefreshing = false;
-    private refreshSubscribers: ((token: string) =&gt; void)[] = [];
+    private refreshSubscribers: ((token: string) => void)[] = [];
 
     constructor(baseURL: string) {
         this.client = axios.create({ baseURL, timeout: 30000 });
@@ -27330,7 +27330,7 @@ class ApiClient {
     private setupInterceptors() {
         // Request interceptor: add access token
         this.client.interceptors.request.use(
-            (config: InternalAxiosRequestConfig) =&gt; {
+            (config: InternalAxiosRequestConfig) => {
                 if (this.accessToken) {
                     config.headers.Authorization = \`Bearer \${this.accessToken}\`;
                 }
@@ -27340,8 +27340,8 @@ class ApiClient {
 
         // Response interceptor: handle 401 and refresh
         this.client.interceptors.response.use(
-            (response) =&gt; response,
-            async (error: AxiosError) =&gt; {
+            (response) => response,
+            async (error: AxiosError) => {
                 const originalRequest = error.config as InternalAxiosRequestConfig &amp; { _retry?: boolean };
 
                 // Only handle 401 Unauthorized
@@ -27351,8 +27351,8 @@ class ApiClient {
 
                 // If already refreshing, queue this request
                 if (this.isRefreshing) {
-                    return new Promise((resolve) =&gt; {
-                        this.refreshSubscribers.push((newToken: string) =&gt; {
+                    return new Promise((resolve) => {
+                        this.refreshSubscribers.push((newToken: string) => {
                             originalRequest.headers.Authorization = \`Bearer \${newToken}\`;
                             resolve(this.client(originalRequest));
                         });
@@ -27366,7 +27366,7 @@ class ApiClient {
                     const newToken = await this.performTokenRefresh();
 
                     // Notify all queued requests
-                    this.refreshSubscribers.forEach((callback) =&gt; callback(newToken));
+                    this.refreshSubscribers.forEach((callback) => callback(newToken));
                     this.refreshSubscribers = [];
 
                     // Retry original request
@@ -27386,7 +27386,7 @@ class ApiClient {
         );
     }
 
-    private async performTokenRefresh(): Promise&lt;string&gt; {
+    private async performTokenRefresh(): Promise<string> {
         const tokens = await secureStorage.getTokensWithoutBiometric();
         if (!tokens?.refreshToken) {
             throw new Error('No refresh token');
@@ -27574,54 +27574,54 @@ User Opens App
                 <tr><td>Encrypted storage</td><td>react-native-mmkv</td><td>Fast encrypted key-value for user profile cache</td></tr>
             </table>
         `},{id:89,category:"System Design",icon:"🏛️",question:"How would you architect secure storage for sensitive user data?",difficulty:"advanced",seniority:"senior",answer:`
-            &lt;h4&gt;R - Requirements Exploration&lt;/h4&gt;
+            <h4>R - Requirements Exploration</h4>
 
-            &lt;h5&gt;Clarifying Questions to Ask&lt;/h5&gt;
-            &lt;ul&gt;
-                &lt;li&gt;&lt;strong&gt;Data classification:&lt;/strong&gt; What types of sensitive data need storage (credentials, PII, health data, financial info)?&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Compliance requirements:&lt;/strong&gt; Which regulations apply (GDPR, HIPAA, PCI-DSS, SOC 2)?&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Access patterns:&lt;/strong&gt; Is data accessed frequently (sub-second) or occasionally (can tolerate latency)?&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Biometric policy:&lt;/strong&gt; Which data requires biometric authentication before access?&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Device support:&lt;/strong&gt; What's the minimum iOS/Android version? Can we require hardware security?&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Backup strategy:&lt;/strong&gt; Should encrypted data sync across devices or be device-only?&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Key management:&lt;/strong&gt; What's the key rotation policy? How to handle key compromise?&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Data lifecycle:&lt;/strong&gt; How long is data retained? Secure deletion requirements?&lt;/li&gt;
-            &lt;/ul&gt;
+            <h5>Clarifying Questions to Ask</h5>
+            <ul>
+                <li><strong>Data classification:</strong> What types of sensitive data need storage (credentials, PII, health data, financial info)?</li>
+                <li><strong>Compliance requirements:</strong> Which regulations apply (GDPR, HIPAA, PCI-DSS, SOC 2)?</li>
+                <li><strong>Access patterns:</strong> Is data accessed frequently (sub-second) or occasionally (can tolerate latency)?</li>
+                <li><strong>Biometric policy:</strong> Which data requires biometric authentication before access?</li>
+                <li><strong>Device support:</strong> What's the minimum iOS/Android version? Can we require hardware security?</li>
+                <li><strong>Backup strategy:</strong> Should encrypted data sync across devices or be device-only?</li>
+                <li><strong>Key management:</strong> What's the key rotation policy? How to handle key compromise?</li>
+                <li><strong>Data lifecycle:</strong> How long is data retained? Secure deletion requirements?</li>
+            </ul>
 
-            &lt;h5&gt;Functional Requirements&lt;/h5&gt;
-            &lt;ul&gt;
-                &lt;li&gt;Tiered storage based on data sensitivity classification (critical, sensitive, internal, public)&lt;/li&gt;
-                &lt;li&gt;Hardware-backed encryption for credentials and tokens (Secure Enclave / StrongBox)&lt;/li&gt;
-                &lt;li&gt;Encrypted database for PII and structured sensitive data&lt;/li&gt;
-                &lt;li&gt;Biometric protection for critical data access (configurable per data type)&lt;/li&gt;
-                &lt;li&gt;Secure key generation using platform cryptographic APIs&lt;/li&gt;
-                &lt;li&gt;Key rotation without data loss or downtime&lt;/li&gt;
-                &lt;li&gt;Data integrity verification (checksums) to detect tampering&lt;/li&gt;
-                &lt;li&gt;Audit logging for sensitive data access (without exposing data)&lt;/li&gt;
-            &lt;/ul&gt;
+            <h5>Functional Requirements</h5>
+            <ul>
+                <li>Tiered storage based on data sensitivity classification (critical, sensitive, internal, public)</li>
+                <li>Hardware-backed encryption for credentials and tokens (Secure Enclave / StrongBox)</li>
+                <li>Encrypted database for PII and structured sensitive data</li>
+                <li>Biometric protection for critical data access (configurable per data type)</li>
+                <li>Secure key generation using platform cryptographic APIs</li>
+                <li>Key rotation without data loss or downtime</li>
+                <li>Data integrity verification (checksums) to detect tampering</li>
+                <li>Audit logging for sensitive data access (without exposing data)</li>
+            </ul>
 
-            &lt;h5&gt;Non-Functional Requirements&lt;/h5&gt;
-            &lt;ul&gt;
-                &lt;li&gt;Zero plaintext storage of sensitive data at rest&lt;/li&gt;
-                &lt;li&gt;OWASP MASVS L2 compliance for security-critical apps&lt;/li&gt;
-                &lt;li&gt;Sub-50ms read latency for encrypted data (synchronous access)&lt;/li&gt;
-                &lt;li&gt;Secure data deletion with memory wiping&lt;/li&gt;
-                &lt;li&gt;Graceful degradation on devices without hardware security&lt;/li&gt;
-                &lt;li&gt;Support GDPR right to erasure (verifiable deletion)&lt;/li&gt;
-            &lt;/ul&gt;
+            <h5>Non-Functional Requirements</h5>
+            <ul>
+                <li>Zero plaintext storage of sensitive data at rest</li>
+                <li>OWASP MASVS L2 compliance for security-critical apps</li>
+                <li>Sub-50ms read latency for encrypted data (synchronous access)</li>
+                <li>Secure data deletion with memory wiping</li>
+                <li>Graceful degradation on devices without hardware security</li>
+                <li>Support GDPR right to erasure (verifiable deletion)</li>
+            </ul>
 
-            &lt;h5&gt;Out of Scope&lt;/h5&gt;
-            &lt;ul&gt;
-                &lt;li&gt;Server-side encryption and key management (HSM)&lt;/li&gt;
-                &lt;li&gt;Network transport security (TLS configuration)&lt;/li&gt;
-                &lt;li&gt;User authentication flows (covered in auth question)&lt;/li&gt;
-                &lt;li&gt;Jailbreak/root detection and app attestation&lt;/li&gt;
-            &lt;/ul&gt;
+            <h5>Out of Scope</h5>
+            <ul>
+                <li>Server-side encryption and key management (HSM)</li>
+                <li>Network transport security (TLS configuration)</li>
+                <li>User authentication flows (covered in auth question)</li>
+                <li>Jailbreak/root detection and app attestation</li>
+            </ul>
 
-            &lt;h4&gt;A - Architecture / High-level Design&lt;/h4&gt;
+            <h4>A - Architecture / High-level Design</h4>
 
-            &lt;h5&gt;System Architecture Diagram&lt;/h5&gt;
-            &lt;pre&gt;&lt;code&gt;┌─────────────────────────────────────────────────────────────────┐
+            <h5>System Architecture Diagram</h5>
+            <pre><code>┌─────────────────────────────────────────────────────────────────┐
 │                    SECURE STORAGE ARCHITECTURE                   │
 ├─────────────────────────────────────────────────────────────────┤
 │                                                                  │
@@ -27678,36 +27678,36 @@ User Opens App
 │  │  iOS: Data Protection API │ Android: EncryptedSharedPrefs  │  │
 │  │       File Protection       │         AndroidKeystore        │  │
 │  └────────────────────────────────────────────────────────────┘  │
-└─────────────────────────────────────────────────────────────────┘&lt;/code&gt;&lt;/pre&gt;
+└─────────────────────────────────────────────────────────────────┘</code></pre>
 
-            &lt;h5&gt;Component Overview&lt;/h5&gt;
-            &lt;table&gt;
-                &lt;tr&gt;&lt;th&gt;Component&lt;/th&gt;&lt;th&gt;Responsibility&lt;/th&gt;&lt;th&gt;Technology&lt;/th&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;SecureStorageFacade&lt;/td&gt;&lt;td&gt;Unified API for all storage tiers&lt;/td&gt;&lt;td&gt;TypeScript service class&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;DataClassifier&lt;/td&gt;&lt;td&gt;Routes data to appropriate tier based on classification&lt;/td&gt;&lt;td&gt;Classification rules engine&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;KeyManager&lt;/td&gt;&lt;td&gt;Key generation, rotation, and derivation&lt;/td&gt;&lt;td&gt;Platform crypto APIs&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;EncryptionEngine&lt;/td&gt;&lt;td&gt;AES-256-GCM encryption/decryption&lt;/td&gt;&lt;td&gt;react-native-quick-crypto&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Tier1Storage&lt;/td&gt;&lt;td&gt;Hardware-backed storage for critical data&lt;/td&gt;&lt;td&gt;Keychain / Keystore&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Tier2Storage&lt;/td&gt;&lt;td&gt;Encrypted database for structured sensitive data&lt;/td&gt;&lt;td&gt;SQLCipher / Realm&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Tier3Storage&lt;/td&gt;&lt;td&gt;Encrypted key-value for internal data&lt;/td&gt;&lt;td&gt;MMKV with encryption&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;AuditLogger&lt;/td&gt;&lt;td&gt;Logs access to sensitive data without exposing values&lt;/td&gt;&lt;td&gt;Structured logging&lt;/td&gt;&lt;/tr&gt;
-            &lt;/table&gt;
+            <h5>Component Overview</h5>
+            <table>
+                <tr><th>Component</th><th>Responsibility</th><th>Technology</th></tr>
+                <tr><td>SecureStorageFacade</td><td>Unified API for all storage tiers</td><td>TypeScript service class</td></tr>
+                <tr><td>DataClassifier</td><td>Routes data to appropriate tier based on classification</td><td>Classification rules engine</td></tr>
+                <tr><td>KeyManager</td><td>Key generation, rotation, and derivation</td><td>Platform crypto APIs</td></tr>
+                <tr><td>EncryptionEngine</td><td>AES-256-GCM encryption/decryption</td><td>react-native-quick-crypto</td></tr>
+                <tr><td>Tier1Storage</td><td>Hardware-backed storage for critical data</td><td>Keychain / Keystore</td></tr>
+                <tr><td>Tier2Storage</td><td>Encrypted database for structured sensitive data</td><td>SQLCipher / Realm</td></tr>
+                <tr><td>Tier3Storage</td><td>Encrypted key-value for internal data</td><td>MMKV with encryption</td></tr>
+                <tr><td>AuditLogger</td><td>Logs access to sensitive data without exposing values</td><td>Structured logging</td></tr>
+            </table>
 
-            &lt;h5&gt;Key Architecture Decisions&lt;/h5&gt;
-            &lt;table&gt;
-                &lt;tr&gt;&lt;th&gt;Decision&lt;/th&gt;&lt;th&gt;Choice&lt;/th&gt;&lt;th&gt;Rationale&lt;/th&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Storage tier model&lt;/td&gt;&lt;td&gt;4-tier classification&lt;/td&gt;&lt;td&gt;Balances security with performance; critical data gets hardware protection&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Encryption algorithm&lt;/td&gt;&lt;td&gt;AES-256-GCM&lt;/td&gt;&lt;td&gt;Industry standard, authenticated encryption, hardware-accelerated&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Key storage&lt;/td&gt;&lt;td&gt;Hardware-backed (Secure Enclave / StrongBox)&lt;/td&gt;&lt;td&gt;Keys never leave hardware; extraction-resistant even with device access&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Database encryption&lt;/td&gt;&lt;td&gt;SQLCipher (page-level)&lt;/td&gt;&lt;td&gt;Transparent encryption; works with existing SQLite queries&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Key-value store&lt;/td&gt;&lt;td&gt;MMKV over AsyncStorage&lt;/td&gt;&lt;td&gt;10x faster, native encryption support, synchronous API&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Integrity verification&lt;/td&gt;&lt;td&gt;SHA-256 checksums&lt;/td&gt;&lt;td&gt;Detects tampering and corruption&lt;/td&gt;&lt;/tr&gt;
-            &lt;/table&gt;
+            <h5>Key Architecture Decisions</h5>
+            <table>
+                <tr><th>Decision</th><th>Choice</th><th>Rationale</th></tr>
+                <tr><td>Storage tier model</td><td>4-tier classification</td><td>Balances security with performance; critical data gets hardware protection</td></tr>
+                <tr><td>Encryption algorithm</td><td>AES-256-GCM</td><td>Industry standard, authenticated encryption, hardware-accelerated</td></tr>
+                <tr><td>Key storage</td><td>Hardware-backed (Secure Enclave / StrongBox)</td><td>Keys never leave hardware; extraction-resistant even with device access</td></tr>
+                <tr><td>Database encryption</td><td>SQLCipher (page-level)</td><td>Transparent encryption; works with existing SQLite queries</td></tr>
+                <tr><td>Key-value store</td><td>MMKV over AsyncStorage</td><td>10x faster, native encryption support, synchronous API</td></tr>
+                <tr><td>Integrity verification</td><td>SHA-256 checksums</td><td>Detects tampering and corruption</td></tr>
+            </table>
 
-            &lt;h4&gt;D - Data Model / Core Entities&lt;/h4&gt;
+            <h4>D - Data Model / Core Entities</h4>
 
-            &lt;h5&gt;Core Entities&lt;/h5&gt;
-            &lt;pre&gt;&lt;code&gt;// Type definitions for secure storage
+            <h5>Core Entities</h5>
+            <pre><code>// Type definitions for secure storage
 interface DataClassification {
   tier: 'critical' | 'sensitive' | 'internal' | 'public';
   requiresBiometric: boolean;
@@ -27717,13 +27717,13 @@ interface DataClassification {
 }
 
 interface SecureStorageConfig {
-  classifications: Record&lt;string, DataClassification&gt;;
+  classifications: Record<string, DataClassification>;
   keyRotationIntervalDays: number;
   enableAuditLogging: boolean;
   biometricFallbackEnabled: boolean;
 }
 
-interface StorageItem&lt;T&gt; {
+interface StorageItem<T> {
   data: T;
   metadata: {
     createdAt: number;
@@ -27747,7 +27747,7 @@ import * as Keychain from 'react-native-keychain';
 import { MMKV } from 'react-native-mmkv';
 import { create } from 'zustand';
 
-const DATA_CLASSIFICATIONS: Record&lt;string, DataClassification&gt; = {
+const DATA_CLASSIFICATIONS: Record<string, DataClassification> = {
   auth_token: { tier: 'critical', requiresBiometric: false, encryptionRequired: true, auditAccess: true },
   refresh_token: { tier: 'critical', requiresBiometric: false, encryptionRequired: true, auditAccess: true },
   encryption_key: { tier: 'critical', requiresBiometric: true, encryptionRequired: true, auditAccess: true },
@@ -27769,7 +27769,7 @@ class SecureStorageManager {
     this.keyManager = new KeyManager();
   }
 
-  async initialize(): Promise&lt;void&gt; {
+  async initialize(): Promise<void> {
     // Initialize key manager first
     await this.keyManager.initialize();
 
@@ -27786,11 +27786,11 @@ class SecureStorageManager {
     this.publicMMKV = new MMKV({ id: 'public-storage' });
   }
 
-  async store&lt;T&gt;(key: string, data: T, classification: string): Promise&lt;void&gt; {
+  async store<T>(key: string, data: T, classification: string): Promise<void> {
     const config = DATA_CLASSIFICATIONS[classification];
     if (!config) throw new Error(\`Unknown classification: \${classification}\`);
 
-    const item: StorageItem&lt;T&gt; = {
+    const item: StorageItem<T> = {
       data,
       metadata: {
         createdAt: Date.now(),
@@ -27821,11 +27821,11 @@ class SecureStorageManager {
     }
   }
 
-  async retrieve&lt;T&gt;(key: string, classification: string): Promise&lt;T | null&gt; {
+  async retrieve<T>(key: string, classification: string): Promise<T | null> {
     const config = DATA_CLASSIFICATIONS[classification];
     if (!config) throw new Error(\`Unknown classification: \${classification}\`);
 
-    let item: StorageItem&lt;T&gt; | null = null;
+    let item: StorageItem<T> | null = null;
 
     switch (config.tier) {
       case 'critical':
@@ -27860,11 +27860,11 @@ class SecureStorageManager {
     return item?.data ?? null;
   }
 
-  private async storeCritical&lt;T&gt;(
+  private async storeCritical<T>(
     key: string,
-    item: StorageItem&lt;T&gt;,
+    item: StorageItem<T>,
     config: DataClassification
-  ): Promise&lt;void&gt; {
+  ): Promise<void> {
     const options: Keychain.Options = {
       service: key,
       accessible: Keychain.ACCESSIBLE.WHEN_UNLOCKED_THIS_DEVICE_ONLY,
@@ -27882,10 +27882,10 @@ class SecureStorageManager {
     );
   }
 
-  private async retrieveCritical&lt;T&gt;(
+  private async retrieveCritical<T>(
     key: string,
     config: DataClassification
-  ): Promise&lt;StorageItem&lt;T&gt; | null&gt; {
+  ): Promise<StorageItem<T> | null> {
     const options: Keychain.Options = { service: key };
 
     if (config.requiresBiometric) {
@@ -27900,7 +27900,7 @@ class SecureStorageManager {
     return JSON.parse(result.password);
   }
 
-  async secureDelete(key: string, classification: string): Promise&lt;void&gt; {
+  async secureDelete(key: string, classification: string): Promise<void> {
     const config = DATA_CLASSIFICATIONS[classification];
 
     switch (config.tier) {
@@ -27921,7 +27921,7 @@ class SecureStorageManager {
     this.auditLogger.log('DELETE', key, classification);
   }
 
-  private async computeChecksum(data: unknown): Promise&lt;string&gt; {
+  private async computeChecksum(data: unknown): Promise<string> {
     const str = JSON.stringify(data);
     // Use expo-crypto or react-native-quick-crypto
     const hash = await Crypto.digestStringAsync(
@@ -27930,10 +27930,10 @@ class SecureStorageManager {
     );
     return hash;
   }
-}&lt;/code&gt;&lt;/pre&gt;
+}</code></pre>
 
-            &lt;h5&gt;Entity Relationships&lt;/h5&gt;
-            &lt;pre&gt;&lt;code&gt;┌─────────────────────────────────────────────────────────────────────────────┐
+            <h5>Entity Relationships</h5>
+            <pre><code>┌─────────────────────────────────────────────────────────────────────────────┐
 │                         ENTITY RELATIONSHIPS                                 │
 ├─────────────────────────────────────────────────────────────────────────────┤
 │                                                                              │
@@ -27962,27 +27962,27 @@ class SecureStorageManager {
 │                               │   • Tier4: AsyncStorage                     │
 │                               └──────────────────┘                          │
 │                                                                              │
-└─────────────────────────────────────────────────────────────────────────────┘&lt;/code&gt;&lt;/pre&gt;
+└─────────────────────────────────────────────────────────────────────────────┘</code></pre>
 
-            &lt;h5&gt;Storage Strategy&lt;/h5&gt;
-            &lt;table&gt;
-                &lt;tr&gt;&lt;th&gt;Tier&lt;/th&gt;&lt;th&gt;Data Examples&lt;/th&gt;&lt;th&gt;Storage&lt;/th&gt;&lt;th&gt;Protection&lt;/th&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Critical&lt;/td&gt;&lt;td&gt;Auth tokens, API keys, encryption keys&lt;/td&gt;&lt;td&gt;Keychain / Keystore&lt;/td&gt;&lt;td&gt;Secure Enclave / StrongBox&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Sensitive&lt;/td&gt;&lt;td&gt;PII, health data, payment info&lt;/td&gt;&lt;td&gt;SQLCipher database&lt;/td&gt;&lt;td&gt;AES-256, key in Tier 1&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Internal&lt;/td&gt;&lt;td&gt;User preferences, app state, drafts&lt;/td&gt;&lt;td&gt;MMKV (encrypted)&lt;/td&gt;&lt;td&gt;AES-256 encryption&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Public&lt;/td&gt;&lt;td&gt;Theme, locale, feature flags&lt;/td&gt;&lt;td&gt;AsyncStorage / MMKV&lt;/td&gt;&lt;td&gt;None (non-sensitive)&lt;/td&gt;&lt;/tr&gt;
-            &lt;/table&gt;
+            <h5>Storage Strategy</h5>
+            <table>
+                <tr><th>Tier</th><th>Data Examples</th><th>Storage</th><th>Protection</th></tr>
+                <tr><td>Critical</td><td>Auth tokens, API keys, encryption keys</td><td>Keychain / Keystore</td><td>Secure Enclave / StrongBox</td></tr>
+                <tr><td>Sensitive</td><td>PII, health data, payment info</td><td>SQLCipher database</td><td>AES-256, key in Tier 1</td></tr>
+                <tr><td>Internal</td><td>User preferences, app state, drafts</td><td>MMKV (encrypted)</td><td>AES-256 encryption</td></tr>
+                <tr><td>Public</td><td>Theme, locale, feature flags</td><td>AsyncStorage / MMKV</td><td>None (non-sensitive)</td></tr>
+            </table>
 
-            &lt;h4&gt;I - Interface Definition (API)&lt;/h4&gt;
+            <h4>I - Interface Definition (API)</h4>
 
-            &lt;h5&gt;Secure Storage Service Interface&lt;/h5&gt;
-            &lt;pre&gt;&lt;code&gt;// services/SecureStorage.ts
+            <h5>Secure Storage Service Interface</h5>
+            <pre><code>// services/SecureStorage.ts
 
 interface SecureStorageService {
     /**
      * Initialize storage with key generation
      */
-    initialize(): Promise&lt;void&gt;;
+    initialize(): Promise<void>;
 
     /**
      * Store data with automatic classification routing
@@ -27990,37 +27990,37 @@ interface SecureStorageService {
      * @param data - Data to store
      * @param classification - Data classification (determines storage tier)
      */
-    store&lt;T&gt;(key: string, data: T, classification: string): Promise&lt;void&gt;;
+    store<T>(key: string, data: T, classification: string): Promise<void>;
 
     /**
      * Retrieve data (may trigger biometric prompt for critical data)
      * @param key - Unique identifier for the data
      * @param classification - Data classification
      */
-    retrieve&lt;T&gt;(key: string, classification: string): Promise&lt;T | null&gt;;
+    retrieve<T>(key: string, classification: string): Promise<T | null>;
 
     /**
      * Securely delete data with memory wiping
      * @param key - Unique identifier for the data
      * @param classification - Data classification
      */
-    secureDelete(key: string, classification: string): Promise&lt;void&gt;;
+    secureDelete(key: string, classification: string): Promise<void>;
 
     /**
      * Rotate encryption keys without data loss
      * @param keyId - Key identifier to rotate
      */
-    rotateKey(keyId: string): Promise&lt;void&gt;;
+    rotateKey(keyId: string): Promise<void>;
 
     /**
      * Clear all data for a specific classification
      * @param classification - Classification to clear
      */
-    clearClassification(classification: string): Promise&lt;void&gt;;
-}&lt;/code&gt;&lt;/pre&gt;
+    clearClassification(classification: string): Promise<void>;
+}</code></pre>
 
-            &lt;h5&gt;iOS Platform Bridge (Keychain with Secure Enclave)&lt;/h5&gt;
-            &lt;pre&gt;&lt;code&gt;// SecureStorageModule.swift
+            <h5>iOS Platform Bridge (Keychain with Secure Enclave)</h5>
+            <pre><code>// SecureStorageModule.swift
 import Foundation
 import Security
 import LocalAuthentication
@@ -28042,7 +28042,7 @@ class SecureStorageModule: NSObject {
         resolver: @escaping RCTPromiseResolveBlock,
         rejecter: @escaping RCTPromiseRejectBlock
     ) {
-        var error: Unmanaged&lt;CFError&gt;?
+        var error: Unmanaged<CFError>?
 
         // Create access control with Secure Enclave
         var accessFlags: SecAccessControlCreateFlags = [.privateKeyUsage]
@@ -28164,7 +28164,7 @@ class SecureStorageModule: NSObject {
         }
 
         let privateKey = keyResult as! SecKey
-        var error: Unmanaged&lt;CFError&gt;?
+        var error: Unmanaged<CFError>?
 
         // Decrypt data
         guard let decryptedData = SecKeyCreateDecryptedData(
@@ -28203,10 +28203,10 @@ class SecureStorageModule: NSObject {
 
         resolver(["success": true])
     }
-}&lt;/code&gt;&lt;/pre&gt;
+}</code></pre>
 
-            &lt;h5&gt;Android Platform Bridge (Keystore with StrongBox)&lt;/h5&gt;
-            &lt;pre&gt;&lt;code&gt;// SecureStorageModule.kt
+            <h5>Android Platform Bridge (Keystore with StrongBox)</h5>
+            <pre><code>// SecureStorageModule.kt
 package com.app.securestorage
 
 import android.os.Build
@@ -28373,13 +28373,13 @@ class SecureStorageModule(reactContext: ReactApplicationContext) :
             .setKeySize(256)
 
         // Use StrongBox if available (Pixel 3+, Samsung S10+)
-        if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.P) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             builder.setIsStrongBoxBacked(true)
         }
 
         if (requireBiometric) {
             builder.setUserAuthenticationRequired(true)
-            if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.R) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                 builder.setUserAuthenticationParameters(
                     0, // Require auth every time
                     KeyProperties.AUTH_BIOMETRIC_STRONG
@@ -28428,23 +28428,23 @@ class SecureStorageModule(reactContext: ReactApplicationContext) :
             promise.reject("DELETE_ERROR", e.message, e)
         }
     }
-}&lt;/code&gt;&lt;/pre&gt;
+}</code></pre>
 
-            &lt;h5&gt;Key Management Service&lt;/h5&gt;
-            &lt;pre&gt;&lt;code&gt;// Key rotation and derivation
+            <h5>Key Management Service</h5>
+            <pre><code>// Key rotation and derivation
 class KeyManager {
   private readonly KEY_VERSION_KEY = 'key_version';
   private readonly CURRENT_VERSION = 2;
 
-  async initialize(): Promise&lt;void&gt; {
+  async initialize(): Promise<void> {
     const storedVersion = await this.getKeyVersion();
 
-    if (storedVersion &lt; this.CURRENT_VERSION) {
+    if (storedVersion < this.CURRENT_VERSION) {
       await this.migrateKeys(storedVersion, this.CURRENT_VERSION);
     }
   }
 
-  async getDatabaseKey(): Promise&lt;string&gt; {
+  async getDatabaseKey(): Promise<string> {
     const keyId = 'database_encryption_key';
 
     // Try to retrieve existing key
@@ -28465,7 +28465,7 @@ class KeyManager {
     return newKey;
   }
 
-  async rotateKey(keyId: string): Promise&lt;void&gt; {
+  async rotateKey(keyId: string): Promise<void> {
     // 1. Generate new key
     const newKey = await this.generateSecureKey(32);
 
@@ -28483,7 +28483,7 @@ class KeyManager {
     await this.incrementKeyVersion();
   }
 
-  private async generateSecureKey(bytes: number): Promise&lt;string&gt; {
+  private async generateSecureKey(bytes: number): Promise<string> {
     // Use platform-native secure random
     const randomBytes = await Crypto.getRandomBytesAsync(bytes);
     return Buffer.from(randomBytes).toString('base64');
@@ -28493,7 +28493,7 @@ class KeyManager {
     masterKey: string,
     salt: string,
     purpose: string
-  ): Promise&lt;string&gt; {
+  ): Promise<string> {
     // HKDF key derivation
     const info = \`\${purpose}-v\${this.CURRENT_VERSION}\`;
     // Use react-native-quick-crypto for HKDF
@@ -28504,23 +28504,23 @@ class KeyManager {
   private async migrateKeys(
     fromVersion: number,
     toVersion: number
-  ): Promise&lt;void&gt; {
+  ): Promise<void> {
     console.log(\`Migrating keys from v\${fromVersion} to v\${toVersion}\`);
 
     // Version-specific migrations
-    if (fromVersion &lt; 2) {
-      // v1 -&gt; v2: Upgrade to hardware-backed keys
+    if (fromVersion < 2) {
+      // v1 -> v2: Upgrade to hardware-backed keys
       await this.upgradeToHardwareBacked();
     }
 
     await AsyncStorage.setItem(this.KEY_VERSION_KEY, toVersion.toString());
   }
-}&lt;/code&gt;&lt;/pre&gt;
+}</code></pre>
 
-            &lt;h4&gt;O - Optimizations and Deep Dive&lt;/h4&gt;
+            <h4>O - Optimizations and Deep Dive</h4>
 
-            &lt;h5&gt;Data Flow Diagram&lt;/h5&gt;
-            &lt;pre&gt;&lt;code&gt;┌─────────────────────────────────────────────────────────────────┐
+            <h5>Data Flow Diagram</h5>
+            <pre><code>┌─────────────────────────────────────────────────────────────────┐
 │                    SECURE STORAGE DATA FLOW                      │
 └─────────────────────────────────────────────────────────────────┘
 
@@ -28559,133 +28559,133 @@ READ FLOW (Biometric-Protected):
                       ▼                                      ▼
                ┌──────────────────────────────────────────────────┐
                │  Decrypt Data → Verify Checksum → Return         │
-               └──────────────────────────────────────────────────┘&lt;/code&gt;&lt;/pre&gt;
+               └──────────────────────────────────────────────────┘</code></pre>
 
-            &lt;h5&gt;Performance Optimizations&lt;/h5&gt;
-            &lt;table&gt;
-                &lt;tr&gt;&lt;th&gt;Problem&lt;/th&gt;&lt;th&gt;Solution&lt;/th&gt;&lt;th&gt;Impact&lt;/th&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Slow encrypted reads&lt;/td&gt;&lt;td&gt;Use MMKV instead of AsyncStorage for tier 3&lt;/td&gt;&lt;td&gt;10x faster reads (sync vs async)&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Keychain latency&lt;/td&gt;&lt;td&gt;Cache non-biometric items in memory after first read&lt;/td&gt;&lt;td&gt;~50ms saved per subsequent access&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Encryption overhead&lt;/td&gt;&lt;td&gt;Use hardware-accelerated AES (available on all modern devices)&lt;/td&gt;&lt;td&gt;Near-zero CPU overhead&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Key derivation time&lt;/td&gt;&lt;td&gt;Pre-derive keys on app launch in background&lt;/td&gt;&lt;td&gt;Eliminates derivation latency on first use&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Large data encryption&lt;/td&gt;&lt;td&gt;Stream encryption for files &gt; 1MB&lt;/td&gt;&lt;td&gt;Constant memory usage regardless of size&lt;/td&gt;&lt;/tr&gt;
-            &lt;/table&gt;
+            <h5>Performance Optimizations</h5>
+            <table>
+                <tr><th>Problem</th><th>Solution</th><th>Impact</th></tr>
+                <tr><td>Slow encrypted reads</td><td>Use MMKV instead of AsyncStorage for tier 3</td><td>10x faster reads (sync vs async)</td></tr>
+                <tr><td>Keychain latency</td><td>Cache non-biometric items in memory after first read</td><td>~50ms saved per subsequent access</td></tr>
+                <tr><td>Encryption overhead</td><td>Use hardware-accelerated AES (available on all modern devices)</td><td>Near-zero CPU overhead</td></tr>
+                <tr><td>Key derivation time</td><td>Pre-derive keys on app launch in background</td><td>Eliminates derivation latency on first use</td></tr>
+                <tr><td>Large data encryption</td><td>Stream encryption for files > 1MB</td><td>Constant memory usage regardless of size</td></tr>
+            </table>
 
-            &lt;h5&gt;Platform-Specific Considerations&lt;/h5&gt;
-            &lt;table&gt;
-                &lt;tr&gt;&lt;th&gt;Aspect&lt;/th&gt;&lt;th&gt;iOS&lt;/th&gt;&lt;th&gt;Android&lt;/th&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Hardware security&lt;/td&gt;&lt;td&gt;Secure Enclave (A7+ chips)&lt;/td&gt;&lt;td&gt;StrongBox (Pixel 3+, Samsung S10+) or TEE&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Key accessibility&lt;/td&gt;&lt;td&gt;kSecAttrAccessibleWhenUnlockedThisDeviceOnly&lt;/td&gt;&lt;td&gt;setUserAuthenticationRequired(true)&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Biometric binding&lt;/td&gt;&lt;td&gt;kSecAccessControlBiometryCurrentSet&lt;/td&gt;&lt;td&gt;setInvalidatedByBiometricEnrollment(true)&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Backup behavior&lt;/td&gt;&lt;td&gt;Keychain items excluded from iCloud backup by default with ThisDeviceOnly&lt;/td&gt;&lt;td&gt;Use android:allowBackup="false" or exclude specific keys&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;App reinstall&lt;/td&gt;&lt;td&gt;Keychain persists - check for orphaned keys&lt;/td&gt;&lt;td&gt;Keystore cleared on uninstall&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Fallback&lt;/td&gt;&lt;td&gt;Software-based encryption if Secure Enclave unavailable&lt;/td&gt;&lt;td&gt;TEE if StrongBox unavailable, software if neither&lt;/td&gt;&lt;/tr&gt;
-            &lt;/table&gt;
+            <h5>Platform-Specific Considerations</h5>
+            <table>
+                <tr><th>Aspect</th><th>iOS</th><th>Android</th></tr>
+                <tr><td>Hardware security</td><td>Secure Enclave (A7+ chips)</td><td>StrongBox (Pixel 3+, Samsung S10+) or TEE</td></tr>
+                <tr><td>Key accessibility</td><td>kSecAttrAccessibleWhenUnlockedThisDeviceOnly</td><td>setUserAuthenticationRequired(true)</td></tr>
+                <tr><td>Biometric binding</td><td>kSecAccessControlBiometryCurrentSet</td><td>setInvalidatedByBiometricEnrollment(true)</td></tr>
+                <tr><td>Backup behavior</td><td>Keychain items excluded from iCloud backup by default with ThisDeviceOnly</td><td>Use android:allowBackup="false" or exclude specific keys</td></tr>
+                <tr><td>App reinstall</td><td>Keychain persists - check for orphaned keys</td><td>Keystore cleared on uninstall</td></tr>
+                <tr><td>Fallback</td><td>Software-based encryption if Secure Enclave unavailable</td><td>TEE if StrongBox unavailable, software if neither</td></tr>
+            </table>
 
-            &lt;h5&gt;Edge Cases and Error Handling&lt;/h5&gt;
-            &lt;ol&gt;
-                &lt;li&gt;&lt;strong&gt;Biometric enrollment change:&lt;/strong&gt; Keys bound to biometryCurrentSet are automatically invalidated when fingerprints change. Detect errSecAuthFailed and re-authenticate user fully.&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Device migration:&lt;/strong&gt; iOS Keychain with ThisDeviceOnly won't sync to new device. Implement secure re-authentication flow for device transfers.&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Jailbreak/root detection:&lt;/strong&gt; Check device integrity using attestation APIs before storing critical data. Warn user or disable features on compromised devices.&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Memory protection:&lt;/strong&gt; Zero-fill sensitive byte arrays after use. Avoid storing passwords as JavaScript strings (immutable, garbage collected unpredictably).&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Hardware unavailability:&lt;/strong&gt; Fall back gracefully when Secure Enclave/StrongBox not available. Use software encryption with clear security level indication.&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;App reinstall (iOS):&lt;/strong&gt; Keychain persists after uninstall. Check for orphaned keys on first launch and offer to clear or recover.&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Key rotation failure:&lt;/strong&gt; Implement atomic rotation with backup key. Roll back to old key if re-encryption fails partway.&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Checksum mismatch:&lt;/strong&gt; Data tampering detected. Log audit event, invalidate data, require fresh fetch from server.&lt;/li&gt;
-            &lt;/ol&gt;
+            <h5>Edge Cases and Error Handling</h5>
+            <ol>
+                <li><strong>Biometric enrollment change:</strong> Keys bound to biometryCurrentSet are automatically invalidated when fingerprints change. Detect errSecAuthFailed and re-authenticate user fully.</li>
+                <li><strong>Device migration:</strong> iOS Keychain with ThisDeviceOnly won't sync to new device. Implement secure re-authentication flow for device transfers.</li>
+                <li><strong>Jailbreak/root detection:</strong> Check device integrity using attestation APIs before storing critical data. Warn user or disable features on compromised devices.</li>
+                <li><strong>Memory protection:</strong> Zero-fill sensitive byte arrays after use. Avoid storing passwords as JavaScript strings (immutable, garbage collected unpredictably).</li>
+                <li><strong>Hardware unavailability:</strong> Fall back gracefully when Secure Enclave/StrongBox not available. Use software encryption with clear security level indication.</li>
+                <li><strong>App reinstall (iOS):</strong> Keychain persists after uninstall. Check for orphaned keys on first launch and offer to clear or recover.</li>
+                <li><strong>Key rotation failure:</strong> Implement atomic rotation with backup key. Roll back to old key if re-encryption fails partway.</li>
+                <li><strong>Checksum mismatch:</strong> Data tampering detected. Log audit event, invalidate data, require fresh fetch from server.</li>
+            </ol>
 
-            &lt;h5&gt;Trade-offs and Alternatives&lt;/h5&gt;
-            &lt;table&gt;
-                &lt;tr&gt;&lt;th&gt;Decision&lt;/th&gt;&lt;th&gt;Chosen&lt;/th&gt;&lt;th&gt;Alternative&lt;/th&gt;&lt;th&gt;Why Chosen&lt;/th&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Tier 1 storage&lt;/td&gt;&lt;td&gt;Platform Keychain/Keystore&lt;/td&gt;&lt;td&gt;Custom encryption file&lt;/td&gt;&lt;td&gt;Hardware backing provides extraction resistance&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Tier 2 storage&lt;/td&gt;&lt;td&gt;SQLCipher&lt;/td&gt;&lt;td&gt;Realm Encryption&lt;/td&gt;&lt;td&gt;SQLCipher is more widely audited; Realm has simpler API&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Tier 3 storage&lt;/td&gt;&lt;td&gt;MMKV&lt;/td&gt;&lt;td&gt;AsyncStorage + encryption&lt;/td&gt;&lt;td&gt;10x faster, native encryption, synchronous&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Encryption algorithm&lt;/td&gt;&lt;td&gt;AES-256-GCM&lt;/td&gt;&lt;td&gt;ChaCha20-Poly1305&lt;/td&gt;&lt;td&gt;AES has hardware acceleration on all devices&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Key derivation&lt;/td&gt;&lt;td&gt;HKDF&lt;/td&gt;&lt;td&gt;PBKDF2&lt;/td&gt;&lt;td&gt;HKDF is faster; PBKDF2 better for password-derived keys&lt;/td&gt;&lt;/tr&gt;
-            &lt;/table&gt;
+            <h5>Trade-offs and Alternatives</h5>
+            <table>
+                <tr><th>Decision</th><th>Chosen</th><th>Alternative</th><th>Why Chosen</th></tr>
+                <tr><td>Tier 1 storage</td><td>Platform Keychain/Keystore</td><td>Custom encryption file</td><td>Hardware backing provides extraction resistance</td></tr>
+                <tr><td>Tier 2 storage</td><td>SQLCipher</td><td>Realm Encryption</td><td>SQLCipher is more widely audited; Realm has simpler API</td></tr>
+                <tr><td>Tier 3 storage</td><td>MMKV</td><td>AsyncStorage + encryption</td><td>10x faster, native encryption, synchronous</td></tr>
+                <tr><td>Encryption algorithm</td><td>AES-256-GCM</td><td>ChaCha20-Poly1305</td><td>AES has hardware acceleration on all devices</td></tr>
+                <tr><td>Key derivation</td><td>HKDF</td><td>PBKDF2</td><td>HKDF is faster; PBKDF2 better for password-derived keys</td></tr>
+            </table>
 
-            &lt;h5&gt;Testing Strategy&lt;/h5&gt;
-            &lt;table&gt;
-                &lt;tr&gt;&lt;th&gt;Test Type&lt;/th&gt;&lt;th&gt;Coverage&lt;/th&gt;&lt;th&gt;Tools&lt;/th&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Unit Tests&lt;/td&gt;&lt;td&gt;Encryption/decryption, checksum validation, classification routing&lt;/td&gt;&lt;td&gt;Jest + mocked native modules&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Integration Tests&lt;/td&gt;&lt;td&gt;Full storage flows, key rotation, tier routing&lt;/td&gt;&lt;td&gt;Jest with actual native modules&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;E2E Tests&lt;/td&gt;&lt;td&gt;Biometric flows (mocked), data persistence across app restarts&lt;/td&gt;&lt;td&gt;Detox&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Security Audit&lt;/td&gt;&lt;td&gt;Verify no plaintext storage, memory analysis, extraction attempts&lt;/td&gt;&lt;td&gt;Frida, objection, OWASP tools&lt;/td&gt;&lt;/tr&gt;
-            &lt;/table&gt;
+            <h5>Testing Strategy</h5>
+            <table>
+                <tr><th>Test Type</th><th>Coverage</th><th>Tools</th></tr>
+                <tr><td>Unit Tests</td><td>Encryption/decryption, checksum validation, classification routing</td><td>Jest + mocked native modules</td></tr>
+                <tr><td>Integration Tests</td><td>Full storage flows, key rotation, tier routing</td><td>Jest with actual native modules</td></tr>
+                <tr><td>E2E Tests</td><td>Biometric flows (mocked), data persistence across app restarts</td><td>Detox</td></tr>
+                <tr><td>Security Audit</td><td>Verify no plaintext storage, memory analysis, extraction attempts</td><td>Frida, objection, OWASP tools</td></tr>
+            </table>
 
-            &lt;h5&gt;Interview Discussion Points&lt;/h5&gt;
-            &lt;p&gt;&lt;strong&gt;Q: What's the difference between Secure Enclave and software encryption?&lt;/strong&gt;&lt;/p&gt;
-            &lt;p&gt;A: Secure Enclave is a separate security processor with its own encrypted memory. Keys generated inside never leave the enclave—even the main CPU can't read them. Software encryption stores keys in regular memory, which could be extracted via memory dump, debugger, or on a jailbroken device. Secure Enclave provides hardware-level isolation.&lt;/p&gt;
+            <h5>Interview Discussion Points</h5>
+            <p><strong>Q: What's the difference between Secure Enclave and software encryption?</strong></p>
+            <p>A: Secure Enclave is a separate security processor with its own encrypted memory. Keys generated inside never leave the enclave—even the main CPU can't read them. Software encryption stores keys in regular memory, which could be extracted via memory dump, debugger, or on a jailbroken device. Secure Enclave provides hardware-level isolation.</p>
 
-            &lt;p&gt;&lt;strong&gt;Q: How do you handle key rotation without downtime?&lt;/strong&gt;&lt;/p&gt;
-            &lt;p&gt;A: Use atomic rotation: (1) Generate new key, (2) Keep old key as backup, (3) Re-encrypt all data with new key in a transaction, (4) Verify all data accessible with new key, (5) Delete old key. If any step fails, roll back to old key. For large datasets, use incremental migration during background processing.&lt;/p&gt;
+            <p><strong>Q: How do you handle key rotation without downtime?</strong></p>
+            <p>A: Use atomic rotation: (1) Generate new key, (2) Keep old key as backup, (3) Re-encrypt all data with new key in a transaction, (4) Verify all data accessible with new key, (5) Delete old key. If any step fails, roll back to old key. For large datasets, use incremental migration during background processing.</p>
 
-            &lt;p&gt;&lt;strong&gt;Q: How do you comply with GDPR right to erasure?&lt;/strong&gt;&lt;/p&gt;
-            &lt;p&gt;A: Implement verifiable deletion: (1) Delete encryption keys (making data unreadable), (2) Overwrite storage locations, (3) Clear all backup copies, (4) Log deletion event for audit trail. For hardware-backed keys, delete the key alias which makes data permanently unrecoverable.&lt;/p&gt;
+            <p><strong>Q: How do you comply with GDPR right to erasure?</strong></p>
+            <p>A: Implement verifiable deletion: (1) Delete encryption keys (making data unreadable), (2) Overwrite storage locations, (3) Clear all backup copies, (4) Log deletion event for audit trail. For hardware-backed keys, delete the key alias which makes data permanently unrecoverable.</p>
 
-            &lt;p&gt;&lt;strong&gt;Q: What threats does this architecture protect against?&lt;/strong&gt;&lt;/p&gt;
-            &lt;p&gt;A: It protects against: (1) Device theft - data encrypted at rest, biometric required for critical data, (2) Malicious apps - hardware isolation prevents cross-app access, (3) Memory dumps - sensitive data zeroed after use, keys in hardware, (4) Network interception - data encrypted before network calls, (5) Database theft - SQLCipher page-level encryption. It does NOT fully protect against: sophisticated attackers with physical access to jailbroken devices.&lt;/p&gt;
+            <p><strong>Q: What threats does this architecture protect against?</strong></p>
+            <p>A: It protects against: (1) Device theft - data encrypted at rest, biometric required for critical data, (2) Malicious apps - hardware isolation prevents cross-app access, (3) Memory dumps - sensitive data zeroed after use, keys in hardware, (4) Network interception - data encrypted before network calls, (5) Database theft - SQLCipher page-level encryption. It does NOT fully protect against: sophisticated attackers with physical access to jailbroken devices.</p>
 
-            &lt;h5&gt;Library Recommendations&lt;/h5&gt;
-            &lt;table&gt;
-                &lt;tr&gt;&lt;th&gt;Concern&lt;/th&gt;&lt;th&gt;Library&lt;/th&gt;&lt;th&gt;Rationale&lt;/th&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Keychain/Keystore&lt;/td&gt;&lt;td&gt;react-native-keychain&lt;/td&gt;&lt;td&gt;Hardware-backed, biometric support, cross-platform&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Encrypted KV&lt;/td&gt;&lt;td&gt;react-native-mmkv&lt;/td&gt;&lt;td&gt;10x faster than AsyncStorage, native encryption support&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Encrypted DB&lt;/td&gt;&lt;td&gt;react-native-quick-sqlite + SQLCipher&lt;/td&gt;&lt;td&gt;AES-256 page encryption, synchronous API, SQL flexibility&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Crypto operations&lt;/td&gt;&lt;td&gt;react-native-quick-crypto&lt;/td&gt;&lt;td&gt;Native crypto primitives, HKDF, PBKDF2, hashing&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Biometrics&lt;/td&gt;&lt;td&gt;expo-local-authentication&lt;/td&gt;&lt;td&gt;Unified API for Face ID, Touch ID, fingerprint&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Secure random&lt;/td&gt;&lt;td&gt;expo-crypto&lt;/td&gt;&lt;td&gt;Cryptographically secure random byte generation&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Integrity checks&lt;/td&gt;&lt;td&gt;jail-monkey&lt;/td&gt;&lt;td&gt;Jailbreak/root detection for risk assessment&lt;/td&gt;&lt;/tr&gt;
-            &lt;/table&gt;
+            <h5>Library Recommendations</h5>
+            <table>
+                <tr><th>Concern</th><th>Library</th><th>Rationale</th></tr>
+                <tr><td>Keychain/Keystore</td><td>react-native-keychain</td><td>Hardware-backed, biometric support, cross-platform</td></tr>
+                <tr><td>Encrypted KV</td><td>react-native-mmkv</td><td>10x faster than AsyncStorage, native encryption support</td></tr>
+                <tr><td>Encrypted DB</td><td>react-native-quick-sqlite + SQLCipher</td><td>AES-256 page encryption, synchronous API, SQL flexibility</td></tr>
+                <tr><td>Crypto operations</td><td>react-native-quick-crypto</td><td>Native crypto primitives, HKDF, PBKDF2, hashing</td></tr>
+                <tr><td>Biometrics</td><td>expo-local-authentication</td><td>Unified API for Face ID, Touch ID, fingerprint</td></tr>
+                <tr><td>Secure random</td><td>expo-crypto</td><td>Cryptographically secure random byte generation</td></tr>
+                <tr><td>Integrity checks</td><td>jail-monkey</td><td>Jailbreak/root detection for risk assessment</td></tr>
+            </table>
         `},{id:90,category:"System Design",icon:"🏛️",question:"Design an error tracking and crash reporting system",difficulty:"advanced",seniority:"senior",answer:`
-            &lt;h4&gt;R - Requirements Exploration&lt;/h4&gt;
+            <h4>R - Requirements Exploration</h4>
 
-            &lt;h5&gt;Clarifying Questions to Ask&lt;/h5&gt;
-            &lt;ul&gt;
-                &lt;li&gt;&lt;strong&gt;Error types:&lt;/strong&gt; Which errors need tracking (JS exceptions, native crashes, ANR, OOM)?&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Volume expectations:&lt;/strong&gt; How many DAU? What's the expected crash rate?&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Privacy requirements:&lt;/strong&gt; What PII scrubbing is needed for GDPR/CCPA compliance?&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Alerting needs:&lt;/strong&gt; Who should be notified? What thresholds trigger alerts?&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Existing tools:&lt;/strong&gt; Any existing error tracking or APM tools to integrate with?&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Release process:&lt;/strong&gt; How often are releases? CodePush/OTA updates used?&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Cost constraints:&lt;/strong&gt; Budget for error tracking services? Need sampling?&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Debug info:&lt;/strong&gt; What context is needed beyond stack traces (breadcrumbs, user actions)?&lt;/li&gt;
-            &lt;/ul&gt;
+            <h5>Clarifying Questions to Ask</h5>
+            <ul>
+                <li><strong>Error types:</strong> Which errors need tracking (JS exceptions, native crashes, ANR, OOM)?</li>
+                <li><strong>Volume expectations:</strong> How many DAU? What's the expected crash rate?</li>
+                <li><strong>Privacy requirements:</strong> What PII scrubbing is needed for GDPR/CCPA compliance?</li>
+                <li><strong>Alerting needs:</strong> Who should be notified? What thresholds trigger alerts?</li>
+                <li><strong>Existing tools:</strong> Any existing error tracking or APM tools to integrate with?</li>
+                <li><strong>Release process:</strong> How often are releases? CodePush/OTA updates used?</li>
+                <li><strong>Cost constraints:</strong> Budget for error tracking services? Need sampling?</li>
+                <li><strong>Debug info:</strong> What context is needed beyond stack traces (breadcrumbs, user actions)?</li>
+            </ul>
 
-            &lt;h5&gt;Functional Requirements&lt;/h5&gt;
-            &lt;ul&gt;
-                &lt;li&gt;Capture JS exceptions, unhandled promise rejections, and native crashes&lt;/li&gt;
-                &lt;li&gt;Automatic source map symbolication for readable stack traces&lt;/li&gt;
-                &lt;li&gt;Breadcrumb trail of user actions leading to crash (navigation, network, UI events)&lt;/li&gt;
-                &lt;li&gt;User context and device info attached to every report&lt;/li&gt;
-                &lt;li&gt;Release tracking with regression detection and commit association&lt;/li&gt;
-                &lt;li&gt;Error grouping/deduplication to reduce noise and identify unique issues&lt;/li&gt;
-                &lt;li&gt;Alert configuration for Slack, PagerDuty, email notifications&lt;/li&gt;
-                &lt;li&gt;React Error Boundary integration with user-facing recovery UI&lt;/li&gt;
-            &lt;/ul&gt;
+            <h5>Functional Requirements</h5>
+            <ul>
+                <li>Capture JS exceptions, unhandled promise rejections, and native crashes</li>
+                <li>Automatic source map symbolication for readable stack traces</li>
+                <li>Breadcrumb trail of user actions leading to crash (navigation, network, UI events)</li>
+                <li>User context and device info attached to every report</li>
+                <li>Release tracking with regression detection and commit association</li>
+                <li>Error grouping/deduplication to reduce noise and identify unique issues</li>
+                <li>Alert configuration for Slack, PagerDuty, email notifications</li>
+                <li>React Error Boundary integration with user-facing recovery UI</li>
+            </ul>
 
-            &lt;h5&gt;Non-Functional Requirements&lt;/h5&gt;
-            &lt;ul&gt;
-                &lt;li&gt;Zero impact on app launch time (&lt;10ms SDK initialization)&lt;/li&gt;
-                &lt;li&gt;Offline error queueing with automatic sync on reconnection&lt;/li&gt;
-                &lt;li&gt;PII scrubbing for GDPR/privacy compliance (emails, phones, passwords)&lt;/li&gt;
-                &lt;li&gt;Sample rate control to manage costs at scale (configurable per environment)&lt;/li&gt;
-                &lt;li&gt;99.9% of errors captured and delivered to backend&lt;/li&gt;
-                &lt;li&gt;Support Hermes bytecode symbolication&lt;/li&gt;
-            &lt;/ul&gt;
+            <h5>Non-Functional Requirements</h5>
+            <ul>
+                <li>Zero impact on app launch time (<10ms SDK initialization)</li>
+                <li>Offline error queueing with automatic sync on reconnection</li>
+                <li>PII scrubbing for GDPR/privacy compliance (emails, phones, passwords)</li>
+                <li>Sample rate control to manage costs at scale (configurable per environment)</li>
+                <li>99.9% of errors captured and delivered to backend</li>
+                <li>Support Hermes bytecode symbolication</li>
+            </ul>
 
-            &lt;h5&gt;Out of Scope&lt;/h5&gt;
-            &lt;ul&gt;
-                &lt;li&gt;Custom error tracking backend (will use Sentry/Crashlytics)&lt;/li&gt;
-                &lt;li&gt;Real-time error streaming dashboard&lt;/li&gt;
-                &lt;li&gt;Root cause analysis AI/ML&lt;/li&gt;
-                &lt;li&gt;Integration with ticketing systems (Jira, Linear)&lt;/li&gt;
-            &lt;/ul&gt;
+            <h5>Out of Scope</h5>
+            <ul>
+                <li>Custom error tracking backend (will use Sentry/Crashlytics)</li>
+                <li>Real-time error streaming dashboard</li>
+                <li>Root cause analysis AI/ML</li>
+                <li>Integration with ticketing systems (Jira, Linear)</li>
+            </ul>
 
-            &lt;h4&gt;A - Architecture / High-level Design&lt;/h4&gt;
+            <h4>A - Architecture / High-level Design</h4>
 
-            &lt;h5&gt;System Architecture Diagram&lt;/h5&gt;
-            &lt;pre&gt;&lt;code&gt;┌─────────────────────────────────────────────────────────────────┐
+            <h5>System Architecture Diagram</h5>
+            <pre><code>┌─────────────────────────────────────────────────────────────────┐
 │                ERROR TRACKING ARCHITECTURE                       │
 ├─────────────────────────────────────────────────────────────────┤
 │                                                                  │
@@ -28739,36 +28739,36 @@ READ FLOW (Biometric-Protected):
 │  │  │        Create releases, associate commits           │  │  │
 │  │  └─────────────────────────────────────────────────────┘  │  │
 │  └───────────────────────────────────────────────────────────┘  │
-└─────────────────────────────────────────────────────────────────┘&lt;/code&gt;&lt;/pre&gt;
+└─────────────────────────────────────────────────────────────────┘</code></pre>
 
-            &lt;h5&gt;Component Overview&lt;/h5&gt;
-            &lt;table&gt;
-                &lt;tr&gt;&lt;th&gt;Component&lt;/th&gt;&lt;th&gt;Responsibility&lt;/th&gt;&lt;th&gt;Technology&lt;/th&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;JS Error Handler&lt;/td&gt;&lt;td&gt;Catch exceptions, promise rejections, console errors&lt;/td&gt;&lt;td&gt;Sentry JavaScript SDK&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;React Error Boundary&lt;/td&gt;&lt;td&gt;Catch component render errors with recovery UI&lt;/td&gt;&lt;td&gt;React Component + Sentry&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Native Crash Handler&lt;/td&gt;&lt;td&gt;Capture iOS NSExceptions, Android signals, ANR&lt;/td&gt;&lt;td&gt;Sentry Native SDK&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Breadcrumb Collector&lt;/td&gt;&lt;td&gt;Track user actions, navigation, network requests&lt;/td&gt;&lt;td&gt;Sentry Integrations&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;PII Scrubber&lt;/td&gt;&lt;td&gt;Remove emails, phones, passwords from payloads&lt;/td&gt;&lt;td&gt;Custom beforeSend hook&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Offline Queue&lt;/td&gt;&lt;td&gt;Persist errors when offline, sync on reconnect&lt;/td&gt;&lt;td&gt;Sentry Envelope Transport&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Symbolication Pipeline&lt;/td&gt;&lt;td&gt;Map minified JS and native stacks to source&lt;/td&gt;&lt;td&gt;sentry-cli + CI/CD&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Alert Manager&lt;/td&gt;&lt;td&gt;Send notifications for new/spiking errors&lt;/td&gt;&lt;td&gt;Sentry Alerts + Slack/PagerDuty&lt;/td&gt;&lt;/tr&gt;
-            &lt;/table&gt;
+            <h5>Component Overview</h5>
+            <table>
+                <tr><th>Component</th><th>Responsibility</th><th>Technology</th></tr>
+                <tr><td>JS Error Handler</td><td>Catch exceptions, promise rejections, console errors</td><td>Sentry JavaScript SDK</td></tr>
+                <tr><td>React Error Boundary</td><td>Catch component render errors with recovery UI</td><td>React Component + Sentry</td></tr>
+                <tr><td>Native Crash Handler</td><td>Capture iOS NSExceptions, Android signals, ANR</td><td>Sentry Native SDK</td></tr>
+                <tr><td>Breadcrumb Collector</td><td>Track user actions, navigation, network requests</td><td>Sentry Integrations</td></tr>
+                <tr><td>PII Scrubber</td><td>Remove emails, phones, passwords from payloads</td><td>Custom beforeSend hook</td></tr>
+                <tr><td>Offline Queue</td><td>Persist errors when offline, sync on reconnect</td><td>Sentry Envelope Transport</td></tr>
+                <tr><td>Symbolication Pipeline</td><td>Map minified JS and native stacks to source</td><td>sentry-cli + CI/CD</td></tr>
+                <tr><td>Alert Manager</td><td>Send notifications for new/spiking errors</td><td>Sentry Alerts + Slack/PagerDuty</td></tr>
+            </table>
 
-            &lt;h5&gt;Key Architecture Decisions&lt;/h5&gt;
-            &lt;table&gt;
-                &lt;tr&gt;&lt;th&gt;Decision&lt;/th&gt;&lt;th&gt;Choice&lt;/th&gt;&lt;th&gt;Rationale&lt;/th&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Error tracking service&lt;/td&gt;&lt;td&gt;Sentry&lt;/td&gt;&lt;td&gt;Best-in-class RN support, source maps, native crashes, APM&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;SDK initialization&lt;/td&gt;&lt;td&gt;Lazy with bootstrap&lt;/td&gt;&lt;td&gt;Zero app launch impact, cache previous session's config&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Breadcrumb strategy&lt;/td&gt;&lt;td&gt;100 max, auto-collect navigation/network&lt;/td&gt;&lt;td&gt;Balance context vs payload size&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;PII handling&lt;/td&gt;&lt;td&gt;Client-side scrubbing in beforeSend&lt;/td&gt;&lt;td&gt;Prevent sensitive data leaving device&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Sampling approach&lt;/td&gt;&lt;td&gt;Configurable per environment&lt;/td&gt;&lt;td&gt;100% in dev, 20% traces in prod for cost control&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Symbol upload&lt;/td&gt;&lt;td&gt;CI/CD pipeline automation&lt;/td&gt;&lt;td&gt;Ensure every release has symbolication data&lt;/td&gt;&lt;/tr&gt;
-            &lt;/table&gt;
+            <h5>Key Architecture Decisions</h5>
+            <table>
+                <tr><th>Decision</th><th>Choice</th><th>Rationale</th></tr>
+                <tr><td>Error tracking service</td><td>Sentry</td><td>Best-in-class RN support, source maps, native crashes, APM</td></tr>
+                <tr><td>SDK initialization</td><td>Lazy with bootstrap</td><td>Zero app launch impact, cache previous session's config</td></tr>
+                <tr><td>Breadcrumb strategy</td><td>100 max, auto-collect navigation/network</td><td>Balance context vs payload size</td></tr>
+                <tr><td>PII handling</td><td>Client-side scrubbing in beforeSend</td><td>Prevent sensitive data leaving device</td></tr>
+                <tr><td>Sampling approach</td><td>Configurable per environment</td><td>100% in dev, 20% traces in prod for cost control</td></tr>
+                <tr><td>Symbol upload</td><td>CI/CD pipeline automation</td><td>Ensure every release has symbolication data</td></tr>
+            </table>
 
-            &lt;h4&gt;D - Data Model / Core Entities&lt;/h4&gt;
+            <h4>D - Data Model / Core Entities</h4>
 
-            &lt;h5&gt;Core Entities&lt;/h5&gt;
-            &lt;pre&gt;&lt;code&gt;// types/errorTracking.ts
+            <h5>Core Entities</h5>
+            <pre><code>// types/errorTracking.ts
 
 /**
  * Represents a captured error event with full context
@@ -28781,8 +28781,8 @@ interface ErrorEvent {
   stack?: StackFrame[];
   breadcrumbs: Breadcrumb[];
   context: ErrorContext;
-  tags: Record&lt;string, string&gt;;
-  extra: Record&lt;string, unknown&gt;;
+  tags: Record<string, string>;
+  extra: Record<string, unknown>;
 }
 
 interface StackFrame {
@@ -28798,7 +28798,7 @@ interface Breadcrumb {
   category: 'navigation' | 'network' | 'ui' | 'console' | 'user';
   message: string;
   level: 'debug' | 'info' | 'warning' | 'error';
-  data?: Record&lt;string, unknown&gt;;
+  data?: Record<string, unknown>;
 }
 
 interface ErrorContext {
@@ -28812,7 +28812,7 @@ interface ErrorContext {
  * Configuration for PII scrubbing patterns
  */
 interface PIIScrubConfig {
-  patterns: Array&lt;{ regex: RegExp; replacement: string; description: string }&gt;;
+  patterns: Array<{ regex: RegExp; replacement: string; description: string }>;
   sensitiveKeys: string[];
   enabled: boolean;
 }
@@ -28826,10 +28826,10 @@ interface QueuedError {
   queuedAt: number;
   retryCount: number;
   priority: 'critical' | 'high' | 'normal';
-}&lt;/code&gt;&lt;/pre&gt;
+}</code></pre>
 
-            &lt;h5&gt;Entity Relationships&lt;/h5&gt;
-            &lt;pre&gt;&lt;code&gt;┌─────────────────────────────────────────────────────────────────┐
+            <h5>Entity Relationships</h5>
+            <pre><code>┌─────────────────────────────────────────────────────────────────┐
 │                   ERROR TRACKING ENTITY MODEL                    │
 └─────────────────────────────────────────────────────────────────┘
 
@@ -28866,23 +28866,23 @@ interface QueuedError {
 ┌─────────────┐     N:N     ┌─────────────────┐
 │ ErrorEvent  │────────────▶│      Tags       │
 │             │             │ (key-value)     │
-└─────────────┘             └─────────────────┘&lt;/code&gt;&lt;/pre&gt;
+└─────────────┘             └─────────────────┘</code></pre>
 
-            &lt;h5&gt;Storage Strategy&lt;/h5&gt;
-            &lt;table&gt;
-                &lt;tr&gt;&lt;th&gt;Data Type&lt;/th&gt;&lt;th&gt;Storage&lt;/th&gt;&lt;th&gt;Rationale&lt;/th&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;SDK Configuration&lt;/td&gt;&lt;td&gt;In-memory (Sentry SDK)&lt;/td&gt;&lt;td&gt;Fast access, persists for session duration&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Offline Error Queue&lt;/td&gt;&lt;td&gt;Sentry Envelope Store (SQLite)&lt;/td&gt;&lt;td&gt;Survive app restart, automatic retry&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Breadcrumbs&lt;/td&gt;&lt;td&gt;Ring buffer (memory)&lt;/td&gt;&lt;td&gt;Last 100, O(1) insert, no persistence needed&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;User Context&lt;/td&gt;&lt;td&gt;Sentry Scope (memory)&lt;/td&gt;&lt;td&gt;Set once per session, cleared on logout&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Session Data&lt;/td&gt;&lt;td&gt;Sentry Session Store (disk)&lt;/td&gt;&lt;td&gt;Track session health, crash-free rate&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Source Maps / dSYMs&lt;/td&gt;&lt;td&gt;Sentry Cloud Storage&lt;/td&gt;&lt;td&gt;Uploaded during CI/CD, linked to releases&lt;/td&gt;&lt;/tr&gt;
-            &lt;/table&gt;
+            <h5>Storage Strategy</h5>
+            <table>
+                <tr><th>Data Type</th><th>Storage</th><th>Rationale</th></tr>
+                <tr><td>SDK Configuration</td><td>In-memory (Sentry SDK)</td><td>Fast access, persists for session duration</td></tr>
+                <tr><td>Offline Error Queue</td><td>Sentry Envelope Store (SQLite)</td><td>Survive app restart, automatic retry</td></tr>
+                <tr><td>Breadcrumbs</td><td>Ring buffer (memory)</td><td>Last 100, O(1) insert, no persistence needed</td></tr>
+                <tr><td>User Context</td><td>Sentry Scope (memory)</td><td>Set once per session, cleared on logout</td></tr>
+                <tr><td>Session Data</td><td>Sentry Session Store (disk)</td><td>Track session health, crash-free rate</td></tr>
+                <tr><td>Source Maps / dSYMs</td><td>Sentry Cloud Storage</td><td>Uploaded during CI/CD, linked to releases</td></tr>
+            </table>
 
-            &lt;h4&gt;I - Interface Definition (API)&lt;/h4&gt;
+            <h4>I - Interface Definition (API)</h4>
 
-            &lt;h5&gt;Error Tracking Service Interface&lt;/h5&gt;
-            &lt;pre&gt;&lt;code&gt;// services/errorTracking.ts
+            <h5>Error Tracking Service Interface</h5>
+            <pre><code>// services/errorTracking.ts
 
 import * as Sentry from '@sentry/react-native';
 
@@ -28894,7 +28894,7 @@ interface ErrorTrackingService {
    * Initialize error tracking SDK with configuration
    * @returns Promise resolving when SDK is ready
    */
-  initialize(config: ErrorTrackingConfig): Promise&lt;void&gt;;
+  initialize(config: ErrorTrackingConfig): Promise<void>;
 
   /**
    * Set user context for all subsequent error reports
@@ -28905,7 +28905,7 @@ interface ErrorTrackingService {
    * Capture an exception with optional context
    * @returns Event ID for reference
    */
-  captureException(error: Error, context?: Record&lt;string, unknown&gt;): string;
+  captureException(error: Error, context?: Record<string, unknown>): string;
 
   /**
    * Capture a custom message at specified severity level
@@ -28935,7 +28935,7 @@ interface ErrorTrackingService {
   /**
    * Flush all pending events before app close
    */
-  flush(timeout?: number): Promise&lt;boolean&gt;;
+  flush(timeout?: number): Promise<boolean>;
 }
 
 interface ErrorTrackingConfig {
@@ -28945,7 +28945,7 @@ interface ErrorTrackingConfig {
   dist?: string;
   tracesSampleRate: number;
   enableNativeCrashHandling: boolean;
-  beforeSend?: (event: SentryEvent) =&gt; SentryEvent | null;
+  beforeSend?: (event: SentryEvent) => SentryEvent | null;
 }
 
 type SeverityLevel = 'fatal' | 'error' | 'warning' | 'info' | 'debug';
@@ -29007,7 +29007,7 @@ function processEvent(
     /ResizeObserver loop/i,
   ];
 
-  if (ignoredPatterns.some(pattern =&gt; pattern.test(message))) {
+  if (ignoredPatterns.some(pattern => pattern.test(message))) {
     return null;
   }
 
@@ -29041,17 +29041,17 @@ function scrubPII(event: Sentry.Event): Sentry.Event {
     { pattern: /"token"\\s*:\\s*"[^"]*"/gi, replacement: '"token": "[REDACTED]"' },
   ];
 
-  const scrub = (obj: unknown): unknown =&gt; {
+  const scrub = (obj: unknown): unknown => {
     if (typeof obj === 'string') {
       return piiPatterns.reduce(
-        (str, { pattern, replacement }) =&gt; str.replace(pattern, replacement),
+        (str, { pattern, replacement }) => str.replace(pattern, replacement),
         obj
       );
     }
     if (Array.isArray(obj)) return obj.map(scrub);
     if (obj &amp;&amp; typeof obj === 'object') {
       return Object.fromEntries(
-        Object.entries(obj).map(([k, v]) =&gt; [k, scrub(v)])
+        Object.entries(obj).map(([k, v]) => [k, scrub(v)])
       );
     }
     return obj;
@@ -29069,13 +29069,13 @@ interface ErrorBoundaryState {
   eventId: string | null;
 }
 
-export class ErrorBoundary extends Component&lt;
+export class ErrorBoundary extends Component<
   { children: ReactNode; fallback?: ReactNode },
   ErrorBoundaryState
-&gt; {
+> {
   state: ErrorBoundaryState = { hasError: false, error: null, eventId: null };
 
-  static getDerivedStateFromError(error: Error): Partial&lt;ErrorBoundaryState&gt; {
+  static getDerivedStateFromError(error: Error): Partial<ErrorBoundaryState> {
     return { hasError: true, error };
   }
 
@@ -29096,7 +29096,7 @@ export class ErrorBoundary extends Component&lt;
     });
   }
 
-  handleRetry = (): void =&gt; {
+  handleRetry = (): void => {
     Sentry.addBreadcrumb({
       category: 'user',
       message: 'User attempted error recovery',
@@ -29105,7 +29105,7 @@ export class ErrorBoundary extends Component&lt;
     this.setState({ hasError: false, error: null, eventId: null });
   };
 
-  handleReport = (): void =&gt; {
+  handleReport = (): void => {
     if (this.state.eventId) {
       Sentry.showReportDialog({ eventId: this.state.eventId });
     }
@@ -29114,19 +29114,19 @@ export class ErrorBoundary extends Component&lt;
   render(): ReactNode {
     if (this.state.hasError) {
       return this.props.fallback || (
-        &lt;ErrorFallback
+        <ErrorFallback
           error={this.state.error}
           onRetry={this.handleRetry}
           onReport={this.handleReport}
-        /&gt;
+        />
       );
     }
     return this.props.children;
   }
-}&lt;/code&gt;&lt;/pre&gt;
+}</code></pre>
 
-            &lt;h5&gt;React Hooks Interface&lt;/h5&gt;
-            &lt;pre&gt;&lt;code&gt;// hooks/useErrorTracking.ts
+            <h5>React Hooks Interface</h5>
+            <pre><code>// hooks/useErrorTracking.ts
 
 import * as Sentry from '@sentry/react-native';
 import { useCallback, useEffect } from 'react';
@@ -29137,15 +29137,15 @@ import { useCallback, useEffect } from 'react';
 export function useErrorCapture() {
   const captureError = useCallback((
     error: Error,
-    context?: Record&lt;string, unknown&gt;
-  ): string =&gt; {
+    context?: Record<string, unknown>
+  ): string => {
     return Sentry.captureException(error, { extra: context });
   }, []);
 
   const captureMessage = useCallback((
     message: string,
     level: Sentry.SeverityLevel = 'info'
-  ): string =&gt; {
+  ): string => {
     return Sentry.captureMessage(message, level);
   }, []);
 
@@ -29159,8 +29159,8 @@ export function useBreadcrumb() {
   return useCallback((
     category: string,
     message: string,
-    data?: Record&lt;string, unknown&gt;
-  ): void =&gt; {
+    data?: Record<string, unknown>
+  ): void => {
     Sentry.addBreadcrumb({ category, message, data, level: 'info' });
   }, []);
 }
@@ -29169,13 +29169,13 @@ export function useBreadcrumb() {
  * Hook for performance transaction tracking
  */
 export function useTransaction(name: string, op: string) {
-  useEffect(() =&gt; {
+  useEffect(() => {
     const transaction = Sentry.startTransaction({ name, op });
-    Sentry.getCurrentHub().configureScope(scope =&gt;
+    Sentry.getCurrentHub().configureScope(scope =>
       scope.setSpan(transaction)
     );
 
-    return () =&gt; {
+    return () => {
       transaction.finish();
     };
   }, [name, op]);
@@ -29185,24 +29185,24 @@ export function useTransaction(name: string, op: string) {
  * Hook for setting user context (call after auth)
  */
 export function useErrorUser(user: { id: string; email?: string } | null) {
-  useEffect(() =&gt; {
+  useEffect(() => {
     if (user) {
       Sentry.setUser({ id: user.id, email: user.email });
     } else {
       Sentry.setUser(null);
     }
   }, [user?.id, user?.email]);
-}&lt;/code&gt;&lt;/pre&gt;
+}</code></pre>
 
-            &lt;h5&gt;iOS Platform Bridge (Sentry Native)&lt;/h5&gt;
-            &lt;pre&gt;&lt;code&gt;// CrashReportingModule.swift
+            <h5>iOS Platform Bridge (Sentry Native)</h5>
+            <pre><code>// CrashReportingModule.swift
 import Foundation
 import Sentry
 
 @objc(CrashReportingModule)
 class CrashReportingModule: NSObject {
 
-    @objc static func requiresMainQueueSetup() -&gt; Bool { return true }
+    @objc static func requiresMainQueueSetup() -> Bool { return true }
 
     @objc func initializeNative(_ options: NSDictionary) {
         // Enable native crash reporting
@@ -29231,7 +29231,7 @@ class CrashReportingModule: NSObject {
     }
 
     // Manual dSYM upload in build phase
-    // Build Phases -&gt; New Run Script Phase:
+    // Build Phases -> New Run Script Phase:
     /*
     if [ "$CONFIGURATION" = "Release" ]; then
         export SENTRY_ORG="your-org"
@@ -29261,7 +29261,7 @@ class CrashReportingModule: NSObject {
         SentrySDK.addBreadcrumb(crumb)
     }
 
-    private func sentryLevel(from string: String) -&gt; SentryLevel {
+    private func sentryLevel(from string: String) -> SentryLevel {
         switch string {
         case "debug": return .debug
         case "info": return .info
@@ -29293,10 +29293,10 @@ class CrashReportingModule: NSObject {
         ]
         SentrySDK.addBreadcrumb(crumb)
     }
-}&lt;/code&gt;&lt;/pre&gt;
+}</code></pre>
 
-            &lt;h5&gt;Android Platform Bridge (Sentry Native)&lt;/h5&gt;
-            &lt;pre&gt;&lt;code&gt;// CrashReportingModule.kt
+            <h5>Android Platform Bridge (Sentry Native)</h5>
+            <pre><code>// CrashReportingModule.kt
 package com.app.crashreporting
 
 import android.app.ActivityManager
@@ -29316,7 +29316,7 @@ class CrashReportingModule(reactContext: ReactApplicationContext) :
 
     @ReactMethod
     fun initializeNative(options: ReadableMap) {
-        SentryAndroid.init(reactApplicationContext) { sentryOptions -&gt;
+        SentryAndroid.init(reactApplicationContext) { sentryOptions ->
             sentryOptions.dsn = BuildConfig.SENTRY_DSN
 
             // Enable ANR detection
@@ -29369,8 +29369,8 @@ class CrashReportingModule(reactContext: ReactApplicationContext) :
 
     @ReactMethod
     fun captureNativeException(name: String, message: String, data: ReadableMap?) {
-        Sentry.captureException(RuntimeException("$name: $message")) { scope -&gt;
-            data?.toHashMap()?.forEach { (key, value) -&gt;
+        Sentry.captureException(RuntimeException("$name: $message")) { scope ->
+            data?.toHashMap()?.forEach { (key, value) ->
                 scope.setExtra(key, value)
             }
         }
@@ -29387,14 +29387,14 @@ class CrashReportingModule(reactContext: ReactApplicationContext) :
             this.category = category
             this.message = message
             this.level = when (level) {
-                "debug" -&gt; SentryLevel.DEBUG
-                "info" -&gt; SentryLevel.INFO
-                "warning" -&gt; SentryLevel.WARNING
-                "error" -&gt; SentryLevel.ERROR
-                "fatal" -&gt; SentryLevel.FATAL
-                else -&gt; SentryLevel.INFO
+                "debug" -> SentryLevel.DEBUG
+                "info" -> SentryLevel.INFO
+                "warning" -> SentryLevel.WARNING
+                "error" -> SentryLevel.ERROR
+                "fatal" -> SentryLevel.FATAL
+                else -> SentryLevel.INFO
             }
-            data?.toHashMap()?.forEach { (key, value) -&gt;
+            data?.toHashMap()?.forEach { (key, value) ->
                 this.setData(key, value)
             }
         }
@@ -29421,16 +29421,16 @@ class CrashReportingModule(reactContext: ReactApplicationContext) :
     inner class MemoryPressureCallback : android.content.ComponentCallbacks2 {
         override fun onTrimMemory(level: Int) {
             val levelName = when (level) {
-                android.content.ComponentCallbacks2.TRIM_MEMORY_RUNNING_LOW -&gt; "RUNNING_LOW"
-                android.content.ComponentCallbacks2.TRIM_MEMORY_RUNNING_CRITICAL -&gt; "RUNNING_CRITICAL"
-                android.content.ComponentCallbacks2.TRIM_MEMORY_COMPLETE -&gt; "COMPLETE"
-                else -&gt; "LEVEL_$level"
+                android.content.ComponentCallbacks2.TRIM_MEMORY_RUNNING_LOW -> "RUNNING_LOW"
+                android.content.ComponentCallbacks2.TRIM_MEMORY_RUNNING_CRITICAL -> "RUNNING_CRITICAL"
+                android.content.ComponentCallbacks2.TRIM_MEMORY_COMPLETE -> "COMPLETE"
+                else -> "LEVEL_$level"
             }
 
             Sentry.addBreadcrumb(Breadcrumb().apply {
                 category = "device.memory"
                 message = "Memory trim: $levelName"
-                this.level = if (level &gt;= 15) SentryLevel.WARNING else SentryLevel.INFO
+                this.level = if (level >= 15) SentryLevel.WARNING else SentryLevel.INFO
                 setData("trim_level", level)
             })
         }
@@ -29444,51 +29444,51 @@ class CrashReportingModule(reactContext: ReactApplicationContext) :
             })
         }
     }
-}&lt;/code&gt;&lt;/pre&gt;
+}</code></pre>
 
-            &lt;h4&gt;O - Optimizations and Deep Dive&lt;/h4&gt;
+            <h4>O - Optimizations and Deep Dive</h4>
 
-            &lt;h5&gt;Performance Optimizations&lt;/h5&gt;
-            &lt;ul&gt;
-                &lt;li&gt;&lt;strong&gt;Lazy SDK initialization:&lt;/strong&gt;
-                    &lt;ul&gt;
-                        &lt;li&gt;Problem: SDK init blocks app startup&lt;/li&gt;
-                        &lt;li&gt;Solution: Initialize after first frame, use cached config from previous session&lt;/li&gt;
-                        &lt;li&gt;Impact: Zero launch time impact (&lt;10ms async init)&lt;/li&gt;
-                    &lt;/ul&gt;
-                &lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Breadcrumb ring buffer:&lt;/strong&gt;
-                    &lt;ul&gt;
-                        &lt;li&gt;Problem: Unbounded breadcrumb list grows memory&lt;/li&gt;
-                        &lt;li&gt;Solution: Ring buffer with 100 max entries, O(1) insert&lt;/li&gt;
-                        &lt;li&gt;Impact: Constant ~50KB memory for breadcrumbs regardless of session length&lt;/li&gt;
-                    &lt;/ul&gt;
-                &lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Envelope batching:&lt;/strong&gt;
-                    &lt;ul&gt;
-                        &lt;li&gt;Problem: Many small network requests for events&lt;/li&gt;
-                        &lt;li&gt;Solution: Batch events into envelopes, single upload per flush&lt;/li&gt;
-                        &lt;li&gt;Impact: 80% reduction in network calls&lt;/li&gt;
-                    &lt;/ul&gt;
-                &lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Sampling strategies:&lt;/strong&gt;
-                    &lt;ul&gt;
-                        &lt;li&gt;Problem: High volume apps generate expensive event counts&lt;/li&gt;
-                        &lt;li&gt;Solution: Configurable sample rates (100% errors, 20% traces)&lt;/li&gt;
-                        &lt;li&gt;Impact: 5x cost reduction while maintaining error visibility&lt;/li&gt;
-                    &lt;/ul&gt;
-                &lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Client-side PII scrubbing:&lt;/strong&gt;
-                    &lt;ul&gt;
-                        &lt;li&gt;Problem: Sensitive data in error payloads&lt;/li&gt;
-                        &lt;li&gt;Solution: beforeSend hook scrubs emails, passwords, tokens&lt;/li&gt;
-                        &lt;li&gt;Impact: PII never leaves device, GDPR compliant by default&lt;/li&gt;
-                    &lt;/ul&gt;
-                &lt;/li&gt;
-            &lt;/ul&gt;
+            <h5>Performance Optimizations</h5>
+            <ul>
+                <li><strong>Lazy SDK initialization:</strong>
+                    <ul>
+                        <li>Problem: SDK init blocks app startup</li>
+                        <li>Solution: Initialize after first frame, use cached config from previous session</li>
+                        <li>Impact: Zero launch time impact (<10ms async init)</li>
+                    </ul>
+                </li>
+                <li><strong>Breadcrumb ring buffer:</strong>
+                    <ul>
+                        <li>Problem: Unbounded breadcrumb list grows memory</li>
+                        <li>Solution: Ring buffer with 100 max entries, O(1) insert</li>
+                        <li>Impact: Constant ~50KB memory for breadcrumbs regardless of session length</li>
+                    </ul>
+                </li>
+                <li><strong>Envelope batching:</strong>
+                    <ul>
+                        <li>Problem: Many small network requests for events</li>
+                        <li>Solution: Batch events into envelopes, single upload per flush</li>
+                        <li>Impact: 80% reduction in network calls</li>
+                    </ul>
+                </li>
+                <li><strong>Sampling strategies:</strong>
+                    <ul>
+                        <li>Problem: High volume apps generate expensive event counts</li>
+                        <li>Solution: Configurable sample rates (100% errors, 20% traces)</li>
+                        <li>Impact: 5x cost reduction while maintaining error visibility</li>
+                    </ul>
+                </li>
+                <li><strong>Client-side PII scrubbing:</strong>
+                    <ul>
+                        <li>Problem: Sensitive data in error payloads</li>
+                        <li>Solution: beforeSend hook scrubs emails, passwords, tokens</li>
+                        <li>Impact: PII never leaves device, GDPR compliant by default</li>
+                    </ul>
+                </li>
+            </ul>
 
-            &lt;h5&gt;Source Map &amp;amp; Symbol Upload Pipeline&lt;/h5&gt;
-            &lt;pre&gt;&lt;code&gt;# CI/CD Pipeline for symbol upload (.github/workflows/release.yml)
+            <h5>Source Map &amp;amp; Symbol Upload Pipeline</h5>
+            <pre><code># CI/CD Pipeline for symbol upload (.github/workflows/release.yml)
 name: Release Build
 
 on:
@@ -29568,141 +29568,141 @@ jobs:
             --dist \${BUILD} \\
             --strip-prefix /Users/runner/work \\
             --rewrite \\
-            bundle.js bundle.js.map&lt;/code&gt;&lt;/pre&gt;
+            bundle.js bundle.js.map</code></pre>
 
-            &lt;h5&gt;Platform-Specific Considerations&lt;/h5&gt;
-            &lt;table&gt;
-                &lt;tr&gt;&lt;th&gt;Aspect&lt;/th&gt;&lt;th&gt;iOS&lt;/th&gt;&lt;th&gt;Android&lt;/th&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Crash Handler&lt;/td&gt;&lt;td&gt;NSException + Signal handlers&lt;/td&gt;&lt;td&gt;UncaughtExceptionHandler + NDK signals&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;ANR Detection&lt;/td&gt;&lt;td&gt;App Hang Tracking (2s threshold)&lt;/td&gt;&lt;td&gt;ANR Watchdog (5s threshold)&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;OOM Tracking&lt;/td&gt;&lt;td&gt;enableOutOfMemoryTracking&lt;/td&gt;&lt;td&gt;ComponentCallbacks2.onTrimMemory()&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Symbol Format&lt;/td&gt;&lt;td&gt;dSYM files (DWARF)&lt;/td&gt;&lt;td&gt;Proguard mapping.txt&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Native Crashes&lt;/td&gt;&lt;td&gt;Built-in, automatic&lt;/td&gt;&lt;td&gt;Requires isEnableNdk = true&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Screenshot Capture&lt;/td&gt;&lt;td&gt;attachScreenshot = true&lt;/td&gt;&lt;td&gt;isAttachScreenshot = true&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;View Hierarchy&lt;/td&gt;&lt;td&gt;attachViewHierarchy = true&lt;/td&gt;&lt;td&gt;isAttachViewHierarchy = true&lt;/td&gt;&lt;/tr&gt;
-            &lt;/table&gt;
+            <h5>Platform-Specific Considerations</h5>
+            <table>
+                <tr><th>Aspect</th><th>iOS</th><th>Android</th></tr>
+                <tr><td>Crash Handler</td><td>NSException + Signal handlers</td><td>UncaughtExceptionHandler + NDK signals</td></tr>
+                <tr><td>ANR Detection</td><td>App Hang Tracking (2s threshold)</td><td>ANR Watchdog (5s threshold)</td></tr>
+                <tr><td>OOM Tracking</td><td>enableOutOfMemoryTracking</td><td>ComponentCallbacks2.onTrimMemory()</td></tr>
+                <tr><td>Symbol Format</td><td>dSYM files (DWARF)</td><td>Proguard mapping.txt</td></tr>
+                <tr><td>Native Crashes</td><td>Built-in, automatic</td><td>Requires isEnableNdk = true</td></tr>
+                <tr><td>Screenshot Capture</td><td>attachScreenshot = true</td><td>isAttachScreenshot = true</td></tr>
+                <tr><td>View Hierarchy</td><td>attachViewHierarchy = true</td><td>isAttachViewHierarchy = true</td></tr>
+            </table>
 
-            &lt;h5&gt;Edge Cases and Error Handling&lt;/h5&gt;
-            &lt;ol&gt;
-                &lt;li&gt;&lt;strong&gt;Hermes bytecode stack traces:&lt;/strong&gt; Ensure Hermes bytecode source maps are uploaded alongside JS source maps. Use react-native-bundle command with --sourcemap-output flag.&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;CodePush OTA updates:&lt;/strong&gt; Track CodePush release hashes separately from native versions. Use dist field to differentiate bundles with same version but different code.&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;OOM crashes:&lt;/strong&gt; Native OOM doesn't always trigger crash handlers. Use memory pressure callbacks (didReceiveMemoryWarning, onTrimMemory) to add breadcrumbs before crash.&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;ANR vs actual deadlock:&lt;/strong&gt; Distinguish between UI thread blocking (recoverable) and actual deadlocks. App hang tracking detects both but provides stack traces for debugging.&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Offline crashes:&lt;/strong&gt; Crashes while offline may be lost if app is force-killed before reconnection. Sentry persists events to disk, but OOM/force-kill scenarios can lose data.&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Debug vs release symbolication:&lt;/strong&gt; Symbolication only works for release builds with uploaded symbols. Ensure CI/CD always uploads symbols for every release.&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;React Native version mismatch:&lt;/strong&gt; Upgrading RN can break Sentry native integration. Pin @sentry/react-native version and test after RN upgrades.&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Error boundary cascade:&lt;/strong&gt; Errors in error boundary fallback UI cause infinite loops. Use try-catch in fallback render and have simple fallback of fallback.&lt;/li&gt;
-            &lt;/ol&gt;
+            <h5>Edge Cases and Error Handling</h5>
+            <ol>
+                <li><strong>Hermes bytecode stack traces:</strong> Ensure Hermes bytecode source maps are uploaded alongside JS source maps. Use react-native-bundle command with --sourcemap-output flag.</li>
+                <li><strong>CodePush OTA updates:</strong> Track CodePush release hashes separately from native versions. Use dist field to differentiate bundles with same version but different code.</li>
+                <li><strong>OOM crashes:</strong> Native OOM doesn't always trigger crash handlers. Use memory pressure callbacks (didReceiveMemoryWarning, onTrimMemory) to add breadcrumbs before crash.</li>
+                <li><strong>ANR vs actual deadlock:</strong> Distinguish between UI thread blocking (recoverable) and actual deadlocks. App hang tracking detects both but provides stack traces for debugging.</li>
+                <li><strong>Offline crashes:</strong> Crashes while offline may be lost if app is force-killed before reconnection. Sentry persists events to disk, but OOM/force-kill scenarios can lose data.</li>
+                <li><strong>Debug vs release symbolication:</strong> Symbolication only works for release builds with uploaded symbols. Ensure CI/CD always uploads symbols for every release.</li>
+                <li><strong>React Native version mismatch:</strong> Upgrading RN can break Sentry native integration. Pin @sentry/react-native version and test after RN upgrades.</li>
+                <li><strong>Error boundary cascade:</strong> Errors in error boundary fallback UI cause infinite loops. Use try-catch in fallback render and have simple fallback of fallback.</li>
+            </ol>
 
-            &lt;h5&gt;Trade-offs and Alternatives&lt;/h5&gt;
-            &lt;table&gt;
-                &lt;tr&gt;&lt;th&gt;Decision&lt;/th&gt;&lt;th&gt;Chosen&lt;/th&gt;&lt;th&gt;Alternative&lt;/th&gt;&lt;th&gt;Why Chosen&lt;/th&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Error tracking service&lt;/td&gt;&lt;td&gt;Sentry&lt;/td&gt;&lt;td&gt;Firebase Crashlytics&lt;/td&gt;&lt;td&gt;Better RN support, source maps, APM, self-host option&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Client-side vs server-side PII scrub&lt;/td&gt;&lt;td&gt;Client-side (beforeSend)&lt;/td&gt;&lt;td&gt;Server-side data scrubbing&lt;/td&gt;&lt;td&gt;PII never leaves device, GDPR safer&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Breadcrumb storage&lt;/td&gt;&lt;td&gt;Ring buffer (100 max)&lt;/td&gt;&lt;td&gt;Unbounded list&lt;/td&gt;&lt;td&gt;Constant memory, most recent context matters&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Error grouping&lt;/td&gt;&lt;td&gt;Custom fingerprinting&lt;/td&gt;&lt;td&gt;Default Sentry grouping&lt;/td&gt;&lt;td&gt;Prevents over-grouping dynamic errors&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Sampling strategy&lt;/td&gt;&lt;td&gt;100% errors, 20% traces&lt;/td&gt;&lt;td&gt;Uniform sampling&lt;/td&gt;&lt;td&gt;Never miss errors, control trace costs&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;SDK initialization&lt;/td&gt;&lt;td&gt;Lazy after first frame&lt;/td&gt;&lt;td&gt;Eager in index.js&lt;/td&gt;&lt;td&gt;Zero impact on app startup time&lt;/td&gt;&lt;/tr&gt;
-            &lt;/table&gt;
+            <h5>Trade-offs and Alternatives</h5>
+            <table>
+                <tr><th>Decision</th><th>Chosen</th><th>Alternative</th><th>Why Chosen</th></tr>
+                <tr><td>Error tracking service</td><td>Sentry</td><td>Firebase Crashlytics</td><td>Better RN support, source maps, APM, self-host option</td></tr>
+                <tr><td>Client-side vs server-side PII scrub</td><td>Client-side (beforeSend)</td><td>Server-side data scrubbing</td><td>PII never leaves device, GDPR safer</td></tr>
+                <tr><td>Breadcrumb storage</td><td>Ring buffer (100 max)</td><td>Unbounded list</td><td>Constant memory, most recent context matters</td></tr>
+                <tr><td>Error grouping</td><td>Custom fingerprinting</td><td>Default Sentry grouping</td><td>Prevents over-grouping dynamic errors</td></tr>
+                <tr><td>Sampling strategy</td><td>100% errors, 20% traces</td><td>Uniform sampling</td><td>Never miss errors, control trace costs</td></tr>
+                <tr><td>SDK initialization</td><td>Lazy after first frame</td><td>Eager in index.js</td><td>Zero impact on app startup time</td></tr>
+            </table>
 
-            &lt;h5&gt;Testing Strategy&lt;/h5&gt;
-            &lt;ul&gt;
-                &lt;li&gt;&lt;strong&gt;Unit Tests:&lt;/strong&gt;
-                    &lt;ul&gt;
-                        &lt;li&gt;PII scrubbing regex patterns (emails, phones, tokens)&lt;/li&gt;
-                        &lt;li&gt;Error filtering logic (ignored patterns)&lt;/li&gt;
-                        &lt;li&gt;Custom fingerprinting rules&lt;/li&gt;
-                        &lt;li&gt;Breadcrumb processing and truncation&lt;/li&gt;
-                    &lt;/ul&gt;
-                &lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Integration Tests:&lt;/strong&gt;
-                    &lt;ul&gt;
-                        &lt;li&gt;Error boundary catches and reports errors&lt;/li&gt;
-                        &lt;li&gt;Offline queue persists and retries on reconnect&lt;/li&gt;
-                        &lt;li&gt;User context attached to all events&lt;/li&gt;
-                        &lt;li&gt;Source maps symbolicate correctly in staging&lt;/li&gt;
-                    &lt;/ul&gt;
-                &lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;E2E Tests:&lt;/strong&gt;
-                    &lt;ul&gt;
-                        &lt;li&gt;Throw test error → verify appears in Sentry dashboard&lt;/li&gt;
-                        &lt;li&gt;Force native crash → verify dSYM symbolication&lt;/li&gt;
-                        &lt;li&gt;Verify PII not present in captured events&lt;/li&gt;
-                        &lt;li&gt;Verify breadcrumb trail matches user actions&lt;/li&gt;
-                    &lt;/ul&gt;
-                &lt;/li&gt;
-            &lt;/ul&gt;
+            <h5>Testing Strategy</h5>
+            <ul>
+                <li><strong>Unit Tests:</strong>
+                    <ul>
+                        <li>PII scrubbing regex patterns (emails, phones, tokens)</li>
+                        <li>Error filtering logic (ignored patterns)</li>
+                        <li>Custom fingerprinting rules</li>
+                        <li>Breadcrumb processing and truncation</li>
+                    </ul>
+                </li>
+                <li><strong>Integration Tests:</strong>
+                    <ul>
+                        <li>Error boundary catches and reports errors</li>
+                        <li>Offline queue persists and retries on reconnect</li>
+                        <li>User context attached to all events</li>
+                        <li>Source maps symbolicate correctly in staging</li>
+                    </ul>
+                </li>
+                <li><strong>E2E Tests:</strong>
+                    <ul>
+                        <li>Throw test error → verify appears in Sentry dashboard</li>
+                        <li>Force native crash → verify dSYM symbolication</li>
+                        <li>Verify PII not present in captured events</li>
+                        <li>Verify breadcrumb trail matches user actions</li>
+                    </ul>
+                </li>
+            </ul>
 
-            &lt;h5&gt;Interview Discussion Points&lt;/h5&gt;
-            &lt;ul&gt;
-                &lt;li&gt;&lt;strong&gt;Q: How do you handle error sampling at scale?&lt;/strong&gt;&lt;br/&gt;A: Use tiered sampling - 100% for errors (never miss crashes), 10-20% for traces (cost control), dynamic rates for high-volume endpoints. Consider client-side sampling with beforeSend returning null for sampled-out events.&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Q: How do you prevent error grouping issues?&lt;/strong&gt;&lt;br/&gt;A: Custom fingerprinting for dynamic error messages (e.g., ChunkLoadError with hash). Group by error type + component stack, not just message. Regular review of "similar issues" suggestions.&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Q: How do you manage alert fatigue?&lt;/strong&gt;&lt;br/&gt;A: Alert on rate of change, not absolute counts. Set regression alerts for new errors in releases. Use crash-free session rate (target 99.5%+) as key metric. Route to on-call only for P0 (affects &gt;5% users).&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Q: How do you ensure GDPR compliance?&lt;/strong&gt;&lt;br/&gt;A: Client-side PII scrubbing in beforeSend, never send user content in extra/tags. Use pseudonymous user IDs, not emails. Sentry data retention settings. Document data processing agreement.&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Q: How do you debug Hermes crashes?&lt;/strong&gt;&lt;br/&gt;A: Hermes uses bytecode, so standard source maps aren't enough. Must upload Hermes source maps during build. Use react-native-bundle with --sourcemap-output and upload via sentry-cli with correct dist version.&lt;/li&gt;
-            &lt;/ul&gt;
+            <h5>Interview Discussion Points</h5>
+            <ul>
+                <li><strong>Q: How do you handle error sampling at scale?</strong><br/>A: Use tiered sampling - 100% for errors (never miss crashes), 10-20% for traces (cost control), dynamic rates for high-volume endpoints. Consider client-side sampling with beforeSend returning null for sampled-out events.</li>
+                <li><strong>Q: How do you prevent error grouping issues?</strong><br/>A: Custom fingerprinting for dynamic error messages (e.g., ChunkLoadError with hash). Group by error type + component stack, not just message. Regular review of "similar issues" suggestions.</li>
+                <li><strong>Q: How do you manage alert fatigue?</strong><br/>A: Alert on rate of change, not absolute counts. Set regression alerts for new errors in releases. Use crash-free session rate (target 99.5%+) as key metric. Route to on-call only for P0 (affects >5% users).</li>
+                <li><strong>Q: How do you ensure GDPR compliance?</strong><br/>A: Client-side PII scrubbing in beforeSend, never send user content in extra/tags. Use pseudonymous user IDs, not emails. Sentry data retention settings. Document data processing agreement.</li>
+                <li><strong>Q: How do you debug Hermes crashes?</strong><br/>A: Hermes uses bytecode, so standard source maps aren't enough. Must upload Hermes source maps during build. Use react-native-bundle with --sourcemap-output and upload via sentry-cli with correct dist version.</li>
+            </ul>
 
-            &lt;h5&gt;Library Recommendations&lt;/h5&gt;
-            &lt;table&gt;
-                &lt;tr&gt;&lt;th&gt;Concern&lt;/th&gt;&lt;th&gt;Library&lt;/th&gt;&lt;th&gt;Rationale&lt;/th&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Error Tracking&lt;/td&gt;&lt;td&gt;@sentry/react-native&lt;/td&gt;&lt;td&gt;Comprehensive JS + native crash support, source maps&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Performance APM&lt;/td&gt;&lt;td&gt;Sentry Performance&lt;/td&gt;&lt;td&gt;Transaction tracing, slow frame detection&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Firebase Alternative&lt;/td&gt;&lt;td&gt;@react-native-firebase/crashlytics&lt;/td&gt;&lt;td&gt;Free, good native crash support, Firebase integration&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Network Logging&lt;/td&gt;&lt;td&gt;Reactotron&lt;/td&gt;&lt;td&gt;Development debugging, network inspector&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Release Management&lt;/td&gt;&lt;td&gt;sentry-cli&lt;/td&gt;&lt;td&gt;Symbol upload, release creation, commit tracking&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Hermes Profiling&lt;/td&gt;&lt;td&gt;react-native-performance&lt;/td&gt;&lt;td&gt;Startup timing, Hermes-specific metrics&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Error Boundaries&lt;/td&gt;&lt;td&gt;react-error-boundary&lt;/td&gt;&lt;td&gt;Declarative error boundaries with reset&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Session Replay&lt;/td&gt;&lt;td&gt;Sentry Session Replay&lt;/td&gt;&lt;td&gt;Visual reproduction of errors (optional)&lt;/td&gt;&lt;/tr&gt;
-            &lt;/table&gt;
+            <h5>Library Recommendations</h5>
+            <table>
+                <tr><th>Concern</th><th>Library</th><th>Rationale</th></tr>
+                <tr><td>Error Tracking</td><td>@sentry/react-native</td><td>Comprehensive JS + native crash support, source maps</td></tr>
+                <tr><td>Performance APM</td><td>Sentry Performance</td><td>Transaction tracing, slow frame detection</td></tr>
+                <tr><td>Firebase Alternative</td><td>@react-native-firebase/crashlytics</td><td>Free, good native crash support, Firebase integration</td></tr>
+                <tr><td>Network Logging</td><td>Reactotron</td><td>Development debugging, network inspector</td></tr>
+                <tr><td>Release Management</td><td>sentry-cli</td><td>Symbol upload, release creation, commit tracking</td></tr>
+                <tr><td>Hermes Profiling</td><td>react-native-performance</td><td>Startup timing, Hermes-specific metrics</td></tr>
+                <tr><td>Error Boundaries</td><td>react-error-boundary</td><td>Declarative error boundaries with reset</td></tr>
+                <tr><td>Session Replay</td><td>Sentry Session Replay</td><td>Visual reproduction of errors (optional)</td></tr>
+            </table>
         `},{id:91,category:"System Design",icon:"🏛️",question:"How would you architect feature flags and A/B testing infrastructure?",difficulty:"advanced",seniority:"senior",answer:`
-            &lt;h4&gt;R - Requirements Exploration&lt;/h4&gt;
+            <h4>R - Requirements Exploration</h4>
 
-            &lt;h5&gt;Clarifying Questions to Ask&lt;/h5&gt;
-            &lt;ul&gt;
-                &lt;li&gt;&lt;strong&gt;Flag types:&lt;/strong&gt; Boolean only, or also string/number/JSON payloads?&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Targeting complexity:&lt;/strong&gt; Simple percentage rollout or complex user attribute targeting?&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Update latency:&lt;/strong&gt; Real-time updates needed or periodic polling acceptable?&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Experiment types:&lt;/strong&gt; A/B only or multivariate (A/B/C/n)?&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Analytics integration:&lt;/strong&gt; Which platforms (Amplitude, Mixpanel, custom)?&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Self-hosted vs SaaS:&lt;/strong&gt; Build custom or use LaunchDarkly/Statsig/GrowthBook?&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Bucketing requirements:&lt;/strong&gt; Sticky assignment across sessions? Cross-platform consistency?&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Kill switch latency:&lt;/strong&gt; How fast must emergency flag changes propagate?&lt;/li&gt;
-            &lt;/ul&gt;
+            <h5>Clarifying Questions to Ask</h5>
+            <ul>
+                <li><strong>Flag types:</strong> Boolean only, or also string/number/JSON payloads?</li>
+                <li><strong>Targeting complexity:</strong> Simple percentage rollout or complex user attribute targeting?</li>
+                <li><strong>Update latency:</strong> Real-time updates needed or periodic polling acceptable?</li>
+                <li><strong>Experiment types:</strong> A/B only or multivariate (A/B/C/n)?</li>
+                <li><strong>Analytics integration:</strong> Which platforms (Amplitude, Mixpanel, custom)?</li>
+                <li><strong>Self-hosted vs SaaS:</strong> Build custom or use LaunchDarkly/Statsig/GrowthBook?</li>
+                <li><strong>Bucketing requirements:</strong> Sticky assignment across sessions? Cross-platform consistency?</li>
+                <li><strong>Kill switch latency:</strong> How fast must emergency flag changes propagate?</li>
+            </ul>
 
-            &lt;h5&gt;Functional Requirements&lt;/h5&gt;
-            &lt;ul&gt;
-                &lt;li&gt;Boolean feature flags for gradual rollout and kill switches&lt;/li&gt;
-                &lt;li&gt;Multivariate experiments (A/B/n testing) with variant assignment and payloads&lt;/li&gt;
-                &lt;li&gt;User targeting by attributes (country, subscription tier, device type, app version)&lt;/li&gt;
-                &lt;li&gt;Percentage-based rollouts with consistent bucketing (same user = same bucket)&lt;/li&gt;
-                &lt;li&gt;Real-time flag updates via SSE/WebSocket without app restart&lt;/li&gt;
-                &lt;li&gt;Exposure tracking for experiment analysis (who saw what variant)&lt;/li&gt;
-                &lt;li&gt;Analytics integration for conversion metrics (Amplitude, Mixpanel)&lt;/li&gt;
-                &lt;li&gt;Admin dashboard for flag management and experiment configuration&lt;/li&gt;
-            &lt;/ul&gt;
+            <h5>Functional Requirements</h5>
+            <ul>
+                <li>Boolean feature flags for gradual rollout and kill switches</li>
+                <li>Multivariate experiments (A/B/n testing) with variant assignment and payloads</li>
+                <li>User targeting by attributes (country, subscription tier, device type, app version)</li>
+                <li>Percentage-based rollouts with consistent bucketing (same user = same bucket)</li>
+                <li>Real-time flag updates via SSE/WebSocket without app restart</li>
+                <li>Exposure tracking for experiment analysis (who saw what variant)</li>
+                <li>Analytics integration for conversion metrics (Amplitude, Mixpanel)</li>
+                <li>Admin dashboard for flag management and experiment configuration</li>
+            </ul>
 
-            &lt;h5&gt;Non-Functional Requirements&lt;/h5&gt;
-            &lt;ul&gt;
-                &lt;li&gt;&lt;strong&gt;Startup:&lt;/strong&gt; Zero blocking on app startup (cache-first, fetch in background)&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Consistency:&lt;/strong&gt; Same variant across sessions and devices for same user&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Offline:&lt;/strong&gt; Full functionality with cached flag values when offline&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Performance:&lt;/strong&gt; Sub-millisecond flag evaluation (local computation only)&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Latency:&lt;/strong&gt; Flag updates propagate to all clients within 5 seconds&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Reliability:&lt;/strong&gt; Graceful degradation to defaults if service unavailable&lt;/li&gt;
-            &lt;/ul&gt;
+            <h5>Non-Functional Requirements</h5>
+            <ul>
+                <li><strong>Startup:</strong> Zero blocking on app startup (cache-first, fetch in background)</li>
+                <li><strong>Consistency:</strong> Same variant across sessions and devices for same user</li>
+                <li><strong>Offline:</strong> Full functionality with cached flag values when offline</li>
+                <li><strong>Performance:</strong> Sub-millisecond flag evaluation (local computation only)</li>
+                <li><strong>Latency:</strong> Flag updates propagate to all clients within 5 seconds</li>
+                <li><strong>Reliability:</strong> Graceful degradation to defaults if service unavailable</li>
+            </ul>
 
-            &lt;h5&gt;Out of Scope&lt;/h5&gt;
-            &lt;ul&gt;
-                &lt;li&gt;Custom analytics backend (will integrate with existing)&lt;/li&gt;
-                &lt;li&gt;Statistical significance calculation (use external tools)&lt;/li&gt;
-                &lt;li&gt;Multi-armed bandit algorithms&lt;/li&gt;
-                &lt;li&gt;Backend feature flags (focus on mobile client)&lt;/li&gt;
-            &lt;/ul&gt;
+            <h5>Out of Scope</h5>
+            <ul>
+                <li>Custom analytics backend (will integrate with existing)</li>
+                <li>Statistical significance calculation (use external tools)</li>
+                <li>Multi-armed bandit algorithms</li>
+                <li>Backend feature flags (focus on mobile client)</li>
+            </ul>
 
-            &lt;h4&gt;A - Architecture / High-level Design&lt;/h4&gt;
+            <h4>A - Architecture / High-level Design</h4>
 
-            &lt;h5&gt;System Architecture Diagram&lt;/h5&gt;
-            &lt;pre&gt;&lt;code&gt;┌─────────────────────────────────────────────────────────────────┐
+            <h5>System Architecture Diagram</h5>
+            <pre><code>┌─────────────────────────────────────────────────────────────────┐
 │              FEATURE FLAG &amp;amp; EXPERIMENTATION PLATFORM             │
 ├─────────────────────────────────────────────────────────────────┤
 │                                                                  │
@@ -29755,36 +29755,36 @@ jobs:
 │  │  │                              → Significance Testing  │ │  │
 │  │  └──────────────────────────────────────────────────────┘ │  │
 │  └───────────────────────────────────────────────────────────┘  │
-└─────────────────────────────────────────────────────────────────┘&lt;/code&gt;&lt;/pre&gt;
+└─────────────────────────────────────────────────────────────────┘</code></pre>
 
-            &lt;h5&gt;Component Overview&lt;/h5&gt;
-            &lt;table&gt;
-                &lt;tr&gt;&lt;th&gt;Component&lt;/th&gt;&lt;th&gt;Responsibility&lt;/th&gt;&lt;th&gt;Technology&lt;/th&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Flag Cache&lt;/td&gt;&lt;td&gt;Persist flags for offline and instant startup&lt;/td&gt;&lt;td&gt;MMKV (fast key-value)&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Local Evaluation Engine&lt;/td&gt;&lt;td&gt;Evaluate targeting rules client-side&lt;/td&gt;&lt;td&gt;TypeScript rule engine&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Streaming Client&lt;/td&gt;&lt;td&gt;Receive real-time flag updates&lt;/td&gt;&lt;td&gt;SSE (EventSource)&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Exposure Tracker&lt;/td&gt;&lt;td&gt;Log which users saw which variants&lt;/td&gt;&lt;td&gt;Batched event queue&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Bucketing Service&lt;/td&gt;&lt;td&gt;Consistent user-to-variant assignment&lt;/td&gt;&lt;td&gt;MurmurHash3 (deterministic)&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;React Hooks&lt;/td&gt;&lt;td&gt;Reactive flag access in components&lt;/td&gt;&lt;td&gt;Zustand + React hooks&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Analytics Bridge&lt;/td&gt;&lt;td&gt;Send experiment data to analytics&lt;/td&gt;&lt;td&gt;Amplitude/Mixpanel SDK&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Backend API&lt;/td&gt;&lt;td&gt;Serve flag configs, stream updates&lt;/td&gt;&lt;td&gt;REST + SSE endpoints&lt;/td&gt;&lt;/tr&gt;
-            &lt;/table&gt;
+            <h5>Component Overview</h5>
+            <table>
+                <tr><th>Component</th><th>Responsibility</th><th>Technology</th></tr>
+                <tr><td>Flag Cache</td><td>Persist flags for offline and instant startup</td><td>MMKV (fast key-value)</td></tr>
+                <tr><td>Local Evaluation Engine</td><td>Evaluate targeting rules client-side</td><td>TypeScript rule engine</td></tr>
+                <tr><td>Streaming Client</td><td>Receive real-time flag updates</td><td>SSE (EventSource)</td></tr>
+                <tr><td>Exposure Tracker</td><td>Log which users saw which variants</td><td>Batched event queue</td></tr>
+                <tr><td>Bucketing Service</td><td>Consistent user-to-variant assignment</td><td>MurmurHash3 (deterministic)</td></tr>
+                <tr><td>React Hooks</td><td>Reactive flag access in components</td><td>Zustand + React hooks</td></tr>
+                <tr><td>Analytics Bridge</td><td>Send experiment data to analytics</td><td>Amplitude/Mixpanel SDK</td></tr>
+                <tr><td>Backend API</td><td>Serve flag configs, stream updates</td><td>REST + SSE endpoints</td></tr>
+            </table>
 
-            &lt;h5&gt;Key Architecture Decisions&lt;/h5&gt;
-            &lt;table&gt;
-                &lt;tr&gt;&lt;th&gt;Decision&lt;/th&gt;&lt;th&gt;Choice&lt;/th&gt;&lt;th&gt;Rationale&lt;/th&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Flag evaluation&lt;/td&gt;&lt;td&gt;Client-side&lt;/td&gt;&lt;td&gt;Sub-ms latency, works offline, no network round-trip&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Bucketing algorithm&lt;/td&gt;&lt;td&gt;MurmurHash3&lt;/td&gt;&lt;td&gt;Fast, uniform distribution, deterministic across platforms&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Update mechanism&lt;/td&gt;&lt;td&gt;SSE (Server-Sent Events)&lt;/td&gt;&lt;td&gt;Lightweight, auto-reconnect, one-way push sufficient&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Cache storage&lt;/td&gt;&lt;td&gt;MMKV&lt;/td&gt;&lt;td&gt;Fast synchronous reads, reliable persistence&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;State management&lt;/td&gt;&lt;td&gt;Zustand with selectors&lt;/td&gt;&lt;td&gt;Fine-grained subscriptions, minimal re-renders&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Exposure tracking&lt;/td&gt;&lt;td&gt;Batched queue (10s flush)&lt;/td&gt;&lt;td&gt;Reduce network calls, survive app close&lt;/td&gt;&lt;/tr&gt;
-            &lt;/table&gt;
+            <h5>Key Architecture Decisions</h5>
+            <table>
+                <tr><th>Decision</th><th>Choice</th><th>Rationale</th></tr>
+                <tr><td>Flag evaluation</td><td>Client-side</td><td>Sub-ms latency, works offline, no network round-trip</td></tr>
+                <tr><td>Bucketing algorithm</td><td>MurmurHash3</td><td>Fast, uniform distribution, deterministic across platforms</td></tr>
+                <tr><td>Update mechanism</td><td>SSE (Server-Sent Events)</td><td>Lightweight, auto-reconnect, one-way push sufficient</td></tr>
+                <tr><td>Cache storage</td><td>MMKV</td><td>Fast synchronous reads, reliable persistence</td></tr>
+                <tr><td>State management</td><td>Zustand with selectors</td><td>Fine-grained subscriptions, minimal re-renders</td></tr>
+                <tr><td>Exposure tracking</td><td>Batched queue (10s flush)</td><td>Reduce network calls, survive app close</td></tr>
+            </table>
 
-            &lt;h4&gt;D - Data Model / Core Entities&lt;/h4&gt;
+            <h4>D - Data Model / Core Entities</h4>
 
-            &lt;h5&gt;Core Entities&lt;/h5&gt;
-            &lt;pre&gt;&lt;code&gt;// types/featureFlags.ts
+            <h5>Core Entities</h5>
+            <pre><code>// types/featureFlags.ts
 
 /**
  * Represents a feature flag with targeting rules
@@ -29812,7 +29812,7 @@ interface Experiment {
 interface Variant {
   key: string;
   weight: number; // 0-100 percentage
-  payload?: Record&lt;string, unknown&gt;;
+  payload?: Record<string, unknown>;
 }
 
 interface TargetingRule {
@@ -29831,7 +29831,7 @@ interface Condition {
 interface UserContext {
   userId: string;
   deviceId: string;
-  attributes: Record&lt;string, unknown&gt;;
+  attributes: Record<string, unknown>;
 }
 
 interface ExposureEvent {
@@ -29849,16 +29849,16 @@ import { subscribeWithSelector } from 'zustand/middleware';
 import murmurhash from 'murmurhash';
 
 interface FlagState {
-  flags: Map&lt;string, FeatureFlag&gt;;
-  experiments: Map&lt;string, Experiment&gt;;
-  assignments: Map&lt;string, string&gt;; // experiment key -&gt; variant key
+  flags: Map<string, FeatureFlag>;
+  experiments: Map<string, Experiment>;
+  assignments: Map<string, string>; // experiment key -> variant key
   userContext: UserContext | null;
   isInitialized: boolean;
   lastFetchedAt: number;
 }
 
-const useFlagStore = create&lt;FlagState&gt;()(
-  subscribeWithSelector((set) =&gt; ({
+const useFlagStore = create<FlagState>()(
+  subscribeWithSelector((set) => ({
     flags: new Map(),
     experiments: new Map(),
     assignments: new Map(),
@@ -29874,7 +29874,7 @@ class FeatureFlagSDK {
   private exposureQueue: ExposureEvent[] = [];
   private flushInterval: NodeJS.Timer | null = null;
 
-  async initialize(userContext: UserContext): Promise&lt;void&gt; {
+  async initialize(userContext: UserContext): Promise<void> {
     useFlagStore.setState({ userContext });
 
     // 1. Load cached flags immediately (non-blocking)
@@ -29891,7 +29891,7 @@ class FeatureFlagSDK {
     this.startStreaming();
 
     // 4. Start exposure event flushing
-    this.flushInterval = setInterval(() =&gt; this.flushExposures(), 10000);
+    this.flushInterval = setInterval(() => this.flushExposures(), 10000);
 
     useFlagStore.setState({ isInitialized: true });
   }
@@ -29908,7 +29908,7 @@ class FeatureFlagSDK {
     }
   }
 
-  private async fetchFlags(): Promise&lt;void&gt; {
+  private async fetchFlags(): Promise<void> {
     const { userContext } = useFlagStore.getState();
     if (!userContext) return;
 
@@ -29942,7 +29942,7 @@ class FeatureFlagSDK {
       \`\${API_URL}/flags/stream?userId=\${userContext.userId}\`
     );
 
-    this.eventSource.onmessage = (event) =&gt; {
+    this.eventSource.onmessage = (event) => {
       const update = JSON.parse(event.data);
       if (update.type === 'flag_update') {
         const { flags } = useFlagStore.getState();
@@ -29965,7 +29965,7 @@ class FeatureFlagSDK {
   }
 
   // Multivariate flag evaluation
-  getVariant&lt;T&gt;(flagKey: string, defaultValue: T): T {
+  getVariant<T>(flagKey: string, defaultValue: T): T {
     const { flags, userContext } = useFlagStore.getState();
     const flag = flags.get(flagKey);
 
@@ -29997,7 +29997,7 @@ class FeatureFlagSDK {
 
     // Determine if user is in experiment allocation
     const allocationHash = this.hash(\`\${experimentKey}:\${userContext.userId}:allocation\`);
-    if (allocationHash &gt; experiment.allocation) {
+    if (allocationHash > experiment.allocation) {
       return null; // User not in experiment
     }
 
@@ -30024,7 +30024,7 @@ class FeatureFlagSDK {
         // Check percentage rollout
         if (rule.percentage !== undefined) {
           const hash = this.hash(\`\${rule.id}:\${context.userId}\`);
-          if (hash &gt; rule.percentage) continue;
+          if (hash > rule.percentage) continue;
         }
         return rule.variation;
       }
@@ -30033,13 +30033,13 @@ class FeatureFlagSDK {
   }
 
   private matchesConditions(conditions: Condition[], context: UserContext): boolean {
-    return conditions.every(condition =&gt; {
+    return conditions.every(condition => {
       const value = context.attributes[condition.attribute];
       switch (condition.operator) {
         case 'eq': return value === condition.value;
         case 'neq': return value !== condition.value;
-        case 'gt': return (value as number) &gt; (condition.value as number);
-        case 'lt': return (value as number) &lt; (condition.value as number);
+        case 'gt': return (value as number) > (condition.value as number);
+        case 'lt': return (value as number) < (condition.value as number);
         case 'contains': return String(value).includes(String(condition.value));
         case 'in': return (condition.value as unknown[]).includes(value);
         case 'regex': return new RegExp(condition.value as string).test(String(value));
@@ -30057,7 +30057,7 @@ class FeatureFlagSDK {
     let cumulative = 0;
     for (const variant of variants) {
       cumulative += variant.weight;
-      if (hash &lt; cumulative) return variant;
+      if (hash < cumulative) return variant;
     }
     return variants[variants.length - 1];
   }
@@ -30075,7 +30075,7 @@ class FeatureFlagSDK {
     });
   }
 
-  private async flushExposures(): Promise&lt;void&gt; {
+  private async flushExposures(): Promise<void> {
     if (this.exposureQueue.length === 0) return;
 
     const events = [...this.exposureQueue];
@@ -30100,10 +30100,10 @@ class FeatureFlagSDK {
   }
 }
 
-export const featureFlags = new FeatureFlagSDK();&lt;/code&gt;&lt;/pre&gt;
+export const featureFlags = new FeatureFlagSDK();</code></pre>
 
-            &lt;h5&gt;Entity Relationships&lt;/h5&gt;
-            &lt;pre&gt;&lt;code&gt;┌─────────────────────────────────────────────────────────────────┐
+            <h5>Entity Relationships</h5>
+            <pre><code>┌─────────────────────────────────────────────────────────────────┐
 │                FEATURE FLAG ENTITY MODEL                         │
 └─────────────────────────────────────────────────────────────────┘
 
@@ -30149,23 +30149,23 @@ UserContext.userId ──▶ MurmurHash3(userId + flagKey)
                       Compare to rule percentages
                               │
                               ▼
-                      Assign variant (deterministic)&lt;/code&gt;&lt;/pre&gt;
+                      Assign variant (deterministic)</code></pre>
 
-            &lt;h5&gt;Storage Strategy&lt;/h5&gt;
-            &lt;table&gt;
-                &lt;tr&gt;&lt;th&gt;Data Type&lt;/th&gt;&lt;th&gt;Storage&lt;/th&gt;&lt;th&gt;Rationale&lt;/th&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Flag Definitions&lt;/td&gt;&lt;td&gt;MMKV (persistent cache)&lt;/td&gt;&lt;td&gt;Instant startup, offline support&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Experiment Configs&lt;/td&gt;&lt;td&gt;MMKV (persistent cache)&lt;/td&gt;&lt;td&gt;Consistent with flags, same access pattern&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;User Assignments&lt;/td&gt;&lt;td&gt;MMKV (persistent)&lt;/td&gt;&lt;td&gt;Sticky assignments across sessions&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Active State&lt;/td&gt;&lt;td&gt;Zustand (in-memory)&lt;/td&gt;&lt;td&gt;Reactive updates, fast access&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Exposure Queue&lt;/td&gt;&lt;td&gt;In-memory array + flush&lt;/td&gt;&lt;td&gt;Batch for efficiency, acceptable to lose on crash&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;User Context&lt;/td&gt;&lt;td&gt;Zustand (in-memory)&lt;/td&gt;&lt;td&gt;Changes on login/logout, no persistence needed&lt;/td&gt;&lt;/tr&gt;
-            &lt;/table&gt;
+            <h5>Storage Strategy</h5>
+            <table>
+                <tr><th>Data Type</th><th>Storage</th><th>Rationale</th></tr>
+                <tr><td>Flag Definitions</td><td>MMKV (persistent cache)</td><td>Instant startup, offline support</td></tr>
+                <tr><td>Experiment Configs</td><td>MMKV (persistent cache)</td><td>Consistent with flags, same access pattern</td></tr>
+                <tr><td>User Assignments</td><td>MMKV (persistent)</td><td>Sticky assignments across sessions</td></tr>
+                <tr><td>Active State</td><td>Zustand (in-memory)</td><td>Reactive updates, fast access</td></tr>
+                <tr><td>Exposure Queue</td><td>In-memory array + flush</td><td>Batch for efficiency, acceptable to lose on crash</td></tr>
+                <tr><td>User Context</td><td>Zustand (in-memory)</td><td>Changes on login/logout, no persistence needed</td></tr>
+            </table>
 
-            &lt;h4&gt;I - Interface Definition (API)&lt;/h4&gt;
+            <h4>I - Interface Definition (API)</h4>
 
-            &lt;h5&gt;React Hooks Interface&lt;/h5&gt;
-            &lt;pre&gt;&lt;code&gt;// React hooks for feature flags and experiments
+            <h5>React Hooks Interface</h5>
+            <pre><code>// React hooks for feature flags and experiments
 import { useEffect, useMemo, useRef } from 'react';
 import { useSyncExternalStore } from 'react';
 
@@ -30174,15 +30174,15 @@ export function useFeatureFlag(flagKey: string, defaultValue = false): boolean {
   const trackedRef = useRef(false);
 
   const value = useSyncExternalStore(
-    (callback) =&gt; useFlagStore.subscribe(
-      (state) =&gt; state.flags.get(flagKey),
+    (callback) => useFlagStore.subscribe(
+      (state) => state.flags.get(flagKey),
       callback
     ),
-    () =&gt; featureFlags.isEnabled(flagKey, defaultValue),
-    () =&gt; defaultValue // Server snapshot for SSR
+    () => featureFlags.isEnabled(flagKey, defaultValue),
+    () => defaultValue // Server snapshot for SSR
   );
 
-  useEffect(() =&gt; {
+  useEffect(() => {
     if (!trackedRef.current) {
       trackedRef.current = true;
       // Track flag exposure once per component mount
@@ -30197,19 +30197,19 @@ export function useFeatureFlag(flagKey: string, defaultValue = false): boolean {
 }
 
 // Hook for multivariate flags
-export function useVariant&lt;T&gt;(flagKey: string, defaultValue: T): T {
+export function useVariant<T>(flagKey: string, defaultValue: T): T {
   const trackedRef = useRef(false);
 
   const value = useSyncExternalStore(
-    (callback) =&gt; useFlagStore.subscribe(
-      (state) =&gt; state.flags.get(flagKey),
+    (callback) => useFlagStore.subscribe(
+      (state) => state.flags.get(flagKey),
       callback
     ),
-    () =&gt; featureFlags.getVariant(flagKey, defaultValue),
-    () =&gt; defaultValue
+    () => featureFlags.getVariant(flagKey, defaultValue),
+    () => defaultValue
   );
 
-  useEffect(() =&gt; {
+  useEffect(() => {
     if (!trackedRef.current) {
       trackedRef.current = true;
       analytics.track('variant_exposure', { flag_key: flagKey, variant: value });
@@ -30227,15 +30227,15 @@ export function useExperiment(experimentKey: string): {
   const trackedRef = useRef(false);
 
   const variant = useSyncExternalStore(
-    (callback) =&gt; useFlagStore.subscribe(
-      (state) =&gt; state.experiments.get(experimentKey),
+    (callback) => useFlagStore.subscribe(
+      (state) => state.experiments.get(experimentKey),
       callback
     ),
-    () =&gt; featureFlags.getExperimentVariant(experimentKey),
-    () =&gt; null
+    () => featureFlags.getExperimentVariant(experimentKey),
+    () => null
   );
 
-  useEffect(() =&gt; {
+  useEffect(() => {
     if (!trackedRef.current &amp;&amp; variant) {
       trackedRef.current = true;
       analytics.track('experiment_exposure', {
@@ -30252,19 +30252,19 @@ export function useExperiment(experimentKey: string): {
 }
 
 // Higher-order component for feature gating
-export function withFeatureFlag&lt;P extends object&gt;(
-  WrappedComponent: React.ComponentType&lt;P&gt;,
+export function withFeatureFlag<P extends object>(
+  WrappedComponent: React.ComponentType<P>,
   flagKey: string,
-  FallbackComponent?: React.ComponentType&lt;P&gt;
-): React.FC&lt;P&gt; {
+  FallbackComponent?: React.ComponentType<P>
+): React.FC<P> {
   return function FeatureGatedComponent(props: P) {
     const isEnabled = useFeatureFlag(flagKey);
 
     if (!isEnabled) {
-      return FallbackComponent ? &lt;FallbackComponent {...props} /&gt; : null;
+      return FallbackComponent ? <FallbackComponent {...props} /> : null;
     }
 
-    return &lt;WrappedComponent {...props} /&gt;;
+    return <WrappedComponent {...props} />;
   };
 }
 
@@ -30275,25 +30275,25 @@ function CheckoutScreen() {
   const checkoutTheme = useVariant('checkout_theme', 'default');
 
   if (!showNewCheckout) {
-    return &lt;LegacyCheckout /&gt;;
+    return <LegacyCheckout />;
   }
 
   if (isInExperiment) {
     switch (variant) {
       case 'single_page':
-        return &lt;SinglePageCheckout theme={checkoutTheme} /&gt;;
+        return <SinglePageCheckout theme={checkoutTheme} />;
       case 'multi_step':
-        return &lt;MultiStepCheckout theme={checkoutTheme} /&gt;;
+        return <MultiStepCheckout theme={checkoutTheme} />;
       default:
-        return &lt;DefaultCheckout theme={checkoutTheme} /&gt;;
+        return <DefaultCheckout theme={checkoutTheme} />;
     }
   }
 
-  return &lt;DefaultCheckout theme={checkoutTheme} /&gt;;
-}&lt;/code&gt;&lt;/pre&gt;
+  return <DefaultCheckout theme={checkoutTheme} />;
+}</code></pre>
 
-            &lt;h5&gt;Targeting Rule Examples&lt;/h5&gt;
-            &lt;pre&gt;&lt;code&gt;// Flag configuration examples
+            <h5>Targeting Rule Examples</h5>
+            <pre><code>// Flag configuration examples
 
 // 1. Gradual percentage rollout
 const gradualRollout: FeatureFlag = {
@@ -30382,7 +30382,7 @@ class KillSwitch {
     this.sdk = sdk;
   }
 
-  async disable(flagKey: string, reason: string): Promise&lt;void&gt; {
+  async disable(flagKey: string, reason: string): Promise<void> {
     await fetch(\`\${API_URL}/flags/\${flagKey}/kill\`, {
       method: 'POST',
       headers: {
@@ -30399,131 +30399,131 @@ class KillSwitch {
     // Force refresh all clients
     await this.sdk.forceRefresh();
   }
-}&lt;/code&gt;&lt;/pre&gt;
+}</code></pre>
 
-            &lt;h4&gt;O - Optimizations and Deep Dive&lt;/h4&gt;
+            <h4>O - Optimizations and Deep Dive</h4>
 
-            &lt;h5&gt;Performance Optimizations&lt;/h5&gt;
-            &lt;ul&gt;
-                &lt;li&gt;&lt;strong&gt;Cache-first architecture:&lt;/strong&gt;
-                    &lt;ul&gt;
-                        &lt;li&gt;Problem: Network fetch blocks app startup&lt;/li&gt;
-                        &lt;li&gt;Solution: Load cached flags from MMKV synchronously, fetch fresh in background&lt;/li&gt;
-                        &lt;li&gt;Impact: Zero startup delay, flags available on first render&lt;/li&gt;
-                    &lt;/ul&gt;
-                &lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Client-side evaluation:&lt;/strong&gt;
-                    &lt;ul&gt;
-                        &lt;li&gt;Problem: Server-side evaluation adds network latency per flag check&lt;/li&gt;
-                        &lt;li&gt;Solution: Download rules once, evaluate locally using murmurhash&lt;/li&gt;
-                        &lt;li&gt;Impact: Sub-millisecond flag checks, works offline&lt;/li&gt;
-                    &lt;/ul&gt;
-                &lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Exposure batching:&lt;/strong&gt;
-                    &lt;ul&gt;
-                        &lt;li&gt;Problem: Tracking every flag check floods analytics&lt;/li&gt;
-                        &lt;li&gt;Solution: Queue exposures, flush every 10s or on app background&lt;/li&gt;
-                        &lt;li&gt;Impact: 90% reduction in analytics API calls&lt;/li&gt;
-                    &lt;/ul&gt;
-                &lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;SSE streaming with reconnection:&lt;/strong&gt;
-                    &lt;ul&gt;
-                        &lt;li&gt;Problem: Polling is inefficient, WebSocket is heavyweight&lt;/li&gt;
-                        &lt;li&gt;Solution: SSE (EventSource) with exponential backoff reconnection&lt;/li&gt;
-                        &lt;li&gt;Impact: Real-time updates with minimal battery/network impact&lt;/li&gt;
-                    &lt;/ul&gt;
-                &lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Selector-based subscriptions:&lt;/strong&gt;
-                    &lt;ul&gt;
-                        &lt;li&gt;Problem: All components re-render when any flag changes&lt;/li&gt;
-                        &lt;li&gt;Solution: Zustand with subscribeWithSelector, useSyncExternalStore per flag&lt;/li&gt;
-                        &lt;li&gt;Impact: Only components using changed flag re-render&lt;/li&gt;
-                    &lt;/ul&gt;
-                &lt;/li&gt;
-            &lt;/ul&gt;
+            <h5>Performance Optimizations</h5>
+            <ul>
+                <li><strong>Cache-first architecture:</strong>
+                    <ul>
+                        <li>Problem: Network fetch blocks app startup</li>
+                        <li>Solution: Load cached flags from MMKV synchronously, fetch fresh in background</li>
+                        <li>Impact: Zero startup delay, flags available on first render</li>
+                    </ul>
+                </li>
+                <li><strong>Client-side evaluation:</strong>
+                    <ul>
+                        <li>Problem: Server-side evaluation adds network latency per flag check</li>
+                        <li>Solution: Download rules once, evaluate locally using murmurhash</li>
+                        <li>Impact: Sub-millisecond flag checks, works offline</li>
+                    </ul>
+                </li>
+                <li><strong>Exposure batching:</strong>
+                    <ul>
+                        <li>Problem: Tracking every flag check floods analytics</li>
+                        <li>Solution: Queue exposures, flush every 10s or on app background</li>
+                        <li>Impact: 90% reduction in analytics API calls</li>
+                    </ul>
+                </li>
+                <li><strong>SSE streaming with reconnection:</strong>
+                    <ul>
+                        <li>Problem: Polling is inefficient, WebSocket is heavyweight</li>
+                        <li>Solution: SSE (EventSource) with exponential backoff reconnection</li>
+                        <li>Impact: Real-time updates with minimal battery/network impact</li>
+                    </ul>
+                </li>
+                <li><strong>Selector-based subscriptions:</strong>
+                    <ul>
+                        <li>Problem: All components re-render when any flag changes</li>
+                        <li>Solution: Zustand with subscribeWithSelector, useSyncExternalStore per flag</li>
+                        <li>Impact: Only components using changed flag re-render</li>
+                    </ul>
+                </li>
+            </ul>
 
-            &lt;h5&gt;Platform-Specific Considerations&lt;/h5&gt;
-            &lt;table&gt;
-                &lt;tr&gt;&lt;th&gt;Aspect&lt;/th&gt;&lt;th&gt;iOS&lt;/th&gt;&lt;th&gt;Android&lt;/th&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Background refresh&lt;/td&gt;&lt;td&gt;BGAppRefreshTask (limited)&lt;/td&gt;&lt;td&gt;WorkManager (more flexible)&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;SSE connection&lt;/td&gt;&lt;td&gt;URLSession background config&lt;/td&gt;&lt;td&gt;Foreground service for long-lived&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Device ID&lt;/td&gt;&lt;td&gt;identifierForVendor (resets on uninstall)&lt;/td&gt;&lt;td&gt;Android ID (persistent)&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Cache location&lt;/td&gt;&lt;td&gt;Documents directory (backed up)&lt;/td&gt;&lt;td&gt;Internal storage (app-private)&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;App state detection&lt;/td&gt;&lt;td&gt;UIApplication.shared.applicationState&lt;/td&gt;&lt;td&gt;ProcessLifecycleOwner&lt;/td&gt;&lt;/tr&gt;
-            &lt;/table&gt;
+            <h5>Platform-Specific Considerations</h5>
+            <table>
+                <tr><th>Aspect</th><th>iOS</th><th>Android</th></tr>
+                <tr><td>Background refresh</td><td>BGAppRefreshTask (limited)</td><td>WorkManager (more flexible)</td></tr>
+                <tr><td>SSE connection</td><td>URLSession background config</td><td>Foreground service for long-lived</td></tr>
+                <tr><td>Device ID</td><td>identifierForVendor (resets on uninstall)</td><td>Android ID (persistent)</td></tr>
+                <tr><td>Cache location</td><td>Documents directory (backed up)</td><td>Internal storage (app-private)</td></tr>
+                <tr><td>App state detection</td><td>UIApplication.shared.applicationState</td><td>ProcessLifecycleOwner</td></tr>
+            </table>
 
-            &lt;h5&gt;Edge Cases and Error Handling&lt;/h5&gt;
-            &lt;ol&gt;
-                &lt;li&gt;&lt;strong&gt;First-time users:&lt;/strong&gt; No cached flags on first launch. Solution: Bootstrap config bundled in app, updated on first fetch. Use conservative defaults.&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Stale assignments:&lt;/strong&gt; User assigned to variant then experiment ends. Solution: Check experiment status before returning variant, fallback to default gracefully.&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Multiple exposures:&lt;/strong&gt; Same user sees flag multiple times per session. Solution: Track per-mount with useRef, dedupe in exposure queue by flagKey+session.&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Anonymous to authenticated:&lt;/strong&gt; User signs up mid-session. Solution: Use deviceId for initial bucketing, persist assignment when userId becomes available.&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Flag cleanup debt:&lt;/strong&gt; Old flags accumulate in codebase. Solution: Add flag expiration dates, lint rules for stale flags, periodic cleanup sprints.&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Streaming disconnection:&lt;/strong&gt; SSE drops in poor network. Solution: Exponential backoff reconnection (1s, 2s, 4s...), max 30s, with jitter.&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Conflicting rules:&lt;/strong&gt; Multiple rules match same user. Solution: Rules evaluated in order, first match wins. Document rule priority in admin UI.&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Cross-platform consistency:&lt;/strong&gt; Same user gets different variant on web vs mobile. Solution: Use same bucketing algorithm (murmurhash3) and seed across all platforms.&lt;/li&gt;
-            &lt;/ol&gt;
+            <h5>Edge Cases and Error Handling</h5>
+            <ol>
+                <li><strong>First-time users:</strong> No cached flags on first launch. Solution: Bootstrap config bundled in app, updated on first fetch. Use conservative defaults.</li>
+                <li><strong>Stale assignments:</strong> User assigned to variant then experiment ends. Solution: Check experiment status before returning variant, fallback to default gracefully.</li>
+                <li><strong>Multiple exposures:</strong> Same user sees flag multiple times per session. Solution: Track per-mount with useRef, dedupe in exposure queue by flagKey+session.</li>
+                <li><strong>Anonymous to authenticated:</strong> User signs up mid-session. Solution: Use deviceId for initial bucketing, persist assignment when userId becomes available.</li>
+                <li><strong>Flag cleanup debt:</strong> Old flags accumulate in codebase. Solution: Add flag expiration dates, lint rules for stale flags, periodic cleanup sprints.</li>
+                <li><strong>Streaming disconnection:</strong> SSE drops in poor network. Solution: Exponential backoff reconnection (1s, 2s, 4s...), max 30s, with jitter.</li>
+                <li><strong>Conflicting rules:</strong> Multiple rules match same user. Solution: Rules evaluated in order, first match wins. Document rule priority in admin UI.</li>
+                <li><strong>Cross-platform consistency:</strong> Same user gets different variant on web vs mobile. Solution: Use same bucketing algorithm (murmurhash3) and seed across all platforms.</li>
+            </ol>
 
-            &lt;h5&gt;Trade-offs and Alternatives&lt;/h5&gt;
-            &lt;table&gt;
-                &lt;tr&gt;&lt;th&gt;Decision&lt;/th&gt;&lt;th&gt;Chosen&lt;/th&gt;&lt;th&gt;Alternative&lt;/th&gt;&lt;th&gt;Why Chosen&lt;/th&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Evaluation location&lt;/td&gt;&lt;td&gt;Client-side&lt;/td&gt;&lt;td&gt;Server-side&lt;/td&gt;&lt;td&gt;Speed, offline support, reduced backend load&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Update mechanism&lt;/td&gt;&lt;td&gt;SSE streaming&lt;/td&gt;&lt;td&gt;Polling / WebSocket&lt;/td&gt;&lt;td&gt;Lightweight, auto-reconnect, sufficient for one-way updates&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Bucketing algorithm&lt;/td&gt;&lt;td&gt;MurmurHash3&lt;/td&gt;&lt;td&gt;MD5 / SHA1&lt;/td&gt;&lt;td&gt;Faster, uniform distribution, 32-bit sufficient&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Build vs Buy&lt;/td&gt;&lt;td&gt;Custom SDK&lt;/td&gt;&lt;td&gt;LaunchDarkly / Statsig&lt;/td&gt;&lt;td&gt;Full control, no vendor lock-in, cost savings at scale&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Cache storage&lt;/td&gt;&lt;td&gt;MMKV&lt;/td&gt;&lt;td&gt;AsyncStorage&lt;/td&gt;&lt;td&gt;Synchronous reads critical for startup&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Exposure tracking&lt;/td&gt;&lt;td&gt;Batched queue&lt;/td&gt;&lt;td&gt;Immediate send&lt;/td&gt;&lt;td&gt;Network efficiency, acceptable latency for analytics&lt;/td&gt;&lt;/tr&gt;
-            &lt;/table&gt;
+            <h5>Trade-offs and Alternatives</h5>
+            <table>
+                <tr><th>Decision</th><th>Chosen</th><th>Alternative</th><th>Why Chosen</th></tr>
+                <tr><td>Evaluation location</td><td>Client-side</td><td>Server-side</td><td>Speed, offline support, reduced backend load</td></tr>
+                <tr><td>Update mechanism</td><td>SSE streaming</td><td>Polling / WebSocket</td><td>Lightweight, auto-reconnect, sufficient for one-way updates</td></tr>
+                <tr><td>Bucketing algorithm</td><td>MurmurHash3</td><td>MD5 / SHA1</td><td>Faster, uniform distribution, 32-bit sufficient</td></tr>
+                <tr><td>Build vs Buy</td><td>Custom SDK</td><td>LaunchDarkly / Statsig</td><td>Full control, no vendor lock-in, cost savings at scale</td></tr>
+                <tr><td>Cache storage</td><td>MMKV</td><td>AsyncStorage</td><td>Synchronous reads critical for startup</td></tr>
+                <tr><td>Exposure tracking</td><td>Batched queue</td><td>Immediate send</td><td>Network efficiency, acceptable latency for analytics</td></tr>
+            </table>
 
-            &lt;h5&gt;Testing Strategy&lt;/h5&gt;
-            &lt;ul&gt;
-                &lt;li&gt;&lt;strong&gt;Unit Tests:&lt;/strong&gt;
-                    &lt;ul&gt;
-                        &lt;li&gt;MurmurHash bucketing produces uniform distribution&lt;/li&gt;
-                        &lt;li&gt;Rule evaluation matches expected outcomes&lt;/li&gt;
-                        &lt;li&gt;Condition operators (eq, contains, in, regex) work correctly&lt;/li&gt;
-                        &lt;li&gt;Percentage rollout boundaries are correct (0-24 = 25%)&lt;/li&gt;
-                    &lt;/ul&gt;
-                &lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Integration Tests:&lt;/strong&gt;
-                    &lt;ul&gt;
-                        &lt;li&gt;Cache persistence survives app restart&lt;/li&gt;
-                        &lt;li&gt;SSE updates propagate to store and UI&lt;/li&gt;
-                        &lt;li&gt;Exposure events are batched and sent correctly&lt;/li&gt;
-                        &lt;li&gt;Offline mode uses cached values&lt;/li&gt;
-                    &lt;/ul&gt;
-                &lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;E2E Tests:&lt;/strong&gt;
-                    &lt;ul&gt;
-                        &lt;li&gt;Flag change in admin UI reflects in app within 5s&lt;/li&gt;
-                        &lt;li&gt;Same user always gets same variant across sessions&lt;/li&gt;
-                        &lt;li&gt;Kill switch disables feature immediately&lt;/li&gt;
-                        &lt;li&gt;Analytics receives correct exposure events&lt;/li&gt;
-                    &lt;/ul&gt;
-                &lt;/li&gt;
-            &lt;/ul&gt;
+            <h5>Testing Strategy</h5>
+            <ul>
+                <li><strong>Unit Tests:</strong>
+                    <ul>
+                        <li>MurmurHash bucketing produces uniform distribution</li>
+                        <li>Rule evaluation matches expected outcomes</li>
+                        <li>Condition operators (eq, contains, in, regex) work correctly</li>
+                        <li>Percentage rollout boundaries are correct (0-24 = 25%)</li>
+                    </ul>
+                </li>
+                <li><strong>Integration Tests:</strong>
+                    <ul>
+                        <li>Cache persistence survives app restart</li>
+                        <li>SSE updates propagate to store and UI</li>
+                        <li>Exposure events are batched and sent correctly</li>
+                        <li>Offline mode uses cached values</li>
+                    </ul>
+                </li>
+                <li><strong>E2E Tests:</strong>
+                    <ul>
+                        <li>Flag change in admin UI reflects in app within 5s</li>
+                        <li>Same user always gets same variant across sessions</li>
+                        <li>Kill switch disables feature immediately</li>
+                        <li>Analytics receives correct exposure events</li>
+                    </ul>
+                </li>
+            </ul>
 
-            &lt;h5&gt;Interview Discussion Points&lt;/h5&gt;
-            &lt;ul&gt;
-                &lt;li&gt;&lt;strong&gt;Q: How do you ensure consistent bucketing?&lt;/strong&gt;&lt;br/&gt;A: Use deterministic hashing (MurmurHash3) with userId + flagKey as input. Hash output mod 100 gives bucket 0-99. Same input always produces same bucket. Critical: use same algorithm across all platforms (web, iOS, Android).&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Q: Server-side vs client-side evaluation trade-offs?&lt;/strong&gt;&lt;br/&gt;A: Client-side: sub-ms latency, works offline, but rules are visible in app bundle. Server-side: rules are secret, but adds network latency and requires connectivity. Hybrid: download rules, evaluate locally, best of both.&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Q: How do you handle statistical significance?&lt;/strong&gt;&lt;br/&gt;A: Use experiment platforms (Statsig, Amplitude) with built-in significance testing. Minimum sample size calculation before experiment. Avoid peeking at results early. Consider sequential testing for early stopping.&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Q: How do you prevent flag debt?&lt;/strong&gt;&lt;br/&gt;A: Add expiration dates to flags. Lint rules that warn on flags past expiration. Quarterly cleanup sprints. Dashboard showing flag age and usage. Auto-archive flags at 100% rollout after grace period.&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Q: What are guardrail metrics?&lt;/strong&gt;&lt;br/&gt;A: Metrics you monitor to ensure experiment doesn't cause unintended harm even if primary metric improves. Examples: crash rate, latency, customer support tickets. Auto-disable experiment if guardrails breach thresholds.&lt;/li&gt;
-            &lt;/ul&gt;
+            <h5>Interview Discussion Points</h5>
+            <ul>
+                <li><strong>Q: How do you ensure consistent bucketing?</strong><br/>A: Use deterministic hashing (MurmurHash3) with userId + flagKey as input. Hash output mod 100 gives bucket 0-99. Same input always produces same bucket. Critical: use same algorithm across all platforms (web, iOS, Android).</li>
+                <li><strong>Q: Server-side vs client-side evaluation trade-offs?</strong><br/>A: Client-side: sub-ms latency, works offline, but rules are visible in app bundle. Server-side: rules are secret, but adds network latency and requires connectivity. Hybrid: download rules, evaluate locally, best of both.</li>
+                <li><strong>Q: How do you handle statistical significance?</strong><br/>A: Use experiment platforms (Statsig, Amplitude) with built-in significance testing. Minimum sample size calculation before experiment. Avoid peeking at results early. Consider sequential testing for early stopping.</li>
+                <li><strong>Q: How do you prevent flag debt?</strong><br/>A: Add expiration dates to flags. Lint rules that warn on flags past expiration. Quarterly cleanup sprints. Dashboard showing flag age and usage. Auto-archive flags at 100% rollout after grace period.</li>
+                <li><strong>Q: What are guardrail metrics?</strong><br/>A: Metrics you monitor to ensure experiment doesn't cause unintended harm even if primary metric improves. Examples: crash rate, latency, customer support tickets. Auto-disable experiment if guardrails breach thresholds.</li>
+            </ul>
 
-            &lt;h5&gt;Library Recommendations&lt;/h5&gt;
-            &lt;table&gt;
-                &lt;tr&gt;&lt;th&gt;Concern&lt;/th&gt;&lt;th&gt;Library&lt;/th&gt;&lt;th&gt;Rationale&lt;/th&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Feature Flags (SaaS)&lt;/td&gt;&lt;td&gt;LaunchDarkly&lt;/td&gt;&lt;td&gt;Enterprise-grade, streaming updates, robust SDKs&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Experimentation (SaaS)&lt;/td&gt;&lt;td&gt;Statsig / Amplitude Experiment&lt;/td&gt;&lt;td&gt;Built-in statistical analysis, experiment lifecycle&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Firebase (Free tier)&lt;/td&gt;&lt;td&gt;Firebase Remote Config&lt;/td&gt;&lt;td&gt;Free, good React Native SDK, A/B testing support&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Self-hosted&lt;/td&gt;&lt;td&gt;Unleash / Flagsmith / GrowthBook&lt;/td&gt;&lt;td&gt;Open-source, full control, on-premise deployment&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Caching&lt;/td&gt;&lt;td&gt;react-native-mmkv&lt;/td&gt;&lt;td&gt;Synchronous reads, instant flag access on startup&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Hashing&lt;/td&gt;&lt;td&gt;murmurhash&lt;/td&gt;&lt;td&gt;Fast, consistent bucketing for percentage rollouts&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;State Management&lt;/td&gt;&lt;td&gt;zustand&lt;/td&gt;&lt;td&gt;Lightweight, selector subscriptions, React 18 ready&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;SSE Client&lt;/td&gt;&lt;td&gt;react-native-sse&lt;/td&gt;&lt;td&gt;Native EventSource implementation for RN&lt;/td&gt;&lt;/tr&gt;
-            &lt;/table&gt;
+            <h5>Library Recommendations</h5>
+            <table>
+                <tr><th>Concern</th><th>Library</th><th>Rationale</th></tr>
+                <tr><td>Feature Flags (SaaS)</td><td>LaunchDarkly</td><td>Enterprise-grade, streaming updates, robust SDKs</td></tr>
+                <tr><td>Experimentation (SaaS)</td><td>Statsig / Amplitude Experiment</td><td>Built-in statistical analysis, experiment lifecycle</td></tr>
+                <tr><td>Firebase (Free tier)</td><td>Firebase Remote Config</td><td>Free, good React Native SDK, A/B testing support</td></tr>
+                <tr><td>Self-hosted</td><td>Unleash / Flagsmith / GrowthBook</td><td>Open-source, full control, on-premise deployment</td></tr>
+                <tr><td>Caching</td><td>react-native-mmkv</td><td>Synchronous reads, instant flag access on startup</td></tr>
+                <tr><td>Hashing</td><td>murmurhash</td><td>Fast, consistent bucketing for percentage rollouts</td></tr>
+                <tr><td>State Management</td><td>zustand</td><td>Lightweight, selector subscriptions, React 18 ready</td></tr>
+                <tr><td>SSE Client</td><td>react-native-sse</td><td>Native EventSource implementation for RN</td></tr>
+            </table>
         `}],of=[{id:25,category:"Testing",icon:"🧪",question:"Explain the testing pyramid for React Native apps. What tools would you use at each level?",difficulty:"intermediate",seniority:"mid",answer:`
             <h4>Testing Pyramid</h4>
             <pre><code>        /\\
@@ -31547,4 +31547,4 @@ function handleDeepLink(event: DeepLinkEvent) {
                 <li>Type guards return <code>value is Type</code> for narrowing</li>
                 <li>Assertion functions use <code>asserts value is Type</code></li>
             </ul>
-        `}],Mi=[...Bh,...Fh,..._h,...Hh,...qh,...jh,...Vh,...zh,...Kh,...Wh,...Gh,...Qh,...Yh,...Jh,...Xh,...Zh,...$h,...ef,...tf,...rf,...nf,...af,...of,...sf],Kp=N.createContext(),Bp="rn-interview-completed",Fp="rn-interview-bookmarks",_p="rn-interview-skipped",Wp="rn-interview-filters",Hp="rn-interview-comments",qp="rn-interview-hidden-topics",Gp=[...new Set(Mi.map(u=>u.category))],Qp=["beginner","intermediate","advanced"],Yp=["junior","mid","senior","staff"],kl={search:"",categories:[],difficulties:[],seniorities:[],status:"all",sortBy:"category"},lf=()=>{try{const u=localStorage.getItem(Wp);if(u){const A=JSON.parse(u);return{...kl,...A}}}catch{}return kl};function cf({children:u}){const[A,M]=N.useState(()=>{try{const b=localStorage.getItem(Bp);return b?new Set(JSON.parse(b)):new Set}catch{return new Set}}),[d,D]=N.useState(()=>{try{const b=localStorage.getItem(Fp);return b?new Set(JSON.parse(b)):new Set}catch{return new Set}}),[L,G]=N.useState(()=>{try{const b=localStorage.getItem(_p);return b?new Set(JSON.parse(b)):new Set}catch{return new Set}}),[R,E]=N.useState(lf),[w,q]=N.useState(null),[O,B]=N.useState(!0),[W,le]=N.useState(!1),[ee,F]=N.useState(!1),[te,je]=N.useState(()=>{try{const b=localStorage.getItem(Hp);return b?JSON.parse(b):{}}catch{return{}}}),[Ae,de]=N.useState(()=>{try{const b=localStorage.getItem(qp);return b?new Set(JSON.parse(b)):new Set}catch{return new Set}});N.useEffect(()=>{localStorage.setItem(Bp,JSON.stringify([...A]))},[A]),N.useEffect(()=>{localStorage.setItem(Fp,JSON.stringify([...d]))},[d]),N.useEffect(()=>{localStorage.setItem(_p,JSON.stringify([...L]))},[L]),N.useEffect(()=>{localStorage.setItem(Wp,JSON.stringify(R))},[R]),N.useEffect(()=>{localStorage.setItem(Hp,JSON.stringify(te))},[te]),N.useEffect(()=>{localStorage.setItem(qp,JSON.stringify([...Ae]))},[Ae]);const ue=N.useCallback((b,I,K)=>{const oe={id:Date.now().toString(),selectedText:I,comment:K,createdAt:new Date().toISOString()};je(Pt=>({...Pt,[b]:[...Pt[b]||[],oe]}))},[]),he=N.useCallback((b,I)=>{je(K=>({...K,[b]:(K[b]||[]).filter(oe=>oe.id!==I)}))},[]),Y=N.useCallback(b=>te[b]||[],[te]),Ie=N.useCallback(b=>{D(I=>{const K=new Set(I);return K.has(b)?K.delete(b):K.add(b),K})},[]),Ve=N.useCallback(b=>{G(I=>{const K=new Set(I);return K.has(b)?K.delete(b):K.add(b),K})},[]),ft=N.useCallback(b=>{de(I=>{const K=new Set(I);return K.has(b)?K.delete(b):K.add(b),K})},[]),Je=N.useCallback(()=>{de(new Set)},[]),Ue=N.useCallback(b=>{M(I=>{const K=new Set(I);return K.has(b)?K.delete(b):K.add(b),K})},[]),Bt=N.useCallback(()=>{M(new Set)},[]),Rt=N.useCallback((b,I)=>{E(K=>({...K,[b]:I}))},[]),at=N.useCallback((b,I)=>{E(K=>{const oe=K[b],Pt=oe.includes(I)?oe.filter(Yi=>Yi!==I):[...oe,I];return{...K,[b]:Pt}})},[]),k=N.useCallback(()=>{E(kl)},[]),P=N.useMemo(()=>{let b=0;return R.search&&b++,b+=R.categories.length,b+=R.difficulties.length,b+=R.seniorities.length,R.status!=="all"&&b++,b},[R]),z=N.useMemo(()=>{let b=Mi;if(R.search){const I=R.search.toLowerCase();b=b.filter(K=>K.question.toLowerCase().includes(I)||K.category.toLowerCase().includes(I))}return R.categories.length>0&&(b=b.filter(I=>R.categories.includes(I.category))),R.difficulties.length>0&&(b=b.filter(I=>R.difficulties.includes(I.difficulty))),R.seniorities.length>0&&(b=b.filter(I=>R.seniorities.includes(I.seniority))),R.status==="completed"?b=b.filter(I=>A.has(I.id)):R.status==="pending"?b=b.filter(I=>!A.has(I.id)):R.status==="bookmarked"?b=b.filter(I=>d.has(I.id)):R.status==="skipped"&&(b=b.filter(I=>L.has(I.id))),b=[...b].sort((I,K)=>{switch(R.sortBy){case"difficulty":{const oe={beginner:0,intermediate:1,advanced:2};return oe[I.difficulty]-oe[K.difficulty]}case"seniority":{const oe={junior:0,mid:1,senior:2,staff:3};return oe[I.seniority]-oe[K.seniority]}case"alphabetical":return I.question.localeCompare(K.question);default:return I.category.localeCompare(K.category)}}),b},[R,A,d,L]),ce=N.useMemo(()=>{const b={};return z.forEach(I=>{b[I.category]||(b[I.category]={icon:I.icon,questions:[]}),b[I.category].questions.push(I)}),b},[z]),fe=N.useMemo(()=>{const b={};return Object.keys(ce).forEach(I=>{Ae.has(I)||(b[I]=ce[I])}),b},[ce,Ae]),g=N.useMemo(()=>({total:Mi.length,completed:A.size,filtered:z.length,percentage:Math.round(A.size/Mi.length*100)}),[A,z]),x=N.useMemo(()=>{const b={};return Mi.forEach(I=>{b[I.category]=(b[I.category]||0)+1}),b},[]),U=N.useMemo(()=>{const b={};return Mi.forEach(I=>{b[I.difficulty]=(b[I.difficulty]||0)+1}),b},[]),H=N.useMemo(()=>{const b={};return Mi.forEach(I=>{b[I.seniority]=(b[I.seniority]||0)+1}),b},[]),J={questionsData:Mi,filteredQuestions:z,groupedQuestions:ce,visibleGroupedQuestions:fe,stats:g,completedIds:A,toggleComplete:Ue,resetProgress:Bt,bookmarkedIds:d,toggleBookmark:Ie,skippedIds:L,toggleSkip:Ve,hiddenTopics:Ae,toggleHiddenTopic:ft,showAllTopics:Je,filters:R,updateFilter:Rt,toggleArrayFilter:at,clearFilters:k,activeFilterCount:P,categoryCounts:x,difficultyCounts:U,seniorityCounts:H,selectedQuestion:w,setSelectedQuestion:q,sidebarOpen:O,setSidebarOpen:B,quizModeOpen:W,setQuizModeOpen:le,analyticsOpen:ee,setAnalyticsOpen:F,comments:te,addComment:ue,deleteComment:he,getCommentsForQuestion:Y};return s.jsx(Kp.Provider,{value:J,children:u})}function It(){const u=N.useContext(Kp);if(!u)throw new Error("useApp must be used within AppProvider");return u}const df=u=>u.replace(/([a-z0-9])([A-Z])/g,"$1-$2").toLowerCase(),uf=u=>u.replace(/^([A-Z])|[\s-_]+(\w)/g,(A,M,d)=>d?d.toUpperCase():M.toLowerCase()),jp=u=>{const A=uf(u);return A.charAt(0).toUpperCase()+A.slice(1)},Jp=(...u)=>u.filter((A,M,d)=>!!A&&A.trim()!==""&&d.indexOf(A)===M).join(" ").trim(),pf=u=>{for(const A in u)if(A.startsWith("aria-")||A==="role"||A==="title")return!0};var gf={xmlns:"http://www.w3.org/2000/svg",width:24,height:24,viewBox:"0 0 24 24",fill:"none",stroke:"currentColor",strokeWidth:2,strokeLinecap:"round",strokeLinejoin:"round"};const mf=N.forwardRef(({color:u="currentColor",size:A=24,strokeWidth:M=2,absoluteStrokeWidth:d,className:D="",children:L,iconNode:G,...R},E)=>N.createElement("svg",{ref:E,...gf,width:A,height:A,stroke:u,strokeWidth:d?Number(M)*24/Number(A):M,className:Jp("lucide",D),...!L&&!pf(R)&&{"aria-hidden":"true"},...R},[...G.map(([w,q])=>N.createElement(w,q)),...Array.isArray(L)?L:[L]]));const xe=(u,A)=>{const M=N.forwardRef(({className:d,...D},L)=>N.createElement(mf,{ref:L,iconNode:A,className:Jp(`lucide-${df(jp(u))}`,`lucide-${u}`,d),...D}));return M.displayName=jp(u),M};const hf=[["path",{d:"m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526",key:"1yiouv"}],["circle",{cx:"12",cy:"8",r:"6",key:"1vp47v"}]],ff=xe("award",hf);const yf=[["path",{d:"M12 7v14",key:"1akyts"}],["path",{d:"M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z",key:"ruj8y"}]],vf=xe("book-open",yf);const bf=[["path",{d:"M3 3v16a2 2 0 0 0 2 2h16",key:"c24i48"}],["path",{d:"M18 17V9",key:"2bz60n"}],["path",{d:"M13 17V5",key:"1frdt8"}],["path",{d:"M8 17v-3",key:"17ska0"}]],Sf=xe("chart-column",bf);const kf=[["path",{d:"M20 6 9 17l-5-5",key:"1gmf2c"}]],Xp=xe("check",kf);const wf=[["path",{d:"m6 9 6 6 6-6",key:"qrunsl"}]],Al=xe("chevron-down",wf);const Af=[["path",{d:"m9 18 6-6-6-6",key:"mthhwq"}]],Cl=xe("chevron-right",Af);const Cf=[["path",{d:"m18 15-6-6-6 6",key:"153udz"}]],Tf=xe("chevron-up",Cf);const xf=[["circle",{cx:"12",cy:"12",r:"10",key:"1mglay"}],["path",{d:"m15 9-6 6",key:"1uzhvr"}],["path",{d:"m9 9 6 6",key:"z0biqf"}]],Zp=xe("circle-x",xf);const Rf=[["circle",{cx:"12",cy:"12",r:"10",key:"1mglay"}]],Ef=xe("circle",Rf);const Mf=[["path",{d:"M12 6v6l4 2",key:"mmk7yg"}],["circle",{cx:"12",cy:"12",r:"10",key:"1mglay"}]],Df=xe("clock",Mf);const If=[["path",{d:"M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49",key:"ct8e1f"}],["path",{d:"M14.084 14.158a3 3 0 0 1-4.242-4.242",key:"151rxh"}],["path",{d:"M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143",key:"13bj9a"}],["path",{d:"m2 2 20 20",key:"1ooewy"}]],Pf=xe("eye-off",If);const Nf=[["path",{d:"M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0",key:"1nclc0"}],["circle",{cx:"12",cy:"12",r:"3",key:"1v7zrd"}]],Tl=xe("eye",Nf);const Uf=[["path",{d:"M4 5h16",key:"1tepv9"}],["path",{d:"M4 12h16",key:"1lakjw"}],["path",{d:"M4 19h16",key:"1djgab"}]],Lf=xe("menu",Uf);const Of=[["path",{d:"M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z",key:"18887p"}],["path",{d:"M12 8v6",key:"1ib9pf"}],["path",{d:"M9 11h6",key:"1fldmi"}]],Bf=xe("message-square-plus",Of);const Ff=[["path",{d:"M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z",key:"18887p"}]],$p=xe("message-square",Ff);const _f=[["path",{d:"M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z",key:"10ikf1"}]],Hf=xe("play",_f);const qf=[["path",{d:"M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8",key:"1357e3"}],["path",{d:"M3 3v5h5",key:"1xhq8a"}]],eg=xe("rotate-ccw",qf);const jf=[["path",{d:"m21 21-4.34-4.34",key:"14j7rj"}],["circle",{cx:"11",cy:"11",r:"8",key:"4ej97u"}]],Vf=xe("search",jf);const zf=[["path",{d:"M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z",key:"1ffxy3"}],["path",{d:"m21.854 2.147-10.94 10.939",key:"12cjpa"}]],Kf=xe("send",zf);const Wf=[["path",{d:"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z",key:"r04s7s"}]],tg=xe("star",Wf);const Gf=[["circle",{cx:"12",cy:"12",r:"10",key:"1mglay"}],["circle",{cx:"12",cy:"12",r:"6",key:"1vlfrh"}],["circle",{cx:"12",cy:"12",r:"2",key:"1c9p78"}]],Qf=xe("target",Gf);const Yf=[["path",{d:"M10 11v6",key:"nco0om"}],["path",{d:"M14 11v6",key:"outv1u"}],["path",{d:"M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6",key:"miytrc"}],["path",{d:"M3 6h18",key:"d0wm0j"}],["path",{d:"M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2",key:"e791ji"}]],Jf=xe("trash-2",Yf);const Xf=[["path",{d:"M16 7h6v6",key:"box55l"}],["path",{d:"m22 7-8.5 8.5-5-5L2 17",key:"1t1m79"}]],Vp=xe("trending-up",Xf);const Zf=[["path",{d:"M10 14.66v1.626a2 2 0 0 1-.976 1.696A5 5 0 0 0 7 21.978",key:"1n3hpd"}],["path",{d:"M14 14.66v1.626a2 2 0 0 0 .976 1.696A5 5 0 0 1 17 21.978",key:"rfe1zi"}],["path",{d:"M18 9h1.5a1 1 0 0 0 0-5H18",key:"7xy6bh"}],["path",{d:"M4 22h16",key:"57wxv0"}],["path",{d:"M6 9a6 6 0 0 0 12 0V3a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1z",key:"1mhfuq"}],["path",{d:"M6 9H4.5a1 1 0 0 1 0-5H6",key:"tex48p"}]],zp=xe("trophy",Zf);const $f=[["path",{d:"M18 6 6 18",key:"1bl5f8"}],["path",{d:"m6 6 12 12",key:"d8bk6v"}]],ri=xe("x",$f);function ey(){const{stats:u,resetProgress:A,sidebarOpen:M,setSidebarOpen:d,setQuizModeOpen:D,setAnalyticsOpen:L}=It(),G=()=>{window.confirm("Are you sure you want to reset all progress? This cannot be undone.")&&A()};return s.jsx("header",{className:"bg-surface border-b border-border sticky top-0 z-40",children:s.jsx("div",{className:"px-4 py-4 lg:px-6",children:s.jsxs("div",{className:"flex items-center justify-between gap-4",children:[s.jsx("button",{onClick:()=>d(!M),className:"lg:hidden p-2 rounded-lg hover:bg-surface-elevated transition-colors",children:s.jsx(Lf,{className:"w-5 h-5"})}),s.jsxs("div",{className:"flex-1 min-w-0",children:[s.jsx("h1",{className:"text-xl lg:text-2xl font-bold text-text-primary truncate",children:"React Native Interview Prep"}),s.jsx("p",{className:"text-sm text-text-secondary hidden sm:block",children:"Master your next interview"})]}),s.jsxs("div",{className:"flex items-center gap-4",children:[s.jsxs("div",{className:"hidden sm:flex flex-col items-end gap-1",children:[s.jsxs("div",{className:"flex items-center gap-2 text-sm",children:[s.jsxs("span",{className:"text-text-secondary",children:[u.completed," / ",u.total," completed"]}),s.jsxs("span",{className:"text-primary font-semibold",children:[u.percentage,"%"]})]}),s.jsx("div",{className:"w-32 h-2 bg-border rounded-full overflow-hidden",children:s.jsx("div",{className:"h-full bg-gradient-to-r from-primary to-gradient-end transition-all duration-300",style:{width:`${u.percentage}%`}})})]}),s.jsxs("div",{className:"sm:hidden flex items-center gap-2",children:[s.jsxs("span",{className:"text-primary font-semibold text-sm",children:[u.percentage,"%"]}),s.jsx("div",{className:"w-16 h-2 bg-border rounded-full overflow-hidden",children:s.jsx("div",{className:"h-full bg-gradient-to-r from-primary to-gradient-end transition-all duration-300",style:{width:`${u.percentage}%`}})})]}),s.jsxs("button",{onClick:()=>D(!0),className:"hidden sm:flex items-center gap-2 px-3 py-2 rounded-lg bg-primary/10 text-primary hover:bg-primary/20 transition-colors",title:"Start Quiz",children:[s.jsx(Hf,{className:"w-4 h-4"}),s.jsx("span",{className:"text-sm font-medium",children:"Quiz"})]}),s.jsxs("button",{onClick:()=>L(!0),className:"hidden sm:flex items-center gap-2 px-3 py-2 rounded-lg bg-gradient-end/10 text-gradient-end hover:bg-gradient-end/20 transition-colors",title:"View Analytics",children:[s.jsx(Sf,{className:"w-4 h-4"}),s.jsx("span",{className:"text-sm font-medium",children:"Analytics"})]}),s.jsx("button",{onClick:G,className:"p-2 rounded-lg text-text-secondary hover:text-error hover:bg-error/10 transition-colors",title:"Reset all progress",children:s.jsx(eg,{className:"w-5 h-5"})})]})]})})})}function ig(u){var A,M,d="";if(typeof u=="string"||typeof u=="number")d+=u;else if(typeof u=="object")if(Array.isArray(u)){var D=u.length;for(A=0;A<D;A++)u[A]&&(M=ig(u[A]))&&(d&&(d+=" "),d+=M)}else for(M in u)u[M]&&(d&&(d+=" "),d+=M);return d}function De(){for(var u,A,M=0,d="",D=arguments.length;M<D;M++)(u=arguments[M])&&(A=ig(u))&&(d&&(d+=" "),d+=A);return d}function Ur({title:u,children:A,defaultOpen:M=!0}){const[d,D]=N.useState(M);return s.jsxs("div",{className:"border-b border-border last:border-b-0",children:[s.jsxs("button",{onClick:()=>D(!d),className:"w-full flex items-center justify-between p-3 hover:bg-surface-elevated transition-colors",children:[s.jsx("span",{className:"font-medium text-text-primary",children:u}),d?s.jsx(Al,{className:"w-4 h-4 text-text-muted"}):s.jsx(Cl,{className:"w-4 h-4 text-text-muted"})]}),d&&s.jsx("div",{className:"px-3 pb-3 space-y-1",children:A})]})}function bl({label:u,count:A,checked:M,onChange:d,color:D}){return s.jsxs("label",{className:"flex items-center gap-2 p-2 rounded-lg hover:bg-surface-elevated cursor-pointer transition-colors",children:[s.jsx("input",{type:"checkbox",checked:M,onChange:d,className:"w-4 h-4 rounded border-border bg-surface accent-primary"}),s.jsxs("span",{className:De("flex-1 text-sm",M?"text-text-primary":"text-text-secondary"),children:[D&&s.jsx("span",{className:`inline-block w-2 h-2 rounded-full mr-2 ${D}`}),u]}),A!==void 0&&s.jsxs("span",{className:"text-xs text-text-muted",children:["(",A,")"]})]})}function ii({label:u,value:A,currentValue:M,onChange:d}){return s.jsxs("label",{className:"flex items-center gap-2 p-2 rounded-lg hover:bg-surface-elevated cursor-pointer transition-colors",children:[s.jsx("input",{type:"radio",checked:M===A,onChange:()=>d(A),className:"w-4 h-4 border-border bg-surface accent-primary"}),s.jsx("span",{className:De("text-sm",M===A?"text-text-primary":"text-text-secondary"),children:u})]})}function ty(){const{filters:u,updateFilter:A,toggleArrayFilter:M,clearFilters:d,activeFilterCount:D,stats:L,categoryCounts:G,difficultyCounts:R,seniorityCounts:E,sidebarOpen:w,setSidebarOpen:q,hiddenTopics:O,toggleHiddenTopic:B,showAllTopics:W}=It(),le={beginner:"bg-success",intermediate:"bg-warning",advanced:"bg-error"},ee={junior:"🌱 Junior",mid:"🌿 Mid",senior:"🌳 Senior",staff:"🏔️ Staff+"};return s.jsxs(s.Fragment,{children:[w&&s.jsx("div",{className:"lg:hidden fixed inset-0 bg-black/50 z-40",onClick:()=>q(!1)}),s.jsxs("aside",{className:De("fixed lg:sticky top-0 lg:top-[73px] left-0 h-full lg:h-[calc(100vh-73px)] w-72 bg-surface border-r border-border z-50 lg:z-30","transform transition-transform duration-200 ease-in-out","overflow-y-auto",w?"translate-x-0":"-translate-x-full lg:translate-x-0"),children:[s.jsxs("div",{className:"sticky top-0 bg-surface border-b border-border p-4 flex items-center justify-between",children:[s.jsxs("div",{children:[s.jsx("h2",{className:"font-semibold text-text-primary",children:"Filters"}),s.jsxs("p",{className:"text-sm text-text-muted",children:[L.filtered," of ",L.total," questions"]})]}),s.jsxs("div",{className:"flex items-center gap-2",children:[D>0&&s.jsx("button",{onClick:d,className:"text-xs text-primary hover:underline",children:"Clear all"}),s.jsx("button",{onClick:()=>q(!1),className:"lg:hidden p-1 rounded hover:bg-surface-elevated",children:s.jsx(ri,{className:"w-5 h-5 text-text-muted"})})]})]}),s.jsx("div",{className:"p-3 border-b border-border",children:s.jsxs("div",{className:"relative",children:[s.jsx(Vf,{className:"absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted"}),s.jsx("input",{type:"text",placeholder:"Search questions...",value:u.search,onChange:F=>A("search",F.target.value),className:"w-full pl-9 pr-3 py-2 bg-surface-elevated border border-border rounded-lg text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:border-primary transition-colors"}),u.search&&s.jsx("button",{onClick:()=>A("search",""),className:"absolute right-3 top-1/2 -translate-y-1/2",children:s.jsx(ri,{className:"w-4 h-4 text-text-muted hover:text-text-primary"})})]})}),s.jsx(Ur,{title:"Category",defaultOpen:!1,children:Gp.map(F=>s.jsx(bl,{label:F,count:G[F],checked:u.categories.includes(F),onChange:()=>M("categories",F)},F))}),s.jsx(Ur,{title:"Difficulty",children:Qp.map(F=>s.jsx(bl,{label:F.charAt(0).toUpperCase()+F.slice(1),count:R[F],checked:u.difficulties.includes(F),onChange:()=>M("difficulties",F),color:le[F]},F))}),s.jsx(Ur,{title:"Seniority Level",children:Yp.map(F=>s.jsx(bl,{label:ee[F],count:E[F],checked:u.seniorities.includes(F),onChange:()=>M("seniorities",F)},F))}),s.jsxs(Ur,{title:"Status",children:[s.jsx(ii,{label:"All Questions",value:"all",currentValue:u.status,onChange:F=>A("status",F)}),s.jsx(ii,{label:"⭐ Bookmarked",value:"bookmarked",currentValue:u.status,onChange:F=>A("status",F)}),s.jsx(ii,{label:"⊗ Skipped",value:"skipped",currentValue:u.status,onChange:F=>A("status",F)}),s.jsx(ii,{label:"Pending",value:"pending",currentValue:u.status,onChange:F=>A("status",F)}),s.jsx(ii,{label:"Completed",value:"completed",currentValue:u.status,onChange:F=>A("status",F)})]}),s.jsxs(Ur,{title:"Sort By",children:[s.jsx(ii,{label:"Category",value:"category",currentValue:u.sortBy,onChange:F=>A("sortBy",F)}),s.jsx(ii,{label:"Difficulty",value:"difficulty",currentValue:u.sortBy,onChange:F=>A("sortBy",F)}),s.jsx(ii,{label:"Seniority",value:"seniority",currentValue:u.sortBy,onChange:F=>A("sortBy",F)}),s.jsx(ii,{label:"Alphabetical",value:"alphabetical",currentValue:u.sortBy,onChange:F=>A("sortBy",F)})]}),O.size>0&&s.jsx(Ur,{title:`Hidden Topics (${O.size})`,defaultOpen:!1,children:s.jsxs("div",{className:"space-y-1",children:[[...O].map(F=>s.jsxs("div",{className:"flex items-center justify-between p-2 rounded-lg hover:bg-surface-elevated",children:[s.jsx("span",{className:"text-sm text-text-secondary truncate flex-1",children:F}),s.jsxs("button",{onClick:()=>B(F),className:"flex items-center gap-1 p-1 rounded-md hover:bg-surface text-primary text-xs",title:"Show this topic",children:[s.jsx(Tl,{className:"w-3 h-3"}),"Show"]})]},F)),O.size>1&&s.jsx("button",{onClick:W,className:"w-full mt-2 p-2 text-xs text-primary hover:underline",children:"Show all hidden topics"})]})})]})]})}function rg({question:u}){const{completedIds:A,toggleComplete:M,bookmarkedIds:d,toggleBookmark:D,skippedIds:L,toggleSkip:G,setSelectedQuestion:R}=It(),E=A.has(u.id),w=d.has(u.id),q=L.has(u.id),O=te=>{te.target.closest(".checkbox-area")||te.target.closest(".bookmark-area")||te.target.closest(".skip-area")||R(u)},B=te=>{te.stopPropagation(),M(u.id)},W=te=>{te.stopPropagation(),D(u.id)},le=te=>{te.stopPropagation(),G(u.id)},ee={beginner:"bg-success/20 text-success",intermediate:"bg-warning/20 text-warning",advanced:"bg-error/20 text-error"},F={junior:"bg-success/20 text-success",mid:"bg-primary/20 text-primary",senior:"bg-purple-500/20 text-purple-400",staff:"bg-warning/20 text-warning"};return s.jsx("div",{onClick:O,className:De("group p-4 bg-surface-elevated rounded-xl border cursor-pointer","transition-all duration-200","hover:border-primary hover:-translate-y-0.5 hover:shadow-lg hover:shadow-primary/5",E?"border-success/50 bg-gradient-to-r from-surface-elevated to-success/5":q?"border-text-muted/30 bg-surface-elevated/50 opacity-60":"border-border"),children:s.jsxs("div",{className:"flex gap-3",children:[s.jsx("div",{className:"checkbox-area flex-shrink-0 mt-0.5",onClick:B,children:s.jsx("div",{className:De("w-5 h-5 rounded-md border-2 flex items-center justify-center transition-all",E?"bg-success border-success":"border-border hover:border-primary"),children:E&&s.jsx(Xp,{className:"w-3 h-3 text-background"})})}),s.jsxs("div",{className:"flex-1 min-w-0",children:[s.jsx("p",{className:De("text-sm font-medium leading-relaxed mb-3",E?"text-text-secondary":"text-text-primary"),children:u.question}),s.jsxs("div",{className:"flex flex-wrap gap-2",children:[s.jsx("span",{className:De("px-2 py-0.5 rounded text-xs font-medium",ee[u.difficulty]),children:u.difficulty}),u.seniority&&s.jsx("span",{className:De("px-2 py-0.5 rounded text-xs font-medium",F[u.seniority]),children:u.seniority}),s.jsx("span",{className:"px-2 py-0.5 rounded text-xs font-medium bg-surface text-text-muted",children:u.category})]})]}),s.jsxs("div",{className:"flex items-center gap-1",children:[s.jsx("div",{className:"bookmark-area p-1 rounded-md hover:bg-surface transition-colors",onClick:W,children:s.jsx(tg,{className:De("w-4 h-4 transition-all",w?"fill-warning text-warning":"text-text-muted hover:text-warning")})}),s.jsx("div",{className:"skip-area p-1 rounded-md hover:bg-surface transition-colors",onClick:le,children:s.jsx(Zp,{className:De("w-4 h-4 transition-all",q?"fill-text-muted text-text-muted":"text-text-muted hover:text-error")})}),s.jsx(Cl,{className:"flex-shrink-0 w-5 h-5 text-text-muted opacity-0 group-hover:opacity-100 transition-opacity"})]})]})})}function Sl(){const{filters:u,toggleArrayFilter:A,updateFilter:M,clearFilters:d,activeFilterCount:D,hiddenTopics:L,showAllTopics:G}=It(),R=L.size>0;return D===0&&!R?null:s.jsxs("div",{className:"flex flex-wrap gap-2 mb-4",children:[u.search&&s.jsx(Dn,{label:`Search: "${u.search}"`,onRemove:()=>M("search","")}),u.categories.map(E=>s.jsx(Dn,{label:E,onRemove:()=>A("categories",E)},E)),u.difficulties.map(E=>s.jsx(Dn,{label:E.charAt(0).toUpperCase()+E.slice(1),onRemove:()=>A("difficulties",E)},E)),u.seniorities.map(E=>s.jsx(Dn,{label:E.charAt(0).toUpperCase()+E.slice(1),onRemove:()=>A("seniorities",E)},E)),u.status!=="all"&&s.jsx(Dn,{label:`Status: ${u.status}`,onRemove:()=>M("status","all")}),R&&s.jsxs("span",{className:"inline-flex items-center gap-1 px-3 py-1 bg-warning/10 text-warning rounded-full text-sm",children:[s.jsx(Tl,{className:"w-3 h-3"}),L.size," topic",L.size>1?"s":""," hidden",s.jsx("button",{onClick:G,className:"p-0.5 rounded-full hover:bg-warning/20 transition-colors",title:"Show all hidden topics",children:s.jsx(ri,{className:"w-3 h-3"})})]}),D>1&&s.jsx("button",{onClick:d,className:"px-3 py-1 text-xs text-primary hover:text-primary-dark hover:underline transition-colors",children:"Clear all"})]})}function Dn({label:u,onRemove:A}){return s.jsxs("span",{className:"inline-flex items-center gap-1 px-3 py-1 bg-primary/10 text-primary rounded-full text-sm",children:[u,s.jsx("button",{onClick:A,className:"p-0.5 rounded-full hover:bg-primary/20 transition-colors",children:s.jsx(ri,{className:"w-3 h-3"})})]})}function iy({category:u,icon:A,questions:M,defaultExpanded:d=!0}){const[D,L]=N.useState(d),{completedIds:G,toggleHiddenTopic:R}=It(),E=M.filter(q=>G.has(q.id)).length,w=q=>{q.stopPropagation(),R(u)};return s.jsxs("div",{className:"mb-4",children:[s.jsxs("button",{onClick:()=>L(!D),className:"w-full flex items-center gap-3 p-3 bg-surface rounded-lg hover:bg-surface-elevated transition-colors group",children:[s.jsx("span",{className:"text-xl",children:A}),s.jsx("span",{className:"flex-1 text-left font-semibold text-text-primary",children:u}),s.jsxs("span",{className:"text-sm text-text-muted",children:[E,"/",M.length]}),s.jsx("div",{onClick:w,className:"p-1 rounded-md hover:bg-surface opacity-0 group-hover:opacity-100 transition-opacity",title:"Hide this topic",children:s.jsx(Pf,{className:"w-4 h-4 text-text-muted hover:text-error"})}),D?s.jsx(Al,{className:"w-5 h-5 text-text-muted"}):s.jsx(Cl,{className:"w-5 h-5 text-text-muted"})]}),D&&s.jsx("div",{className:"mt-2 space-y-2 pl-2",children:M.map(q=>s.jsx(rg,{question:q},q.id))})]})}function ry(){const{visibleGroupedQuestions:u,filteredQuestions:A,stats:M,filters:d,hiddenTopics:D,showAllTopics:L}=It(),G=Object.keys(u),R=d.sortBy!=="category";return A.length===0?s.jsxs("div",{className:"flex-1 p-6",children:[s.jsx(Sl,{}),s.jsxs("div",{className:"flex flex-col items-center justify-center py-16 text-center",children:[s.jsx("div",{className:"text-6xl mb-4",children:"🔍"}),s.jsx("h3",{className:"text-xl font-semibold text-text-primary mb-2",children:"No questions match your filters"}),s.jsx("p",{className:"text-text-secondary mb-4",children:"Try adjusting your filters or search term"})]})]}):!R&&G.length===0&&A.length>0?s.jsxs("div",{className:"flex-1 p-6",children:[s.jsx(Sl,{}),s.jsxs("div",{className:"flex flex-col items-center justify-center py-16 text-center",children:[s.jsx("div",{className:"text-6xl mb-4",children:"👁️"}),s.jsx("h3",{className:"text-xl font-semibold text-text-primary mb-2",children:"All topics are hidden"}),s.jsx("p",{className:"text-text-secondary mb-4",children:"Show topics from the sidebar, or switch to list view"}),s.jsx("button",{onClick:L,className:"px-4 py-2 bg-primary text-white rounded-lg hover:opacity-90 transition-opacity",children:"Show all topics"})]})]}):s.jsxs("div",{className:"flex-1 p-4 lg:p-6 overflow-y-auto",children:[s.jsx(Sl,{}),s.jsxs("div",{className:"mb-4 text-sm text-text-muted",children:["Showing ",M.filtered," of ",M.total," questions",!R&&D.size>0&&s.jsxs("span",{className:"ml-2",children:["(",D.size," topic",D.size>1?"s":""," hidden)"]})]}),R&&s.jsx("div",{className:"space-y-2",children:A.map(E=>s.jsx(rg,{question:E},E.id))}),!R&&G.map(E=>s.jsx(iy,{category:E,icon:u[E].icon,questions:u[E].questions},E))]})}function ny({position:u,selectedText:A,onSubmit:M,onClose:d}){const[D,L]=N.useState(""),[G,R]=N.useState(!1),E=N.useRef(null),w=N.useRef(null);N.useEffect(()=>{G&&E.current&&E.current.focus()},[G]),N.useEffect(()=>{const B=W=>{w.current&&!w.current.contains(W.target)&&d()};return document.addEventListener("mousedown",B),()=>document.removeEventListener("mousedown",B)},[d]),N.useEffect(()=>{const B=W=>{W.key==="Escape"&&d()};return window.addEventListener("keydown",B),()=>window.removeEventListener("keydown",B)},[d]);const q=B=>{B.preventDefault(),D.trim()&&(M(D.trim()),L(""),d())},O={position:"fixed",left:Math.min(u.x,window.innerWidth-320),top:Math.min(u.y+10,window.innerHeight-200),zIndex:100};return G?s.jsxs("div",{ref:w,style:O,className:"w-80 bg-surface border border-border rounded-xl shadow-2xl overflow-hidden",children:[s.jsxs("div",{className:"px-4 py-3 border-b border-border bg-surface-elevated flex items-center justify-between",children:[s.jsx("span",{className:"text-sm font-medium text-text-primary",children:"Add Comment"}),s.jsx("button",{onClick:d,className:"p-1 rounded hover:bg-surface text-text-muted hover:text-text-primary transition-colors",children:s.jsx(ri,{className:"w-4 h-4"})})]}),s.jsxs("div",{className:"px-4 py-2 bg-primary/10 border-b border-border",children:[s.jsx("p",{className:"text-xs text-text-muted mb-1",children:"Selected text:"}),s.jsxs("p",{className:"text-sm text-text-secondary line-clamp-2 italic",children:['"',A.substring(0,100),A.length>100?"...":"",'"']})]}),s.jsxs("form",{onSubmit:q,className:"p-4",children:[s.jsx("textarea",{ref:E,value:D,onChange:B=>L(B.target.value),placeholder:"Write your comment or note...",className:"w-full px-3 py-2 bg-surface-elevated border border-border rounded-lg text-sm text-text-primary placeholder-text-muted focus:outline-none focus:ring-2 focus:ring-primary/50 resize-none",rows:3}),s.jsxs("div",{className:"flex justify-end gap-2 mt-3",children:[s.jsx("button",{type:"button",onClick:d,className:"px-3 py-1.5 text-sm text-text-secondary hover:text-text-primary transition-colors",children:"Cancel"}),s.jsxs("button",{type:"submit",disabled:!D.trim(),className:De("flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors",D.trim()?"bg-primary text-background hover:bg-primary-dark":"bg-surface-elevated text-text-muted cursor-not-allowed"),children:[s.jsx(Kf,{className:"w-3.5 h-3.5"}),"Save"]})]})]})]}):s.jsx("div",{ref:w,style:O,children:s.jsxs("button",{onClick:()=>R(!0),className:"flex items-center gap-2 px-3 py-2 bg-primary text-background rounded-lg shadow-lg hover:bg-primary-dark transition-colors text-sm font-medium",children:[s.jsx(Bf,{className:"w-4 h-4"}),"Add Comment"]})})}function ay({questionId:u}){const{getCommentsForQuestion:A,deleteComment:M}=It(),[d,D]=N.useState(!0),L=A(u);if(L.length===0)return null;const G=R=>new Date(R).toLocaleDateString("en-US",{month:"short",day:"numeric",hour:"2-digit",minute:"2-digit"});return s.jsxs("div",{className:"mt-6 border-t border-border pt-4",children:[s.jsxs("button",{onClick:()=>D(!d),className:"flex items-center gap-2 text-sm font-medium text-text-secondary hover:text-text-primary transition-colors mb-3",children:[s.jsx($p,{className:"w-4 h-4"}),"Your Notes (",L.length,")",d?s.jsx(Tf,{className:"w-4 h-4"}):s.jsx(Al,{className:"w-4 h-4"})]}),d&&s.jsx("div",{className:"space-y-3",children:L.map(R=>s.jsxs("div",{className:"bg-surface-elevated border border-border rounded-lg p-3 group",children:[s.jsxs("div",{className:"mb-2 pb-2 border-b border-border/50",children:[s.jsx("p",{className:"text-xs text-text-muted mb-1",children:"Highlighted:"}),s.jsxs("p",{className:"text-sm text-primary/80 italic line-clamp-2",children:['"',R.selectedText,'"']})]}),s.jsx("p",{className:"text-sm text-text-primary whitespace-pre-wrap",children:R.comment}),s.jsxs("div",{className:"flex items-center justify-between mt-2 pt-2 border-t border-border/50",children:[s.jsx("span",{className:"text-xs text-text-muted",children:G(R.createdAt)}),s.jsx("button",{onClick:()=>M(u,R.id),className:"p-1 rounded text-text-muted hover:text-error hover:bg-error/10 opacity-0 group-hover:opacity-100 transition-all",title:"Delete comment",children:s.jsx(Jf,{className:"w-3.5 h-3.5"})})]})]},R.id))})]})}function oy(){const{selectedQuestion:u,setSelectedQuestion:A,completedIds:M,toggleComplete:d,bookmarkedIds:D,toggleBookmark:L,skippedIds:G,toggleSkip:R,addComment:E,getCommentsForQuestion:w}=It(),q=N.useRef(null),[O,B]=N.useState(null),W=N.useCallback(()=>{A(null)},[A]);N.useEffect(()=>{const ue=he=>{he.key==="Escape"&&W()};return window.addEventListener("keydown",ue),()=>window.removeEventListener("keydown",ue)},[W]),N.useEffect(()=>(u?document.body.style.overflow="hidden":document.body.style.overflow="",()=>{document.body.style.overflow=""}),[u]),N.useEffect(()=>{if(!q.current||!u)return;const ue=Ie=>{setTimeout(()=>{const Ve=window.getSelection(),ft=Ve?.toString().trim();if(ft&&ft.length>0){const Je=Ve.getRangeAt(0);if(q.current.contains(Je.commonAncestorContainer)){const Ue=Je.getBoundingClientRect();B({x:Ue.left+Ue.width/2-60,y:Ue.bottom,text:ft})}}},10)},he=Ie=>{Ie.target.closest(".comment-popup-container")||B(null)},Y=q.current;return Y.addEventListener("mouseup",ue),document.addEventListener("mousedown",he),()=>{Y.removeEventListener("mouseup",ue),document.removeEventListener("mousedown",he)}},[u]),N.useEffect(()=>{if(!q.current||!u)return;q.current.querySelectorAll("pre").forEach(he=>{if(he.querySelector(".copy-btn"))return;he.style.position="relative";const Y=document.createElement("button");Y.className="copy-btn",Y.innerHTML='<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>',Y.title="Copy code",Y.onclick=async()=>{const Ie=he.querySelector("code")?.textContent||he.textContent||"";try{await navigator.clipboard.writeText(Ie),Y.innerHTML='<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>',Y.classList.add("copied"),setTimeout(()=>{Y.innerHTML='<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>',Y.classList.remove("copied")},2e3)}catch(Ve){console.error("Failed to copy:",Ve)}},he.appendChild(Y)})},[u]);const le=N.useCallback(ue=>{O&&u&&(E(u.id,O.text,ue),B(null),window.getSelection()?.removeAllRanges())},[O,u,E]);if(!u)return null;const ee=M.has(u.id),F=D.has(u.id),te=G.has(u.id),je=w(u.id).length,Ae={beginner:"bg-success/20 text-success",intermediate:"bg-warning/20 text-warning",advanced:"bg-error/20 text-error"},de={junior:"bg-success/20 text-success",mid:"bg-primary/20 text-primary",senior:"bg-purple-500/20 text-purple-400",staff:"bg-warning/20 text-warning"};return s.jsxs("div",{className:"fixed inset-0 z-50 flex items-center justify-center p-4",onClick:W,children:[s.jsx("div",{className:"absolute inset-0 bg-black/70 backdrop-blur-sm"}),s.jsxs("div",{onClick:ue=>ue.stopPropagation(),className:"relative w-full max-w-3xl max-h-[90vh] bg-surface rounded-2xl border border-border shadow-2xl flex flex-col overflow-hidden",children:[s.jsx("div",{className:"flex-shrink-0 p-6 border-b border-border",children:s.jsxs("div",{className:"flex items-start gap-4",children:[s.jsxs("div",{className:"flex-1",children:[s.jsx("h2",{className:"text-lg font-semibold text-text-primary leading-relaxed mb-3",children:u.question}),s.jsxs("div",{className:"flex flex-wrap gap-2",children:[s.jsx("span",{className:De("px-2 py-0.5 rounded text-xs font-medium",Ae[u.difficulty]),children:u.difficulty}),u.seniority&&s.jsx("span",{className:De("px-2 py-0.5 rounded text-xs font-medium",de[u.seniority]),children:u.seniority}),s.jsxs("span",{className:"px-2 py-0.5 rounded text-xs font-medium bg-surface-elevated text-text-muted",children:[u.icon," ",u.category]})]})]}),s.jsx("button",{onClick:W,className:"p-2 rounded-lg hover:bg-surface-elevated text-text-muted hover:text-text-primary transition-colors",children:s.jsx(ri,{className:"w-5 h-5"})})]})}),s.jsxs("div",{className:"flex-1 overflow-y-auto p-6",children:[s.jsxs("div",{className:"mb-4 px-3 py-2 bg-primary/10 border border-primary/20 rounded-lg text-xs text-primary flex items-center gap-2",children:[s.jsx($p,{className:"w-4 h-4"}),s.jsx("span",{children:"Select any text to add a personal note or comment"}),je>0&&s.jsxs("span",{className:"ml-auto bg-primary/20 px-2 py-0.5 rounded-full",children:[je," note",je!==1?"s":""]})]}),s.jsx("div",{ref:q,className:"answer-content",dangerouslySetInnerHTML:{__html:u.answer}}),s.jsx(ay,{questionId:u.id})]}),O&&s.jsx("div",{className:"comment-popup-container",children:s.jsx(ny,{position:{x:O.x,y:O.y},selectedText:O.text,onSubmit:le,onClose:()=>B(null)})}),s.jsxs("div",{className:"flex-shrink-0 p-4 border-t border-border bg-surface-elevated flex items-center justify-between",children:[s.jsx("div",{className:"flex items-center gap-2",children:s.jsx("button",{onClick:W,className:"px-4 py-2 rounded-lg text-text-secondary hover:text-text-primary hover:bg-surface transition-colors",children:"Close"})}),s.jsxs("div",{className:"flex items-center gap-2",children:[s.jsxs("button",{onClick:()=>L(u.id),className:De("flex items-center gap-2 px-3 py-2 rounded-lg font-medium transition-all",F?"bg-warning/20 text-warning hover:bg-warning/30":"bg-surface text-text-secondary hover:bg-surface-elevated hover:text-warning"),title:F?"Remove bookmark":"Bookmark question",children:[s.jsx(tg,{className:De("w-4 h-4",F&&"fill-warning")}),F?"Bookmarked":"Bookmark"]}),s.jsxs("button",{onClick:()=>R(u.id),className:De("flex items-center gap-2 px-3 py-2 rounded-lg font-medium transition-all",te?"bg-text-muted/20 text-text-muted hover:bg-text-muted/30":"bg-surface text-text-secondary hover:bg-surface-elevated hover:text-error"),title:te?"Unskip question":"Skip question",children:[s.jsx(Zp,{className:De("w-4 h-4",te&&"fill-text-muted")}),te?"Skipped":"Skip"]}),s.jsx("button",{onClick:()=>{d(u.id),ee||W()},className:De("flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all",ee?"bg-success/20 text-success hover:bg-success/30":"bg-primary text-background hover:bg-primary-dark"),children:ee?s.jsxs(s.Fragment,{children:[s.jsx(Xp,{className:"w-4 h-4"}),"Completed"]}):s.jsxs(s.Fragment,{children:[s.jsx(Ef,{className:"w-4 h-4"}),"Mark as Complete"]})})]})]})]})]})}function sy({onClose:u}){const{filteredQuestions:A}=It(),[M,d]=N.useState([]),[D,L]=N.useState(0),[G,R]=N.useState(!1),[E,w]=N.useState({correct:0,incorrect:0}),[q,O]=N.useState(!1),[B]=N.useState(Date.now()),[W,le]=N.useState(0);N.useEffect(()=>{const de=[...A].sort(()=>Math.random()-.5).slice(0,Math.min(10,A.length));d(de)},[]),N.useEffect(()=>{if(q)return;const de=setInterval(()=>{le(Math.floor((Date.now()-B)/1e3))},1e3);return()=>clearInterval(de)},[B,q]);const ee=de=>{const ue=Math.floor(de/60),he=de%60;return`${ue}:${he.toString().padStart(2,"0")}`},F=M[D],te=de=>{w(ue=>({...ue,[de?"correct":"incorrect"]:ue[de?"correct":"incorrect"]+1})),D<M.length-1?(L(ue=>ue+1),R(!1)):O(!0)},je=()=>{const de=[...A].sort(()=>Math.random()-.5).slice(0,Math.min(10,A.length));d(de),L(0),R(!1),w({correct:0,incorrect:0}),O(!1)};if(N.useEffect(()=>{const de=ue=>{ue.key==="Escape"&&u()};return window.addEventListener("keydown",de),()=>window.removeEventListener("keydown",de)},[u]),N.useEffect(()=>(document.body.style.overflow="hidden",()=>{document.body.style.overflow=""}),[]),M.length===0)return s.jsx("div",{className:"fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm",children:s.jsxs("div",{className:"bg-surface rounded-2xl border border-border p-8 text-center max-w-md",children:[s.jsx("p",{className:"text-text-secondary mb-4",children:"No questions available for quiz."}),s.jsx("p",{className:"text-sm text-text-muted mb-6",children:"Adjust your filters to include more questions."}),s.jsx("button",{onClick:u,className:"px-4 py-2 bg-primary text-background rounded-lg font-medium",children:"Close"})]})});const Ae={beginner:"bg-success/20 text-success",intermediate:"bg-warning/20 text-warning",advanced:"bg-error/20 text-error"};return s.jsx("div",{className:"fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm",children:s.jsxs("div",{className:"w-full max-w-3xl max-h-[90vh] bg-surface rounded-2xl border border-border shadow-2xl flex flex-col overflow-hidden",children:[s.jsxs("div",{className:"flex-shrink-0 p-4 border-b border-border flex items-center justify-between",children:[s.jsxs("div",{className:"flex items-center gap-4",children:[s.jsx("h2",{className:"text-lg font-semibold text-text-primary",children:"Quiz Mode"}),s.jsxs("div",{className:"flex items-center gap-2 text-sm text-text-secondary",children:[s.jsx(Df,{className:"w-4 h-4"}),ee(W)]})]}),s.jsxs("div",{className:"flex items-center gap-4",children:[s.jsxs("div",{className:"flex items-center gap-2 text-sm",children:[s.jsxs("span",{className:"text-success",children:[E.correct," correct"]}),s.jsx("span",{className:"text-text-muted",children:"|"}),s.jsxs("span",{className:"text-error",children:[E.incorrect," incorrect"]})]}),s.jsx("button",{onClick:u,className:"p-2 rounded-lg hover:bg-surface-elevated text-text-muted hover:text-text-primary transition-colors",children:s.jsx(ri,{className:"w-5 h-5"})})]})]}),q?s.jsxs("div",{className:"flex-1 p-8 flex flex-col items-center justify-center text-center",children:[s.jsx(zp,{className:"w-16 h-16 text-warning mb-4"}),s.jsx("h3",{className:"text-2xl font-bold text-text-primary mb-2",children:"Quiz Complete!"}),s.jsxs("p",{className:"text-text-secondary mb-6",children:["You got ",E.correct," out of ",M.length," questions correct"]}),s.jsx("div",{className:"text-4xl font-bold mb-6",children:s.jsxs("span",{className:De(E.correct/M.length>=.8?"text-success":E.correct/M.length>=.6?"text-warning":"text-error"),children:[Math.round(E.correct/M.length*100),"%"]})}),s.jsxs("p",{className:"text-sm text-text-muted mb-6",children:["Time: ",ee(W)]}),s.jsxs("div",{className:"flex gap-3",children:[s.jsxs("button",{onClick:je,className:"flex items-center gap-2 px-4 py-2 bg-primary text-background rounded-lg font-medium",children:[s.jsx(eg,{className:"w-4 h-4"}),"Try Again"]}),s.jsx("button",{onClick:u,className:"px-4 py-2 text-text-secondary hover:text-text-primary hover:bg-surface-elevated rounded-lg transition-colors",children:"Close"})]})]}):s.jsxs(s.Fragment,{children:[s.jsxs("div",{className:"flex-shrink-0 px-4 pt-4",children:[s.jsxs("div",{className:"flex items-center justify-between text-sm text-text-muted mb-2",children:[s.jsxs("span",{children:["Question ",D+1," of ",M.length]}),s.jsx("span",{className:De("px-2 py-0.5 rounded text-xs font-medium",Ae[F.difficulty]),children:F.difficulty})]}),s.jsx("div",{className:"w-full h-1 bg-border rounded-full overflow-hidden",children:s.jsx("div",{className:"h-full bg-gradient-to-r from-primary to-gradient-end transition-all duration-300",style:{width:`${(D+1)/M.length*100}%`}})})]}),s.jsxs("div",{className:"flex-1 overflow-y-auto p-6",children:[s.jsx("div",{className:"mb-4",children:s.jsxs("span",{className:"text-xs text-text-muted bg-surface-elevated px-2 py-1 rounded",children:[F.icon," ",F.category]})}),s.jsx("h3",{className:"text-xl font-semibold text-text-primary mb-6",children:F.question}),G?s.jsx("div",{className:"border-t border-border pt-6",children:s.jsx("div",{className:"answer-content",dangerouslySetInnerHTML:{__html:F.answer}})}):s.jsx("div",{className:"flex justify-center",children:s.jsxs("button",{onClick:()=>R(!0),className:"flex items-center gap-2 px-6 py-3 bg-surface-elevated border border-border rounded-lg text-text-secondary hover:text-text-primary hover:border-primary transition-all",children:[s.jsx(Tl,{className:"w-5 h-5"}),"Reveal Answer"]})})]}),G&&s.jsxs("div",{className:"flex-shrink-0 p-4 border-t border-border bg-surface-elevated",children:[s.jsx("p",{className:"text-sm text-text-muted text-center mb-3",children:"How did you do?"}),s.jsxs("div",{className:"flex justify-center gap-3",children:[s.jsxs("button",{onClick:()=>te(!1),className:"flex items-center gap-2 px-6 py-2 bg-error/20 text-error rounded-lg font-medium hover:bg-error/30 transition-colors",children:[s.jsx(ri,{className:"w-4 h-4"}),"Incorrect"]}),s.jsxs("button",{onClick:()=>te(!0),className:"flex items-center gap-2 px-6 py-2 bg-success/20 text-success rounded-lg font-medium hover:bg-success/30 transition-colors",children:[s.jsx(zp,{className:"w-4 h-4"}),"Got it!"]})]})]})]})]})})}function ly({onClose:u}){const{questionsData:A,completedIds:M,bookmarkedIds:d}=It(),D=N.useMemo(()=>{const R=Gp.map(B=>{const W=A.filter(ee=>ee.category===B),le=W.filter(ee=>M.has(ee.id)).length;return{name:B,total:W.length,completed:le,percentage:Math.round(le/W.length*100)||0,icon:W[0]?.icon||"📚"}}).sort((B,W)=>W.total-B.total),E=Qp.map(B=>{const W=A.filter(ee=>ee.difficulty===B),le=W.filter(ee=>M.has(ee.id)).length;return{name:B,total:W.length,completed:le,percentage:Math.round(le/W.length*100)||0}}),w=Yp.map(B=>{const W=A.filter(ee=>ee.seniority===B),le=W.filter(ee=>M.has(ee.id)).length;return{name:B,total:W.length,completed:le,percentage:Math.round(le/W.length*100)||0}}),q=R.filter(B=>B.total>=2&&B.percentage<50).sort((B,W)=>B.percentage-W.percentage).slice(0,5),O=R.filter(B=>B.total>=2&&B.percentage>=50).sort((B,W)=>W.percentage-B.percentage).slice(0,5);return{total:A.length,completed:M.size,bookmarked:d.size,percentage:Math.round(M.size/A.length*100),categoryStats:R,difficultyStats:E,seniorityStats:w,weakAreas:q,strongAreas:O}},[A,M,d]);N.useEffect(()=>{const R=E=>{E.key==="Escape"&&u()};return window.addEventListener("keydown",R),()=>window.removeEventListener("keydown",R)},[u]),N.useEffect(()=>(document.body.style.overflow="hidden",()=>{document.body.style.overflow=""}),[]);const L={beginner:"bg-success",intermediate:"bg-warning",advanced:"bg-error"},G={junior:"🌱 Junior",mid:"🌿 Mid",senior:"🌳 Senior",staff:"🏔️ Staff+"};return s.jsx("div",{className:"fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm",children:s.jsxs("div",{className:"w-full max-w-4xl max-h-[90vh] bg-surface rounded-2xl border border-border shadow-2xl flex flex-col overflow-hidden",children:[s.jsxs("div",{className:"flex-shrink-0 p-4 border-b border-border flex items-center justify-between",children:[s.jsxs("div",{className:"flex items-center gap-3",children:[s.jsx("div",{className:"p-2 bg-gradient-end/20 rounded-lg",children:s.jsx(Vp,{className:"w-5 h-5 text-gradient-end"})}),s.jsx("h2",{className:"text-lg font-semibold text-text-primary",children:"Progress Analytics"})]}),s.jsx("button",{onClick:u,className:"p-2 rounded-lg hover:bg-surface-elevated text-text-muted hover:text-text-primary transition-colors",children:s.jsx(ri,{className:"w-5 h-5"})})]}),s.jsxs("div",{className:"flex-1 overflow-y-auto p-6 space-y-6",children:[s.jsxs("div",{className:"grid grid-cols-2 md:grid-cols-4 gap-4",children:[s.jsxs("div",{className:"bg-surface-elevated rounded-xl p-4 border border-border",children:[s.jsxs("div",{className:"flex items-center gap-2 text-text-muted mb-2",children:[s.jsx(vf,{className:"w-4 h-4"}),s.jsx("span",{className:"text-sm",children:"Total"})]}),s.jsx("p",{className:"text-2xl font-bold text-text-primary",children:D.total})]}),s.jsxs("div",{className:"bg-surface-elevated rounded-xl p-4 border border-border",children:[s.jsxs("div",{className:"flex items-center gap-2 text-success mb-2",children:[s.jsx(Qf,{className:"w-4 h-4"}),s.jsx("span",{className:"text-sm",children:"Completed"})]}),s.jsx("p",{className:"text-2xl font-bold text-success",children:D.completed})]}),s.jsxs("div",{className:"bg-surface-elevated rounded-xl p-4 border border-border",children:[s.jsxs("div",{className:"flex items-center gap-2 text-warning mb-2",children:[s.jsx(ff,{className:"w-4 h-4"}),s.jsx("span",{className:"text-sm",children:"Bookmarked"})]}),s.jsx("p",{className:"text-2xl font-bold text-warning",children:D.bookmarked})]}),s.jsxs("div",{className:"bg-surface-elevated rounded-xl p-4 border border-border",children:[s.jsxs("div",{className:"flex items-center gap-2 text-primary mb-2",children:[s.jsx(Vp,{className:"w-4 h-4"}),s.jsx("span",{className:"text-sm",children:"Progress"})]}),s.jsxs("p",{className:"text-2xl font-bold text-primary",children:[D.percentage,"%"]})]})]}),s.jsxs("div",{className:"bg-surface-elevated rounded-xl p-4 border border-border",children:[s.jsx("h3",{className:"font-semibold text-text-primary mb-4",children:"By Difficulty"}),s.jsx("div",{className:"space-y-3",children:D.difficultyStats.map(R=>s.jsxs("div",{className:"flex items-center gap-3",children:[s.jsx("span",{className:"w-28 text-sm text-text-secondary capitalize",children:R.name}),s.jsx("div",{className:"flex-1 h-4 bg-surface rounded-full overflow-hidden",children:s.jsx("div",{className:De("h-full transition-all",L[R.name]),style:{width:`${R.percentage}%`}})}),s.jsxs("span",{className:"w-20 text-sm text-text-muted text-right",children:[R.completed,"/",R.total]})]},R.name))})]}),s.jsxs("div",{className:"bg-surface-elevated rounded-xl p-4 border border-border",children:[s.jsx("h3",{className:"font-semibold text-text-primary mb-4",children:"By Seniority Level"}),s.jsx("div",{className:"space-y-3",children:D.seniorityStats.map(R=>s.jsxs("div",{className:"flex items-center gap-3",children:[s.jsx("span",{className:"w-28 text-sm text-text-secondary",children:G[R.name]}),s.jsx("div",{className:"flex-1 h-4 bg-surface rounded-full overflow-hidden",children:s.jsx("div",{className:"h-full bg-gradient-to-r from-primary to-gradient-end transition-all",style:{width:`${R.percentage}%`}})}),s.jsxs("span",{className:"w-20 text-sm text-text-muted text-right",children:[R.completed,"/",R.total]})]},R.name))})]}),s.jsxs("div",{className:"grid md:grid-cols-2 gap-4",children:[D.weakAreas.length>0&&s.jsxs("div",{className:"bg-surface-elevated rounded-xl p-4 border border-error/30",children:[s.jsx("h3",{className:"font-semibold text-error mb-3",children:"Needs Work"}),s.jsx("div",{className:"space-y-2",children:D.weakAreas.map(R=>s.jsxs("div",{className:"flex items-center justify-between text-sm",children:[s.jsxs("span",{className:"text-text-secondary",children:[R.icon," ",R.name]}),s.jsxs("span",{className:"text-error",children:[R.percentage,"%"]})]},R.name))})]}),D.strongAreas.length>0&&s.jsxs("div",{className:"bg-surface-elevated rounded-xl p-4 border border-success/30",children:[s.jsx("h3",{className:"font-semibold text-success mb-3",children:"Strong Areas"}),s.jsx("div",{className:"space-y-2",children:D.strongAreas.map(R=>s.jsxs("div",{className:"flex items-center justify-between text-sm",children:[s.jsxs("span",{className:"text-text-secondary",children:[R.icon," ",R.name]}),s.jsxs("span",{className:"text-success",children:[R.percentage,"%"]})]},R.name))})]})]}),s.jsxs("div",{className:"bg-surface-elevated rounded-xl p-4 border border-border",children:[s.jsx("h3",{className:"font-semibold text-text-primary mb-4",children:"All Categories"}),s.jsx("div",{className:"grid gap-2 max-h-64 overflow-y-auto",children:D.categoryStats.map(R=>s.jsxs("div",{className:"flex items-center gap-3 p-2 rounded-lg hover:bg-surface transition-colors",children:[s.jsx("span",{className:"text-lg",children:R.icon}),s.jsx("span",{className:"flex-1 text-sm text-text-secondary truncate",children:R.name}),s.jsx("div",{className:"w-24 h-2 bg-surface rounded-full overflow-hidden",children:s.jsx("div",{className:De("h-full transition-all",R.percentage>=80?"bg-success":R.percentage>=50?"bg-primary":R.percentage>=25?"bg-warning":"bg-error"),style:{width:`${R.percentage}%`}})}),s.jsxs("span",{className:"w-16 text-xs text-text-muted text-right",children:[R.completed,"/",R.total]})]},R.name))})]})]}),s.jsx("div",{className:"flex-shrink-0 p-4 border-t border-border bg-surface-elevated",children:s.jsx("button",{onClick:u,className:"w-full py-2 text-text-secondary hover:text-text-primary hover:bg-surface rounded-lg transition-colors",children:"Close"})})]})})}function cy(){const{quizModeOpen:u,setQuizModeOpen:A,analyticsOpen:M,setAnalyticsOpen:d}=It();return s.jsxs("div",{className:"min-h-screen bg-background flex flex-col",children:[s.jsx(ey,{}),s.jsxs("div",{className:"flex-1 flex",children:[s.jsx(ty,{}),s.jsx("main",{className:"flex-1 flex flex-col overflow-hidden",children:s.jsx(ry,{})})]}),s.jsx(oy,{}),u&&s.jsx(sy,{onClose:()=>A(!1)}),M&&s.jsx(ly,{onClose:()=>d(!1)})]})}function dy(){return s.jsx(cf,{children:s.jsx(cy,{})})}Oh.createRoot(document.getElementById("root")).render(s.jsx(N.StrictMode,{children:s.jsx(dy,{})}));
+        `}],Mi=[...Bh,...Fh,..._h,...Hh,...qh,...jh,...Vh,...zh,...Kh,...Wh,...Gh,...Qh,...Yh,...Jh,...Xh,...Zh,...$h,...ef,...tf,...rf,...nf,...af,...of,...sf],Wp=N.createContext(),Fp="rn-interview-completed",_p="rn-interview-bookmarks",Hp="rn-interview-skipped",Gp="rn-interview-filters",qp="rn-interview-comments",jp="rn-interview-hidden-topics",Qa=[...new Set(Mi.map(u=>u.category))],Qp=["beginner","intermediate","advanced"],Yp=["junior","mid","senior","staff"],wl={search:"",categories:[],difficulties:[],seniorities:[],status:"all",sortBy:"category"},lf=()=>{try{const u=localStorage.getItem(Gp);if(u){const A=JSON.parse(u);return{...wl,...A}}}catch{}return wl};function cf({children:u}){const[A,M]=N.useState(()=>{try{const b=localStorage.getItem(Fp);return b?new Set(JSON.parse(b)):new Set}catch{return new Set}}),[d,D]=N.useState(()=>{try{const b=localStorage.getItem(_p);return b?new Set(JSON.parse(b)):new Set}catch{return new Set}}),[L,G]=N.useState(()=>{try{const b=localStorage.getItem(Hp);return b?new Set(JSON.parse(b)):new Set}catch{return new Set}}),[R,E]=N.useState(lf),[w,q]=N.useState(null),[O,B]=N.useState(!0),[W,le]=N.useState(!1),[ee,F]=N.useState(!1),[te,je]=N.useState(()=>{try{const b=localStorage.getItem(qp);return b?JSON.parse(b):{}}catch{return{}}}),[Ae,de]=N.useState(()=>{try{const b=localStorage.getItem(jp);return b?new Set(JSON.parse(b)):new Set(Qa.filter(I=>I!=="System Design"))}catch{return new Set(Qa.filter(b=>b!=="System Design"))}});N.useEffect(()=>{localStorage.setItem(Fp,JSON.stringify([...A]))},[A]),N.useEffect(()=>{localStorage.setItem(_p,JSON.stringify([...d]))},[d]),N.useEffect(()=>{localStorage.setItem(Hp,JSON.stringify([...L]))},[L]),N.useEffect(()=>{localStorage.setItem(Gp,JSON.stringify(R))},[R]),N.useEffect(()=>{localStorage.setItem(qp,JSON.stringify(te))},[te]),N.useEffect(()=>{localStorage.setItem(jp,JSON.stringify([...Ae]))},[Ae]);const ue=N.useCallback((b,I,K)=>{const oe={id:Date.now().toString(),selectedText:I,comment:K,createdAt:new Date().toISOString()};je(Pt=>({...Pt,[b]:[...Pt[b]||[],oe]}))},[]),he=N.useCallback((b,I)=>{je(K=>({...K,[b]:(K[b]||[]).filter(oe=>oe.id!==I)}))},[]),Y=N.useCallback(b=>te[b]||[],[te]),Ie=N.useCallback(b=>{D(I=>{const K=new Set(I);return K.has(b)?K.delete(b):K.add(b),K})},[]),Ve=N.useCallback(b=>{G(I=>{const K=new Set(I);return K.has(b)?K.delete(b):K.add(b),K})},[]),ft=N.useCallback(b=>{de(I=>{const K=new Set(I);return K.has(b)?K.delete(b):K.add(b),K})},[]),Je=N.useCallback(()=>{de(new Set)},[]),Ue=N.useCallback(b=>{M(I=>{const K=new Set(I);return K.has(b)?K.delete(b):K.add(b),K})},[]),Bt=N.useCallback(()=>{M(new Set)},[]),Rt=N.useCallback((b,I)=>{E(K=>({...K,[b]:I}))},[]),at=N.useCallback((b,I)=>{E(K=>{const oe=K[b],Pt=oe.includes(I)?oe.filter(Yi=>Yi!==I):[...oe,I];return{...K,[b]:Pt}})},[]),k=N.useCallback(()=>{E(wl)},[]),P=N.useMemo(()=>{let b=0;return R.search&&b++,b+=R.categories.length,b+=R.difficulties.length,b+=R.seniorities.length,R.status!=="all"&&b++,b},[R]),z=N.useMemo(()=>{let b=Mi;if(R.search){const I=R.search.toLowerCase();b=b.filter(K=>K.question.toLowerCase().includes(I)||K.category.toLowerCase().includes(I))}return R.categories.length>0&&(b=b.filter(I=>R.categories.includes(I.category))),R.difficulties.length>0&&(b=b.filter(I=>R.difficulties.includes(I.difficulty))),R.seniorities.length>0&&(b=b.filter(I=>R.seniorities.includes(I.seniority))),R.status==="completed"?b=b.filter(I=>A.has(I.id)):R.status==="pending"?b=b.filter(I=>!A.has(I.id)):R.status==="bookmarked"?b=b.filter(I=>d.has(I.id)):R.status==="skipped"&&(b=b.filter(I=>L.has(I.id))),b=[...b].sort((I,K)=>{switch(R.sortBy){case"difficulty":{const oe={beginner:0,intermediate:1,advanced:2};return oe[I.difficulty]-oe[K.difficulty]}case"seniority":{const oe={junior:0,mid:1,senior:2,staff:3};return oe[I.seniority]-oe[K.seniority]}case"alphabetical":return I.question.localeCompare(K.question);default:return I.category.localeCompare(K.category)}}),b},[R,A,d,L]),ce=N.useMemo(()=>{const b={};return z.forEach(I=>{b[I.category]||(b[I.category]={icon:I.icon,questions:[]}),b[I.category].questions.push(I)}),b},[z]),fe=N.useMemo(()=>{const b={};return Object.keys(ce).forEach(I=>{Ae.has(I)||(b[I]=ce[I])}),b},[ce,Ae]),m=N.useMemo(()=>({total:Mi.length,completed:A.size,filtered:z.length,percentage:Math.round(A.size/Mi.length*100)}),[A,z]),x=N.useMemo(()=>{const b={};return Mi.forEach(I=>{b[I.category]=(b[I.category]||0)+1}),b},[]),U=N.useMemo(()=>{const b={};return Mi.forEach(I=>{b[I.difficulty]=(b[I.difficulty]||0)+1}),b},[]),H=N.useMemo(()=>{const b={};return Mi.forEach(I=>{b[I.seniority]=(b[I.seniority]||0)+1}),b},[]),J={questionsData:Mi,filteredQuestions:z,groupedQuestions:ce,visibleGroupedQuestions:fe,stats:m,completedIds:A,toggleComplete:Ue,resetProgress:Bt,bookmarkedIds:d,toggleBookmark:Ie,skippedIds:L,toggleSkip:Ve,hiddenTopics:Ae,toggleHiddenTopic:ft,showAllTopics:Je,filters:R,updateFilter:Rt,toggleArrayFilter:at,clearFilters:k,activeFilterCount:P,categoryCounts:x,difficultyCounts:U,seniorityCounts:H,selectedQuestion:w,setSelectedQuestion:q,sidebarOpen:O,setSidebarOpen:B,quizModeOpen:W,setQuizModeOpen:le,analyticsOpen:ee,setAnalyticsOpen:F,comments:te,addComment:ue,deleteComment:he,getCommentsForQuestion:Y};return s.jsx(Wp.Provider,{value:J,children:u})}function It(){const u=N.useContext(Wp);if(!u)throw new Error("useApp must be used within AppProvider");return u}const df=u=>u.replace(/([a-z0-9])([A-Z])/g,"$1-$2").toLowerCase(),uf=u=>u.replace(/^([A-Z])|[\s-_]+(\w)/g,(A,M,d)=>d?d.toUpperCase():M.toLowerCase()),Vp=u=>{const A=uf(u);return A.charAt(0).toUpperCase()+A.slice(1)},Jp=(...u)=>u.filter((A,M,d)=>!!A&&A.trim()!==""&&d.indexOf(A)===M).join(" ").trim(),pf=u=>{for(const A in u)if(A.startsWith("aria-")||A==="role"||A==="title")return!0};var mf={xmlns:"http://www.w3.org/2000/svg",width:24,height:24,viewBox:"0 0 24 24",fill:"none",stroke:"currentColor",strokeWidth:2,strokeLinecap:"round",strokeLinejoin:"round"};const gf=N.forwardRef(({color:u="currentColor",size:A=24,strokeWidth:M=2,absoluteStrokeWidth:d,className:D="",children:L,iconNode:G,...R},E)=>N.createElement("svg",{ref:E,...mf,width:A,height:A,stroke:u,strokeWidth:d?Number(M)*24/Number(A):M,className:Jp("lucide",D),...!L&&!pf(R)&&{"aria-hidden":"true"},...R},[...G.map(([w,q])=>N.createElement(w,q)),...Array.isArray(L)?L:[L]]));const xe=(u,A)=>{const M=N.forwardRef(({className:d,...D},L)=>N.createElement(gf,{ref:L,iconNode:A,className:Jp(`lucide-${df(Vp(u))}`,`lucide-${u}`,d),...D}));return M.displayName=Vp(u),M};const hf=[["path",{d:"m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526",key:"1yiouv"}],["circle",{cx:"12",cy:"8",r:"6",key:"1vp47v"}]],ff=xe("award",hf);const yf=[["path",{d:"M12 7v14",key:"1akyts"}],["path",{d:"M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z",key:"ruj8y"}]],vf=xe("book-open",yf);const bf=[["path",{d:"M3 3v16a2 2 0 0 0 2 2h16",key:"c24i48"}],["path",{d:"M18 17V9",key:"2bz60n"}],["path",{d:"M13 17V5",key:"1frdt8"}],["path",{d:"M8 17v-3",key:"17ska0"}]],Sf=xe("chart-column",bf);const kf=[["path",{d:"M20 6 9 17l-5-5",key:"1gmf2c"}]],Xp=xe("check",kf);const wf=[["path",{d:"m6 9 6 6 6-6",key:"qrunsl"}]],Cl=xe("chevron-down",wf);const Af=[["path",{d:"m9 18 6-6-6-6",key:"mthhwq"}]],Tl=xe("chevron-right",Af);const Cf=[["path",{d:"m18 15-6-6-6 6",key:"153udz"}]],Tf=xe("chevron-up",Cf);const xf=[["circle",{cx:"12",cy:"12",r:"10",key:"1mglay"}],["path",{d:"m15 9-6 6",key:"1uzhvr"}],["path",{d:"m9 9 6 6",key:"z0biqf"}]],Zp=xe("circle-x",xf);const Rf=[["circle",{cx:"12",cy:"12",r:"10",key:"1mglay"}]],Ef=xe("circle",Rf);const Mf=[["path",{d:"M12 6v6l4 2",key:"mmk7yg"}],["circle",{cx:"12",cy:"12",r:"10",key:"1mglay"}]],Df=xe("clock",Mf);const If=[["path",{d:"M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49",key:"ct8e1f"}],["path",{d:"M14.084 14.158a3 3 0 0 1-4.242-4.242",key:"151rxh"}],["path",{d:"M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143",key:"13bj9a"}],["path",{d:"m2 2 20 20",key:"1ooewy"}]],Pf=xe("eye-off",If);const Nf=[["path",{d:"M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0",key:"1nclc0"}],["circle",{cx:"12",cy:"12",r:"3",key:"1v7zrd"}]],xl=xe("eye",Nf);const Uf=[["path",{d:"M4 5h16",key:"1tepv9"}],["path",{d:"M4 12h16",key:"1lakjw"}],["path",{d:"M4 19h16",key:"1djgab"}]],Lf=xe("menu",Uf);const Of=[["path",{d:"M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z",key:"18887p"}],["path",{d:"M12 8v6",key:"1ib9pf"}],["path",{d:"M9 11h6",key:"1fldmi"}]],Bf=xe("message-square-plus",Of);const Ff=[["path",{d:"M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z",key:"18887p"}]],$p=xe("message-square",Ff);const _f=[["path",{d:"M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z",key:"10ikf1"}]],Hf=xe("play",_f);const qf=[["path",{d:"M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8",key:"1357e3"}],["path",{d:"M3 3v5h5",key:"1xhq8a"}]],em=xe("rotate-ccw",qf);const jf=[["path",{d:"m21 21-4.34-4.34",key:"14j7rj"}],["circle",{cx:"11",cy:"11",r:"8",key:"4ej97u"}]],Vf=xe("search",jf);const zf=[["path",{d:"M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z",key:"1ffxy3"}],["path",{d:"m21.854 2.147-10.94 10.939",key:"12cjpa"}]],Kf=xe("send",zf);const Wf=[["path",{d:"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z",key:"r04s7s"}]],tm=xe("star",Wf);const Gf=[["circle",{cx:"12",cy:"12",r:"10",key:"1mglay"}],["circle",{cx:"12",cy:"12",r:"6",key:"1vlfrh"}],["circle",{cx:"12",cy:"12",r:"2",key:"1c9p78"}]],Qf=xe("target",Gf);const Yf=[["path",{d:"M10 11v6",key:"nco0om"}],["path",{d:"M14 11v6",key:"outv1u"}],["path",{d:"M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6",key:"miytrc"}],["path",{d:"M3 6h18",key:"d0wm0j"}],["path",{d:"M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2",key:"e791ji"}]],Jf=xe("trash-2",Yf);const Xf=[["path",{d:"M16 7h6v6",key:"box55l"}],["path",{d:"m22 7-8.5 8.5-5-5L2 17",key:"1t1m79"}]],zp=xe("trending-up",Xf);const Zf=[["path",{d:"M10 14.66v1.626a2 2 0 0 1-.976 1.696A5 5 0 0 0 7 21.978",key:"1n3hpd"}],["path",{d:"M14 14.66v1.626a2 2 0 0 0 .976 1.696A5 5 0 0 1 17 21.978",key:"rfe1zi"}],["path",{d:"M18 9h1.5a1 1 0 0 0 0-5H18",key:"7xy6bh"}],["path",{d:"M4 22h16",key:"57wxv0"}],["path",{d:"M6 9a6 6 0 0 0 12 0V3a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1z",key:"1mhfuq"}],["path",{d:"M6 9H4.5a1 1 0 0 1 0-5H6",key:"tex48p"}]],Kp=xe("trophy",Zf);const $f=[["path",{d:"M18 6 6 18",key:"1bl5f8"}],["path",{d:"m6 6 12 12",key:"d8bk6v"}]],ri=xe("x",$f);function ey(){const{stats:u,resetProgress:A,sidebarOpen:M,setSidebarOpen:d,setQuizModeOpen:D,setAnalyticsOpen:L}=It(),G=()=>{window.confirm("Are you sure you want to reset all progress? This cannot be undone.")&&A()};return s.jsx("header",{className:"bg-surface border-b border-border sticky top-0 z-40",children:s.jsx("div",{className:"px-4 py-4 lg:px-6",children:s.jsxs("div",{className:"flex items-center justify-between gap-4",children:[s.jsx("button",{onClick:()=>d(!M),className:"lg:hidden p-2 rounded-lg hover:bg-surface-elevated transition-colors",children:s.jsx(Lf,{className:"w-5 h-5"})}),s.jsxs("div",{className:"flex-1 min-w-0",children:[s.jsx("h1",{className:"text-xl lg:text-2xl font-bold text-text-primary truncate",children:"React Native Interview Prep"}),s.jsx("p",{className:"text-sm text-text-secondary hidden sm:block",children:"Master your next interview"})]}),s.jsxs("div",{className:"flex items-center gap-4",children:[s.jsxs("div",{className:"hidden sm:flex flex-col items-end gap-1",children:[s.jsxs("div",{className:"flex items-center gap-2 text-sm",children:[s.jsxs("span",{className:"text-text-secondary",children:[u.completed," / ",u.total," completed"]}),s.jsxs("span",{className:"text-primary font-semibold",children:[u.percentage,"%"]})]}),s.jsx("div",{className:"w-32 h-2 bg-border rounded-full overflow-hidden",children:s.jsx("div",{className:"h-full bg-gradient-to-r from-primary to-gradient-end transition-all duration-300",style:{width:`${u.percentage}%`}})})]}),s.jsxs("div",{className:"sm:hidden flex items-center gap-2",children:[s.jsxs("span",{className:"text-primary font-semibold text-sm",children:[u.percentage,"%"]}),s.jsx("div",{className:"w-16 h-2 bg-border rounded-full overflow-hidden",children:s.jsx("div",{className:"h-full bg-gradient-to-r from-primary to-gradient-end transition-all duration-300",style:{width:`${u.percentage}%`}})})]}),s.jsxs("button",{onClick:()=>D(!0),className:"hidden sm:flex items-center gap-2 px-3 py-2 rounded-lg bg-primary/10 text-primary hover:bg-primary/20 transition-colors",title:"Start Quiz",children:[s.jsx(Hf,{className:"w-4 h-4"}),s.jsx("span",{className:"text-sm font-medium",children:"Quiz"})]}),s.jsxs("button",{onClick:()=>L(!0),className:"hidden sm:flex items-center gap-2 px-3 py-2 rounded-lg bg-gradient-end/10 text-gradient-end hover:bg-gradient-end/20 transition-colors",title:"View Analytics",children:[s.jsx(Sf,{className:"w-4 h-4"}),s.jsx("span",{className:"text-sm font-medium",children:"Analytics"})]}),s.jsx("button",{onClick:G,className:"p-2 rounded-lg text-text-secondary hover:text-error hover:bg-error/10 transition-colors",title:"Reset all progress",children:s.jsx(em,{className:"w-5 h-5"})})]})]})})})}function im(u){var A,M,d="";if(typeof u=="string"||typeof u=="number")d+=u;else if(typeof u=="object")if(Array.isArray(u)){var D=u.length;for(A=0;A<D;A++)u[A]&&(M=im(u[A]))&&(d&&(d+=" "),d+=M)}else for(M in u)u[M]&&(d&&(d+=" "),d+=M);return d}function De(){for(var u,A,M=0,d="",D=arguments.length;M<D;M++)(u=arguments[M])&&(A=im(u))&&(d&&(d+=" "),d+=A);return d}function Ur({title:u,children:A,defaultOpen:M=!0}){const[d,D]=N.useState(M);return s.jsxs("div",{className:"border-b border-border last:border-b-0",children:[s.jsxs("button",{onClick:()=>D(!d),className:"w-full flex items-center justify-between p-3 hover:bg-surface-elevated transition-colors",children:[s.jsx("span",{className:"font-medium text-text-primary",children:u}),d?s.jsx(Cl,{className:"w-4 h-4 text-text-muted"}):s.jsx(Tl,{className:"w-4 h-4 text-text-muted"})]}),d&&s.jsx("div",{className:"px-3 pb-3 space-y-1",children:A})]})}function Sl({label:u,count:A,checked:M,onChange:d,color:D}){return s.jsxs("label",{className:"flex items-center gap-2 p-2 rounded-lg hover:bg-surface-elevated cursor-pointer transition-colors",children:[s.jsx("input",{type:"checkbox",checked:M,onChange:d,className:"w-4 h-4 rounded border-border bg-surface accent-primary"}),s.jsxs("span",{className:De("flex-1 text-sm",M?"text-text-primary":"text-text-secondary"),children:[D&&s.jsx("span",{className:`inline-block w-2 h-2 rounded-full mr-2 ${D}`}),u]}),A!==void 0&&s.jsxs("span",{className:"text-xs text-text-muted",children:["(",A,")"]})]})}function ii({label:u,value:A,currentValue:M,onChange:d}){return s.jsxs("label",{className:"flex items-center gap-2 p-2 rounded-lg hover:bg-surface-elevated cursor-pointer transition-colors",children:[s.jsx("input",{type:"radio",checked:M===A,onChange:()=>d(A),className:"w-4 h-4 border-border bg-surface accent-primary"}),s.jsx("span",{className:De("text-sm",M===A?"text-text-primary":"text-text-secondary"),children:u})]})}function ty(){const{filters:u,updateFilter:A,toggleArrayFilter:M,clearFilters:d,activeFilterCount:D,stats:L,categoryCounts:G,difficultyCounts:R,seniorityCounts:E,sidebarOpen:w,setSidebarOpen:q,hiddenTopics:O,toggleHiddenTopic:B,showAllTopics:W}=It(),le={beginner:"bg-success",intermediate:"bg-warning",advanced:"bg-error"},ee={junior:"🌱 Junior",mid:"🌿 Mid",senior:"🌳 Senior",staff:"🏔️ Staff+"};return s.jsxs(s.Fragment,{children:[w&&s.jsx("div",{className:"lg:hidden fixed inset-0 bg-black/50 z-40",onClick:()=>q(!1)}),s.jsxs("aside",{className:De("fixed lg:sticky top-0 lg:top-[73px] left-0 h-full lg:h-[calc(100vh-73px)] w-72 bg-surface border-r border-border z-50 lg:z-30","transform transition-transform duration-200 ease-in-out","overflow-y-auto",w?"translate-x-0":"-translate-x-full lg:translate-x-0"),children:[s.jsxs("div",{className:"sticky top-0 bg-surface border-b border-border p-4 flex items-center justify-between",children:[s.jsxs("div",{children:[s.jsx("h2",{className:"font-semibold text-text-primary",children:"Filters"}),s.jsxs("p",{className:"text-sm text-text-muted",children:[L.filtered," of ",L.total," questions"]})]}),s.jsxs("div",{className:"flex items-center gap-2",children:[D>0&&s.jsx("button",{onClick:d,className:"text-xs text-primary hover:underline",children:"Clear all"}),s.jsx("button",{onClick:()=>q(!1),className:"lg:hidden p-1 rounded hover:bg-surface-elevated",children:s.jsx(ri,{className:"w-5 h-5 text-text-muted"})})]})]}),s.jsx("div",{className:"p-3 border-b border-border",children:s.jsxs("div",{className:"relative",children:[s.jsx(Vf,{className:"absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted"}),s.jsx("input",{type:"text",placeholder:"Search questions...",value:u.search,onChange:F=>A("search",F.target.value),className:"w-full pl-9 pr-3 py-2 bg-surface-elevated border border-border rounded-lg text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:border-primary transition-colors"}),u.search&&s.jsx("button",{onClick:()=>A("search",""),className:"absolute right-3 top-1/2 -translate-y-1/2",children:s.jsx(ri,{className:"w-4 h-4 text-text-muted hover:text-text-primary"})})]})}),s.jsx(Ur,{title:"Category",defaultOpen:!1,children:Qa.map(F=>s.jsx(Sl,{label:F,count:G[F],checked:u.categories.includes(F),onChange:()=>M("categories",F)},F))}),s.jsx(Ur,{title:"Difficulty",children:Qp.map(F=>s.jsx(Sl,{label:F.charAt(0).toUpperCase()+F.slice(1),count:R[F],checked:u.difficulties.includes(F),onChange:()=>M("difficulties",F),color:le[F]},F))}),s.jsx(Ur,{title:"Seniority Level",children:Yp.map(F=>s.jsx(Sl,{label:ee[F],count:E[F],checked:u.seniorities.includes(F),onChange:()=>M("seniorities",F)},F))}),s.jsxs(Ur,{title:"Status",children:[s.jsx(ii,{label:"All Questions",value:"all",currentValue:u.status,onChange:F=>A("status",F)}),s.jsx(ii,{label:"⭐ Bookmarked",value:"bookmarked",currentValue:u.status,onChange:F=>A("status",F)}),s.jsx(ii,{label:"⊗ Skipped",value:"skipped",currentValue:u.status,onChange:F=>A("status",F)}),s.jsx(ii,{label:"Pending",value:"pending",currentValue:u.status,onChange:F=>A("status",F)}),s.jsx(ii,{label:"Completed",value:"completed",currentValue:u.status,onChange:F=>A("status",F)})]}),s.jsxs(Ur,{title:"Sort By",children:[s.jsx(ii,{label:"Category",value:"category",currentValue:u.sortBy,onChange:F=>A("sortBy",F)}),s.jsx(ii,{label:"Difficulty",value:"difficulty",currentValue:u.sortBy,onChange:F=>A("sortBy",F)}),s.jsx(ii,{label:"Seniority",value:"seniority",currentValue:u.sortBy,onChange:F=>A("sortBy",F)}),s.jsx(ii,{label:"Alphabetical",value:"alphabetical",currentValue:u.sortBy,onChange:F=>A("sortBy",F)})]}),O.size>0&&s.jsx(Ur,{title:`Hidden Topics (${O.size})`,defaultOpen:!1,children:s.jsxs("div",{className:"space-y-1",children:[[...O].map(F=>s.jsxs("div",{className:"flex items-center justify-between p-2 rounded-lg hover:bg-surface-elevated",children:[s.jsx("span",{className:"text-sm text-text-secondary truncate flex-1",children:F}),s.jsxs("button",{onClick:()=>B(F),className:"flex items-center gap-1 p-1 rounded-md hover:bg-surface text-primary text-xs",title:"Show this topic",children:[s.jsx(xl,{className:"w-3 h-3"}),"Show"]})]},F)),O.size>1&&s.jsx("button",{onClick:W,className:"w-full mt-2 p-2 text-xs text-primary hover:underline",children:"Show all hidden topics"})]})})]})]})}function rm({question:u}){const{completedIds:A,toggleComplete:M,bookmarkedIds:d,toggleBookmark:D,skippedIds:L,toggleSkip:G,setSelectedQuestion:R}=It(),E=A.has(u.id),w=d.has(u.id),q=L.has(u.id),O=te=>{te.target.closest(".checkbox-area")||te.target.closest(".bookmark-area")||te.target.closest(".skip-area")||R(u)},B=te=>{te.stopPropagation(),M(u.id)},W=te=>{te.stopPropagation(),D(u.id)},le=te=>{te.stopPropagation(),G(u.id)},ee={beginner:"bg-success/20 text-success",intermediate:"bg-warning/20 text-warning",advanced:"bg-error/20 text-error"},F={junior:"bg-success/20 text-success",mid:"bg-primary/20 text-primary",senior:"bg-purple-500/20 text-purple-400",staff:"bg-warning/20 text-warning"};return s.jsx("div",{onClick:O,className:De("group p-4 bg-surface-elevated rounded-xl border cursor-pointer","transition-all duration-200","hover:border-primary hover:-translate-y-0.5 hover:shadow-lg hover:shadow-primary/5",E?"border-success/50 bg-gradient-to-r from-surface-elevated to-success/5":q?"border-text-muted/30 bg-surface-elevated/50 opacity-60":"border-border"),children:s.jsxs("div",{className:"flex gap-3",children:[s.jsx("div",{className:"checkbox-area flex-shrink-0 mt-0.5",onClick:B,children:s.jsx("div",{className:De("w-5 h-5 rounded-md border-2 flex items-center justify-center transition-all",E?"bg-success border-success":"border-border hover:border-primary"),children:E&&s.jsx(Xp,{className:"w-3 h-3 text-background"})})}),s.jsxs("div",{className:"flex-1 min-w-0",children:[s.jsx("p",{className:De("text-sm font-medium leading-relaxed mb-3",E?"text-text-secondary":"text-text-primary"),children:u.question}),s.jsxs("div",{className:"flex flex-wrap gap-2",children:[s.jsx("span",{className:De("px-2 py-0.5 rounded text-xs font-medium",ee[u.difficulty]),children:u.difficulty}),u.seniority&&s.jsx("span",{className:De("px-2 py-0.5 rounded text-xs font-medium",F[u.seniority]),children:u.seniority}),s.jsx("span",{className:"px-2 py-0.5 rounded text-xs font-medium bg-surface text-text-muted",children:u.category})]})]}),s.jsxs("div",{className:"flex items-center gap-1",children:[s.jsx("div",{className:"bookmark-area p-1 rounded-md hover:bg-surface transition-colors",onClick:W,children:s.jsx(tm,{className:De("w-4 h-4 transition-all",w?"fill-warning text-warning":"text-text-muted hover:text-warning")})}),s.jsx("div",{className:"skip-area p-1 rounded-md hover:bg-surface transition-colors",onClick:le,children:s.jsx(Zp,{className:De("w-4 h-4 transition-all",q?"fill-text-muted text-text-muted":"text-text-muted hover:text-error")})}),s.jsx(Tl,{className:"flex-shrink-0 w-5 h-5 text-text-muted opacity-0 group-hover:opacity-100 transition-opacity"})]})]})})}function kl(){const{filters:u,toggleArrayFilter:A,updateFilter:M,clearFilters:d,activeFilterCount:D,hiddenTopics:L,showAllTopics:G}=It(),R=L.size>0;return D===0&&!R?null:s.jsxs("div",{className:"flex flex-wrap gap-2 mb-4",children:[u.search&&s.jsx(Dn,{label:`Search: "${u.search}"`,onRemove:()=>M("search","")}),u.categories.map(E=>s.jsx(Dn,{label:E,onRemove:()=>A("categories",E)},E)),u.difficulties.map(E=>s.jsx(Dn,{label:E.charAt(0).toUpperCase()+E.slice(1),onRemove:()=>A("difficulties",E)},E)),u.seniorities.map(E=>s.jsx(Dn,{label:E.charAt(0).toUpperCase()+E.slice(1),onRemove:()=>A("seniorities",E)},E)),u.status!=="all"&&s.jsx(Dn,{label:`Status: ${u.status}`,onRemove:()=>M("status","all")}),R&&s.jsxs("span",{className:"inline-flex items-center gap-1 px-3 py-1 bg-warning/10 text-warning rounded-full text-sm",children:[s.jsx(xl,{className:"w-3 h-3"}),L.size," topic",L.size>1?"s":""," hidden",s.jsx("button",{onClick:G,className:"p-0.5 rounded-full hover:bg-warning/20 transition-colors",title:"Show all hidden topics",children:s.jsx(ri,{className:"w-3 h-3"})})]}),D>1&&s.jsx("button",{onClick:d,className:"px-3 py-1 text-xs text-primary hover:text-primary-dark hover:underline transition-colors",children:"Clear all"})]})}function Dn({label:u,onRemove:A}){return s.jsxs("span",{className:"inline-flex items-center gap-1 px-3 py-1 bg-primary/10 text-primary rounded-full text-sm",children:[u,s.jsx("button",{onClick:A,className:"p-0.5 rounded-full hover:bg-primary/20 transition-colors",children:s.jsx(ri,{className:"w-3 h-3"})})]})}function iy({category:u,icon:A,questions:M,defaultExpanded:d=!0}){const[D,L]=N.useState(d),{completedIds:G,toggleHiddenTopic:R}=It(),E=M.filter(q=>G.has(q.id)).length,w=q=>{q.stopPropagation(),R(u)};return s.jsxs("div",{className:"mb-4",children:[s.jsxs("button",{onClick:()=>L(!D),className:"w-full flex items-center gap-3 p-3 bg-surface rounded-lg hover:bg-surface-elevated transition-colors group",children:[s.jsx("span",{className:"text-xl",children:A}),s.jsx("span",{className:"flex-1 text-left font-semibold text-text-primary",children:u}),s.jsxs("span",{className:"text-sm text-text-muted",children:[E,"/",M.length]}),s.jsx("div",{onClick:w,className:"p-1 rounded-md hover:bg-surface opacity-0 group-hover:opacity-100 transition-opacity",title:"Hide this topic",children:s.jsx(Pf,{className:"w-4 h-4 text-text-muted hover:text-error"})}),D?s.jsx(Cl,{className:"w-5 h-5 text-text-muted"}):s.jsx(Tl,{className:"w-5 h-5 text-text-muted"})]}),D&&s.jsx("div",{className:"mt-2 space-y-2 pl-2",children:M.map(q=>s.jsx(rm,{question:q},q.id))})]})}function ry(){const{visibleGroupedQuestions:u,filteredQuestions:A,stats:M,filters:d,hiddenTopics:D,showAllTopics:L}=It(),G=Object.keys(u),R=d.sortBy!=="category";return A.length===0?s.jsxs("div",{className:"flex-1 p-6",children:[s.jsx(kl,{}),s.jsxs("div",{className:"flex flex-col items-center justify-center py-16 text-center",children:[s.jsx("div",{className:"text-6xl mb-4",children:"🔍"}),s.jsx("h3",{className:"text-xl font-semibold text-text-primary mb-2",children:"No questions match your filters"}),s.jsx("p",{className:"text-text-secondary mb-4",children:"Try adjusting your filters or search term"})]})]}):!R&&G.length===0&&A.length>0?s.jsxs("div",{className:"flex-1 p-6",children:[s.jsx(kl,{}),s.jsxs("div",{className:"flex flex-col items-center justify-center py-16 text-center",children:[s.jsx("div",{className:"text-6xl mb-4",children:"👁️"}),s.jsx("h3",{className:"text-xl font-semibold text-text-primary mb-2",children:"All topics are hidden"}),s.jsx("p",{className:"text-text-secondary mb-4",children:"Show topics from the sidebar, or switch to list view"}),s.jsx("button",{onClick:L,className:"px-4 py-2 bg-primary text-white rounded-lg hover:opacity-90 transition-opacity",children:"Show all topics"})]})]}):s.jsxs("div",{className:"flex-1 p-4 lg:p-6 overflow-y-auto",children:[s.jsx(kl,{}),s.jsxs("div",{className:"mb-4 text-sm text-text-muted",children:["Showing ",M.filtered," of ",M.total," questions",!R&&D.size>0&&s.jsxs("span",{className:"ml-2",children:["(",D.size," topic",D.size>1?"s":""," hidden)"]})]}),R&&s.jsx("div",{className:"space-y-2",children:A.map(E=>s.jsx(rm,{question:E},E.id))}),!R&&G.map(E=>s.jsx(iy,{category:E,icon:u[E].icon,questions:u[E].questions},E))]})}function ny({position:u,selectedText:A,onSubmit:M,onClose:d}){const[D,L]=N.useState(""),[G,R]=N.useState(!1),E=N.useRef(null),w=N.useRef(null);N.useEffect(()=>{G&&E.current&&E.current.focus()},[G]),N.useEffect(()=>{const B=W=>{w.current&&!w.current.contains(W.target)&&d()};return document.addEventListener("mousedown",B),()=>document.removeEventListener("mousedown",B)},[d]),N.useEffect(()=>{const B=W=>{W.key==="Escape"&&d()};return window.addEventListener("keydown",B),()=>window.removeEventListener("keydown",B)},[d]);const q=B=>{B.preventDefault(),D.trim()&&(M(D.trim()),L(""),d())},O={position:"fixed",left:Math.min(u.x,window.innerWidth-320),top:Math.min(u.y+10,window.innerHeight-200),zIndex:100};return G?s.jsxs("div",{ref:w,style:O,className:"w-80 bg-surface border border-border rounded-xl shadow-2xl overflow-hidden",children:[s.jsxs("div",{className:"px-4 py-3 border-b border-border bg-surface-elevated flex items-center justify-between",children:[s.jsx("span",{className:"text-sm font-medium text-text-primary",children:"Add Comment"}),s.jsx("button",{onClick:d,className:"p-1 rounded hover:bg-surface text-text-muted hover:text-text-primary transition-colors",children:s.jsx(ri,{className:"w-4 h-4"})})]}),s.jsxs("div",{className:"px-4 py-2 bg-primary/10 border-b border-border",children:[s.jsx("p",{className:"text-xs text-text-muted mb-1",children:"Selected text:"}),s.jsxs("p",{className:"text-sm text-text-secondary line-clamp-2 italic",children:['"',A.substring(0,100),A.length>100?"...":"",'"']})]}),s.jsxs("form",{onSubmit:q,className:"p-4",children:[s.jsx("textarea",{ref:E,value:D,onChange:B=>L(B.target.value),placeholder:"Write your comment or note...",className:"w-full px-3 py-2 bg-surface-elevated border border-border rounded-lg text-sm text-text-primary placeholder-text-muted focus:outline-none focus:ring-2 focus:ring-primary/50 resize-none",rows:3}),s.jsxs("div",{className:"flex justify-end gap-2 mt-3",children:[s.jsx("button",{type:"button",onClick:d,className:"px-3 py-1.5 text-sm text-text-secondary hover:text-text-primary transition-colors",children:"Cancel"}),s.jsxs("button",{type:"submit",disabled:!D.trim(),className:De("flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors",D.trim()?"bg-primary text-background hover:bg-primary-dark":"bg-surface-elevated text-text-muted cursor-not-allowed"),children:[s.jsx(Kf,{className:"w-3.5 h-3.5"}),"Save"]})]})]})]}):s.jsx("div",{ref:w,style:O,children:s.jsxs("button",{onClick:()=>R(!0),className:"flex items-center gap-2 px-3 py-2 bg-primary text-background rounded-lg shadow-lg hover:bg-primary-dark transition-colors text-sm font-medium",children:[s.jsx(Bf,{className:"w-4 h-4"}),"Add Comment"]})})}function ay({questionId:u}){const{getCommentsForQuestion:A,deleteComment:M}=It(),[d,D]=N.useState(!0),L=A(u);if(L.length===0)return null;const G=R=>new Date(R).toLocaleDateString("en-US",{month:"short",day:"numeric",hour:"2-digit",minute:"2-digit"});return s.jsxs("div",{className:"mt-6 border-t border-border pt-4",children:[s.jsxs("button",{onClick:()=>D(!d),className:"flex items-center gap-2 text-sm font-medium text-text-secondary hover:text-text-primary transition-colors mb-3",children:[s.jsx($p,{className:"w-4 h-4"}),"Your Notes (",L.length,")",d?s.jsx(Tf,{className:"w-4 h-4"}):s.jsx(Cl,{className:"w-4 h-4"})]}),d&&s.jsx("div",{className:"space-y-3",children:L.map(R=>s.jsxs("div",{className:"bg-surface-elevated border border-border rounded-lg p-3 group",children:[s.jsxs("div",{className:"mb-2 pb-2 border-b border-border/50",children:[s.jsx("p",{className:"text-xs text-text-muted mb-1",children:"Highlighted:"}),s.jsxs("p",{className:"text-sm text-primary/80 italic line-clamp-2",children:['"',R.selectedText,'"']})]}),s.jsx("p",{className:"text-sm text-text-primary whitespace-pre-wrap",children:R.comment}),s.jsxs("div",{className:"flex items-center justify-between mt-2 pt-2 border-t border-border/50",children:[s.jsx("span",{className:"text-xs text-text-muted",children:G(R.createdAt)}),s.jsx("button",{onClick:()=>M(u,R.id),className:"p-1 rounded text-text-muted hover:text-error hover:bg-error/10 opacity-0 group-hover:opacity-100 transition-all",title:"Delete comment",children:s.jsx(Jf,{className:"w-3.5 h-3.5"})})]})]},R.id))})]})}function oy(){const{selectedQuestion:u,setSelectedQuestion:A,completedIds:M,toggleComplete:d,bookmarkedIds:D,toggleBookmark:L,skippedIds:G,toggleSkip:R,addComment:E,getCommentsForQuestion:w}=It(),q=N.useRef(null),[O,B]=N.useState(null),W=N.useCallback(()=>{A(null)},[A]);N.useEffect(()=>{const ue=he=>{he.key==="Escape"&&W()};return window.addEventListener("keydown",ue),()=>window.removeEventListener("keydown",ue)},[W]),N.useEffect(()=>(u?document.body.style.overflow="hidden":document.body.style.overflow="",()=>{document.body.style.overflow=""}),[u]),N.useEffect(()=>{if(!q.current||!u)return;const ue=Ie=>{setTimeout(()=>{const Ve=window.getSelection(),ft=Ve?.toString().trim();if(ft&&ft.length>0){const Je=Ve.getRangeAt(0);if(q.current.contains(Je.commonAncestorContainer)){const Ue=Je.getBoundingClientRect();B({x:Ue.left+Ue.width/2-60,y:Ue.bottom,text:ft})}}},10)},he=Ie=>{Ie.target.closest(".comment-popup-container")||B(null)},Y=q.current;return Y.addEventListener("mouseup",ue),document.addEventListener("mousedown",he),()=>{Y.removeEventListener("mouseup",ue),document.removeEventListener("mousedown",he)}},[u]),N.useEffect(()=>{if(!q.current||!u)return;q.current.querySelectorAll("pre").forEach(he=>{if(he.querySelector(".copy-btn"))return;he.style.position="relative";const Y=document.createElement("button");Y.className="copy-btn",Y.innerHTML='<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>',Y.title="Copy code",Y.onclick=async()=>{const Ie=he.querySelector("code")?.textContent||he.textContent||"";try{await navigator.clipboard.writeText(Ie),Y.innerHTML='<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>',Y.classList.add("copied"),setTimeout(()=>{Y.innerHTML='<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>',Y.classList.remove("copied")},2e3)}catch(Ve){console.error("Failed to copy:",Ve)}},he.appendChild(Y)})},[u]);const le=N.useCallback(ue=>{O&&u&&(E(u.id,O.text,ue),B(null),window.getSelection()?.removeAllRanges())},[O,u,E]);if(!u)return null;const ee=M.has(u.id),F=D.has(u.id),te=G.has(u.id),je=w(u.id).length,Ae={beginner:"bg-success/20 text-success",intermediate:"bg-warning/20 text-warning",advanced:"bg-error/20 text-error"},de={junior:"bg-success/20 text-success",mid:"bg-primary/20 text-primary",senior:"bg-purple-500/20 text-purple-400",staff:"bg-warning/20 text-warning"};return s.jsxs("div",{className:"fixed inset-0 z-50 flex items-center justify-center p-4",onClick:W,children:[s.jsx("div",{className:"absolute inset-0 bg-black/70 backdrop-blur-sm"}),s.jsxs("div",{onClick:ue=>ue.stopPropagation(),className:"relative w-full max-w-3xl max-h-[90vh] bg-surface rounded-2xl border border-border shadow-2xl flex flex-col overflow-hidden",children:[s.jsx("div",{className:"flex-shrink-0 p-6 border-b border-border",children:s.jsxs("div",{className:"flex items-start gap-4",children:[s.jsxs("div",{className:"flex-1",children:[s.jsx("h2",{className:"text-lg font-semibold text-text-primary leading-relaxed mb-3",children:u.question}),s.jsxs("div",{className:"flex flex-wrap gap-2",children:[s.jsx("span",{className:De("px-2 py-0.5 rounded text-xs font-medium",Ae[u.difficulty]),children:u.difficulty}),u.seniority&&s.jsx("span",{className:De("px-2 py-0.5 rounded text-xs font-medium",de[u.seniority]),children:u.seniority}),s.jsxs("span",{className:"px-2 py-0.5 rounded text-xs font-medium bg-surface-elevated text-text-muted",children:[u.icon," ",u.category]})]})]}),s.jsx("button",{onClick:W,className:"p-2 rounded-lg hover:bg-surface-elevated text-text-muted hover:text-text-primary transition-colors",children:s.jsx(ri,{className:"w-5 h-5"})})]})}),s.jsxs("div",{className:"flex-1 overflow-y-auto p-6",children:[s.jsxs("div",{className:"mb-4 px-3 py-2 bg-primary/10 border border-primary/20 rounded-lg text-xs text-primary flex items-center gap-2",children:[s.jsx($p,{className:"w-4 h-4"}),s.jsx("span",{children:"Select any text to add a personal note or comment"}),je>0&&s.jsxs("span",{className:"ml-auto bg-primary/20 px-2 py-0.5 rounded-full",children:[je," note",je!==1?"s":""]})]}),s.jsx("div",{ref:q,className:"answer-content",dangerouslySetInnerHTML:{__html:u.answer}}),s.jsx(ay,{questionId:u.id})]}),O&&s.jsx("div",{className:"comment-popup-container",children:s.jsx(ny,{position:{x:O.x,y:O.y},selectedText:O.text,onSubmit:le,onClose:()=>B(null)})}),s.jsxs("div",{className:"flex-shrink-0 p-4 border-t border-border bg-surface-elevated flex items-center justify-between",children:[s.jsx("div",{className:"flex items-center gap-2",children:s.jsx("button",{onClick:W,className:"px-4 py-2 rounded-lg text-text-secondary hover:text-text-primary hover:bg-surface transition-colors",children:"Close"})}),s.jsxs("div",{className:"flex items-center gap-2",children:[s.jsxs("button",{onClick:()=>L(u.id),className:De("flex items-center gap-2 px-3 py-2 rounded-lg font-medium transition-all",F?"bg-warning/20 text-warning hover:bg-warning/30":"bg-surface text-text-secondary hover:bg-surface-elevated hover:text-warning"),title:F?"Remove bookmark":"Bookmark question",children:[s.jsx(tm,{className:De("w-4 h-4",F&&"fill-warning")}),F?"Bookmarked":"Bookmark"]}),s.jsxs("button",{onClick:()=>R(u.id),className:De("flex items-center gap-2 px-3 py-2 rounded-lg font-medium transition-all",te?"bg-text-muted/20 text-text-muted hover:bg-text-muted/30":"bg-surface text-text-secondary hover:bg-surface-elevated hover:text-error"),title:te?"Unskip question":"Skip question",children:[s.jsx(Zp,{className:De("w-4 h-4",te&&"fill-text-muted")}),te?"Skipped":"Skip"]}),s.jsx("button",{onClick:()=>{d(u.id),ee||W()},className:De("flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all",ee?"bg-success/20 text-success hover:bg-success/30":"bg-primary text-background hover:bg-primary-dark"),children:ee?s.jsxs(s.Fragment,{children:[s.jsx(Xp,{className:"w-4 h-4"}),"Completed"]}):s.jsxs(s.Fragment,{children:[s.jsx(Ef,{className:"w-4 h-4"}),"Mark as Complete"]})})]})]})]})]})}function sy({onClose:u}){const{filteredQuestions:A}=It(),[M,d]=N.useState([]),[D,L]=N.useState(0),[G,R]=N.useState(!1),[E,w]=N.useState({correct:0,incorrect:0}),[q,O]=N.useState(!1),[B]=N.useState(Date.now()),[W,le]=N.useState(0);N.useEffect(()=>{const de=[...A].sort(()=>Math.random()-.5).slice(0,Math.min(10,A.length));d(de)},[]),N.useEffect(()=>{if(q)return;const de=setInterval(()=>{le(Math.floor((Date.now()-B)/1e3))},1e3);return()=>clearInterval(de)},[B,q]);const ee=de=>{const ue=Math.floor(de/60),he=de%60;return`${ue}:${he.toString().padStart(2,"0")}`},F=M[D],te=de=>{w(ue=>({...ue,[de?"correct":"incorrect"]:ue[de?"correct":"incorrect"]+1})),D<M.length-1?(L(ue=>ue+1),R(!1)):O(!0)},je=()=>{const de=[...A].sort(()=>Math.random()-.5).slice(0,Math.min(10,A.length));d(de),L(0),R(!1),w({correct:0,incorrect:0}),O(!1)};if(N.useEffect(()=>{const de=ue=>{ue.key==="Escape"&&u()};return window.addEventListener("keydown",de),()=>window.removeEventListener("keydown",de)},[u]),N.useEffect(()=>(document.body.style.overflow="hidden",()=>{document.body.style.overflow=""}),[]),M.length===0)return s.jsx("div",{className:"fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm",children:s.jsxs("div",{className:"bg-surface rounded-2xl border border-border p-8 text-center max-w-md",children:[s.jsx("p",{className:"text-text-secondary mb-4",children:"No questions available for quiz."}),s.jsx("p",{className:"text-sm text-text-muted mb-6",children:"Adjust your filters to include more questions."}),s.jsx("button",{onClick:u,className:"px-4 py-2 bg-primary text-background rounded-lg font-medium",children:"Close"})]})});const Ae={beginner:"bg-success/20 text-success",intermediate:"bg-warning/20 text-warning",advanced:"bg-error/20 text-error"};return s.jsx("div",{className:"fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm",children:s.jsxs("div",{className:"w-full max-w-3xl max-h-[90vh] bg-surface rounded-2xl border border-border shadow-2xl flex flex-col overflow-hidden",children:[s.jsxs("div",{className:"flex-shrink-0 p-4 border-b border-border flex items-center justify-between",children:[s.jsxs("div",{className:"flex items-center gap-4",children:[s.jsx("h2",{className:"text-lg font-semibold text-text-primary",children:"Quiz Mode"}),s.jsxs("div",{className:"flex items-center gap-2 text-sm text-text-secondary",children:[s.jsx(Df,{className:"w-4 h-4"}),ee(W)]})]}),s.jsxs("div",{className:"flex items-center gap-4",children:[s.jsxs("div",{className:"flex items-center gap-2 text-sm",children:[s.jsxs("span",{className:"text-success",children:[E.correct," correct"]}),s.jsx("span",{className:"text-text-muted",children:"|"}),s.jsxs("span",{className:"text-error",children:[E.incorrect," incorrect"]})]}),s.jsx("button",{onClick:u,className:"p-2 rounded-lg hover:bg-surface-elevated text-text-muted hover:text-text-primary transition-colors",children:s.jsx(ri,{className:"w-5 h-5"})})]})]}),q?s.jsxs("div",{className:"flex-1 p-8 flex flex-col items-center justify-center text-center",children:[s.jsx(Kp,{className:"w-16 h-16 text-warning mb-4"}),s.jsx("h3",{className:"text-2xl font-bold text-text-primary mb-2",children:"Quiz Complete!"}),s.jsxs("p",{className:"text-text-secondary mb-6",children:["You got ",E.correct," out of ",M.length," questions correct"]}),s.jsx("div",{className:"text-4xl font-bold mb-6",children:s.jsxs("span",{className:De(E.correct/M.length>=.8?"text-success":E.correct/M.length>=.6?"text-warning":"text-error"),children:[Math.round(E.correct/M.length*100),"%"]})}),s.jsxs("p",{className:"text-sm text-text-muted mb-6",children:["Time: ",ee(W)]}),s.jsxs("div",{className:"flex gap-3",children:[s.jsxs("button",{onClick:je,className:"flex items-center gap-2 px-4 py-2 bg-primary text-background rounded-lg font-medium",children:[s.jsx(em,{className:"w-4 h-4"}),"Try Again"]}),s.jsx("button",{onClick:u,className:"px-4 py-2 text-text-secondary hover:text-text-primary hover:bg-surface-elevated rounded-lg transition-colors",children:"Close"})]})]}):s.jsxs(s.Fragment,{children:[s.jsxs("div",{className:"flex-shrink-0 px-4 pt-4",children:[s.jsxs("div",{className:"flex items-center justify-between text-sm text-text-muted mb-2",children:[s.jsxs("span",{children:["Question ",D+1," of ",M.length]}),s.jsx("span",{className:De("px-2 py-0.5 rounded text-xs font-medium",Ae[F.difficulty]),children:F.difficulty})]}),s.jsx("div",{className:"w-full h-1 bg-border rounded-full overflow-hidden",children:s.jsx("div",{className:"h-full bg-gradient-to-r from-primary to-gradient-end transition-all duration-300",style:{width:`${(D+1)/M.length*100}%`}})})]}),s.jsxs("div",{className:"flex-1 overflow-y-auto p-6",children:[s.jsx("div",{className:"mb-4",children:s.jsxs("span",{className:"text-xs text-text-muted bg-surface-elevated px-2 py-1 rounded",children:[F.icon," ",F.category]})}),s.jsx("h3",{className:"text-xl font-semibold text-text-primary mb-6",children:F.question}),G?s.jsx("div",{className:"border-t border-border pt-6",children:s.jsx("div",{className:"answer-content",dangerouslySetInnerHTML:{__html:F.answer}})}):s.jsx("div",{className:"flex justify-center",children:s.jsxs("button",{onClick:()=>R(!0),className:"flex items-center gap-2 px-6 py-3 bg-surface-elevated border border-border rounded-lg text-text-secondary hover:text-text-primary hover:border-primary transition-all",children:[s.jsx(xl,{className:"w-5 h-5"}),"Reveal Answer"]})})]}),G&&s.jsxs("div",{className:"flex-shrink-0 p-4 border-t border-border bg-surface-elevated",children:[s.jsx("p",{className:"text-sm text-text-muted text-center mb-3",children:"How did you do?"}),s.jsxs("div",{className:"flex justify-center gap-3",children:[s.jsxs("button",{onClick:()=>te(!1),className:"flex items-center gap-2 px-6 py-2 bg-error/20 text-error rounded-lg font-medium hover:bg-error/30 transition-colors",children:[s.jsx(ri,{className:"w-4 h-4"}),"Incorrect"]}),s.jsxs("button",{onClick:()=>te(!0),className:"flex items-center gap-2 px-6 py-2 bg-success/20 text-success rounded-lg font-medium hover:bg-success/30 transition-colors",children:[s.jsx(Kp,{className:"w-4 h-4"}),"Got it!"]})]})]})]})]})})}function ly({onClose:u}){const{questionsData:A,completedIds:M,bookmarkedIds:d}=It(),D=N.useMemo(()=>{const R=Qa.map(B=>{const W=A.filter(ee=>ee.category===B),le=W.filter(ee=>M.has(ee.id)).length;return{name:B,total:W.length,completed:le,percentage:Math.round(le/W.length*100)||0,icon:W[0]?.icon||"📚"}}).sort((B,W)=>W.total-B.total),E=Qp.map(B=>{const W=A.filter(ee=>ee.difficulty===B),le=W.filter(ee=>M.has(ee.id)).length;return{name:B,total:W.length,completed:le,percentage:Math.round(le/W.length*100)||0}}),w=Yp.map(B=>{const W=A.filter(ee=>ee.seniority===B),le=W.filter(ee=>M.has(ee.id)).length;return{name:B,total:W.length,completed:le,percentage:Math.round(le/W.length*100)||0}}),q=R.filter(B=>B.total>=2&&B.percentage<50).sort((B,W)=>B.percentage-W.percentage).slice(0,5),O=R.filter(B=>B.total>=2&&B.percentage>=50).sort((B,W)=>W.percentage-B.percentage).slice(0,5);return{total:A.length,completed:M.size,bookmarked:d.size,percentage:Math.round(M.size/A.length*100),categoryStats:R,difficultyStats:E,seniorityStats:w,weakAreas:q,strongAreas:O}},[A,M,d]);N.useEffect(()=>{const R=E=>{E.key==="Escape"&&u()};return window.addEventListener("keydown",R),()=>window.removeEventListener("keydown",R)},[u]),N.useEffect(()=>(document.body.style.overflow="hidden",()=>{document.body.style.overflow=""}),[]);const L={beginner:"bg-success",intermediate:"bg-warning",advanced:"bg-error"},G={junior:"🌱 Junior",mid:"🌿 Mid",senior:"🌳 Senior",staff:"🏔️ Staff+"};return s.jsx("div",{className:"fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm",children:s.jsxs("div",{className:"w-full max-w-4xl max-h-[90vh] bg-surface rounded-2xl border border-border shadow-2xl flex flex-col overflow-hidden",children:[s.jsxs("div",{className:"flex-shrink-0 p-4 border-b border-border flex items-center justify-between",children:[s.jsxs("div",{className:"flex items-center gap-3",children:[s.jsx("div",{className:"p-2 bg-gradient-end/20 rounded-lg",children:s.jsx(zp,{className:"w-5 h-5 text-gradient-end"})}),s.jsx("h2",{className:"text-lg font-semibold text-text-primary",children:"Progress Analytics"})]}),s.jsx("button",{onClick:u,className:"p-2 rounded-lg hover:bg-surface-elevated text-text-muted hover:text-text-primary transition-colors",children:s.jsx(ri,{className:"w-5 h-5"})})]}),s.jsxs("div",{className:"flex-1 overflow-y-auto p-6 space-y-6",children:[s.jsxs("div",{className:"grid grid-cols-2 md:grid-cols-4 gap-4",children:[s.jsxs("div",{className:"bg-surface-elevated rounded-xl p-4 border border-border",children:[s.jsxs("div",{className:"flex items-center gap-2 text-text-muted mb-2",children:[s.jsx(vf,{className:"w-4 h-4"}),s.jsx("span",{className:"text-sm",children:"Total"})]}),s.jsx("p",{className:"text-2xl font-bold text-text-primary",children:D.total})]}),s.jsxs("div",{className:"bg-surface-elevated rounded-xl p-4 border border-border",children:[s.jsxs("div",{className:"flex items-center gap-2 text-success mb-2",children:[s.jsx(Qf,{className:"w-4 h-4"}),s.jsx("span",{className:"text-sm",children:"Completed"})]}),s.jsx("p",{className:"text-2xl font-bold text-success",children:D.completed})]}),s.jsxs("div",{className:"bg-surface-elevated rounded-xl p-4 border border-border",children:[s.jsxs("div",{className:"flex items-center gap-2 text-warning mb-2",children:[s.jsx(ff,{className:"w-4 h-4"}),s.jsx("span",{className:"text-sm",children:"Bookmarked"})]}),s.jsx("p",{className:"text-2xl font-bold text-warning",children:D.bookmarked})]}),s.jsxs("div",{className:"bg-surface-elevated rounded-xl p-4 border border-border",children:[s.jsxs("div",{className:"flex items-center gap-2 text-primary mb-2",children:[s.jsx(zp,{className:"w-4 h-4"}),s.jsx("span",{className:"text-sm",children:"Progress"})]}),s.jsxs("p",{className:"text-2xl font-bold text-primary",children:[D.percentage,"%"]})]})]}),s.jsxs("div",{className:"bg-surface-elevated rounded-xl p-4 border border-border",children:[s.jsx("h3",{className:"font-semibold text-text-primary mb-4",children:"By Difficulty"}),s.jsx("div",{className:"space-y-3",children:D.difficultyStats.map(R=>s.jsxs("div",{className:"flex items-center gap-3",children:[s.jsx("span",{className:"w-28 text-sm text-text-secondary capitalize",children:R.name}),s.jsx("div",{className:"flex-1 h-4 bg-surface rounded-full overflow-hidden",children:s.jsx("div",{className:De("h-full transition-all",L[R.name]),style:{width:`${R.percentage}%`}})}),s.jsxs("span",{className:"w-20 text-sm text-text-muted text-right",children:[R.completed,"/",R.total]})]},R.name))})]}),s.jsxs("div",{className:"bg-surface-elevated rounded-xl p-4 border border-border",children:[s.jsx("h3",{className:"font-semibold text-text-primary mb-4",children:"By Seniority Level"}),s.jsx("div",{className:"space-y-3",children:D.seniorityStats.map(R=>s.jsxs("div",{className:"flex items-center gap-3",children:[s.jsx("span",{className:"w-28 text-sm text-text-secondary",children:G[R.name]}),s.jsx("div",{className:"flex-1 h-4 bg-surface rounded-full overflow-hidden",children:s.jsx("div",{className:"h-full bg-gradient-to-r from-primary to-gradient-end transition-all",style:{width:`${R.percentage}%`}})}),s.jsxs("span",{className:"w-20 text-sm text-text-muted text-right",children:[R.completed,"/",R.total]})]},R.name))})]}),s.jsxs("div",{className:"grid md:grid-cols-2 gap-4",children:[D.weakAreas.length>0&&s.jsxs("div",{className:"bg-surface-elevated rounded-xl p-4 border border-error/30",children:[s.jsx("h3",{className:"font-semibold text-error mb-3",children:"Needs Work"}),s.jsx("div",{className:"space-y-2",children:D.weakAreas.map(R=>s.jsxs("div",{className:"flex items-center justify-between text-sm",children:[s.jsxs("span",{className:"text-text-secondary",children:[R.icon," ",R.name]}),s.jsxs("span",{className:"text-error",children:[R.percentage,"%"]})]},R.name))})]}),D.strongAreas.length>0&&s.jsxs("div",{className:"bg-surface-elevated rounded-xl p-4 border border-success/30",children:[s.jsx("h3",{className:"font-semibold text-success mb-3",children:"Strong Areas"}),s.jsx("div",{className:"space-y-2",children:D.strongAreas.map(R=>s.jsxs("div",{className:"flex items-center justify-between text-sm",children:[s.jsxs("span",{className:"text-text-secondary",children:[R.icon," ",R.name]}),s.jsxs("span",{className:"text-success",children:[R.percentage,"%"]})]},R.name))})]})]}),s.jsxs("div",{className:"bg-surface-elevated rounded-xl p-4 border border-border",children:[s.jsx("h3",{className:"font-semibold text-text-primary mb-4",children:"All Categories"}),s.jsx("div",{className:"grid gap-2 max-h-64 overflow-y-auto",children:D.categoryStats.map(R=>s.jsxs("div",{className:"flex items-center gap-3 p-2 rounded-lg hover:bg-surface transition-colors",children:[s.jsx("span",{className:"text-lg",children:R.icon}),s.jsx("span",{className:"flex-1 text-sm text-text-secondary truncate",children:R.name}),s.jsx("div",{className:"w-24 h-2 bg-surface rounded-full overflow-hidden",children:s.jsx("div",{className:De("h-full transition-all",R.percentage>=80?"bg-success":R.percentage>=50?"bg-primary":R.percentage>=25?"bg-warning":"bg-error"),style:{width:`${R.percentage}%`}})}),s.jsxs("span",{className:"w-16 text-xs text-text-muted text-right",children:[R.completed,"/",R.total]})]},R.name))})]})]}),s.jsx("div",{className:"flex-shrink-0 p-4 border-t border-border bg-surface-elevated",children:s.jsx("button",{onClick:u,className:"w-full py-2 text-text-secondary hover:text-text-primary hover:bg-surface rounded-lg transition-colors",children:"Close"})})]})})}function cy(){const{quizModeOpen:u,setQuizModeOpen:A,analyticsOpen:M,setAnalyticsOpen:d}=It();return s.jsxs("div",{className:"min-h-screen bg-background flex flex-col",children:[s.jsx(ey,{}),s.jsxs("div",{className:"flex-1 flex",children:[s.jsx(ty,{}),s.jsx("main",{className:"flex-1 flex flex-col overflow-hidden",children:s.jsx(ry,{})})]}),s.jsx(oy,{}),u&&s.jsx(sy,{onClose:()=>A(!1)}),M&&s.jsx(ly,{onClose:()=>d(!1)})]})}function dy(){return s.jsx(cf,{children:s.jsx(cy,{})})}Oh.createRoot(document.getElementById("root")).render(s.jsx(N.StrictMode,{children:s.jsx(dy,{})}));
