@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useMemo, useCallback, useEffect } from 'react'
-import { questionsData } from '../data/questions'
+import { questionsData } from '../data/questions/index'
 
 const AppContext = createContext()
 
