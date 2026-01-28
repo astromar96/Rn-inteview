@@ -1,4 +1,4 @@
-import { X } from 'lucide-react'
+import { X, Eye } from 'lucide-react'
 import { useApp } from '../context/AppContext'
 
 export function FilterChips() {
@@ -8,9 +8,13 @@ export function FilterChips() {
     updateFilter,
     clearFilters,
     activeFilterCount,
+    hiddenTopics,
+    showAllTopics,
   } = useApp()
 
-  if (activeFilterCount === 0) return null
+  const hasHiddenTopics = hiddenTopics.size > 0
+
+  if (activeFilterCount === 0 && !hasHiddenTopics) return null
 
   return (
     <div className="flex flex-wrap gap-2 mb-4">
@@ -55,6 +59,21 @@ export function FilterChips() {
           label={`Status: ${filters.status}`}
           onRemove={() => updateFilter('status', 'all')}
         />
+      )}
+
+      {/* Hidden topics chip */}
+      {hasHiddenTopics && (
+        <span className="inline-flex items-center gap-1 px-3 py-1 bg-warning/10 text-warning rounded-full text-sm">
+          <Eye className="w-3 h-3" />
+          {hiddenTopics.size} topic{hiddenTopics.size > 1 ? 's' : ''} hidden
+          <button
+            onClick={showAllTopics}
+            className="p-0.5 rounded-full hover:bg-warning/20 transition-colors"
+            title="Show all hidden topics"
+          >
+            <X className="w-3 h-3" />
+          </button>
+        </span>
       )}
 
       {/* Clear all */}

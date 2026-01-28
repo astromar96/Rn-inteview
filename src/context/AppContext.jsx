@@ -8,6 +8,7 @@ const BOOKMARKS_KEY = 'rn-interview-bookmarks'
 const SKIPPED_KEY = 'rn-interview-skipped'
 const FILTERS_KEY = 'rn-interview-filters'
 const COMMENTS_KEY = 'rn-interview-comments'
+const HIDDEN_TOPICS_KEY = 'rn-interview-hidden-topics'
 
 // Extract unique values for filter options
 export const CATEGORIES = [...new Set(questionsData.map(q => q.category))]
@@ -86,6 +87,21 @@ export function AppProvider({ children }) {
     }
   })
 
+  // Load hidden topics from localStorage
+  // Default: all topics hidden except System Design
+  const [hiddenTopics, setHiddenTopics] = useState(() => {
+    try {
+      const saved = localStorage.getItem(HIDDEN_TOPICS_KEY)
+      if (saved) {
+        return new Set(JSON.parse(saved))
+      }
+      // Default to all hidden except System Design
+      return new Set(CATEGORIES.filter(c => c !== 'System Design'))
+    } catch {
+      return new Set(CATEGORIES.filter(c => c !== 'System Design'))
+    }
+  })
+
   // Persist completed to localStorage
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify([...completedIds]))
@@ -110,6 +126,11 @@ export function AppProvider({ children }) {
   useEffect(() => {
     localStorage.setItem(COMMENTS_KEY, JSON.stringify(comments))
   }, [comments])
+
+  // Persist hidden topics to localStorage
+  useEffect(() => {
+    localStorage.setItem(HIDDEN_TOPICS_KEY, JSON.stringify([...hiddenTopics]))
+  }, [hiddenTopics])
 
   // Add a comment to a question
   const addComment = useCallback((questionId, selectedText, commentText) => {
@@ -162,6 +183,24 @@ export function AppProvider({ children }) {
       }
       return next
     })
+  }, [])
+
+  // Toggle topic visibility
+  const toggleHiddenTopic = useCallback((category) => {
+    setHiddenTopics(prev => {
+      const next = new Set(prev)
+      if (next.has(category)) {
+        next.delete(category)
+      } else {
+        next.add(category)
+      }
+      return next
+    })
+  }, [])
+
+  // Show all hidden topics
+  const showAllTopics = useCallback(() => {
+    setHiddenTopics(new Set())
   }, [])
 
   // Toggle question completion
@@ -285,6 +324,17 @@ export function AppProvider({ children }) {
     return groups
   }, [filteredQuestions])
 
+  // Filter out hidden topics for grouped view only
+  const visibleGroupedQuestions = useMemo(() => {
+    const visible = {}
+    Object.keys(groupedQuestions).forEach(category => {
+      if (!hiddenTopics.has(category)) {
+        visible[category] = groupedQuestions[category]
+      }
+    })
+    return visible
+  }, [groupedQuestions, hiddenTopics])
+
   // Stats
   const stats = useMemo(() => ({
     total: questionsData.length,
@@ -323,6 +373,7 @@ export function AppProvider({ children }) {
     questionsData,
     filteredQuestions,
     groupedQuestions,
+    visibleGroupedQuestions,
     stats,
 
     // Completion
@@ -337,6 +388,11 @@ export function AppProvider({ children }) {
     // Skipped
     skippedIds,
     toggleSkip,
+
+    // Hidden Topics
+    hiddenTopics,
+    toggleHiddenTopic,
+    showAllTopics,
 
     // Filters
     filters,

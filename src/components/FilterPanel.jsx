@@ -1,4 +1,4 @@
-import { Search, X, ChevronDown, ChevronRight } from 'lucide-react'
+import { Search, X, ChevronDown, ChevronRight, Eye } from 'lucide-react'
 import { useState } from 'react'
 import { useApp, CATEGORIES, DIFFICULTIES, SENIORITIES } from '../context/AppContext'
 import clsx from 'clsx'
@@ -77,6 +77,9 @@ export function FilterPanel() {
     seniorityCounts,
     sidebarOpen,
     setSidebarOpen,
+    hiddenTopics,
+    toggleHiddenTopic,
+    showAllTopics,
   } = useApp()
 
   const difficultyColors = {
@@ -260,6 +263,39 @@ export function FilterPanel() {
             onChange={(v) => updateFilter('sortBy', v)}
           />
         </FilterSection>
+
+        {/* Hidden Topics */}
+        {hiddenTopics.size > 0 && (
+          <FilterSection title={`Hidden Topics (${hiddenTopics.size})`} defaultOpen={false}>
+            <div className="space-y-1">
+              {[...hiddenTopics].map(topic => (
+                <div
+                  key={topic}
+                  className="flex items-center justify-between p-2 rounded-lg hover:bg-surface-elevated"
+                >
+                  <span className="text-sm text-text-secondary truncate flex-1">{topic}</span>
+                  <button
+                    onClick={() => toggleHiddenTopic(topic)}
+                    className="flex items-center gap-1 p-1 rounded-md hover:bg-surface text-primary text-xs"
+                    title="Show this topic"
+                  >
+                    <Eye className="w-3 h-3" />
+                    Show
+                  </button>
+                </div>
+              ))}
+
+              {hiddenTopics.size > 1 && (
+                <button
+                  onClick={showAllTopics}
+                  className="w-full mt-2 p-2 text-xs text-primary hover:underline"
+                >
+                  Show all hidden topics
+                </button>
+              )}
+            </div>
+          </FilterSection>
+        )}
       </aside>
     </>
   )

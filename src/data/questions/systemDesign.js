@@ -35,10 +35,10 @@ export const systemDesignQuestions = [
 
             <h5>Non-Functional Requirements</h5>
             <ul>
-                <li><strong>Performance:</strong> Sync latency &lt; 5 seconds when reconnecting; UI response &lt; 100ms</li>
-                <li><strong>Storage:</strong> Local storage &lt; 100MB for core catalog data; images cached separately</li>
+                <li><strong>Performance:</strong> Sync latency < 5 seconds when reconnecting; UI response < 100ms</li>
+                <li><strong>Storage:</strong> Local storage < 100MB for core catalog data; images cached separately</li>
                 <li><strong>Reliability:</strong> Zero data loss on conflicts; 99.9% sync success rate</li>
-                <li><strong>Battery:</strong> Background sync must use &lt; 1% battery per hour</li>
+                <li><strong>Battery:</strong> Background sync must use < 1% battery per hour</li>
                 <li><strong>Security:</strong> Encrypted local storage for user data; secure token refresh offline</li>
             </ul>
 
@@ -108,7 +108,7 @@ export const systemDesignQuestions = [
         │
         ▼
 ┌───────────────────┐
-│ Update Local DB   │ ◀── Instant UI feedback (&lt;100ms)
+│ Update Local DB   │ ◀── Instant UI feedback (<100ms)
 │ (WatermelonDB)    │
 └────────┬──────────┘
          │
@@ -158,7 +158,7 @@ interface Product {
     categoryId: string;            // FK to Category
     images: string[];              // Array of image URLs
     thumbnailUrl: string;          // Primary thumbnail
-    attributes: Record&lt;string, string&gt;; // Size, color, etc.
+    attributes: Record<string, string>; // Size, color, etc.
     rating: number;                // Average rating 0-5
     reviewCount: number;           // Number of reviews
     syncedAt: number;              // Last sync timestamp
@@ -170,7 +170,7 @@ interface CartItem {
     id: string;                    // Local UUID
     productId: string;             // FK to Product
     quantity: number;              // Item quantity
-    selectedAttributes: Record&lt;string, string&gt;; // Selected size, color
+    selectedAttributes: Record<string, string>; // Selected size, color
     priceAtAdd: number;            // Price when added (for change detection)
     syncStatus: 'synced' | 'pending' | 'failed' | 'conflict';
     localCreatedAt: number;        // Local creation timestamp
@@ -271,14 +271,14 @@ interface IProductRepository {
     getProducts(
         categoryId: string,
         options?: { limit?: number; offset?: number; sortBy?: 'price' | 'rating' | 'name' }
-    ): Promise&lt;Product[]&gt;;
+    ): Promise<Product[]>;
 
     /**
      * Search products with full-text search
      * @param query - Search term
      * @returns Matching products from local FTS index
      */
-    searchProducts(query: string): Promise&lt;Product[]&gt;;
+    searchProducts(query: string): Promise<Product[]>;
 
     /**
      * Get single product with freshness check
@@ -286,14 +286,14 @@ interface IProductRepository {
      * @param maxAge - Max acceptable age in ms (default 5min)
      * @returns Product data, null if not found
      */
-    getProduct(productId: string, maxAge?: number): Promise&lt;Product | null&gt;;
+    getProduct(productId: string, maxAge?: number): Promise<Product | null>;
 
     /**
      * Force sync products from server
      * @param categoryId - Optional category filter
      * @returns Sync result with stats
      */
-    syncProducts(categoryId?: string): Promise&lt;SyncResult&gt;;
+    syncProducts(categoryId?: string): Promise<SyncResult>;
 }
 
 /**
@@ -304,30 +304,30 @@ interface ICartRepository {
      * Add item to cart (optimistic)
      * @returns Created cart item with pending sync status
      */
-    addItem(productId: string, quantity: number, attributes?: Record&lt;string, string&gt;): Promise&lt;CartItem&gt;;
+    addItem(productId: string, quantity: number, attributes?: Record<string, string>): Promise<CartItem>;
 
     /**
      * Update item quantity (optimistic)
      * @returns Updated item, throws if item not found
      */
-    updateQuantity(itemId: string, quantity: number): Promise&lt;CartItem&gt;;
+    updateQuantity(itemId: string, quantity: number): Promise<CartItem>;
 
     /**
      * Remove item from cart (optimistic)
      */
-    removeItem(itemId: string): Promise&lt;void&gt;;
+    removeItem(itemId: string): Promise<void>;
 
     /**
      * Get current cart with sync status
      * @returns Cart items with sync status indicators
      */
-    getCart(): Promise&lt;CartItem[]&gt;;
+    getCart(): Promise<CartItem[]>;
 
     /**
      * Get cart total with price validation
      * @returns Total and any price change warnings
      */
-    getCartTotal(): Promise&lt;{ total: number; warnings: PriceWarning[] }&gt;;
+    getCartTotal(): Promise<{ total: number; warnings: PriceWarning[] }>;
 }</code></pre>
 
             <h5>Hook Interfaces</h5>
@@ -338,7 +338,7 @@ function useProducts(categoryId: string): {
     isOffline: boolean;
     lastSyncedAt: number | null;
     error: Error | null;
-    refetch: () =&gt; Promise&lt;void&gt;;
+    refetch: () => Promise<void>;
 };
 
 function useProduct(productId: string): {
@@ -357,11 +357,11 @@ function useCart(): {
     failedCount: number;   // Items that failed to sync
     isLoading: boolean;
     actions: {
-        addItem: (productId: string, qty: number) =&gt; Promise&lt;void&gt;;
-        updateQuantity: (itemId: string, qty: number) =&gt; Promise&lt;void&gt;;
-        removeItem: (itemId: string) =&gt; Promise&lt;void&gt;;
-        retryFailed: () =&gt; Promise&lt;void&gt;;
-        clearCart: () =&gt; Promise&lt;void&gt;;
+        addItem: (productId: string, qty: number) => Promise<void>;
+        updateQuantity: (itemId: string, qty: number) => Promise<void>;
+        removeItem: (itemId: string) => Promise<void>;
+        retryFailed: () => Promise<void>;
+        clearCart: () => Promise<void>;
     };
 };
 
@@ -372,7 +372,7 @@ function useSyncStatus(): {
     pendingOperations: number;
     lastSyncAt: number | null;
     syncError: Error | null;
-    forceSync: () =&gt; Promise&lt;void&gt;;
+    forceSync: () => Promise<void>;
 };</code></pre>
 
             <h5>Sync Engine Events</h5>
@@ -388,10 +388,10 @@ type SyncEventMap = {
 
 // Subscribe to sync events
 interface ISyncEngine {
-    on&lt;K extends keyof SyncEventMap&gt;(event: K, handler: (data: SyncEventMap[K]) =&gt; void): () =&gt; void;
-    processQueue(): Promise&lt;SyncResult&gt;;
+    on<K extends keyof SyncEventMap>(event: K, handler: (data: SyncEventMap[K]) => void): () => void;
+    processQueue(): Promise<SyncResult>;
     getQueueSize(): number;
-    clearQueue(): Promise&lt;void&gt;;
+    clearQueue(): Promise<void>;
 }</code></pre>
 
             <h5>Native Bridge APIs</h5>
@@ -421,7 +421,7 @@ class BackgroundSync: NSObject {
      */
     @objc func canScheduleSync(_ resolve: @escaping RCTPromiseResolveBlock,
                                 reject: @escaping RCTPromiseRejectBlock) {
-        resolve(BGTaskScheduler.shared.pendingTaskRequests.count &lt; 10)
+        resolve(BGTaskScheduler.shared.pendingTaskRequests.count < 10)
     }
 }
 
@@ -439,7 +439,7 @@ class BackgroundSyncModule(reactContext: ReactApplicationContext) :
             .setRequiresBatteryNotLow(true)
             .build()
 
-        val syncRequest = PeriodicWorkRequestBuilder&lt;SyncWorker&gt;(
+        val syncRequest = PeriodicWorkRequestBuilder<SyncWorker>(
             intervalMinutes.toLong(), TimeUnit.MINUTES
         ).setConstraints(constraints).build()
 
@@ -521,7 +521,7 @@ class BackgroundSyncModule(reactContext: ReactApplicationContext) :
                 <li><strong>Cart item deleted on server while offline:</strong> Show "item unavailable" toast on sync, auto-remove from cart, offer similar products</li>
                 <li><strong>Price changed during offline session:</strong> Display price difference modal before checkout with old vs new price comparison</li>
                 <li><strong>Inventory depleted:</strong> Reduce quantity to available stock with explanation; if zero, move to wishlist</li>
-                <li><strong>Sync queue grows too large (&gt;100 ops):</strong> Compress by merging sequential updates; drop superseded operations</li>
+                <li><strong>Sync queue grows too large (>100 ops):</strong> Compress by merging sequential updates; drop superseded operations</li>
                 <li><strong>App killed during sync:</strong> Mark in-flight operation as "unknown"; verify on next launch before retrying</li>
                 <li><strong>Multiple devices:</strong> Use device ID + user ID compound key; last-write-wins across devices</li>
                 <li><strong>Token expired while offline:</strong> Queue operations continue; refresh token on reconnect before processing</li>
@@ -605,7 +605,7 @@ class BackgroundSyncModule(reactContext: ReactApplicationContext) :
                 <li><strong>Performance:</strong> Only components using changed state re-render; max 16ms render time</li>
                 <li><strong>Memory:</strong> No leaks from subscriptions; cache eviction after 30 minutes unused</li>
                 <li><strong>DX:</strong> Easy debugging with Redux DevTools compatible logging; predictable updates</li>
-                <li><strong>Persistence:</strong> Critical state survives restarts; cold start with cached data &lt; 500ms</li>
+                <li><strong>Persistence:</strong> Critical state survives restarts; cold start with cached data < 500ms</li>
                 <li><strong>Type safety:</strong> Full TypeScript coverage with inference; no any types in state</li>
             </ul>
 
@@ -754,7 +754,7 @@ interface SettingsState {
 
 // Feature flags slice - server-synced
 interface FeatureFlagsState {
-    flags: Record&lt;string, boolean&gt;;
+    flags: Record<string, boolean>;
     lastFetchedAt: number;
     isStale: boolean;
 }
@@ -762,7 +762,7 @@ interface FeatureFlagsState {
 // ============ SERVER STATE TYPES ============
 
 // Generic server state wrapper (TanStack Query provides this)
-interface ServerState&lt;T&gt; {
+interface ServerState<T> {
     data: T | undefined;
     isLoading: boolean;
     isFetching: boolean;             // Background refetch
@@ -861,20 +861,20 @@ interface IAuthStore {
     isInitialized: boolean;
 
     // Actions
-    login: (credentials: LoginCredentials) =&gt; Promise&lt;void&gt;;
-    loginWithBiometrics: () =&gt; Promise&lt;void&gt;;
-    logout: () =&gt; void;
-    refreshToken: () =&gt; Promise&lt;boolean&gt;;
-    updateUser: (updates: Partial&lt;User&gt;) =&gt; void;
+    login: (credentials: LoginCredentials) => Promise<void>;
+    loginWithBiometrics: () => Promise<void>;
+    logout: () => void;
+    refreshToken: () => Promise<boolean>;
+    updateUser: (updates: Partial<User>) => void;
 
     // Hydration
-    hydrate: () =&gt; Promise&lt;void&gt;;
+    hydrate: () => Promise<void>;
 }
 
 // Selector hooks for minimal re-renders
-const useAuth = (): IAuthStore =&gt; useAuthStore();
-const useUser = (): User | null =&gt; useAuthStore((s) =&gt; s.user);
-const useIsAuthenticated = (): boolean =&gt; useAuthStore((s) =&gt; s.isAuthenticated);
+const useAuth = (): IAuthStore => useAuthStore();
+const useUser = (): User | null => useAuthStore((s) => s.user);
+const useIsAuthenticated = (): boolean => useAuthStore((s) => s.isAuthenticated);
 
 // Theme store interface
 interface IThemeStore {
@@ -882,9 +882,9 @@ interface IThemeStore {
     resolvedMode: 'light' | 'dark';
     accentColor: string;
 
-    setMode: (mode: IThemeStore['mode']) =&gt; void;
-    setAccentColor: (color: string) =&gt; void;
-    toggleMode: () =&gt; void;
+    setMode: (mode: IThemeStore['mode']) => void;
+    setAccentColor: (color: string) => void;
+    toggleMode: () => void;
 }</code></pre>
 
             <h5>TanStack Query Hook Interfaces</h5>
@@ -895,7 +895,7 @@ function useProducts(categoryId: string): {
     isFetching: boolean;
     isError: boolean;
     error: Error | null;
-    refetch: () =&gt; Promise&lt;QueryObserverResult&lt;Product[]&gt;&gt;;
+    refetch: () => Promise<QueryObserverResult<Product[]>>;
 };
 
 function useProduct(productId: string): {
@@ -905,24 +905,24 @@ function useProduct(productId: string): {
 };
 
 function useInfiniteProducts(categoryId: string): {
-    data: InfiniteData&lt;ProductPage&gt; | undefined;
-    fetchNextPage: () =&gt; void;
+    data: InfiniteData<ProductPage> | undefined;
+    fetchNextPage: () => void;
     hasNextPage: boolean;
     isFetchingNextPage: boolean;
 };
 
 // Mutation hooks
 function useAddToCart(): {
-    mutate: (item: AddToCartInput) =&gt; void;
-    mutateAsync: (item: AddToCartInput) =&gt; Promise&lt;CartItem&gt;;
+    mutate: (item: AddToCartInput) => void;
+    mutateAsync: (item: AddToCartInput) => Promise<CartItem>;
     isLoading: boolean;
     isError: boolean;
     error: Error | null;
-    reset: () =&gt; void;
+    reset: () => void;
 };
 
 function useUpdateCart(): {
-    mutate: (update: UpdateCartInput) =&gt; void;
+    mutate: (update: UpdateCartInput) => void;
     isLoading: boolean;
     variables: UpdateCartInput | undefined;  // For optimistic UI
 };</code></pre>
@@ -945,7 +945,7 @@ type CheckoutEvent =
 function useCheckoutMachine(): {
     state: CheckoutState;
     context: CheckoutContext;
-    send: (event: CheckoutEvent) =&gt; void;
+    send: (event: CheckoutEvent) => void;
 
     // Convenience matchers
     isCart: boolean;
@@ -974,13 +974,13 @@ type AppEventMap = {
 
 // Event bus interface
 interface IEventBus {
-    emit&lt;K extends keyof AppEventMap&gt;(event: K, data: AppEventMap[K]): void;
-    on&lt;K extends keyof AppEventMap&gt;(event: K, handler: (data: AppEventMap[K]) =&gt; void): () =&gt; void;
-    once&lt;K extends keyof AppEventMap&gt;(event: K, handler: (data: AppEventMap[K]) =&gt; void): void;
+    emit<K extends keyof AppEventMap>(event: K, data: AppEventMap[K]): void;
+    on<K extends keyof AppEventMap>(event: K, handler: (data: AppEventMap[K]) => void): () => void;
+    once<K extends keyof AppEventMap>(event: K, handler: (data: AppEventMap[K]) => void): void;
 }
 
 // Usage example: clear cache on logout
-eventBus.on('auth:logout', () =&gt; {
+eventBus.on('auth:logout', () => {
     queryClient.clear();
     checkoutMachine.send('CANCEL');
 });</code></pre>
@@ -999,8 +999,8 @@ eventBus.on('auth:logout', () =&gt; {
 const { user, token, theme } = useAppStore();
 
 // Good: subscribes only to user
-const user = useAppStore((s) =&gt; s.user);
-const token = useAppStore((s) =&gt; s.token);</code></pre>
+const user = useAppStore((s) => s.user);
+const token = useAppStore((s) => s.token);</code></pre>
                 </li>
                 <li><strong>Query key optimization:</strong>
                     <ul>
@@ -1119,7 +1119,7 @@ const token = useAppStore((s) =&gt; s.token);</code></pre>
 
             <h5>Non-Functional Requirements</h5>
             <ul>
-                <li><strong>Build time:</strong> &lt; 5 minutes for affected packages only (incremental builds)</li>
+                <li><strong>Build time:</strong> < 5 minutes for affected packages only (incremental builds)</li>
                 <li><strong>Dependency safety:</strong> No circular dependencies between feature modules</li>
                 <li><strong>Type safety:</strong> Type-safe contracts between modules, caught at compile time</li>
                 <li><strong>Migration:</strong> Incremental adoption - migrate existing code gradually</li>
@@ -1261,14 +1261,14 @@ interface FeaturePackageJson {
 // Feature module public API contract
 interface FeatureModule {
     // Screens exported for navigation registration
-    screens: Record&lt;string, React.ComponentType&gt;;
+    screens: Record<string, React.ComponentType>;
 
     // Navigation param types for type-safe navigation
-    paramList: Record&lt;string, object | undefined&gt;;
+    paramList: Record<string, object | undefined>;
 
     // Hooks for cross-feature data access
     hooks?: {
-        useFeatureData?: () =&gt; unknown;
+        useFeatureData?: () => unknown;
     };
 
     // Feature configuration
@@ -1291,20 +1291,20 @@ interface AppServices {
 }
 
 interface IAPIClient {
-    get&lt;T&gt;(path: string): Promise&lt;T&gt;;
-    post&lt;T&gt;(path: string, body: unknown): Promise&lt;T&gt;;
+    get<T>(path: string): Promise<T>;
+    post<T>(path: string, body: unknown): Promise<T>;
     // ... other methods
 }
 
 interface IAnalyticsService {
-    track(event: string, properties?: Record&lt;string, unknown&gt;): void;
-    identify(userId: string, traits?: Record&lt;string, unknown&gt;): void;
+    track(event: string, properties?: Record<string, unknown>): void;
+    identify(userId: string, traits?: Record<string, unknown>): void;
     screen(name: string): void;
 }
 
 interface IFeatureFlagService {
     isEnabled(flag: string): boolean;
-    getVariant&lt;T&gt;(flag: string, defaultValue: T): T;
+    getVariant<T>(flag: string, defaultValue: T): T;
 }
 
 // ============ EVENT CONTRACTS ============
@@ -1326,7 +1326,7 @@ interface AppEventMap {
     'order:statusChanged': { orderId: string; status: string };
 
     // Navigation events
-    'navigation:deepLink': { url: string; params: Record&lt;string, string&gt; };
+    'navigation:deepLink': { url: string; params: Record<string, string> };
 }</code></pre>
 
             <h5>Directory Structure</h5>
@@ -1471,7 +1471,7 @@ interface IEventBus {
      * @param event - Event name from AppEventMap
      * @param payload - Event payload (type-safe)
      */
-    emit&lt;K extends keyof AppEventMap&gt;(event: K, payload: AppEventMap[K]): void;
+    emit<K extends keyof AppEventMap>(event: K, payload: AppEventMap[K]): void;
 
     /**
      * Subscribe to an event
@@ -1479,17 +1479,17 @@ interface IEventBus {
      * @param handler - Callback function
      * @returns Unsubscribe function
      */
-    on&lt;K extends keyof AppEventMap&gt;(
+    on<K extends keyof AppEventMap>(
         event: K,
-        handler: (payload: AppEventMap[K]) =&gt; void
-    ): () =&gt; void;
+        handler: (payload: AppEventMap[K]) => void
+    ): () => void;
 
     /**
      * Subscribe to an event once
      */
-    once&lt;K extends keyof AppEventMap&gt;(
+    once<K extends keyof AppEventMap>(
         event: K,
-        handler: (payload: AppEventMap[K]) =&gt; void
+        handler: (payload: AppEventMap[K]) => void
     ): void;
 }
 
@@ -1500,8 +1500,8 @@ const eventBus = useEventBus();
 eventBus.emit('auth:login', { userId: user.id, method: 'email' });
 
 // Usage in checkout feature - listen for auth changes
-useEffect(() =&gt; {
-    return eventBus.on('auth:logout', () =&gt; {
+useEffect(() => {
+    return eventBus.on('auth:logout', () => {
         // Clear checkout state when user logs out
         clearCheckoutState();
     });
@@ -1547,13 +1547,13 @@ function RootNavigator() {
     const featureFlags = useFeatureFlags();
 
     return (
-        &lt;Stack.Navigator&gt;
+        <Stack.Navigator>
             {registeredFeatures
-                .filter(f =&gt; featureFlags.isEnabled(f.config.featureFlagKey))
-                .flatMap(f =&gt; f.screens.map(s =&gt; (
-                    &lt;Stack.Screen key={s.name} name={s.name} component={s.component} /&gt;
+                .filter(f => featureFlags.isEnabled(f.config.featureFlagKey))
+                .flatMap(f => f.screens.map(s => (
+                    <Stack.Screen key={s.name} name={s.name} component={s.component} />
                 )))}
-        &lt;/Stack.Navigator&gt;
+        </Stack.Navigator>
     );
 }</code></pre>
 
@@ -1579,7 +1579,7 @@ function RootNavigator() {
                     <ul>
                         <li>Problem: Hot reload slow when watching entire monorepo</li>
                         <li>Solution: Configure watchFolders to only include active packages</li>
-                        <li>Impact: Hot reload time from 5s to &lt;1s</li>
+                        <li>Impact: Hot reload time from 5s to <1s</li>
                     </ul>
                 </li>
             </ul>
@@ -1708,7 +1708,7 @@ module.exports = config;</code></pre>
             <ul>
                 <li>Infinite scroll with cursor-based pagination (no duplicate posts on new content)</li>
                 <li>Mixed content types: text, images, videos, carousels with nested horizontal scroll</li>
-                <li>Auto-play videos when &gt;60% visible, pause when scrolled away, max 1 playing at a time</li>
+                <li>Auto-play videos when >60% visible, pause when scrolled away, max 1 playing at a time</li>
                 <li>Pull-to-refresh for new content with "new posts" banner option</li>
                 <li>Like/comment/share interactions without scroll position interruption</li>
                 <li>Real-time like count updates via WebSocket</li>
@@ -1718,8 +1718,8 @@ module.exports = config;</code></pre>
             <h5>Non-Functional Requirements</h5>
             <ul>
                 <li><strong>Performance:</strong> Maintain 60fps during fast scrolling (16.67ms frame budget)</li>
-                <li><strong>Memory:</strong> Usage &lt; 200MB even with 1000+ items scrolled (virtualization)</li>
-                <li><strong>Load time:</strong> First meaningful paint &lt; 500ms with skeleton UI</li>
+                <li><strong>Memory:</strong> Usage < 200MB even with 1000+ items scrolled (virtualization)</li>
+                <li><strong>Load time:</strong> First meaningful paint < 500ms with skeleton UI</li>
                 <li><strong>Visual stability:</strong> Zero layout shifts - no content jumping during image load</li>
                 <li><strong>Scroll position:</strong> Preserve position on tab switch and app background</li>
             </ul>
@@ -1875,7 +1875,7 @@ interface InteractionState {
 interface VideoPlaybackState {
     activePostId: string | null;     // Currently playing video
     mutedByDefault: boolean;         // User preference
-    volumes: Record&lt;string, number&gt;; // Per-video volume memory
+    volumes: Record<string, number>; // Per-video volume memory
 }</code></pre>
 
             <h5>Entity Relationships</h5>
@@ -1921,20 +1921,20 @@ interface FeedAPI {
      * @param cursor - Pagination cursor (null for first page)
      * @param limit - Posts per page (default 10)
      */
-    getFeed(cursor: string | null, limit?: number): Promise&lt;FeedPage&gt;;
+    getFeed(cursor: string | null, limit?: number): Promise<FeedPage>;
 
     /**
      * Refresh feed (get latest posts)
      * @returns New posts count and first page
      */
-    refreshFeed(): Promise&lt;{ newCount: number; page: FeedPage }&gt;;
+    refreshFeed(): Promise<{ newCount: number; page: FeedPage }>;
 
     /**
      * Like/unlike a post
      * @param postId - Post to interact with
      * @param liked - New like state
      */
-    toggleLike(postId: string, liked: boolean): Promise&lt;{ likes: number }&gt;;
+    toggleLike(postId: string, liked: boolean): Promise<{ likes: number }>;
 }</code></pre>
 
             <h5>Component Interfaces</h5>
@@ -1946,42 +1946,42 @@ function useFeed(): {
     isFetchingNextPage: boolean;
     hasNextPage: boolean;
     error: Error | null;
-    fetchNextPage: () =&gt; void;
-    refresh: () =&gt; Promise&lt;void&gt;;
+    fetchNextPage: () => void;
+    refresh: () => Promise<void>;
 };
 
 // FeedItem component props
 interface FeedItemProps {
     post: Post;
     isVideoActive: boolean;
-    onLike: (postId: string) =&gt; void;
-    onComment: (postId: string) =&gt; void;
-    onShare: (postId: string) =&gt; void;
-    onAuthorPress: (userId: string) =&gt; void;
+    onLike: (postId: string) => void;
+    onComment: (postId: string) => void;
+    onShare: (postId: string) => void;
+    onAuthorPress: (userId: string) => void;
 }
 
 // Video controller hook
 function useVideoPlayback(): {
     activePostId: string | null;
     isMuted: boolean;
-    setActivePost: (postId: string | null) =&gt; void;
-    toggleMute: () =&gt; void;
+    setActivePost: (postId: string | null) => void;
+    toggleMute: () => void;
 };</code></pre>
 
             <h5>FlashList Configuration</h5>
             <pre><code>// Optimized FlashList props for feed
-&lt;FlashList&lt;Post&gt;
+<FlashList<Post>
     data={posts}
-    renderItem={({ item }) =&gt; &lt;FeedItem post={item} ... /&gt;}
+    renderItem={({ item }) => <FeedItem post={item} ... />}
 
     // CRITICAL: Enables cell recycling by post type
-    getItemType={(item) =&gt; item.type}
+    getItemType={(item) => item.type}
 
     // Estimated average height (adjust based on content mix)
     estimatedItemSize={450}
 
     // Stable key for reconciliation
-    keyExtractor={(item) =&gt; item.id}
+    keyExtractor={(item) => item.id}
 
     // Pagination
     onEndReached={fetchNextPage}
@@ -2000,7 +2000,7 @@ function useVideoPlayback(): {
     // Performance props
     removeClippedSubviews={true}
     maintainVisibleContentPosition={{ minIndexForVisible: 0 }}
-/&gt;</code></pre>
+/></code></pre>
 
             <h4>O - Optimizations and Deep Dive</h4>
 
@@ -2044,10 +2044,10 @@ const viewabilityConfig = {
 };
 
 const onViewableItemsChanged = useCallback(
-    ({ viewableItems }: { viewableItems: ViewToken[] }) =&gt; {
+    ({ viewableItems }: { viewableItems: ViewToken[] }) => {
         // Find first visible video post
         const visibleVideo = viewableItems.find(
-            (item) =&gt; item.isViewable &amp;&amp; item.item.type === 'video'
+            (item) => item.isViewable &amp;&amp; item.item.type === 'video'
         );
         setActiveVideoId(visibleVideo?.item.id ?? null);
     },
@@ -2055,17 +2055,17 @@ const onViewableItemsChanged = useCallback(
 );
 
 // Video cell pauses when not active
-const VideoCell = memo(({ url, isActive, poster }: Props) =&gt; {
+const VideoCell = memo(({ url, isActive, poster }: Props) => {
     return (
-        &lt;Video
+        <Video
             source={{ uri: url }}
             posterSource={{ uri: poster }}
             shouldPlay={isActive}
             isLooping
             isMuted={isMuted}
             resizeMode="cover"
-            onLoad={() =&gt; {/* preload complete */}}
-        /&gt;
+            onLoad={() => {/* preload complete */}}
+        />
     );
 });</code></pre>
 
@@ -2150,7 +2150,7 @@ const VideoCell = memo(({ url, isActive, poster }: Props) =&gt; {
 
             <h5>Functional Requirements</h5>
             <ul>
-                <li>Cold start to interactive home screen &lt; 2 seconds on target devices</li>
+                <li>Cold start to interactive home screen < 2 seconds on target devices</li>
                 <li>Show meaningful content during loading (skeleton UI, cached content - not just spinner)</li>
                 <li>Restore user session without re-login (silent auth token refresh)</li>
                 <li>Prefetch critical data before hiding splash screen</li>
@@ -2161,12 +2161,12 @@ const VideoCell = memo(({ url, isActive, poster }: Props) =&gt; {
 
             <h5>Non-Functional Requirements</h5>
             <ul>
-                <li>JS bundle size &lt; 2MB compressed for initial load</li>
+                <li>JS bundle size < 2MB compressed for initial load</li>
                 <li>No white flash between native splash and React content</li>
                 <li>Works on low-end devices (2GB RAM, older CPUs, Android 7+)</li>
                 <li>Consistent startup time across app versions (no regression)</li>
-                <li>Warm start &lt; 500ms, hot start &lt; 100ms</li>
-                <li>Memory footprint &lt; 100MB during startup phase</li>
+                <li>Warm start < 500ms, hot start < 100ms</li>
+                <li>Memory footprint < 100MB during startup phase</li>
             </ul>
 
             <h5>Out of Scope</h5>
@@ -2316,7 +2316,7 @@ type StartupPhase =
 interface BootstrapState {
     phase: StartupPhase;
     startTime: number;           // Performance.now() at app launch
-    phaseTimings: Record&lt;StartupPhase, number&gt;;  // Duration per phase
+    phaseTimings: Record<StartupPhase, number>;  // Duration per phase
     isSessionRestored: boolean;
     isCacheHydrated: boolean;
     isCriticalDataLoaded: boolean;
@@ -2456,13 +2456,13 @@ interface UseBootstrapReturn {
     session: CachedSession | null;
 
     /** Manually advance to next phase (for testing) */
-    advancePhase: () =&gt; void;
+    advancePhase: () => void;
 
     /** Record error during startup */
-    recordError: (phase: StartupPhase, error: Error) =&gt; void;
+    recordError: (phase: StartupPhase, error: Error) => void;
 
     /** Get startup metrics */
-    getMetrics: () =&gt; StartupMetrics;
+    getMetrics: () => StartupMetrics;
 }
 
 function useBootstrap(config: BootstrapConfig): UseBootstrapReturn;
@@ -2475,10 +2475,10 @@ interface BootstrapConfig {
     requireFeatureFlags: boolean;
 
     /** Callback when startup completes */
-    onComplete: (metrics: StartupMetrics) =&gt; void;
+    onComplete: (metrics: StartupMetrics) => void;
 
     /** Callback when startup fails */
-    onError: (errors: StartupError[]) =&gt; void;
+    onError: (errors: StartupError[]) => void;
 }</code></pre>
 
             <h5>Cache Hydration API</h5>
@@ -2507,7 +2507,7 @@ interface CacheHydrator {
 
 // MMKV-based implementation
 const cacheHydrator: CacheHydrator = {
-    getSession: () =&gt; {
+    getSession: () => {
         const data = mmkv.getString('session');
         return data ? JSON.parse(data) : null;
     },
@@ -2525,7 +2525,7 @@ interface DeferredLoader {
     /** Queue a module for deferred loading */
     defer(
         moduleId: string,
-        loader: () =&gt; Promise&lt;any&gt;,
+        loader: () => Promise<any>,
         priority: 'high' | 'medium' | 'low'
     ): void;
 
@@ -2547,9 +2547,9 @@ interface DeferredLoadingStatus {
 }
 
 // Usage example
-deferredLoader.defer('analytics', () =&gt; import('./analytics'), 'medium');
-deferredLoader.defer('crashReporting', () =&gt; import('./crashReporting'), 'high');
-deferredLoader.defer('pushNotifications', () =&gt; import('./push'), 'low');</code></pre>
+deferredLoader.defer('analytics', () => import('./analytics'), 'medium');
+deferredLoader.defer('crashReporting', () => import('./crashReporting'), 'high');
+deferredLoader.defer('pushNotifications', () => import('./push'), 'low');</code></pre>
 
             <h5>Startup Metrics API</h5>
             <pre><code>// services/startupMetrics.ts
@@ -2572,7 +2572,7 @@ interface StartupMetricsService {
     getMetrics(): StartupMetrics;
 
     /** Send metrics to analytics backend */
-    reportMetrics(): Promise&lt;void&gt;;
+    reportMetrics(): Promise<void>;
 }
 
 // Native module for high-precision timing
@@ -2627,7 +2627,7 @@ class SplashScreenModule(reactContext: ReactApplicationContext) :
     fun hide(animated: Boolean, duration: Int, promise: Promise) {
         currentActivity?.runOnUiThread {
             val splashView = currentActivity?.window?.decorView
-                ?.findViewById&lt;View&gt;(R.id.splash_view)
+                ?.findViewById<View>(R.id.splash_view)
 
             if (animated) {
                 splashView?.animate()
@@ -2697,13 +2697,13 @@ class SplashScreenModule(reactContext: ReactApplicationContext) :
             <pre><code>// metro.config.js - Optimized configuration
 const { getDefaultConfig } = require('metro-config');
 
-module.exports = (async () =&gt; {
+module.exports = (async () => {
     const config = await getDefaultConfig();
     return {
         ...config,
         transformer: {
             ...config.transformer,
-            getTransformOptions: async () =&gt; ({
+            getTransformOptions: async () => ({
                 transform: {
                     experimentalImportSupport: false,
                     inlineRequires: true,  // CRITICAL: defer module execution
@@ -2741,7 +2741,7 @@ import Button from '@ui/Button';
                 <tr><td>Splash implementation</td><td>LaunchScreen.storyboard</td><td>windowBackground drawable + SplashActivity</td></tr>
                 <tr><td>Prewarming</td><td>iOS 15+ scene prewarming</td><td>Not available (use baseline profiles)</td></tr>
                 <tr><td>Bytecode format</td><td>Hermes iOS binary</td><td>Hermes Android binary + baseline profiles</td></tr>
-                <tr><td>Static linking</td><td>use_frameworks! :linkage =&gt; :static</td><td>N/A (dynamic by default)</td></tr>
+                <tr><td>Static linking</td><td>use_frameworks! :linkage => :static</td><td>N/A (dynamic by default)</td></tr>
                 <tr><td>Startup tracing</td><td>Xcode Instruments</td><td>adb shell am start + systrace</td></tr>
                 <tr><td>AOT compilation</td><td>Hermes bytecode</td><td>Baseline profiles (Android 7+)</td></tr>
                 <tr><td>Memory measurement</td><td>Instruments Allocations</td><td>Android Profiler / adb dumpsys</td></tr>
@@ -2759,7 +2759,7 @@ import Button from '@ui/Button';
 
     // Minimize modules loaded at startup
     // Only link native modules you actually use
-    // Podfile: use_frameworks! :linkage =&gt; :static
+    // Podfile: use_frameworks! :linkage => :static
 
     return [super application:application
         didFinishLaunchingWithOptions:launchOptions];
@@ -2767,13 +2767,13 @@ import Button from '@ui/Button';
 
 // Info.plist - Enable prewarming (iOS 15+)
 // Scene-based lifecycle allows iOS to pre-launch app
-&lt;key&gt;UIApplicationSceneManifest&lt;/key&gt;
-&lt;dict&gt;
-    &lt;key&gt;UIApplicationSupportsMultipleScenes&lt;/key&gt;
-    &lt;false/&gt;
-    &lt;key&gt;UISceneConfigurations&lt;/key&gt;
-    &lt;dict/&gt;
-&lt;/dict&gt;</code></pre>
+<key>UIApplicationSceneManifest</key>
+<dict>
+    <key>UIApplicationSupportsMultipleScenes</key>
+    <false/>
+    <key>UISceneConfigurations</key>
+    <dict/>
+</dict></code></pre>
 
             <h5>Android-Specific Optimizations</h5>
             <pre><code>// android/app/build.gradle
@@ -2793,15 +2793,15 @@ android {
 
 // android/app/src/main/res/values/styles.xml
 // Use windowBackground for instant splash
-&lt;style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar"&gt;
-    &lt;item name="android:windowBackground"&gt;@drawable/splash&lt;/item&gt;
-    &lt;item name="android:windowNoTitle"&gt;true&lt;/item&gt;
-&lt;/style&gt;
+<style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <item name="android:windowBackground">@drawable/splash</item>
+    <item name="android:windowNoTitle">true</item>
+</style>
 
 // Baseline Profiles (Android 7+) - AOT for critical paths
 // android/app/src/main/baseline-prof.txt
-HSPLcom/facebook/react/**-&gt;**(**)**
-HSPLcom/yourapp/MainActivity;-&gt;onCreate(**)</code></pre>
+HSPLcom/facebook/react/**->**(**)**
+HSPLcom/yourapp/MainActivity;->onCreate(**)</code></pre>
 
             <h5>Critical Path Implementation</h5>
             <pre><code>// App.tsx - Optimized startup sequence
@@ -2815,9 +2815,9 @@ import { HomeScreen } from './screens/HomeScreen';
 import { LoginScreen } from './screens/LoginScreen';
 
 // DEFER everything else - loads after app is interactive
-const ProfileScreen = lazy(() =&gt; import('./screens/ProfileScreen'));
-const SettingsScreen = lazy(() =&gt; import('./screens/SettingsScreen'));
-const NotificationsScreen = lazy(() =&gt; import('./screens/Notifications'));
+const ProfileScreen = lazy(() => import('./screens/ProfileScreen'));
+const SettingsScreen = lazy(() => import('./screens/SettingsScreen'));
+const NotificationsScreen = lazy(() => import('./screens/Notifications'));
 
 function App() {
     const [isReady, setIsReady] = useState(false);
@@ -2826,7 +2826,7 @@ function App() {
     const [hasSession] = useMMKVBoolean('hasSession');
     const [cachedUser] = useMMKVString('cachedUser');
 
-    useEffect(() =&gt; {
+    useEffect(() => {
         async function bootstrap() {
             const startTime = performance.now();
 
@@ -2849,7 +2849,7 @@ function App() {
             console.log('TTI:', performance.now() - startTime, 'ms');
 
             // PHASE 4: Defer ALL non-critical work
-            InteractionManager.runAfterInteractions(() =&gt; {
+            InteractionManager.runAfterInteractions(() => {
                 // These run AFTER first frame renders
                 initAnalytics();
                 initCrashReporting();
@@ -2868,11 +2868,11 @@ function App() {
     }
 
     return (
-        &lt;NavigationContainer&gt;
-            &lt;Suspense fallback={&lt;ScreenSkeleton /&gt;}&gt;
-                {hasSession ? &lt;MainNavigator /&gt; : &lt;AuthNavigator /&gt;}
-            &lt;/Suspense&gt;
-        &lt;/NavigationContainer&gt;
+        <NavigationContainer>
+            <Suspense fallback={<ScreenSkeleton />}>
+                {hasSession ? <MainNavigator /> : <AuthNavigator />}
+            </Suspense>
+        </NavigationContainer>
     );
 }</code></pre>
 
@@ -2896,7 +2896,7 @@ function App() {
                 <tr><td>Cache storage</td><td>MMKV</td><td>AsyncStorage</td><td>Sync reads critical for startup, 30x faster</td></tr>
                 <tr><td>Module loading</td><td>Inline requires</td><td>Eager loading</td><td>Only critical path executes at startup</td></tr>
                 <tr><td>Splash strategy</td><td>Native windowBackground</td><td>JS-rendered splash</td><td>Shows before any code runs, no white flash</td></tr>
-                <tr><td>Data fetching</td><td>Timeout + cache fallback</td><td>Block until complete</td><td>Guarantees &lt;2s startup regardless of network</td></tr>
+                <tr><td>Data fetching</td><td>Timeout + cache fallback</td><td>Block until complete</td><td>Guarantees <2s startup regardless of network</td></tr>
                 <tr><td>Code splitting</td><td>React.lazy</td><td>Re.Pack true splitting</td><td>Simpler setup, adequate for most apps</td></tr>
             </table>
 
@@ -2991,7 +2991,7 @@ function App() {
             <h5>Non-Functional Requirements</h5>
             <ul>
                 <li>Memory footprint under 150MB with 100 items in render buffer</li>
-                <li>Frame drops &lt; 5% during fast scrolling (measure with systrace)</li>
+                <li>Frame drops < 5% during fast scrolling (measure with systrace)</li>
                 <li>Initial render under 100ms for first 10 items (Time to Interactive)</li>
                 <li>Graceful degradation on low-end devices (reduce video quality, simpler animations)</li>
                 <li>Image cache: 100MB memory + 500MB disk</li>
@@ -3166,14 +3166,14 @@ interface VideoPost extends BasePost {
 /** Carousel with multiple media items */
 interface CarouselPost extends BasePost {
     type: 'carousel';
-    media: Array&lt;{
+    media: Array<{
         id: string;
         url: string;
         type: 'image' | 'video';
         aspectRatio: number;
         blurhash: string;
         duration?: number;          // For videos
-    }&gt;;
+    }>;
 }
 
 /** Text-only post */
@@ -3194,7 +3194,7 @@ interface FeedPage {
 }
 
 /** Cell height estimates for FlashList layout */
-const CELL_HEIGHTS: Record&lt;CellType, number&gt; = {
+const CELL_HEIGHTS: Record<CellType, number> = {
     image: 500,
     video: 600,
     carousel: 550,
@@ -3203,10 +3203,10 @@ const CELL_HEIGHTS: Record&lt;CellType, number&gt; = {
 
 /** Interaction state for optimistic updates */
 interface InteractionState {
-    likedPosts: Set&lt;string&gt;;        // Post IDs user has liked
-    bookmarkedPosts: Set&lt;string&gt;;   // Post IDs user has bookmarked
-    mutedPosts: Set&lt;string&gt;;        // Post IDs user has muted
-    pendingLikes: Map&lt;string, 'like' | 'unlike'&gt;;  // In-flight requests
+    likedPosts: Set<string>;        // Post IDs user has liked
+    bookmarkedPosts: Set<string>;   // Post IDs user has bookmarked
+    mutedPosts: Set<string>;        // Post IDs user has muted
+    pendingLikes: Map<string, 'like' | 'unlike'>;  // In-flight requests
 }</code></pre>
 
             <h5>Entity Relationships</h5>
@@ -3271,7 +3271,7 @@ interface FeedProps {
     queryKey: QueryKey;
 
     /** API function to fetch a page */
-    fetchPage: (cursor: string | null) =&gt; Promise&lt;FeedPage&gt;;
+    fetchPage: (cursor: string | null) => Promise<FeedPage>;
 
     /** Header component (e.g., stories row) */
     ListHeaderComponent?: React.ComponentType;
@@ -3280,10 +3280,10 @@ interface FeedProps {
     ListEmptyComponent?: React.ComponentType;
 
     /** Callback when user taps a post */
-    onPostPress?: (postId: string) =&gt; void;
+    onPostPress?: (postId: string) => void;
 
     /** Callback when user taps author avatar/name */
-    onAuthorPress?: (authorId: string) =&gt; void;
+    onAuthorPress?: (authorId: string) => void;
 
     /** Enable/disable pull-to-refresh */
     enableRefresh?: boolean;
@@ -3309,10 +3309,10 @@ interface ImageCellProps {
     isVisible: boolean;
 
     /** Callback when like button tapped */
-    onLike: () =&gt; void;
+    onLike: () => void;
 
     /** Callback when post tapped (navigate to detail) */
-    onPress: () =&gt; void;
+    onPress: () => void;
 }
 
 /**
@@ -3337,10 +3337,10 @@ interface VideoCellProps {
     isMuted: boolean;
 
     /** Toggle mute callback */
-    onToggleMute: () =&gt; void;
+    onToggleMute: () => void;
 
     /** Callback when like button tapped */
-    onLike: () =&gt; void;
+    onLike: () => void;
 }
 
 /**
@@ -3354,7 +3354,7 @@ export const VideoCell = memo(function VideoCell(props: VideoCellProps): JSX.Ele
 
 interface UseVisibilityManagerReturn {
     /** Set of currently visible item IDs */
-    visibleItems: Set&lt;string&gt;;
+    visibleItems: Set<string>;
 
     /** ID of the topmost visible video (for autoplay) */
     activeVideoId: string | null;
@@ -3366,7 +3366,7 @@ interface UseVisibilityManagerReturn {
     onViewableItemsChanged: (info: {
         viewableItems: ViewToken[];
         changed: ViewToken[];
-    }) =&gt; void;
+    }) => void;
 }
 
 /**
@@ -3380,34 +3380,34 @@ export function useVisibilityManager(): UseVisibilityManagerReturn;</code></pre>
 
 interface InteractionStore {
     /** Posts the user has liked */
-    likedPosts: Set&lt;string&gt;;
+    likedPosts: Set<string>;
 
     /** Posts the user has bookmarked */
-    bookmarkedPosts: Set&lt;string&gt;;
+    bookmarkedPosts: Set<string>;
 
     /** Global video mute state */
     isMuted: boolean;
 
     /** Optimistically like a post */
-    likePost: (postId: string) =&gt; void;
+    likePost: (postId: string) => void;
 
     /** Optimistically unlike a post */
-    unlikePost: (postId: string) =&gt; void;
+    unlikePost: (postId: string) => void;
 
     /** Toggle bookmark on a post */
-    toggleBookmark: (postId: string) =&gt; void;
+    toggleBookmark: (postId: string) => void;
 
     /** Toggle global mute */
-    toggleMute: () =&gt; void;
+    toggleMute: () => void;
 
     /** Sync interaction state with server response */
-    reconcile: (postId: string, serverState: { isLiked: boolean; likeCount: number }) =&gt; void;
+    reconcile: (postId: string, serverState: { isLiked: boolean; likeCount: number }) => void;
 }
 
 /**
  * Zustand store for interaction state with MMKV persistence.
  */
-export const useInteractionStore = create&lt;InteractionStore&gt;(...);</code></pre>
+export const useInteractionStore = create<InteractionStore>(...);</code></pre>
 
             <h5>Native Video Player Pool API</h5>
             <pre><code>// native/VideoPlayerPool (iOS - Swift)
@@ -3419,7 +3419,7 @@ export const useInteractionStore = create&lt;InteractionStore&gt;(...);</code></
     static let maxPlayers = 3
 
     /// Get an available player or create/recycle one
-    @objc func getPlayer() -&gt; AVPlayer
+    @objc func getPlayer() -> AVPlayer
 
     /// Return a player to the pool when cell unmounts
     @objc func releasePlayer(_ player: AVPlayer)
@@ -3499,56 +3499,56 @@ export function Feed({ queryKey, fetchPage, ...props }: FeedProps) {
     const { data, fetchNextPage, hasNextPage, refetch, isRefetching } =
         useInfiniteQuery({
             queryKey,
-            queryFn: ({ pageParam }) =&gt; fetchPage(pageParam ?? null),
-            getNextPageParam: (lastPage) =&gt; lastPage.nextCursor,
+            queryFn: ({ pageParam }) => fetchPage(pageParam ?? null),
+            getNextPageParam: (lastPage) => lastPage.nextCursor,
             staleTime: 5 * 60 * 1000,  // 5 minutes
         });
 
     const posts = useMemo(
-        () =&gt; data?.pages.flatMap(page =&gt; page.posts) ?? [],
+        () => data?.pages.flatMap(page => page.posts) ?? [],
         [data]
     );
 
     const { visibleItems, activeVideoId, viewabilityConfig, onViewableItemsChanged } =
         useVisibilityManager();
 
-    const isMuted = useInteractionStore(state =&gt; state.isMuted);
+    const isMuted = useInteractionStore(state => state.isMuted);
 
     const renderItem = useCallback(
-        ({ item }: { item: Post }) =&gt; {
+        ({ item }: { item: Post }) => {
             const isVisible = visibleItems.has(item.id);
 
             switch (item.type) {
                 case 'image':
-                    return &lt;ImageCell post={item} isVisible={isVisible} /&gt;;
+                    return <ImageCell post={item} isVisible={isVisible} />;
                 case 'video':
                     return (
-                        &lt;VideoCell
+                        <VideoCell
                             post={item}
                             isVisible={isVisible}
                             isActive={activeVideoId === item.id}
                             isMuted={isMuted}
-                        /&gt;
+                        />
                     );
                 case 'carousel':
-                    return &lt;CarouselCell post={item} isVisible={isVisible} /&gt;;
+                    return <CarouselCell post={item} isVisible={isVisible} />;
                 case 'text':
-                    return &lt;TextCell post={item} /&gt;;
+                    return <TextCell post={item} />;
             }
         },
         [visibleItems, activeVideoId, isMuted]
     );
 
-    const onEndReached = useCallback(() =&gt; {
+    const onEndReached = useCallback(() => {
         if (hasNextPage) fetchNextPage();
     }, [hasNextPage, fetchNextPage]);
 
     return (
-        &lt;FlashList
+        <FlashList
             data={posts}
             renderItem={renderItem}
-            keyExtractor={item =&gt; item.id}
-            getItemType={item =&gt; item.type}
+            keyExtractor={item => item.id}
+            getItemType={item => item.type}
             estimatedItemSize={450}
             onEndReached={onEndReached}
             onEndReachedThreshold={0.5}
@@ -3557,11 +3557,11 @@ export function Feed({ queryKey, fetchPage, ...props }: FeedProps) {
             refreshing={isRefetching}
             onRefresh={refetch}
             drawDistance={500}
-            overrideItemLayout={(layout, item) =&gt; {
+            overrideItemLayout={(layout, item) => {
                 layout.size = CELL_HEIGHTS[item.type];
             }}
             {...props}
-        /&gt;
+        />
     );
 }</code></pre>
 
@@ -3584,14 +3584,14 @@ export function Feed({ queryKey, fetchPage, ...props }: FeedProps) {
     private var players: [AVPlayer] = []
     private let maxPlayers = 3
 
-    @objc func getPlayer() -&gt; AVPlayer {
+    @objc func getPlayer() -> AVPlayer {
         // Return available player
         if let available = players.first(where: { $0.currentItem == nil }) {
             return available
         }
 
         // Create new if under limit
-        if players.count &lt; maxPlayers {
+        if players.count < maxPlayers {
             let player = AVPlayer()
             player.automaticallyWaitsToMinimizeStalling = false
             players.append(player)
@@ -3619,7 +3619,7 @@ export function Feed({ queryKey, fetchPage, ...props }: FeedProps) {
             <pre><code>// android/VideoPlayerPool.kt
 
 object VideoPlayerPool {
-    private val players = mutableListOf&lt;ExoPlayer&gt;()
+    private val players = mutableListOf<ExoPlayer>()
     private const val MAX_PLAYERS = 3
 
     fun getPlayer(context: Context): ExoPlayer {
@@ -3628,7 +3628,7 @@ object VideoPlayerPool {
             players.find { !it.isPlaying }?.let { return it }
 
             // Create new if under limit
-            if (players.size &lt; MAX_PLAYERS) {
+            if (players.size < MAX_PLAYERS) {
                 val player = ExoPlayer.Builder(context)
                     .setLoadControl(
                         DefaultLoadControl.Builder()
@@ -3680,9 +3680,9 @@ object VideoPlayerPool {
             <ul>
                 <li><strong>Performance Tests:</strong>
                     <ul>
-                        <li>Scroll 10,000 items with Perf Monitor enabled, verify &lt;5% frame drops</li>
-                        <li>Monitor memory with Flipper, ensure &lt;150MB at 100 items in buffer</li>
-                        <li>Measure initial render time with systrace, target &lt;100ms for 10 items</li>
+                        <li>Scroll 10,000 items with Perf Monitor enabled, verify <5% frame drops</li>
+                        <li>Monitor memory with Flipper, ensure <150MB at 100 items in buffer</li>
+                        <li>Measure initial render time with systrace, target <100ms for 10 items</li>
                     </ul>
                 </li>
                 <li><strong>Video Behavior Tests:</strong>
@@ -3768,8 +3768,8 @@ object VideoPlayerPool {
                 <li>Sync latency under 2s when reconnecting after offline period</li>
                 <li>Handle 10,000+ pages with 100+ blocks each without performance degradation</li>
                 <li>Battery-efficient background sync (15-30 minute intervals)</li>
-                <li>Cold start to usable editor &lt; 1 second</li>
-                <li>Offline database size &lt; 500MB for typical user (10K pages)</li>
+                <li>Cold start to usable editor < 1 second</li>
+                <li>Offline database size < 500MB for typical user (10K pages)</li>
             </ul>
 
             <h5>Out of Scope</h5>
@@ -3846,7 +3846,7 @@ object VideoPlayerPool {
 │         ▼                                                        │
 │  ┌─────────────────┐    Immediate    ┌──────────────────────────┐│
 │  │  UI Component   │ ──────────────► │  WatermelonDB           ││
-│  │  (Optimistic)   │                 │  (Local Write &lt;100ms)   ││
+│  │  (Optimistic)   │                 │  (Local Write <100ms)   ││
 │  └────────┬────────┘                 └───────────┬──────────────┘│
 │           │                                      │               │
 │           │ Re-render (reactive)                 │ Create Op     │
@@ -3963,7 +3963,7 @@ interface Operation {
     type: 'INSERT' | 'UPDATE' | 'DELETE';
     entity: 'page' | 'block';
     entityId: string;
-    changes: Record&lt;string, unknown&gt;; // Diff of changed fields
+    changes: Record<string, unknown>; // Diff of changed fields
     timestamp: number;
     clientId: string;                 // Device identifier
     baseVersion: number;              // Version this change is based on
@@ -4004,13 +4004,13 @@ export class PageModel extends Model {
     @readonly @date('created_at') createdAt!: Date;
     @date('updated_at') updatedAt!: Date;
 
-    @children('blocks') blocks!: Query&lt;BlockModel&gt;;
+    @children('blocks') blocks!: Query<BlockModel>;
     @lazy childPages = this.collections
-        .get&lt;PageModel&gt;('pages')
+        .get<PageModel>('pages')
         .query(Q.where('parent_id', this.id));
 
     @writer async updateTitle(newTitle: string) {
-        await this.update(page =&gt; {
+        await this.update(page => {
             page.title = newTitle;
             page.syncStatus = 'pending';
             page.version += 1;
@@ -4019,7 +4019,7 @@ export class PageModel extends Model {
     }
 
     @writer async archive() {
-        await this.update(page =&gt; {
+        await this.update(page => {
             page.isArchived = true;
             page.syncStatus = 'pending';
             page.version += 1;
@@ -4028,8 +4028,8 @@ export class PageModel extends Model {
     }
 
     private async logOperation(type: 'UPDATE' | 'DELETE', changes: object) {
-        await this.database.write(async () =&gt; {
-            await this.database.get('operations').create(op =&gt; {
+        await this.database.write(async () => {
+            await this.database.get('operations').create(op => {
                 op.type = type;
                 op.entity = 'page';
                 op.entityId = this.id;
@@ -4093,22 +4093,22 @@ export class PageModel extends Model {
 
 interface SyncEngine {
     /** Start sync process (push + pull + conflicts) */
-    sync(): Promise&lt;SyncResult&gt;;
+    sync(): Promise<SyncResult>;
 
     /** Push local changes to server */
-    pushChanges(): Promise&lt;PushResult&gt;;
+    pushChanges(): Promise<PushResult>;
 
     /** Pull remote changes from server */
-    pullChanges(): Promise&lt;PullResult&gt;;
+    pullChanges(): Promise<PullResult>;
 
     /** Resolve detected conflicts */
-    resolveConflicts(conflicts: Conflict[]): Promise&lt;void&gt;;
+    resolveConflicts(conflicts: Conflict[]): Promise<void>;
 
     /** Subscribe to sync state changes */
-    onSyncStateChange(callback: (state: SyncState) =&gt; void): () =&gt; void;
+    onSyncStateChange(callback: (state: SyncState) => void): () => void;
 
     /** Force immediate sync (user-triggered) */
-    forceSync(): Promise&lt;SyncResult&gt;;
+    forceSync(): Promise<SyncResult>;
 
     /** Cancel in-progress sync */
     cancelSync(): void;
@@ -4142,28 +4142,28 @@ interface Conflict {
 
 interface PageRepository {
     /** Get page by ID with blocks */
-    getPage(id: string): Promise&lt;PageWithBlocks | null&gt;;
+    getPage(id: string): Promise<PageWithBlocks | null>;
 
     /** Get root pages (no parent) */
-    getRootPages(): Promise&lt;Page[]&gt;;
+    getRootPages(): Promise<Page[]>;
 
     /** Get child pages of a parent */
-    getChildPages(parentId: string): Promise&lt;Page[]&gt;;
+    getChildPages(parentId: string): Promise<Page[]>;
 
     /** Create new page */
-    createPage(data: CreatePageInput): Promise&lt;Page&gt;;
+    createPage(data: CreatePageInput): Promise<Page>;
 
     /** Update page metadata */
-    updatePage(id: string, changes: UpdatePageInput): Promise&lt;Page&gt;;
+    updatePage(id: string, changes: UpdatePageInput): Promise<Page>;
 
     /** Archive page (soft delete) */
-    archivePage(id: string): Promise&lt;void&gt;;
+    archivePage(id: string): Promise<void>;
 
     /** Search pages by title/content */
-    searchPages(query: string): Promise&lt;Page[]&gt;;
+    searchPages(query: string): Promise<Page[]>;
 
     /** Subscribe to page changes (reactive) */
-    observePage(id: string): Observable&lt;PageWithBlocks&gt;;
+    observePage(id: string): Observable<PageWithBlocks>;
 }
 
 interface CreatePageInput {
@@ -4187,28 +4187,28 @@ interface UseBlockEditorReturn {
     isLoading: boolean;
 
     /** Create new block after specified block */
-    insertBlock(afterBlockId: string | null, type: BlockType): Promise&lt;Block&gt;;
+    insertBlock(afterBlockId: string | null, type: BlockType): Promise<Block>;
 
     /** Update block content */
-    updateBlock(blockId: string, content: string): Promise&lt;void&gt;;
+    updateBlock(blockId: string, content: string): Promise<void>;
 
     /** Update block properties (heading level, todo checked, etc.) */
-    updateBlockProperties(blockId: string, props: Partial&lt;BlockProperties&gt;): Promise&lt;void&gt;;
+    updateBlockProperties(blockId: string, props: Partial<BlockProperties>): Promise<void>;
 
     /** Delete block */
-    deleteBlock(blockId: string): Promise&lt;void&gt;;
+    deleteBlock(blockId: string): Promise<void>;
 
     /** Move block to new position */
-    moveBlock(blockId: string, afterBlockId: string | null): Promise&lt;void&gt;;
+    moveBlock(blockId: string, afterBlockId: string | null): Promise<void>;
 
     /** Indent block (increase nesting) */
-    indentBlock(blockId: string): Promise&lt;void&gt;;
+    indentBlock(blockId: string): Promise<void>;
 
     /** Outdent block (decrease nesting) */
-    outdentBlock(blockId: string): Promise&lt;void&gt;;
+    outdentBlock(blockId: string): Promise<void>;
 
     /** Change block type (text → heading, bullet → numbered, etc.) */
-    changeBlockType(blockId: string, newType: BlockType): Promise&lt;void&gt;;
+    changeBlockType(blockId: string, newType: BlockType): Promise<void>;
 }
 
 /**
@@ -4261,13 +4261,13 @@ class SyncWorker(context: Context, params: WorkerParameters) :
             SyncEngine.getInstance(applicationContext).sync()
             Result.success()
         } catch (e: Exception) {
-            if (runAttemptCount &lt; 3) Result.retry() else Result.failure()
+            if (runAttemptCount < 3) Result.retry() else Result.failure()
         }
     }
 
     companion object {
         fun schedule(context: Context) {
-            val request = PeriodicWorkRequestBuilder&lt;SyncWorker&gt;(15, TimeUnit.MINUTES)
+            val request = PeriodicWorkRequestBuilder<SyncWorker>(15, TimeUnit.MINUTES)
                 .setConstraints(Constraints.Builder()
                     .setRequiredNetworkType(NetworkType.CONNECTED)
                     .build())
@@ -4340,14 +4340,14 @@ class SyncEngine {
     }
 
     private setupNetworkListener() {
-        NetInfo.addEventListener(state =&gt; {
+        NetInfo.addEventListener(state => {
             if (state.isConnected &amp;&amp; this.hasPendingOperations()) {
                 this.sync(); // Auto-sync when coming online
             }
         });
     }
 
-    async sync(): Promise&lt;SyncResult&gt; {
+    async sync(): Promise<SyncResult> {
         if (this.isSyncing) {
             return { success: false, pushed: 0, pulled: 0, conflicts: 0, errors: [] };
         }
@@ -4363,7 +4363,7 @@ class SyncEngine {
             const pullResult = await this.pullChanges();
 
             // Phase 3: Resolve conflicts
-            if (pullResult.conflicts.length &gt; 0) {
+            if (pullResult.conflicts.length > 0) {
                 await this.resolveConflicts(pullResult.conflicts);
             }
 
@@ -4388,7 +4388,7 @@ class SyncEngine {
         }
     }
 
-    private async pushChanges(): Promise&lt;{ count: number }&gt; {
+    private async pushChanges(): Promise<{ count: number }> {
         const operations = await database
             .get('operations')
             .query(Q.where('synced', false))
@@ -4397,15 +4397,15 @@ class SyncEngine {
         if (operations.length === 0) return { count: 0 };
 
         const response = await api.pushOperations({
-            operations: operations.map(op =&gt; op._raw),
+            operations: operations.map(op => op._raw),
             clientId: this.clientId,
         }, { signal: this.syncAbortController?.signal });
 
         // Mark accepted operations as synced
-        await database.write(async () =&gt; {
+        await database.write(async () => {
             for (const opId of response.accepted) {
-                const op = operations.find(o =&gt; o.id === opId);
-                if (op) await op.update(o =&gt; { o.synced = true; });
+                const op = operations.find(o => o.id === opId);
+                if (op) await op.update(o => { o.synced = true; });
             }
         });
 
@@ -4417,7 +4417,7 @@ class SyncEngine {
         return { count: response.accepted.length };
     }
 
-    private async pullChanges(): Promise&lt;{ count: number; conflicts: Conflict[] }&gt; {
+    private async pullChanges(): Promise<{ count: number; conflicts: Conflict[] }> {
         const response = await api.getChanges({
             cursor: this.lastSyncCursor,
             clientId: this.clientId,
@@ -4425,7 +4425,7 @@ class SyncEngine {
 
         const conflicts: Conflict[] = [];
 
-        await database.write(async () =&gt; {
+        await database.write(async () => {
             for (const change of response.changes) {
                 const conflict = await this.applyRemoteChange(change);
                 if (conflict) conflicts.push(conflict);
@@ -4439,13 +4439,13 @@ class SyncEngine {
         return { count: response.changes.length, conflicts };
     }
 
-    private async applyRemoteChange(change: RemoteChange): Promise&lt;Conflict | null&gt; {
-        const collection = database.get(change.entity + 's'); // 'page' =&gt; 'pages'
-        const existing = await collection.find(change.entityId).catch(() =&gt; null);
+    private async applyRemoteChange(change: RemoteChange): Promise<Conflict | null> {
+        const collection = database.get(change.entity + 's'); // 'page' => 'pages'
+        const existing = await collection.find(change.entityId).catch(() => null);
 
         if (!existing) {
             // New entity from server - create locally
-            await collection.create(record =&gt; {
+            await collection.create(record => {
                 Object.assign(record._raw, change.data);
                 record.syncStatus = 'synced';
             });
@@ -4464,7 +4464,7 @@ class SyncEngine {
         }
 
         // No conflict - apply server version
-        await existing.update(record =&gt; {
+        await existing.update(record => {
             Object.assign(record._raw, change.data);
             record.syncStatus = 'synced';
         });
@@ -4494,7 +4494,7 @@ class ConflictResolver {
      * - Structural changes: Last-write-wins with history
      * - Deletions: Server wins (prevent resurrection)
      */
-    async resolve(conflict: Conflict): Promise&lt;ResolvedChange&gt; {
+    async resolve(conflict: Conflict): Promise<ResolvedChange> {
         const { localVersion, serverVersion, baseVersion } = conflict;
 
         // Check if it's a delete conflict
@@ -4521,7 +4521,7 @@ class ConflictResolver {
         }
 
         // Structural changes (order, parent) - last-write-wins
-        if (localVersion.updatedAt &gt; serverVersion.updatedAt) {
+        if (localVersion.updatedAt > serverVersion.updatedAt) {
             return { type: 'local-wins', data: localVersion };
         } else {
             return { type: 'server-wins', data: serverVersion };
@@ -4539,7 +4539,7 @@ class ConflictResolver {
         const [result1, success1] = dmp.patch_apply(patch2, local);
 
         // Check for conflicts
-        if (success1.every(s =&gt; s)) {
+        if (success1.every(s => s)) {
             return { success: true, result: result1 };
         }
 
@@ -4594,8 +4594,8 @@ class ConflictResolver {
                 </li>
                 <li><strong>Performance Tests:</strong>
                     <ul>
-                        <li>Create 10,000 pages, verify startup &lt; 1 second</li>
-                        <li>Sync 1,000 operations, verify &lt; 10 seconds</li>
+                        <li>Create 10,000 pages, verify startup < 1 second</li>
+                        <li>Sync 1,000 operations, verify < 10 seconds</li>
                         <li>Monitor memory during large sync, verify no leaks</li>
                     </ul>
                 </li>
@@ -4639,13 +4639,13 @@ class ConflictResolver {
                 <li><strong>Offline support:</strong> How long can users edit offline? Hours, days, or indefinitely?</li>
                 <li><strong>Conflict visibility:</strong> Should conflicts auto-resolve silently, or show UI for manual resolution?</li>
                 <li><strong>History requirements:</strong> Need full version history? Undo/redo across collaborative sessions?</li>
-                <li><strong>Latency targets:</strong> Acceptable delay for seeing others' changes? Real-time (&lt;100ms) or near-real-time (&lt;1s)?</li>
+                <li><strong>Latency targets:</strong> Acceptable delay for seeing others' changes? Real-time (<100ms) or near-real-time (<1s)?</li>
                 <li><strong>Platform specifics:</strong> iOS/Android native, React Native, or web? Background sync requirements?</li>
             </ul>
 
             <h5>Functional Requirements</h5>
             <ul>
-                <li>Multiple users can edit the same document simultaneously with changes propagated in &lt;100ms</li>
+                <li>Multiple users can edit the same document simultaneously with changes propagated in <100ms</li>
                 <li>Real-time cursor positions and selections visible for all active collaborators</li>
                 <li>Offline editing supported with automatic sync on reconnection</li>
                 <li>Automatic conflict resolution for concurrent edits using CRDT (no data loss)</li>
@@ -4657,13 +4657,13 @@ class ConflictResolver {
 
             <h5>Non-Functional Requirements</h5>
             <ul>
-                <li>Keystroke-to-broadcast latency &lt;100ms on good network</li>
+                <li>Keystroke-to-broadcast latency <100ms on good network</li>
                 <li>Guaranteed eventual consistency across all clients (CRDT property)</li>
                 <li>Support 20+ concurrent editors on a single document</li>
                 <li>Handle 100,000+ character documents without performance degradation</li>
                 <li>Offline edits persist through app kills and device restarts</li>
                 <li>Sync completion within 5 seconds of network restoration</li>
-                <li>Memory usage &lt;50MB per document for CRDT state</li>
+                <li>Memory usage <50MB per document for CRDT state</li>
             </ul>
 
             <h5>Out of Scope</h5>
@@ -4766,8 +4766,8 @@ class ConflictResolver {
 │                      ▼                                           │
 │  ┌───────────────────────────────────────────────────────────┐  │
 │  │  Ordering: clientID with lower value wins tie             │  │
-│  │  If A.clientID &lt; B.clientID:  "HelloWorld"                │  │
-│  │  If A.clientID &gt; B.clientID:  "WorldHello"                │  │
+│  │  If A.clientID < B.clientID:  "HelloWorld"                │  │
+│  │  If A.clientID > B.clientID:  "WorldHello"                │  │
 │  │  Result: Deterministic on ALL clients                     │  │
 │  └───────────────────────────────────────────────────────────┘  │
 │                      │                                           │
@@ -4803,7 +4803,7 @@ interface Operation {
     /** Length for delete/retain operations */
     length?: number;
     /** Formatting attributes for format operations */
-    attributes?: Record&lt;string, unknown&gt;;
+    attributes?: Record<string, unknown>;
     /** Unique client identifier */
     clientId: string;
     /** Lamport timestamp for ordering */
@@ -4836,7 +4836,7 @@ interface Presence {
 interface CursorPosition {
     /** Absolute index in document */
     index: number;
-    /** Selection length (0 for cursor, &gt;0 for selection) */
+    /** Selection length (0 for cursor, >0 for selection) */
     length: number;
 }
 
@@ -5000,7 +5000,7 @@ class CollaborativeDocument {
         userName?: string;
         /** Cursor color (hex) */
         cursorColor?: string;
-    }): Promise&lt;void&gt; {
+    }): Promise<void> {
         // Setup local persistence first
         this.persistence = new IndexedDBPersistence(this.documentId, this.doc);
         await this.persistence.whenSynced;
@@ -5045,7 +5045,7 @@ class CollaborativeDocument {
      * @param length - Length of range
      * @param attributes - Formatting attributes
      */
-    format(index: number, length: number, attributes: Record&lt;string, unknown&gt;): void {
+    format(index: number, length: number, attributes: Record<string, unknown>): void {
         this.text.format(index, length, attributes);
     }
 
@@ -5061,9 +5061,9 @@ class CollaborativeDocument {
      * @param callback - Called when document content changes
      * @returns Unsubscribe function
      */
-    observe(callback: (event: Y.YTextEvent, transaction: Y.Transaction) =&gt; void): () =&gt; void {
+    observe(callback: (event: Y.YTextEvent, transaction: Y.Transaction) => void): () => void {
         this.text.observe(callback);
-        return () =&gt; this.text.unobserve(callback);
+        return () => this.text.unobserve(callback);
     }
 
     /**
@@ -5114,11 +5114,11 @@ interface UseCollaborativeEditorOptions {
     /** Current user info */
     user: { id: string; name: string };
     /** Called when document content changes */
-    onChange?: (content: string) =&gt; void;
+    onChange?: (content: string) => void;
     /** Called when connection status changes */
-    onStatusChange?: (status: ConnectionStatus) =&gt; void;
+    onStatusChange?: (status: ConnectionStatus) => void;
     /** Called when conflict needs manual resolution */
-    onConflict?: (conflict: ConflictData) =&gt; void;
+    onConflict?: (conflict: ConflictData) => void;
 }
 
 type ConnectionStatus = 'connecting' | 'connected' | 'disconnected' | 'syncing';
@@ -5127,23 +5127,23 @@ interface UseCollaborativeEditorReturn {
     /** Current document content */
     content: string;
     /** Insert text at position */
-    insert: (index: number, text: string) =&gt; void;
+    insert: (index: number, text: string) => void;
     /** Delete text at position */
-    delete: (index: number, length: number) =&gt; void;
+    delete: (index: number, length: number) => void;
     /** Apply formatting */
-    format: (index: number, length: number, attrs: Record&lt;string, unknown&gt;) =&gt; void;
+    format: (index: number, length: number, attrs: Record<string, unknown>) => void;
     /** Current connection status */
     status: ConnectionStatus;
     /** List of online collaborators */
     collaborators: Presence[];
     /** Update local cursor position */
-    updateCursor: (position: CursorPosition | null) =&gt; void;
+    updateCursor: (position: CursorPosition | null) => void;
     /** Force reconnection attempt */
-    reconnect: () =&gt; void;
+    reconnect: () => void;
     /** Undo last local change */
-    undo: () =&gt; void;
+    undo: () => void;
     /** Redo last undone change */
-    redo: () =&gt; void;
+    redo: () => void;
     /** Check if can undo */
     canUndo: boolean;
     /** Check if can redo */
@@ -5163,9 +5163,9 @@ interface ConflictResolverProps {
     /** Conflict data to resolve */
     conflict: ConflictData;
     /** Called when user resolves the conflict */
-    onResolve: (resolution: ConflictResolution) =&gt; void;
+    onResolve: (resolution: ConflictResolution) => void;
     /** Called when user dismisses without resolving */
-    onDismiss?: () =&gt; void;
+    onDismiss?: () => void;
     /** Show auto-merge preview if available */
     showAutoMergePreview?: boolean;
 }
@@ -5183,7 +5183,7 @@ interface CollaboratorCursorsProps {
     /** List of collaborator presence data */
     collaborators: Presence[];
     /** Editor component ref for positioning */
-    editorRef: React.RefObject&lt;TextInput&gt;;
+    editorRef: React.RefObject<TextInput>;
     /** Current scroll offset for cursor positioning */
     scrollOffset: { x: number; y: number };
 }
@@ -5203,7 +5203,7 @@ interface PresenceAvatarsProps {
     /** Avatar size in pixels */
     size?: number;
     /** Called when avatar is pressed */
-    onPress?: (collaborator: Presence) =&gt; void;
+    onPress?: (collaborator: Presence) => void;
 }
 
 /**
@@ -5343,7 +5343,7 @@ class CollaborationModule(reactContext: ReactApplicationContext) :
         reconnectAttempts++
 
         // Use WorkManager for reliable background reconnection
-        val request = OneTimeWorkRequestBuilder&lt;ReconnectWorker&gt;()
+        val request = OneTimeWorkRequestBuilder<ReconnectWorker>()
             .setInitialDelay(delay, TimeUnit.MILLISECONDS)
             .setBackoffCriteria(BackoffPolicy.EXPONENTIAL, 1, TimeUnit.SECONDS)
             .build()
@@ -5366,7 +5366,7 @@ class CollaborationModule(reactContext: ReactApplicationContext) :
                     <ul>
                         <li>Problem: JSON encoding of operations is verbose, slow to parse</li>
                         <li>Solution: Yjs uses custom binary encoding (lib0) - 10x smaller than JSON, zero-copy parsing</li>
-                        <li>Impact: 90% bandwidth reduction, &lt;1ms parse time for typical updates</li>
+                        <li>Impact: 90% bandwidth reduction, <1ms parse time for typical updates</li>
                     </ul>
                 </li>
                 <li><strong>Update batching:</strong>
@@ -5413,7 +5413,7 @@ class CollaborationModule(reactContext: ReactApplicationContext) :
             <h5>Edge Cases and Error Handling</h5>
             <ol>
                 <li><strong>Concurrent deletes of same text:</strong> CRDT handles automatically - both deletions applied, no duplication. Result is deterministic across all clients.</li>
-                <li><strong>Long offline period (days):</strong> Large pending update accumulated. Use incremental sync with progress UI. Paginate if &gt;10MB of updates.</li>
+                <li><strong>Long offline period (days):</strong> Large pending update accumulated. Use incremental sync with progress UI. Paginate if >10MB of updates.</li>
                 <li><strong>Network partition (split-brain):</strong> Two groups editing independently. When partition heals, CRDT merges all changes - may result in interleaved text requiring review.</li>
                 <li><strong>Undo with collaboration:</strong> Local undo manager tracks only own operations. Use UndoManager from Yjs that respects operation origins.</li>
                 <li><strong>Large document (1M+ characters):</strong> Virtualize rendering, lazy-load CRDT sections, consider block-based CRDT (Y.Array of Y.Text blocks).</li>
@@ -5457,8 +5457,8 @@ class CollaborationModule(reactContext: ReactApplicationContext) :
                 </li>
                 <li><strong>Performance Tests:</strong>
                     <ul>
-                        <li>20 concurrent editors typing - verify &lt;100ms latency</li>
-                        <li>100,000 character document - verify &lt;500ms load time</li>
+                        <li>20 concurrent editors typing - verify <100ms latency</li>
+                        <li>100,000 character document - verify <500ms load time</li>
                         <li>1000 operations/second - verify no dropped updates</li>
                     </ul>
                 </li>
@@ -5737,7 +5737,7 @@ interface QueuedOperation {
     /** Message localId this operation targets */
     messageLocalId: string;
     /** Operation payload */
-    payload: Record&lt;string, unknown&gt;;
+    payload: Record<string, unknown>;
     /** When operation was created */
     createdAt: number;
     /** Number of send attempts */
@@ -5837,7 +5837,7 @@ const storage = new MMKV({ id: 'message-queue' });
 class MessageQueue {
     private queue: QueuedOperation[] = [];
     private isProcessing = false;
-    private unsubscribeNetwork: (() =&gt; void) | null = null;
+    private unsubscribeNetwork: (() => void) | null = null;
 
     constructor() {
         this.loadQueue();
@@ -5863,8 +5863,8 @@ class MessageQueue {
      * Listens for network restoration to trigger queue processing.
      */
     private setupNetworkListener(): void {
-        this.unsubscribeNetwork = NetInfo.addEventListener(state =&gt; {
-            if (state.isConnected &amp;&amp; this.queue.length &gt; 0) {
+        this.unsubscribeNetwork = NetInfo.addEventListener(state => {
+            if (state.isConnected &amp;&amp; this.queue.length > 0) {
                 this.processQueue();
             }
         });
@@ -5875,12 +5875,12 @@ class MessageQueue {
      * Immediately persists to database and queue.
      * @returns The generated localId
      */
-    async enqueue(message: Omit&lt;Message, 'id' | 'status' | 'retryCount'&gt;): Promise&lt;string&gt; {
+    async enqueue(message: Omit<Message, 'id' | 'status' | 'retryCount'>): Promise<string> {
         const localId = generateNanoid();
 
         // 1. Save to local database immediately (appears in UI)
-        await database.write(async () =&gt; {
-            await database.get&lt;MessageModel&gt;('messages').create(msg =&gt; {
+        await database.write(async () => {
+            await database.get<MessageModel>('messages').create(msg => {
                 msg.localId = localId;
                 msg.conversationId = message.conversationId;
                 msg.content = message.content;
@@ -5914,15 +5914,15 @@ class MessageQueue {
      * Processes the queue in FIFO order.
      * Handles failures with exponential backoff.
      */
-    async processQueue(): Promise&lt;void&gt; {
+    async processQueue(): Promise<void> {
         if (this.isProcessing || this.queue.length === 0) return;
         this.isProcessing = true;
 
-        const sortedQueue = [...this.queue].sort((a, b) =&gt; a.createdAt - b.createdAt);
+        const sortedQueue = [...this.queue].sort((a, b) => a.createdAt - b.createdAt);
 
         for (const op of sortedQueue) {
             // Skip if not ready for retry yet
-            if (op.nextRetryAt &amp;&amp; op.nextRetryAt &gt; Date.now()) continue;
+            if (op.nextRetryAt &amp;&amp; op.nextRetryAt > Date.now()) continue;
 
             try {
                 await this.processOperation(op);
@@ -5960,7 +5960,7 @@ class MessageQueue {
  * Prevents thundering herd effect on server recovery.
  */
 class RetryManager {
-    private retryTimers = new Map&lt;string, NodeJS.Timeout&gt;();
+    private retryTimers = new Map<string, NodeJS.Timeout>();
     private readonly MAX_RETRIES = 5;
     private readonly BASE_DELAY_MS = 1000;
     private readonly MAX_DELAY_MS = 300000; // 5 minutes
@@ -5983,10 +5983,10 @@ class RetryManager {
     /**
      * Schedules a retry for the given operation.
      */
-    scheduleRetry(operation: QueuedOperation, onRetry: () =&gt; void): void {
+    scheduleRetry(operation: QueuedOperation, onRetry: () => void): void {
         this.clearRetry(operation.id);
 
-        if (operation.attempts &gt;= this.MAX_RETRIES) {
+        if (operation.attempts >= this.MAX_RETRIES) {
             // Mark as permanently failed
             messageQueue.markFailed(operation.id);
             return;
@@ -5994,7 +5994,7 @@ class RetryManager {
 
         const delay = this.calculateDelay(operation.attempts);
 
-        const timer = setTimeout(() =&gt; {
+        const timer = setTimeout(() => {
             this.retryTimers.delete(operation.id);
             onRetry();
         }, delay);
@@ -6017,7 +6017,7 @@ class RetryManager {
      * Cancels all pending retries.
      */
     clearAll(): void {
-        this.retryTimers.forEach(timer =&gt; clearTimeout(timer));
+        this.retryTimers.forEach(timer => clearTimeout(timer));
         this.retryTimers.clear();
     }
 }</code></pre>
@@ -6083,23 +6083,23 @@ class MessageSyncWorker(
             for (operation in pending) {
                 try {
                     when (operation.type) {
-                        "send" -&gt; sendMessage(operation)
-                        "delete" -&gt; deleteMessage(operation)
-                        "edit" -&gt; editMessage(operation)
+                        "send" -> sendMessage(operation)
+                        "delete" -> deleteMessage(operation)
+                        "edit" -> editMessage(operation)
                     }
                     queue.remove(operation.id)
                 } catch (e: Exception) {
                     queue.incrementAttempts(operation.id)
-                    if (operation.attempts &gt;= MAX_RETRIES) {
+                    if (operation.attempts >= MAX_RETRIES) {
                         queue.markFailed(operation.id)
                     }
                 }
             }
 
-            if (queue.getPendingCount() &gt; 0) Result.retry()
+            if (queue.getPendingCount() > 0) Result.retry()
             else Result.success()
         } catch (e: Exception) {
-            if (runAttemptCount &lt; 3) Result.retry() else Result.failure()
+            if (runAttemptCount < 3) Result.retry() else Result.failure()
         }
     }
 
@@ -6111,7 +6111,7 @@ class MessageSyncWorker(
                 .setRequiredNetworkType(NetworkType.CONNECTED)
                 .build()
 
-            val request = OneTimeWorkRequestBuilder&lt;MessageSyncWorker&gt;()
+            val request = OneTimeWorkRequestBuilder<MessageSyncWorker>()
                 .setConstraints(constraints)
                 .setBackoffCriteria(BackoffPolicy.EXPONENTIAL, 30, TimeUnit.SECONDS)
                 .build()
@@ -6272,7 +6272,7 @@ class MessageSyncWorker(
 
             <h5>Functional Requirements</h5>
             <ul>
-                <li>Real-time message delivery with &lt;100ms latency on good network</li>
+                <li>Real-time message delivery with <100ms latency on good network</li>
                 <li>Typing indicators showing "User is typing..." with 2-second debounce</li>
                 <li>Read receipts with sent → delivered → read progression</li>
                 <li>User presence: online, away (after 5 min), offline with "last seen X" timestamp</li>
@@ -6284,7 +6284,7 @@ class MessageSyncWorker(
 
             <h5>Non-Functional Requirements</h5>
             <ul>
-                <li>Typing indicator broadcast latency &lt;200ms end-to-end</li>
+                <li>Typing indicator broadcast latency <200ms end-to-end</li>
                 <li>Presence update propagation within 5 seconds of state change</li>
                 <li>Support 50,000+ concurrent WebSocket connections per server node</li>
                 <li>Read receipts batched to prevent flooding (max 5/second)</li>
@@ -6542,8 +6542,8 @@ import { io, Socket } from 'socket.io-client';
 class SocketManager {
     private socket: Socket | null = null;
     private reconnectAttempts = 0;
-    private pendingEvents: Array&lt;{ event: string; data: unknown }&gt; = [];
-    private listeners = new Map&lt;string, Set&lt;(data: unknown) =&gt; void&gt;&gt;();
+    private pendingEvents: Array<{ event: string; data: unknown }> = [];
+    private listeners = new Map<string, Set<(data: unknown) => void>>();
     private heartbeatInterval: NodeJS.Timer | null = null;
 
     /**
@@ -6567,25 +6567,25 @@ class SocketManager {
     private setupEventHandlers(): void {
         if (!this.socket) return;
 
-        this.socket.on('connect', () =&gt; {
+        this.socket.on('connect', () => {
             this.reconnectAttempts = 0;
             this.flushPendingEvents();
             this.emit('connection:established');
         });
 
-        this.socket.on('disconnect', (reason) =&gt; {
+        this.socket.on('disconnect', (reason) => {
             this.emit('connection:lost', { reason });
         });
 
-        this.socket.on('connect_error', (error) =&gt; {
+        this.socket.on('connect_error', (error) => {
             this.reconnectAttempts++;
             this.emit('connection:error', { error, attempts: this.reconnectAttempts });
         });
 
         // Forward server events to subscribers
         const events = ['message', 'typing', 'presence', 'read_receipt', 'delivery_status'];
-        events.forEach(event =&gt; {
-            this.socket?.on(event, (data) =&gt; this.emit(event, data));
+        events.forEach(event => {
+            this.socket?.on(event, (data) => this.emit(event, data));
         });
     }
 
@@ -6605,12 +6605,12 @@ class SocketManager {
      * Subscribes to an event type.
      * @returns Unsubscribe function
      */
-    subscribe&lt;T&gt;(event: string, callback: (data: T) =&gt; void): () =&gt; void {
+    subscribe<T>(event: string, callback: (data: T) => void): () => void {
         if (!this.listeners.has(event)) {
             this.listeners.set(event, new Set());
         }
-        this.listeners.get(event)!.add(callback as (data: unknown) =&gt; void);
-        return () =&gt; this.listeners.get(event)?.delete(callback as (data: unknown) =&gt; void);
+        this.listeners.get(event)!.add(callback as (data: unknown) => void);
+        return () => this.listeners.get(event)?.delete(callback as (data: unknown) => void);
     }
 
     /**
@@ -6633,18 +6633,18 @@ class SocketManager {
     }
 
     private emit(event: string, data?: unknown): void {
-        this.listeners.get(event)?.forEach(cb =&gt; cb(data));
+        this.listeners.get(event)?.forEach(cb => cb(data));
     }
 
     private flushPendingEvents(): void {
-        while (this.pendingEvents.length &gt; 0) {
+        while (this.pendingEvents.length > 0) {
             const { event, data } = this.pendingEvents.shift()!;
             this.send(event, data);
         }
     }
 
     private startHeartbeat(): void {
-        this.heartbeatInterval = setInterval(() =&gt; {
+        this.heartbeatInterval = setInterval(() => {
             this.send('heartbeat', { timestamp: Date.now() });
         }, 30000);
     }
@@ -6668,7 +6668,7 @@ function useTypingIndicator(conversationId: string): {
     /** Array of user IDs currently typing */
     typingUserIds: string[];
     /** Send typing status for current user */
-    sendTypingStatus: (isTyping: boolean) =&gt; void;
+    sendTypingStatus: (isTyping: boolean) => void;
 };
 
 // hooks/usePresence.ts
@@ -6679,7 +6679,7 @@ function useTypingIndicator(conversationId: string): {
  */
 function usePresence(userIds: string[]): {
     /** Map of userId to presence state */
-    presence: Map&lt;string, PresenceState&gt;;
+    presence: Map<string, PresenceState>;
     /** Whether presence data is loading */
     isLoading: boolean;
 };
@@ -6692,9 +6692,9 @@ function usePresence(userIds: string[]): {
  */
 function useReadReceipts(conversationId: string): {
     /** Mark a message as read (batched) */
-    markAsRead: (messageId: string) =&gt; void;
+    markAsRead: (messageId: string) => void;
     /** Get read status for a message */
-    getReadBy: (messageId: string) =&gt; string[];
+    getReadBy: (messageId: string) => string[];
 };</code></pre>
 
             <h5>Native Bridge APIs</h5>
@@ -6852,7 +6852,7 @@ class PresenceModule(reactContext: ReactApplicationContext) :
                     <ul>
                         <li>10,000 concurrent connections per server</li>
                         <li>1,000 typing events/second cluster-wide</li>
-                        <li>Latency percentiles under load (p50 &lt; 50ms, p99 &lt; 200ms)</li>
+                        <li>Latency percentiles under load (p50 < 50ms, p99 < 200ms)</li>
                     </ul>
                 </li>
             </ul>
@@ -6903,7 +6903,7 @@ class PresenceModule(reactContext: ReactApplicationContext) :
             <h5>Functional Requirements</h5>
             <ul>
                 <li>Real-time bid updates visible to all participants within 100ms</li>
-                <li>Precise countdown timer synchronized across all devices (&lt;50ms drift)</li>
+                <li>Precise countdown timer synchronized across all devices (<50ms drift)</li>
                 <li>Anti-snipe protection - extend auction by 30s on bids in final 30s</li>
                 <li>Complete bid history with user identification and timestamps</li>
                 <li>Automatic winner determination and notification</li>
@@ -6917,7 +6917,7 @@ class PresenceModule(reactContext: ReactApplicationContext) :
             <h5>Non-Functional Requirements</h5>
             <ul>
                 <li><strong>Scalability:</strong> Handle 10,000+ concurrent bidders per auction</li>
-                <li><strong>Latency:</strong> Bid processing &lt;50ms server-side, broadcast &lt;100ms to all clients</li>
+                <li><strong>Latency:</strong> Bid processing <50ms server-side, broadcast <100ms to all clients</li>
                 <li><strong>Consistency:</strong> Zero double-bid or race condition issues (strong consistency for bids)</li>
                 <li><strong>Availability:</strong> 99.99% uptime during live auctions</li>
                 <li><strong>Timer precision:</strong> Server-client time sync within 50ms</li>
@@ -7183,7 +7183,7 @@ interface ProxyBid {
 interface AuctionUpdate {
     type: AuctionUpdateType;
     auctionId: string;
-    payload: Partial&lt;Auction&gt; | Bid | TimeExtension;
+    payload: Partial<Auction> | Bid | TimeExtension;
     serverTime: number;
     /** Sequence number for ordering */
     sequence: number;
@@ -7275,7 +7275,7 @@ type AuctionEvent =
     | { type: 'CONNECTION_RESTORED' }
     | { type: 'RETRY' };
 
-const auctionMachine = createMachine&lt;AuctionContext, AuctionEvent&gt;({
+const auctionMachine = createMachine<AuctionContext, AuctionEvent>({
     id: 'auction',
     initial: 'loading',
     context: {
@@ -7361,8 +7361,8 @@ class BidService {
      * @param authToken - User authentication token
      * @returns Promise resolving when connected and joined
      */
-    async connect(auctionId: string, authToken: string): Promise&lt;void&gt; {
-        return new Promise((resolve, reject) =&gt; {
+    async connect(auctionId: string, authToken: string): Promise<void> {
+        return new Promise((resolve, reject) => {
             this.socket = io(AUCTION_WS_URL, {
                 auth: { token: authToken },
                 transports: ['websocket'],
@@ -7371,7 +7371,7 @@ class BidService {
                 reconnectionDelayMax: 5000,
             });
 
-            this.socket.on('connect', () =&gt; {
+            this.socket.on('connect', () => {
                 this.socket?.emit('join_auction', auctionId);
                 this.reconnectAttempts = 0;
                 resolve();
@@ -7386,13 +7386,13 @@ class BidService {
      * @param bid - Bid details
      * @returns Promise with bid result
      */
-    async placeBid(bid: PlaceBidRequest): Promise&lt;BidResult&gt; {
-        return new Promise((resolve, reject) =&gt; {
-            const timeout = setTimeout(() =&gt; {
+    async placeBid(bid: PlaceBidRequest): Promise<BidResult> {
+        return new Promise((resolve, reject) => {
+            const timeout = setTimeout(() => {
                 reject(new Error('Bid timeout'));
             }, 5000);
 
-            this.socket?.emit('place_bid', bid, (response: BidResult) =&gt; {
+            this.socket?.emit('place_bid', bid, (response: BidResult) => {
                 clearTimeout(timeout);
                 resolve(response);
             });
@@ -7403,7 +7403,7 @@ class BidService {
      * Set up proxy/automatic bidding.
      * @param maxAmount - Maximum amount to bid up to
      */
-    async setProxyBid(auctionId: string, maxAmount: number): Promise&lt;void&gt; {
+    async setProxyBid(auctionId: string, maxAmount: number): Promise<void> {
         this.socket?.emit('set_proxy_bid', { auctionId, maxAmount });
     }
 
@@ -7411,7 +7411,7 @@ class BidService {
      * Subscribe to auction updates.
      * @param callback - Handler for auction events
      */
-    onAuctionUpdate(callback: (update: AuctionUpdate) =&gt; void): void {
+    onAuctionUpdate(callback: (update: AuctionUpdate) => void): void {
         this.socket?.on('auction_update', callback);
     }
 
@@ -7419,10 +7419,10 @@ class BidService {
      * Sync server time for accurate countdown.
      * @returns Server time delta in milliseconds
      */
-    async syncTime(): Promise&lt;number&gt; {
+    async syncTime(): Promise<number> {
         const samples: number[] = [];
 
-        for (let i = 0; i &lt; 5; i++) {
+        for (let i = 0; i < 5; i++) {
             const start = Date.now();
             const serverTime = await this.requestServerTime();
             const rtt = Date.now() - start;
@@ -7431,13 +7431,13 @@ class BidService {
         }
 
         // Use median to filter outliers
-        samples.sort((a, b) =&gt; a - b);
+        samples.sort((a, b) => a - b);
         return samples[2];
     }
 
-    private requestServerTime(): Promise&lt;number&gt; {
-        return new Promise((resolve) =&gt; {
-            this.socket?.emit('get_server_time', {}, (time: number) =&gt; {
+    private requestServerTime(): Promise<number> {
+        return new Promise((resolve) => {
+            this.socket?.emit('get_server_time', {}, (time: number) => {
                 resolve(time);
             });
         });
@@ -7483,13 +7483,13 @@ function useAuction(auctionId: string): {
     /** User's current bid */
     myBid: Bid | null;
     /** Place a new bid */
-    placeBid: (amount: number) =&gt; Promise&lt;BidResult&gt;;
+    placeBid: (amount: number) => Promise<BidResult>;
     /** Set proxy/auto bidding */
-    setProxyBid: (maxAmount: number) =&gt; Promise&lt;void&gt;;
+    setProxyBid: (maxAmount: number) => Promise<void>;
     /** Toggle watchlist status */
-    toggleWatch: () =&gt; void;
+    toggleWatch: () => void;
     /** Retry after error */
-    retry: () =&gt; void;
+    retry: () => void;
 };
 
 // hooks/useAuctionTimer.ts
@@ -7528,9 +7528,9 @@ function useBidInput(auction: Auction | null): {
     /** Suggested increment amounts */
     quickBids: number[];
     /** Set bid amount */
-    setValue: (value: string) =&gt; void;
+    setValue: (value: string) => void;
     /** Increment by one step */
-    increment: () =&gt; void;
+    increment: () => void;
     /** Whether current value is valid */
     isValid: boolean;
     /** Validation error message */
@@ -7582,14 +7582,14 @@ class AuctionTimerModule: NSObject {
     @objc private func tick() {
         let remaining = endTime - Date().timeIntervalSince1970
 
-        if remaining &lt;= 0 {
+        if remaining <= 0 {
             displayLink?.invalidate()
             displayLink = nil
             sendEvent("auctionTimerEnded", body: ["remaining": 0])
         } else {
             sendEvent("auctionTimerTick", body: [
                 "remaining": Int(remaining * 1000),
-                "isUrgent": remaining &lt; 30
+                "isUrgent": remaining < 30
             ])
         }
     }
@@ -7665,7 +7665,7 @@ class AuctionTimerModule(
 
             val remaining = endTimeMs - System.currentTimeMillis()
 
-            if (remaining &lt;= 0) {
+            if (remaining <= 0) {
                 isRunning = false
                 sendEvent("auctionTimerEnded", Arguments.createMap().apply {
                     putInt("remaining", 0)
@@ -7673,7 +7673,7 @@ class AuctionTimerModule(
             } else {
                 sendEvent("auctionTimerTick", Arguments.createMap().apply {
                     putInt("remaining", remaining.toInt())
-                    putBoolean("isUrgent", remaining &lt; 30000)
+                    putBoolean("isUrgent", remaining < 30000)
                 })
                 choreographer.postFrameCallback(this)
             }
@@ -7695,7 +7695,7 @@ class AuctionTimerModule(
 
     @ReactMethod
     fun triggerHaptic(type: String) {
-        val vibrator = if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.S) {
+        val vibrator = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             val manager = reactContext.getSystemService(VibratorManager::class.java)
             manager?.defaultVibrator
         } else {
@@ -7703,16 +7703,16 @@ class AuctionTimerModule(
             reactContext.getSystemService(Vibrator::class.java)
         }
 
-        if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val effect = when (type) {
-                "bidPlaced" -&gt; VibrationEffect.createOneShot(50, 128)
-                "bidAccepted" -&gt; VibrationEffect.createOneShot(100, 200)
-                "outbid" -&gt; VibrationEffect.createWaveform(
+                "bidPlaced" -> VibrationEffect.createOneShot(50, 128)
+                "bidAccepted" -> VibrationEffect.createOneShot(100, 200)
+                "outbid" -> VibrationEffect.createWaveform(
                     longArrayOf(0, 100, 50, 100), -1
                 )
-                "auctionEnded" -&gt; VibrationEffect.createOneShot(200, 255)
-                "urgent" -&gt; VibrationEffect.createOneShot(75, 255)
-                else -&gt; VibrationEffect.createOneShot(25, 64)
+                "auctionEnded" -> VibrationEffect.createOneShot(200, 255)
+                "urgent" -> VibrationEffect.createOneShot(75, 255)
+                else -> VibrationEffect.createOneShot(25, 64)
             }
             vibrator?.vibrate(effect)
         }
@@ -7754,7 +7754,7 @@ class AuctionTimerModule(
                     <ul>
                         <li>Problem: Client clocks vary by seconds, breaks countdown accuracy</li>
                         <li>Solution: NTP-style sync on connect (5 samples, use median), recalibrate on reconnect</li>
-                        <li>Impact: &lt;50ms time sync across all clients</li>
+                        <li>Impact: <50ms time sync across all clients</li>
                     </ul>
                 </li>
                 <li><strong>Bid broadcast batching:</strong>
@@ -7902,8 +7902,8 @@ return cjson.encode({
                     <ul>
                         <li>10,000 concurrent watchers per auction</li>
                         <li>500 bids/second sustained for final minute</li>
-                        <li>Broadcast latency p99 &lt; 100ms under load</li>
-                        <li>Redis Lua script execution &lt; 1ms</li>
+                        <li>Broadcast latency p99 < 100ms under load</li>
+                        <li>Redis Lua script execution < 1ms</li>
                     </ul>
                 </li>
             </ul>
@@ -8388,7 +8388,7 @@ class WhiteboardSyncService {
     private ydoc: Y.Doc;
     private provider: WebsocketProvider | null = null;
     private persistence: IndexeddbPersistence | null = null;
-    private yElements: Y.Map&lt;WhiteboardElement&gt;;
+    private yElements: Y.Map<WhiteboardElement>;
     private awareness: Awareness;
     private undoManager: Y.UndoManager;
 
@@ -8433,10 +8433,10 @@ class WhiteboardSyncService {
      * @param element - Element data without ID
      * @returns Generated element ID
      */
-    addElement(element: Omit&lt;WhiteboardElement, 'id'&gt;): string {
+    addElement(element: Omit<WhiteboardElement, 'id'>): string {
         const id = nanoid();
 
-        this.ydoc.transact(() =&gt; {
+        this.ydoc.transact(() => {
             this.yElements.set(id, {
                 ...element,
                 id,
@@ -8454,8 +8454,8 @@ class WhiteboardSyncService {
      * @param id - Element ID
      * @param updates - Partial element updates
      */
-    updateElement(id: string, updates: Partial&lt;WhiteboardElement&gt;): void {
-        this.ydoc.transact(() =&gt; {
+    updateElement(id: string, updates: Partial<WhiteboardElement>): void {
+        this.ydoc.transact(() => {
             const existing = this.yElements.get(id);
             if (existing) {
                 this.yElements.set(id, {
@@ -8472,7 +8472,7 @@ class WhiteboardSyncService {
      * @param id - Element ID to delete
      */
     deleteElement(id: string): void {
-        this.ydoc.transact(() =&gt; {
+        this.ydoc.transact(() => {
             this.yElements.delete(id);
         }, this.ydoc.clientID);
     }
@@ -8484,7 +8484,7 @@ class WhiteboardSyncService {
      * @param points - New points to append
      */
     appendPathPoints(id: string, points: Point[]): void {
-        this.ydoc.transact(() =&gt; {
+        this.ydoc.transact(() => {
             const element = this.yElements.get(id) as PathElement;
             if (element?.type === 'path') {
                 const newPoints = [...element.points, ...points];
@@ -8516,16 +8516,16 @@ class WhiteboardSyncService {
     /**
      * Subscribe to element changes.
      */
-    onElementsChange(callback: (elements: Map&lt;string, WhiteboardElement&gt;) =&gt; void): () =&gt; void {
-        const handler = () =&gt; callback(new Map(this.yElements.entries()));
+    onElementsChange(callback: (elements: Map<string, WhiteboardElement>) => void): () => void {
+        const handler = () => callback(new Map(this.yElements.entries()));
         this.yElements.observe(handler);
-        return () =&gt; this.yElements.unobserve(handler);
+        return () => this.yElements.unobserve(handler);
     }
 
     /**
      * Update cursor position (throttled to 50ms).
      */
-    updateCursor(cursor: Partial&lt;CursorState&gt;): void {
+    updateCursor(cursor: Partial<CursorState>): void {
         this.awareness.setLocalStateField('cursor', {
             ...this.awareness.getLocalState()?.cursor,
             ...cursor,
@@ -8536,10 +8536,10 @@ class WhiteboardSyncService {
     /**
      * Subscribe to presence updates (other users' cursors).
      */
-    onPresenceChange(callback: (cursors: CursorState[]) =&gt; void): () =&gt; void {
-        const handler = () =&gt; {
+    onPresenceChange(callback: (cursors: CursorState[]) => void): () => void {
+        const handler = () => {
             const cursors: CursorState[] = [];
-            this.awareness.getStates().forEach((state, clientId) =&gt; {
+            this.awareness.getStates().forEach((state, clientId) => {
                 if (clientId !== this.ydoc.clientID &amp;&amp; state.cursor) {
                     cursors.push({ ...state.cursor, ...state.user });
                 }
@@ -8547,7 +8547,7 @@ class WhiteboardSyncService {
             callback(cursors);
         };
         this.awareness.on('change', handler);
-        return () =&gt; this.awareness.off('change', handler);
+        return () => this.awareness.off('change', handler);
     }
 
     /** Get connection status */
@@ -8572,7 +8572,7 @@ class WhiteboardSyncService {
  */
 function useWhiteboard(boardId: string): {
     /** All elements on the board */
-    elements: Map&lt;string, WhiteboardElement&gt;;
+    elements: Map<string, WhiteboardElement>;
     /** Other users' cursors */
     cursors: CursorState[];
     /** Connection status */
@@ -8580,17 +8580,17 @@ function useWhiteboard(boardId: string): {
     /** Whether offline changes are pending sync */
     hasPendingChanges: boolean;
     /** Add a new element */
-    addElement: (element: Omit&lt;WhiteboardElement, 'id'&gt;) =&gt; string;
+    addElement: (element: Omit<WhiteboardElement, 'id'>) => string;
     /** Update an element */
-    updateElement: (id: string, updates: Partial&lt;WhiteboardElement&gt;) =&gt; void;
+    updateElement: (id: string, updates: Partial<WhiteboardElement>) => void;
     /** Delete an element */
-    deleteElement: (id: string) =&gt; void;
+    deleteElement: (id: string) => void;
     /** Append points to a path */
-    appendPathPoints: (id: string, points: Point[]) =&gt; void;
+    appendPathPoints: (id: string, points: Point[]) => void;
     /** Undo last action */
-    undo: () =&gt; void;
+    undo: () => void;
     /** Redo last undone action */
-    redo: () =&gt; void;
+    redo: () => void;
     /** Whether undo is available */
     canUndo: boolean;
     /** Whether redo is available */
@@ -8606,19 +8606,19 @@ function useViewport(): {
     /** Current viewport state */
     viewport: CanvasViewport;
     /** Set viewport directly */
-    setViewport: (viewport: CanvasViewport) =&gt; void;
+    setViewport: (viewport: CanvasViewport) => void;
     /** Pan by delta */
-    pan: (dx: number, dy: number) =&gt; void;
+    pan: (dx: number, dy: number) => void;
     /** Zoom to point */
-    zoomTo: (scale: number, centerX: number, centerY: number) =&gt; void;
+    zoomTo: (scale: number, centerX: number, centerY: number) => void;
     /** Fit all elements in view */
-    fitToContent: (elements: WhiteboardElement[]) =&gt; void;
+    fitToContent: (elements: WhiteboardElement[]) => void;
     /** Reset to default view */
-    resetView: () =&gt; void;
+    resetView: () => void;
     /** Convert screen coords to canvas coords */
-    screenToCanvas: (screenX: number, screenY: number) =&gt; Point;
+    screenToCanvas: (screenX: number, screenY: number) => Point;
     /** Convert canvas coords to screen coords */
-    canvasToScreen: (canvasX: number, canvasY: number) =&gt; Point;
+    canvasToScreen: (canvasX: number, canvasY: number) => Point;
 };
 
 // hooks/useDrawing.ts
@@ -8634,13 +8634,13 @@ function useDrawing(
     /** Currently drawing path (optimistic) */
     currentPath: PathElement | null;
     /** Start a new path */
-    startPath: (point: Point, options: PathOptions) =&gt; void;
+    startPath: (point: Point, options: PathOptions) => void;
     /** Add point to current path */
-    addPoint: (point: Point) =&gt; void;
+    addPoint: (point: Point) => void;
     /** Finish current path */
-    endPath: () =&gt; void;
+    endPath: () => void;
     /** Cancel current path */
-    cancelPath: () =&gt; void;
+    cancelPath: () => void;
 };
 
 interface PathOptions {
@@ -8802,7 +8802,7 @@ class WhiteboardCanvasModule(
 
     @ReactMethod
     fun initializeCanvas(promise: Promise) {
-        val maxFPS = if (Build.VERSION.SDK_INT &gt;= 30) {
+        val maxFPS = if (Build.VERSION.SDK_INT >= 30) {
             currentActivity?.display?.refreshRate?.toInt() ?: 60
         } else 60
 
@@ -8834,7 +8834,7 @@ class WhiteboardCanvasModule(
         sendRenderEvent(canvas)
 
         val file = File(reactContext.cacheDir, "\${java.util.UUID.randomUUID()}.png")
-        FileOutputStream(file).use { out -&gt;
+        FileOutputStream(file).use { out ->
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, out)
         }
 
@@ -8858,7 +8858,7 @@ class WhiteboardCanvasModule(
         document.finishPage(page)
 
         val file = File(reactContext.cacheDir, "\${java.util.UUID.randomUUID()}.pdf")
-        FileOutputStream(file).use { out -&gt;
+        FileOutputStream(file).use { out ->
             document.writeTo(out)
         }
         document.close()
@@ -8869,7 +8869,7 @@ class WhiteboardCanvasModule(
     }
 
     private fun isVulkanSupported(): Boolean {
-        return Build.VERSION.SDK_INT &gt;= 24 &amp;&amp;
+        return Build.VERSION.SDK_INT >= 24 &amp;&amp;
             reactContext.packageManager.hasSystemFeature("android.hardware.vulkan.level")
     }
 
@@ -8995,8 +8995,8 @@ class WhiteboardCanvasModule(
                     <ul>
                         <li>60fps sustained with 10,000 elements</li>
                         <li>Memory stays under 500MB for large boards</li>
-                        <li>Drawing latency &lt; 16ms from touch to render</li>
-                        <li>Remote cursor latency &lt; 100ms p95</li>
+                        <li>Drawing latency < 16ms from touch to render</li>
+                        <li>Remote cursor latency < 100ms p95</li>
                     </ul>
                 </li>
             </ul>
@@ -9060,11 +9060,11 @@ class WhiteboardCanvasModule(
 
             <h5>Non-Functional Requirements</h5>
             <ul>
-                <li><strong>Performance:</strong> Zero perceptible impact on page load time (&lt;5ms filter matching overhead)</li>
-                <li><strong>Battery:</strong> &lt;2% additional drain vs no blocker installed</li>
+                <li><strong>Performance:</strong> Zero perceptible impact on page load time (<5ms filter matching overhead)</li>
+                <li><strong>Battery:</strong> <2% additional drain vs no blocker installed</li>
                 <li><strong>Scale:</strong> Support 100,000+ blocking rules efficiently</li>
                 <li><strong>Privacy:</strong> All filtering happens on-device; no network traffic for blocking logic</li>
-                <li><strong>Memory:</strong> &lt;50MB memory footprint for rule engine</li>
+                <li><strong>Memory:</strong> <50MB memory footprint for rule engine</li>
                 <li><strong>Startup:</strong> Rules loaded and active within 500ms of device boot</li>
             </ul>
 
@@ -9327,7 +9327,7 @@ interface BlockingStatistics {
     /** Total requests blocked all-time */
     totalBlocked: number;
     /** Breakdown by category */
-    blockedByCategory: Record&lt;FilterCategory, number&gt;;
+    blockedByCategory: Record<FilterCategory, number>;
     /** Estimated bandwidth saved in bytes */
     bandwidthSaved: number;
     /** Daily statistics for charts */
@@ -9436,7 +9436,7 @@ class RuleCompiler {
      * @param filterLists - Array of subscribed filter lists
      * @returns Compiled rules for iOS and Android with statistics
      */
-    async compileRules(filterLists: FilterList[]): Promise&lt;CompiledRuleSet&gt;;
+    async compileRules(filterLists: FilterList[]): Promise<CompiledRuleSet>;
 
     /**
      * Convert normalized rules to Safari Content Blocker JSON format.
@@ -9476,7 +9476,7 @@ interface CompiledRuleSet {
     /** Compilation statistics */
     statistics: {
         totalRules: number;
-        byCategory: Record&lt;FilterCategory, number&gt;;
+        byCategory: Record<FilterCategory, number>;
     };
 }
 
@@ -9498,17 +9498,17 @@ function useContentBlocker(): {
     /** Subscribed filter lists */
     filterLists: FilterList[];
     /** Subscribe to a new filter list */
-    addFilterList: (url: string) =&gt; Promise&lt;void&gt;;
+    addFilterList: (url: string) => Promise<void>;
     /** Remove a filter list subscription */
-    removeFilterList: (id: string) =&gt; void;
+    removeFilterList: (id: string) => void;
     /** Toggle filter list enabled state */
-    toggleFilterList: (id: string) =&gt; void;
+    toggleFilterList: (id: string) => void;
     /** Force refresh all filter lists */
-    refreshLists: () =&gt; Promise&lt;void&gt;;
+    refreshLists: () => Promise<void>;
     /** Whether blocking is currently active */
     isEnabled: boolean;
     /** Toggle blocking on/off */
-    setEnabled: (enabled: boolean) =&gt; Promise&lt;void&gt;;
+    setEnabled: (enabled: boolean) => Promise<void>;
     /** Total active rule count */
     ruleCount: number;
     /** Last update timestamp */
@@ -9526,7 +9526,7 @@ function useBlockingStats(): {
     /** Total requests blocked all-time */
     totalBlocked: number;
     /** Blocked by category breakdown */
-    blockedByCategory: Record&lt;FilterCategory, number&gt;;
+    blockedByCategory: Record<FilterCategory, number>;
     /** Estimated bandwidth saved in bytes */
     bandwidthSaved: number;
     /** Daily statistics for charts (last 30 days) */
@@ -9534,7 +9534,7 @@ function useBlockingStats(): {
     /** Top 10 blocked domains */
     topBlockedDomains: DomainStat[];
     /** Reset all statistics */
-    resetStats: () =&gt; void;
+    resetStats: () => void;
 };
 
 // hooks/useWhitelist.ts
@@ -9546,13 +9546,13 @@ function useWhitelist(): {
     /** All whitelist entries */
     entries: WhitelistEntry[];
     /** Add domain to whitelist */
-    addToWhitelist: (domain: string, note?: string) =&gt; void;
+    addToWhitelist: (domain: string, note?: string) => void;
     /** Remove from whitelist */
-    removeFromWhitelist: (pattern: string) =&gt; void;
+    removeFromWhitelist: (pattern: string) => void;
     /** Check if domain is whitelisted */
-    isWhitelisted: (domain: string) =&gt; boolean;
+    isWhitelisted: (domain: string) => boolean;
     /** Temporarily whitelist for session */
-    temporaryWhitelist: (domain: string) =&gt; void;
+    temporaryWhitelist: (domain: string) => void;
 };</code></pre>
 
             <h5>Native Bridge APIs - iOS</h5>
@@ -9676,7 +9676,7 @@ class ContentBlockerModule: NSObject {
         }
     }
 
-    private func countRules(_ data: Data) -&gt; Int {
+    private func countRules(_ data: Data) -> Int {
         (try? JSONSerialization.jsonObject(with: data) as? [[String: Any]])?.count ?? 0
     }
 }</code></pre>
@@ -9716,8 +9716,8 @@ class DnsBlockerService : VpnService() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         when (intent?.action) {
-            ACTION_START -&gt; startVpn()
-            ACTION_STOP -&gt; stopVpn()
+            ACTION_START -> startVpn()
+            ACTION_STOP -> stopVpn()
         }
         return START_STICKY
     }
@@ -9752,7 +9752,7 @@ class DnsBlockerService : VpnService() {
         while (isRunning) {
             packet.clear()
             val length = inputStream.read(packet.array())
-            if (length &lt;= 0) continue
+            if (length <= 0) continue
 
             val dnsQuery = parseDnsQuery(packet) ?: continue
             val domain = dnsQuery.questionDomain
@@ -9787,7 +9787,7 @@ class DomainTrie {
     /** Insert domain for blocking (stored reversed for suffix matching) */
     fun insert(domain: String) {
         var node = root
-        domain.split(".").reversed().forEach { part -&gt;
+        domain.split(".").reversed().forEach { part ->
             node = node.children.getOrPut(part) { TrieNode() }
         }
         node.isEnd = true
@@ -9807,7 +9807,7 @@ class DomainTrie {
 }
 
 private class TrieNode {
-    val children = mutableMapOf&lt;String, TrieNode&gt;()
+    val children = mutableMapOf<String, TrieNode>()
     var isEnd = false
 }</code></pre>
 
@@ -9840,7 +9840,7 @@ private class TrieNode {
                     <ul>
                         <li>Problem: Writing stats on every blocked request is expensive</li>
                         <li>Solution: Batch updates in memory, flush to MMKV every 100 requests</li>
-                        <li>Impact: &lt;1% CPU overhead for statistics tracking</li>
+                        <li>Impact: <1% CPU overhead for statistics tracking</li>
                     </ul>
                 </li>
             </ul>
@@ -9852,7 +9852,7 @@ private class TrieNode {
                 <tr><td>Rule format</td><td>Declarative JSON (Safari Content Blocker)</td><td>Domain list + runtime checking</td></tr>
                 <tr><td>Rule limit</td><td>50,000 per extension</td><td>Unlimited (memory-constrained)</td></tr>
                 <tr><td>HTTPS visibility</td><td>URL patterns only</td><td>DNS queries only (no HTTPS inspection)</td></tr>
-                <tr><td>User setup</td><td>Enable in Settings &gt; Safari</td><td>Grant VPN permission</td></tr>
+                <tr><td>User setup</td><td>Enable in Settings > Safari</td><td>Grant VPN permission</td></tr>
                 <tr><td>Battery impact</td><td>Minimal (kernel-level)</td><td>Low (only DNS routed through VPN)</td></tr>
                 <tr><td>Statistics</td><td>No callback for blocked requests</td><td>Can track every blocked domain</td></tr>
                 <tr><td>CSS hiding</td><td>Native support via selector rules</td><td>Requires WebView injection</td></tr>
@@ -9967,10 +9967,10 @@ private class TrieNode {
 
             <h5>Non-Functional Requirements</h5>
             <ul>
-                <li><strong>Latency:</strong> Zero perceptible lag between viewfinder and real scene (&lt;33ms)</li>
-                <li><strong>Capture speed:</strong> Photo capture latency &lt;200ms from tap to saved image</li>
-                <li><strong>Battery:</strong> Battery drain comparable to native camera apps (&lt;10%/hour active use)</li>
-                <li><strong>Memory:</strong> Peak memory usage &lt;300MB including filter textures</li>
+                <li><strong>Latency:</strong> Zero perceptible lag between viewfinder and real scene (<33ms)</li>
+                <li><strong>Capture speed:</strong> Photo capture latency <200ms from tap to saved image</li>
+                <li><strong>Battery:</strong> Battery drain comparable to native camera apps (<10%/hour active use)</li>
+                <li><strong>Memory:</strong> Peak memory usage <300MB including filter textures</li>
                 <li><strong>Compatibility:</strong> Support devices from iPhone 8/Android API 24+</li>
                 <li><strong>Thermal:</strong> No throttling warnings during 10-minute continuous recording</li>
             </ul>
@@ -10280,13 +10280,13 @@ function useCamera(): {
     /** Current flash mode */
     flash: FlashMode;
     /** Update flash mode */
-    setFlash: (mode: FlashMode) =&gt; void;
+    setFlash: (mode: FlashMode) => void;
     /** Switch between front/back camera */
-    flipCamera: () =&gt; void;
+    flipCamera: () => void;
     /** Current camera position */
     position: CameraPosition;
     /** Camera reference for capture */
-    cameraRef: React.RefObject&lt;Camera&gt;;
+    cameraRef: React.RefObject<Camera>;
 };
 
 // hooks/useFilter.ts
@@ -10301,15 +10301,15 @@ function useFilter(): {
     /** Currently selected filter */
     activeFilter: Filter;
     /** Select a filter by ID */
-    setFilter: (filterId: string) =&gt; void;
+    setFilter: (filterId: string) => void;
     /** Current intensity (0-1) */
     intensity: number;
     /** Update intensity (Reanimated shared value) */
-    setIntensity: (value: number) =&gt; void;
+    setIntensity: (value: number) => void;
     /** Shared value for worklet access */
-    intensityShared: SharedValue&lt;number&gt;;
+    intensityShared: SharedValue<number>;
     /** Shared value for filter config */
-    filterConfigShared: SharedValue&lt;FilterConfig&gt;;
+    filterConfigShared: SharedValue<FilterConfig>;
 };
 
 // hooks/useFaceDetection.ts
@@ -10324,7 +10324,7 @@ function useFaceDetection(): {
     /** Whether face detection is active */
     isActive: boolean;
     /** Enable/disable face detection */
-    setActive: (active: boolean) =&gt; void;
+    setActive: (active: boolean) => void;
     /** Processing time in ms */
     processingTime: number;
 };
@@ -10334,13 +10334,13 @@ function useFaceDetection(): {
 /**
  * Hook for photo and video capture with filters applied.
  */
-function useCapture(cameraRef: React.RefObject&lt;Camera&gt;): {
+function useCapture(cameraRef: React.RefObject<Camera>): {
     /** Take photo with current filter */
-    takePhoto: () =&gt; Promise&lt;CaptureResult&gt;;
+    takePhoto: () => Promise<CaptureResult>;
     /** Start video recording */
-    startRecording: () =&gt; void;
+    startRecording: () => void;
     /** Stop video recording */
-    stopRecording: () =&gt; Promise&lt;CaptureResult&gt;;
+    stopRecording: () => Promise<CaptureResult>;
     /** Whether recording is in progress */
     isRecording: boolean;
     /** Recording duration in seconds */
@@ -10451,7 +10451,7 @@ class MetalFilterPipeline {
 
         encoder.setComputePipelineState(pipeline)
         encoder.setTexture(texture, index: 0)
-        encoder.setBytes([intensity], length: MemoryLayout&lt;Float&gt;.size, index: 0)
+        encoder.setBytes([intensity], length: MemoryLayout<Float>.size, index: 0)
 
         let threadGroupSize = MTLSize(width: 16, height: 16, depth: 1)
         let threadGroups = MTLSize(
@@ -10479,12 +10479,12 @@ class MetalFilterPipeline {
 
 // Metal Shader Example - LUT-based color grading
 /*
-#include &lt;metal_stdlib&gt;
+#include <metal_stdlib>
 using namespace metal;
 
 kernel void lutFilter(
-    texture2d&lt;float, access::read_write&gt; image [[texture(0)]],
-    texture3d&lt;float, access::sample&gt; lut [[texture(1)]],
+    texture2d<float, access::read_write> image [[texture(0)]],
+    texture3d<float, access::sample> lut [[texture(1)]],
     constant float &amp;intensity [[buffer(0)]],
     uint2 gid [[thread_position_in_grid]]
 ) {
@@ -10522,7 +10522,7 @@ class FilterFrameProcessor(
 
     private val gpuImage = GPUImage(reactContext)
 
-    override fun callback(frame: Frame, params: Map&lt;String, Any&gt;?): Any? {
+    override fun callback(frame: Frame, params: Map<String, Any>?): Any? {
         val filterName = params?.get("filter") as? String ?: return null
         val intensity = (params["intensity"] as? Double)?.toFloat() ?: 1f
 
@@ -10536,16 +10536,16 @@ class FilterFrameProcessor(
 
     private fun getFilter(name: String, intensity: Float): GPUImageFilter {
         return when (name) {
-            "grayscale" -&gt; GPUImageGrayscaleFilter()
-            "sepia" -&gt; GPUImageSepiaToneFilter().apply { setIntensity(intensity) }
-            "blur" -&gt; GPUImageGaussianBlurFilter().apply { setBlurSize(intensity * 2f) }
-            "beauty" -&gt; GPUImageBilateralBlurFilter().apply {
+            "grayscale" -> GPUImageGrayscaleFilter()
+            "sepia" -> GPUImageSepiaToneFilter().apply { setIntensity(intensity) }
+            "blur" -> GPUImageGaussianBlurFilter().apply { setBlurSize(intensity * 2f) }
+            "beauty" -> GPUImageBilateralBlurFilter().apply {
                 setDistanceNormalizationFactor(intensity * 8f)
             }
-            "vintage" -&gt; GPUImageLookupFilter().apply {
+            "vintage" -> GPUImageLookupFilter().apply {
                 // Load 3D LUT texture
             }
-            else -&gt; GPUImageFilter()
+            else -> GPUImageFilter()
         }
     }
 }
@@ -10726,7 +10726,7 @@ void main() {
 
             <h5>Non-Functional Requirements</h5>
             <ul>
-                <li><strong>Battery:</strong> Drain &lt;5% per hour in balanced mode, &lt;1% in significant-only mode</li>
+                <li><strong>Battery:</strong> Drain <5% per hour in balanced mode, <1% in significant-only mode</li>
                 <li><strong>Duration:</strong> Background tracking works for 24+ hours without app interaction</li>
                 <li><strong>Resilience:</strong> Survive app being killed by OS (via significant location/geofence wake-up)</li>
                 <li><strong>Compliance:</strong> Adhere to iOS/Android background restrictions and privacy requirements</li>
@@ -10930,7 +10930,7 @@ interface Geofence {
     /** Dwell time threshold in ms */
     dwellTime?: number;
     /** Custom metadata */
-    metadata?: Record&lt;string, any&gt;;
+    metadata?: Record<string, any>;
 }
 
 /**
@@ -10946,7 +10946,7 @@ interface GeofenceEvent {
 /**
  * Predefined tracking configurations for each mode
  */
-const TRACKING_CONFIGS: Record&lt;TrackingMode, TrackingConfig&gt; = {
+const TRACKING_CONFIGS: Record<TrackingMode, TrackingConfig> = {
     high: {
         mode: 'high',
         distanceFilter: 10,
@@ -11039,11 +11039,11 @@ function useLocationTracking(): {
     /** Current tracking mode */
     mode: TrackingMode;
     /** Start background tracking with specified mode */
-    startTracking: (mode: TrackingMode) =&gt; Promise&lt;void&gt;;
+    startTracking: (mode: TrackingMode) => Promise<void>;
     /** Stop all tracking */
-    stopTracking: () =&gt; Promise&lt;void&gt;;
+    stopTracking: () => Promise<void>;
     /** Change tracking mode while running */
-    setMode: (mode: TrackingMode) =&gt; Promise&lt;void&gt;;
+    setMode: (mode: TrackingMode) => Promise<void>;
     /** Whether tracking is currently active */
     isTracking: boolean;
     /** Last known location */
@@ -11062,11 +11062,11 @@ function useGeofence(): {
     /** All registered geofences */
     geofences: Geofence[];
     /** Add a new geofence */
-    addGeofence: (geofence: Omit&lt;Geofence, 'id'&gt;) =&gt; Promise&lt;string&gt;;
+    addGeofence: (geofence: Omit<Geofence, 'id'>) => Promise<string>;
     /** Remove a geofence */
-    removeGeofence: (id: string) =&gt; Promise&lt;void&gt;;
+    removeGeofence: (id: string) => Promise<void>;
     /** Remove all geofences */
-    clearGeofences: () =&gt; Promise&lt;void&gt;;
+    clearGeofences: () => Promise<void>;
     /** Recent geofence events */
     events: GeofenceEvent[];
 };
@@ -11079,9 +11079,9 @@ function useGeofence(): {
  */
 function useAdaptiveTracking(): {
     /** Enable adaptive mode switching */
-    enable: () =&gt; void;
+    enable: () => void;
     /** Disable adaptive mode (use manual mode) */
-    disable: () =&gt; void;
+    disable: () => void;
     /** Whether adaptive tracking is enabled */
     isEnabled: boolean;
     /** Current detected activity */
@@ -11102,9 +11102,9 @@ function useLocationSync(): {
     /** Number of locations pending upload */
     pendingCount: number;
     /** Force immediate sync (if online) */
-    syncNow: () =&gt; Promise&lt;{ synced: number; failed: number }&gt;;
+    syncNow: () => Promise<{ synced: number; failed: number }>;
     /** Configure sync behavior */
-    configure: (config: SyncConfig) =&gt; void;
+    configure: (config: SyncConfig) => void;
     /** Last successful sync timestamp */
     lastSyncTime: number | null;
 };</code></pre>
@@ -11221,12 +11221,12 @@ extension LocationModule: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let validLocations = locations.filter { location in
             let age = -location.timestamp.timeIntervalSinceNow
-            return age &lt; 60 &amp;&amp; location.horizontalAccuracy &lt; 100
+            return age < 60 &amp;&amp; location.horizontalAccuracy < 100
         }
 
         locationBuffer.append(contentsOf: validLocations)
 
-        if locationBuffer.count &gt;= 10 {
+        if locationBuffer.count >= 10 {
             sendLocationsToJS(locationBuffer)
             locationBuffer.removeAll()
         }
@@ -11258,7 +11258,7 @@ import com.google.android.gms.location.*
 class LocationTrackingService : Service() {
     private lateinit var fusedClient: FusedLocationProviderClient
     private lateinit var geofencingClient: GeofencingClient
-    private val locationBuffer = mutableListOf&lt;Location&gt;()
+    private val locationBuffer = mutableListOf<Location>()
 
     companion object {
         const val ACTION_START = "START"
@@ -11274,11 +11274,11 @@ class LocationTrackingService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         when (intent?.action) {
-            ACTION_START -&gt; {
+            ACTION_START -> {
                 val mode = intent.getStringExtra(EXTRA_MODE) ?: "balanced"
                 startTracking(mode)
             }
-            ACTION_STOP -&gt; stopTracking()
+            ACTION_STOP -> stopTracking()
         }
         return START_STICKY
     }
@@ -11287,19 +11287,19 @@ class LocationTrackingService : Service() {
         startForeground(NOTIFICATION_ID, createNotification(mode))
 
         val request = when (mode) {
-            "high" -&gt; LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 5000)
+            "high" -> LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 5000)
                 .setMinUpdateDistanceMeters(10f)
                 .setGranularity(Granularity.GRANULARITY_FINE)
                 .build()
-            "balanced" -&gt; LocationRequest.Builder(Priority.PRIORITY_BALANCED_POWER_ACCURACY, 30000)
+            "balanced" -> LocationRequest.Builder(Priority.PRIORITY_BALANCED_POWER_ACCURACY, 30000)
                 .setMinUpdateDistanceMeters(50f)
                 .setMaxUpdateDelayMillis(120000)
                 .build()
-            "low" -&gt; LocationRequest.Builder(Priority.PRIORITY_LOW_POWER, 60000)
+            "low" -> LocationRequest.Builder(Priority.PRIORITY_LOW_POWER, 60000)
                 .setMinUpdateDistanceMeters(100f)
                 .setMaxUpdateDelayMillis(300000)
                 .build()
-            else -&gt; LocationRequest.Builder(Priority.PRIORITY_BALANCED_POWER_ACCURACY, 30000).build()
+            else -> LocationRequest.Builder(Priority.PRIORITY_BALANCED_POWER_ACCURACY, 30000).build()
         }
 
         fusedClient.requestLocationUpdates(request, locationCallback, Looper.getMainLooper())
@@ -11308,13 +11308,13 @@ class LocationTrackingService : Service() {
 
     private val locationCallback = object : LocationCallback() {
         override fun onLocationResult(result: LocationResult) {
-            result.locations.forEach { location -&gt;
+            result.locations.forEach { location ->
                 if (isValidLocation(location)) {
                     locationBuffer.add(location)
                 }
             }
 
-            if (locationBuffer.size &gt;= 5) {
+            if (locationBuffer.size >= 5) {
                 sendLocationsToReactNative(locationBuffer.toList())
                 locationBuffer.clear()
             }
@@ -11497,9 +11497,9 @@ class LocationTrackingService : Service() {
 
             <h5>Non-Functional Requirements</h5>
             <ul>
-                <li>Link resolution latency &lt;200ms from tap to screen render</li>
+                <li>Link resolution latency <200ms from tap to screen render</li>
                 <li>99.9% link handling reliability across cold/warm/hot app states</li>
-                <li>Deferred link matching accuracy &gt;95% using probabilistic fingerprinting</li>
+                <li>Deferred link matching accuracy >95% using probabilistic fingerprinting</li>
                 <li>Pending links persist across app kills and device restarts</li>
                 <li>Zero navigation flicker during auth-gated redirects</li>
                 <li>TypeScript type safety for all route params and link configurations</li>
@@ -11670,8 +11670,8 @@ interface DeepLink {
     url: string;                             // Original URL string
     scheme: LinkScheme;                      // Type of link entry
     path: string;                            // URL pathname
-    params: Record&lt;string, string&gt;;          // Extracted route params (:id)
-    queryParams: Record&lt;string, string&gt;;     // Query string params (?foo=bar)
+    params: Record<string, string>;          // Extracted route params (:id)
+    queryParams: Record<string, string>;     // Query string params (?foo=bar)
     requiresAuth: boolean;                   // Whether target screen needs auth
     priority: number;                        // For conflict resolution
     timestamp: number;                       // When link was received
@@ -11707,7 +11707,7 @@ interface RouteConfig {
     paramNames?: string[];                              // Expected param keys
     requiresAuth: boolean;                              // Auth gate flag
     nestedIn?: string;                                  // Parent navigator name
-    validator?: (params: Record&lt;string, string&gt;) =&gt; boolean;  // Param validation
+    validator?: (params: Record<string, string>) => boolean;  // Param validation
     priority?: number;                                  // For pattern conflicts
 }
 
@@ -11814,10 +11814,10 @@ interface PendingDeepLink {
             <pre><code>// hooks/useDeepLinking.ts
 
 interface UseDeepLinkingOptions {
-    onLinkReceived?: (link: DeepLink) =&gt; void;
-    onAuthRequired?: (link: DeepLink) =&gt; void;
-    onNavigated?: (link: DeepLink) =&gt; void;
-    onError?: (error: Error, url: string) =&gt; void;
+    onLinkReceived?: (link: DeepLink) => void;
+    onAuthRequired?: (link: DeepLink) => void;
+    onNavigated?: (link: DeepLink) => void;
+    onError?: (error: Error, url: string) => void;
 }
 
 interface UseDeepLinkingReturn {
@@ -11826,13 +11826,13 @@ interface UseDeepLinkingReturn {
     /** Link waiting for auth completion */
     pendingLink: DeepLink | null;
     /** Process auth-gated link after login */
-    processPendingLink: () =&gt; Promise&lt;void&gt;;
+    processPendingLink: () => Promise<void>;
     /** Manually handle a URL */
-    handleUrl: (url: string) =&gt; Promise&lt;void&gt;;
+    handleUrl: (url: string) => Promise<void>;
     /** Generate shareable link for screen */
-    generateLink: (screen: string, params?: Record&lt;string, string&gt;) =&gt; string;
+    generateLink: (screen: string, params?: Record<string, string>) => string;
     /** Clear stored pending link */
-    clearPendingLink: () =&gt; void;
+    clearPendingLink: () => void;
 }
 
 function useDeepLinking(options?: UseDeepLinkingOptions): UseDeepLinkingReturn;
@@ -11841,7 +11841,7 @@ function useDeepLinking(options?: UseDeepLinkingOptions): UseDeepLinkingReturn;
 
 interface UseDeferredDeepLinkReturn {
     /** Check for deferred link on first launch */
-    checkDeferredLink: () =&gt; Promise&lt;string | null&gt;;
+    checkDeferredLink: () => Promise<string | null>;
     /** Whether check has been performed */
     hasChecked: boolean;
     /** Whether a deferred link was found */
@@ -11858,9 +11858,9 @@ interface UseLinkAttributionReturn {
     /** Current session attribution */
     attribution: LinkAttribution | null;
     /** Extract attribution from URL */
-    extractAttribution: (url: string) =&gt; LinkAttribution;
+    extractAttribution: (url: string) => LinkAttribution;
     /** Track attribution event */
-    trackAttribution: (link: DeepLink) =&gt; void;
+    trackAttribution: (link: DeepLink) => void;
 }
 
 function useLinkAttribution(): UseLinkAttributionReturn;</code></pre>
@@ -11875,13 +11875,13 @@ const storage = new MMKV({ id: 'deeplinks' });
 
 class DeepLinkEngine {
     private routeTrie: RouteTrie;
-    private pendingLinks: Map&lt;string, DeepLink&gt; = new Map();
-    private machine: ReturnType&lt;typeof interpret&gt;;
-    private navigationRef: NavigationContainerRef&lt;any&gt;;
+    private pendingLinks: Map<string, DeepLink> = new Map();
+    private machine: ReturnType<typeof interpret>;
+    private navigationRef: NavigationContainerRef<any>;
 
     private routes: RouteConfig[] = [
         { pattern: '/product/:id', screen: 'Product', requiresAuth: false,
-          validator: (p) =&gt; /^[a-zA-Z0-9-]+$/.test(p.id) },
+          validator: (p) => /^[a-zA-Z0-9-]+$/.test(p.id) },
         { pattern: '/order/:id', screen: 'OrderDetail', requiresAuth: true },
         { pattern: '/profile/:userId?', screen: 'Profile', requiresAuth: true },
         { pattern: '/invite/:code', screen: 'InviteAccept', requiresAuth: false },
@@ -11889,7 +11889,7 @@ class DeepLinkEngine {
         { pattern: '/chat/:roomId', screen: 'ChatRoom', requiresAuth: true, nestedIn: 'Messages' },
     ];
 
-    constructor(navigationRef: NavigationContainerRef&lt;any&gt;) {
+    constructor(navigationRef: NavigationContainerRef<any>) {
         this.navigationRef = navigationRef;
         this.routeTrie = new RouteTrie(this.routes);
         this.machine = this.createStateMachine();
@@ -11940,12 +11940,12 @@ class DeepLinkEngine {
 
     private setupListeners() {
         // Hot link (app already open)
-        Linking.addEventListener('url', ({ url }) =&gt; {
+        Linking.addEventListener('url', ({ url }) => {
             this.handleIncomingLink(url, 'hot');
         });
 
         // Cold link (app opened via link)
-        Linking.getInitialURL().then(url =&gt; {
+        Linking.getInitialURL().then(url => {
             if (url) this.handleIncomingLink(url, 'cold');
         });
     }
@@ -12017,7 +12017,7 @@ class DeepLinkEngine {
         const stored = storage.getString('pending_link');
         if (stored) {
             const link = JSON.parse(stored) as DeepLink;
-            if (Date.now() - link.timestamp &lt; 24 * 60 * 60 * 1000) {
+            if (Date.now() - link.timestamp < 24 * 60 * 60 * 1000) {
                 this.navigate(link);
             }
             storage.delete('pending_link');
@@ -12061,7 +12061,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     // Handle Custom Scheme when app is running
     func scene(_ scene: UIScene,
-               openURLContexts URLContexts: Set&lt;UIOpenURLContext&gt;) {
+               openURLContexts URLContexts: Set<UIOpenURLContext>) {
         guard let url = URLContexts.first?.url else { return }
         DeepLinkBridge.shared.handleCustomScheme(url)
     }
@@ -12148,11 +12148,11 @@ class DeepLinkActivity : AppCompatActivity() {
         val data = intent.data
 
         when (action) {
-            Intent.ACTION_VIEW -&gt; {
-                data?.let { uri -&gt;
+            Intent.ACTION_VIEW -> {
+                data?.let { uri ->
                     when {
-                        isAppLink(uri) -&gt; handleAppLink(uri)
-                        isCustomScheme(uri) -&gt; handleCustomScheme(uri)
+                        isAppLink(uri) -> handleAppLink(uri)
+                        isCustomScheme(uri) -> handleCustomScheme(uri)
                     }
                 }
             }
@@ -12203,35 +12203,35 @@ class DeepLinkActivity : AppCompatActivity() {
 }
 
 // AndroidManifest.xml
-&lt;activity
+<activity
     android:name=".DeepLinkActivity"
     android:exported="true"
-    android:launchMode="singleTask"&gt;
+    android:launchMode="singleTask">
 
-    &lt;!-- Verified App Links --&gt;
-    &lt;intent-filter android:autoVerify="true"&gt;
-        &lt;action android:name="android.intent.action.VIEW" /&gt;
-        &lt;category android:name="android.intent.category.DEFAULT" /&gt;
-        &lt;category android:name="android.intent.category.BROWSABLE" /&gt;
-        &lt;data android:scheme="https"
+    <!-- Verified App Links -->
+    <intent-filter android:autoVerify="true">
+        <action android:name="android.intent.action.VIEW" />
+        <category android:name="android.intent.category.DEFAULT" />
+        <category android:name="android.intent.category.BROWSABLE" />
+        <data android:scheme="https"
               android:host="example.com"
-              android:pathPattern="/product/.*" /&gt;
-        &lt;data android:scheme="https"
+              android:pathPattern="/product/.*" />
+        <data android:scheme="https"
               android:host="example.com"
-              android:pathPattern="/order/.*" /&gt;
-        &lt;data android:scheme="https"
+              android:pathPattern="/order/.*" />
+        <data android:scheme="https"
               android:host="example.com"
-              android:pathPattern="/invite/.*" /&gt;
-    &lt;/intent-filter&gt;
+              android:pathPattern="/invite/.*" />
+    </intent-filter>
 
-    &lt;!-- Custom Scheme --&gt;
-    &lt;intent-filter&gt;
-        &lt;action android:name="android.intent.action.VIEW" /&gt;
-        &lt;category android:name="android.intent.category.DEFAULT" /&gt;
-        &lt;category android:name="android.intent.category.BROWSABLE" /&gt;
-        &lt;data android:scheme="myapp" /&gt;
-    &lt;/intent-filter&gt;
-&lt;/activity&gt;
+    <!-- Custom Scheme -->
+    <intent-filter>
+        <action android:name="android.intent.action.VIEW" />
+        <category android:name="android.intent.category.DEFAULT" />
+        <category android:name="android.intent.category.BROWSABLE" />
+        <data android:scheme="myapp" />
+    </intent-filter>
+</activity>
 
 // assetlinks.json (/.well-known/)
 [{
@@ -12277,7 +12277,7 @@ class DeferredDeepLinkService {
     }
 
     // Client-side: Check for matching deferred link on first launch
-    async checkDeferredLink(): Promise&lt;string | null&gt; {
+    async checkDeferredLink(): Promise<string | null> {
         // Only check on first launch
         if (storage.getBoolean('deferred_link_checked')) {
             return null;
@@ -12309,7 +12309,7 @@ class DeferredDeepLinkService {
         return null;
     }
 
-    private async generateFingerprint(): Promise&lt;FingerprintData&gt; {
+    private async generateFingerprint(): Promise<FingerprintData> {
         const [ipResponse, dimensions] = await Promise.all([
             fetch('https://api.example.com/ip-hash'),
             this.getScreenDimensions(),
@@ -12336,7 +12336,7 @@ class DeferredDeepLinkService {
 async function matchDeferredLink(
     fingerprint: FingerprintData,
     installTime: number
-): Promise&lt;{ link: string; confidence: number } | null&gt; {
+): Promise<{ link: string; confidence: number } | null> {
     // Find candidates within time window
     const candidates = await db.deferredLinks.find({
         expiresAt: { $gt: Date.now() },
@@ -12352,7 +12352,7 @@ async function matchDeferredLink(
     for (const candidate of candidates) {
         const confidence = calculateConfidence(fingerprint, candidate.fingerprint);
 
-        if (confidence &gt; 0.8 &amp;&amp; (!bestMatch || confidence &gt; bestMatch.confidence)) {
+        if (confidence > 0.8 &amp;&amp; (!bestMatch || confidence > bestMatch.confidence)) {
             bestMatch = { link: candidate.link, confidence };
         }
     }
@@ -12394,7 +12394,7 @@ function calculateConfidence(a: FingerprintData, b: FingerprintData): number {
             <pre><code>// navigation/linking.ts
 import { LinkingOptions, getStateFromPath } from '@react-navigation/native';
 
-export const linking: LinkingOptions&lt;RootStackParamList&gt; = {
+export const linking: LinkingOptions<RootStackParamList> = {
     prefixes: [
         'myapp://',
         'https://example.com',
@@ -12433,7 +12433,7 @@ export const linking: LinkingOptions&lt;RootStackParamList&gt; = {
                     Profile: 'profile/:userId?',
                     Settings: {
                         path: 'settings/:section?',
-                        parse: { section: (s: string) =&gt; s || 'general' },
+                        parse: { section: (s: string) => s || 'general' },
                     },
                     // Nested chat
                     Messages: {
@@ -12450,13 +12450,13 @@ export const linking: LinkingOptions&lt;RootStackParamList&gt; = {
         },
     },
 
-    getStateFromPath: (path, config) =&gt; {
+    getStateFromPath: (path, config) => {
         // Extract and validate parameters
         const cleanPath = sanitizePath(path);
 
         // Check authentication requirements
         const authRequiredPatterns = ['/order/', '/profile', '/settings', '/chat/'];
-        const requiresAuth = authRequiredPatterns.some(p =&gt; cleanPath.includes(p));
+        const requiresAuth = authRequiredPatterns.some(p => cleanPath.includes(p));
 
         if (requiresAuth &amp;&amp; !authStore.isAuthenticated) {
             // Store path for post-auth navigation
@@ -12480,7 +12480,7 @@ export const linking: LinkingOptions&lt;RootStackParamList&gt; = {
         return getStateFromPath(cleanPath, config);
     },
 
-    getPathFromState: (state, config) =&gt; {
+    getPathFromState: (state, config) => {
         // Custom path generation for sharing
         return getPathFromState(state, config);
     },
@@ -12493,7 +12493,7 @@ function sanitizePath(path: string): string {
     // Remove UTM and tracking params from path for navigation
     // but preserve them for analytics
     const cleanParams = new URLSearchParams();
-    url.searchParams.forEach((value, key) =&gt; {
+    url.searchParams.forEach((value, key) => {
         if (!key.startsWith('utm_') &amp;&amp; !['ref', 'source'].includes(key)) {
             cleanParams.set(key, value);
         }
@@ -12666,7 +12666,7 @@ function sanitizePath(path: string): string {
 
             <h5>Non-Functional Requirements</h5>
             <ul>
-                <li>Navigation state transitions complete in &lt;100ms (no perceptible delay)</li>
+                <li>Navigation state transitions complete in <100ms (no perceptible delay)</li>
                 <li>Zero flicker between navigator stacks (smooth fade transitions)</li>
                 <li>State decisions made synchronously at app launch (no loading spinner between screens)</li>
                 <li>TypeScript type-safety for all navigation params and route names</li>
@@ -12840,7 +12840,7 @@ interface AppState {
 /** Navigation gate that controls access to a stack */
 interface NavigationGate {
     id: string;                                    // Unique identifier
-    condition: (state: AppState) =&gt; boolean;       // When to activate this gate
+    condition: (state: AppState) => boolean;       // When to activate this gate
     stack: keyof RootStackParamList;               // Target navigator
     priority: number;                              // Higher = evaluated first
 }
@@ -12849,11 +12849,11 @@ interface NavigationGate {
 type RootStackParamList = {
     ForceUpdate: undefined;
     Maintenance: undefined;
-    Auth: NavigatorScreenParams&lt;AuthStackParamList&gt;;
-    Onboarding: NavigatorScreenParams&lt;OnboardingStackParamList&gt;;
-    Verification: NavigatorScreenParams&lt;VerificationStackParamList&gt;;
-    Main: NavigatorScreenParams&lt;MainTabParamList&gt;;
-    AdminDashboard: NavigatorScreenParams&lt;AdminStackParamList&gt;;
+    Auth: NavigatorScreenParams<AuthStackParamList>;
+    Onboarding: NavigatorScreenParams<OnboardingStackParamList>;
+    Verification: NavigatorScreenParams<VerificationStackParamList>;
+    Main: NavigatorScreenParams<MainTabParamList>;
+    AdminDashboard: NavigatorScreenParams<AdminStackParamList>;
 };
 
 /** Auth flow screens with their params */
@@ -12884,9 +12884,9 @@ type VerificationStackParamList = {
 /** Main app tab navigator */
 type MainTabParamList = {
     Home: undefined;
-    Shop: NavigatorScreenParams&lt;ShopStackParamList&gt;;
+    Shop: NavigatorScreenParams<ShopStackParamList>;
     Cart: undefined;
-    Account: NavigatorScreenParams&lt;AccountStackParamList&gt;;
+    Account: NavigatorScreenParams<AccountStackParamList>;
 };</code></pre>
 
             <h5>Entity Relationships</h5>
@@ -12975,7 +12975,7 @@ type NavigationEvent =
     | { type: 'DEEP_LINK_RECEIVED'; payload: { url: string } }
     | { type: 'SESSION_EXPIRED' };
 
-export const navigationMachine = createMachine&lt;NavigationContext, NavigationEvent&gt;({
+export const navigationMachine = createMachine<NavigationContext, NavigationEvent>({
     id: 'navigation',
     initial: 'initializing',
     context: {
@@ -12996,7 +12996,7 @@ export const navigationMachine = createMachine&lt;NavigationContext, NavigationE
                 src: 'loadInitialState',
                 onDone: {
                     target: 'deciding',
-                    actions: assign({ appState: (_, event) =&gt; event.data }),
+                    actions: assign({ appState: (_, event) => event.data }),
                 },
                 onError: 'error',
             },
@@ -13019,7 +13019,7 @@ export const navigationMachine = createMachine&lt;NavigationContext, NavigationE
             on: {
                 MAINTENANCE_MODE: {
                     target: 'deciding',
-                    cond: (_, event) =&gt; !event.payload.active,
+                    cond: (_, event) => !event.payload.active,
                 },
             },
             meta: { stack: 'Maintenance' },
@@ -13029,14 +13029,14 @@ export const navigationMachine = createMachine&lt;NavigationContext, NavigationE
                 AUTH_STATE_CHANGED: {
                     target: 'deciding',
                     actions: assign({
-                        appState: (ctx, event) =&gt; ({
+                        appState: (ctx, event) => ({
                             ...ctx.appState,
                             auth: event.payload.authenticated ? 'authenticated' : 'unauthenticated',
                         }),
                     }),
                 },
                 DEEP_LINK_RECEIVED: {
-                    actions: assign({ pendingDeepLink: (_, event) =&gt; event.payload.url }),
+                    actions: assign({ pendingDeepLink: (_, event) => event.payload.url }),
                 },
             },
             meta: { stack: 'Auth' },
@@ -13046,7 +13046,7 @@ export const navigationMachine = createMachine&lt;NavigationContext, NavigationE
                 ONBOARDING_COMPLETED: {
                     target: 'deciding',
                     actions: assign({
-                        appState: (ctx) =&gt; ({ ...ctx.appState, onboarding: 'completed' }),
+                        appState: (ctx) => ({ ...ctx.appState, onboarding: 'completed' }),
                     }),
                 },
                 SESSION_EXPIRED: 'unauthenticated',
@@ -13058,7 +13058,7 @@ export const navigationMachine = createMachine&lt;NavigationContext, NavigationE
                 VERIFICATION_COMPLETED: {
                     target: 'deciding',
                     actions: assign({
-                        appState: (ctx, event) =&gt; ({
+                        appState: (ctx, event) => ({
                             ...ctx.appState,
                             verification: event.payload.type === 'phone' ? 'fully_verified' : 'email_verified',
                         }),
@@ -13132,7 +13132,7 @@ class NavigationBridge: RCTEventEmitter {
         sendEvent(withName: eventName, body: body)
     }
 
-    override func supportedEvents() -&gt; [String]! {
+    override func supportedEvents() -> [String]! {
         return ["onStateRestore", "SESSION_EXPIRED", "DEEP_LINK"]
     }
 }</code></pre>
@@ -13179,7 +13179,7 @@ class NavigationModule(
 
     override fun onStart(owner: LifecycleOwner) {
         // App coming to foreground - validate session
-        validateSession { isValid -&gt;
+        validateSession { isValid ->
             if (!isValid) {
                 sendEvent("SESSION_EXPIRED", null)
             }
@@ -13196,10 +13196,10 @@ class NavigationModule(
             .emit(eventName, params)
     }
 
-    private fun validateSession(callback: (Boolean) -&gt; Unit) {
+    private fun validateSession(callback: (Boolean) -> Unit) {
         // Check token expiry
         val tokenExpiry = prefs.getLong("tokenExpiry", 0)
-        callback(System.currentTimeMillis() &lt; tokenExpiry)
+        callback(System.currentTimeMillis() < tokenExpiry)
     }
 }</code></pre>
 
@@ -13215,7 +13215,7 @@ interface NavigationProviderProps {
 export function NavigationProvider({ children }: NavigationProviderProps) {
     const [state, send, service] = useMachine(navigationMachine, {
         services: {
-            loadInitialState: async () =&gt; {
+            loadInitialState: async () => {
                 // Parallel fetch of all required state
                 const [authState, appConfig, userData] = await Promise.all([
                     authService.getStoredAuth(),
@@ -13234,82 +13234,82 @@ export function NavigationProvider({ children }: NavigationProviderProps) {
             },
         },
         actions: {
-            processPendingDeepLink: (ctx) =&gt; {
+            processPendingDeepLink: (ctx) => {
                 if (ctx.pendingDeepLink) {
                     deepLinkService.navigate(ctx.pendingDeepLink);
                 }
             },
-            handleDeepLink: (_, event) =&gt; {
+            handleDeepLink: (_, event) => {
                 deepLinkService.navigate(event.payload.url);
             },
         },
     });
 
     // Listen for native events
-    useEffect(() =&gt; {
+    useEffect(() => {
         const subscriptions = [
-            NativeModules.NavigationModule.addListener('SESSION_EXPIRED', () =&gt; {
+            NativeModules.NavigationModule.addListener('SESSION_EXPIRED', () => {
                 send('SESSION_EXPIRED');
             }),
-            authService.onAuthStateChanged((authenticated, user) =&gt; {
+            authService.onAuthStateChanged((authenticated, user) => {
                 send({ type: 'AUTH_STATE_CHANGED', payload: { authenticated, user } });
             }),
         ];
 
-        return () =&gt; subscriptions.forEach(sub =&gt; sub.remove());
+        return () => subscriptions.forEach(sub => sub.remove());
     }, [send]);
 
     return (
-        &lt;NavigationContext.Provider value={{ state, send, service }}&gt;
+        <NavigationContext.Provider value={{ state, send, service }}>
             {children}
-        &lt;/NavigationContext.Provider&gt;
+        </NavigationContext.Provider>
     );
 }
 
 // navigation/RootNavigator.tsx
 export function RootNavigator() {
     const { state } = useNavigationContext();
-    const navigationRef = useNavigationContainerRef&lt;RootStackParamList&gt;();
+    const navigationRef = useNavigationContainerRef<RootStackParamList>();
 
     // Get current stack from state machine
     const currentStack = state.meta?.stack as keyof RootStackParamList;
 
     if (state.matches('initializing')) {
-        return &lt;SplashScreen /&gt;;
+        return <SplashScreen />;
     }
 
     return (
-        &lt;NavigationContainer
+        <NavigationContainer
             ref={navigationRef}
             linking={linkingConfig}
-            onStateChange={(navState) =&gt; {
+            onStateChange={(navState) => {
                 // Persist navigation state
                 NativeModules.NavigationModule.persistState(JSON.stringify(navState));
                 // Track screen views
                 analytics.trackScreenView(navState);
             }}
-        &gt;
-            &lt;RootStack.Navigator screenOptions={{ headerShown: false, animation: 'fade' }}&gt;
+        >
+            <RootStack.Navigator screenOptions={{ headerShown: false, animation: 'fade' }}>
                 {currentStack === 'ForceUpdate' &amp;&amp; (
-                    &lt;RootStack.Screen name="ForceUpdate" component={ForceUpdateScreen} /&gt;
+                    <RootStack.Screen name="ForceUpdate" component={ForceUpdateScreen} />
                 )}
                 {currentStack === 'Maintenance' &amp;&amp; (
-                    &lt;RootStack.Screen name="Maintenance" component={MaintenanceScreen} /&gt;
+                    <RootStack.Screen name="Maintenance" component={MaintenanceScreen} />
                 )}
                 {currentStack === 'Auth' &amp;&amp; (
-                    &lt;RootStack.Screen name="Auth" component={AuthNavigator} /&gt;
+                    <RootStack.Screen name="Auth" component={AuthNavigator} />
                 )}
                 {currentStack === 'Onboarding' &amp;&amp; (
-                    &lt;RootStack.Screen name="Onboarding" component={OnboardingNavigator} /&gt;
+                    <RootStack.Screen name="Onboarding" component={OnboardingNavigator} />
                 )}
                 {currentStack === 'Verification' &amp;&amp; (
-                    &lt;RootStack.Screen name="Verification" component={VerificationNavigator} /&gt;
+                    <RootStack.Screen name="Verification" component={VerificationNavigator} />
                 )}
                 {currentStack === 'Main' &amp;&amp; (
-                    &lt;RootStack.Screen name="Main" component={MainNavigator} /&gt;
+                    <RootStack.Screen name="Main" component={MainNavigator} />
                 )}
-            &lt;/RootStack.Navigator&gt;
-        &lt;/NavigationContainer&gt;
+            </RootStack.Navigator>
+        </NavigationContainer>
     );
 }</code></pre>
 
@@ -13319,7 +13319,7 @@ export function RootNavigator() {
             <table>
                 <tr><th>Problem</th><th>Solution</th><th>Impact</th></tr>
                 <tr><td>Flash of wrong screen on launch</td><td>Sync read cached auth state from MMKV before first render</td><td>Zero flicker, instant correct navigator</td></tr>
-                <tr><td>Slow state resolution</td><td>Parallel fetch: auth + config + user profile</td><td>&lt;100ms total initialization</td></tr>
+                <tr><td>Slow state resolution</td><td>Parallel fetch: auth + config + user profile</td><td><100ms total initialization</td></tr>
                 <tr><td>Navigation history loss on stack switch</td><td>Persist nav state per stack, restore when returning</td><td>Seamless resumption of previous position</td></tr>
                 <tr><td>Jarring transitions between stacks</td><td>Fade animation on RootStack.Navigator</td><td>Smooth 300ms transition between contexts</td></tr>
                 <tr><td>Redundant re-renders</td><td>Memoize gate conditions, use React.memo on navigators</td><td>Minimal re-render on state changes</td></tr>
@@ -13390,7 +13390,7 @@ export function RootNavigator() {
                 <li><strong>Q: How do you prevent screen flickering on app launch?</strong>
                     <br/>A: Use synchronous storage (MMKV) to read cached auth state before first render. Show splash screen only during async operations (token validation), not during initial state determination.</li>
                 <li><strong>Q: How would you implement A/B testing for different onboarding flows?</strong>
-                    <br/>A: Inject experiment assignment into machine context, use guards that check assignment. e.g., cond: (ctx) =&gt; ctx.experiment === 'onboarding_v2'. All flows defined in same machine, selected at runtime.</li>
+                    <br/>A: Inject experiment assignment into machine context, use guards that check assignment. e.g., cond: (ctx) => ctx.experiment === 'onboarding_v2'. All flows defined in same machine, selected at runtime.</li>
                 <li><strong>Q: What happens if config fetch fails on launch?</strong>
                     <br/>A: Use cached config with short TTL. If cache is valid, proceed normally. If stale and fetch fails, show user (maybe soft-block). Background refresh when network returns.</li>
                 <li><strong>Q: How do you handle reset() vs navigate() for auth changes?</strong>
@@ -13449,7 +13449,7 @@ export function RootNavigator() {
                 <li>Battery optimized: batch operations, adaptive chunk size based on network</li>
                 <li>Handle network transitions (WiFi ↔ cellular) seamlessly with user preference</li>
                 <li>Complete pending uploads after app restart (persist queue state)</li>
-                <li>Upload progress updates &lt;100ms latency (smooth UI)</li>
+                <li>Upload progress updates <100ms latency (smooth UI)</li>
             </ul>
 
             <h5>Out of Scope</h5>
@@ -13638,7 +13638,7 @@ interface UploadTask {
     /** Error details if status is 'failed' */
     error?: UploadError;
     /** Custom metadata to attach to upload */
-    metadata?: Record&lt;string, unknown&gt;;
+    metadata?: Record<string, unknown>;
     /** Server-assigned upload session URL (tus) */
     uploadUrl?: string;
     /** Final media URL after completion */
@@ -13821,16 +13821,16 @@ const storage = new MMKV({ id: 'uploads' });
  *
  * @example
  * const coordinator = new UploadCoordinator({ maxConcurrentUploads: 2 });
- * coordinator.on('progress', ({ taskId, progress }) =&gt; updateUI(taskId, progress));
+ * coordinator.on('progress', ({ taskId, progress }) => updateUI(taskId, progress));
  * const taskId = await coordinator.addUpload(mediaFile, { albumId: '123' });
  */
 class UploadCoordinator extends EventEmitter {
-    private queue: Map&lt;string, UploadTask&gt; = new Map();
-    private activeUploads: Map&lt;string, AbortController&gt; = new Map();
+    private queue: Map<string, UploadTask> = new Map();
+    private activeUploads: Map<string, AbortController> = new Map();
     private config: UploadConfig;
     private networkState: 'wifi' | 'cellular' | 'none' = 'wifi';
 
-    constructor(config: Partial&lt;UploadConfig&gt; = {}) {
+    constructor(config: Partial<UploadConfig> = {}) {
         super();
         this.config = {
             chunkSize: 5 * 1024 * 1024, // 5MB
@@ -13854,7 +13854,7 @@ class UploadCoordinator extends EventEmitter {
         const saved = storage.getString('queue');
         if (saved) {
             const tasks: UploadTask[] = JSON.parse(saved);
-            tasks.forEach(task =&gt; {
+            tasks.forEach(task => {
                 if (task.status === 'uploading') {
                     task.status = 'queued'; // Resume interrupted uploads
                 }
@@ -13872,7 +13872,7 @@ class UploadCoordinator extends EventEmitter {
 
     /** Monitor network changes and auto-resume */
     private setupNetworkListener(): void {
-        NetInfo.addEventListener(state =&gt; {
+        NetInfo.addEventListener(state => {
             const newState = state.isConnected
                 ? (state.type === 'wifi' ? 'wifi' : 'cellular')
                 : 'none';
@@ -13896,7 +13896,7 @@ class UploadCoordinator extends EventEmitter {
      * @param metadata - Custom metadata to attach
      * @returns Task ID for tracking
      */
-    async addUpload(file: MediaFile, metadata?: Record&lt;string, unknown&gt;): Promise&lt;string&gt; {
+    async addUpload(file: MediaFile, metadata?: Record<string, unknown>): Promise<string> {
         const task: UploadTask = {
             id: generateUUID(),
             uri: file.uri,
@@ -13969,21 +13969,21 @@ class UploadCoordinator extends EventEmitter {
 
     /** Pause all active uploads */
     pauseAll(): void {
-        this.activeUploads.forEach((_, taskId) =&gt; this.pauseUpload(taskId));
+        this.activeUploads.forEach((_, taskId) => this.pauseUpload(taskId));
     }
 
     /** Process queue and start pending uploads */
-    private async processQueue(): Promise&lt;void&gt; {
+    private async processQueue(): Promise<void> {
         if (this.networkState === 'none') return;
         if (this.networkState === 'cellular' &amp;&amp; !this.config.allowCellular) return;
 
         const activeCount = this.activeUploads.size;
         const available = this.config.maxConcurrentUploads - activeCount;
-        if (available &lt;= 0) return;
+        if (available <= 0) return;
 
         const pending = Array.from(this.queue.values())
-            .filter(t =&gt; t.status === 'queued')
-            .sort((a, b) =&gt; {
+            .filter(t => t.status === 'queued')
+            .sort((a, b) => {
                 const priorityOrder = { high: 0, normal: 1, low: 2 };
                 const pDiff = priorityOrder[a.priority] - priorityOrder[b.priority];
                 return pDiff !== 0 ? pDiff : a.createdAt - b.createdAt;
@@ -13996,7 +13996,7 @@ class UploadCoordinator extends EventEmitter {
     }
 
     /** Start uploading a task */
-    private async startUpload(task: UploadTask): Promise&lt;void&gt; {
+    private async startUpload(task: UploadTask): Promise<void> {
         const controller = new AbortController();
         this.activeUploads.set(task.id, controller);
         task.status = 'preparing';
@@ -14025,7 +14025,7 @@ class UploadCoordinator extends EventEmitter {
                 task.status = 'failed';
                 task.error = this.categorizeError(error);
 
-                if (task.error.retryable &amp;&amp; task.retryCount &lt; task.maxRetries) {
+                if (task.error.retryable &amp;&amp; task.retryCount < task.maxRetries) {
                     this.scheduleRetry(task);
                 }
             }
@@ -14042,7 +14042,7 @@ class UploadCoordinator extends EventEmitter {
         task.retryCount++;
         const delay = this.config.retryDelayMs * Math.pow(2, task.retryCount - 1);
 
-        setTimeout(() =&gt; {
+        setTimeout(() => {
             if (task.status === 'failed') {
                 task.status = 'queued';
                 this.processQueue();
@@ -14068,19 +14068,19 @@ function useUploadQueue(): {
     /** Tasks that failed */
     failedTasks: UploadTask[];
     /** Add file to upload queue */
-    addUpload: (file: MediaFile, metadata?: Record&lt;string, unknown&gt;) =&gt; Promise&lt;string&gt;;
+    addUpload: (file: MediaFile, metadata?: Record<string, unknown>) => Promise<string>;
     /** Pause specific upload */
-    pauseUpload: (taskId: string) =&gt; void;
+    pauseUpload: (taskId: string) => void;
     /** Resume paused upload */
-    resumeUpload: (taskId: string) =&gt; void;
+    resumeUpload: (taskId: string) => void;
     /** Cancel and remove upload */
-    cancelUpload: (taskId: string) =&gt; void;
+    cancelUpload: (taskId: string) => void;
     /** Pause all active uploads */
-    pauseAll: () =&gt; void;
+    pauseAll: () => void;
     /** Retry a failed upload */
-    retryUpload: (taskId: string) =&gt; void;
+    retryUpload: (taskId: string) => void;
     /** Clear all completed uploads from list */
-    clearCompleted: () =&gt; void;
+    clearCompleted: () => void;
 };
 
 // hooks/useUploadProgress.ts
@@ -14114,17 +14114,17 @@ function useUploadProgress(taskId: string): {
  */
 function useMediaPicker(): {
     /** Pick images from gallery */
-    pickImages: (options?: PickerOptions) =&gt; Promise&lt;MediaFile[]&gt;;
+    pickImages: (options?: PickerOptions) => Promise<MediaFile[]>;
     /** Pick videos from gallery */
-    pickVideos: (options?: PickerOptions) =&gt; Promise&lt;MediaFile[]&gt;;
+    pickVideos: (options?: PickerOptions) => Promise<MediaFile[]>;
     /** Capture photo with camera */
-    takePhoto: () =&gt; Promise&lt;MediaFile | null&gt;;
+    takePhoto: () => Promise<MediaFile | null>;
     /** Record video with camera */
-    recordVideo: (maxDuration?: number) =&gt; Promise&lt;MediaFile | null&gt;;
+    recordVideo: (maxDuration?: number) => Promise<MediaFile | null>;
     /** Check if permissions granted */
     hasPermission: boolean;
     /** Request permissions */
-    requestPermission: () =&gt; Promise&lt;boolean&gt;;
+    requestPermission: () => Promise<boolean>;
 };
 
 interface PickerOptions {
@@ -14159,7 +14159,7 @@ class BackgroundUploadModule: RCTEventEmitter {
     }()
 
     private var uploadTasks: [String: URLSessionUploadTask] = [:]
-    private var progressHandlers: [Int: (Double) -&gt; Void] = [:]
+    private var progressHandlers: [Int: (Double) -> Void] = [:]
 
     @objc func uploadFile(
         _ taskId: String,
@@ -14304,7 +14304,7 @@ class UploadWorker(
                 .setRequiredNetworkType(NetworkType.CONNECTED)
                 .build()
 
-            val request = OneTimeWorkRequestBuilder&lt;UploadWorker&gt;()
+            val request = OneTimeWorkRequestBuilder<UploadWorker>()
                 .setInputData(data)
                 .setConstraints(constraints)
                 .setBackoffCriteria(
@@ -14339,7 +14339,7 @@ class UploadWorker(
                 val progressRequestBody = ProgressRequestBody(
                     file,
                     "application/octet-stream".toMediaType()
-                ) { progress -&gt;
+                ) { progress ->
                     // Update notification progress
                     setProgressAsync(workDataOf("progress" to progress))
                     sendProgressEvent(taskId, progress)
@@ -14361,7 +14361,7 @@ class UploadWorker(
                 }
             } catch (e: Exception) {
                 sendFailedEvent(taskId, e.message ?: "Unknown error")
-                if (runAttemptCount &lt; 3) Result.retry() else Result.failure()
+                if (runAttemptCount < 3) Result.retry() else Result.failure()
             }
         }
     }
@@ -14393,7 +14393,7 @@ class UploadWorker(
 class ProgressRequestBody(
     private val file: File,
     private val contentType: MediaType,
-    private val onProgress: (Int) -&gt; Unit
+    private val onProgress: (Int) -> Unit
 ) : RequestBody() {
 
     override fun contentType() = contentType
@@ -14404,7 +14404,7 @@ class ProgressRequestBody(
         var uploaded: Long = 0
         val total = file.length()
 
-        file.inputStream().use { input -&gt;
+        file.inputStream().use { input ->
             var read: Int
             while (input.read(buffer).also { read = it } != -1) {
                 sink.write(buffer, 0, read)
@@ -14422,7 +14422,7 @@ class ProgressRequestBody(
 class TusUploader {
     private tusEndpoint: string;
 
-    async initUpload(task: UploadTask): Promise&lt;string&gt; {
+    async initUpload(task: UploadTask): Promise<string> {
         const response = await fetch(this.tusEndpoint, {
             method: 'POST',
             headers: {
@@ -14443,7 +14443,7 @@ class TusUploader {
         chunk: ArrayBuffer,
         offset: number,
         signal: AbortSignal
-    ): Promise&lt;number&gt; {
+    ): Promise<number> {
         const response = await fetch(uploadUrl, {
             method: 'PATCH',
             headers: {
@@ -14463,7 +14463,7 @@ class TusUploader {
         return parseInt(newOffset || '0', 10);
     }
 
-    async getUploadOffset(uploadUrl: string): Promise&lt;number&gt; {
+    async getUploadOffset(uploadUrl: string): Promise<number> {
         const response = await fetch(uploadUrl, {
             method: 'HEAD',
             headers: { 'Tus-Resumable': '1.0.0' },
@@ -14481,7 +14481,7 @@ class TusUploader {
         };
 
         return Object.entries(metadata)
-            .map(([key, value]) =&gt;
+            .map(([key, value]) =>
                 \`\${key} \${Buffer.from(String(value)).toString('base64')}\`
             )
             .join(',');
@@ -14495,7 +14495,7 @@ class TusUploader {
                 <tr><th>Problem</th><th>Solution</th><th>Impact</th></tr>
                 <tr><td>Large files exhaust memory</td><td>Stream chunks from disk using native file APIs (NSFileHandle/RandomAccessFile); never load entire file</td><td>Upload 2GB+ files on 2GB RAM devices</td></tr>
                 <tr><td>Slow upload on poor networks</td><td>Adaptive chunk size based on bandwidth estimation (1MB slow, 10MB fast); smaller chunks = more frequent progress</td><td>Better perceived progress, faster resume</td></tr>
-                <tr><td>Progress updates lag UI</td><td>Throttle progress events to 60fps (16ms); batch chunk updates; use requestAnimationFrame for smooth animations</td><td>&lt;16ms update latency, no jank</td></tr>
+                <tr><td>Progress updates lag UI</td><td>Throttle progress events to 60fps (16ms); batch chunk updates; use requestAnimationFrame for smooth animations</td><td><16ms update latency, no jank</td></tr>
                 <tr><td>Compression blocks UI thread</td><td>Run compression in native thread (ios: DispatchQueue, Android: coroutine); show placeholder during processing</td><td>UI remains responsive during 10s+ compression</td></tr>
                 <tr><td>Queue serialization is slow</td><td>Use MMKV instead of AsyncStorage; partial updates instead of full queue rewrite</td><td>10x faster persistence, ~1ms writes</td></tr>
                 <tr><td>Network detection is delayed</td><td>Subscribe to NetInfo before upload starts; proactively pause when cellular detected (if user preference)</td><td>No wasted data on cellular</td></tr>
@@ -14568,7 +14568,7 @@ class TusUploader {
                     <ul>
                         <li>Memory stays under 100MB during 2GB upload</li>
                         <li>Progress UI maintains 60fps</li>
-                        <li>Queue with 50 pending items loads &lt;100ms</li>
+                        <li>Queue with 50 pending items loads <100ms</li>
                     </ul>
                 </li>
             </ul>
@@ -14632,12 +14632,12 @@ class TusUploader {
 
             <h5>Non-Functional Requirements</h5>
             <ul>
-                <li><strong>Startup latency:</strong> Time to first frame &lt; 2 seconds on 4G networks</li>
-                <li><strong>Rebuffering:</strong> Zero rebuffering events on stable connections (&gt;3Mbps)</li>
+                <li><strong>Startup latency:</strong> Time to first frame < 2 seconds on 4G networks</li>
+                <li><strong>Rebuffering:</strong> Zero rebuffering events on stable connections (>3Mbps)</li>
                 <li><strong>Quality transitions:</strong> Smooth switching without visible artifacts or stalls</li>
-                <li><strong>Battery efficiency:</strong> Hardware decoding only; &lt;5% drain per hour of playback</li>
-                <li><strong>Memory usage:</strong> &lt;150MB during 1080p playback</li>
-                <li><strong>Seek latency:</strong> &lt;500ms to resume playback after seek</li>
+                <li><strong>Battery efficiency:</strong> Hardware decoding only; <5% drain per hour of playback</li>
+                <li><strong>Memory usage:</strong> <150MB during 1080p playback</li>
+                <li><strong>Seek latency:</strong> <500ms to resume playback after seek</li>
             </ul>
 
             <h5>Out of Scope</h5>
@@ -14803,7 +14803,7 @@ interface VideoSource {
     /** Starting position in seconds (for resume) */
     startPosition?: number;
     /** Custom headers for manifest/segment requests */
-    headers?: Record&lt;string, string&gt;;
+    headers?: Record<string, string>;
 }
 
 /**
@@ -14817,7 +14817,7 @@ interface DRMConfig {
     /** FairPlay certificate URL (iOS only) */
     certificateUrl?: string;
     /** Custom headers for license requests */
-    headers?: Record&lt;string, string&gt;;
+    headers?: Record<string, string>;
     /** Whether to persist license for offline playback */
     persistLicense?: boolean;
 }
@@ -15025,7 +15025,7 @@ interface AdaptiveVideoPlayerProps {
     source: VideoSource;
     poster?: string;
     autoPlay?: boolean;
-    onQualityChange?: (quality: QualityLevel) =&gt; void;
+    onQualityChange?: (quality: QualityLevel) => void;
 }
 
 export function AdaptiveVideoPlayer({
@@ -15034,8 +15034,8 @@ export function AdaptiveVideoPlayer({
     autoPlay = false,
     onQualityChange,
 }: AdaptiveVideoPlayerProps) {
-    const videoRef = useRef&lt;VideoRef&gt;(null);
-    const [state, setState] = useState&lt;PlaybackState&gt;({
+    const videoRef = useRef<VideoRef>(null);
+    const [state, setState] = useState<PlaybackState>({
         status: 'idle',
         currentTime: 0,
         duration: 0,
@@ -15044,21 +15044,21 @@ export function AdaptiveVideoPlayer({
         volume: 1,
         playbackRate: 1,
     });
-    const [selectedQuality, setSelectedQuality] = useState&lt;'auto' | string&gt;('auto');
-    const [availableQualities, setAvailableQualities] = useState&lt;QualityLevel[]&gt;([]);
+    const [selectedQuality, setSelectedQuality] = useState<'auto' | string>('auto');
+    const [availableQualities, setAvailableQualities] = useState<QualityLevel[]>([]);
 
     const analytics = useVideoAnalytics(source.metadata?.title);
 
     // Buffer configuration optimized for mobile
-    const bufferConfig: BufferConfig = useMemo(() =&gt; ({
+    const bufferConfig: BufferConfig = useMemo(() => ({
         minBufferMs: 15000,         // 15s minimum buffer
         maxBufferMs: 50000,         // 50s maximum buffer
         bufferForPlaybackMs: 2500,  // Start playing after 2.5s buffered
         bufferForPlaybackAfterRebufferMs: 5000, // After rebuffer, wait for 5s
     }), []);
 
-    const handleLoad = useCallback((data: OnLoadData) =&gt; {
-        setState(prev =&gt; ({
+    const handleLoad = useCallback((data: OnLoadData) => {
+        setState(prev => ({
             ...prev,
             status: autoPlay ? 'playing' : 'paused',
             duration: data.duration,
@@ -15066,7 +15066,7 @@ export function AdaptiveVideoPlayer({
 
         // Extract available qualities from HLS manifest
         if (data.videoTracks) {
-            const qualities = data.videoTracks.map(track =&gt; ({
+            const qualities = data.videoTracks.map(track => ({
                 resolution: getResolutionLabel(track.height),
                 bitrate: track.bitrate,
                 codec: track.codecs,
@@ -15079,16 +15079,16 @@ export function AdaptiveVideoPlayer({
         analytics.trackLoad(data.duration);
     }, [autoPlay, analytics]);
 
-    const handleProgress = useCallback((data: OnProgressData) =&gt; {
-        setState(prev =&gt; ({
+    const handleProgress = useCallback((data: OnProgressData) => {
+        setState(prev => ({
             ...prev,
             currentTime: data.currentTime,
             bufferedDuration: data.playableDuration,
         }));
     }, []);
 
-    const handleBuffer = useCallback((data: OnBufferData) =&gt; {
-        setState(prev =&gt; ({
+    const handleBuffer = useCallback((data: OnBufferData) => {
+        setState(prev => ({
             ...prev,
             status: data.isBuffering ? 'buffering' : prev.status === 'buffering' ? 'playing' : prev.status,
         }));
@@ -15098,14 +15098,14 @@ export function AdaptiveVideoPlayer({
         }
     }, [analytics, state.currentTime]);
 
-    const handleQualityChange = useCallback((quality: 'auto' | string) =&gt; {
+    const handleQualityChange = useCallback((quality: 'auto' | string) => {
         setSelectedQuality(quality);
-        onQualityChange?.(quality === 'auto' ? 'auto' : availableQualities.find(q =&gt; q.resolution === quality)!);
+        onQualityChange?.(quality === 'auto' ? 'auto' : availableQualities.find(q => q.resolution === quality)!);
         analytics.trackQualityChange(quality);
     }, [availableQualities, onQualityChange, analytics]);
 
     // Build DRM config for native player
-    const drmConfig = useMemo(() =&gt; {
+    const drmConfig = useMemo(() => {
         if (!source.drmConfig) return undefined;
 
         return {
@@ -15117,8 +15117,8 @@ export function AdaptiveVideoPlayer({
     }, [source.drmConfig]);
 
     return (
-        &lt;View style={styles.container}&gt;
-            &lt;Video
+        <View style={styles.container}>
+            <Video
                 ref={videoRef}
                 source={{
                     uri: source.uri,
@@ -15143,28 +15143,28 @@ export function AdaptiveVideoPlayer({
                 onLoad={handleLoad}
                 onProgress={handleProgress}
                 onBuffer={handleBuffer}
-                onError={(error) =&gt; {
-                    setState(prev =&gt; ({ ...prev, status: 'error' }));
+                onError={(error) => {
+                    setState(prev => ({ ...prev, status: 'error' }));
                     analytics.trackError(error);
                 }}
-                onEnd={() =&gt; {
-                    setState(prev =&gt; ({ ...prev, status: 'ended' }));
+                onEnd={() => {
+                    setState(prev => ({ ...prev, status: 'ended' }));
                     analytics.trackComplete();
                 }}
-            /&gt;
+            />
 
-            &lt;VideoControls
+            <VideoControls
                 state={state}
-                onPlay={() =&gt; setState(prev =&gt; ({ ...prev, status: 'playing' }))}
-                onPause={() =&gt; setState(prev =&gt; ({ ...prev, status: 'paused' }))}
-                onSeek={(time) =&gt; videoRef.current?.seek(time)}
+                onPlay={() => setState(prev => ({ ...prev, status: 'playing' }))}
+                onPause={() => setState(prev => ({ ...prev, status: 'paused' }))}
+                onSeek={(time) => videoRef.current?.seek(time)}
                 availableQualities={availableQualities}
                 selectedQuality={selectedQuality}
                 onQualityChange={handleQualityChange}
-            /&gt;
+            />
 
-            {state.status === 'buffering' &amp;&amp; &lt;BufferingIndicator /&gt;}
-        &lt;/View&gt;
+            {state.status === 'buffering' &amp;&amp; <BufferingIndicator />}
+        </View>
     );
 }</code></pre>
 
@@ -15235,7 +15235,7 @@ class FairPlayDRMModule: NSObject {
         }
         downloadConfig.primaryContentConfiguration.variantQualifiers = [
             AVAssetVariantQualifier.predicate(
-                .init(format: "peakBitRate &lt;= %lld", bitrate)
+                .init(format: "peakBitRate <= %lld", bitrate)
             )
         ]
 
@@ -15342,7 +15342,7 @@ class WidevineDRMModule(
             )
 
             // Add custom headers if provided
-            headers?.toHashMap()?.forEach { (key, value) -&gt;
+            headers?.toHashMap()?.forEach { (key, value) ->
                 drmCallback.setKeyRequestProperty(key, value.toString())
             }
 
@@ -15444,10 +15444,10 @@ class WidevineDRMModule(
 
     private fun getBitrateForQuality(quality: String): Int {
         return when (quality) {
-            "1080p" -&gt; 6_000_000
-            "720p" -&gt; 3_000_000
-            "480p" -&gt; 1_500_000
-            else -&gt; 1_000_000
+            "1080p" -> 6_000_000
+            "720p" -> 3_000_000
+            "480p" -> 1_500_000
+            else -> 1_000_000
         }
     }
 }</code></pre>
@@ -15477,7 +15477,7 @@ class ABRController {
         this.samples.push(sample);
 
         // Keep last 20 samples
-        if (this.samples.length &gt; 20) {
+        if (this.samples.length > 20) {
             this.samples.shift();
         }
 
@@ -15505,7 +15505,7 @@ class ABRController {
         targetBufferDuration: number = 30
     ): QualityLevel {
         // Sort by bitrate descending
-        const sortedQualities = [...availableQualities].sort((a, b) =&gt; b.bitrate - a.bitrate);
+        const sortedQualities = [...availableQualities].sort((a, b) => b.bitrate - a.bitrate);
 
         // Buffer health factor (0.5 - 1.5)
         const bufferHealth = Math.max(0.5, Math.min(1.5, currentBufferDuration / targetBufferDuration));
@@ -15516,7 +15516,7 @@ class ABRController {
         // Select highest quality that fits in bandwidth (with 20% safety margin)
         const safetyMargin = 0.8;
         const selectedQuality = sortedQualities.find(
-            q =&gt; q.bitrate &lt;= effectiveBandwidth * safetyMargin
+            q => q.bitrate <= effectiveBandwidth * safetyMargin
         ) || sortedQualities[sortedQualities.length - 1];
 
         return selectedQuality;
@@ -15532,12 +15532,12 @@ class ABRController {
             <h5>Performance Optimizations</h5>
             <table>
                 <tr><th>Problem</th><th>Solution</th><th>Impact</th></tr>
-                <tr><td>Slow startup time</td><td>Start with lowest quality (fast decode); switch up once buffer is healthy; preload manifest</td><td>Time to first frame &lt;2s on 4G</td></tr>
+                <tr><td>Slow startup time</td><td>Start with lowest quality (fast decode); switch up once buffer is healthy; preload manifest</td><td>Time to first frame <2s on 4G</td></tr>
                 <tr><td>Rebuffering events</td><td>Conservative ABR with 20% safety margin; maintain 30s buffer target; drop quality early</td><td>Zero rebuffer on stable 3Mbps+</td></tr>
                 <tr><td>Quality oscillation</td><td>EWMA with slow decay (0.95) for stability; hysteresis (switch up needs higher threshold than down)</td><td>Stable quality for 30s+ stretches</td></tr>
-                <tr><td>Seek latency</td><td>Pre-fetch I-frames at seek targets; keep decoded frames in memory; cancel pending segments</td><td>&lt;500ms seek latency</td></tr>
-                <tr><td>Memory usage</td><td>Limit buffer size (50s max); release decoded frames outside window; use hardware decoder</td><td>&lt;150MB during 1080p playback</td></tr>
-                <tr><td>Battery drain</td><td>Hardware decoding only; throttle analytics events; reduce wake locks during pause</td><td>&lt;5% battery per hour</td></tr>
+                <tr><td>Seek latency</td><td>Pre-fetch I-frames at seek targets; keep decoded frames in memory; cancel pending segments</td><td><500ms seek latency</td></tr>
+                <tr><td>Memory usage</td><td>Limit buffer size (50s max); release decoded frames outside window; use hardware decoder</td><td><150MB during 1080p playback</td></tr>
+                <tr><td>Battery drain</td><td>Hardware decoding only; throttle analytics events; reduce wake locks during pause</td><td><5% battery per hour</td></tr>
             </table>
 
             <h5>Platform-Specific Considerations</h5>
@@ -15560,7 +15560,7 @@ class ABRController {
                 <li><strong>Background audio:</strong> Enable audio-only mode when app backgrounds. Handle audio interruptions (phone calls) gracefully - pause, then resume. Maintain lock screen controls and now playing info.</li>
                 <li><strong>Seek to unbuffered region:</strong> Cancel pending segment downloads. Show loading spinner. Buffer at least bufferForPlaybackMs before resuming. Prefer nearest I-frame for faster start.</li>
                 <li><strong>Device rotation:</strong> Maintain exact playback position across rotation. Don't restart player. Update layout constraints. Consider auto-fullscreen on landscape.</li>
-                <li><strong>Storage full for downloads:</strong> Check available space before starting (estimate: bitrate × duration × 1.1). Show warning if &lt;500MB free. Clean expired downloads automatically. Allow manual deletion of downloads.</li>
+                <li><strong>Storage full for downloads:</strong> Check available space before starting (estimate: bitrate × duration × 1.1). Show warning if <500MB free. Clean expired downloads automatically. Allow manual deletion of downloads.</li>
                 <li><strong>Codec not supported:</strong> Fallback to compatible variant from manifest. If no compatible variant, show clear error. Log for analytics to track device coverage.</li>
                 <li><strong>CDN failure:</strong> Implement multi-CDN with automatic failover. Retry on different edge server. Track CDN performance for routing decisions.</li>
             </ol>
@@ -15675,7 +15675,7 @@ class ABRController {
                 <li>OWASP Mobile Application Security (MASVS L2) compliance</li>
                 <li>Token refresh transparent to user (no re-login interruption)</li>
                 <li>Session timeout after 15 min inactivity for financial/sensitive apps</li>
-                <li>Authentication latency &lt; 500ms for biometric, &lt; 2s for full login</li>
+                <li>Authentication latency < 500ms for biometric, < 2s for full login</li>
                 <li>Support 99.9% of devices with graceful degradation for older hardware</li>
             </ul>
 
@@ -15874,7 +15874,7 @@ interface OAuthConfig {
     clientId: string;
     redirectUrl: string;
     scopes: string[];
-    additionalParameters?: Record&lt;string, string&gt;;
+    additionalParameters?: Record<string, string>;
 }
 
 /** Biometric capability information */
@@ -15950,25 +15950,25 @@ interface AuthStore {
     state: AuthState;
 
     /** Login with email and password */
-    login: (email: string, password: string) =&gt; Promise&lt;void&gt;;
+    login: (email: string, password: string) => Promise<void>;
 
     /** Login using social OAuth provider */
-    loginWithOAuth: (provider: 'google' | 'apple' | 'facebook') =&gt; Promise&lt;void&gt;;
+    loginWithOAuth: (provider: 'google' | 'apple' | 'facebook') => Promise<void>;
 
     /** Authenticate with biometric for session resume */
-    loginWithBiometric: () =&gt; Promise&lt;void&gt;;
+    loginWithBiometric: () => Promise<void>;
 
     /** Verify MFA code during authentication */
-    verifyMFA: (code: string, method: MFAMethod) =&gt; Promise&lt;void&gt;;
+    verifyMFA: (code: string, method: MFAMethod) => Promise<void>;
 
     /** Refresh access token using refresh token */
-    refreshTokens: () =&gt; Promise&lt;void&gt;;
+    refreshTokens: () => Promise<void>;
 
     /** Logout and clear all credentials */
-    logout: (options?: { revokeAllSessions?: boolean }) =&gt; Promise&lt;void&gt;;
+    logout: (options?: { revokeAllSessions?: boolean }) => Promise<void>;
 
     /** Check if biometric authentication is available */
-    checkBiometricAvailability: () =&gt; Promise&lt;BiometricCapability&gt;;
+    checkBiometricAvailability: () => Promise<BiometricCapability>;
 }</code></pre>
 
             <h5>React Hooks Interface</h5>
@@ -15986,13 +15986,13 @@ function useAuth(): {
     /** Current user (if authenticated) */
     user: User | null;
     /** Login with credentials */
-    login: (email: string, password: string) =&gt; Promise&lt;void&gt;;
+    login: (email: string, password: string) => Promise<void>;
     /** Login with OAuth provider */
-    loginWithOAuth: (provider: OAuthProvider) =&gt; Promise&lt;void&gt;;
+    loginWithOAuth: (provider: OAuthProvider) => Promise<void>;
     /** Login with biometric */
-    loginWithBiometric: () =&gt; Promise&lt;void&gt;;
+    loginWithBiometric: () => Promise<void>;
     /** Logout current session */
-    logout: () =&gt; Promise&lt;void&gt;;
+    logout: () => Promise<void>;
 };
 
 /**
@@ -16004,11 +16004,11 @@ function useMFA(): {
     /** Remaining verification attempts */
     attemptsRemaining: number;
     /** Verify MFA code */
-    verify: (code: string, method: MFAMethod) =&gt; Promise&lt;void&gt;;
+    verify: (code: string, method: MFAMethod) => Promise<void>;
     /** Request new SMS/email code */
-    resendCode: (method: 'sms' | 'email') =&gt; Promise&lt;void&gt;;
+    resendCode: (method: 'sms' | 'email') => Promise<void>;
     /** Cancel MFA and return to login */
-    cancel: () =&gt; void;
+    cancel: () => void;
 };
 
 /**
@@ -16020,11 +16020,11 @@ function useBiometric(): {
     /** Whether biometric is enabled for this app */
     isEnabled: boolean;
     /** Enable biometric authentication */
-    enable: () =&gt; Promise&lt;void&gt;;
+    enable: () => Promise<void>;
     /** Disable biometric authentication */
-    disable: () =&gt; Promise&lt;void&gt;;
+    disable: () => Promise<void>;
     /** Prompt for biometric authentication */
-    authenticate: (reason: string) =&gt; Promise&lt;boolean&gt;;
+    authenticate: (reason: string) => Promise<boolean>;
 };
 
 /**
@@ -16036,11 +16036,11 @@ function useSessions(): {
     /** Loading state */
     isLoading: boolean;
     /** Fetch sessions from server */
-    refresh: () =&gt; Promise&lt;void&gt;;
+    refresh: () => Promise<void>;
     /** Revoke a specific session */
-    revokeSession: (sessionId: string) =&gt; Promise&lt;void&gt;;
+    revokeSession: (sessionId: string) => Promise<void>;
     /** Revoke all sessions except current */
-    revokeAllOtherSessions: () =&gt; Promise&lt;void&gt;;
+    revokeAllOtherSessions: () => Promise<void>;
 };</code></pre>
 
             <h5>Secure Storage Service Interface</h5>
@@ -16052,34 +16052,34 @@ interface SecureStorageService {
      * @param tokens - Auth tokens to store
      * @param requireBiometric - Require biometric to access
      */
-    storeTokens(tokens: AuthTokens, requireBiometric?: boolean): Promise&lt;void&gt;;
+    storeTokens(tokens: AuthTokens, requireBiometric?: boolean): Promise<void>;
 
     /**
      * Retrieve tokens (may trigger biometric prompt)
      * @param promptMessage - Message to show in biometric prompt
      */
-    getTokens(promptMessage?: string): Promise&lt;AuthTokens | null&gt;;
+    getTokens(promptMessage?: string): Promise<AuthTokens | null>;
 
     /**
      * Get tokens without biometric (for background refresh)
      * Only works if tokens were stored without biometric requirement
      */
-    getTokensWithoutBiometric(): Promise&lt;AuthTokens | null&gt;;
+    getTokensWithoutBiometric(): Promise<AuthTokens | null>;
 
     /**
      * Clear all stored tokens
      */
-    clearTokens(): Promise&lt;void&gt;;
+    clearTokens(): Promise<void>;
 
     /**
      * Get or create persistent device ID
      */
-    getDeviceId(): Promise&lt;string&gt;;
+    getDeviceId(): Promise<string>;
 
     /**
      * Check if tokens exist (without decrypting)
      */
-    hasTokens(): Promise&lt;boolean&gt;;
+    hasTokens(): Promise<boolean>;
 }</code></pre>
 
             <h5>iOS Platform Bridge (Keychain with Secure Enclave)</h5>
@@ -16324,7 +16324,7 @@ class SecureStorageModule(
         }
 
         // Use StrongBox if available
-        if (android.os.Build.VERSION.SDK_INT &gt;= android.os.Build.VERSION_CODES.P) {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
             builder.setIsStrongBoxBacked(true)
         }
 
@@ -16341,7 +16341,7 @@ class ApiClient {
     private client: AxiosInstance;
     private accessToken: string | null = null;
     private isRefreshing = false;
-    private refreshSubscribers: ((token: string) =&gt; void)[] = [];
+    private refreshSubscribers: ((token: string) => void)[] = [];
 
     constructor(baseURL: string) {
         this.client = axios.create({ baseURL, timeout: 30000 });
@@ -16351,7 +16351,7 @@ class ApiClient {
     private setupInterceptors() {
         // Request interceptor: add access token
         this.client.interceptors.request.use(
-            (config: InternalAxiosRequestConfig) =&gt; {
+            (config: InternalAxiosRequestConfig) => {
                 if (this.accessToken) {
                     config.headers.Authorization = \`Bearer \${this.accessToken}\`;
                 }
@@ -16361,8 +16361,8 @@ class ApiClient {
 
         // Response interceptor: handle 401 and refresh
         this.client.interceptors.response.use(
-            (response) =&gt; response,
-            async (error: AxiosError) =&gt; {
+            (response) => response,
+            async (error: AxiosError) => {
                 const originalRequest = error.config as InternalAxiosRequestConfig &amp; { _retry?: boolean };
 
                 // Only handle 401 Unauthorized
@@ -16372,8 +16372,8 @@ class ApiClient {
 
                 // If already refreshing, queue this request
                 if (this.isRefreshing) {
-                    return new Promise((resolve) =&gt; {
-                        this.refreshSubscribers.push((newToken: string) =&gt; {
+                    return new Promise((resolve) => {
+                        this.refreshSubscribers.push((newToken: string) => {
                             originalRequest.headers.Authorization = \`Bearer \${newToken}\`;
                             resolve(this.client(originalRequest));
                         });
@@ -16387,7 +16387,7 @@ class ApiClient {
                     const newToken = await this.performTokenRefresh();
 
                     // Notify all queued requests
-                    this.refreshSubscribers.forEach((callback) =&gt; callback(newToken));
+                    this.refreshSubscribers.forEach((callback) => callback(newToken));
                     this.refreshSubscribers = [];
 
                     // Retry original request
@@ -16407,7 +16407,7 @@ class ApiClient {
         );
     }
 
-    private async performTokenRefresh(): Promise&lt;string&gt; {
+    private async performTokenRefresh(): Promise<string> {
         const tokens = await secureStorage.getTokensWithoutBiometric();
         if (!tokens?.refreshToken) {
             throw new Error('No refresh token');
@@ -16604,54 +16604,54 @@ User Opens App
         difficulty: "advanced",
         seniority: "senior",
         answer: `
-            &lt;h4&gt;R - Requirements Exploration&lt;/h4&gt;
+            <h4>R - Requirements Exploration</h4>
 
-            &lt;h5&gt;Clarifying Questions to Ask&lt;/h5&gt;
-            &lt;ul&gt;
-                &lt;li&gt;&lt;strong&gt;Data classification:&lt;/strong&gt; What types of sensitive data need storage (credentials, PII, health data, financial info)?&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Compliance requirements:&lt;/strong&gt; Which regulations apply (GDPR, HIPAA, PCI-DSS, SOC 2)?&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Access patterns:&lt;/strong&gt; Is data accessed frequently (sub-second) or occasionally (can tolerate latency)?&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Biometric policy:&lt;/strong&gt; Which data requires biometric authentication before access?&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Device support:&lt;/strong&gt; What's the minimum iOS/Android version? Can we require hardware security?&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Backup strategy:&lt;/strong&gt; Should encrypted data sync across devices or be device-only?&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Key management:&lt;/strong&gt; What's the key rotation policy? How to handle key compromise?&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Data lifecycle:&lt;/strong&gt; How long is data retained? Secure deletion requirements?&lt;/li&gt;
-            &lt;/ul&gt;
+            <h5>Clarifying Questions to Ask</h5>
+            <ul>
+                <li><strong>Data classification:</strong> What types of sensitive data need storage (credentials, PII, health data, financial info)?</li>
+                <li><strong>Compliance requirements:</strong> Which regulations apply (GDPR, HIPAA, PCI-DSS, SOC 2)?</li>
+                <li><strong>Access patterns:</strong> Is data accessed frequently (sub-second) or occasionally (can tolerate latency)?</li>
+                <li><strong>Biometric policy:</strong> Which data requires biometric authentication before access?</li>
+                <li><strong>Device support:</strong> What's the minimum iOS/Android version? Can we require hardware security?</li>
+                <li><strong>Backup strategy:</strong> Should encrypted data sync across devices or be device-only?</li>
+                <li><strong>Key management:</strong> What's the key rotation policy? How to handle key compromise?</li>
+                <li><strong>Data lifecycle:</strong> How long is data retained? Secure deletion requirements?</li>
+            </ul>
 
-            &lt;h5&gt;Functional Requirements&lt;/h5&gt;
-            &lt;ul&gt;
-                &lt;li&gt;Tiered storage based on data sensitivity classification (critical, sensitive, internal, public)&lt;/li&gt;
-                &lt;li&gt;Hardware-backed encryption for credentials and tokens (Secure Enclave / StrongBox)&lt;/li&gt;
-                &lt;li&gt;Encrypted database for PII and structured sensitive data&lt;/li&gt;
-                &lt;li&gt;Biometric protection for critical data access (configurable per data type)&lt;/li&gt;
-                &lt;li&gt;Secure key generation using platform cryptographic APIs&lt;/li&gt;
-                &lt;li&gt;Key rotation without data loss or downtime&lt;/li&gt;
-                &lt;li&gt;Data integrity verification (checksums) to detect tampering&lt;/li&gt;
-                &lt;li&gt;Audit logging for sensitive data access (without exposing data)&lt;/li&gt;
-            &lt;/ul&gt;
+            <h5>Functional Requirements</h5>
+            <ul>
+                <li>Tiered storage based on data sensitivity classification (critical, sensitive, internal, public)</li>
+                <li>Hardware-backed encryption for credentials and tokens (Secure Enclave / StrongBox)</li>
+                <li>Encrypted database for PII and structured sensitive data</li>
+                <li>Biometric protection for critical data access (configurable per data type)</li>
+                <li>Secure key generation using platform cryptographic APIs</li>
+                <li>Key rotation without data loss or downtime</li>
+                <li>Data integrity verification (checksums) to detect tampering</li>
+                <li>Audit logging for sensitive data access (without exposing data)</li>
+            </ul>
 
-            &lt;h5&gt;Non-Functional Requirements&lt;/h5&gt;
-            &lt;ul&gt;
-                &lt;li&gt;Zero plaintext storage of sensitive data at rest&lt;/li&gt;
-                &lt;li&gt;OWASP MASVS L2 compliance for security-critical apps&lt;/li&gt;
-                &lt;li&gt;Sub-50ms read latency for encrypted data (synchronous access)&lt;/li&gt;
-                &lt;li&gt;Secure data deletion with memory wiping&lt;/li&gt;
-                &lt;li&gt;Graceful degradation on devices without hardware security&lt;/li&gt;
-                &lt;li&gt;Support GDPR right to erasure (verifiable deletion)&lt;/li&gt;
-            &lt;/ul&gt;
+            <h5>Non-Functional Requirements</h5>
+            <ul>
+                <li>Zero plaintext storage of sensitive data at rest</li>
+                <li>OWASP MASVS L2 compliance for security-critical apps</li>
+                <li>Sub-50ms read latency for encrypted data (synchronous access)</li>
+                <li>Secure data deletion with memory wiping</li>
+                <li>Graceful degradation on devices without hardware security</li>
+                <li>Support GDPR right to erasure (verifiable deletion)</li>
+            </ul>
 
-            &lt;h5&gt;Out of Scope&lt;/h5&gt;
-            &lt;ul&gt;
-                &lt;li&gt;Server-side encryption and key management (HSM)&lt;/li&gt;
-                &lt;li&gt;Network transport security (TLS configuration)&lt;/li&gt;
-                &lt;li&gt;User authentication flows (covered in auth question)&lt;/li&gt;
-                &lt;li&gt;Jailbreak/root detection and app attestation&lt;/li&gt;
-            &lt;/ul&gt;
+            <h5>Out of Scope</h5>
+            <ul>
+                <li>Server-side encryption and key management (HSM)</li>
+                <li>Network transport security (TLS configuration)</li>
+                <li>User authentication flows (covered in auth question)</li>
+                <li>Jailbreak/root detection and app attestation</li>
+            </ul>
 
-            &lt;h4&gt;A - Architecture / High-level Design&lt;/h4&gt;
+            <h4>A - Architecture / High-level Design</h4>
 
-            &lt;h5&gt;System Architecture Diagram&lt;/h5&gt;
-            &lt;pre&gt;&lt;code&gt;┌─────────────────────────────────────────────────────────────────┐
+            <h5>System Architecture Diagram</h5>
+            <pre><code>┌─────────────────────────────────────────────────────────────────┐
 │                    SECURE STORAGE ARCHITECTURE                   │
 ├─────────────────────────────────────────────────────────────────┤
 │                                                                  │
@@ -16708,36 +16708,36 @@ User Opens App
 │  │  iOS: Data Protection API │ Android: EncryptedSharedPrefs  │  │
 │  │       File Protection       │         AndroidKeystore        │  │
 │  └────────────────────────────────────────────────────────────┘  │
-└─────────────────────────────────────────────────────────────────┘&lt;/code&gt;&lt;/pre&gt;
+└─────────────────────────────────────────────────────────────────┘</code></pre>
 
-            &lt;h5&gt;Component Overview&lt;/h5&gt;
-            &lt;table&gt;
-                &lt;tr&gt;&lt;th&gt;Component&lt;/th&gt;&lt;th&gt;Responsibility&lt;/th&gt;&lt;th&gt;Technology&lt;/th&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;SecureStorageFacade&lt;/td&gt;&lt;td&gt;Unified API for all storage tiers&lt;/td&gt;&lt;td&gt;TypeScript service class&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;DataClassifier&lt;/td&gt;&lt;td&gt;Routes data to appropriate tier based on classification&lt;/td&gt;&lt;td&gt;Classification rules engine&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;KeyManager&lt;/td&gt;&lt;td&gt;Key generation, rotation, and derivation&lt;/td&gt;&lt;td&gt;Platform crypto APIs&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;EncryptionEngine&lt;/td&gt;&lt;td&gt;AES-256-GCM encryption/decryption&lt;/td&gt;&lt;td&gt;react-native-quick-crypto&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Tier1Storage&lt;/td&gt;&lt;td&gt;Hardware-backed storage for critical data&lt;/td&gt;&lt;td&gt;Keychain / Keystore&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Tier2Storage&lt;/td&gt;&lt;td&gt;Encrypted database for structured sensitive data&lt;/td&gt;&lt;td&gt;SQLCipher / Realm&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Tier3Storage&lt;/td&gt;&lt;td&gt;Encrypted key-value for internal data&lt;/td&gt;&lt;td&gt;MMKV with encryption&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;AuditLogger&lt;/td&gt;&lt;td&gt;Logs access to sensitive data without exposing values&lt;/td&gt;&lt;td&gt;Structured logging&lt;/td&gt;&lt;/tr&gt;
-            &lt;/table&gt;
+            <h5>Component Overview</h5>
+            <table>
+                <tr><th>Component</th><th>Responsibility</th><th>Technology</th></tr>
+                <tr><td>SecureStorageFacade</td><td>Unified API for all storage tiers</td><td>TypeScript service class</td></tr>
+                <tr><td>DataClassifier</td><td>Routes data to appropriate tier based on classification</td><td>Classification rules engine</td></tr>
+                <tr><td>KeyManager</td><td>Key generation, rotation, and derivation</td><td>Platform crypto APIs</td></tr>
+                <tr><td>EncryptionEngine</td><td>AES-256-GCM encryption/decryption</td><td>react-native-quick-crypto</td></tr>
+                <tr><td>Tier1Storage</td><td>Hardware-backed storage for critical data</td><td>Keychain / Keystore</td></tr>
+                <tr><td>Tier2Storage</td><td>Encrypted database for structured sensitive data</td><td>SQLCipher / Realm</td></tr>
+                <tr><td>Tier3Storage</td><td>Encrypted key-value for internal data</td><td>MMKV with encryption</td></tr>
+                <tr><td>AuditLogger</td><td>Logs access to sensitive data without exposing values</td><td>Structured logging</td></tr>
+            </table>
 
-            &lt;h5&gt;Key Architecture Decisions&lt;/h5&gt;
-            &lt;table&gt;
-                &lt;tr&gt;&lt;th&gt;Decision&lt;/th&gt;&lt;th&gt;Choice&lt;/th&gt;&lt;th&gt;Rationale&lt;/th&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Storage tier model&lt;/td&gt;&lt;td&gt;4-tier classification&lt;/td&gt;&lt;td&gt;Balances security with performance; critical data gets hardware protection&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Encryption algorithm&lt;/td&gt;&lt;td&gt;AES-256-GCM&lt;/td&gt;&lt;td&gt;Industry standard, authenticated encryption, hardware-accelerated&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Key storage&lt;/td&gt;&lt;td&gt;Hardware-backed (Secure Enclave / StrongBox)&lt;/td&gt;&lt;td&gt;Keys never leave hardware; extraction-resistant even with device access&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Database encryption&lt;/td&gt;&lt;td&gt;SQLCipher (page-level)&lt;/td&gt;&lt;td&gt;Transparent encryption; works with existing SQLite queries&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Key-value store&lt;/td&gt;&lt;td&gt;MMKV over AsyncStorage&lt;/td&gt;&lt;td&gt;10x faster, native encryption support, synchronous API&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Integrity verification&lt;/td&gt;&lt;td&gt;SHA-256 checksums&lt;/td&gt;&lt;td&gt;Detects tampering and corruption&lt;/td&gt;&lt;/tr&gt;
-            &lt;/table&gt;
+            <h5>Key Architecture Decisions</h5>
+            <table>
+                <tr><th>Decision</th><th>Choice</th><th>Rationale</th></tr>
+                <tr><td>Storage tier model</td><td>4-tier classification</td><td>Balances security with performance; critical data gets hardware protection</td></tr>
+                <tr><td>Encryption algorithm</td><td>AES-256-GCM</td><td>Industry standard, authenticated encryption, hardware-accelerated</td></tr>
+                <tr><td>Key storage</td><td>Hardware-backed (Secure Enclave / StrongBox)</td><td>Keys never leave hardware; extraction-resistant even with device access</td></tr>
+                <tr><td>Database encryption</td><td>SQLCipher (page-level)</td><td>Transparent encryption; works with existing SQLite queries</td></tr>
+                <tr><td>Key-value store</td><td>MMKV over AsyncStorage</td><td>10x faster, native encryption support, synchronous API</td></tr>
+                <tr><td>Integrity verification</td><td>SHA-256 checksums</td><td>Detects tampering and corruption</td></tr>
+            </table>
 
-            &lt;h4&gt;D - Data Model / Core Entities&lt;/h4&gt;
+            <h4>D - Data Model / Core Entities</h4>
 
-            &lt;h5&gt;Core Entities&lt;/h5&gt;
-            &lt;pre&gt;&lt;code&gt;// Type definitions for secure storage
+            <h5>Core Entities</h5>
+            <pre><code>// Type definitions for secure storage
 interface DataClassification {
   tier: 'critical' | 'sensitive' | 'internal' | 'public';
   requiresBiometric: boolean;
@@ -16747,13 +16747,13 @@ interface DataClassification {
 }
 
 interface SecureStorageConfig {
-  classifications: Record&lt;string, DataClassification&gt;;
+  classifications: Record<string, DataClassification>;
   keyRotationIntervalDays: number;
   enableAuditLogging: boolean;
   biometricFallbackEnabled: boolean;
 }
 
-interface StorageItem&lt;T&gt; {
+interface StorageItem<T> {
   data: T;
   metadata: {
     createdAt: number;
@@ -16777,7 +16777,7 @@ import * as Keychain from 'react-native-keychain';
 import { MMKV } from 'react-native-mmkv';
 import { create } from 'zustand';
 
-const DATA_CLASSIFICATIONS: Record&lt;string, DataClassification&gt; = {
+const DATA_CLASSIFICATIONS: Record<string, DataClassification> = {
   auth_token: { tier: 'critical', requiresBiometric: false, encryptionRequired: true, auditAccess: true },
   refresh_token: { tier: 'critical', requiresBiometric: false, encryptionRequired: true, auditAccess: true },
   encryption_key: { tier: 'critical', requiresBiometric: true, encryptionRequired: true, auditAccess: true },
@@ -16799,7 +16799,7 @@ class SecureStorageManager {
     this.keyManager = new KeyManager();
   }
 
-  async initialize(): Promise&lt;void&gt; {
+  async initialize(): Promise<void> {
     // Initialize key manager first
     await this.keyManager.initialize();
 
@@ -16816,11 +16816,11 @@ class SecureStorageManager {
     this.publicMMKV = new MMKV({ id: 'public-storage' });
   }
 
-  async store&lt;T&gt;(key: string, data: T, classification: string): Promise&lt;void&gt; {
+  async store<T>(key: string, data: T, classification: string): Promise<void> {
     const config = DATA_CLASSIFICATIONS[classification];
     if (!config) throw new Error(\`Unknown classification: \${classification}\`);
 
-    const item: StorageItem&lt;T&gt; = {
+    const item: StorageItem<T> = {
       data,
       metadata: {
         createdAt: Date.now(),
@@ -16851,11 +16851,11 @@ class SecureStorageManager {
     }
   }
 
-  async retrieve&lt;T&gt;(key: string, classification: string): Promise&lt;T | null&gt; {
+  async retrieve<T>(key: string, classification: string): Promise<T | null> {
     const config = DATA_CLASSIFICATIONS[classification];
     if (!config) throw new Error(\`Unknown classification: \${classification}\`);
 
-    let item: StorageItem&lt;T&gt; | null = null;
+    let item: StorageItem<T> | null = null;
 
     switch (config.tier) {
       case 'critical':
@@ -16890,11 +16890,11 @@ class SecureStorageManager {
     return item?.data ?? null;
   }
 
-  private async storeCritical&lt;T&gt;(
+  private async storeCritical<T>(
     key: string,
-    item: StorageItem&lt;T&gt;,
+    item: StorageItem<T>,
     config: DataClassification
-  ): Promise&lt;void&gt; {
+  ): Promise<void> {
     const options: Keychain.Options = {
       service: key,
       accessible: Keychain.ACCESSIBLE.WHEN_UNLOCKED_THIS_DEVICE_ONLY,
@@ -16912,10 +16912,10 @@ class SecureStorageManager {
     );
   }
 
-  private async retrieveCritical&lt;T&gt;(
+  private async retrieveCritical<T>(
     key: string,
     config: DataClassification
-  ): Promise&lt;StorageItem&lt;T&gt; | null&gt; {
+  ): Promise<StorageItem<T> | null> {
     const options: Keychain.Options = { service: key };
 
     if (config.requiresBiometric) {
@@ -16930,7 +16930,7 @@ class SecureStorageManager {
     return JSON.parse(result.password);
   }
 
-  async secureDelete(key: string, classification: string): Promise&lt;void&gt; {
+  async secureDelete(key: string, classification: string): Promise<void> {
     const config = DATA_CLASSIFICATIONS[classification];
 
     switch (config.tier) {
@@ -16951,7 +16951,7 @@ class SecureStorageManager {
     this.auditLogger.log('DELETE', key, classification);
   }
 
-  private async computeChecksum(data: unknown): Promise&lt;string&gt; {
+  private async computeChecksum(data: unknown): Promise<string> {
     const str = JSON.stringify(data);
     // Use expo-crypto or react-native-quick-crypto
     const hash = await Crypto.digestStringAsync(
@@ -16960,10 +16960,10 @@ class SecureStorageManager {
     );
     return hash;
   }
-}&lt;/code&gt;&lt;/pre&gt;
+}</code></pre>
 
-            &lt;h5&gt;Entity Relationships&lt;/h5&gt;
-            &lt;pre&gt;&lt;code&gt;┌─────────────────────────────────────────────────────────────────────────────┐
+            <h5>Entity Relationships</h5>
+            <pre><code>┌─────────────────────────────────────────────────────────────────────────────┐
 │                         ENTITY RELATIONSHIPS                                 │
 ├─────────────────────────────────────────────────────────────────────────────┤
 │                                                                              │
@@ -16992,27 +16992,27 @@ class SecureStorageManager {
 │                               │   • Tier4: AsyncStorage                     │
 │                               └──────────────────┘                          │
 │                                                                              │
-└─────────────────────────────────────────────────────────────────────────────┘&lt;/code&gt;&lt;/pre&gt;
+└─────────────────────────────────────────────────────────────────────────────┘</code></pre>
 
-            &lt;h5&gt;Storage Strategy&lt;/h5&gt;
-            &lt;table&gt;
-                &lt;tr&gt;&lt;th&gt;Tier&lt;/th&gt;&lt;th&gt;Data Examples&lt;/th&gt;&lt;th&gt;Storage&lt;/th&gt;&lt;th&gt;Protection&lt;/th&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Critical&lt;/td&gt;&lt;td&gt;Auth tokens, API keys, encryption keys&lt;/td&gt;&lt;td&gt;Keychain / Keystore&lt;/td&gt;&lt;td&gt;Secure Enclave / StrongBox&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Sensitive&lt;/td&gt;&lt;td&gt;PII, health data, payment info&lt;/td&gt;&lt;td&gt;SQLCipher database&lt;/td&gt;&lt;td&gt;AES-256, key in Tier 1&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Internal&lt;/td&gt;&lt;td&gt;User preferences, app state, drafts&lt;/td&gt;&lt;td&gt;MMKV (encrypted)&lt;/td&gt;&lt;td&gt;AES-256 encryption&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Public&lt;/td&gt;&lt;td&gt;Theme, locale, feature flags&lt;/td&gt;&lt;td&gt;AsyncStorage / MMKV&lt;/td&gt;&lt;td&gt;None (non-sensitive)&lt;/td&gt;&lt;/tr&gt;
-            &lt;/table&gt;
+            <h5>Storage Strategy</h5>
+            <table>
+                <tr><th>Tier</th><th>Data Examples</th><th>Storage</th><th>Protection</th></tr>
+                <tr><td>Critical</td><td>Auth tokens, API keys, encryption keys</td><td>Keychain / Keystore</td><td>Secure Enclave / StrongBox</td></tr>
+                <tr><td>Sensitive</td><td>PII, health data, payment info</td><td>SQLCipher database</td><td>AES-256, key in Tier 1</td></tr>
+                <tr><td>Internal</td><td>User preferences, app state, drafts</td><td>MMKV (encrypted)</td><td>AES-256 encryption</td></tr>
+                <tr><td>Public</td><td>Theme, locale, feature flags</td><td>AsyncStorage / MMKV</td><td>None (non-sensitive)</td></tr>
+            </table>
 
-            &lt;h4&gt;I - Interface Definition (API)&lt;/h4&gt;
+            <h4>I - Interface Definition (API)</h4>
 
-            &lt;h5&gt;Secure Storage Service Interface&lt;/h5&gt;
-            &lt;pre&gt;&lt;code&gt;// services/SecureStorage.ts
+            <h5>Secure Storage Service Interface</h5>
+            <pre><code>// services/SecureStorage.ts
 
 interface SecureStorageService {
     /**
      * Initialize storage with key generation
      */
-    initialize(): Promise&lt;void&gt;;
+    initialize(): Promise<void>;
 
     /**
      * Store data with automatic classification routing
@@ -17020,37 +17020,37 @@ interface SecureStorageService {
      * @param data - Data to store
      * @param classification - Data classification (determines storage tier)
      */
-    store&lt;T&gt;(key: string, data: T, classification: string): Promise&lt;void&gt;;
+    store<T>(key: string, data: T, classification: string): Promise<void>;
 
     /**
      * Retrieve data (may trigger biometric prompt for critical data)
      * @param key - Unique identifier for the data
      * @param classification - Data classification
      */
-    retrieve&lt;T&gt;(key: string, classification: string): Promise&lt;T | null&gt;;
+    retrieve<T>(key: string, classification: string): Promise<T | null>;
 
     /**
      * Securely delete data with memory wiping
      * @param key - Unique identifier for the data
      * @param classification - Data classification
      */
-    secureDelete(key: string, classification: string): Promise&lt;void&gt;;
+    secureDelete(key: string, classification: string): Promise<void>;
 
     /**
      * Rotate encryption keys without data loss
      * @param keyId - Key identifier to rotate
      */
-    rotateKey(keyId: string): Promise&lt;void&gt;;
+    rotateKey(keyId: string): Promise<void>;
 
     /**
      * Clear all data for a specific classification
      * @param classification - Classification to clear
      */
-    clearClassification(classification: string): Promise&lt;void&gt;;
-}&lt;/code&gt;&lt;/pre&gt;
+    clearClassification(classification: string): Promise<void>;
+}</code></pre>
 
-            &lt;h5&gt;iOS Platform Bridge (Keychain with Secure Enclave)&lt;/h5&gt;
-            &lt;pre&gt;&lt;code&gt;// SecureStorageModule.swift
+            <h5>iOS Platform Bridge (Keychain with Secure Enclave)</h5>
+            <pre><code>// SecureStorageModule.swift
 import Foundation
 import Security
 import LocalAuthentication
@@ -17072,7 +17072,7 @@ class SecureStorageModule: NSObject {
         resolver: @escaping RCTPromiseResolveBlock,
         rejecter: @escaping RCTPromiseRejectBlock
     ) {
-        var error: Unmanaged&lt;CFError&gt;?
+        var error: Unmanaged<CFError>?
 
         // Create access control with Secure Enclave
         var accessFlags: SecAccessControlCreateFlags = [.privateKeyUsage]
@@ -17194,7 +17194,7 @@ class SecureStorageModule: NSObject {
         }
 
         let privateKey = keyResult as! SecKey
-        var error: Unmanaged&lt;CFError&gt;?
+        var error: Unmanaged<CFError>?
 
         // Decrypt data
         guard let decryptedData = SecKeyCreateDecryptedData(
@@ -17233,10 +17233,10 @@ class SecureStorageModule: NSObject {
 
         resolver(["success": true])
     }
-}&lt;/code&gt;&lt;/pre&gt;
+}</code></pre>
 
-            &lt;h5&gt;Android Platform Bridge (Keystore with StrongBox)&lt;/h5&gt;
-            &lt;pre&gt;&lt;code&gt;// SecureStorageModule.kt
+            <h5>Android Platform Bridge (Keystore with StrongBox)</h5>
+            <pre><code>// SecureStorageModule.kt
 package com.app.securestorage
 
 import android.os.Build
@@ -17403,13 +17403,13 @@ class SecureStorageModule(reactContext: ReactApplicationContext) :
             .setKeySize(256)
 
         // Use StrongBox if available (Pixel 3+, Samsung S10+)
-        if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.P) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             builder.setIsStrongBoxBacked(true)
         }
 
         if (requireBiometric) {
             builder.setUserAuthenticationRequired(true)
-            if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.R) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                 builder.setUserAuthenticationParameters(
                     0, // Require auth every time
                     KeyProperties.AUTH_BIOMETRIC_STRONG
@@ -17458,23 +17458,23 @@ class SecureStorageModule(reactContext: ReactApplicationContext) :
             promise.reject("DELETE_ERROR", e.message, e)
         }
     }
-}&lt;/code&gt;&lt;/pre&gt;
+}</code></pre>
 
-            &lt;h5&gt;Key Management Service&lt;/h5&gt;
-            &lt;pre&gt;&lt;code&gt;// Key rotation and derivation
+            <h5>Key Management Service</h5>
+            <pre><code>// Key rotation and derivation
 class KeyManager {
   private readonly KEY_VERSION_KEY = 'key_version';
   private readonly CURRENT_VERSION = 2;
 
-  async initialize(): Promise&lt;void&gt; {
+  async initialize(): Promise<void> {
     const storedVersion = await this.getKeyVersion();
 
-    if (storedVersion &lt; this.CURRENT_VERSION) {
+    if (storedVersion < this.CURRENT_VERSION) {
       await this.migrateKeys(storedVersion, this.CURRENT_VERSION);
     }
   }
 
-  async getDatabaseKey(): Promise&lt;string&gt; {
+  async getDatabaseKey(): Promise<string> {
     const keyId = 'database_encryption_key';
 
     // Try to retrieve existing key
@@ -17495,7 +17495,7 @@ class KeyManager {
     return newKey;
   }
 
-  async rotateKey(keyId: string): Promise&lt;void&gt; {
+  async rotateKey(keyId: string): Promise<void> {
     // 1. Generate new key
     const newKey = await this.generateSecureKey(32);
 
@@ -17513,7 +17513,7 @@ class KeyManager {
     await this.incrementKeyVersion();
   }
 
-  private async generateSecureKey(bytes: number): Promise&lt;string&gt; {
+  private async generateSecureKey(bytes: number): Promise<string> {
     // Use platform-native secure random
     const randomBytes = await Crypto.getRandomBytesAsync(bytes);
     return Buffer.from(randomBytes).toString('base64');
@@ -17523,7 +17523,7 @@ class KeyManager {
     masterKey: string,
     salt: string,
     purpose: string
-  ): Promise&lt;string&gt; {
+  ): Promise<string> {
     // HKDF key derivation
     const info = \`\${purpose}-v\${this.CURRENT_VERSION}\`;
     // Use react-native-quick-crypto for HKDF
@@ -17534,23 +17534,23 @@ class KeyManager {
   private async migrateKeys(
     fromVersion: number,
     toVersion: number
-  ): Promise&lt;void&gt; {
+  ): Promise<void> {
     console.log(\`Migrating keys from v\${fromVersion} to v\${toVersion}\`);
 
     // Version-specific migrations
-    if (fromVersion &lt; 2) {
-      // v1 -&gt; v2: Upgrade to hardware-backed keys
+    if (fromVersion < 2) {
+      // v1 -> v2: Upgrade to hardware-backed keys
       await this.upgradeToHardwareBacked();
     }
 
     await AsyncStorage.setItem(this.KEY_VERSION_KEY, toVersion.toString());
   }
-}&lt;/code&gt;&lt;/pre&gt;
+}</code></pre>
 
-            &lt;h4&gt;O - Optimizations and Deep Dive&lt;/h4&gt;
+            <h4>O - Optimizations and Deep Dive</h4>
 
-            &lt;h5&gt;Data Flow Diagram&lt;/h5&gt;
-            &lt;pre&gt;&lt;code&gt;┌─────────────────────────────────────────────────────────────────┐
+            <h5>Data Flow Diagram</h5>
+            <pre><code>┌─────────────────────────────────────────────────────────────────┐
 │                    SECURE STORAGE DATA FLOW                      │
 └─────────────────────────────────────────────────────────────────┘
 
@@ -17589,84 +17589,84 @@ READ FLOW (Biometric-Protected):
                       ▼                                      ▼
                ┌──────────────────────────────────────────────────┐
                │  Decrypt Data → Verify Checksum → Return         │
-               └──────────────────────────────────────────────────┘&lt;/code&gt;&lt;/pre&gt;
+               └──────────────────────────────────────────────────┘</code></pre>
 
-            &lt;h5&gt;Performance Optimizations&lt;/h5&gt;
-            &lt;table&gt;
-                &lt;tr&gt;&lt;th&gt;Problem&lt;/th&gt;&lt;th&gt;Solution&lt;/th&gt;&lt;th&gt;Impact&lt;/th&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Slow encrypted reads&lt;/td&gt;&lt;td&gt;Use MMKV instead of AsyncStorage for tier 3&lt;/td&gt;&lt;td&gt;10x faster reads (sync vs async)&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Keychain latency&lt;/td&gt;&lt;td&gt;Cache non-biometric items in memory after first read&lt;/td&gt;&lt;td&gt;~50ms saved per subsequent access&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Encryption overhead&lt;/td&gt;&lt;td&gt;Use hardware-accelerated AES (available on all modern devices)&lt;/td&gt;&lt;td&gt;Near-zero CPU overhead&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Key derivation time&lt;/td&gt;&lt;td&gt;Pre-derive keys on app launch in background&lt;/td&gt;&lt;td&gt;Eliminates derivation latency on first use&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Large data encryption&lt;/td&gt;&lt;td&gt;Stream encryption for files &gt; 1MB&lt;/td&gt;&lt;td&gt;Constant memory usage regardless of size&lt;/td&gt;&lt;/tr&gt;
-            &lt;/table&gt;
+            <h5>Performance Optimizations</h5>
+            <table>
+                <tr><th>Problem</th><th>Solution</th><th>Impact</th></tr>
+                <tr><td>Slow encrypted reads</td><td>Use MMKV instead of AsyncStorage for tier 3</td><td>10x faster reads (sync vs async)</td></tr>
+                <tr><td>Keychain latency</td><td>Cache non-biometric items in memory after first read</td><td>~50ms saved per subsequent access</td></tr>
+                <tr><td>Encryption overhead</td><td>Use hardware-accelerated AES (available on all modern devices)</td><td>Near-zero CPU overhead</td></tr>
+                <tr><td>Key derivation time</td><td>Pre-derive keys on app launch in background</td><td>Eliminates derivation latency on first use</td></tr>
+                <tr><td>Large data encryption</td><td>Stream encryption for files > 1MB</td><td>Constant memory usage regardless of size</td></tr>
+            </table>
 
-            &lt;h5&gt;Platform-Specific Considerations&lt;/h5&gt;
-            &lt;table&gt;
-                &lt;tr&gt;&lt;th&gt;Aspect&lt;/th&gt;&lt;th&gt;iOS&lt;/th&gt;&lt;th&gt;Android&lt;/th&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Hardware security&lt;/td&gt;&lt;td&gt;Secure Enclave (A7+ chips)&lt;/td&gt;&lt;td&gt;StrongBox (Pixel 3+, Samsung S10+) or TEE&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Key accessibility&lt;/td&gt;&lt;td&gt;kSecAttrAccessibleWhenUnlockedThisDeviceOnly&lt;/td&gt;&lt;td&gt;setUserAuthenticationRequired(true)&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Biometric binding&lt;/td&gt;&lt;td&gt;kSecAccessControlBiometryCurrentSet&lt;/td&gt;&lt;td&gt;setInvalidatedByBiometricEnrollment(true)&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Backup behavior&lt;/td&gt;&lt;td&gt;Keychain items excluded from iCloud backup by default with ThisDeviceOnly&lt;/td&gt;&lt;td&gt;Use android:allowBackup="false" or exclude specific keys&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;App reinstall&lt;/td&gt;&lt;td&gt;Keychain persists - check for orphaned keys&lt;/td&gt;&lt;td&gt;Keystore cleared on uninstall&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Fallback&lt;/td&gt;&lt;td&gt;Software-based encryption if Secure Enclave unavailable&lt;/td&gt;&lt;td&gt;TEE if StrongBox unavailable, software if neither&lt;/td&gt;&lt;/tr&gt;
-            &lt;/table&gt;
+            <h5>Platform-Specific Considerations</h5>
+            <table>
+                <tr><th>Aspect</th><th>iOS</th><th>Android</th></tr>
+                <tr><td>Hardware security</td><td>Secure Enclave (A7+ chips)</td><td>StrongBox (Pixel 3+, Samsung S10+) or TEE</td></tr>
+                <tr><td>Key accessibility</td><td>kSecAttrAccessibleWhenUnlockedThisDeviceOnly</td><td>setUserAuthenticationRequired(true)</td></tr>
+                <tr><td>Biometric binding</td><td>kSecAccessControlBiometryCurrentSet</td><td>setInvalidatedByBiometricEnrollment(true)</td></tr>
+                <tr><td>Backup behavior</td><td>Keychain items excluded from iCloud backup by default with ThisDeviceOnly</td><td>Use android:allowBackup="false" or exclude specific keys</td></tr>
+                <tr><td>App reinstall</td><td>Keychain persists - check for orphaned keys</td><td>Keystore cleared on uninstall</td></tr>
+                <tr><td>Fallback</td><td>Software-based encryption if Secure Enclave unavailable</td><td>TEE if StrongBox unavailable, software if neither</td></tr>
+            </table>
 
-            &lt;h5&gt;Edge Cases and Error Handling&lt;/h5&gt;
-            &lt;ol&gt;
-                &lt;li&gt;&lt;strong&gt;Biometric enrollment change:&lt;/strong&gt; Keys bound to biometryCurrentSet are automatically invalidated when fingerprints change. Detect errSecAuthFailed and re-authenticate user fully.&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Device migration:&lt;/strong&gt; iOS Keychain with ThisDeviceOnly won't sync to new device. Implement secure re-authentication flow for device transfers.&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Jailbreak/root detection:&lt;/strong&gt; Check device integrity using attestation APIs before storing critical data. Warn user or disable features on compromised devices.&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Memory protection:&lt;/strong&gt; Zero-fill sensitive byte arrays after use. Avoid storing passwords as JavaScript strings (immutable, garbage collected unpredictably).&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Hardware unavailability:&lt;/strong&gt; Fall back gracefully when Secure Enclave/StrongBox not available. Use software encryption with clear security level indication.&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;App reinstall (iOS):&lt;/strong&gt; Keychain persists after uninstall. Check for orphaned keys on first launch and offer to clear or recover.&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Key rotation failure:&lt;/strong&gt; Implement atomic rotation with backup key. Roll back to old key if re-encryption fails partway.&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Checksum mismatch:&lt;/strong&gt; Data tampering detected. Log audit event, invalidate data, require fresh fetch from server.&lt;/li&gt;
-            &lt;/ol&gt;
+            <h5>Edge Cases and Error Handling</h5>
+            <ol>
+                <li><strong>Biometric enrollment change:</strong> Keys bound to biometryCurrentSet are automatically invalidated when fingerprints change. Detect errSecAuthFailed and re-authenticate user fully.</li>
+                <li><strong>Device migration:</strong> iOS Keychain with ThisDeviceOnly won't sync to new device. Implement secure re-authentication flow for device transfers.</li>
+                <li><strong>Jailbreak/root detection:</strong> Check device integrity using attestation APIs before storing critical data. Warn user or disable features on compromised devices.</li>
+                <li><strong>Memory protection:</strong> Zero-fill sensitive byte arrays after use. Avoid storing passwords as JavaScript strings (immutable, garbage collected unpredictably).</li>
+                <li><strong>Hardware unavailability:</strong> Fall back gracefully when Secure Enclave/StrongBox not available. Use software encryption with clear security level indication.</li>
+                <li><strong>App reinstall (iOS):</strong> Keychain persists after uninstall. Check for orphaned keys on first launch and offer to clear or recover.</li>
+                <li><strong>Key rotation failure:</strong> Implement atomic rotation with backup key. Roll back to old key if re-encryption fails partway.</li>
+                <li><strong>Checksum mismatch:</strong> Data tampering detected. Log audit event, invalidate data, require fresh fetch from server.</li>
+            </ol>
 
-            &lt;h5&gt;Trade-offs and Alternatives&lt;/h5&gt;
-            &lt;table&gt;
-                &lt;tr&gt;&lt;th&gt;Decision&lt;/th&gt;&lt;th&gt;Chosen&lt;/th&gt;&lt;th&gt;Alternative&lt;/th&gt;&lt;th&gt;Why Chosen&lt;/th&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Tier 1 storage&lt;/td&gt;&lt;td&gt;Platform Keychain/Keystore&lt;/td&gt;&lt;td&gt;Custom encryption file&lt;/td&gt;&lt;td&gt;Hardware backing provides extraction resistance&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Tier 2 storage&lt;/td&gt;&lt;td&gt;SQLCipher&lt;/td&gt;&lt;td&gt;Realm Encryption&lt;/td&gt;&lt;td&gt;SQLCipher is more widely audited; Realm has simpler API&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Tier 3 storage&lt;/td&gt;&lt;td&gt;MMKV&lt;/td&gt;&lt;td&gt;AsyncStorage + encryption&lt;/td&gt;&lt;td&gt;10x faster, native encryption, synchronous&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Encryption algorithm&lt;/td&gt;&lt;td&gt;AES-256-GCM&lt;/td&gt;&lt;td&gt;ChaCha20-Poly1305&lt;/td&gt;&lt;td&gt;AES has hardware acceleration on all devices&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Key derivation&lt;/td&gt;&lt;td&gt;HKDF&lt;/td&gt;&lt;td&gt;PBKDF2&lt;/td&gt;&lt;td&gt;HKDF is faster; PBKDF2 better for password-derived keys&lt;/td&gt;&lt;/tr&gt;
-            &lt;/table&gt;
+            <h5>Trade-offs and Alternatives</h5>
+            <table>
+                <tr><th>Decision</th><th>Chosen</th><th>Alternative</th><th>Why Chosen</th></tr>
+                <tr><td>Tier 1 storage</td><td>Platform Keychain/Keystore</td><td>Custom encryption file</td><td>Hardware backing provides extraction resistance</td></tr>
+                <tr><td>Tier 2 storage</td><td>SQLCipher</td><td>Realm Encryption</td><td>SQLCipher is more widely audited; Realm has simpler API</td></tr>
+                <tr><td>Tier 3 storage</td><td>MMKV</td><td>AsyncStorage + encryption</td><td>10x faster, native encryption, synchronous</td></tr>
+                <tr><td>Encryption algorithm</td><td>AES-256-GCM</td><td>ChaCha20-Poly1305</td><td>AES has hardware acceleration on all devices</td></tr>
+                <tr><td>Key derivation</td><td>HKDF</td><td>PBKDF2</td><td>HKDF is faster; PBKDF2 better for password-derived keys</td></tr>
+            </table>
 
-            &lt;h5&gt;Testing Strategy&lt;/h5&gt;
-            &lt;table&gt;
-                &lt;tr&gt;&lt;th&gt;Test Type&lt;/th&gt;&lt;th&gt;Coverage&lt;/th&gt;&lt;th&gt;Tools&lt;/th&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Unit Tests&lt;/td&gt;&lt;td&gt;Encryption/decryption, checksum validation, classification routing&lt;/td&gt;&lt;td&gt;Jest + mocked native modules&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Integration Tests&lt;/td&gt;&lt;td&gt;Full storage flows, key rotation, tier routing&lt;/td&gt;&lt;td&gt;Jest with actual native modules&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;E2E Tests&lt;/td&gt;&lt;td&gt;Biometric flows (mocked), data persistence across app restarts&lt;/td&gt;&lt;td&gt;Detox&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Security Audit&lt;/td&gt;&lt;td&gt;Verify no plaintext storage, memory analysis, extraction attempts&lt;/td&gt;&lt;td&gt;Frida, objection, OWASP tools&lt;/td&gt;&lt;/tr&gt;
-            &lt;/table&gt;
+            <h5>Testing Strategy</h5>
+            <table>
+                <tr><th>Test Type</th><th>Coverage</th><th>Tools</th></tr>
+                <tr><td>Unit Tests</td><td>Encryption/decryption, checksum validation, classification routing</td><td>Jest + mocked native modules</td></tr>
+                <tr><td>Integration Tests</td><td>Full storage flows, key rotation, tier routing</td><td>Jest with actual native modules</td></tr>
+                <tr><td>E2E Tests</td><td>Biometric flows (mocked), data persistence across app restarts</td><td>Detox</td></tr>
+                <tr><td>Security Audit</td><td>Verify no plaintext storage, memory analysis, extraction attempts</td><td>Frida, objection, OWASP tools</td></tr>
+            </table>
 
-            &lt;h5&gt;Interview Discussion Points&lt;/h5&gt;
-            &lt;p&gt;&lt;strong&gt;Q: What's the difference between Secure Enclave and software encryption?&lt;/strong&gt;&lt;/p&gt;
-            &lt;p&gt;A: Secure Enclave is a separate security processor with its own encrypted memory. Keys generated inside never leave the enclave—even the main CPU can't read them. Software encryption stores keys in regular memory, which could be extracted via memory dump, debugger, or on a jailbroken device. Secure Enclave provides hardware-level isolation.&lt;/p&gt;
+            <h5>Interview Discussion Points</h5>
+            <p><strong>Q: What's the difference between Secure Enclave and software encryption?</strong></p>
+            <p>A: Secure Enclave is a separate security processor with its own encrypted memory. Keys generated inside never leave the enclave—even the main CPU can't read them. Software encryption stores keys in regular memory, which could be extracted via memory dump, debugger, or on a jailbroken device. Secure Enclave provides hardware-level isolation.</p>
 
-            &lt;p&gt;&lt;strong&gt;Q: How do you handle key rotation without downtime?&lt;/strong&gt;&lt;/p&gt;
-            &lt;p&gt;A: Use atomic rotation: (1) Generate new key, (2) Keep old key as backup, (3) Re-encrypt all data with new key in a transaction, (4) Verify all data accessible with new key, (5) Delete old key. If any step fails, roll back to old key. For large datasets, use incremental migration during background processing.&lt;/p&gt;
+            <p><strong>Q: How do you handle key rotation without downtime?</strong></p>
+            <p>A: Use atomic rotation: (1) Generate new key, (2) Keep old key as backup, (3) Re-encrypt all data with new key in a transaction, (4) Verify all data accessible with new key, (5) Delete old key. If any step fails, roll back to old key. For large datasets, use incremental migration during background processing.</p>
 
-            &lt;p&gt;&lt;strong&gt;Q: How do you comply with GDPR right to erasure?&lt;/strong&gt;&lt;/p&gt;
-            &lt;p&gt;A: Implement verifiable deletion: (1) Delete encryption keys (making data unreadable), (2) Overwrite storage locations, (3) Clear all backup copies, (4) Log deletion event for audit trail. For hardware-backed keys, delete the key alias which makes data permanently unrecoverable.&lt;/p&gt;
+            <p><strong>Q: How do you comply with GDPR right to erasure?</strong></p>
+            <p>A: Implement verifiable deletion: (1) Delete encryption keys (making data unreadable), (2) Overwrite storage locations, (3) Clear all backup copies, (4) Log deletion event for audit trail. For hardware-backed keys, delete the key alias which makes data permanently unrecoverable.</p>
 
-            &lt;p&gt;&lt;strong&gt;Q: What threats does this architecture protect against?&lt;/strong&gt;&lt;/p&gt;
-            &lt;p&gt;A: It protects against: (1) Device theft - data encrypted at rest, biometric required for critical data, (2) Malicious apps - hardware isolation prevents cross-app access, (3) Memory dumps - sensitive data zeroed after use, keys in hardware, (4) Network interception - data encrypted before network calls, (5) Database theft - SQLCipher page-level encryption. It does NOT fully protect against: sophisticated attackers with physical access to jailbroken devices.&lt;/p&gt;
+            <p><strong>Q: What threats does this architecture protect against?</strong></p>
+            <p>A: It protects against: (1) Device theft - data encrypted at rest, biometric required for critical data, (2) Malicious apps - hardware isolation prevents cross-app access, (3) Memory dumps - sensitive data zeroed after use, keys in hardware, (4) Network interception - data encrypted before network calls, (5) Database theft - SQLCipher page-level encryption. It does NOT fully protect against: sophisticated attackers with physical access to jailbroken devices.</p>
 
-            &lt;h5&gt;Library Recommendations&lt;/h5&gt;
-            &lt;table&gt;
-                &lt;tr&gt;&lt;th&gt;Concern&lt;/th&gt;&lt;th&gt;Library&lt;/th&gt;&lt;th&gt;Rationale&lt;/th&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Keychain/Keystore&lt;/td&gt;&lt;td&gt;react-native-keychain&lt;/td&gt;&lt;td&gt;Hardware-backed, biometric support, cross-platform&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Encrypted KV&lt;/td&gt;&lt;td&gt;react-native-mmkv&lt;/td&gt;&lt;td&gt;10x faster than AsyncStorage, native encryption support&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Encrypted DB&lt;/td&gt;&lt;td&gt;react-native-quick-sqlite + SQLCipher&lt;/td&gt;&lt;td&gt;AES-256 page encryption, synchronous API, SQL flexibility&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Crypto operations&lt;/td&gt;&lt;td&gt;react-native-quick-crypto&lt;/td&gt;&lt;td&gt;Native crypto primitives, HKDF, PBKDF2, hashing&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Biometrics&lt;/td&gt;&lt;td&gt;expo-local-authentication&lt;/td&gt;&lt;td&gt;Unified API for Face ID, Touch ID, fingerprint&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Secure random&lt;/td&gt;&lt;td&gt;expo-crypto&lt;/td&gt;&lt;td&gt;Cryptographically secure random byte generation&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Integrity checks&lt;/td&gt;&lt;td&gt;jail-monkey&lt;/td&gt;&lt;td&gt;Jailbreak/root detection for risk assessment&lt;/td&gt;&lt;/tr&gt;
-            &lt;/table&gt;
+            <h5>Library Recommendations</h5>
+            <table>
+                <tr><th>Concern</th><th>Library</th><th>Rationale</th></tr>
+                <tr><td>Keychain/Keystore</td><td>react-native-keychain</td><td>Hardware-backed, biometric support, cross-platform</td></tr>
+                <tr><td>Encrypted KV</td><td>react-native-mmkv</td><td>10x faster than AsyncStorage, native encryption support</td></tr>
+                <tr><td>Encrypted DB</td><td>react-native-quick-sqlite + SQLCipher</td><td>AES-256 page encryption, synchronous API, SQL flexibility</td></tr>
+                <tr><td>Crypto operations</td><td>react-native-quick-crypto</td><td>Native crypto primitives, HKDF, PBKDF2, hashing</td></tr>
+                <tr><td>Biometrics</td><td>expo-local-authentication</td><td>Unified API for Face ID, Touch ID, fingerprint</td></tr>
+                <tr><td>Secure random</td><td>expo-crypto</td><td>Cryptographically secure random byte generation</td></tr>
+                <tr><td>Integrity checks</td><td>jail-monkey</td><td>Jailbreak/root detection for risk assessment</td></tr>
+            </table>
         `
      },
     {
@@ -17677,54 +17677,54 @@ READ FLOW (Biometric-Protected):
         difficulty: "advanced",
         seniority: "senior",
         answer: `
-            &lt;h4&gt;R - Requirements Exploration&lt;/h4&gt;
+            <h4>R - Requirements Exploration</h4>
 
-            &lt;h5&gt;Clarifying Questions to Ask&lt;/h5&gt;
-            &lt;ul&gt;
-                &lt;li&gt;&lt;strong&gt;Error types:&lt;/strong&gt; Which errors need tracking (JS exceptions, native crashes, ANR, OOM)?&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Volume expectations:&lt;/strong&gt; How many DAU? What's the expected crash rate?&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Privacy requirements:&lt;/strong&gt; What PII scrubbing is needed for GDPR/CCPA compliance?&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Alerting needs:&lt;/strong&gt; Who should be notified? What thresholds trigger alerts?&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Existing tools:&lt;/strong&gt; Any existing error tracking or APM tools to integrate with?&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Release process:&lt;/strong&gt; How often are releases? CodePush/OTA updates used?&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Cost constraints:&lt;/strong&gt; Budget for error tracking services? Need sampling?&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Debug info:&lt;/strong&gt; What context is needed beyond stack traces (breadcrumbs, user actions)?&lt;/li&gt;
-            &lt;/ul&gt;
+            <h5>Clarifying Questions to Ask</h5>
+            <ul>
+                <li><strong>Error types:</strong> Which errors need tracking (JS exceptions, native crashes, ANR, OOM)?</li>
+                <li><strong>Volume expectations:</strong> How many DAU? What's the expected crash rate?</li>
+                <li><strong>Privacy requirements:</strong> What PII scrubbing is needed for GDPR/CCPA compliance?</li>
+                <li><strong>Alerting needs:</strong> Who should be notified? What thresholds trigger alerts?</li>
+                <li><strong>Existing tools:</strong> Any existing error tracking or APM tools to integrate with?</li>
+                <li><strong>Release process:</strong> How often are releases? CodePush/OTA updates used?</li>
+                <li><strong>Cost constraints:</strong> Budget for error tracking services? Need sampling?</li>
+                <li><strong>Debug info:</strong> What context is needed beyond stack traces (breadcrumbs, user actions)?</li>
+            </ul>
 
-            &lt;h5&gt;Functional Requirements&lt;/h5&gt;
-            &lt;ul&gt;
-                &lt;li&gt;Capture JS exceptions, unhandled promise rejections, and native crashes&lt;/li&gt;
-                &lt;li&gt;Automatic source map symbolication for readable stack traces&lt;/li&gt;
-                &lt;li&gt;Breadcrumb trail of user actions leading to crash (navigation, network, UI events)&lt;/li&gt;
-                &lt;li&gt;User context and device info attached to every report&lt;/li&gt;
-                &lt;li&gt;Release tracking with regression detection and commit association&lt;/li&gt;
-                &lt;li&gt;Error grouping/deduplication to reduce noise and identify unique issues&lt;/li&gt;
-                &lt;li&gt;Alert configuration for Slack, PagerDuty, email notifications&lt;/li&gt;
-                &lt;li&gt;React Error Boundary integration with user-facing recovery UI&lt;/li&gt;
-            &lt;/ul&gt;
+            <h5>Functional Requirements</h5>
+            <ul>
+                <li>Capture JS exceptions, unhandled promise rejections, and native crashes</li>
+                <li>Automatic source map symbolication for readable stack traces</li>
+                <li>Breadcrumb trail of user actions leading to crash (navigation, network, UI events)</li>
+                <li>User context and device info attached to every report</li>
+                <li>Release tracking with regression detection and commit association</li>
+                <li>Error grouping/deduplication to reduce noise and identify unique issues</li>
+                <li>Alert configuration for Slack, PagerDuty, email notifications</li>
+                <li>React Error Boundary integration with user-facing recovery UI</li>
+            </ul>
 
-            &lt;h5&gt;Non-Functional Requirements&lt;/h5&gt;
-            &lt;ul&gt;
-                &lt;li&gt;Zero impact on app launch time (&lt;10ms SDK initialization)&lt;/li&gt;
-                &lt;li&gt;Offline error queueing with automatic sync on reconnection&lt;/li&gt;
-                &lt;li&gt;PII scrubbing for GDPR/privacy compliance (emails, phones, passwords)&lt;/li&gt;
-                &lt;li&gt;Sample rate control to manage costs at scale (configurable per environment)&lt;/li&gt;
-                &lt;li&gt;99.9% of errors captured and delivered to backend&lt;/li&gt;
-                &lt;li&gt;Support Hermes bytecode symbolication&lt;/li&gt;
-            &lt;/ul&gt;
+            <h5>Non-Functional Requirements</h5>
+            <ul>
+                <li>Zero impact on app launch time (<10ms SDK initialization)</li>
+                <li>Offline error queueing with automatic sync on reconnection</li>
+                <li>PII scrubbing for GDPR/privacy compliance (emails, phones, passwords)</li>
+                <li>Sample rate control to manage costs at scale (configurable per environment)</li>
+                <li>99.9% of errors captured and delivered to backend</li>
+                <li>Support Hermes bytecode symbolication</li>
+            </ul>
 
-            &lt;h5&gt;Out of Scope&lt;/h5&gt;
-            &lt;ul&gt;
-                &lt;li&gt;Custom error tracking backend (will use Sentry/Crashlytics)&lt;/li&gt;
-                &lt;li&gt;Real-time error streaming dashboard&lt;/li&gt;
-                &lt;li&gt;Root cause analysis AI/ML&lt;/li&gt;
-                &lt;li&gt;Integration with ticketing systems (Jira, Linear)&lt;/li&gt;
-            &lt;/ul&gt;
+            <h5>Out of Scope</h5>
+            <ul>
+                <li>Custom error tracking backend (will use Sentry/Crashlytics)</li>
+                <li>Real-time error streaming dashboard</li>
+                <li>Root cause analysis AI/ML</li>
+                <li>Integration with ticketing systems (Jira, Linear)</li>
+            </ul>
 
-            &lt;h4&gt;A - Architecture / High-level Design&lt;/h4&gt;
+            <h4>A - Architecture / High-level Design</h4>
 
-            &lt;h5&gt;System Architecture Diagram&lt;/h5&gt;
-            &lt;pre&gt;&lt;code&gt;┌─────────────────────────────────────────────────────────────────┐
+            <h5>System Architecture Diagram</h5>
+            <pre><code>┌─────────────────────────────────────────────────────────────────┐
 │                ERROR TRACKING ARCHITECTURE                       │
 ├─────────────────────────────────────────────────────────────────┤
 │                                                                  │
@@ -17778,36 +17778,36 @@ READ FLOW (Biometric-Protected):
 │  │  │        Create releases, associate commits           │  │  │
 │  │  └─────────────────────────────────────────────────────┘  │  │
 │  └───────────────────────────────────────────────────────────┘  │
-└─────────────────────────────────────────────────────────────────┘&lt;/code&gt;&lt;/pre&gt;
+└─────────────────────────────────────────────────────────────────┘</code></pre>
 
-            &lt;h5&gt;Component Overview&lt;/h5&gt;
-            &lt;table&gt;
-                &lt;tr&gt;&lt;th&gt;Component&lt;/th&gt;&lt;th&gt;Responsibility&lt;/th&gt;&lt;th&gt;Technology&lt;/th&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;JS Error Handler&lt;/td&gt;&lt;td&gt;Catch exceptions, promise rejections, console errors&lt;/td&gt;&lt;td&gt;Sentry JavaScript SDK&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;React Error Boundary&lt;/td&gt;&lt;td&gt;Catch component render errors with recovery UI&lt;/td&gt;&lt;td&gt;React Component + Sentry&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Native Crash Handler&lt;/td&gt;&lt;td&gt;Capture iOS NSExceptions, Android signals, ANR&lt;/td&gt;&lt;td&gt;Sentry Native SDK&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Breadcrumb Collector&lt;/td&gt;&lt;td&gt;Track user actions, navigation, network requests&lt;/td&gt;&lt;td&gt;Sentry Integrations&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;PII Scrubber&lt;/td&gt;&lt;td&gt;Remove emails, phones, passwords from payloads&lt;/td&gt;&lt;td&gt;Custom beforeSend hook&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Offline Queue&lt;/td&gt;&lt;td&gt;Persist errors when offline, sync on reconnect&lt;/td&gt;&lt;td&gt;Sentry Envelope Transport&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Symbolication Pipeline&lt;/td&gt;&lt;td&gt;Map minified JS and native stacks to source&lt;/td&gt;&lt;td&gt;sentry-cli + CI/CD&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Alert Manager&lt;/td&gt;&lt;td&gt;Send notifications for new/spiking errors&lt;/td&gt;&lt;td&gt;Sentry Alerts + Slack/PagerDuty&lt;/td&gt;&lt;/tr&gt;
-            &lt;/table&gt;
+            <h5>Component Overview</h5>
+            <table>
+                <tr><th>Component</th><th>Responsibility</th><th>Technology</th></tr>
+                <tr><td>JS Error Handler</td><td>Catch exceptions, promise rejections, console errors</td><td>Sentry JavaScript SDK</td></tr>
+                <tr><td>React Error Boundary</td><td>Catch component render errors with recovery UI</td><td>React Component + Sentry</td></tr>
+                <tr><td>Native Crash Handler</td><td>Capture iOS NSExceptions, Android signals, ANR</td><td>Sentry Native SDK</td></tr>
+                <tr><td>Breadcrumb Collector</td><td>Track user actions, navigation, network requests</td><td>Sentry Integrations</td></tr>
+                <tr><td>PII Scrubber</td><td>Remove emails, phones, passwords from payloads</td><td>Custom beforeSend hook</td></tr>
+                <tr><td>Offline Queue</td><td>Persist errors when offline, sync on reconnect</td><td>Sentry Envelope Transport</td></tr>
+                <tr><td>Symbolication Pipeline</td><td>Map minified JS and native stacks to source</td><td>sentry-cli + CI/CD</td></tr>
+                <tr><td>Alert Manager</td><td>Send notifications for new/spiking errors</td><td>Sentry Alerts + Slack/PagerDuty</td></tr>
+            </table>
 
-            &lt;h5&gt;Key Architecture Decisions&lt;/h5&gt;
-            &lt;table&gt;
-                &lt;tr&gt;&lt;th&gt;Decision&lt;/th&gt;&lt;th&gt;Choice&lt;/th&gt;&lt;th&gt;Rationale&lt;/th&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Error tracking service&lt;/td&gt;&lt;td&gt;Sentry&lt;/td&gt;&lt;td&gt;Best-in-class RN support, source maps, native crashes, APM&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;SDK initialization&lt;/td&gt;&lt;td&gt;Lazy with bootstrap&lt;/td&gt;&lt;td&gt;Zero app launch impact, cache previous session's config&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Breadcrumb strategy&lt;/td&gt;&lt;td&gt;100 max, auto-collect navigation/network&lt;/td&gt;&lt;td&gt;Balance context vs payload size&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;PII handling&lt;/td&gt;&lt;td&gt;Client-side scrubbing in beforeSend&lt;/td&gt;&lt;td&gt;Prevent sensitive data leaving device&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Sampling approach&lt;/td&gt;&lt;td&gt;Configurable per environment&lt;/td&gt;&lt;td&gt;100% in dev, 20% traces in prod for cost control&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Symbol upload&lt;/td&gt;&lt;td&gt;CI/CD pipeline automation&lt;/td&gt;&lt;td&gt;Ensure every release has symbolication data&lt;/td&gt;&lt;/tr&gt;
-            &lt;/table&gt;
+            <h5>Key Architecture Decisions</h5>
+            <table>
+                <tr><th>Decision</th><th>Choice</th><th>Rationale</th></tr>
+                <tr><td>Error tracking service</td><td>Sentry</td><td>Best-in-class RN support, source maps, native crashes, APM</td></tr>
+                <tr><td>SDK initialization</td><td>Lazy with bootstrap</td><td>Zero app launch impact, cache previous session's config</td></tr>
+                <tr><td>Breadcrumb strategy</td><td>100 max, auto-collect navigation/network</td><td>Balance context vs payload size</td></tr>
+                <tr><td>PII handling</td><td>Client-side scrubbing in beforeSend</td><td>Prevent sensitive data leaving device</td></tr>
+                <tr><td>Sampling approach</td><td>Configurable per environment</td><td>100% in dev, 20% traces in prod for cost control</td></tr>
+                <tr><td>Symbol upload</td><td>CI/CD pipeline automation</td><td>Ensure every release has symbolication data</td></tr>
+            </table>
 
-            &lt;h4&gt;D - Data Model / Core Entities&lt;/h4&gt;
+            <h4>D - Data Model / Core Entities</h4>
 
-            &lt;h5&gt;Core Entities&lt;/h5&gt;
-            &lt;pre&gt;&lt;code&gt;// types/errorTracking.ts
+            <h5>Core Entities</h5>
+            <pre><code>// types/errorTracking.ts
 
 /**
  * Represents a captured error event with full context
@@ -17820,8 +17820,8 @@ interface ErrorEvent {
   stack?: StackFrame[];
   breadcrumbs: Breadcrumb[];
   context: ErrorContext;
-  tags: Record&lt;string, string&gt;;
-  extra: Record&lt;string, unknown&gt;;
+  tags: Record<string, string>;
+  extra: Record<string, unknown>;
 }
 
 interface StackFrame {
@@ -17837,7 +17837,7 @@ interface Breadcrumb {
   category: 'navigation' | 'network' | 'ui' | 'console' | 'user';
   message: string;
   level: 'debug' | 'info' | 'warning' | 'error';
-  data?: Record&lt;string, unknown&gt;;
+  data?: Record<string, unknown>;
 }
 
 interface ErrorContext {
@@ -17851,7 +17851,7 @@ interface ErrorContext {
  * Configuration for PII scrubbing patterns
  */
 interface PIIScrubConfig {
-  patterns: Array&lt;{ regex: RegExp; replacement: string; description: string }&gt;;
+  patterns: Array<{ regex: RegExp; replacement: string; description: string }>;
   sensitiveKeys: string[];
   enabled: boolean;
 }
@@ -17865,10 +17865,10 @@ interface QueuedError {
   queuedAt: number;
   retryCount: number;
   priority: 'critical' | 'high' | 'normal';
-}&lt;/code&gt;&lt;/pre&gt;
+}</code></pre>
 
-            &lt;h5&gt;Entity Relationships&lt;/h5&gt;
-            &lt;pre&gt;&lt;code&gt;┌─────────────────────────────────────────────────────────────────┐
+            <h5>Entity Relationships</h5>
+            <pre><code>┌─────────────────────────────────────────────────────────────────┐
 │                   ERROR TRACKING ENTITY MODEL                    │
 └─────────────────────────────────────────────────────────────────┘
 
@@ -17905,23 +17905,23 @@ interface QueuedError {
 ┌─────────────┐     N:N     ┌─────────────────┐
 │ ErrorEvent  │────────────▶│      Tags       │
 │             │             │ (key-value)     │
-└─────────────┘             └─────────────────┘&lt;/code&gt;&lt;/pre&gt;
+└─────────────┘             └─────────────────┘</code></pre>
 
-            &lt;h5&gt;Storage Strategy&lt;/h5&gt;
-            &lt;table&gt;
-                &lt;tr&gt;&lt;th&gt;Data Type&lt;/th&gt;&lt;th&gt;Storage&lt;/th&gt;&lt;th&gt;Rationale&lt;/th&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;SDK Configuration&lt;/td&gt;&lt;td&gt;In-memory (Sentry SDK)&lt;/td&gt;&lt;td&gt;Fast access, persists for session duration&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Offline Error Queue&lt;/td&gt;&lt;td&gt;Sentry Envelope Store (SQLite)&lt;/td&gt;&lt;td&gt;Survive app restart, automatic retry&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Breadcrumbs&lt;/td&gt;&lt;td&gt;Ring buffer (memory)&lt;/td&gt;&lt;td&gt;Last 100, O(1) insert, no persistence needed&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;User Context&lt;/td&gt;&lt;td&gt;Sentry Scope (memory)&lt;/td&gt;&lt;td&gt;Set once per session, cleared on logout&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Session Data&lt;/td&gt;&lt;td&gt;Sentry Session Store (disk)&lt;/td&gt;&lt;td&gt;Track session health, crash-free rate&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Source Maps / dSYMs&lt;/td&gt;&lt;td&gt;Sentry Cloud Storage&lt;/td&gt;&lt;td&gt;Uploaded during CI/CD, linked to releases&lt;/td&gt;&lt;/tr&gt;
-            &lt;/table&gt;
+            <h5>Storage Strategy</h5>
+            <table>
+                <tr><th>Data Type</th><th>Storage</th><th>Rationale</th></tr>
+                <tr><td>SDK Configuration</td><td>In-memory (Sentry SDK)</td><td>Fast access, persists for session duration</td></tr>
+                <tr><td>Offline Error Queue</td><td>Sentry Envelope Store (SQLite)</td><td>Survive app restart, automatic retry</td></tr>
+                <tr><td>Breadcrumbs</td><td>Ring buffer (memory)</td><td>Last 100, O(1) insert, no persistence needed</td></tr>
+                <tr><td>User Context</td><td>Sentry Scope (memory)</td><td>Set once per session, cleared on logout</td></tr>
+                <tr><td>Session Data</td><td>Sentry Session Store (disk)</td><td>Track session health, crash-free rate</td></tr>
+                <tr><td>Source Maps / dSYMs</td><td>Sentry Cloud Storage</td><td>Uploaded during CI/CD, linked to releases</td></tr>
+            </table>
 
-            &lt;h4&gt;I - Interface Definition (API)&lt;/h4&gt;
+            <h4>I - Interface Definition (API)</h4>
 
-            &lt;h5&gt;Error Tracking Service Interface&lt;/h5&gt;
-            &lt;pre&gt;&lt;code&gt;// services/errorTracking.ts
+            <h5>Error Tracking Service Interface</h5>
+            <pre><code>// services/errorTracking.ts
 
 import * as Sentry from '@sentry/react-native';
 
@@ -17933,7 +17933,7 @@ interface ErrorTrackingService {
    * Initialize error tracking SDK with configuration
    * @returns Promise resolving when SDK is ready
    */
-  initialize(config: ErrorTrackingConfig): Promise&lt;void&gt;;
+  initialize(config: ErrorTrackingConfig): Promise<void>;
 
   /**
    * Set user context for all subsequent error reports
@@ -17944,7 +17944,7 @@ interface ErrorTrackingService {
    * Capture an exception with optional context
    * @returns Event ID for reference
    */
-  captureException(error: Error, context?: Record&lt;string, unknown&gt;): string;
+  captureException(error: Error, context?: Record<string, unknown>): string;
 
   /**
    * Capture a custom message at specified severity level
@@ -17974,7 +17974,7 @@ interface ErrorTrackingService {
   /**
    * Flush all pending events before app close
    */
-  flush(timeout?: number): Promise&lt;boolean&gt;;
+  flush(timeout?: number): Promise<boolean>;
 }
 
 interface ErrorTrackingConfig {
@@ -17984,7 +17984,7 @@ interface ErrorTrackingConfig {
   dist?: string;
   tracesSampleRate: number;
   enableNativeCrashHandling: boolean;
-  beforeSend?: (event: SentryEvent) =&gt; SentryEvent | null;
+  beforeSend?: (event: SentryEvent) => SentryEvent | null;
 }
 
 type SeverityLevel = 'fatal' | 'error' | 'warning' | 'info' | 'debug';
@@ -18046,7 +18046,7 @@ function processEvent(
     /ResizeObserver loop/i,
   ];
 
-  if (ignoredPatterns.some(pattern =&gt; pattern.test(message))) {
+  if (ignoredPatterns.some(pattern => pattern.test(message))) {
     return null;
   }
 
@@ -18080,17 +18080,17 @@ function scrubPII(event: Sentry.Event): Sentry.Event {
     { pattern: /"token"\\s*:\\s*"[^"]*"/gi, replacement: '"token": "[REDACTED]"' },
   ];
 
-  const scrub = (obj: unknown): unknown =&gt; {
+  const scrub = (obj: unknown): unknown => {
     if (typeof obj === 'string') {
       return piiPatterns.reduce(
-        (str, { pattern, replacement }) =&gt; str.replace(pattern, replacement),
+        (str, { pattern, replacement }) => str.replace(pattern, replacement),
         obj
       );
     }
     if (Array.isArray(obj)) return obj.map(scrub);
     if (obj &amp;&amp; typeof obj === 'object') {
       return Object.fromEntries(
-        Object.entries(obj).map(([k, v]) =&gt; [k, scrub(v)])
+        Object.entries(obj).map(([k, v]) => [k, scrub(v)])
       );
     }
     return obj;
@@ -18108,13 +18108,13 @@ interface ErrorBoundaryState {
   eventId: string | null;
 }
 
-export class ErrorBoundary extends Component&lt;
+export class ErrorBoundary extends Component<
   { children: ReactNode; fallback?: ReactNode },
   ErrorBoundaryState
-&gt; {
+> {
   state: ErrorBoundaryState = { hasError: false, error: null, eventId: null };
 
-  static getDerivedStateFromError(error: Error): Partial&lt;ErrorBoundaryState&gt; {
+  static getDerivedStateFromError(error: Error): Partial<ErrorBoundaryState> {
     return { hasError: true, error };
   }
 
@@ -18135,7 +18135,7 @@ export class ErrorBoundary extends Component&lt;
     });
   }
 
-  handleRetry = (): void =&gt; {
+  handleRetry = (): void => {
     Sentry.addBreadcrumb({
       category: 'user',
       message: 'User attempted error recovery',
@@ -18144,7 +18144,7 @@ export class ErrorBoundary extends Component&lt;
     this.setState({ hasError: false, error: null, eventId: null });
   };
 
-  handleReport = (): void =&gt; {
+  handleReport = (): void => {
     if (this.state.eventId) {
       Sentry.showReportDialog({ eventId: this.state.eventId });
     }
@@ -18153,19 +18153,19 @@ export class ErrorBoundary extends Component&lt;
   render(): ReactNode {
     if (this.state.hasError) {
       return this.props.fallback || (
-        &lt;ErrorFallback
+        <ErrorFallback
           error={this.state.error}
           onRetry={this.handleRetry}
           onReport={this.handleReport}
-        /&gt;
+        />
       );
     }
     return this.props.children;
   }
-}&lt;/code&gt;&lt;/pre&gt;
+}</code></pre>
 
-            &lt;h5&gt;React Hooks Interface&lt;/h5&gt;
-            &lt;pre&gt;&lt;code&gt;// hooks/useErrorTracking.ts
+            <h5>React Hooks Interface</h5>
+            <pre><code>// hooks/useErrorTracking.ts
 
 import * as Sentry from '@sentry/react-native';
 import { useCallback, useEffect } from 'react';
@@ -18176,15 +18176,15 @@ import { useCallback, useEffect } from 'react';
 export function useErrorCapture() {
   const captureError = useCallback((
     error: Error,
-    context?: Record&lt;string, unknown&gt;
-  ): string =&gt; {
+    context?: Record<string, unknown>
+  ): string => {
     return Sentry.captureException(error, { extra: context });
   }, []);
 
   const captureMessage = useCallback((
     message: string,
     level: Sentry.SeverityLevel = 'info'
-  ): string =&gt; {
+  ): string => {
     return Sentry.captureMessage(message, level);
   }, []);
 
@@ -18198,8 +18198,8 @@ export function useBreadcrumb() {
   return useCallback((
     category: string,
     message: string,
-    data?: Record&lt;string, unknown&gt;
-  ): void =&gt; {
+    data?: Record<string, unknown>
+  ): void => {
     Sentry.addBreadcrumb({ category, message, data, level: 'info' });
   }, []);
 }
@@ -18208,13 +18208,13 @@ export function useBreadcrumb() {
  * Hook for performance transaction tracking
  */
 export function useTransaction(name: string, op: string) {
-  useEffect(() =&gt; {
+  useEffect(() => {
     const transaction = Sentry.startTransaction({ name, op });
-    Sentry.getCurrentHub().configureScope(scope =&gt;
+    Sentry.getCurrentHub().configureScope(scope =>
       scope.setSpan(transaction)
     );
 
-    return () =&gt; {
+    return () => {
       transaction.finish();
     };
   }, [name, op]);
@@ -18224,24 +18224,24 @@ export function useTransaction(name: string, op: string) {
  * Hook for setting user context (call after auth)
  */
 export function useErrorUser(user: { id: string; email?: string } | null) {
-  useEffect(() =&gt; {
+  useEffect(() => {
     if (user) {
       Sentry.setUser({ id: user.id, email: user.email });
     } else {
       Sentry.setUser(null);
     }
   }, [user?.id, user?.email]);
-}&lt;/code&gt;&lt;/pre&gt;
+}</code></pre>
 
-            &lt;h5&gt;iOS Platform Bridge (Sentry Native)&lt;/h5&gt;
-            &lt;pre&gt;&lt;code&gt;// CrashReportingModule.swift
+            <h5>iOS Platform Bridge (Sentry Native)</h5>
+            <pre><code>// CrashReportingModule.swift
 import Foundation
 import Sentry
 
 @objc(CrashReportingModule)
 class CrashReportingModule: NSObject {
 
-    @objc static func requiresMainQueueSetup() -&gt; Bool { return true }
+    @objc static func requiresMainQueueSetup() -> Bool { return true }
 
     @objc func initializeNative(_ options: NSDictionary) {
         // Enable native crash reporting
@@ -18270,7 +18270,7 @@ class CrashReportingModule: NSObject {
     }
 
     // Manual dSYM upload in build phase
-    // Build Phases -&gt; New Run Script Phase:
+    // Build Phases -> New Run Script Phase:
     /*
     if [ "$CONFIGURATION" = "Release" ]; then
         export SENTRY_ORG="your-org"
@@ -18300,7 +18300,7 @@ class CrashReportingModule: NSObject {
         SentrySDK.addBreadcrumb(crumb)
     }
 
-    private func sentryLevel(from string: String) -&gt; SentryLevel {
+    private func sentryLevel(from string: String) -> SentryLevel {
         switch string {
         case "debug": return .debug
         case "info": return .info
@@ -18332,10 +18332,10 @@ class CrashReportingModule: NSObject {
         ]
         SentrySDK.addBreadcrumb(crumb)
     }
-}&lt;/code&gt;&lt;/pre&gt;
+}</code></pre>
 
-            &lt;h5&gt;Android Platform Bridge (Sentry Native)&lt;/h5&gt;
-            &lt;pre&gt;&lt;code&gt;// CrashReportingModule.kt
+            <h5>Android Platform Bridge (Sentry Native)</h5>
+            <pre><code>// CrashReportingModule.kt
 package com.app.crashreporting
 
 import android.app.ActivityManager
@@ -18355,7 +18355,7 @@ class CrashReportingModule(reactContext: ReactApplicationContext) :
 
     @ReactMethod
     fun initializeNative(options: ReadableMap) {
-        SentryAndroid.init(reactApplicationContext) { sentryOptions -&gt;
+        SentryAndroid.init(reactApplicationContext) { sentryOptions ->
             sentryOptions.dsn = BuildConfig.SENTRY_DSN
 
             // Enable ANR detection
@@ -18408,8 +18408,8 @@ class CrashReportingModule(reactContext: ReactApplicationContext) :
 
     @ReactMethod
     fun captureNativeException(name: String, message: String, data: ReadableMap?) {
-        Sentry.captureException(RuntimeException("$name: $message")) { scope -&gt;
-            data?.toHashMap()?.forEach { (key, value) -&gt;
+        Sentry.captureException(RuntimeException("$name: $message")) { scope ->
+            data?.toHashMap()?.forEach { (key, value) ->
                 scope.setExtra(key, value)
             }
         }
@@ -18426,14 +18426,14 @@ class CrashReportingModule(reactContext: ReactApplicationContext) :
             this.category = category
             this.message = message
             this.level = when (level) {
-                "debug" -&gt; SentryLevel.DEBUG
-                "info" -&gt; SentryLevel.INFO
-                "warning" -&gt; SentryLevel.WARNING
-                "error" -&gt; SentryLevel.ERROR
-                "fatal" -&gt; SentryLevel.FATAL
-                else -&gt; SentryLevel.INFO
+                "debug" -> SentryLevel.DEBUG
+                "info" -> SentryLevel.INFO
+                "warning" -> SentryLevel.WARNING
+                "error" -> SentryLevel.ERROR
+                "fatal" -> SentryLevel.FATAL
+                else -> SentryLevel.INFO
             }
-            data?.toHashMap()?.forEach { (key, value) -&gt;
+            data?.toHashMap()?.forEach { (key, value) ->
                 this.setData(key, value)
             }
         }
@@ -18460,16 +18460,16 @@ class CrashReportingModule(reactContext: ReactApplicationContext) :
     inner class MemoryPressureCallback : android.content.ComponentCallbacks2 {
         override fun onTrimMemory(level: Int) {
             val levelName = when (level) {
-                android.content.ComponentCallbacks2.TRIM_MEMORY_RUNNING_LOW -&gt; "RUNNING_LOW"
-                android.content.ComponentCallbacks2.TRIM_MEMORY_RUNNING_CRITICAL -&gt; "RUNNING_CRITICAL"
-                android.content.ComponentCallbacks2.TRIM_MEMORY_COMPLETE -&gt; "COMPLETE"
-                else -&gt; "LEVEL_$level"
+                android.content.ComponentCallbacks2.TRIM_MEMORY_RUNNING_LOW -> "RUNNING_LOW"
+                android.content.ComponentCallbacks2.TRIM_MEMORY_RUNNING_CRITICAL -> "RUNNING_CRITICAL"
+                android.content.ComponentCallbacks2.TRIM_MEMORY_COMPLETE -> "COMPLETE"
+                else -> "LEVEL_$level"
             }
 
             Sentry.addBreadcrumb(Breadcrumb().apply {
                 category = "device.memory"
                 message = "Memory trim: $levelName"
-                this.level = if (level &gt;= 15) SentryLevel.WARNING else SentryLevel.INFO
+                this.level = if (level >= 15) SentryLevel.WARNING else SentryLevel.INFO
                 setData("trim_level", level)
             })
         }
@@ -18483,51 +18483,51 @@ class CrashReportingModule(reactContext: ReactApplicationContext) :
             })
         }
     }
-}&lt;/code&gt;&lt;/pre&gt;
+}</code></pre>
 
-            &lt;h4&gt;O - Optimizations and Deep Dive&lt;/h4&gt;
+            <h4>O - Optimizations and Deep Dive</h4>
 
-            &lt;h5&gt;Performance Optimizations&lt;/h5&gt;
-            &lt;ul&gt;
-                &lt;li&gt;&lt;strong&gt;Lazy SDK initialization:&lt;/strong&gt;
-                    &lt;ul&gt;
-                        &lt;li&gt;Problem: SDK init blocks app startup&lt;/li&gt;
-                        &lt;li&gt;Solution: Initialize after first frame, use cached config from previous session&lt;/li&gt;
-                        &lt;li&gt;Impact: Zero launch time impact (&lt;10ms async init)&lt;/li&gt;
-                    &lt;/ul&gt;
-                &lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Breadcrumb ring buffer:&lt;/strong&gt;
-                    &lt;ul&gt;
-                        &lt;li&gt;Problem: Unbounded breadcrumb list grows memory&lt;/li&gt;
-                        &lt;li&gt;Solution: Ring buffer with 100 max entries, O(1) insert&lt;/li&gt;
-                        &lt;li&gt;Impact: Constant ~50KB memory for breadcrumbs regardless of session length&lt;/li&gt;
-                    &lt;/ul&gt;
-                &lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Envelope batching:&lt;/strong&gt;
-                    &lt;ul&gt;
-                        &lt;li&gt;Problem: Many small network requests for events&lt;/li&gt;
-                        &lt;li&gt;Solution: Batch events into envelopes, single upload per flush&lt;/li&gt;
-                        &lt;li&gt;Impact: 80% reduction in network calls&lt;/li&gt;
-                    &lt;/ul&gt;
-                &lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Sampling strategies:&lt;/strong&gt;
-                    &lt;ul&gt;
-                        &lt;li&gt;Problem: High volume apps generate expensive event counts&lt;/li&gt;
-                        &lt;li&gt;Solution: Configurable sample rates (100% errors, 20% traces)&lt;/li&gt;
-                        &lt;li&gt;Impact: 5x cost reduction while maintaining error visibility&lt;/li&gt;
-                    &lt;/ul&gt;
-                &lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Client-side PII scrubbing:&lt;/strong&gt;
-                    &lt;ul&gt;
-                        &lt;li&gt;Problem: Sensitive data in error payloads&lt;/li&gt;
-                        &lt;li&gt;Solution: beforeSend hook scrubs emails, passwords, tokens&lt;/li&gt;
-                        &lt;li&gt;Impact: PII never leaves device, GDPR compliant by default&lt;/li&gt;
-                    &lt;/ul&gt;
-                &lt;/li&gt;
-            &lt;/ul&gt;
+            <h5>Performance Optimizations</h5>
+            <ul>
+                <li><strong>Lazy SDK initialization:</strong>
+                    <ul>
+                        <li>Problem: SDK init blocks app startup</li>
+                        <li>Solution: Initialize after first frame, use cached config from previous session</li>
+                        <li>Impact: Zero launch time impact (<10ms async init)</li>
+                    </ul>
+                </li>
+                <li><strong>Breadcrumb ring buffer:</strong>
+                    <ul>
+                        <li>Problem: Unbounded breadcrumb list grows memory</li>
+                        <li>Solution: Ring buffer with 100 max entries, O(1) insert</li>
+                        <li>Impact: Constant ~50KB memory for breadcrumbs regardless of session length</li>
+                    </ul>
+                </li>
+                <li><strong>Envelope batching:</strong>
+                    <ul>
+                        <li>Problem: Many small network requests for events</li>
+                        <li>Solution: Batch events into envelopes, single upload per flush</li>
+                        <li>Impact: 80% reduction in network calls</li>
+                    </ul>
+                </li>
+                <li><strong>Sampling strategies:</strong>
+                    <ul>
+                        <li>Problem: High volume apps generate expensive event counts</li>
+                        <li>Solution: Configurable sample rates (100% errors, 20% traces)</li>
+                        <li>Impact: 5x cost reduction while maintaining error visibility</li>
+                    </ul>
+                </li>
+                <li><strong>Client-side PII scrubbing:</strong>
+                    <ul>
+                        <li>Problem: Sensitive data in error payloads</li>
+                        <li>Solution: beforeSend hook scrubs emails, passwords, tokens</li>
+                        <li>Impact: PII never leaves device, GDPR compliant by default</li>
+                    </ul>
+                </li>
+            </ul>
 
-            &lt;h5&gt;Source Map &amp;amp; Symbol Upload Pipeline&lt;/h5&gt;
-            &lt;pre&gt;&lt;code&gt;# CI/CD Pipeline for symbol upload (.github/workflows/release.yml)
+            <h5>Source Map &amp;amp; Symbol Upload Pipeline</h5>
+            <pre><code># CI/CD Pipeline for symbol upload (.github/workflows/release.yml)
 name: Release Build
 
 on:
@@ -18607,92 +18607,92 @@ jobs:
             --dist \${BUILD} \\
             --strip-prefix /Users/runner/work \\
             --rewrite \\
-            bundle.js bundle.js.map&lt;/code&gt;&lt;/pre&gt;
+            bundle.js bundle.js.map</code></pre>
 
-            &lt;h5&gt;Platform-Specific Considerations&lt;/h5&gt;
-            &lt;table&gt;
-                &lt;tr&gt;&lt;th&gt;Aspect&lt;/th&gt;&lt;th&gt;iOS&lt;/th&gt;&lt;th&gt;Android&lt;/th&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Crash Handler&lt;/td&gt;&lt;td&gt;NSException + Signal handlers&lt;/td&gt;&lt;td&gt;UncaughtExceptionHandler + NDK signals&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;ANR Detection&lt;/td&gt;&lt;td&gt;App Hang Tracking (2s threshold)&lt;/td&gt;&lt;td&gt;ANR Watchdog (5s threshold)&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;OOM Tracking&lt;/td&gt;&lt;td&gt;enableOutOfMemoryTracking&lt;/td&gt;&lt;td&gt;ComponentCallbacks2.onTrimMemory()&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Symbol Format&lt;/td&gt;&lt;td&gt;dSYM files (DWARF)&lt;/td&gt;&lt;td&gt;Proguard mapping.txt&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Native Crashes&lt;/td&gt;&lt;td&gt;Built-in, automatic&lt;/td&gt;&lt;td&gt;Requires isEnableNdk = true&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Screenshot Capture&lt;/td&gt;&lt;td&gt;attachScreenshot = true&lt;/td&gt;&lt;td&gt;isAttachScreenshot = true&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;View Hierarchy&lt;/td&gt;&lt;td&gt;attachViewHierarchy = true&lt;/td&gt;&lt;td&gt;isAttachViewHierarchy = true&lt;/td&gt;&lt;/tr&gt;
-            &lt;/table&gt;
+            <h5>Platform-Specific Considerations</h5>
+            <table>
+                <tr><th>Aspect</th><th>iOS</th><th>Android</th></tr>
+                <tr><td>Crash Handler</td><td>NSException + Signal handlers</td><td>UncaughtExceptionHandler + NDK signals</td></tr>
+                <tr><td>ANR Detection</td><td>App Hang Tracking (2s threshold)</td><td>ANR Watchdog (5s threshold)</td></tr>
+                <tr><td>OOM Tracking</td><td>enableOutOfMemoryTracking</td><td>ComponentCallbacks2.onTrimMemory()</td></tr>
+                <tr><td>Symbol Format</td><td>dSYM files (DWARF)</td><td>Proguard mapping.txt</td></tr>
+                <tr><td>Native Crashes</td><td>Built-in, automatic</td><td>Requires isEnableNdk = true</td></tr>
+                <tr><td>Screenshot Capture</td><td>attachScreenshot = true</td><td>isAttachScreenshot = true</td></tr>
+                <tr><td>View Hierarchy</td><td>attachViewHierarchy = true</td><td>isAttachViewHierarchy = true</td></tr>
+            </table>
 
-            &lt;h5&gt;Edge Cases and Error Handling&lt;/h5&gt;
-            &lt;ol&gt;
-                &lt;li&gt;&lt;strong&gt;Hermes bytecode stack traces:&lt;/strong&gt; Ensure Hermes bytecode source maps are uploaded alongside JS source maps. Use react-native-bundle command with --sourcemap-output flag.&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;CodePush OTA updates:&lt;/strong&gt; Track CodePush release hashes separately from native versions. Use dist field to differentiate bundles with same version but different code.&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;OOM crashes:&lt;/strong&gt; Native OOM doesn't always trigger crash handlers. Use memory pressure callbacks (didReceiveMemoryWarning, onTrimMemory) to add breadcrumbs before crash.&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;ANR vs actual deadlock:&lt;/strong&gt; Distinguish between UI thread blocking (recoverable) and actual deadlocks. App hang tracking detects both but provides stack traces for debugging.&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Offline crashes:&lt;/strong&gt; Crashes while offline may be lost if app is force-killed before reconnection. Sentry persists events to disk, but OOM/force-kill scenarios can lose data.&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Debug vs release symbolication:&lt;/strong&gt; Symbolication only works for release builds with uploaded symbols. Ensure CI/CD always uploads symbols for every release.&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;React Native version mismatch:&lt;/strong&gt; Upgrading RN can break Sentry native integration. Pin @sentry/react-native version and test after RN upgrades.&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Error boundary cascade:&lt;/strong&gt; Errors in error boundary fallback UI cause infinite loops. Use try-catch in fallback render and have simple fallback of fallback.&lt;/li&gt;
-            &lt;/ol&gt;
+            <h5>Edge Cases and Error Handling</h5>
+            <ol>
+                <li><strong>Hermes bytecode stack traces:</strong> Ensure Hermes bytecode source maps are uploaded alongside JS source maps. Use react-native-bundle command with --sourcemap-output flag.</li>
+                <li><strong>CodePush OTA updates:</strong> Track CodePush release hashes separately from native versions. Use dist field to differentiate bundles with same version but different code.</li>
+                <li><strong>OOM crashes:</strong> Native OOM doesn't always trigger crash handlers. Use memory pressure callbacks (didReceiveMemoryWarning, onTrimMemory) to add breadcrumbs before crash.</li>
+                <li><strong>ANR vs actual deadlock:</strong> Distinguish between UI thread blocking (recoverable) and actual deadlocks. App hang tracking detects both but provides stack traces for debugging.</li>
+                <li><strong>Offline crashes:</strong> Crashes while offline may be lost if app is force-killed before reconnection. Sentry persists events to disk, but OOM/force-kill scenarios can lose data.</li>
+                <li><strong>Debug vs release symbolication:</strong> Symbolication only works for release builds with uploaded symbols. Ensure CI/CD always uploads symbols for every release.</li>
+                <li><strong>React Native version mismatch:</strong> Upgrading RN can break Sentry native integration. Pin @sentry/react-native version and test after RN upgrades.</li>
+                <li><strong>Error boundary cascade:</strong> Errors in error boundary fallback UI cause infinite loops. Use try-catch in fallback render and have simple fallback of fallback.</li>
+            </ol>
 
-            &lt;h5&gt;Trade-offs and Alternatives&lt;/h5&gt;
-            &lt;table&gt;
-                &lt;tr&gt;&lt;th&gt;Decision&lt;/th&gt;&lt;th&gt;Chosen&lt;/th&gt;&lt;th&gt;Alternative&lt;/th&gt;&lt;th&gt;Why Chosen&lt;/th&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Error tracking service&lt;/td&gt;&lt;td&gt;Sentry&lt;/td&gt;&lt;td&gt;Firebase Crashlytics&lt;/td&gt;&lt;td&gt;Better RN support, source maps, APM, self-host option&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Client-side vs server-side PII scrub&lt;/td&gt;&lt;td&gt;Client-side (beforeSend)&lt;/td&gt;&lt;td&gt;Server-side data scrubbing&lt;/td&gt;&lt;td&gt;PII never leaves device, GDPR safer&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Breadcrumb storage&lt;/td&gt;&lt;td&gt;Ring buffer (100 max)&lt;/td&gt;&lt;td&gt;Unbounded list&lt;/td&gt;&lt;td&gt;Constant memory, most recent context matters&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Error grouping&lt;/td&gt;&lt;td&gt;Custom fingerprinting&lt;/td&gt;&lt;td&gt;Default Sentry grouping&lt;/td&gt;&lt;td&gt;Prevents over-grouping dynamic errors&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Sampling strategy&lt;/td&gt;&lt;td&gt;100% errors, 20% traces&lt;/td&gt;&lt;td&gt;Uniform sampling&lt;/td&gt;&lt;td&gt;Never miss errors, control trace costs&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;SDK initialization&lt;/td&gt;&lt;td&gt;Lazy after first frame&lt;/td&gt;&lt;td&gt;Eager in index.js&lt;/td&gt;&lt;td&gt;Zero impact on app startup time&lt;/td&gt;&lt;/tr&gt;
-            &lt;/table&gt;
+            <h5>Trade-offs and Alternatives</h5>
+            <table>
+                <tr><th>Decision</th><th>Chosen</th><th>Alternative</th><th>Why Chosen</th></tr>
+                <tr><td>Error tracking service</td><td>Sentry</td><td>Firebase Crashlytics</td><td>Better RN support, source maps, APM, self-host option</td></tr>
+                <tr><td>Client-side vs server-side PII scrub</td><td>Client-side (beforeSend)</td><td>Server-side data scrubbing</td><td>PII never leaves device, GDPR safer</td></tr>
+                <tr><td>Breadcrumb storage</td><td>Ring buffer (100 max)</td><td>Unbounded list</td><td>Constant memory, most recent context matters</td></tr>
+                <tr><td>Error grouping</td><td>Custom fingerprinting</td><td>Default Sentry grouping</td><td>Prevents over-grouping dynamic errors</td></tr>
+                <tr><td>Sampling strategy</td><td>100% errors, 20% traces</td><td>Uniform sampling</td><td>Never miss errors, control trace costs</td></tr>
+                <tr><td>SDK initialization</td><td>Lazy after first frame</td><td>Eager in index.js</td><td>Zero impact on app startup time</td></tr>
+            </table>
 
-            &lt;h5&gt;Testing Strategy&lt;/h5&gt;
-            &lt;ul&gt;
-                &lt;li&gt;&lt;strong&gt;Unit Tests:&lt;/strong&gt;
-                    &lt;ul&gt;
-                        &lt;li&gt;PII scrubbing regex patterns (emails, phones, tokens)&lt;/li&gt;
-                        &lt;li&gt;Error filtering logic (ignored patterns)&lt;/li&gt;
-                        &lt;li&gt;Custom fingerprinting rules&lt;/li&gt;
-                        &lt;li&gt;Breadcrumb processing and truncation&lt;/li&gt;
-                    &lt;/ul&gt;
-                &lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Integration Tests:&lt;/strong&gt;
-                    &lt;ul&gt;
-                        &lt;li&gt;Error boundary catches and reports errors&lt;/li&gt;
-                        &lt;li&gt;Offline queue persists and retries on reconnect&lt;/li&gt;
-                        &lt;li&gt;User context attached to all events&lt;/li&gt;
-                        &lt;li&gt;Source maps symbolicate correctly in staging&lt;/li&gt;
-                    &lt;/ul&gt;
-                &lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;E2E Tests:&lt;/strong&gt;
-                    &lt;ul&gt;
-                        &lt;li&gt;Throw test error → verify appears in Sentry dashboard&lt;/li&gt;
-                        &lt;li&gt;Force native crash → verify dSYM symbolication&lt;/li&gt;
-                        &lt;li&gt;Verify PII not present in captured events&lt;/li&gt;
-                        &lt;li&gt;Verify breadcrumb trail matches user actions&lt;/li&gt;
-                    &lt;/ul&gt;
-                &lt;/li&gt;
-            &lt;/ul&gt;
+            <h5>Testing Strategy</h5>
+            <ul>
+                <li><strong>Unit Tests:</strong>
+                    <ul>
+                        <li>PII scrubbing regex patterns (emails, phones, tokens)</li>
+                        <li>Error filtering logic (ignored patterns)</li>
+                        <li>Custom fingerprinting rules</li>
+                        <li>Breadcrumb processing and truncation</li>
+                    </ul>
+                </li>
+                <li><strong>Integration Tests:</strong>
+                    <ul>
+                        <li>Error boundary catches and reports errors</li>
+                        <li>Offline queue persists and retries on reconnect</li>
+                        <li>User context attached to all events</li>
+                        <li>Source maps symbolicate correctly in staging</li>
+                    </ul>
+                </li>
+                <li><strong>E2E Tests:</strong>
+                    <ul>
+                        <li>Throw test error → verify appears in Sentry dashboard</li>
+                        <li>Force native crash → verify dSYM symbolication</li>
+                        <li>Verify PII not present in captured events</li>
+                        <li>Verify breadcrumb trail matches user actions</li>
+                    </ul>
+                </li>
+            </ul>
 
-            &lt;h5&gt;Interview Discussion Points&lt;/h5&gt;
-            &lt;ul&gt;
-                &lt;li&gt;&lt;strong&gt;Q: How do you handle error sampling at scale?&lt;/strong&gt;&lt;br/&gt;A: Use tiered sampling - 100% for errors (never miss crashes), 10-20% for traces (cost control), dynamic rates for high-volume endpoints. Consider client-side sampling with beforeSend returning null for sampled-out events.&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Q: How do you prevent error grouping issues?&lt;/strong&gt;&lt;br/&gt;A: Custom fingerprinting for dynamic error messages (e.g., ChunkLoadError with hash). Group by error type + component stack, not just message. Regular review of "similar issues" suggestions.&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Q: How do you manage alert fatigue?&lt;/strong&gt;&lt;br/&gt;A: Alert on rate of change, not absolute counts. Set regression alerts for new errors in releases. Use crash-free session rate (target 99.5%+) as key metric. Route to on-call only for P0 (affects &gt;5% users).&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Q: How do you ensure GDPR compliance?&lt;/strong&gt;&lt;br/&gt;A: Client-side PII scrubbing in beforeSend, never send user content in extra/tags. Use pseudonymous user IDs, not emails. Sentry data retention settings. Document data processing agreement.&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Q: How do you debug Hermes crashes?&lt;/strong&gt;&lt;br/&gt;A: Hermes uses bytecode, so standard source maps aren't enough. Must upload Hermes source maps during build. Use react-native-bundle with --sourcemap-output and upload via sentry-cli with correct dist version.&lt;/li&gt;
-            &lt;/ul&gt;
+            <h5>Interview Discussion Points</h5>
+            <ul>
+                <li><strong>Q: How do you handle error sampling at scale?</strong><br/>A: Use tiered sampling - 100% for errors (never miss crashes), 10-20% for traces (cost control), dynamic rates for high-volume endpoints. Consider client-side sampling with beforeSend returning null for sampled-out events.</li>
+                <li><strong>Q: How do you prevent error grouping issues?</strong><br/>A: Custom fingerprinting for dynamic error messages (e.g., ChunkLoadError with hash). Group by error type + component stack, not just message. Regular review of "similar issues" suggestions.</li>
+                <li><strong>Q: How do you manage alert fatigue?</strong><br/>A: Alert on rate of change, not absolute counts. Set regression alerts for new errors in releases. Use crash-free session rate (target 99.5%+) as key metric. Route to on-call only for P0 (affects >5% users).</li>
+                <li><strong>Q: How do you ensure GDPR compliance?</strong><br/>A: Client-side PII scrubbing in beforeSend, never send user content in extra/tags. Use pseudonymous user IDs, not emails. Sentry data retention settings. Document data processing agreement.</li>
+                <li><strong>Q: How do you debug Hermes crashes?</strong><br/>A: Hermes uses bytecode, so standard source maps aren't enough. Must upload Hermes source maps during build. Use react-native-bundle with --sourcemap-output and upload via sentry-cli with correct dist version.</li>
+            </ul>
 
-            &lt;h5&gt;Library Recommendations&lt;/h5&gt;
-            &lt;table&gt;
-                &lt;tr&gt;&lt;th&gt;Concern&lt;/th&gt;&lt;th&gt;Library&lt;/th&gt;&lt;th&gt;Rationale&lt;/th&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Error Tracking&lt;/td&gt;&lt;td&gt;@sentry/react-native&lt;/td&gt;&lt;td&gt;Comprehensive JS + native crash support, source maps&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Performance APM&lt;/td&gt;&lt;td&gt;Sentry Performance&lt;/td&gt;&lt;td&gt;Transaction tracing, slow frame detection&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Firebase Alternative&lt;/td&gt;&lt;td&gt;@react-native-firebase/crashlytics&lt;/td&gt;&lt;td&gt;Free, good native crash support, Firebase integration&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Network Logging&lt;/td&gt;&lt;td&gt;Reactotron&lt;/td&gt;&lt;td&gt;Development debugging, network inspector&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Release Management&lt;/td&gt;&lt;td&gt;sentry-cli&lt;/td&gt;&lt;td&gt;Symbol upload, release creation, commit tracking&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Hermes Profiling&lt;/td&gt;&lt;td&gt;react-native-performance&lt;/td&gt;&lt;td&gt;Startup timing, Hermes-specific metrics&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Error Boundaries&lt;/td&gt;&lt;td&gt;react-error-boundary&lt;/td&gt;&lt;td&gt;Declarative error boundaries with reset&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Session Replay&lt;/td&gt;&lt;td&gt;Sentry Session Replay&lt;/td&gt;&lt;td&gt;Visual reproduction of errors (optional)&lt;/td&gt;&lt;/tr&gt;
-            &lt;/table&gt;
+            <h5>Library Recommendations</h5>
+            <table>
+                <tr><th>Concern</th><th>Library</th><th>Rationale</th></tr>
+                <tr><td>Error Tracking</td><td>@sentry/react-native</td><td>Comprehensive JS + native crash support, source maps</td></tr>
+                <tr><td>Performance APM</td><td>Sentry Performance</td><td>Transaction tracing, slow frame detection</td></tr>
+                <tr><td>Firebase Alternative</td><td>@react-native-firebase/crashlytics</td><td>Free, good native crash support, Firebase integration</td></tr>
+                <tr><td>Network Logging</td><td>Reactotron</td><td>Development debugging, network inspector</td></tr>
+                <tr><td>Release Management</td><td>sentry-cli</td><td>Symbol upload, release creation, commit tracking</td></tr>
+                <tr><td>Hermes Profiling</td><td>react-native-performance</td><td>Startup timing, Hermes-specific metrics</td></tr>
+                <tr><td>Error Boundaries</td><td>react-error-boundary</td><td>Declarative error boundaries with reset</td></tr>
+                <tr><td>Session Replay</td><td>Sentry Session Replay</td><td>Visual reproduction of errors (optional)</td></tr>
+            </table>
         `
      },
     {
@@ -18703,54 +18703,54 @@ jobs:
         difficulty: "advanced",
         seniority: "senior",
         answer: `
-            &lt;h4&gt;R - Requirements Exploration&lt;/h4&gt;
+            <h4>R - Requirements Exploration</h4>
 
-            &lt;h5&gt;Clarifying Questions to Ask&lt;/h5&gt;
-            &lt;ul&gt;
-                &lt;li&gt;&lt;strong&gt;Flag types:&lt;/strong&gt; Boolean only, or also string/number/JSON payloads?&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Targeting complexity:&lt;/strong&gt; Simple percentage rollout or complex user attribute targeting?&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Update latency:&lt;/strong&gt; Real-time updates needed or periodic polling acceptable?&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Experiment types:&lt;/strong&gt; A/B only or multivariate (A/B/C/n)?&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Analytics integration:&lt;/strong&gt; Which platforms (Amplitude, Mixpanel, custom)?&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Self-hosted vs SaaS:&lt;/strong&gt; Build custom or use LaunchDarkly/Statsig/GrowthBook?&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Bucketing requirements:&lt;/strong&gt; Sticky assignment across sessions? Cross-platform consistency?&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Kill switch latency:&lt;/strong&gt; How fast must emergency flag changes propagate?&lt;/li&gt;
-            &lt;/ul&gt;
+            <h5>Clarifying Questions to Ask</h5>
+            <ul>
+                <li><strong>Flag types:</strong> Boolean only, or also string/number/JSON payloads?</li>
+                <li><strong>Targeting complexity:</strong> Simple percentage rollout or complex user attribute targeting?</li>
+                <li><strong>Update latency:</strong> Real-time updates needed or periodic polling acceptable?</li>
+                <li><strong>Experiment types:</strong> A/B only or multivariate (A/B/C/n)?</li>
+                <li><strong>Analytics integration:</strong> Which platforms (Amplitude, Mixpanel, custom)?</li>
+                <li><strong>Self-hosted vs SaaS:</strong> Build custom or use LaunchDarkly/Statsig/GrowthBook?</li>
+                <li><strong>Bucketing requirements:</strong> Sticky assignment across sessions? Cross-platform consistency?</li>
+                <li><strong>Kill switch latency:</strong> How fast must emergency flag changes propagate?</li>
+            </ul>
 
-            &lt;h5&gt;Functional Requirements&lt;/h5&gt;
-            &lt;ul&gt;
-                &lt;li&gt;Boolean feature flags for gradual rollout and kill switches&lt;/li&gt;
-                &lt;li&gt;Multivariate experiments (A/B/n testing) with variant assignment and payloads&lt;/li&gt;
-                &lt;li&gt;User targeting by attributes (country, subscription tier, device type, app version)&lt;/li&gt;
-                &lt;li&gt;Percentage-based rollouts with consistent bucketing (same user = same bucket)&lt;/li&gt;
-                &lt;li&gt;Real-time flag updates via SSE/WebSocket without app restart&lt;/li&gt;
-                &lt;li&gt;Exposure tracking for experiment analysis (who saw what variant)&lt;/li&gt;
-                &lt;li&gt;Analytics integration for conversion metrics (Amplitude, Mixpanel)&lt;/li&gt;
-                &lt;li&gt;Admin dashboard for flag management and experiment configuration&lt;/li&gt;
-            &lt;/ul&gt;
+            <h5>Functional Requirements</h5>
+            <ul>
+                <li>Boolean feature flags for gradual rollout and kill switches</li>
+                <li>Multivariate experiments (A/B/n testing) with variant assignment and payloads</li>
+                <li>User targeting by attributes (country, subscription tier, device type, app version)</li>
+                <li>Percentage-based rollouts with consistent bucketing (same user = same bucket)</li>
+                <li>Real-time flag updates via SSE/WebSocket without app restart</li>
+                <li>Exposure tracking for experiment analysis (who saw what variant)</li>
+                <li>Analytics integration for conversion metrics (Amplitude, Mixpanel)</li>
+                <li>Admin dashboard for flag management and experiment configuration</li>
+            </ul>
 
-            &lt;h5&gt;Non-Functional Requirements&lt;/h5&gt;
-            &lt;ul&gt;
-                &lt;li&gt;&lt;strong&gt;Startup:&lt;/strong&gt; Zero blocking on app startup (cache-first, fetch in background)&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Consistency:&lt;/strong&gt; Same variant across sessions and devices for same user&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Offline:&lt;/strong&gt; Full functionality with cached flag values when offline&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Performance:&lt;/strong&gt; Sub-millisecond flag evaluation (local computation only)&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Latency:&lt;/strong&gt; Flag updates propagate to all clients within 5 seconds&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Reliability:&lt;/strong&gt; Graceful degradation to defaults if service unavailable&lt;/li&gt;
-            &lt;/ul&gt;
+            <h5>Non-Functional Requirements</h5>
+            <ul>
+                <li><strong>Startup:</strong> Zero blocking on app startup (cache-first, fetch in background)</li>
+                <li><strong>Consistency:</strong> Same variant across sessions and devices for same user</li>
+                <li><strong>Offline:</strong> Full functionality with cached flag values when offline</li>
+                <li><strong>Performance:</strong> Sub-millisecond flag evaluation (local computation only)</li>
+                <li><strong>Latency:</strong> Flag updates propagate to all clients within 5 seconds</li>
+                <li><strong>Reliability:</strong> Graceful degradation to defaults if service unavailable</li>
+            </ul>
 
-            &lt;h5&gt;Out of Scope&lt;/h5&gt;
-            &lt;ul&gt;
-                &lt;li&gt;Custom analytics backend (will integrate with existing)&lt;/li&gt;
-                &lt;li&gt;Statistical significance calculation (use external tools)&lt;/li&gt;
-                &lt;li&gt;Multi-armed bandit algorithms&lt;/li&gt;
-                &lt;li&gt;Backend feature flags (focus on mobile client)&lt;/li&gt;
-            &lt;/ul&gt;
+            <h5>Out of Scope</h5>
+            <ul>
+                <li>Custom analytics backend (will integrate with existing)</li>
+                <li>Statistical significance calculation (use external tools)</li>
+                <li>Multi-armed bandit algorithms</li>
+                <li>Backend feature flags (focus on mobile client)</li>
+            </ul>
 
-            &lt;h4&gt;A - Architecture / High-level Design&lt;/h4&gt;
+            <h4>A - Architecture / High-level Design</h4>
 
-            &lt;h5&gt;System Architecture Diagram&lt;/h5&gt;
-            &lt;pre&gt;&lt;code&gt;┌─────────────────────────────────────────────────────────────────┐
+            <h5>System Architecture Diagram</h5>
+            <pre><code>┌─────────────────────────────────────────────────────────────────┐
 │              FEATURE FLAG &amp;amp; EXPERIMENTATION PLATFORM             │
 ├─────────────────────────────────────────────────────────────────┤
 │                                                                  │
@@ -18803,36 +18803,36 @@ jobs:
 │  │  │                              → Significance Testing  │ │  │
 │  │  └──────────────────────────────────────────────────────┘ │  │
 │  └───────────────────────────────────────────────────────────┘  │
-└─────────────────────────────────────────────────────────────────┘&lt;/code&gt;&lt;/pre&gt;
+└─────────────────────────────────────────────────────────────────┘</code></pre>
 
-            &lt;h5&gt;Component Overview&lt;/h5&gt;
-            &lt;table&gt;
-                &lt;tr&gt;&lt;th&gt;Component&lt;/th&gt;&lt;th&gt;Responsibility&lt;/th&gt;&lt;th&gt;Technology&lt;/th&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Flag Cache&lt;/td&gt;&lt;td&gt;Persist flags for offline and instant startup&lt;/td&gt;&lt;td&gt;MMKV (fast key-value)&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Local Evaluation Engine&lt;/td&gt;&lt;td&gt;Evaluate targeting rules client-side&lt;/td&gt;&lt;td&gt;TypeScript rule engine&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Streaming Client&lt;/td&gt;&lt;td&gt;Receive real-time flag updates&lt;/td&gt;&lt;td&gt;SSE (EventSource)&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Exposure Tracker&lt;/td&gt;&lt;td&gt;Log which users saw which variants&lt;/td&gt;&lt;td&gt;Batched event queue&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Bucketing Service&lt;/td&gt;&lt;td&gt;Consistent user-to-variant assignment&lt;/td&gt;&lt;td&gt;MurmurHash3 (deterministic)&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;React Hooks&lt;/td&gt;&lt;td&gt;Reactive flag access in components&lt;/td&gt;&lt;td&gt;Zustand + React hooks&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Analytics Bridge&lt;/td&gt;&lt;td&gt;Send experiment data to analytics&lt;/td&gt;&lt;td&gt;Amplitude/Mixpanel SDK&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Backend API&lt;/td&gt;&lt;td&gt;Serve flag configs, stream updates&lt;/td&gt;&lt;td&gt;REST + SSE endpoints&lt;/td&gt;&lt;/tr&gt;
-            &lt;/table&gt;
+            <h5>Component Overview</h5>
+            <table>
+                <tr><th>Component</th><th>Responsibility</th><th>Technology</th></tr>
+                <tr><td>Flag Cache</td><td>Persist flags for offline and instant startup</td><td>MMKV (fast key-value)</td></tr>
+                <tr><td>Local Evaluation Engine</td><td>Evaluate targeting rules client-side</td><td>TypeScript rule engine</td></tr>
+                <tr><td>Streaming Client</td><td>Receive real-time flag updates</td><td>SSE (EventSource)</td></tr>
+                <tr><td>Exposure Tracker</td><td>Log which users saw which variants</td><td>Batched event queue</td></tr>
+                <tr><td>Bucketing Service</td><td>Consistent user-to-variant assignment</td><td>MurmurHash3 (deterministic)</td></tr>
+                <tr><td>React Hooks</td><td>Reactive flag access in components</td><td>Zustand + React hooks</td></tr>
+                <tr><td>Analytics Bridge</td><td>Send experiment data to analytics</td><td>Amplitude/Mixpanel SDK</td></tr>
+                <tr><td>Backend API</td><td>Serve flag configs, stream updates</td><td>REST + SSE endpoints</td></tr>
+            </table>
 
-            &lt;h5&gt;Key Architecture Decisions&lt;/h5&gt;
-            &lt;table&gt;
-                &lt;tr&gt;&lt;th&gt;Decision&lt;/th&gt;&lt;th&gt;Choice&lt;/th&gt;&lt;th&gt;Rationale&lt;/th&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Flag evaluation&lt;/td&gt;&lt;td&gt;Client-side&lt;/td&gt;&lt;td&gt;Sub-ms latency, works offline, no network round-trip&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Bucketing algorithm&lt;/td&gt;&lt;td&gt;MurmurHash3&lt;/td&gt;&lt;td&gt;Fast, uniform distribution, deterministic across platforms&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Update mechanism&lt;/td&gt;&lt;td&gt;SSE (Server-Sent Events)&lt;/td&gt;&lt;td&gt;Lightweight, auto-reconnect, one-way push sufficient&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Cache storage&lt;/td&gt;&lt;td&gt;MMKV&lt;/td&gt;&lt;td&gt;Fast synchronous reads, reliable persistence&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;State management&lt;/td&gt;&lt;td&gt;Zustand with selectors&lt;/td&gt;&lt;td&gt;Fine-grained subscriptions, minimal re-renders&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Exposure tracking&lt;/td&gt;&lt;td&gt;Batched queue (10s flush)&lt;/td&gt;&lt;td&gt;Reduce network calls, survive app close&lt;/td&gt;&lt;/tr&gt;
-            &lt;/table&gt;
+            <h5>Key Architecture Decisions</h5>
+            <table>
+                <tr><th>Decision</th><th>Choice</th><th>Rationale</th></tr>
+                <tr><td>Flag evaluation</td><td>Client-side</td><td>Sub-ms latency, works offline, no network round-trip</td></tr>
+                <tr><td>Bucketing algorithm</td><td>MurmurHash3</td><td>Fast, uniform distribution, deterministic across platforms</td></tr>
+                <tr><td>Update mechanism</td><td>SSE (Server-Sent Events)</td><td>Lightweight, auto-reconnect, one-way push sufficient</td></tr>
+                <tr><td>Cache storage</td><td>MMKV</td><td>Fast synchronous reads, reliable persistence</td></tr>
+                <tr><td>State management</td><td>Zustand with selectors</td><td>Fine-grained subscriptions, minimal re-renders</td></tr>
+                <tr><td>Exposure tracking</td><td>Batched queue (10s flush)</td><td>Reduce network calls, survive app close</td></tr>
+            </table>
 
-            &lt;h4&gt;D - Data Model / Core Entities&lt;/h4&gt;
+            <h4>D - Data Model / Core Entities</h4>
 
-            &lt;h5&gt;Core Entities&lt;/h5&gt;
-            &lt;pre&gt;&lt;code&gt;// types/featureFlags.ts
+            <h5>Core Entities</h5>
+            <pre><code>// types/featureFlags.ts
 
 /**
  * Represents a feature flag with targeting rules
@@ -18860,7 +18860,7 @@ interface Experiment {
 interface Variant {
   key: string;
   weight: number; // 0-100 percentage
-  payload?: Record&lt;string, unknown&gt;;
+  payload?: Record<string, unknown>;
 }
 
 interface TargetingRule {
@@ -18879,7 +18879,7 @@ interface Condition {
 interface UserContext {
   userId: string;
   deviceId: string;
-  attributes: Record&lt;string, unknown&gt;;
+  attributes: Record<string, unknown>;
 }
 
 interface ExposureEvent {
@@ -18897,16 +18897,16 @@ import { subscribeWithSelector } from 'zustand/middleware';
 import murmurhash from 'murmurhash';
 
 interface FlagState {
-  flags: Map&lt;string, FeatureFlag&gt;;
-  experiments: Map&lt;string, Experiment&gt;;
-  assignments: Map&lt;string, string&gt;; // experiment key -&gt; variant key
+  flags: Map<string, FeatureFlag>;
+  experiments: Map<string, Experiment>;
+  assignments: Map<string, string>; // experiment key -> variant key
   userContext: UserContext | null;
   isInitialized: boolean;
   lastFetchedAt: number;
 }
 
-const useFlagStore = create&lt;FlagState&gt;()(
-  subscribeWithSelector((set) =&gt; ({
+const useFlagStore = create<FlagState>()(
+  subscribeWithSelector((set) => ({
     flags: new Map(),
     experiments: new Map(),
     assignments: new Map(),
@@ -18922,7 +18922,7 @@ class FeatureFlagSDK {
   private exposureQueue: ExposureEvent[] = [];
   private flushInterval: NodeJS.Timer | null = null;
 
-  async initialize(userContext: UserContext): Promise&lt;void&gt; {
+  async initialize(userContext: UserContext): Promise<void> {
     useFlagStore.setState({ userContext });
 
     // 1. Load cached flags immediately (non-blocking)
@@ -18939,7 +18939,7 @@ class FeatureFlagSDK {
     this.startStreaming();
 
     // 4. Start exposure event flushing
-    this.flushInterval = setInterval(() =&gt; this.flushExposures(), 10000);
+    this.flushInterval = setInterval(() => this.flushExposures(), 10000);
 
     useFlagStore.setState({ isInitialized: true });
   }
@@ -18956,7 +18956,7 @@ class FeatureFlagSDK {
     }
   }
 
-  private async fetchFlags(): Promise&lt;void&gt; {
+  private async fetchFlags(): Promise<void> {
     const { userContext } = useFlagStore.getState();
     if (!userContext) return;
 
@@ -18990,7 +18990,7 @@ class FeatureFlagSDK {
       \`\${API_URL}/flags/stream?userId=\${userContext.userId}\`
     );
 
-    this.eventSource.onmessage = (event) =&gt; {
+    this.eventSource.onmessage = (event) => {
       const update = JSON.parse(event.data);
       if (update.type === 'flag_update') {
         const { flags } = useFlagStore.getState();
@@ -19013,7 +19013,7 @@ class FeatureFlagSDK {
   }
 
   // Multivariate flag evaluation
-  getVariant&lt;T&gt;(flagKey: string, defaultValue: T): T {
+  getVariant<T>(flagKey: string, defaultValue: T): T {
     const { flags, userContext } = useFlagStore.getState();
     const flag = flags.get(flagKey);
 
@@ -19045,7 +19045,7 @@ class FeatureFlagSDK {
 
     // Determine if user is in experiment allocation
     const allocationHash = this.hash(\`\${experimentKey}:\${userContext.userId}:allocation\`);
-    if (allocationHash &gt; experiment.allocation) {
+    if (allocationHash > experiment.allocation) {
       return null; // User not in experiment
     }
 
@@ -19072,7 +19072,7 @@ class FeatureFlagSDK {
         // Check percentage rollout
         if (rule.percentage !== undefined) {
           const hash = this.hash(\`\${rule.id}:\${context.userId}\`);
-          if (hash &gt; rule.percentage) continue;
+          if (hash > rule.percentage) continue;
         }
         return rule.variation;
       }
@@ -19081,13 +19081,13 @@ class FeatureFlagSDK {
   }
 
   private matchesConditions(conditions: Condition[], context: UserContext): boolean {
-    return conditions.every(condition =&gt; {
+    return conditions.every(condition => {
       const value = context.attributes[condition.attribute];
       switch (condition.operator) {
         case 'eq': return value === condition.value;
         case 'neq': return value !== condition.value;
-        case 'gt': return (value as number) &gt; (condition.value as number);
-        case 'lt': return (value as number) &lt; (condition.value as number);
+        case 'gt': return (value as number) > (condition.value as number);
+        case 'lt': return (value as number) < (condition.value as number);
         case 'contains': return String(value).includes(String(condition.value));
         case 'in': return (condition.value as unknown[]).includes(value);
         case 'regex': return new RegExp(condition.value as string).test(String(value));
@@ -19105,7 +19105,7 @@ class FeatureFlagSDK {
     let cumulative = 0;
     for (const variant of variants) {
       cumulative += variant.weight;
-      if (hash &lt; cumulative) return variant;
+      if (hash < cumulative) return variant;
     }
     return variants[variants.length - 1];
   }
@@ -19123,7 +19123,7 @@ class FeatureFlagSDK {
     });
   }
 
-  private async flushExposures(): Promise&lt;void&gt; {
+  private async flushExposures(): Promise<void> {
     if (this.exposureQueue.length === 0) return;
 
     const events = [...this.exposureQueue];
@@ -19148,10 +19148,10 @@ class FeatureFlagSDK {
   }
 }
 
-export const featureFlags = new FeatureFlagSDK();&lt;/code&gt;&lt;/pre&gt;
+export const featureFlags = new FeatureFlagSDK();</code></pre>
 
-            &lt;h5&gt;Entity Relationships&lt;/h5&gt;
-            &lt;pre&gt;&lt;code&gt;┌─────────────────────────────────────────────────────────────────┐
+            <h5>Entity Relationships</h5>
+            <pre><code>┌─────────────────────────────────────────────────────────────────┐
 │                FEATURE FLAG ENTITY MODEL                         │
 └─────────────────────────────────────────────────────────────────┘
 
@@ -19197,23 +19197,23 @@ UserContext.userId ──▶ MurmurHash3(userId + flagKey)
                       Compare to rule percentages
                               │
                               ▼
-                      Assign variant (deterministic)&lt;/code&gt;&lt;/pre&gt;
+                      Assign variant (deterministic)</code></pre>
 
-            &lt;h5&gt;Storage Strategy&lt;/h5&gt;
-            &lt;table&gt;
-                &lt;tr&gt;&lt;th&gt;Data Type&lt;/th&gt;&lt;th&gt;Storage&lt;/th&gt;&lt;th&gt;Rationale&lt;/th&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Flag Definitions&lt;/td&gt;&lt;td&gt;MMKV (persistent cache)&lt;/td&gt;&lt;td&gt;Instant startup, offline support&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Experiment Configs&lt;/td&gt;&lt;td&gt;MMKV (persistent cache)&lt;/td&gt;&lt;td&gt;Consistent with flags, same access pattern&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;User Assignments&lt;/td&gt;&lt;td&gt;MMKV (persistent)&lt;/td&gt;&lt;td&gt;Sticky assignments across sessions&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Active State&lt;/td&gt;&lt;td&gt;Zustand (in-memory)&lt;/td&gt;&lt;td&gt;Reactive updates, fast access&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Exposure Queue&lt;/td&gt;&lt;td&gt;In-memory array + flush&lt;/td&gt;&lt;td&gt;Batch for efficiency, acceptable to lose on crash&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;User Context&lt;/td&gt;&lt;td&gt;Zustand (in-memory)&lt;/td&gt;&lt;td&gt;Changes on login/logout, no persistence needed&lt;/td&gt;&lt;/tr&gt;
-            &lt;/table&gt;
+            <h5>Storage Strategy</h5>
+            <table>
+                <tr><th>Data Type</th><th>Storage</th><th>Rationale</th></tr>
+                <tr><td>Flag Definitions</td><td>MMKV (persistent cache)</td><td>Instant startup, offline support</td></tr>
+                <tr><td>Experiment Configs</td><td>MMKV (persistent cache)</td><td>Consistent with flags, same access pattern</td></tr>
+                <tr><td>User Assignments</td><td>MMKV (persistent)</td><td>Sticky assignments across sessions</td></tr>
+                <tr><td>Active State</td><td>Zustand (in-memory)</td><td>Reactive updates, fast access</td></tr>
+                <tr><td>Exposure Queue</td><td>In-memory array + flush</td><td>Batch for efficiency, acceptable to lose on crash</td></tr>
+                <tr><td>User Context</td><td>Zustand (in-memory)</td><td>Changes on login/logout, no persistence needed</td></tr>
+            </table>
 
-            &lt;h4&gt;I - Interface Definition (API)&lt;/h4&gt;
+            <h4>I - Interface Definition (API)</h4>
 
-            &lt;h5&gt;React Hooks Interface&lt;/h5&gt;
-            &lt;pre&gt;&lt;code&gt;// React hooks for feature flags and experiments
+            <h5>React Hooks Interface</h5>
+            <pre><code>// React hooks for feature flags and experiments
 import { useEffect, useMemo, useRef } from 'react';
 import { useSyncExternalStore } from 'react';
 
@@ -19222,15 +19222,15 @@ export function useFeatureFlag(flagKey: string, defaultValue = false): boolean {
   const trackedRef = useRef(false);
 
   const value = useSyncExternalStore(
-    (callback) =&gt; useFlagStore.subscribe(
-      (state) =&gt; state.flags.get(flagKey),
+    (callback) => useFlagStore.subscribe(
+      (state) => state.flags.get(flagKey),
       callback
     ),
-    () =&gt; featureFlags.isEnabled(flagKey, defaultValue),
-    () =&gt; defaultValue // Server snapshot for SSR
+    () => featureFlags.isEnabled(flagKey, defaultValue),
+    () => defaultValue // Server snapshot for SSR
   );
 
-  useEffect(() =&gt; {
+  useEffect(() => {
     if (!trackedRef.current) {
       trackedRef.current = true;
       // Track flag exposure once per component mount
@@ -19245,19 +19245,19 @@ export function useFeatureFlag(flagKey: string, defaultValue = false): boolean {
 }
 
 // Hook for multivariate flags
-export function useVariant&lt;T&gt;(flagKey: string, defaultValue: T): T {
+export function useVariant<T>(flagKey: string, defaultValue: T): T {
   const trackedRef = useRef(false);
 
   const value = useSyncExternalStore(
-    (callback) =&gt; useFlagStore.subscribe(
-      (state) =&gt; state.flags.get(flagKey),
+    (callback) => useFlagStore.subscribe(
+      (state) => state.flags.get(flagKey),
       callback
     ),
-    () =&gt; featureFlags.getVariant(flagKey, defaultValue),
-    () =&gt; defaultValue
+    () => featureFlags.getVariant(flagKey, defaultValue),
+    () => defaultValue
   );
 
-  useEffect(() =&gt; {
+  useEffect(() => {
     if (!trackedRef.current) {
       trackedRef.current = true;
       analytics.track('variant_exposure', { flag_key: flagKey, variant: value });
@@ -19275,15 +19275,15 @@ export function useExperiment(experimentKey: string): {
   const trackedRef = useRef(false);
 
   const variant = useSyncExternalStore(
-    (callback) =&gt; useFlagStore.subscribe(
-      (state) =&gt; state.experiments.get(experimentKey),
+    (callback) => useFlagStore.subscribe(
+      (state) => state.experiments.get(experimentKey),
       callback
     ),
-    () =&gt; featureFlags.getExperimentVariant(experimentKey),
-    () =&gt; null
+    () => featureFlags.getExperimentVariant(experimentKey),
+    () => null
   );
 
-  useEffect(() =&gt; {
+  useEffect(() => {
     if (!trackedRef.current &amp;&amp; variant) {
       trackedRef.current = true;
       analytics.track('experiment_exposure', {
@@ -19300,19 +19300,19 @@ export function useExperiment(experimentKey: string): {
 }
 
 // Higher-order component for feature gating
-export function withFeatureFlag&lt;P extends object&gt;(
-  WrappedComponent: React.ComponentType&lt;P&gt;,
+export function withFeatureFlag<P extends object>(
+  WrappedComponent: React.ComponentType<P>,
   flagKey: string,
-  FallbackComponent?: React.ComponentType&lt;P&gt;
-): React.FC&lt;P&gt; {
+  FallbackComponent?: React.ComponentType<P>
+): React.FC<P> {
   return function FeatureGatedComponent(props: P) {
     const isEnabled = useFeatureFlag(flagKey);
 
     if (!isEnabled) {
-      return FallbackComponent ? &lt;FallbackComponent {...props} /&gt; : null;
+      return FallbackComponent ? <FallbackComponent {...props} /> : null;
     }
 
-    return &lt;WrappedComponent {...props} /&gt;;
+    return <WrappedComponent {...props} />;
   };
 }
 
@@ -19323,25 +19323,25 @@ function CheckoutScreen() {
   const checkoutTheme = useVariant('checkout_theme', 'default');
 
   if (!showNewCheckout) {
-    return &lt;LegacyCheckout /&gt;;
+    return <LegacyCheckout />;
   }
 
   if (isInExperiment) {
     switch (variant) {
       case 'single_page':
-        return &lt;SinglePageCheckout theme={checkoutTheme} /&gt;;
+        return <SinglePageCheckout theme={checkoutTheme} />;
       case 'multi_step':
-        return &lt;MultiStepCheckout theme={checkoutTheme} /&gt;;
+        return <MultiStepCheckout theme={checkoutTheme} />;
       default:
-        return &lt;DefaultCheckout theme={checkoutTheme} /&gt;;
+        return <DefaultCheckout theme={checkoutTheme} />;
     }
   }
 
-  return &lt;DefaultCheckout theme={checkoutTheme} /&gt;;
-}&lt;/code&gt;&lt;/pre&gt;
+  return <DefaultCheckout theme={checkoutTheme} />;
+}</code></pre>
 
-            &lt;h5&gt;Targeting Rule Examples&lt;/h5&gt;
-            &lt;pre&gt;&lt;code&gt;// Flag configuration examples
+            <h5>Targeting Rule Examples</h5>
+            <pre><code>// Flag configuration examples
 
 // 1. Gradual percentage rollout
 const gradualRollout: FeatureFlag = {
@@ -19430,7 +19430,7 @@ class KillSwitch {
     this.sdk = sdk;
   }
 
-  async disable(flagKey: string, reason: string): Promise&lt;void&gt; {
+  async disable(flagKey: string, reason: string): Promise<void> {
     await fetch(\`\${API_URL}/flags/\${flagKey}/kill\`, {
       method: 'POST',
       headers: {
@@ -19447,131 +19447,131 @@ class KillSwitch {
     // Force refresh all clients
     await this.sdk.forceRefresh();
   }
-}&lt;/code&gt;&lt;/pre&gt;
+}</code></pre>
 
-            &lt;h4&gt;O - Optimizations and Deep Dive&lt;/h4&gt;
+            <h4>O - Optimizations and Deep Dive</h4>
 
-            &lt;h5&gt;Performance Optimizations&lt;/h5&gt;
-            &lt;ul&gt;
-                &lt;li&gt;&lt;strong&gt;Cache-first architecture:&lt;/strong&gt;
-                    &lt;ul&gt;
-                        &lt;li&gt;Problem: Network fetch blocks app startup&lt;/li&gt;
-                        &lt;li&gt;Solution: Load cached flags from MMKV synchronously, fetch fresh in background&lt;/li&gt;
-                        &lt;li&gt;Impact: Zero startup delay, flags available on first render&lt;/li&gt;
-                    &lt;/ul&gt;
-                &lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Client-side evaluation:&lt;/strong&gt;
-                    &lt;ul&gt;
-                        &lt;li&gt;Problem: Server-side evaluation adds network latency per flag check&lt;/li&gt;
-                        &lt;li&gt;Solution: Download rules once, evaluate locally using murmurhash&lt;/li&gt;
-                        &lt;li&gt;Impact: Sub-millisecond flag checks, works offline&lt;/li&gt;
-                    &lt;/ul&gt;
-                &lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Exposure batching:&lt;/strong&gt;
-                    &lt;ul&gt;
-                        &lt;li&gt;Problem: Tracking every flag check floods analytics&lt;/li&gt;
-                        &lt;li&gt;Solution: Queue exposures, flush every 10s or on app background&lt;/li&gt;
-                        &lt;li&gt;Impact: 90% reduction in analytics API calls&lt;/li&gt;
-                    &lt;/ul&gt;
-                &lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;SSE streaming with reconnection:&lt;/strong&gt;
-                    &lt;ul&gt;
-                        &lt;li&gt;Problem: Polling is inefficient, WebSocket is heavyweight&lt;/li&gt;
-                        &lt;li&gt;Solution: SSE (EventSource) with exponential backoff reconnection&lt;/li&gt;
-                        &lt;li&gt;Impact: Real-time updates with minimal battery/network impact&lt;/li&gt;
-                    &lt;/ul&gt;
-                &lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Selector-based subscriptions:&lt;/strong&gt;
-                    &lt;ul&gt;
-                        &lt;li&gt;Problem: All components re-render when any flag changes&lt;/li&gt;
-                        &lt;li&gt;Solution: Zustand with subscribeWithSelector, useSyncExternalStore per flag&lt;/li&gt;
-                        &lt;li&gt;Impact: Only components using changed flag re-render&lt;/li&gt;
-                    &lt;/ul&gt;
-                &lt;/li&gt;
-            &lt;/ul&gt;
+            <h5>Performance Optimizations</h5>
+            <ul>
+                <li><strong>Cache-first architecture:</strong>
+                    <ul>
+                        <li>Problem: Network fetch blocks app startup</li>
+                        <li>Solution: Load cached flags from MMKV synchronously, fetch fresh in background</li>
+                        <li>Impact: Zero startup delay, flags available on first render</li>
+                    </ul>
+                </li>
+                <li><strong>Client-side evaluation:</strong>
+                    <ul>
+                        <li>Problem: Server-side evaluation adds network latency per flag check</li>
+                        <li>Solution: Download rules once, evaluate locally using murmurhash</li>
+                        <li>Impact: Sub-millisecond flag checks, works offline</li>
+                    </ul>
+                </li>
+                <li><strong>Exposure batching:</strong>
+                    <ul>
+                        <li>Problem: Tracking every flag check floods analytics</li>
+                        <li>Solution: Queue exposures, flush every 10s or on app background</li>
+                        <li>Impact: 90% reduction in analytics API calls</li>
+                    </ul>
+                </li>
+                <li><strong>SSE streaming with reconnection:</strong>
+                    <ul>
+                        <li>Problem: Polling is inefficient, WebSocket is heavyweight</li>
+                        <li>Solution: SSE (EventSource) with exponential backoff reconnection</li>
+                        <li>Impact: Real-time updates with minimal battery/network impact</li>
+                    </ul>
+                </li>
+                <li><strong>Selector-based subscriptions:</strong>
+                    <ul>
+                        <li>Problem: All components re-render when any flag changes</li>
+                        <li>Solution: Zustand with subscribeWithSelector, useSyncExternalStore per flag</li>
+                        <li>Impact: Only components using changed flag re-render</li>
+                    </ul>
+                </li>
+            </ul>
 
-            &lt;h5&gt;Platform-Specific Considerations&lt;/h5&gt;
-            &lt;table&gt;
-                &lt;tr&gt;&lt;th&gt;Aspect&lt;/th&gt;&lt;th&gt;iOS&lt;/th&gt;&lt;th&gt;Android&lt;/th&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Background refresh&lt;/td&gt;&lt;td&gt;BGAppRefreshTask (limited)&lt;/td&gt;&lt;td&gt;WorkManager (more flexible)&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;SSE connection&lt;/td&gt;&lt;td&gt;URLSession background config&lt;/td&gt;&lt;td&gt;Foreground service for long-lived&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Device ID&lt;/td&gt;&lt;td&gt;identifierForVendor (resets on uninstall)&lt;/td&gt;&lt;td&gt;Android ID (persistent)&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Cache location&lt;/td&gt;&lt;td&gt;Documents directory (backed up)&lt;/td&gt;&lt;td&gt;Internal storage (app-private)&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;App state detection&lt;/td&gt;&lt;td&gt;UIApplication.shared.applicationState&lt;/td&gt;&lt;td&gt;ProcessLifecycleOwner&lt;/td&gt;&lt;/tr&gt;
-            &lt;/table&gt;
+            <h5>Platform-Specific Considerations</h5>
+            <table>
+                <tr><th>Aspect</th><th>iOS</th><th>Android</th></tr>
+                <tr><td>Background refresh</td><td>BGAppRefreshTask (limited)</td><td>WorkManager (more flexible)</td></tr>
+                <tr><td>SSE connection</td><td>URLSession background config</td><td>Foreground service for long-lived</td></tr>
+                <tr><td>Device ID</td><td>identifierForVendor (resets on uninstall)</td><td>Android ID (persistent)</td></tr>
+                <tr><td>Cache location</td><td>Documents directory (backed up)</td><td>Internal storage (app-private)</td></tr>
+                <tr><td>App state detection</td><td>UIApplication.shared.applicationState</td><td>ProcessLifecycleOwner</td></tr>
+            </table>
 
-            &lt;h5&gt;Edge Cases and Error Handling&lt;/h5&gt;
-            &lt;ol&gt;
-                &lt;li&gt;&lt;strong&gt;First-time users:&lt;/strong&gt; No cached flags on first launch. Solution: Bootstrap config bundled in app, updated on first fetch. Use conservative defaults.&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Stale assignments:&lt;/strong&gt; User assigned to variant then experiment ends. Solution: Check experiment status before returning variant, fallback to default gracefully.&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Multiple exposures:&lt;/strong&gt; Same user sees flag multiple times per session. Solution: Track per-mount with useRef, dedupe in exposure queue by flagKey+session.&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Anonymous to authenticated:&lt;/strong&gt; User signs up mid-session. Solution: Use deviceId for initial bucketing, persist assignment when userId becomes available.&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Flag cleanup debt:&lt;/strong&gt; Old flags accumulate in codebase. Solution: Add flag expiration dates, lint rules for stale flags, periodic cleanup sprints.&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Streaming disconnection:&lt;/strong&gt; SSE drops in poor network. Solution: Exponential backoff reconnection (1s, 2s, 4s...), max 30s, with jitter.&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Conflicting rules:&lt;/strong&gt; Multiple rules match same user. Solution: Rules evaluated in order, first match wins. Document rule priority in admin UI.&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Cross-platform consistency:&lt;/strong&gt; Same user gets different variant on web vs mobile. Solution: Use same bucketing algorithm (murmurhash3) and seed across all platforms.&lt;/li&gt;
-            &lt;/ol&gt;
+            <h5>Edge Cases and Error Handling</h5>
+            <ol>
+                <li><strong>First-time users:</strong> No cached flags on first launch. Solution: Bootstrap config bundled in app, updated on first fetch. Use conservative defaults.</li>
+                <li><strong>Stale assignments:</strong> User assigned to variant then experiment ends. Solution: Check experiment status before returning variant, fallback to default gracefully.</li>
+                <li><strong>Multiple exposures:</strong> Same user sees flag multiple times per session. Solution: Track per-mount with useRef, dedupe in exposure queue by flagKey+session.</li>
+                <li><strong>Anonymous to authenticated:</strong> User signs up mid-session. Solution: Use deviceId for initial bucketing, persist assignment when userId becomes available.</li>
+                <li><strong>Flag cleanup debt:</strong> Old flags accumulate in codebase. Solution: Add flag expiration dates, lint rules for stale flags, periodic cleanup sprints.</li>
+                <li><strong>Streaming disconnection:</strong> SSE drops in poor network. Solution: Exponential backoff reconnection (1s, 2s, 4s...), max 30s, with jitter.</li>
+                <li><strong>Conflicting rules:</strong> Multiple rules match same user. Solution: Rules evaluated in order, first match wins. Document rule priority in admin UI.</li>
+                <li><strong>Cross-platform consistency:</strong> Same user gets different variant on web vs mobile. Solution: Use same bucketing algorithm (murmurhash3) and seed across all platforms.</li>
+            </ol>
 
-            &lt;h5&gt;Trade-offs and Alternatives&lt;/h5&gt;
-            &lt;table&gt;
-                &lt;tr&gt;&lt;th&gt;Decision&lt;/th&gt;&lt;th&gt;Chosen&lt;/th&gt;&lt;th&gt;Alternative&lt;/th&gt;&lt;th&gt;Why Chosen&lt;/th&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Evaluation location&lt;/td&gt;&lt;td&gt;Client-side&lt;/td&gt;&lt;td&gt;Server-side&lt;/td&gt;&lt;td&gt;Speed, offline support, reduced backend load&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Update mechanism&lt;/td&gt;&lt;td&gt;SSE streaming&lt;/td&gt;&lt;td&gt;Polling / WebSocket&lt;/td&gt;&lt;td&gt;Lightweight, auto-reconnect, sufficient for one-way updates&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Bucketing algorithm&lt;/td&gt;&lt;td&gt;MurmurHash3&lt;/td&gt;&lt;td&gt;MD5 / SHA1&lt;/td&gt;&lt;td&gt;Faster, uniform distribution, 32-bit sufficient&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Build vs Buy&lt;/td&gt;&lt;td&gt;Custom SDK&lt;/td&gt;&lt;td&gt;LaunchDarkly / Statsig&lt;/td&gt;&lt;td&gt;Full control, no vendor lock-in, cost savings at scale&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Cache storage&lt;/td&gt;&lt;td&gt;MMKV&lt;/td&gt;&lt;td&gt;AsyncStorage&lt;/td&gt;&lt;td&gt;Synchronous reads critical for startup&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Exposure tracking&lt;/td&gt;&lt;td&gt;Batched queue&lt;/td&gt;&lt;td&gt;Immediate send&lt;/td&gt;&lt;td&gt;Network efficiency, acceptable latency for analytics&lt;/td&gt;&lt;/tr&gt;
-            &lt;/table&gt;
+            <h5>Trade-offs and Alternatives</h5>
+            <table>
+                <tr><th>Decision</th><th>Chosen</th><th>Alternative</th><th>Why Chosen</th></tr>
+                <tr><td>Evaluation location</td><td>Client-side</td><td>Server-side</td><td>Speed, offline support, reduced backend load</td></tr>
+                <tr><td>Update mechanism</td><td>SSE streaming</td><td>Polling / WebSocket</td><td>Lightweight, auto-reconnect, sufficient for one-way updates</td></tr>
+                <tr><td>Bucketing algorithm</td><td>MurmurHash3</td><td>MD5 / SHA1</td><td>Faster, uniform distribution, 32-bit sufficient</td></tr>
+                <tr><td>Build vs Buy</td><td>Custom SDK</td><td>LaunchDarkly / Statsig</td><td>Full control, no vendor lock-in, cost savings at scale</td></tr>
+                <tr><td>Cache storage</td><td>MMKV</td><td>AsyncStorage</td><td>Synchronous reads critical for startup</td></tr>
+                <tr><td>Exposure tracking</td><td>Batched queue</td><td>Immediate send</td><td>Network efficiency, acceptable latency for analytics</td></tr>
+            </table>
 
-            &lt;h5&gt;Testing Strategy&lt;/h5&gt;
-            &lt;ul&gt;
-                &lt;li&gt;&lt;strong&gt;Unit Tests:&lt;/strong&gt;
-                    &lt;ul&gt;
-                        &lt;li&gt;MurmurHash bucketing produces uniform distribution&lt;/li&gt;
-                        &lt;li&gt;Rule evaluation matches expected outcomes&lt;/li&gt;
-                        &lt;li&gt;Condition operators (eq, contains, in, regex) work correctly&lt;/li&gt;
-                        &lt;li&gt;Percentage rollout boundaries are correct (0-24 = 25%)&lt;/li&gt;
-                    &lt;/ul&gt;
-                &lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Integration Tests:&lt;/strong&gt;
-                    &lt;ul&gt;
-                        &lt;li&gt;Cache persistence survives app restart&lt;/li&gt;
-                        &lt;li&gt;SSE updates propagate to store and UI&lt;/li&gt;
-                        &lt;li&gt;Exposure events are batched and sent correctly&lt;/li&gt;
-                        &lt;li&gt;Offline mode uses cached values&lt;/li&gt;
-                    &lt;/ul&gt;
-                &lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;E2E Tests:&lt;/strong&gt;
-                    &lt;ul&gt;
-                        &lt;li&gt;Flag change in admin UI reflects in app within 5s&lt;/li&gt;
-                        &lt;li&gt;Same user always gets same variant across sessions&lt;/li&gt;
-                        &lt;li&gt;Kill switch disables feature immediately&lt;/li&gt;
-                        &lt;li&gt;Analytics receives correct exposure events&lt;/li&gt;
-                    &lt;/ul&gt;
-                &lt;/li&gt;
-            &lt;/ul&gt;
+            <h5>Testing Strategy</h5>
+            <ul>
+                <li><strong>Unit Tests:</strong>
+                    <ul>
+                        <li>MurmurHash bucketing produces uniform distribution</li>
+                        <li>Rule evaluation matches expected outcomes</li>
+                        <li>Condition operators (eq, contains, in, regex) work correctly</li>
+                        <li>Percentage rollout boundaries are correct (0-24 = 25%)</li>
+                    </ul>
+                </li>
+                <li><strong>Integration Tests:</strong>
+                    <ul>
+                        <li>Cache persistence survives app restart</li>
+                        <li>SSE updates propagate to store and UI</li>
+                        <li>Exposure events are batched and sent correctly</li>
+                        <li>Offline mode uses cached values</li>
+                    </ul>
+                </li>
+                <li><strong>E2E Tests:</strong>
+                    <ul>
+                        <li>Flag change in admin UI reflects in app within 5s</li>
+                        <li>Same user always gets same variant across sessions</li>
+                        <li>Kill switch disables feature immediately</li>
+                        <li>Analytics receives correct exposure events</li>
+                    </ul>
+                </li>
+            </ul>
 
-            &lt;h5&gt;Interview Discussion Points&lt;/h5&gt;
-            &lt;ul&gt;
-                &lt;li&gt;&lt;strong&gt;Q: How do you ensure consistent bucketing?&lt;/strong&gt;&lt;br/&gt;A: Use deterministic hashing (MurmurHash3) with userId + flagKey as input. Hash output mod 100 gives bucket 0-99. Same input always produces same bucket. Critical: use same algorithm across all platforms (web, iOS, Android).&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Q: Server-side vs client-side evaluation trade-offs?&lt;/strong&gt;&lt;br/&gt;A: Client-side: sub-ms latency, works offline, but rules are visible in app bundle. Server-side: rules are secret, but adds network latency and requires connectivity. Hybrid: download rules, evaluate locally, best of both.&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Q: How do you handle statistical significance?&lt;/strong&gt;&lt;br/&gt;A: Use experiment platforms (Statsig, Amplitude) with built-in significance testing. Minimum sample size calculation before experiment. Avoid peeking at results early. Consider sequential testing for early stopping.&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Q: How do you prevent flag debt?&lt;/strong&gt;&lt;br/&gt;A: Add expiration dates to flags. Lint rules that warn on flags past expiration. Quarterly cleanup sprints. Dashboard showing flag age and usage. Auto-archive flags at 100% rollout after grace period.&lt;/li&gt;
-                &lt;li&gt;&lt;strong&gt;Q: What are guardrail metrics?&lt;/strong&gt;&lt;br/&gt;A: Metrics you monitor to ensure experiment doesn't cause unintended harm even if primary metric improves. Examples: crash rate, latency, customer support tickets. Auto-disable experiment if guardrails breach thresholds.&lt;/li&gt;
-            &lt;/ul&gt;
+            <h5>Interview Discussion Points</h5>
+            <ul>
+                <li><strong>Q: How do you ensure consistent bucketing?</strong><br/>A: Use deterministic hashing (MurmurHash3) with userId + flagKey as input. Hash output mod 100 gives bucket 0-99. Same input always produces same bucket. Critical: use same algorithm across all platforms (web, iOS, Android).</li>
+                <li><strong>Q: Server-side vs client-side evaluation trade-offs?</strong><br/>A: Client-side: sub-ms latency, works offline, but rules are visible in app bundle. Server-side: rules are secret, but adds network latency and requires connectivity. Hybrid: download rules, evaluate locally, best of both.</li>
+                <li><strong>Q: How do you handle statistical significance?</strong><br/>A: Use experiment platforms (Statsig, Amplitude) with built-in significance testing. Minimum sample size calculation before experiment. Avoid peeking at results early. Consider sequential testing for early stopping.</li>
+                <li><strong>Q: How do you prevent flag debt?</strong><br/>A: Add expiration dates to flags. Lint rules that warn on flags past expiration. Quarterly cleanup sprints. Dashboard showing flag age and usage. Auto-archive flags at 100% rollout after grace period.</li>
+                <li><strong>Q: What are guardrail metrics?</strong><br/>A: Metrics you monitor to ensure experiment doesn't cause unintended harm even if primary metric improves. Examples: crash rate, latency, customer support tickets. Auto-disable experiment if guardrails breach thresholds.</li>
+            </ul>
 
-            &lt;h5&gt;Library Recommendations&lt;/h5&gt;
-            &lt;table&gt;
-                &lt;tr&gt;&lt;th&gt;Concern&lt;/th&gt;&lt;th&gt;Library&lt;/th&gt;&lt;th&gt;Rationale&lt;/th&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Feature Flags (SaaS)&lt;/td&gt;&lt;td&gt;LaunchDarkly&lt;/td&gt;&lt;td&gt;Enterprise-grade, streaming updates, robust SDKs&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Experimentation (SaaS)&lt;/td&gt;&lt;td&gt;Statsig / Amplitude Experiment&lt;/td&gt;&lt;td&gt;Built-in statistical analysis, experiment lifecycle&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Firebase (Free tier)&lt;/td&gt;&lt;td&gt;Firebase Remote Config&lt;/td&gt;&lt;td&gt;Free, good React Native SDK, A/B testing support&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Self-hosted&lt;/td&gt;&lt;td&gt;Unleash / Flagsmith / GrowthBook&lt;/td&gt;&lt;td&gt;Open-source, full control, on-premise deployment&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Caching&lt;/td&gt;&lt;td&gt;react-native-mmkv&lt;/td&gt;&lt;td&gt;Synchronous reads, instant flag access on startup&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;Hashing&lt;/td&gt;&lt;td&gt;murmurhash&lt;/td&gt;&lt;td&gt;Fast, consistent bucketing for percentage rollouts&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;State Management&lt;/td&gt;&lt;td&gt;zustand&lt;/td&gt;&lt;td&gt;Lightweight, selector subscriptions, React 18 ready&lt;/td&gt;&lt;/tr&gt;
-                &lt;tr&gt;&lt;td&gt;SSE Client&lt;/td&gt;&lt;td&gt;react-native-sse&lt;/td&gt;&lt;td&gt;Native EventSource implementation for RN&lt;/td&gt;&lt;/tr&gt;
-            &lt;/table&gt;
+            <h5>Library Recommendations</h5>
+            <table>
+                <tr><th>Concern</th><th>Library</th><th>Rationale</th></tr>
+                <tr><td>Feature Flags (SaaS)</td><td>LaunchDarkly</td><td>Enterprise-grade, streaming updates, robust SDKs</td></tr>
+                <tr><td>Experimentation (SaaS)</td><td>Statsig / Amplitude Experiment</td><td>Built-in statistical analysis, experiment lifecycle</td></tr>
+                <tr><td>Firebase (Free tier)</td><td>Firebase Remote Config</td><td>Free, good React Native SDK, A/B testing support</td></tr>
+                <tr><td>Self-hosted</td><td>Unleash / Flagsmith / GrowthBook</td><td>Open-source, full control, on-premise deployment</td></tr>
+                <tr><td>Caching</td><td>react-native-mmkv</td><td>Synchronous reads, instant flag access on startup</td></tr>
+                <tr><td>Hashing</td><td>murmurhash</td><td>Fast, consistent bucketing for percentage rollouts</td></tr>
+                <tr><td>State Management</td><td>zustand</td><td>Lightweight, selector subscriptions, React 18 ready</td></tr>
+                <tr><td>SSE Client</td><td>react-native-sse</td><td>Native EventSource implementation for RN</td></tr>
+            </table>
         `
     },
 ];
